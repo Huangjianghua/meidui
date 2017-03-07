@@ -6,12 +6,14 @@
         <artifactId>meduimall-service-starter</artifactId>
         <groupId>com.meiduimall.starter</groupId>
         <version>1.0.0</version>
+        <relativePath>../starter/meduimall-service-starter</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.meiduimall</groupId>
     <artifactId>application</artifactId>
     <packaging>pom</packaging>
+    <version>1.0.0</version>
     <modules>
         <module>front-user-center</module>
         <module>mall-api</module>
