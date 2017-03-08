@@ -32,7 +32,7 @@
 	</dependency>   
 	<dependency>
 	  <groupId>com.meiduimall</groupId>
-	  <artifactId>meiduimall-common</artifactId>
+	  <artifactId>redis-util</artifactId>
 	  <version>0.0.1-SNAPSHOT</version>
 	</dependency>
 	<dependency>

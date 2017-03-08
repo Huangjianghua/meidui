@@ -15,7 +15,6 @@
     <packaging>pom</packaging>
     <version>1.0.0</version>
     <modules>
-        <module>meiduimall-common</module>
         <module>route-service</module>
         <module>user</module>
         <module>payment-service</module>
