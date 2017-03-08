@@ -4,7 +4,6 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.meiduimall.FastJsonUtil;
 
 @Aspect
 public class MethodLogAdvice {
@@ -33,24 +32,6 @@ public class MethodLogAdvice {
 		return obj;
 	}
 	
-	
-   /**
-=======
-    /**
->>>>>>> master
-	 * 功能描述:  处理程序中未处理的异常
-	 * Author: 陈建宇
-	 * Date:   2017年1月18日 下午3:26:03   
-	 * return  void
-	 */
-	/*@AfterThrowing(pointcut="com.meiduimall.aspect.pointcut.MethodLogPointcut.pointcutLog()",throwing="ex")
-	public void doAfterThrowing(JoinPoint joinPoint,Throwable ex){
-		//拦截的方法名称
-		String methodName = joinPoint.getSignature().getName();
-		//拦截方法参数值
-		Object[] args=joinPoint.getArgs();
-		String reqStr = FastJsonUtil.serialize(args);
-		logger.error(">>>>>>>>>>>>>>>>>>方法名：{},参数:{},异常信息:{}",methodName,reqStr,ExceptionUtils.getFullStackTrace(ex));
-	}*/
+
 
 }

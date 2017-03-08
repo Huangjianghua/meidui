@@ -1,12 +1,13 @@
 package com.meiduimall.password;
 import java.net.URLEncoder;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import org.apache.commons.lang.StringUtils;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.meiduimall.password.util.MD5;
 
 public class GatewaySignUtil {

@@ -11,8 +11,8 @@ import org.springframework.util.PathMatcher;
 
 import com.meiduimall.BaseApiCode;
 import com.meiduimall.Constants;
-import com.meiduimall.ExceptionUtils;
-import com.meiduimall.FastJsonUtil;
+import com.meiduimall.aspect.advice.ExceptionUtils;
+import com.meiduimall.aspect.advice.FastJsonUtil;
 import com.meiduimall.mzfrouter.ResponsePackUtil;
 import com.meiduimall.mzfrouter.hanler.Handler;
 import com.meiduimall.redis.util.JedisUtil;
