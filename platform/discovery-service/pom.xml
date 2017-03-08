@@ -8,9 +8,31 @@
         <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
-    <groupId>com.meiduimall.platform-service</groupId>
     <artifactId>discovery-service</artifactId>
+	<version>v1.0.0</version>
+	<packaging>jar</packaging>
+
+	<name>service-discovery</name>
+	<description>mzf edge service providing service registration and discovery</description>
+
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-eureka-server</artifactId>
+		</dependency>
+    
+  </dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
 
 
 </project>

@@ -14,9 +14,12 @@
     <artifactId>starter</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
+    		
+	
     <modules>
         <module>meduimall-service-starter</module>
     </modules>
+    	
 
 
 </project>

@@ -8,9 +8,32 @@
         <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+	<artifactId>member-service</artifactId>
+	<version>v1.0.0</version>
+	<packaging>jar</packaging>
+	<name>member-service</name>
+	<description>member-service</description>
 
-    <groupId>com.meiduimall.service</groupId>
-    <artifactId>member-service</artifactId>
+
+	<dependencies>
+
+	
+		<dependency>
+			<groupId>member-common</groupId>
+			<artifactId>member-common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
 
 
 </project>

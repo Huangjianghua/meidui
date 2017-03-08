@@ -8,9 +8,27 @@
         <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+	<artifactId>front-user-center</artifactId>
+	<version>v1.0.0</version>
+	<packaging>jar</packaging>
+	<name>front-user-center</name>
+	<description>front-user-center</description>
 
-    <groupId>com.meiduimall.application</groupId>
-    <artifactId>front-user-center</artifactId>
-
-
+   <dependencies>
+		<!-- member-common -->
+		<dependency>
+			<groupId>member-common</groupId>
+			<artifactId>member-common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+   </dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>	
+			</plugin>
+		</plugins>
+	</build>
 </project>
