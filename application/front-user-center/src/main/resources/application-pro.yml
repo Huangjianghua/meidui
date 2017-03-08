@@ -1,0 +1,43 @@
+# server port
+server :
+  port : 8097
+  
+# AOP
+spring :
+  aop :
+    auto : true
+    proxy-target-class : true
+
+# HikariConfig
+  datasource :
+    type : com.zaxxer.hikari.HikariDataSource
+    driver-class-name : com.mysql.jdbc.Driver
+    url : jdbc:mysql://10.45.178.109:3306/membersystem1128?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
+    username : meidui
+    password : meiduishop
+    connectionTimeout : 30000
+    idleTimeout : 600000
+    maxLifetime : 1800000
+    maximumPoolSize : 300
+    minimumIdle : 10
+    autoCommit : true;
+    connectionTestQuery : SELECT 1  
+
+# mybatis-config
+mybatis :
+  mapper-locations : classpath:com/meiduimall/mapper/*Mapper.xml
+
+
+# redis
+config :
+  jedis :  
+    jedisShardInfo :  
+      host : 10.45.178.235
+      port : 6379  
+      password: meiduiredis2017Md?! 
+    maxTotal: 1024  
+    maxIdle: 250  
+    maxWaitMillis : 2000 
+    testOnBorrow: true
+    testOnReturn: true
+  

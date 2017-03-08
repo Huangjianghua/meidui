@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--会员详细地址表ms_member_addresses相关操作 -->
+<mapper namespace="MSMemberAddressesMapper">
+
+<!--根据memid查询会员详细地址 -->
+	<select id="getMemberAddressByMemId"  parameterType="java.lang.String" resultType="com.meiduimall.model.MSMemberAddresses">
+		SELECT m.`mema_id` memaId,m.`mem_id` memId,m.`mema_details` memaDetails,m.`mema_post` memaPost,
+		m.`mema_status` memaStatus,m.`mema_contact_phone` memaContactPhone,m.`mema_contact_email` memaContactEmail,
+		m.`mema_contact_name` memaContactName,m.`dict_id_country` dictIdCountry,m.`city_id_province` cityIdProvince,
+		m.`city_id_city` cityIdCity,m.`city_id_area` cityIdArea,m.`mema_remark` memaRemark
+		FROM ms_member_addresses AS m WHERE m.`mem_id`=#{memid}
+	</select>
+	
+</mapper>

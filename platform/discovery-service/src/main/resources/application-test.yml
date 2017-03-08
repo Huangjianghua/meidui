@@ -1,0 +1,23 @@
+# Spring properties
+
+# Configure this Discovery Server  
+spring:
+  application:
+    name: service-discovery
+
+# HTTP Server
+server:
+  port: 9001   # HTTP (Tomcat) port
+  
+eureka:
+  instance:
+    hostname: 10.45.178.235
+  server:
+    enable-self-preservation: false
+    eviction-interval-timer-in-ms: 30000
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://10.45.178.235:9001/eureka/
+      

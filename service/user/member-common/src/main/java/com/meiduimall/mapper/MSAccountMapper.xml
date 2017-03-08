@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--会员账户表ms_account相关操作 -->
+<mapper namespace="MSAccountMapper">
+	
+	<!--根据memid和账户类型查询会员账户信息 -->
+	<select id="getAccountInfoByMemId"  parameterType="java.util.Map" resultType="com.meiduimall.model.MSAccount">
+	SELECT a.`balance`  FROM ms_account a WHERE 1=1 AND a.`mem_id`=#{memid} AND a.`type`=#{type};
+	</select>
+	
+</mapper>
