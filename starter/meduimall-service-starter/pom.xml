@@ -38,8 +38,6 @@
 		<javax.servlet-api.version>3.1.0</javax.servlet-api.version>	
 		<commons-io.version>2.5</commons-io.version>
 		
-		<findbugs.version>3.0.4</findbugs.version>
-		<checkstyle.version>2.9.1</checkstyle.version>	
 	</properties>
 	
 	<distributionManagement>
@@ -221,6 +219,7 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>${commons-lang3.version}</version>
 		</dependency>
+		
 		<dependency>
 		    <groupId>commons-io</groupId>
 		    <artifactId>commons-io</artifactId>
@@ -245,7 +244,6 @@
 			<artifactId>gson</artifactId>
 		</dependency>
 	</dependencies>
-
 
    <profiles>
 	 <profile>
