@@ -14,10 +14,7 @@
 	<name>member-service</name>
 	<description>member-service</description>
 
-
 	<dependencies>
-
-	
 		<dependency>
 			<groupId>member-common</groupId>
 			<artifactId>member-common</artifactId>
