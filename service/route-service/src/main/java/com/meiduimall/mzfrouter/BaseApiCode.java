@@ -1,4 +1,4 @@
-package com.meiduimall;
+package com.meiduimall.mzfrouter;
 import java.util.HashMap;
 
 import java.util.Map;

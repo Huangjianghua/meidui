@@ -1,4 +1,4 @@
-package com.meiduimall;
+package com.meiduimall.mzfrouter;
 
 public class ResBodyData {
 	

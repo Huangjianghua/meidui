@@ -31,7 +31,7 @@ public class HandlerChain implements Handler{
 			}
 		}
 		handlers.clear();
-		return null;
+		return true;
 	}
 	
 }
