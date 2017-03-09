@@ -1,7 +1,6 @@
 package com.meiduimall.mzfrouter.hanler.Impl;
 import java.util.Map;
 
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
@@ -10,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
-import com.meiduimall.BaseApiCode;
+import com.meiduimall.mzfrouter.BaseApiCode;
 import com.meiduimall.mzfrouter.ResponsePackUtil;
 import com.meiduimall.mzfrouter.hanler.Handler;
 import com.netflix.zuul.context.RequestContext;

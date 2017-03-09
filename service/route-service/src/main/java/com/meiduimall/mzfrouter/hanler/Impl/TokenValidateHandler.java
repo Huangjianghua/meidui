@@ -9,9 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSON;
-import com.meiduimall.BaseApiCode;
 import com.meiduimall.Constants;
 import com.meiduimall.aspect.advice.ExceptionUtils;
+import com.meiduimall.mzfrouter.BaseApiCode;
 import com.meiduimall.mzfrouter.ResponsePackUtil;
 import com.meiduimall.mzfrouter.hanler.Handler;
 import com.meiduimall.redis.util.JedisUtil;
