@@ -11,6 +11,10 @@ import java.util.Map;
 public class BaseApiCode {
 	
 	public static final Map<Integer, String> zhMsgMap = new HashMap<Integer, String>(300);
+	/** 系统正常**/
+	public static final Integer SUCCESS = 200;
+	/** 系统异常 **/
+	public static final Integer OPERATE_SYSTEM_FAIL = 90;
 	/** 参数无效 **/
 	public static final Integer CLIENTID_PARAM_INVALID = 91;
 	/** 参数无效 **/
@@ -53,6 +57,8 @@ public class BaseApiCode {
 	}
 
 	static {
+		zhMsgMap.put(SUCCESS, "系统正常");
+		zhMsgMap.put(OPERATE_SYSTEM_FAIL, "系统异常");
 		zhMsgMap.put(CLIENTID_PARAM_INVALID, "clientID请求参数不存在");
 		zhMsgMap.put(TIMESTAMP_PARAM_INVALID, "timestamp请求参数不存在或者非数字");
 		zhMsgMap.put(SIGN_PARAM_INVALID, "sign请求参数不存在");

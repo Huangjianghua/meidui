@@ -15,7 +15,7 @@
     <packaging>pom</packaging>
 
 	<properties>
-	    <redis-util.version>0.0.1-SNAPSHOT</redis-util.version>
+	    <redis.version>0.0.1-SNAPSHOT</redis.version>
 	    <logging.version>0.0.1-SNAPSHOT</logging.version>
 	    <security.version>0.0.1-SNAPSHOT</security.version>
 	    <exception.version>0.0.1-SNAPSHOT</exception.version>
@@ -149,12 +149,7 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-	    
-		<!-- redis -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-redis</artifactId>
-		</dependency>
+	   
 
 		<!-- mybatis -->
 		<dependency>
