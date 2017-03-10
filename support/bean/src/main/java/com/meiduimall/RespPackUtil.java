@@ -30,7 +30,7 @@ public class RespPackUtil {
 				response.setResult_msg(BaseApiCode.getZhMsg(BaseApiCode.OPERATE_SYSTEM_FAIL));
 			}	
 		}else{
-			res=BaseApiCode.CLIENTID_PARAM_INVALID;
+			response.setStatus_code(BaseApiCode.CLIENTID_PARAM_INVALID);
 			response.setResult_msg(BaseApiCode.getZhMsg(BaseApiCode.CLIENTID_PARAM_INVALID));
 		}
 		return response;
