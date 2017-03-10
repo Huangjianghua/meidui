@@ -18,6 +18,9 @@
 	    <redis-util.version>0.0.1-SNAPSHOT</redis-util.version>
 	    <logging.version>0.0.1-SNAPSHOT</logging.version>
 	    <security.version>0.0.1-SNAPSHOT</security.version>
+	    <exception.version>0.0.1-SNAPSHOT</exception.version>
+	    <common.version>0.0.1-SNAPSHOT</common.version>
+	    <bean.version>0.0.1-SNAPSHOT</bean.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
@@ -37,7 +40,7 @@
 		<commons-beanutils.version>1.9.3</commons-beanutils.version>	
 		<javax.servlet-api.version>3.1.0</javax.servlet-api.version>	
 		<commons-io.version>2.5</commons-io.version>
-		
+
 	</properties>
 	
 	<distributionManagement>

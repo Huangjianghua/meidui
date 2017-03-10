@@ -57,5 +57,20 @@
 		  <artifactId>security</artifactId>
 		  <version>${security.version}</version>
 		</dependency>
+			<dependency>
+		  <groupId>com.meiduimall</groupId>
+		  <artifactId>exception</artifactId>
+		  <version>${exception.version}</version>
+		</dependency>
+		<dependency>
+		  <groupId>com.meiduimall</groupId>
+		  <artifactId>common</artifactId>
+		  <version>${common.version}</version>
+		</dependency>
+		<dependency>
+		  <groupId>com.meiduimall</groupId>
+		  <artifactId>bean</artifactId>
+		  <version>${bean.version}</version>
+		</dependency>
 	</dependencies>
 </project>

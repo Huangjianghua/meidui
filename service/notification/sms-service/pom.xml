@@ -11,9 +11,8 @@
 
     <groupId>com.meiduimall.service</groupId>
     <artifactId>sms-service</artifactId>
-    <version>1.0.0</version>
-	<name>ShortMsgService</name>
-	<description>Demo project for Spring Boot</description>
+    <version>v1.0.0</version>
+
 	
 	
 	<dependencies>

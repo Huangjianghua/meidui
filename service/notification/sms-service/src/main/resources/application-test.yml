@@ -15,21 +15,17 @@ spring:
     connectionTestQuery: SELECT 1
 
 #redis
-  redis: 
-    database: 15
-    #host: 192.168.4.236
-    host: 10.45.178.235
-    port: 6379
-    password: meiduiredis2017Md?! 
-    timeout: 60
-    pool: 
-      max-active: 1024
-      max-wait: 2000
-      max-idle: 250
-      min-idle: 8
-      testOnBorrow: true
-      testOnReturn: true
-
+config:
+  jedis :  
+    jedisShardInfo :  
+      host : 10.45.178.235
+      port : 6379  
+      password : meiduiredis2017Md?!  
+    maxTotal: 1024  
+    maxIdle: 250  
+    maxWaitMillis : 2000 
+    testOnBorrow: true
+    testOnReturn: true
 # mybatis-config
 mybatis: 
-  mapper-locations: classpath:com/meidui/shortmsg/mapper/*Mapper.xml
+  mapper-locations: classpath:com/meidui/sms/mapper/*Mapper.xml
