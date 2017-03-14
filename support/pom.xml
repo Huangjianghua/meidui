@@ -9,11 +9,9 @@
     <version>1.0.0</version>
     <packaging>pom</packaging>
     <modules>
-    	<module>bean</module>
-    	<module>exception</module>
-        <module>util</module>
+    	<module>core</module>
+    	<module>redis</module>
         <module>security</module>
-        <module>logging</module>
     </modules>
     <properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
