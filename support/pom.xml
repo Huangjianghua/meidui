@@ -24,25 +24,21 @@
 		<aspectjweaver.version>1.8.9</aspectjweaver.version>
 		<httpclient.version>4.5.2</httpclient.version>	
  	    <common.version>0.0.1-SNAPSHOT</common.version>
+ 	    <guava.version>21.0</guava.version>
+ 	    <hibernate-validator.version>4.2.0.Final</hibernate-validator.version>
+ 	    <core.version>0.0.1-SNAPSHOT</core.version>
 	</properties>
-	
-	
 	<dependencies>
-	    <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${commons-lang3.version}</version>
-        </dependency>
+		<dependency>
+		    <groupId>com.google.guava</groupId>
+		    <artifactId>guava</artifactId>
+		    <version>${guava.version}</version>
+		</dependency>
         <dependency>
 		  <groupId>com.alibaba</groupId>
 		  <artifactId>fastjson</artifactId>
 		  <version>${fastjson.version}</version>
 		</dependency>
-			<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>${logback-classic.version}</version>
-		</dependency>    
 	</dependencies>
     	
     <distributionManagement>

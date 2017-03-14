@@ -1,12 +1,8 @@
 package com.meiduimall.password;
-import java.net.URLEncoder;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-
-import org.apache.commons.lang3.StringUtils;
 
 import com.meiduimall.password.util.MD5;
 
@@ -67,14 +63,14 @@ public class GatewaySignUtil {
 	 * @return String   
 	 * @throws
 	 */
-	public static String buildEncodeSortParam(String appKey,Map<String, String> parameters) throws Exception{
+	/*public static String buildEncodeSortParam(String appKey,Map<String, String> parameters) throws Exception{
 		StringBuilder getSB = new StringBuilder();
 		String key;
 		String value;
 		for (Map.Entry<String, String> entry : parameters.entrySet()) {
 			key = entry.getKey();
 			value = entry.getValue();
-			if (key.equals("sign")||StringUtils.isEmpty(value)) {
+			if (key.equals("sign")||Stringu  .isEmpty(value)) {
 				continue;
 			}
 			getSB.append(key).append(URLEQUALS)
@@ -84,7 +80,7 @@ public class GatewaySignUtil {
 		String[] arrs = getSB.toString().split(URLCONNCTION);
 		Arrays.sort(arrs);
 		return StringUtils.join(arrs, URLCONNCTION).concat("key=").concat(appKey);
-	}
+	}*/
 	
 
 
