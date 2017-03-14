@@ -9,6 +9,19 @@ public class ResBodyData {
 	private Object data;
 
 
+	
+	
+	public ResBodyData(Integer status, String msg) {
+		this.status = status;
+		this.msg = msg;
+	}
+
+	public ResBodyData(Integer status, String msg, Object data) {
+		this.status = status;
+		this.msg = msg;
+		this.data = data;
+	}
+
 	public Integer getStatus() {
 		return status;
 	}

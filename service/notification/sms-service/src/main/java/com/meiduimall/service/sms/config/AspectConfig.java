@@ -6,13 +6,9 @@ import com.meiduimall.support.core.advice.MethodLogAdvice;
 
 @Configuration
 public class AspectConfig {
-
 	@Bean
 	public MethodLogAdvice myAspect() {
 		return new MethodLogAdvice();
 	}
 	
-	
-	
-
 }

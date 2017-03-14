@@ -53,7 +53,22 @@ public class BaseApiCode {
 	public static final Integer BLACKLIST_VALIDATE = 2016;
 	/** 黑名单验证异常 **/
 	public static final Integer BLACKLIST_VALIDATE_EXCEPTION = 2017;
-
+	
+	/** 短信服务请勿频繁重复发送短信**/
+	public static final Integer REPEAT_FAIL = 3000;
+	/** 短信服务获取短信模板列表失败**/
+	public static final Integer TEMPLATE_FAIL = 3001;
+	/** 短信服务获取不到模板id对应短信模板记录**/
+	public static final Integer SMSTEMPLATE_NOT_EXISTS = 3002;
+	/** 替换内容与替换参数不匹配**/
+	public static final Integer SMSTEMPLATE_PRASE_FAIL = 3003;
+	/** 短信发送失败**/
+	public static final Integer SMS_SEND_FAIL = 3004;
+	/** 短信渠道错误**/
+	public static final Integer SMS_CHANNEL_FAIL = 3005;
+	/** 发送短信异常**/
+	public static final Integer SMS_SEND_EXCEPTION = 3006;
+	
 	public static String getZhMsg(Integer errorCode) {
 		return zhMsgMap.get(errorCode);
 	}
@@ -79,6 +94,14 @@ public class BaseApiCode {
 		zhMsgMap.put(GATEWAY_EXCEPTION, "网关层过滤器验证异常");
 		zhMsgMap.put(TOKEN_VALIDATE_EXCEPTION, "token验证异常");
 		zhMsgMap.put(BLACKLIST_VALIDATE_EXCEPTION, "黑名单验证异常");
+		
+		zhMsgMap.put(REPEAT_FAIL, "请勿频繁重复发送短信");
+		zhMsgMap.put(TEMPLATE_FAIL, "获取短信模板列表失败");
+		zhMsgMap.put(SMSTEMPLATE_NOT_EXISTS, "获取不到模板id对应短信模板记录");
+		zhMsgMap.put(SMSTEMPLATE_PRASE_FAIL, "替换内容与替换参数不匹配");
+		zhMsgMap.put(SMS_SEND_FAIL, "短信发送失败");
+		zhMsgMap.put(SMS_CHANNEL_FAIL, "短信渠道失败");
+		zhMsgMap.put(SMS_SEND_EXCEPTION, "发送短信异常");
 	}
 
 }
