@@ -1,6 +1,5 @@
 package com.meiduimall.support.core.util;
-
-import org.apache.commons.lang3.StringUtils;
+import com.google.common.base.CharMatcher;
 
 public class ExceptionUtils {
 	
@@ -17,7 +16,7 @@ public class ExceptionUtils {
             	 sb.append("\""+stackElements[i].getMethodName()).append("\"],");
              }
          }
-         String str=StringUtils.removeEnd(sb.toString(), ",");
+         String str=CharMatcher.anyOf(",").trimTrailingFrom(sb.toString());
          return str+"]";
     }
 
