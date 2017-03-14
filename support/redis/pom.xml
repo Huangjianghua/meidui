@@ -30,11 +30,7 @@
 			<version>${core.version}</version>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>${logback-classic.version}</version>
-		</dependency>  
+
 	</dependencies>	
 	
 	<build>

@@ -25,7 +25,6 @@
 		<httpclient.version>4.5.2</httpclient.version>	
  	    <common.version>0.0.1-SNAPSHOT</common.version>
  	    <guava.version>21.0</guava.version>
- 	    <hibernate-validator.version>4.2.0.Final</hibernate-validator.version>
  	    <core.version>0.0.1-SNAPSHOT</core.version>
 	</properties>
 	<dependencies>
