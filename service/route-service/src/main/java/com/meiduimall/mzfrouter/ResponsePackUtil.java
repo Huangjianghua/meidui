@@ -1,8 +1,8 @@
 package com.meiduimall.mzfrouter;
 import com.alibaba.fastjson.JSON;
-import com.meiduimall.BaseApiCode;
-import com.meiduimall.Constants;
-import com.meiduimall.ResBodyData;
+import com.meiduimall.support.core.BaseApiCode;
+import com.meiduimall.support.core.Constants;
+import com.meiduimall.support.core.ResBodyData;
 import com.netflix.zuul.context.RequestContext;
 
 /**
@@ -22,8 +22,8 @@ public class ResponsePackUtil {
 		ctx.setSendZuulResponse(false);
         ctx.setResponseStatusCode(Constants.UNAUTHORIZED);
         ResBodyData res=new ResBodyData();
-        res.setStatus_code(responseCode);
-        res.setResult_msg(BaseApiCode.getZhMsg(responseCode));
+        res.setStatus(responseCode);
+        res.setMsg(BaseApiCode.getZhMsg(responseCode));
         ctx.setResponseBody(JSON.toJSONString(res));
 	}
 	

@@ -47,11 +47,6 @@
 		  <artifactId>redis</artifactId>
 		  <version>${redis.version}</version>
 		</dependency>
-	    <dependency>
-		  <groupId>com.meiduimall</groupId>
-		  <artifactId>logging</artifactId>
-		  <version>${logging.version}</version>
-		</dependency>
 		<dependency>
 		  <groupId>com.meiduimall</groupId>
 		  <artifactId>security</artifactId>
@@ -59,18 +54,10 @@
 		</dependency>
 			<dependency>
 		  <groupId>com.meiduimall</groupId>
-		  <artifactId>exception</artifactId>
-		  <version>${exception.version}</version>
+		  <artifactId>core</artifactId>
+		  <version>${core.version}</version>
 		</dependency>
-		<dependency>
-		  <groupId>com.meiduimall</groupId>
-		  <artifactId>common</artifactId>
-		  <version>${common.version}</version>
-		</dependency>
-		<dependency>
-		  <groupId>com.meiduimall</groupId>
-		  <artifactId>bean</artifactId>
-		  <version>${bean.version}</version>
-		</dependency>
+	
+	
 	</dependencies>
 </project>

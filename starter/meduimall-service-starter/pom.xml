@@ -18,7 +18,7 @@
 	    <redis.version>0.0.1-SNAPSHOT</redis.version>
 	    <logging.version>0.0.1-SNAPSHOT</logging.version>
 	    <security.version>0.0.1-SNAPSHOT</security.version>
-	    <exception.version>0.0.1-SNAPSHOT</exception.version>
+	    <core.version>0.0.1-SNAPSHOT</core.version>
 	    <common.version>0.0.1-SNAPSHOT</common.version>
 	    <bean.version>0.0.1-SNAPSHOT</bean.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

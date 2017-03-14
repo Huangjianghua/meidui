@@ -9,10 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.meiduimall.BaseApiCode;
-import com.meiduimall.aspect.advice.ExceptionUtils;
 import com.meiduimall.mzfrouter.ResponsePackUtil;
 import com.meiduimall.mzfrouter.hanler.Handler;
+import com.meiduimall.support.core.BaseApiCode;
+import com.meiduimall.support.core.util.ExceptionUtils;
 import com.netflix.zuul.context.RequestContext;
 
 public class ParamPraseHandler implements Handler{
