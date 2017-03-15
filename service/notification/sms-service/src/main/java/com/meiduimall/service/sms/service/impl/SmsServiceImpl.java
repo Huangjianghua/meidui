@@ -19,6 +19,7 @@ import com.meiduimall.service.sms.service.SmsService;
 import com.meiduimall.support.core.BaseApiCode;
 import com.meiduimall.support.core.ResBodyData;
 import com.meiduimall.support.core.SysConstant;
+import com.meiduimall.support.core.util.ExceptionUtils;
 import com.meiduimall.support.core.util.FastJsonUtil;
 import com.meiduimall.support.core.util.StringUtil;
 
@@ -84,9 +85,10 @@ public class SmsServiceImpl implements SmsService{
 			}
 			result.setData(content);
 		}
-		
 		return result;
 	}
+	
+	
 	
 	/**
 	 * 转换发送给阿里大于的替换模板参数格式，以json格式
@@ -127,11 +129,14 @@ public class SmsServiceImpl implements SmsService{
 			result = new ResBodyData(BaseApiCode.REPEAT_FAIL,BaseApiCode.getZhMsg(BaseApiCode.REPEAT_FAIL));
 			return result;
 		}
+		
 		String templateListJsonStr = messageChannelService.getTemplateList(SysConstant.MESSAGE_TEMPLATE_KEY);
 		if(StringUtil.isEmptyByString(templateListJsonStr)){
 			result = new ResBodyData(BaseApiCode.TEMPLATE_FAIL,BaseApiCode.getZhMsg(BaseApiCode.TEMPLATE_FAIL));
 			return result;
 		}
+		
+		
 		TemplateInfo ti = getTemplateByKey(request.getTemplateId(),templateListJsonStr);
 		if(StringUtil.isEmptyByString(ti.getTemplateKey()) || StringUtil.isEmptyByString(ti.getTemplateContent())){
 			result = new ResBodyData(BaseApiCode.SMSTEMPLATE_NOT_EXISTS,BaseApiCode.getZhMsg(BaseApiCode.SMSTEMPLATE_NOT_EXISTS));
@@ -208,7 +213,7 @@ public class SmsServiceImpl implements SmsService{
 			}
 			
 		} catch (Exception e) {
-			Logger.error("发送普通短信时服务发生异常", e);
+			Logger.error("发送普通短信时服务发生异常:{}",ExceptionUtils.getFullStackTrace(e));
 			ssh.setRequestParams(request.getPhones() + "ali send param:" + ti.getExternalTemplateNo() + params + ";mandao send param:" + content);
 			ssh.setResultMsg("发送普通短信时服务发生异常："+ e.toString());
 			sendSmsHistoryMapper.insert(ssh);
@@ -324,7 +329,7 @@ public class SmsServiceImpl implements SmsService{
 			}
 		
 		} catch (Exception e) {
-			Logger.error("发送短信验证码时服务发生异常", e);
+			Logger.error("发送短信验证码时服务发生异常:{}",ExceptionUtils.getFullStackTrace(e));
 			ssh.setRequestParams(request.getPhones() + "ali send param:" + ti.getExternalTemplateNo() + params + ";mandao send param:" + content);
 			ssh.setResultMsg("发送短信验证码时服务发生异常："+ e.toString());
 			sendSmsHistoryMapper.insert(ssh);

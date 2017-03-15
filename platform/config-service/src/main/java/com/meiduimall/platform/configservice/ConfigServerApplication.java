@@ -1,4 +1,4 @@
-package com.meiduimall;
+package com.meiduimall.platform.configservice;
 
 import org.springframework.boot.SpringApplication;
 

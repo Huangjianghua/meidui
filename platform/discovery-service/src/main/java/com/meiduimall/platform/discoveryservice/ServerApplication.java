@@ -1,4 +1,4 @@
-package com.meiduimall.edgeservice;
+package com.meiduimall.platform.discoveryservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
