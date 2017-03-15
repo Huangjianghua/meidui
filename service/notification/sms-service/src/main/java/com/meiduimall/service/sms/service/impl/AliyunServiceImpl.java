@@ -10,6 +10,7 @@ import com.meiduimall.service.sms.entity.MessageChannel;
 import com.meiduimall.service.sms.service.AliyunService;
 import com.meiduimall.support.core.SysConstant;
 import com.meiduimall.support.core.exception.ApiException;
+import com.meiduimall.support.core.util.ExceptionUtils;
 import com.meiduimall.support.core.util.FastJsonUtil;
 import com.meiduimall.support.core.util.StringUtil;
 import com.taobao.api.DefaultTaobaoClient;
@@ -25,7 +26,6 @@ import com.taobao.api.response.AlibabaAliqinFcSmsNumSendResponse;
  */
 @Service
 public class AliyunServiceImpl implements AliyunService{
-	
 	
 	private static Logger Logger = LoggerFactory.getLogger(AliyunServiceImpl.class);
 
@@ -64,10 +64,9 @@ public class AliyunServiceImpl implements AliyunService{
 		try {
 			rsp = client.execute(req);
 		} catch (com.taobao.api.ApiException e) {
-			e.printStackTrace();
+			Logger.error("阿里短信发送接口异常信息:{}",ExceptionUtils.getFullStackTrace(e));
 		}
-		if (rsp.getBody().indexOf("\"success\":true") != -1
-				|| rsp.getBody().indexOf("isv.BUSINESS_LIMIT_CONTROL") != -1) {
+		if (rsp.getResult().getSuccess()) {
 			return true;
 		}
 		return false;

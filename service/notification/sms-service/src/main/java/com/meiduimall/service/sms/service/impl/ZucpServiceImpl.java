@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.meiduimall.password.util.MD5;
+import com.meiduimall.service.sms.service.ZucpService;
 import com.meiduimall.support.core.exception.ApiException;
 import com.meiduimall.support.core.util.HttpClientUtil;
 
@@ -18,9 +19,9 @@ import com.meiduimall.support.core.util.HttpClientUtil;
  * @since 2011.01.05
  */
 @Service
-public class ZucpService {
+public class ZucpServiceImpl implements ZucpService{
 	
-	private static Logger Logger = LoggerFactory.getLogger(ZucpService.class);
+	private static Logger Logger = LoggerFactory.getLogger(ZucpServiceImpl.class);
 
 	String zucpUrl = "http://sdk.entinfo.cn:8060/webservice.asmx";
 	String zucpUser = "SDK-WSS-010-09798";
@@ -71,16 +72,10 @@ public class ZucpService {
 	}
 
 	/**
-	 * 發送短信
-	 * 
-	 * @param mobile
-	 * @param content
-	 * @param ext
-	 * @param stime
-	 * @param rrid
-	 * @throws PushException
+	 * 功能描述: 发送短信
+	 * Author: 陈建宇
+	 * Date:   2017年3月15日 上午11:16:05
 	 */
-	@Deprecated
 	public String Send(String mobile, String content, String ext, String stime, String rrid) throws ApiException {
 
 		Map<String, String> headers = new HashMap<String, String>();
@@ -106,12 +101,9 @@ public class ZucpService {
 	}
 
 	/**
-	 * 发送短信
-	 * 
-	 * @param mobile
-	 * @param content
-	 * @return
-	 * @throws PushException
+	 * 功能描述: 发送短信
+	 * Author: 陈建宇
+	 * Date:   2017年3月15日 上午11:15:51
 	 */
 	public String Send(String mobile, String content) throws ApiException {
 		return this.Send(mobile, content, "", "", "");

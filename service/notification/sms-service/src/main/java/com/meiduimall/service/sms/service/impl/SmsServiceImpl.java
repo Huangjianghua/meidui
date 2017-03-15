@@ -5,18 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
 import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.meiduimall.redis.util.JedisUtil;
 import com.meiduimall.service.sms.entity.SendSmsHistory;
 import com.meiduimall.service.sms.entity.TemplateInfo;
 import com.meiduimall.service.sms.mapper.SendSmsHistoryMapper;
-import com.meiduimall.service.sms.model.message.CommonShortMessageModel;
+import com.meiduimall.service.sms.request.SmsRequest;
 import com.meiduimall.service.sms.service.SmsService;
 import com.meiduimall.support.core.BaseApiCode;
 import com.meiduimall.support.core.ResBodyData;
@@ -37,7 +35,7 @@ public class SmsServiceImpl implements SmsService{
 	private static Logger Logger = LoggerFactory.getLogger(SmsServiceImpl.class);
 
 	@Autowired
-	private ZucpService zucpService;
+	private ZucpServiceImpl zucpService;
 	@Autowired
 	private AliyunServiceImpl aliyunService;
 
@@ -121,51 +119,50 @@ public class SmsServiceImpl implements SmsService{
 	 * @param type
 	 * @throws Exception
 	 */
-	public ResBodyData sendSmsMessage(CommonShortMessageModel model) throws Exception {
+	public ResBodyData sendSmsMessage(SmsRequest request) throws Exception {
 		
 		ResBodyData result = new ResBodyData(BaseApiCode.SUCCESS,BaseApiCode.getZhMsg(BaseApiCode.SUCCESS));
-		String tempMsg =JedisUtil.getJedisInstance().execGetFromCache(model.getPhones() + model.getTemplateId() + model.getParams());
+		String tempMsg =JedisUtil.getJedisInstance().execGetFromCache(request.getPhones() + request.getTemplateId() + request.getParams());
 		if(!StringUtil.isEmptyByString(tempMsg)){
 			result = new ResBodyData(BaseApiCode.REPEAT_FAIL,BaseApiCode.getZhMsg(BaseApiCode.REPEAT_FAIL));
 			return result;
 		}
-		
 		String templateListJsonStr = messageChannelService.getTemplateList(SysConstant.MESSAGE_TEMPLATE_KEY);
 		if(StringUtil.isEmptyByString(templateListJsonStr)){
 			result = new ResBodyData(BaseApiCode.TEMPLATE_FAIL,BaseApiCode.getZhMsg(BaseApiCode.TEMPLATE_FAIL));
 			return result;
 		}
-		TemplateInfo ti = getTemplateByKey(model.getTemplateId(),templateListJsonStr);
+		TemplateInfo ti = getTemplateByKey(request.getTemplateId(),templateListJsonStr);
 		if(StringUtil.isEmptyByString(ti.getTemplateKey()) || StringUtil.isEmptyByString(ti.getTemplateContent())){
 			result = new ResBodyData(BaseApiCode.SMSTEMPLATE_NOT_EXISTS,BaseApiCode.getZhMsg(BaseApiCode.SMSTEMPLATE_NOT_EXISTS));
 			return result;
 		}
 		
 		String content = ti.getTemplateContent();
-		ResBodyData rb = replacesContent(model.getParams(),content);
+		ResBodyData rb = replacesContent(request.getParams(),content);
 		
 		if(BaseApiCode.SUCCESS==rb.getStatus() && !StringUtil.isEmptyByString(String.valueOf(rb.getData()))){
 			content = String.valueOf(rb.getData());
 		}
 		
 		String params = "";
-		if(!StringUtil.isEmptyByString(model.getParams())){
-			params = aliDaYuParamsToJson(false,model.getParams());
+		if(!StringUtil.isEmptyByString(request.getParams())){
+			params = aliDaYuParamsToJson(false,request.getParams());
 		}
 		//设置发送历史记录值
-		SendSmsHistory ssh = setHistory(model);
+		SendSmsHistory ssh = setHistory(request);
 		try {
 			
-			if(StringUtil.isEmptyByString(model.getSupplierId())){
+			if(StringUtil.isEmptyByString(request.getSupplierId())){
 				/**
 				 * 首先阿里云发送发送短信，如果发送失败则调用漫道发送 </br>
 				 * 全部失败则返回失败信息
 				 */
-				boolean flag = aliyunService.Send(model.getPhones(), ti.getExternalTemplateNo(), params);
+				boolean flag = aliyunService.Send(request.getPhones(), ti.getExternalTemplateNo(), params);
 				Logger.info("阿里大于发送短信结果（flag）：%s", String.valueOf(flag));
 				String res = "";
 				if (!flag) {
-					res = zucpService.Send(model.getPhones(), content);
+					res = zucpService.Send(request.getPhones(), content);
 					Logger.info("漫道发送短信结果（res）：%s", String.valueOf(res));
 					if (Long.parseLong(res) < 0) {
 						result = new ResBodyData(BaseApiCode.SMS_SEND_FAIL, "发送短信失败！");
@@ -173,26 +170,26 @@ public class SmsServiceImpl implements SmsService{
 					}
 				}
 				
-				JedisUtil.getJedisInstance().execSetexToCache(model.getPhones() + model.getTemplateId() + model.getParams(), Integer.valueOf(ti.getEffectiveTime()), content);
-				ssh.setRequestParams(model.getPhones() + "ali send param:" + ti.getExternalTemplateNo() + params + ";mandao send param:" + content);
+				JedisUtil.getJedisInstance().execSetexToCache(request.getPhones() + request.getTemplateId() + request.getParams(), Integer.valueOf(ti.getEffectiveTime()), content);
+				ssh.setRequestParams(request.getPhones() + "ali send param:" + ti.getExternalTemplateNo() + params + ";mandao send param:" + content);
 				ssh.setResultMsg("ali result, flag:" + String.valueOf(flag) + ";mandao result, res:" + String.valueOf(res));
 				sendSmsHistoryMapper.insert(ssh);
 				
 				return result;
 			}else{
 				
-				ssh.setChannelId(model.getSupplierId());
+				ssh.setChannelId(request.getSupplierId());
 				boolean flag = false;
 				String res = "-1"; 
-				if(SysConstant.MESSAGE_TEMPLATE_ALI_KEY.equals(model.getSupplierId())){
-					flag = aliyunService.Send(model.getPhones(), ti.getExternalTemplateNo(), params);
+				if(SysConstant.MESSAGE_TEMPLATE_ALI_KEY.equals(request.getSupplierId())){
+					flag = aliyunService.Send(request.getPhones(), ti.getExternalTemplateNo(), params);
 					Logger.info("阿里大于发送短信结果（flag）：%s" ,String.valueOf(flag));
 					if (!flag) {
 						result = new ResBodyData(BaseApiCode.SMS_SEND_FAIL, BaseApiCode.getZhMsg(BaseApiCode.SMS_SEND_FAIL));
 						return result;
 					}
-				}else if(SysConstant.MESSAGE_TEMPLATE_MANDAO_KEY.equals(model.getSupplierId())){
-					res = zucpService.Send(model.getPhones(), content);
+				}else if(SysConstant.MESSAGE_TEMPLATE_MANDAO_KEY.equals(request.getSupplierId())){
+					res = zucpService.Send(request.getPhones(), content);
 					Logger.info("漫道发送短信结果（res）：%s", String.valueOf(res));
 					if (Long.parseLong(res) < 0) {
 						result = new ResBodyData(BaseApiCode.SMS_SEND_FAIL, BaseApiCode.getZhMsg(BaseApiCode.SMS_SEND_FAIL));
@@ -202,9 +199,9 @@ public class SmsServiceImpl implements SmsService{
 					result = new ResBodyData(BaseApiCode.SMS_SEND_FAIL, BaseApiCode.getZhMsg(BaseApiCode.SMS_SEND_FAIL));
 					return result;
 				}
-				JedisUtil.getJedisInstance().execSetexToCache(model.getPhones() + model.getTemplateId() + model.getParams(),Integer.valueOf(ti.getEffectiveTime()) ,content);
+				JedisUtil.getJedisInstance().execSetexToCache(request.getPhones() + request.getTemplateId() + request.getParams(),Integer.valueOf(ti.getEffectiveTime()) ,content);
 				
-				ssh.setRequestParams(model.getPhones() + "ali send param:" + ti.getExternalTemplateNo() + params + ";mandao send param:" + content);
+				ssh.setRequestParams(request.getPhones() + "ali send param:" + ti.getExternalTemplateNo() + params + ";mandao send param:" + content);
 				ssh.setResultMsg("ali result, flag:" + String.valueOf(flag) + ";mandao result, res:" + String.valueOf(res));
 				sendSmsHistoryMapper.insert(ssh);
 			
@@ -212,7 +209,7 @@ public class SmsServiceImpl implements SmsService{
 			
 		} catch (Exception e) {
 			Logger.error("发送普通短信时服务发生异常", e);
-			ssh.setRequestParams(model.getPhones() + "ali send param:" + ti.getExternalTemplateNo() + params + ";mandao send param:" + content);
+			ssh.setRequestParams(request.getPhones() + "ali send param:" + ti.getExternalTemplateNo() + params + ";mandao send param:" + content);
 			ssh.setResultMsg("发送普通短信时服务发生异常："+ e.toString());
 			sendSmsHistoryMapper.insert(ssh);
 		}
@@ -226,10 +223,10 @@ public class SmsServiceImpl implements SmsService{
 
 
 	@Override
-	public ResBodyData sendSmsVerificationCode(CommonShortMessageModel model) throws Exception {
+	public ResBodyData sendSmsVerificationCode(SmsRequest request) throws Exception {
 		
 		ResBodyData result = new ResBodyData(BaseApiCode.SUCCESS,BaseApiCode.getZhMsg(BaseApiCode.SUCCESS));
-		Object tempMsg = JedisUtil.getJedisInstance().execGetFromCache(model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId());
+		Object tempMsg = JedisUtil.getJedisInstance().execGetFromCache(request.getPhones() + SysConstant.MESSAGE_CODE_KEY + request.getTemplateId());
 		if(!StringUtil.isEmptyByString(String.valueOf(tempMsg))){
 			result = new ResBodyData(BaseApiCode.REPEAT_FAIL,BaseApiCode.getZhMsg(BaseApiCode.REPEAT_FAIL));
 			return result;
@@ -244,20 +241,20 @@ public class SmsServiceImpl implements SmsService{
 			return result;
 		}
 		//确定发送内容
-		TemplateInfo ti = getTemplateByKey(model.getTemplateId(),templateListJsonStr);
+		TemplateInfo ti = getTemplateByKey(request.getTemplateId(),templateListJsonStr);
 		
 		if(StringUtil.isEmptyByString(ti.getTemplateKey()) || StringUtil.isEmptyByString(ti.getTemplateContent())){
 			result = new ResBodyData(BaseApiCode.SMSTEMPLATE_NOT_EXISTS,BaseApiCode.getZhMsg(BaseApiCode.SMSTEMPLATE_NOT_EXISTS));
 			return result;
 		}
 		//设置发送历史记录值
-		SendSmsHistory ssh = setHistory(model);
+		SendSmsHistory ssh = setHistory(request);
 		
 		String content = ti.getTemplateContent();
 		content = content.replace("{VerificationCode}", randomCode);
 		
-		if(!StringUtil.isEmptyByString(model.getParams())){
-			ResBodyData rb = replacesContent(model.getParams(),content);
+		if(!StringUtil.isEmptyByString(request.getParams())){
+			ResBodyData rb = replacesContent(request.getParams(),content);
 			if(BaseApiCode.SUCCESS==rb.getStatus() && !StringUtil.isEmptyByString(String.valueOf(rb.getData()))){
 				content = String.valueOf(rb.getData());
 			}
@@ -265,24 +262,24 @@ public class SmsServiceImpl implements SmsService{
 		}
 		
 		String params = "";
-		if(!StringUtil.isEmptyByString(model.getParams())){
-			params = aliDaYuParamsToJson(true,randomCode + "," + model.getParams());
+		if(!StringUtil.isEmptyByString(request.getParams())){
+			params = aliDaYuParamsToJson(true,randomCode + "," + request.getParams());
 		}
 		boolean flag = false;
 		String res = "-1";
 		
 		try {
 		 
-			if(StringUtil.isEmptyByString(model.getSupplierId())){
+			if(StringUtil.isEmptyByString(request.getSupplierId())){
 				/**
 				 * 首先阿里云发送发送短信，如果发送失败则调用漫道发送 </br>
 				 * 全部失败则返回失败信息
 				 */
-				flag = aliyunService.Send(model.getPhones(), ti.getExternalTemplateNo(), params);
+				flag = aliyunService.Send(request.getPhones(), ti.getExternalTemplateNo(), params);
 				Logger.info("阿里大于发送短信结果（flag）：%s", String.valueOf(flag));
 				
 				if (!flag) {
-					res = zucpService.Send(model.getPhones(), content);
+					res = zucpService.Send(request.getPhones(), content);
 					Logger.info("漫道发送短信结果（res）：%s", String.valueOf(res));
 					if (Long.parseLong(res) < 0) {
 						result = new ResBodyData(BaseApiCode.SMS_SEND_FAIL, "发送短信失败！");
@@ -290,24 +287,24 @@ public class SmsServiceImpl implements SmsService{
 					}
 				}
 				
-				JedisUtil.getJedisInstance().execSetexToCache(model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId(),
-						model.getTimeout() == null?Integer.valueOf(ti.getEffectiveTime()):Integer.valueOf(model.getTimeout()), randomCode);
-				ssh.setRequestParams(model.getPhones() + "ali send param:" + ti.getExternalTemplateNo() + params + ";mandao send param:" + content);
+				JedisUtil.getJedisInstance().execSetexToCache(request.getPhones() + SysConstant.MESSAGE_CODE_KEY + request.getTemplateId(),
+						request.getTimeout() == null?Integer.valueOf(ti.getEffectiveTime()):Integer.valueOf(request.getTimeout()), randomCode);
+				ssh.setRequestParams(request.getPhones() + "ali send param:" + ti.getExternalTemplateNo() + params + ";mandao send param:" + content);
 				ssh.setResultMsg("ali result, flag:" + String.valueOf(flag) + ";mandao result, res:" + String.valueOf(res));
 				sendSmsHistoryMapper.insert(ssh);
 				
 				return result;
 			}else{
 				
-				if(SysConstant.MESSAGE_TEMPLATE_ALI_KEY.equals(model.getSupplierId())){
-					flag = aliyunService.Send(model.getPhones(), ti.getExternalTemplateNo(), params);
+				if(SysConstant.MESSAGE_TEMPLATE_ALI_KEY.equals(request.getSupplierId())){
+					flag = aliyunService.Send(request.getPhones(), ti.getExternalTemplateNo(), params);
 					Logger.info("阿里大于发送短信结果（flag）：%s", String.valueOf(flag));
 					if (!flag) {
 						result = new ResBodyData(BaseApiCode.SMS_SEND_FAIL, BaseApiCode.getZhMsg(BaseApiCode.SMS_SEND_FAIL));
 						return result;
 					}
-				}else if(SysConstant.MESSAGE_TEMPLATE_MANDAO_KEY.equals(model.getSupplierId())){
-					res = zucpService.Send(model.getPhones(), content);
+				}else if(SysConstant.MESSAGE_TEMPLATE_MANDAO_KEY.equals(request.getSupplierId())){
+					res = zucpService.Send(request.getPhones(), content);
 					Logger.info("漫道发送短信结果（res）：%s", String.valueOf(res));
 					if (Long.parseLong(res) < 0) {
 						result = new ResBodyData(BaseApiCode.SMS_SEND_FAIL, BaseApiCode.getZhMsg(BaseApiCode.SMS_SEND_FAIL));
@@ -318,17 +315,17 @@ public class SmsServiceImpl implements SmsService{
 					return result;
 				}
 				
-				JedisUtil.getJedisInstance().execSetexToCache(model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId(),
-						model.getTimeout() == null?Integer.valueOf(ti.getEffectiveTime()):Integer.valueOf(model.getTimeout()), randomCode);
+				JedisUtil.getJedisInstance().execSetexToCache(request.getPhones() + SysConstant.MESSAGE_CODE_KEY + request.getTemplateId(),
+						request.getTimeout() == null?Integer.valueOf(ti.getEffectiveTime()):Integer.valueOf(request.getTimeout()), randomCode);
 				
-				ssh.setRequestParams(model.getPhones() + "ali send param:" + ti.getExternalTemplateNo() + params + ";mandao send param:" + content);
+				ssh.setRequestParams(request.getPhones() + "ali send param:" + ti.getExternalTemplateNo() + params + ";mandao send param:" + content);
 				ssh.setResultMsg("ali result, flag:" + String.valueOf(flag) + ";mandao result, res:" + String.valueOf(res));
 				sendSmsHistoryMapper.insert(ssh);
 			}
 		
 		} catch (Exception e) {
 			Logger.error("发送短信验证码时服务发生异常", e);
-			ssh.setRequestParams(model.getPhones() + "ali send param:" + ti.getExternalTemplateNo() + params + ";mandao send param:" + content);
+			ssh.setRequestParams(request.getPhones() + "ali send param:" + ti.getExternalTemplateNo() + params + ";mandao send param:" + content);
 			ssh.setResultMsg("发送短信验证码时服务发生异常："+ e.toString());
 			sendSmsHistoryMapper.insert(ssh);
 		}
@@ -337,15 +334,15 @@ public class SmsServiceImpl implements SmsService{
 
 
 	
-	private SendSmsHistory setHistory(CommonShortMessageModel model){
+	private SendSmsHistory setHistory(SmsRequest request){
 		SendSmsHistory ssh = new SendSmsHistory();
 		ssh.setId(UUID.randomUUID().toString());
-		ssh.setClientId(model.getClientID());
-		ssh.setTemplateKey(model.getTemplateId());
+		ssh.setClientId(request.getClientID());
+		ssh.setTemplateKey(request.getTemplateId());
 		ssh.setCreateDate(new Date());
-		ssh.setCreater(model.getPhones());
-		ssh.setPhone(model.getPhones());
-		ssh.setRemark(model.getParams());
+		ssh.setCreater(request.getPhones());
+		ssh.setPhone(request.getPhones());
+		ssh.setRemark(request.getParams());
 		return ssh;
 	}
 

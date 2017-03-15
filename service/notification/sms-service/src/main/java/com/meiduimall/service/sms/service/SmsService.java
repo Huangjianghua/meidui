@@ -1,5 +1,5 @@
 package com.meiduimall.service.sms.service;
-import com.meiduimall.service.sms.model.message.CommonShortMessageModel;
+import com.meiduimall.service.sms.request.SmsRequest;
 import com.meiduimall.support.core.ResBodyData;
 
 /**
@@ -18,7 +18,7 @@ public interface SmsService {
 	 * @return
 	 * @throws Exception
 	 */
-	public ResBodyData sendSmsMessage(CommonShortMessageModel model) throws Exception;
+	public ResBodyData sendSmsMessage(SmsRequest request) throws Exception;
 	
 	/**
 	 * 发送短信验证码
@@ -27,7 +27,7 @@ public interface SmsService {
 	 * @return
 	 * @throws Exception
 	 */
-	public ResBodyData sendSmsVerificationCode(CommonShortMessageModel model) throws Exception;
+	public ResBodyData sendSmsVerificationCode(SmsRequest request) throws Exception;
 	
 
 }

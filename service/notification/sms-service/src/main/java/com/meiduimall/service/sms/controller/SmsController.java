@@ -1,10 +1,11 @@
 package com.meiduimall.service.sms.controller;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.meiduimall.service.sms.model.message.CommonShortMessageModel;
+import com.meiduimall.service.sms.request.SmsRequest;
 import com.meiduimall.service.sms.service.SmsService;
 import com.meiduimall.support.core.BaseApiCode;
 import com.meiduimall.support.core.ResBodyData;
@@ -33,10 +34,10 @@ public class SmsController {
 	 * return  ResBodyData
 	 */
 	@RequestMapping("/send_common_sms_message")
-	public ResBodyData sendSmsMessage(@Validated CommonShortMessageModel model) {
+	public ResBodyData sendSmsMessage(@Validated SmsRequest request) {
 		ResBodyData result =null;
 		try {
-			result = smsService.sendSmsMessage(model);
+			result = smsService.sendSmsMessage(request);
 		} catch (Exception e) {
 			result = new ResBodyData(BaseApiCode.SMS_SEND_EXCEPTION, BaseApiCode.getZhMsg(BaseApiCode.SMS_SEND_EXCEPTION));
 		}
@@ -52,10 +53,10 @@ public class SmsController {
 	 * return  ResBodyData
 	 */
 	@RequestMapping("/send_sms_verification_code")
-	public ResBodyData sendSmsVerificationCode(@Validated CommonShortMessageModel model) {
+	public ResBodyData sendSmsVerificationCode(@Validated SmsRequest request) {
 		ResBodyData result = null;
 		try {
-			result = smsService.sendSmsVerificationCode(model);
+			result = smsService.sendSmsVerificationCode(request);
 		} catch (Exception e) {
 			result = new ResBodyData(BaseApiCode.SMS_SEND_EXCEPTION, BaseApiCode.getZhMsg(BaseApiCode.SMS_SEND_EXCEPTION));
 		}
