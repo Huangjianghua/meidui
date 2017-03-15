@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.meiduimall.password.util.MD5;
 import com.meiduimall.service.sms.service.ZucpService;
 import com.meiduimall.support.core.exception.ApiException;
+import com.meiduimall.support.core.util.ExceptionUtils;
 import com.meiduimall.support.core.util.HttpClientUtil;
 
 /**
@@ -94,7 +95,7 @@ public class ZucpServiceImpl implements ZucpService{
 
 			return array2[0];
 		} catch (Exception e) {
-			Logger.error("ZucpService error.", e);
+			Logger.error("漫道短信服務发送短信接口异常:{}", ExceptionUtils.getFullStackTrace(e));
 			throw new ApiException(e);
 		}
 		
