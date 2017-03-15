@@ -42,7 +42,7 @@ public class SmsServiceImpl implements SmsService{
 	private AliyunServiceImpl aliyunService;
 
 	@Autowired
-	private MessageChannelService messageChannelService;
+	private MessageChannelServiceImpl messageChannelService;
 	@Autowired
 	private SendSmsHistoryMapper sendSmsHistoryMapper;
 	
@@ -129,7 +129,6 @@ public class SmsServiceImpl implements SmsService{
 			result = new ResBodyData(BaseApiCode.REPEAT_FAIL,BaseApiCode.getZhMsg(BaseApiCode.REPEAT_FAIL));
 			return result;
 		}
-		
 		
 		String templateListJsonStr = messageChannelService.getTemplateList(SysConstant.MESSAGE_TEMPLATE_KEY);
 		if(StringUtil.isEmptyByString(templateListJsonStr)){
@@ -340,7 +339,6 @@ public class SmsServiceImpl implements SmsService{
 	
 	private SendSmsHistory setHistory(CommonShortMessageModel model){
 		SendSmsHistory ssh = new SendSmsHistory();
-		//ssh.setChannelId(model.getSupplierId() == null?"":model.getSupplierId());
 		ssh.setId(UUID.randomUUID().toString());
 		ssh.setClientId(model.getClientID());
 		ssh.setTemplateKey(model.getTemplateId());
@@ -348,7 +346,6 @@ public class SmsServiceImpl implements SmsService{
 		ssh.setCreater(model.getPhones());
 		ssh.setPhone(model.getPhones());
 		ssh.setRemark(model.getParams());
-		
 		return ssh;
 	}
 

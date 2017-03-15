@@ -34,7 +34,7 @@ public class AliyunServiceImpl implements AliyunService{
 	private static String url = "http://gw.api.taobao.com/router/rest";
 	
 	@Autowired
-	private MessageChannelService messageChannelService;
+	private MessageChannelServiceImpl messageChannelService;
 
 	public boolean Send(String mobile, String tid, String context) throws ApiException {
 		

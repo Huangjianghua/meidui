@@ -1,24 +1,23 @@
 package com.meiduimall.service.sms.service.impl;
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.meiduimall.redis.util.JedisUtil;
 import com.meiduimall.service.sms.entity.MessageChannel;
 import com.meiduimall.service.sms.entity.TemplateInfo;
 import com.meiduimall.service.sms.mapper.MessageChannelMapper;
 import com.meiduimall.service.sms.mapper.TemplateInfoMapper;
+import com.meiduimall.service.sms.service.MessageChannelService;
 import com.meiduimall.support.core.Constants;
 import com.meiduimall.support.core.util.FastJsonUtil;
 import com.meiduimall.support.core.util.StringUtil;
 
 @Service
-public class MessageChannelService{
+public class MessageChannelServiceImpl implements MessageChannelService{
 	
-	private static Logger Logger = LoggerFactory.getLogger(MessageChannelService.class);
+	private static Logger Logger = LoggerFactory.getLogger(MessageChannelServiceImpl.class);
 
 	@Autowired
 	private MessageChannelMapper messageChannelMapper;
