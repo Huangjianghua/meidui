@@ -21,9 +21,7 @@ public class ResponsePackUtil {
 	public static void responseWrapper(RequestContext ctx,Integer responseCode){
 		ctx.setSendZuulResponse(false);
         ctx.setResponseStatusCode(Constants.UNAUTHORIZED);
-        ResBodyData res=new ResBodyData();
-        res.setStatus(responseCode);
-        res.setMsg(BaseApiCode.getZhMsg(responseCode));
+        ResBodyData res=new ResBodyData(responseCode,BaseApiCode.getZhMsg(responseCode));
         ctx.setResponseBody(JSON.toJSONString(res));
 	}
 	
