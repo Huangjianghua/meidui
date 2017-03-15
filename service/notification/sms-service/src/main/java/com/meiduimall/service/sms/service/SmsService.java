@@ -12,20 +12,18 @@ import com.meiduimall.support.core.ResBodyData;
 public interface SmsService {
 
 	/**
-	 * 发送短信
-	 * 
-	 * @param CommonShortMessageModel
-	 * @return
-	 * @throws Exception
+	 * 功能描述:  发送短信
+	 * Author: 陈建宇
+	 * Date:   2017年3月15日 下午12:19:06   
+	 * return  ResBodyData
 	 */
 	public ResBodyData sendSmsMessage(SmsRequest request) throws Exception;
 	
 	/**
-	 * 发送短信验证码
-	 * 
-	 * @param CommonShortMessageModel
-	 * @return
-	 * @throws Exception
+	 * 功能描述:  发送短信验证码
+	 * Author: 陈建宇
+	 * Date:   2017年3月15日 下午12:19:16   
+	 * return  ResBodyData
 	 */
 	public ResBodyData sendSmsVerificationCode(SmsRequest request) throws Exception;
 	

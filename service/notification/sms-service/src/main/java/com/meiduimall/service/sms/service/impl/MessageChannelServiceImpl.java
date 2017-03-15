@@ -28,11 +28,7 @@ public class MessageChannelServiceImpl implements MessageChannelService{
 
 
 	
-	/**
-	 * 获取短信渠道并转成json字符串
-	 * @param key
-	 * @return
-	 */
+
 	public String getChannelList(String key){
 		
 		String channelListJsonStr =JedisUtil.getJedisInstance().execGetFromCache(key);
@@ -52,11 +48,9 @@ public class MessageChannelServiceImpl implements MessageChannelService{
 		return channelListJsonStr;
 		
 	}
-	/**
-	 * 获取短信模板并转成json字符串
-	 * @param key
-	 * @return
-	 */
+	
+	
+	
 	public String getTemplateList(String key){
 		String templateListJsonStr = JedisUtil.getJedisInstance().execGetFromCache(key);
 		if(StringUtil.isEmptyByString(templateListJsonStr)){

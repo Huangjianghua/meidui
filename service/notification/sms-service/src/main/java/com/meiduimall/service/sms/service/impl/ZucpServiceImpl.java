@@ -14,11 +14,6 @@ import com.meiduimall.support.core.exception.ApiException;
 import com.meiduimall.support.core.util.ExceptionUtils;
 import com.meiduimall.support.core.util.HttpClientUtil;
 
-/**
- * 漫道短信服務
- * @author 
- * @since 2011.01.05
- */
 @Service
 public class ZucpServiceImpl implements ZucpService{
 	
@@ -72,11 +67,6 @@ public class ZucpServiceImpl implements ZucpService{
 		return sb.toString();
 	}
 
-	/**
-	 * 功能描述: 发送短信
-	 * Author: 陈建宇
-	 * Date:   2017年3月15日 上午11:16:05
-	 */
 	public String Send(String mobile, String content, String ext, String stime, String rrid) throws ApiException {
 
 		Map<String, String> headers = new HashMap<String, String>();
@@ -101,11 +91,6 @@ public class ZucpServiceImpl implements ZucpService{
 		
 	}
 
-	/**
-	 * 功能描述: 发送短信
-	 * Author: 陈建宇
-	 * Date:   2017年3月15日 上午11:15:51
-	 */
 	public String Send(String mobile, String content) throws ApiException {
 		return this.Send(mobile, content, "", "", "");
 	}
