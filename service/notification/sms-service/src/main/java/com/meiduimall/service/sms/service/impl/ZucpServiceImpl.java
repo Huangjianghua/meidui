@@ -72,14 +72,10 @@ public class ZucpServiceImpl implements ZucpService{
 		Map<String, String> headers = new HashMap<String, String>();
 		headers.put("Content-Type", "text/xml;charset=utf-8");
 		headers.put("SOAPAction", "http://tempuri.org/mdSmsSend_u");
-
 		try {
 			StringEntity param = new StringEntity(buildBody(mobile, content, ext, stime, rrid),"UTF-8");
 			param.setContentEncoding("UTF-8");
-
 			String result = HttpClientUtil.doPost(zucpUrl, param, headers);
-			Logger.info("Zucp::Result -> %s", result);
-
 			String[] array1 = result.split("<mdSmsSend_uResult>");
 			String[] array2 = array1[1].split("</mdSmsSend_uResult>");
 

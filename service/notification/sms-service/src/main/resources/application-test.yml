@@ -28,4 +28,4 @@ config:
     testOnReturn: true
 # mybatis-config
 mybatis: 
-  mapper-locations: classpath:com/meidui/sms/mapper/*Mapper.xml
+  mapper-locations: classpath:com/meiduimall/service/sms/mapper/*Mapper.xml

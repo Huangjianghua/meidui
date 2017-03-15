@@ -41,7 +41,7 @@ public class MessageChannelServiceImpl implements MessageChannelService{
 				}
 				
 			} catch (Exception e) {
-				Logger.error("获取渠道异常：%s", e.toString());
+				Logger.error("获取渠道异常:{}", e.toString());
 				e.printStackTrace();
 			}
 		}
@@ -62,7 +62,7 @@ public class MessageChannelServiceImpl implements MessageChannelService{
 				}
 				
 			} catch (Exception e) {
-				Logger.error("获取模板异常：%s", e.toString());
+				Logger.error("获取模板异常:{}", e.toString());
 				e.printStackTrace();
 			}
 		}
