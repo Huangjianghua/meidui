@@ -1,14 +1,26 @@
 package com.meiduimall.service.sms.service.impl;
 
+import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.soap.MessageFactory;
+import javax.xml.soap.SOAPBody;
+import javax.xml.soap.SOAPConstants;
+import javax.xml.soap.SOAPEnvelope;
+import javax.xml.soap.SOAPMessage;
 
 import org.apache.http.entity.StringEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.Document;
 
 import com.meiduimall.password.util.MD5;
+import com.meiduimall.service.sms.entity.SmsSoap;
 import com.meiduimall.service.sms.service.ZucpService;
 import com.meiduimall.support.core.exception.ApiException;
 import com.meiduimall.support.core.util.ExceptionUtils;
@@ -25,7 +37,6 @@ public class ZucpServiceImpl implements ZucpService{
 
 	/**
 	 * 生成请求体
-	 * 
 	 * @param mobile
 	 * @param content
 	 * @param ext
@@ -35,38 +46,34 @@ public class ZucpServiceImpl implements ZucpService{
 	 * @throws Exception
 	 */
 	String buildBody(String mobile, String content, String ext, String stime, String rrid) throws Exception {
-		StringBuffer sb = new StringBuffer();
-		sb.append("<soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
-				+ "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">");
-		sb.append("<soap:Body>");
-		sb.append("<mdSmsSend_u xmlns=\"http://tempuri.org/\">");
-		sb.append("<sn>");
-		sb.append(zucpUser);
-		sb.append("</sn>");
-		sb.append("<pwd>");
-		sb.append(MD5.md5Digest(zucpUser + zucpPasswd));
-		sb.append("</pwd>");
-		sb.append("<mobile>");
-		sb.append(mobile);
-		sb.append("</mobile>");
-		sb.append("<content>");
-		sb.append(content);
-		sb.append("</content>");
-		sb.append("<ext>");
-		sb.append(ext);
-		sb.append("</ext>");
-		sb.append("<stime>");
-		sb.append(stime);
-		sb.append("</stime>");
-		sb.append("<rrid>");
-		sb.append(rrid);
-		sb.append("</rrid>");
-		sb.append("</mdSmsSend_u>");
-		sb.append("</soap:Body>");
-		sb.append("</soap:Envelope>");
-		return sb.toString();
+		Document requestDocument = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+		Marshaller marshaller = JAXBContext.newInstance(SmsSoap.class).createMarshaller();
+		SmsSoap md=new SmsSoap();
+		md.setSn(zucpUser);
+		md.setPwd(MD5.md5Digest(zucpUser + zucpPasswd));
+		md.setMobile(mobile);
+		md.setContent(content);
+		md.setExt(ext);
+		md.setStime(stime);
+		md.setRrid(rrid);
+		marshaller.marshal(md,requestDocument);
+		SOAPMessage requestSOAPMessage = MessageFactory.newInstance(SOAPConstants.SOAP_1_1_PROTOCOL).createMessage();
+		SOAPBody soapBody = requestSOAPMessage.getSOAPBody();
+		soapBody.addDocument(requestDocument);
+		SOAPEnvelope soapEnvelope = requestSOAPMessage.getSOAPPart().getEnvelope();
+		soapEnvelope.removeNamespaceDeclaration("SOAP-ENV");
+		soapEnvelope.addNamespaceDeclaration("soap", "http://schemas.xmlsoap.org/soap/envelope");
+		soapEnvelope.addNamespaceDeclaration("xsi", "http://www.w3.org/2001/XMLSchema-instance");
+		soapEnvelope.addNamespaceDeclaration("xsd", "http://www.w3.org/2001/XMLSchema");
+		soapEnvelope.setPrefix("soap");
+		soapEnvelope.removeChild(soapEnvelope.getHeader());
+		soapBody.setPrefix("soap");
+		ByteArrayOutputStream os=new ByteArrayOutputStream();
+		requestSOAPMessage.writeTo(os);
+		return os.toString();
 	}
-
+     
+	
 	public String Send(String mobile, String content, String ext, String stime, String rrid) throws ApiException {
 
 		Map<String, String> headers = new HashMap<String, String>();
