@@ -1,6 +1,6 @@
 package com.meiduimall.service.sms.service;
+import com.meiduimall.core.ResBodyData;
 import com.meiduimall.service.sms.request.SmsRequest;
-import com.meiduimall.support.core.ResBodyData;
 
 /**
  * Copyright (C), 2002-2017, 美兑壹购

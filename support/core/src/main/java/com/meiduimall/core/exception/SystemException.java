@@ -1,4 +1,4 @@
-package com.meiduimall.support.core.exception;
+package com.meiduimall.core.exception;
 
 public class SystemException extends RuntimeException {
 

@@ -19,12 +19,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 
+import com.meiduimall.core.exception.ApiException;
+import com.meiduimall.core.util.ExceptionUtils;
+import com.meiduimall.core.util.HttpClientUtil;
 import com.meiduimall.password.util.MD5;
 import com.meiduimall.service.sms.entity.SmsSoap;
 import com.meiduimall.service.sms.service.ZucpService;
-import com.meiduimall.support.core.exception.ApiException;
-import com.meiduimall.support.core.util.ExceptionUtils;
-import com.meiduimall.support.core.util.HttpClientUtil;
+
 
 @Service
 public class ZucpServiceImpl implements ZucpService{

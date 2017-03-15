@@ -1,6 +1,6 @@
 package com.meiduimall.service.sms.service;
 
-import com.meiduimall.support.core.exception.ApiException;
+import com.meiduimall.core.exception.ApiException;
 /**
  * Copyright (C), 2002-2017, 美兑壹购
  * FileName: ZucpService.java

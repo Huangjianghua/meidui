@@ -1,4 +1,4 @@
-package com.meiduimall.support.core;
+package com.meiduimall.core;
 import java.util.HashMap;
 
 import java.util.Map;

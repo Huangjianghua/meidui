@@ -1,4 +1,4 @@
-package com.meiduimall.support.core.advice;
+package com.meiduimall.core.advice;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -6,7 +6,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.meiduimall.support.core.util.FastJsonUtil;
+import com.meiduimall.core.util.FastJsonUtil;
 
 
 @Aspect

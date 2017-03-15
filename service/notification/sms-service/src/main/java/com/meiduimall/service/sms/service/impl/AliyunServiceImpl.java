@@ -6,13 +6,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.meiduimall.core.exception.ApiException;
+import com.meiduimall.core.util.ExceptionUtils;
+import com.meiduimall.core.util.FastJsonUtil;
+import com.meiduimall.core.util.StringUtil;
+import com.meiduimall.service.sms.SysConstant;
 import com.meiduimall.service.sms.entity.MessageChannel;
 import com.meiduimall.service.sms.service.AliyunService;
-import com.meiduimall.support.core.SysConstant;
-import com.meiduimall.support.core.exception.ApiException;
-import com.meiduimall.support.core.util.ExceptionUtils;
-import com.meiduimall.support.core.util.FastJsonUtil;
-import com.meiduimall.support.core.util.StringUtil;
 import com.taobao.api.DefaultTaobaoClient;
 import com.taobao.api.TaobaoClient;
 import com.taobao.api.request.AlibabaAliqinFcSmsNumSendRequest;

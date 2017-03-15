@@ -1,4 +1,4 @@
-package com.meiduimall.support.core.util;
+package com.meiduimall.core.util;
 
 
 

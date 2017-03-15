@@ -1,7 +1,8 @@
 package com.meiduimall.service.sms.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import com.meiduimall.support.core.advice.MethodLogAdvice;
+
+import com.meiduimall.core.advice.MethodLogAdvice;
 
 
 @Configuration

@@ -1,15 +1,14 @@
 package com.meiduimall.service.sms.controller;
 import org.springframework.beans.factory.annotation.Autowired;
-
-
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.meiduimall.core.BaseApiCode;
+import com.meiduimall.core.ResBodyData;
 import com.meiduimall.service.sms.request.SmsRequest;
 import com.meiduimall.service.sms.service.SmsService;
-import com.meiduimall.support.core.BaseApiCode;
-import com.meiduimall.support.core.ResBodyData;
+
 
 
 /**

@@ -1,4 +1,4 @@
-package com.meiduimall.support.core;
+package com.meiduimall.core;
 
 public class ResBodyData {
 	
