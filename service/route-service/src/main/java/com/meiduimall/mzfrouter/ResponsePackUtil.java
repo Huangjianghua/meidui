@@ -1,8 +1,8 @@
 package com.meiduimall.mzfrouter;
 import com.alibaba.fastjson.JSON;
-import com.meiduimall.support.core.BaseApiCode;
-import com.meiduimall.support.core.Constants;
-import com.meiduimall.support.core.ResBodyData;
+import com.meiduimall.core.BaseApiCode;
+import com.meiduimall.core.Constants;
+import com.meiduimall.core.ResBodyData;
 import com.netflix.zuul.context.RequestContext;
 
 /**
