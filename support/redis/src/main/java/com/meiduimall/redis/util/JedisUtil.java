@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.meiduimall.core.Constants;
+import com.meiduimall.core.exception.RedisClientException;
 import com.meiduimall.redis.util.spring.AppContextLauncher;
-import com.meiduimall.support.core.Constants;
-import com.meiduimall.support.core.exception.RedisClientException;
 
 import redis.clients.jedis.ShardedJedis;
 import redis.clients.jedis.ShardedJedisPipeline;

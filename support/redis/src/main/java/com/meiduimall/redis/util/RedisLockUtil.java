@@ -4,8 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import com.meiduimall.support.core.Constants;
-import com.meiduimall.support.core.exception.SystemException;
+import com.meiduimall.core.Constants;
+import com.meiduimall.core.exception.SystemException;
+
 
 
 
