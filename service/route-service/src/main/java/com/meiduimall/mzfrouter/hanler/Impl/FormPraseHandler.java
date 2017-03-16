@@ -3,10 +3,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
-import org.apache.commons.collections.CollectionUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
+
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.util.ExceptionUtils;
 import com.meiduimall.core.util.JacksonUtil;
@@ -33,7 +36,7 @@ public class FormPraseHandler implements Handler{
 			Map<String, String> param = new HashMap<String, String>();
 			Map<String, String[]> map=request.getParameterMap();
 			Set<Map.Entry<String, String[]>> set=map.entrySet();
-			if(CollectionUtils.isNotEmpty(set)){
+			if(!CollectionUtils.isEmpty(set)){
 				log.info("form方式请求参数解析处理层,url:{},请求参数:{}",request.getRequestURL().toString(),JacksonUtil.mapToJson(map));
 				for(Entry<String, String[]> entry:set){
 					String key=entry.getKey();
