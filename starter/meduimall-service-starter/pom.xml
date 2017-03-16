@@ -27,7 +27,6 @@
 		<mybatis.version>1.1.1</mybatis.version>	
 		<pagehelper.version>4.1.6</pagehelper.version>	
 		<mysql.version>5.1.26</mysql.version>	
-		<fastjson.version>1.2.7</fastjson.version>	
         <httpclient.version>4.5.2</httpclient.version>	
 		<commons-lang3.version>3.3.2</commons-lang3.version>	
 		<commons-beanutils.version>1.9.3</commons-beanutils.version>	
@@ -103,7 +102,6 @@
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
 	
-		<!-- �Ȳ����޸��˴��벻��Ҫ��������spring boot -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -139,27 +137,23 @@
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 			<version>${mybatis.version}</version>
 			<exclusions>
-				<!-- �ų�tomcat-jdbc -->
 				<exclusion>
 					<groupId>org.apache.tomcat</groupId>
 					<artifactId>tomcat-jdbc</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<!-- mybatisͨ�÷�ҳ��� -->
 		<dependency>
 			<groupId>com.github.pagehelper</groupId>
 			<artifactId>pagehelper</artifactId>
 			<version>${pagehelper.version}</version>
 		</dependency>
-		<!-- mysql���� -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql.version}</version>
 		</dependency>
 	
-		<!-- �������ӳ�hikari -->
 		<dependency>
 			<groupId>com.zaxxer</groupId>
 			<artifactId>HikariCP</artifactId>

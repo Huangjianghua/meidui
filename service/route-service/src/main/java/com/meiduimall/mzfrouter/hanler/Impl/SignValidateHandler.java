@@ -1,8 +1,6 @@
 package com.meiduimall.mzfrouter.hanler.Impl;
 import java.util.Map;
 
-
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
@@ -11,9 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 
 import com.meiduimall.core.BaseApiCode;
-import com.meiduimall.core.Constants;
 import com.meiduimall.core.util.ExceptionUtils;
 import com.meiduimall.core.util.JacksonUtil;
+import com.meiduimall.mzfrouter.Constants;
 import com.meiduimall.mzfrouter.ResponsePackUtil;
 import com.meiduimall.mzfrouter.hanler.Handler;
 import com.meiduimall.password.GatewaySignUtil;

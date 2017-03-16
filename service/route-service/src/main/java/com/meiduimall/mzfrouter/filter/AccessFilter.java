@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.meiduimall.core.BaseApiCode;
-import com.meiduimall.core.Constants;
 import com.meiduimall.core.util.ExceptionUtils;
+import com.meiduimall.mzfrouter.Constants;
 import com.meiduimall.mzfrouter.ResponsePackUtil;
 import com.meiduimall.mzfrouter.hanler.Impl.BlackListValidateHandler;
 import com.meiduimall.mzfrouter.hanler.Impl.HandlerChain;
@@ -51,7 +51,7 @@ public class AccessFilter extends ZuulFilter  {
 
     @Override
     public int filterOrder() {
-        return Constants.CONSTANT_ZERO_INT;
+        return Constants.FILTER_ORDER_ZERO;
     }
 
     @Override

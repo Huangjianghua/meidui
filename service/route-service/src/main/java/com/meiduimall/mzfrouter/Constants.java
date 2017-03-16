@@ -6,5 +6,8 @@ public class Constants {
 	public static final String BLACK_LIST_JSON="blackListJson";
 	/**http contentType**/
 	public final static String CONTENTTYPE_JSON = "application/json; charset=utf-8";
+	
+	/**zuul过滤器顺序**/
+	public final static Integer FILTER_ORDER_ZERO = 0;
 
 }
