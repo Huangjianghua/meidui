@@ -2,15 +2,16 @@ package com.meiduimall.service.sms.service.impl;
 import java.util.List;
 
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.common.base.Strings;
 import com.meiduimall.core.exception.ApiException;
 import com.meiduimall.core.util.ExceptionUtils;
 import com.meiduimall.core.util.JacksonUtil;
-import com.meiduimall.core.util.StringUtil;
 import com.meiduimall.service.sms.SysConstant;
 import com.meiduimall.service.sms.entity.MessageChannel;
 import com.meiduimall.service.sms.service.AliyunService;
@@ -34,11 +35,11 @@ public class AliyunServiceImpl implements AliyunService{
 
 	public boolean Send(String mobile, String tid, String context) throws ApiException {
 		
-		if(StringUtil.isEmptyByString(tid)){
+		if(Strings.isNullOrEmpty(tid)){
 			return false;
 		}
 		String channelJsonStr = messageChannelService.getChannelList(SysConstant.MESSAGE_CHANNEL_KEY);
-		if(!StringUtil.isEmptyByString(channelJsonStr)){
+		if(!Strings.isNullOrEmpty(channelJsonStr)){
 			List<MessageChannel> channelList = JacksonUtil.jsonToList(channelJsonStr, MessageChannel.class);
 			for(MessageChannel c : channelList){
 				if(SysConstant.MESSAGE_TEMPLATE_ALI_KEY.equals(c.getChannelKey())){

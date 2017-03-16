@@ -1,6 +1,7 @@
 package com.meiduimall.service.sms.service.impl;
 import java.lang.reflect.InvocationTargetException;
 
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -13,11 +14,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.common.base.CharMatcher;
+import com.google.common.base.Strings;
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.ExceptionUtils;
 import com.meiduimall.core.util.JacksonUtil;
-import com.meiduimall.core.util.StringUtil;
 import com.meiduimall.redis.util.JedisUtil;
 import com.meiduimall.service.sms.SysConstant;
 import com.meiduimall.service.sms.entity.SendSmsHistory;
@@ -76,9 +78,9 @@ public class SmsServiceImpl implements SmsService{
 	 */
 	private ResBodyData replacesContent(String params,String content){
 		ResBodyData result = new ResBodyData(BaseApiCode.SUCCESS,BaseApiCode.getZhMsg(BaseApiCode.SUCCESS));
-		if(!StringUtil.isEmptyByString(params)){
+		if(!Strings.isNullOrEmpty(params)){
 			String[] replaces = params.split(",");
-			int count = StringUtil.findSubstringCount(content, "{");
+			int count = CharMatcher.anyOf(content).countIn("{");
 			if(replaces.length < count) {
 				Logger.info("替换短信模板内容异常：%s", "替换内容与替换参数不匹配，replaces="+replaces+",count="+count);
 				result = new ResBodyData(BaseApiCode.FAIL_SMSTEMPLATE_PRASE, BaseApiCode.getZhMsg(BaseApiCode.FAIL_SMSTEMPLATE_PRASE));
@@ -103,7 +105,7 @@ public class SmsServiceImpl implements SmsService{
 		Map<String, String> map = new HashMap<>();
 		String[] paramsStr = params.split(",");
 		for(int i = 0;i < paramsStr.length; i++){
-			if(!isCode && !StringUtil.isEmptyByString(paramsStr[i])){
+			if(!isCode && !Strings.isNullOrEmpty(paramsStr[i])){
 				map.put("V"+i, paramsStr[i]);
 			}else{
 				if(i == 0){
@@ -129,20 +131,20 @@ public class SmsServiceImpl implements SmsService{
 		
 		ResBodyData result = new ResBodyData(BaseApiCode.SUCCESS,BaseApiCode.getZhMsg(BaseApiCode.SUCCESS));
 		String tempMsg =JedisUtil.getJedisInstance().execGetFromCache(request.getPhones() + request.getTemplateId() + request.getParams());
-		if(!StringUtil.isEmptyByString(tempMsg)){
+		if(!Strings.isNullOrEmpty(tempMsg)){
 			result = new ResBodyData(BaseApiCode.FAIL_REPEAT,BaseApiCode.getZhMsg(BaseApiCode.FAIL_REPEAT));
 			return result;
 		}
 		
 		String templateListJsonStr = messageChannelService.getTemplateList(SysConstant.MESSAGE_TEMPLATE_KEY);
-		if(StringUtil.isEmptyByString(templateListJsonStr)){
+		if(Strings.isNullOrEmpty(templateListJsonStr)){
 			result = new ResBodyData(BaseApiCode.FAIL_TEMPLATE,BaseApiCode.getZhMsg(BaseApiCode.FAIL_TEMPLATE));
 			return result;
 		}
 		
 		
 		TemplateInfo ti = getTemplateByKey(request.getTemplateId(),templateListJsonStr);
-		if(StringUtil.isEmptyByString(ti.getTemplateKey()) || StringUtil.isEmptyByString(ti.getTemplateContent())){
+		if(Strings.isNullOrEmpty(ti.getTemplateKey()) || Strings.isNullOrEmpty(ti.getTemplateContent())){
 			result = new ResBodyData(BaseApiCode.NOT_EXISTS_SMSTEMPLATE,BaseApiCode.getZhMsg(BaseApiCode.NOT_EXISTS_SMSTEMPLATE));
 			return result;
 		}
@@ -150,19 +152,19 @@ public class SmsServiceImpl implements SmsService{
 		String content = ti.getTemplateContent();
 		ResBodyData rb = replacesContent(request.getParams(),content);
 		
-		if(BaseApiCode.SUCCESS==rb.getStatus() && !StringUtil.isEmptyByString(String.valueOf(rb.getData()))){
+		if(BaseApiCode.SUCCESS==rb.getStatus() && !Strings.isNullOrEmpty(String.valueOf(rb.getData()))){
 			content = String.valueOf(rb.getData());
 		}
 		
 		String params = "";
-		if(!StringUtil.isEmptyByString(request.getParams())){
+		if(!Strings.isNullOrEmpty(request.getParams())){
 			params = aliDaYuParamsToJson(false,request.getParams());
 		}
 		//设置发送历史记录值
 		SendSmsHistory ssh = setHistory(request);
 		try {
 			
-			if(StringUtil.isEmptyByString(request.getSupplierId())){
+			if(Strings.isNullOrEmpty(request.getSupplierId())){
 				/**
 				 * 首先阿里云发送发送短信，如果发送失败则调用漫道发送 </br>
 				 * 全部失败则返回失败信息
@@ -236,7 +238,7 @@ public class SmsServiceImpl implements SmsService{
 		
 		ResBodyData result = new ResBodyData(BaseApiCode.SUCCESS,BaseApiCode.getZhMsg(BaseApiCode.SUCCESS));
 		Object tempMsg = JedisUtil.getJedisInstance().execGetFromCache(request.getPhones() + SysConstant.MESSAGE_CODE_KEY + request.getTemplateId());
-		if(!StringUtil.isEmptyByString(String.valueOf(tempMsg))){
+		if(!Strings.isNullOrEmpty(String.valueOf(tempMsg))){
 			result = new ResBodyData(BaseApiCode.FAIL_REPEAT,BaseApiCode.getZhMsg(BaseApiCode.FAIL_REPEAT));
 			return result;
 		}
@@ -245,14 +247,14 @@ public class SmsServiceImpl implements SmsService{
 		Logger.info("发送短信生成的验证码为：%s" , randomCode);
 		
 		String templateListJsonStr = messageChannelService.getTemplateList(SysConstant.MESSAGE_TEMPLATE_KEY);
-		if(StringUtil.isEmptyByString(templateListJsonStr)){
+		if(Strings.isNullOrEmpty(templateListJsonStr)){
 			result = new ResBodyData(BaseApiCode.FAIL_TEMPLATE,BaseApiCode.getZhMsg(BaseApiCode.FAIL_TEMPLATE));
 			return result;
 		}
 		//确定发送内容
 		TemplateInfo ti = getTemplateByKey(request.getTemplateId(),templateListJsonStr);
 		
-		if(StringUtil.isEmptyByString(ti.getTemplateKey()) || StringUtil.isEmptyByString(ti.getTemplateContent())){
+		if(Strings.isNullOrEmpty(ti.getTemplateKey()) || Strings.isNullOrEmpty(ti.getTemplateContent())){
 			result = new ResBodyData(BaseApiCode.NOT_EXISTS_SMSTEMPLATE,BaseApiCode.getZhMsg(BaseApiCode.NOT_EXISTS_SMSTEMPLATE));
 			return result;
 		}
@@ -262,16 +264,16 @@ public class SmsServiceImpl implements SmsService{
 		String content = ti.getTemplateContent();
 		content = content.replace("{VerificationCode}", randomCode);
 		
-		if(!StringUtil.isEmptyByString(request.getParams())){
+		if(!Strings.isNullOrEmpty(request.getParams())){
 			ResBodyData rb = replacesContent(request.getParams(),content);
-			if(BaseApiCode.SUCCESS==rb.getStatus() && !StringUtil.isEmptyByString(String.valueOf(rb.getData()))){
+			if(BaseApiCode.SUCCESS==rb.getStatus() && !Strings.isNullOrEmpty(String.valueOf(rb.getData()))){
 				content = String.valueOf(rb.getData());
 			}
 			
 		}
 		
 		String params = "";
-		if(!StringUtil.isEmptyByString(request.getParams())){
+		if(!Strings.isNullOrEmpty(request.getParams())){
 			params = aliDaYuParamsToJson(true,randomCode + "," + request.getParams());
 		}
 		boolean flag = false;
@@ -279,7 +281,7 @@ public class SmsServiceImpl implements SmsService{
 		
 		try {
 		 
-			if(StringUtil.isEmptyByString(request.getSupplierId())){
+			if(Strings.isNullOrEmpty(request.getSupplierId())){
 				/**
 				 * 首先阿里云发送发送短信，如果发送失败则调用漫道发送 </br>
 				 * 全部失败则返回失败信息

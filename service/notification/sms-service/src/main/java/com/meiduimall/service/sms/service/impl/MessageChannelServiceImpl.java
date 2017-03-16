@@ -7,9 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.common.base.Strings;
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.util.JacksonUtil;
-import com.meiduimall.core.util.StringUtil;
 import com.meiduimall.redis.util.JedisUtil;
 import com.meiduimall.service.sms.entity.MessageChannel;
 import com.meiduimall.service.sms.entity.TemplateInfo;
@@ -36,7 +36,7 @@ public class MessageChannelServiceImpl implements MessageChannelService{
 	public String getChannelList(String key){
 		
 		String channelListJsonStr =JedisUtil.getJedisInstance().execGetFromCache(key);
-		if(StringUtil.isEmptyByString(channelListJsonStr)){
+		if(Strings.isNullOrEmpty(channelListJsonStr)){
 			try{
 				List<MessageChannel> channelList = messageChannelMapper.getChannelList();
 				if(null != channelList && channelList.size() > 0){
@@ -57,7 +57,7 @@ public class MessageChannelServiceImpl implements MessageChannelService{
 	
 	public String getTemplateList(String key){
 		String templateListJsonStr = JedisUtil.getJedisInstance().execGetFromCache(key);
-		if(StringUtil.isEmptyByString(templateListJsonStr)){
+		if(Strings.isNullOrEmpty(templateListJsonStr)){
 			try {
 				List<TemplateInfo> templateInfo = templateInfoMapper.getTemplateInfoList();
 				if(null != templateInfo && templateInfo.size() > 0){
