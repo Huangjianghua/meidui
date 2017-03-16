@@ -1,13 +1,8 @@
 package com.meiduimall.core.util;
 import java.io.IOException;
-import java.io.StringWriter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -16,6 +11,8 @@ import org.codehaus.jackson.type.JavaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
+
+import com.google.common.base.Strings;
 
 /**
  * Copyright (C), 2002-2017, 美兑壹购
@@ -49,7 +46,7 @@ public class JacksonUtil {
      * return  T
      */
     public static <T> T jsonToBean(String json,  Class<T> valueType){    
-    	if(!StringUtils.isEmpty(json)){
+    	if(!Strings.isNullOrEmpty(json)){
     		try {
     			return getInstance().readValue(json, valueType);
     		} catch (JsonParseException e) {
@@ -93,7 +90,7 @@ public class JacksonUtil {
      * return  List<T>
      */
     public static <T> List<T> jsonToList(String json,Class<T> valueType) {
-    	if(!StringUtils.isEmpty(json)){
+    	if(!Strings.isNullOrEmpty(json)){
             try {
             	JavaType javaType = getInstance().getTypeFactory().constructParametricType(List.class, valueType);
     			return getInstance().readValue(json, javaType);
@@ -153,7 +150,7 @@ public class JacksonUtil {
      * return  Map<String,T>
      */
     public static <T> Map<String,T> jsontoMap(String json,Class<T> valueType){
-    	if(!StringUtils.isEmpty(json)){
+    	if(!Strings.isNullOrEmpty(json)){
             try {
             	JavaType javaType = getInstance().getTypeFactory().constructParametricType(Map.class,String.class, valueType);
     			return getInstance().readValue(json, javaType);

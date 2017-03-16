@@ -1,5 +1,6 @@
 package com.meiduimall.mzfrouter;
 public class Constants {
+	
 	/**秘钥配置**/
 	public static final String APP_SECRET_JSON="appSecretJson";
 	/**黑名单**/
