@@ -81,7 +81,7 @@ public class SmsServiceImpl implements SmsService{
 			int count = StringUtil.findSubstringCount(content, "{");
 			if(replaces.length < count) {
 				Logger.info("替换短信模板内容异常：%s", "替换内容与替换参数不匹配，replaces="+replaces+",count="+count);
-				result = new ResBodyData(BaseApiCode.SMSTEMPLATE_PRASE_FAIL, "替换内容与替换参数不匹配！");
+				result = new ResBodyData(BaseApiCode.FAIL_SMSTEMPLATE_PRASE, BaseApiCode.getZhMsg(BaseApiCode.FAIL_SMSTEMPLATE_PRASE));
 				return result;
 			}
 			for(int index=0; index < replaces.length; index++) {
@@ -130,20 +130,20 @@ public class SmsServiceImpl implements SmsService{
 		ResBodyData result = new ResBodyData(BaseApiCode.SUCCESS,BaseApiCode.getZhMsg(BaseApiCode.SUCCESS));
 		String tempMsg =JedisUtil.getJedisInstance().execGetFromCache(request.getPhones() + request.getTemplateId() + request.getParams());
 		if(!StringUtil.isEmptyByString(tempMsg)){
-			result = new ResBodyData(BaseApiCode.REPEAT_FAIL,BaseApiCode.getZhMsg(BaseApiCode.REPEAT_FAIL));
+			result = new ResBodyData(BaseApiCode.FAIL_REPEAT,BaseApiCode.getZhMsg(BaseApiCode.FAIL_REPEAT));
 			return result;
 		}
 		
 		String templateListJsonStr = messageChannelService.getTemplateList(SysConstant.MESSAGE_TEMPLATE_KEY);
 		if(StringUtil.isEmptyByString(templateListJsonStr)){
-			result = new ResBodyData(BaseApiCode.TEMPLATE_FAIL,BaseApiCode.getZhMsg(BaseApiCode.TEMPLATE_FAIL));
+			result = new ResBodyData(BaseApiCode.FAIL_TEMPLATE,BaseApiCode.getZhMsg(BaseApiCode.FAIL_TEMPLATE));
 			return result;
 		}
 		
 		
 		TemplateInfo ti = getTemplateByKey(request.getTemplateId(),templateListJsonStr);
 		if(StringUtil.isEmptyByString(ti.getTemplateKey()) || StringUtil.isEmptyByString(ti.getTemplateContent())){
-			result = new ResBodyData(BaseApiCode.SMSTEMPLATE_NOT_EXISTS,BaseApiCode.getZhMsg(BaseApiCode.SMSTEMPLATE_NOT_EXISTS));
+			result = new ResBodyData(BaseApiCode.NOT_EXISTS_SMSTEMPLATE,BaseApiCode.getZhMsg(BaseApiCode.NOT_EXISTS_SMSTEMPLATE));
 			return result;
 		}
 		
@@ -174,7 +174,7 @@ public class SmsServiceImpl implements SmsService{
 					res = zucpService.Send(request.getPhones(), content);
 					Logger.info("漫道发送短信结果（res）：%s", String.valueOf(res));
 					if (Long.parseLong(res) < 0) {
-						result = new ResBodyData(BaseApiCode.SMS_SEND_FAIL, "发送短信失败！");
+						result = new ResBodyData(BaseApiCode.FAIL_SMS_SEND, "发送短信失败！");
 						return result;
 					}
 				}
@@ -194,18 +194,18 @@ public class SmsServiceImpl implements SmsService{
 					flag = aliyunService.Send(request.getPhones(), ti.getExternalTemplateNo(), params);
 					Logger.info("阿里大于发送短信结果（flag）：%s" ,String.valueOf(flag));
 					if (!flag) {
-						result = new ResBodyData(BaseApiCode.SMS_SEND_FAIL, BaseApiCode.getZhMsg(BaseApiCode.SMS_SEND_FAIL));
+						result = new ResBodyData(BaseApiCode.FAIL_SMS_SEND, BaseApiCode.getZhMsg(BaseApiCode.FAIL_SMS_SEND));
 						return result;
 					}
 				}else if(SysConstant.MESSAGE_TEMPLATE_MANDAO_KEY.equals(request.getSupplierId())){
 					res = zucpService.Send(request.getPhones(), content);
 					Logger.info("漫道发送短信结果（res）：%s", String.valueOf(res));
 					if (Long.parseLong(res) < 0) {
-						result = new ResBodyData(BaseApiCode.SMS_SEND_FAIL, BaseApiCode.getZhMsg(BaseApiCode.SMS_SEND_FAIL));
+						result = new ResBodyData(BaseApiCode.FAIL_SMS_SEND, BaseApiCode.getZhMsg(BaseApiCode.FAIL_SMS_SEND));
 						return result;
 					}
 				}else{
-					result = new ResBodyData(BaseApiCode.SMS_SEND_FAIL, BaseApiCode.getZhMsg(BaseApiCode.SMS_SEND_FAIL));
+					result = new ResBodyData(BaseApiCode.FAIL_SMS_SEND, BaseApiCode.getZhMsg(BaseApiCode.FAIL_SMS_SEND));
 					return result;
 				}
 				JedisUtil.getJedisInstance().execSetexToCache(request.getPhones() + request.getTemplateId() + request.getParams(),Integer.valueOf(ti.getEffectiveTime()) ,content);
@@ -237,7 +237,7 @@ public class SmsServiceImpl implements SmsService{
 		ResBodyData result = new ResBodyData(BaseApiCode.SUCCESS,BaseApiCode.getZhMsg(BaseApiCode.SUCCESS));
 		Object tempMsg = JedisUtil.getJedisInstance().execGetFromCache(request.getPhones() + SysConstant.MESSAGE_CODE_KEY + request.getTemplateId());
 		if(!StringUtil.isEmptyByString(String.valueOf(tempMsg))){
-			result = new ResBodyData(BaseApiCode.REPEAT_FAIL,BaseApiCode.getZhMsg(BaseApiCode.REPEAT_FAIL));
+			result = new ResBodyData(BaseApiCode.FAIL_REPEAT,BaseApiCode.getZhMsg(BaseApiCode.FAIL_REPEAT));
 			return result;
 		}
 		//生成6位随机数
@@ -246,14 +246,14 @@ public class SmsServiceImpl implements SmsService{
 		
 		String templateListJsonStr = messageChannelService.getTemplateList(SysConstant.MESSAGE_TEMPLATE_KEY);
 		if(StringUtil.isEmptyByString(templateListJsonStr)){
-			result = new ResBodyData(BaseApiCode.TEMPLATE_FAIL,BaseApiCode.getZhMsg(BaseApiCode.TEMPLATE_FAIL));
+			result = new ResBodyData(BaseApiCode.FAIL_TEMPLATE,BaseApiCode.getZhMsg(BaseApiCode.FAIL_TEMPLATE));
 			return result;
 		}
 		//确定发送内容
 		TemplateInfo ti = getTemplateByKey(request.getTemplateId(),templateListJsonStr);
 		
 		if(StringUtil.isEmptyByString(ti.getTemplateKey()) || StringUtil.isEmptyByString(ti.getTemplateContent())){
-			result = new ResBodyData(BaseApiCode.SMSTEMPLATE_NOT_EXISTS,BaseApiCode.getZhMsg(BaseApiCode.SMSTEMPLATE_NOT_EXISTS));
+			result = new ResBodyData(BaseApiCode.NOT_EXISTS_SMSTEMPLATE,BaseApiCode.getZhMsg(BaseApiCode.NOT_EXISTS_SMSTEMPLATE));
 			return result;
 		}
 		//设置发送历史记录值
@@ -291,7 +291,7 @@ public class SmsServiceImpl implements SmsService{
 					res = zucpService.Send(request.getPhones(), content);
 					Logger.info("漫道发送短信结果（res）：%s", String.valueOf(res));
 					if (Long.parseLong(res) < 0) {
-						result = new ResBodyData(BaseApiCode.SMS_SEND_FAIL, "发送短信失败！");
+						result = new ResBodyData(BaseApiCode.FAIL_SMS_SEND, BaseApiCode.getZhMsg(BaseApiCode.FAIL_SMS_SEND));
 						return result;
 					}
 				}
@@ -309,18 +309,18 @@ public class SmsServiceImpl implements SmsService{
 					flag = aliyunService.Send(request.getPhones(), ti.getExternalTemplateNo(), params);
 					Logger.info("阿里大于发送短信结果（flag）：%s", String.valueOf(flag));
 					if (!flag) {
-						result = new ResBodyData(BaseApiCode.SMS_SEND_FAIL, BaseApiCode.getZhMsg(BaseApiCode.SMS_SEND_FAIL));
+						result = new ResBodyData(BaseApiCode.FAIL_SMS_SEND, BaseApiCode.getZhMsg(BaseApiCode.FAIL_SMS_SEND));
 						return result;
 					}
 				}else if(SysConstant.MESSAGE_TEMPLATE_MANDAO_KEY.equals(request.getSupplierId())){
 					res = zucpService.Send(request.getPhones(), content);
 					Logger.info("漫道发送短信结果（res）：%s", String.valueOf(res));
 					if (Long.parseLong(res) < 0) {
-						result = new ResBodyData(BaseApiCode.SMS_SEND_FAIL, BaseApiCode.getZhMsg(BaseApiCode.SMS_SEND_FAIL));
+						result = new ResBodyData(BaseApiCode.FAIL_SMS_SEND, BaseApiCode.getZhMsg(BaseApiCode.FAIL_SMS_SEND));
 						return result;
 					}
 				}else{
-					result = new ResBodyData(BaseApiCode.SMS_CHANNEL_FAIL, BaseApiCode.getZhMsg(BaseApiCode.SMS_CHANNEL_FAIL));
+					result = new ResBodyData(BaseApiCode.FAIL_SMS_CHANNEL, BaseApiCode.getZhMsg(BaseApiCode.FAIL_SMS_CHANNEL));
 					return result;
 				}
 				

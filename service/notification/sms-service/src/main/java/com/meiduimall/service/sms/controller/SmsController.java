@@ -39,7 +39,7 @@ public class SmsController {
 		try {
 			result = smsService.sendSmsMessage(request);
 		} catch (Exception e) {
-			result = new ResBodyData(BaseApiCode.SMS_SEND_EXCEPTION, BaseApiCode.getZhMsg(BaseApiCode.SMS_SEND_EXCEPTION));
+			result = new ResBodyData(BaseApiCode.EXCEPTION_SMS_SEND, BaseApiCode.getZhMsg(BaseApiCode.EXCEPTION_SMS_SEND));
 		}
 		return result;
 	}
@@ -58,7 +58,7 @@ public class SmsController {
 		try {
 			result = smsService.sendSmsVerificationCode(request);
 		} catch (Exception e) {
-			result = new ResBodyData(BaseApiCode.SMS_SEND_EXCEPTION, BaseApiCode.getZhMsg(BaseApiCode.SMS_SEND_EXCEPTION));
+			result = new ResBodyData(BaseApiCode.EXCEPTION_SMS_SEND, BaseApiCode.getZhMsg(BaseApiCode.EXCEPTION_SMS_SEND));
 		}
 		return result;
 	}
