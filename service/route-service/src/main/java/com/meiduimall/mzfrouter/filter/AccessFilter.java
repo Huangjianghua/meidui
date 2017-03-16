@@ -1,16 +1,17 @@
 package com.meiduimall.mzfrouter.filter;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import com.google.common.base.Splitter;
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.util.ExceptionUtils;
 import com.meiduimall.mzfrouter.Constants;
 import com.meiduimall.mzfrouter.ResponsePackUtil;
 import com.meiduimall.mzfrouter.hanler.Impl.BlackListValidateHandler;
+import com.meiduimall.mzfrouter.hanler.Impl.FormPraseHandler;
 import com.meiduimall.mzfrouter.hanler.Impl.HandlerChain;
 import com.meiduimall.mzfrouter.hanler.Impl.ParamPraseHandler;
 import com.meiduimall.mzfrouter.hanler.Impl.PraseJsonHandler;
@@ -43,6 +44,9 @@ public class AccessFilter extends ZuulFilter  {
     @Autowired
     private SignValidateHandler signValidateHandler;
     
+    @Autowired
+    private FormPraseHandler formPraseHandler;
+    
   
     @Override
     public String filterType() {
@@ -61,19 +65,25 @@ public class AccessFilter extends ZuulFilter  {
     
     @Override
     public Object run() {
+    	long startTime = System.currentTimeMillis();
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest request = ctx.getRequest();
         HttpServletResponse response=ctx.getResponse();
         response.setCharacterEncoding("utf-8");
         response.setContentType("text/html;charset=utf-8");
         try {
-     		log.info("网关层过滤器,url:{},Content-Type:{}", request.getRequestURL().toString(),request.getHeader("Content-Type"));
             HandlerChain chain=AppContextLauncher.getBean("chain",HandlerChain.class);
-        	request.setCharacterEncoding("utf-8");
     		String contentType = ctx.getRequest().getContentType();
+    		List<String> header=null;
+    		if(contentType!=null){
+    			header = Splitter.on(";").trimResults().splitToList(contentType);  
+    		}
     		chain.addProcesser(blackListValidateHandler);
-			if(Constants.CONTENTTYPE_JSON.equalsIgnoreCase(contentType)){
+			if(header!=null&&Constants.CONTENTTYPE_JSON.equalsIgnoreCase(header.get(0))){
 				chain.addProcesser(praseJsonHandler);
+			}else if(header!=null&&(Constants.CONTENTTYPE_FORM.equalsIgnoreCase(header.get(0))
+					||Constants.CONTENTTYPE_MULTIPART.equalsIgnoreCase(header.get(0)))){
+				chain.addProcesser(formPraseHandler);
 			}else{
 				chain.addProcesser(paramPraseHandler);
 			}
@@ -85,7 +95,10 @@ public class AccessFilter extends ZuulFilter  {
 			log.error("网关层过滤器异常,url:{},异常信息:{}", request.getRequestURL().toString(),ExceptionUtils.getFullStackTrace(e));
 		 	ResponsePackUtil.responseWrapper(ctx,BaseApiCode.EXCEPTION_GATEWAY);
 		}
+    	long runTime = System.currentTimeMillis() - startTime;
+    	log.info("网关层过滤器,url:{},Content-Type:{},耗时:{}ms", request.getRequestURL().toString(),request.getHeader("Content-Type"),runTime);
         return null;
     }
+
 
 }

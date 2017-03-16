@@ -63,7 +63,8 @@ public class BaseApiCode {
 	public static final Integer EXCEPTION_PRASE_JSON = 3006;
 	/** get请求参数解析报错 **/
 	public static final Integer EXCEPTION_PRASE_GET = 3007;
-
+	/** form解析异常 **/
+	public static final Integer EXCEPTION_PRASE_FORM = 3008;
 
 	
 	
@@ -95,6 +96,7 @@ public class BaseApiCode {
 		zhMsgMap.put(FAIL_SMS_SEND, "短信发送失败");
 		zhMsgMap.put(FAIL_SMS_CHANNEL, "短信渠道失败");
 		zhMsgMap.put(EXCEPTION_SMS_SEND, "发送短信异常");
+		zhMsgMap.put(EXCEPTION_PRASE_FORM, "form解析异常");
 	}
 
 }

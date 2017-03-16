@@ -5,8 +5,11 @@ public class Constants {
 	/**黑名单**/
 	public static final String BLACK_LIST_JSON="blackListJson";
 	/**http contentType**/
-	public final static String CONTENTTYPE_JSON = "application/json; charset=utf-8";
-	
+	public final static String CONTENTTYPE_JSON = "application/json";
+	/**http contentType**/
+	public final static String CONTENTTYPE_MULTIPART = "multipart/form-data";
+	/**http contentType**/
+	public final static String CONTENTTYPE_FORM = "application/x-www-form-urlencoded";
 	/**zuul过滤器顺序**/
 	public final static Integer FILTER_ORDER_ZERO = 0;
 
