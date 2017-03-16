@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.google.common.io.CharStreams;
+import com.google.common.io.Closeables;
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.util.ExceptionUtils;
 import com.meiduimall.core.util.JacksonUtil;
@@ -40,7 +41,9 @@ public class PraseJsonHandler implements Handler {
 					json, ExceptionUtils.getFullStackTrace(e));
 			ResponsePackUtil.responseWrapper(ctx, BaseApiCode.EXCEPTION_PRASE_JSON);
 			return false;
-		} 
+		}finally{
+			Closeables.closeQuietly(in);
+		}
 		log.info("请求参数Json格式解析处理层,url:{},请求body:{}",request.getRequestURL().toString(),
 				json);
 		return true;
