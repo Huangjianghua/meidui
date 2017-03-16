@@ -1,10 +1,11 @@
 package com.meiduimall.mzfrouter.hanler.Impl;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.google.common.io.CharStreams;
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.util.ExceptionUtils;
 import com.meiduimall.core.util.JacksonUtil;
@@ -31,7 +32,7 @@ public class PraseJsonHandler implements Handler {
 		InputStream in=null;
 		try {
 			in=ctx.getRequest().getInputStream();
-			json = IOUtils.toString(in);
+			json = CharStreams.toString(new InputStreamReader(in));
 			Map param=JacksonUtil.jsontoMap(json, String.class);
 			ctx.set("param", param);
 		} catch (Exception e) {
@@ -39,9 +40,7 @@ public class PraseJsonHandler implements Handler {
 					json, ExceptionUtils.getFullStackTrace(e));
 			ResponsePackUtil.responseWrapper(ctx, BaseApiCode.EXCEPTION_PRASE_JSON);
 			return false;
-		} finally {
-			  IOUtils.closeQuietly(in);
-		}
+		} 
 		log.info("请求参数Json格式解析处理层,url:{},请求body:{}",request.getRequestURL().toString(),
 				json);
 		return true;
