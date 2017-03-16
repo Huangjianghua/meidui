@@ -41,7 +41,8 @@ public class Constants {
 	public final static int REDIS_HALFMINUTE = 30;
 	/**缓存过期时间90秒**/
 	public final static int REDIS_NINETY = 90;
-
+	/**无效的int**/
+	public static final int CONSTANT_INVALID_INT = -1;
 
 
 }
