@@ -33,12 +33,12 @@ public class BlackListValidateHandler implements Handler{
 			List<String> blackList=JacksonUtil.jsonToList(blackListJson, String.class);
 			if(CollectionUtils.isNotEmpty(blackList)&&isBlackList(request.getRequestURL().toString(),blackList)){
 				log.info("黑名单验证处理层,url:{},黑名单:{}",request.getRequestURL().toString(), blackListJson);
-				ResponsePackUtil.responseWrapper(ctx, BaseApiCode.BLACKLIST_VALIDATE);
+				ResponsePackUtil.responseWrapper(ctx, BaseApiCode.FAIL_BLACKLIST_VALIDATE);
 				return false;
 			}
 		} catch (Throwable e) {
 			log.error("黑名单验证处理层异常,url:{},异常:{}",request.getRequestURL().toString(),ExceptionUtils.getFullStackTrace(e));
-			ResponsePackUtil.responseWrapper(ctx, BaseApiCode.BLACKLIST_VALIDATE_EXCEPTION);
+			ResponsePackUtil.responseWrapper(ctx, BaseApiCode.EXCEPTION_BLACKLIST);
 			return false;
 		}
 		return true;

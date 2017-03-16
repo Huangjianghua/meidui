@@ -37,13 +37,13 @@ public class TimeValidateHandler implements Handler {
 			if ((curTime - requestTime) > Constants.CONSTANT_FIVEMINUTE) {
 				log.info("时间戳是否超时验证处理层,url:{},请求参数:{}",request.getRequestURL().toString(),
 						JacksonUtil.beanToJson(param));
-				ResponsePackUtil.responseWrapper(ctx, BaseApiCode.ILLEGAL_CALL);
+				ResponsePackUtil.responseWrapper(ctx, BaseApiCode.FAIL_TIMESTAMP);
 				return false;
 			}
 		} catch (Exception e) {
 			log.error("时间戳是否超时验证处理层,url:{},请求参数:{},异常:{}",
 					request.getRequestURL().toString(), JacksonUtil.beanToJson(param),ExceptionUtils.getFullStackTrace(e));
-			ResponsePackUtil.responseWrapper(ctx, BaseApiCode.TIMESTAMP_VALIDATE_EXCEPTION);
+			ResponsePackUtil.responseWrapper(ctx, BaseApiCode.EXCEPTION_TIMESTAMP);
 			return false;
 		}
 		return true;

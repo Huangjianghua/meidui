@@ -31,21 +31,21 @@ public class RequiredValidateHandler implements Handler{
 		if (StringUtils.isEmpty(clientID)) {
 			log.info("clientId必填验证处理层,url:{},请求参数:{}", request.getRequestURL().toString(),
 					JacksonUtil.beanToJson(param));
-			ResponsePackUtil.responseWrapper(ctx, BaseApiCode.CLIENTID_PARAM_INVALID);
+			ResponsePackUtil.responseWrapper(ctx, BaseApiCode.NOT_EXISTS_CLIENTID);
 			return false;
 		}
 		String timestamp = param.get("timestamp");
 		if (StringUtils.isEmpty(timestamp) || (!NumberUtils.isNumber(timestamp))) {
 			log.info("timestamp必填验证处理层,url:{},请求参数:{}", request.getRequestURL().toString(),
 					JacksonUtil.beanToJson(param));
-			ResponsePackUtil.responseWrapper(ctx, BaseApiCode.TIMESTAMP_PARAM_INVALID);
+			ResponsePackUtil.responseWrapper(ctx, BaseApiCode.NOT_EXISTS_CLIENTID);
 			return false;
 		}
 		String sign = param.get("sign");
 		if (StringUtils.isEmpty(sign)) {
 			log.info("sign必填验证处理层,url:{},请求参数:{}", request.getRequestURL().toString(),
 					JacksonUtil.beanToJson(param));
-			ResponsePackUtil.responseWrapper(ctx, BaseApiCode.SIGN_PARAM_INVALID);
+			ResponsePackUtil.responseWrapper(ctx, BaseApiCode.NOT_EXISTS_SIGN);
 			return false;
 		}
 		return true;

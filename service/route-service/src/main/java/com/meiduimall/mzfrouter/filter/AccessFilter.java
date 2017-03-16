@@ -83,7 +83,7 @@ public class AccessFilter extends ZuulFilter  {
 		    chain.process(ctx);
 		} catch (Exception e) {
 			log.error("网关层过滤器异常,url:{},异常信息:{}", request.getRequestURL().toString(),ExceptionUtils.getFullStackTrace(e));
-		 	ResponsePackUtil.responseWrapper(ctx,BaseApiCode.GATEWAY_EXCEPTION);
+		 	ResponsePackUtil.responseWrapper(ctx,BaseApiCode.EXCEPTION_GATEWAY);
 		}
         return null;
     }

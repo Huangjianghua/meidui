@@ -46,20 +46,20 @@ public class SignValidateHandler implements Handler {
 			Map<String,String> map=JacksonUtil.jsontoMap(appSecretJson, String.class); 
 			String appSecret = map.get(clientID);;
 			if (StringUtils.isEmpty(appSecret)) {
-				ResponsePackUtil.responseWrapper(ctx, BaseApiCode.NOT_FOUND_SECRET);
+				ResponsePackUtil.responseWrapper(ctx, BaseApiCode.NOT_EXISTS_SECRET);
 				return false;
 			}
 			String encodeSign = GatewaySignUtil.sign(appSecret, param);
 			if (!sign.equals(encodeSign)) {
 				log.info("签名验证处理层,收到请求方式:{},url:{},请求参数:{},服务端签名:{}", request.getMethod(),
 						request.getRequestURL().toString(),JacksonUtil.beanToJson(param), encodeSign);
-				ResponsePackUtil.responseWrapper(ctx, BaseApiCode.SIGN_INVALID);
+				ResponsePackUtil.responseWrapper(ctx, BaseApiCode.FAIL_SIGN);
 				return false;
 			}
 		} catch (Exception e) {
 			log.error("签名验证处理层异常,收到请求方式:{},url:{},请求参数:{},异常:{}", request.getMethod(),
 					request.getRequestURL().toString(), JacksonUtil.beanToJson(param),ExceptionUtils.getFullStackTrace(e));
-			ResponsePackUtil.responseWrapper(ctx, BaseApiCode.SIGN_VALIDATE_EXCEPTION);
+			ResponsePackUtil.responseWrapper(ctx, BaseApiCode.EXCEPTION_SIGN);
 			return false;
 		}
 		return true;

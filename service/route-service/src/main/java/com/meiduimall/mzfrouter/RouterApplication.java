@@ -9,7 +9,6 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 public class RouterApplication {
 
 	public static void main(String[] args) {
-		//System.setProperty("spring.config.name", "ms-route");
 		SpringApplication.run(RouterApplication.class, args);
 	}
 }

@@ -37,7 +37,7 @@ public class PraseJsonHandler implements Handler {
 		} catch (Exception e) {
 			log.error("请求参数Json格式解析处理层,url:{},请求body:{},异常信息:{}",request.getRequestURL().toString(),
 					json, ExceptionUtils.getFullStackTrace(e));
-			ResponsePackUtil.responseWrapper(ctx, BaseApiCode.JSON_INVALID);
+			ResponsePackUtil.responseWrapper(ctx, BaseApiCode.EXCEPTION_PRASE_JSON);
 			return false;
 		} finally {
 			  IOUtils.closeQuietly(in);

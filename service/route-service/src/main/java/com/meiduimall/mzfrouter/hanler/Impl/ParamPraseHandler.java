@@ -44,7 +44,7 @@ public class ParamPraseHandler implements Handler{
 		} catch (Exception e) {
 			log.error("kv方式请求参数解析处理层,url:{},请求参数:{},异常信息:{}",request.getRequestURL().toString(),
 					request.getQueryString(),ExceptionUtils.getFullStackTrace(e));
-			ResponsePackUtil.responseWrapper(ctx, BaseApiCode.GATEWAY_EXCEPTION);
+			ResponsePackUtil.responseWrapper(ctx, BaseApiCode.EXCEPTION_GATEWAY);
 			return false;
 		}
 		return true;

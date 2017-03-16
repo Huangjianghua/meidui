@@ -1,6 +1,9 @@
 package com.meiduimall.mzfrouter;
+
+
+import org.apache.http.HttpStatus;
+
 import com.meiduimall.core.BaseApiCode;
-import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JacksonUtil;
 import com.netflix.zuul.context.RequestContext;
@@ -20,7 +23,7 @@ public class ResponsePackUtil {
 	 */
 	public static void responseWrapper(RequestContext ctx,Integer responseCode){
 		ctx.setSendZuulResponse(false);
-        ctx.setResponseStatusCode(Constants.UNAUTHORIZED);
+        ctx.setResponseStatusCode(HttpStatus.SC_UNAUTHORIZED);
         ResBodyData res=new ResBodyData(responseCode,BaseApiCode.getZhMsg(responseCode));
         ctx.setResponseBody(JacksonUtil.beanToJson(res));
 	}
