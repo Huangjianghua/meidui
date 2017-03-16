@@ -41,6 +41,7 @@ public class FormPraseHandler implements Handler{
 				for(Entry<String, String[]> entry:set){
 					String key=entry.getKey();
 					String[] value=entry.getValue();
+					param.put(key, value[0]);
 				}
 			}
 			ctx.set("param", param);
