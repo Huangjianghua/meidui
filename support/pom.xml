@@ -26,6 +26,7 @@
  	    <common.version>0.0.1-SNAPSHOT</common.version>
  	    <guava.version>21.0</guava.version>
  	    <core.version>0.0.1-SNAPSHOT</core.version>
+ 	    <jackson.version>1.9.13</jackson.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -38,6 +39,12 @@
 		  <artifactId>fastjson</artifactId>
 		  <version>${fastjson.version}</version>
 		</dependency>
+		<dependency>
+		    <groupId>org.codehaus.jackson</groupId>
+		    <artifactId>jackson-mapper-asl</artifactId>
+		    <version>${jackson.version}</version>
+		</dependency>
+		
 	</dependencies>
     	
     <distributionManagement>
