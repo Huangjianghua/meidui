@@ -31,21 +31,21 @@ public class BaseApiCode {
 	
 	
 	/** 签名验证失败 **/
-	public static final Integer FAIL_SIGN = 2001;
+	public static final Integer FAIL_SIGN = 2000;
 	/** 调用超出五分钟时间范围 **/
-	public static final Integer FAIL_TIMESTAMP = 2002;
+	public static final Integer FAIL_TIMESTAMP = 2001;
 	/** 短信服务请勿频繁重复发送短信**/
-	public static final Integer FAIL_REPEAT = 2003;
+	public static final Integer FAIL_REPEAT = 2002;
 	/** 短信服务获取短信模板列表失败**/
-	public static final Integer FAIL_TEMPLATE = 2004;
+	public static final Integer FAIL_TEMPLATE = 2003;
 	/** 替换内容与替换参数不匹配**/
-	public static final Integer FAIL_SMSTEMPLATE_PRASE = 2005;
+	public static final Integer FAIL_SMSTEMPLATE_PRASE = 2004;
 	/** 短信发送失败**/
-	public static final Integer FAIL_SMS_SEND = 2006;
+	public static final Integer FAIL_SMS_SEND = 2005;
 	/** 短信渠道错误**/
-	public static final Integer FAIL_SMS_CHANNEL = 2007;
+	public static final Integer FAIL_SMS_CHANNEL = 2006;
 	/** 黑名单验证不通过 **/
-	public static final Integer FAIL_BLACKLIST_VALIDATE = 2008;
+	public static final Integer FAIL_BLACKLIST_VALIDATE = 2007;
 	
 	/** 时间戳超时验证异常 **/
 	public static final Integer EXCEPTION_TIMESTAMP = 3000;
