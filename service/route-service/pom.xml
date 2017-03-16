@@ -13,8 +13,7 @@
     <artifactId>route-service</artifactId>
 	<version>v1.0.0</version>
 	<packaging>jar</packaging>
-	<name>service-router</name>
-	<description>service router</description>
+
 	
 	 <dependencies>
 	<dependency>
