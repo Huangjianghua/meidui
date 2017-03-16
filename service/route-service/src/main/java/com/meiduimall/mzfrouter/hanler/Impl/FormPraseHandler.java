@@ -1,5 +1,6 @@
 package com.meiduimall.mzfrouter.hanler.Impl;
 import java.util.HashMap;
+
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -38,11 +39,11 @@ public class FormPraseHandler implements Handler{
 			Set<Map.Entry<String, String[]>> set=map.entrySet();
 			if(!CollectionUtils.isEmpty(set)){
 				log.info("form方式请求参数解析处理层,url:{},请求参数:{}",request.getRequestURL().toString(),JacksonUtil.mapToJson(map));
-				for(Entry<String, String[]> entry:set){
+				set.forEach((entry)->{
 					String key=entry.getKey();
 					String[] value=entry.getValue();
 					param.put(key, value[0]);
-				}
+				});
 			}
 			ctx.set("param", param);
 		} catch (Exception e) {
