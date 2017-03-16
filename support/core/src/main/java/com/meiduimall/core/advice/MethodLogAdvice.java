@@ -1,12 +1,10 @@
 package com.meiduimall.core.advice;
-
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.meiduimall.core.util.FastJsonUtil;
+import com.meiduimall.core.util.JacksonUtil;
 
 
 @Aspect
@@ -27,7 +25,7 @@ public class MethodLogAdvice {
 		String methodName = point.getSignature().getName();
 		//拦截方法参数值
 		Object[] args=point.getArgs();
-		String reqStr=FastJsonUtil.serialize(args);
+		String reqStr=JacksonUtil.beanToJson(args);
 		logger.info(">>>>>>>>>>>>>>>>>>方法名：{}>>start,参数:{}",methodName,reqStr);
 		//执行方法逻辑
 		Object obj = point.proceed();

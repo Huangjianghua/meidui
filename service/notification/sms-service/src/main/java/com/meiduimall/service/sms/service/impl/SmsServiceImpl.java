@@ -1,5 +1,6 @@
 package com.meiduimall.service.sms.service.impl;
 import java.lang.reflect.InvocationTargetException;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Service;
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.ExceptionUtils;
-import com.meiduimall.core.util.FastJsonUtil;
+import com.meiduimall.core.util.JacksonUtil;
 import com.meiduimall.core.util.StringUtil;
 import com.meiduimall.redis.util.JedisUtil;
 import com.meiduimall.service.sms.SysConstant;
@@ -51,7 +52,7 @@ public class SmsServiceImpl implements SmsService{
 	
 	private TemplateInfo getTemplateByKey(String templateId,String templateListJsonStr){
 		TemplateInfo ti = new TemplateInfo();
-		List<TemplateInfo> templateInfoList = (List<TemplateInfo>)FastJsonUtil.deserialize(templateListJsonStr, TemplateInfo.class);
+		List<TemplateInfo> templateInfoList =JacksonUtil.jsonToList(templateListJsonStr, TemplateInfo.class);
 		for(TemplateInfo info : templateInfoList){
 			if(info.getTemplateKey().equals(templateId)){
 				try {
@@ -112,7 +113,7 @@ public class SmsServiceImpl implements SmsService{
 				}
 			}
 		}
-		params =FastJsonUtil.serialize(map);
+		params =JacksonUtil.mapToJson(map);
 		return params;
 	}
 	

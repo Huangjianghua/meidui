@@ -1,13 +1,14 @@
 package com.meiduimall.service.sms.service.impl;
 import java.util.List;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.meiduimall.core.Constants;
-import com.meiduimall.core.util.FastJsonUtil;
+import com.meiduimall.core.util.JacksonUtil;
 import com.meiduimall.core.util.StringUtil;
 import com.meiduimall.redis.util.JedisUtil;
 import com.meiduimall.service.sms.entity.MessageChannel;
@@ -39,7 +40,7 @@ public class MessageChannelServiceImpl implements MessageChannelService{
 			try{
 				List<MessageChannel> channelList = messageChannelMapper.getChannelList();
 				if(null != channelList && channelList.size() > 0){
-					channelListJsonStr =FastJsonUtil.serialize(channelList);
+					channelListJsonStr =JacksonUtil.listToJson(channelList);
 					JedisUtil.getJedisInstance().execSetexToCache(key, Constants.REDIS_NINETY, channelListJsonStr);
 				}
 				
@@ -60,7 +61,7 @@ public class MessageChannelServiceImpl implements MessageChannelService{
 			try {
 				List<TemplateInfo> templateInfo = templateInfoMapper.getTemplateInfoList();
 				if(null != templateInfo && templateInfo.size() > 0){
-					templateListJsonStr =FastJsonUtil.serialize(templateInfo);
+					templateListJsonStr =JacksonUtil.listToJson(templateInfo);
 					JedisUtil.getJedisInstance().execSetexToCache(key, Constants.REDIS_TENMINUTE, templateListJsonStr);
 				}
 				

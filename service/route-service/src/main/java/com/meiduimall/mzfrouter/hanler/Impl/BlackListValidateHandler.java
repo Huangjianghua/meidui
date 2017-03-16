@@ -1,18 +1,15 @@
 package com.meiduimall.mzfrouter.hanler.Impl;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
-
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.util.ExceptionUtils;
-import com.meiduimall.core.util.FastJsonUtil;
+import com.meiduimall.core.util.JacksonUtil;
 import com.meiduimall.mzfrouter.ResponsePackUtil;
 import com.meiduimall.mzfrouter.hanler.Handler;
 import com.meiduimall.redis.util.JedisUtil;
@@ -33,7 +30,7 @@ public class BlackListValidateHandler implements Handler{
 		HttpServletRequest request = ctx.getRequest();
 		try {
 			String blackListJson = JedisUtil.getJedisInstance().execGetFromCache(Constants.BLACK_LIST_JSON);
-			List<String> blackList=FastJsonUtil.deserializeList(blackListJson, String.class);
+			List<String> blackList=JacksonUtil.jsonToList(blackListJson, String.class);
 			if(CollectionUtils.isNotEmpty(blackList)&&isBlackList(request.getRequestURL().toString(),blackList)){
 				log.info("黑名单验证处理层,url:{},黑名单:{}",request.getRequestURL().toString(), blackListJson);
 				ResponsePackUtil.responseWrapper(ctx, BaseApiCode.BLACKLIST_VALIDATE);

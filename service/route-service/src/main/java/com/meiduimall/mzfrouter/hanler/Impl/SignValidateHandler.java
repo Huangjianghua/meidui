@@ -1,6 +1,7 @@
 package com.meiduimall.mzfrouter.hanler.Impl;
 import java.util.Map;
 
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
@@ -12,7 +13,7 @@ import com.alibaba.fastjson.JSON;
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.util.ExceptionUtils;
-import com.meiduimall.core.util.FastJsonUtil;
+import com.meiduimall.core.util.JacksonUtil;
 import com.meiduimall.mzfrouter.ResponsePackUtil;
 import com.meiduimall.mzfrouter.hanler.Handler;
 import com.meiduimall.password.GatewaySignUtil;
@@ -42,7 +43,8 @@ public class SignValidateHandler implements Handler {
 		String clientID = param.get("clientID");
 		try {
 			String appSecretJson=JedisUtil.getJedisInstance().execGetFromCache(Constants.APP_SECRET_JSON);
-			String appSecret = FastJsonUtil.getJsonValue(appSecretJson, clientID);
+			Map<String,String> map=JacksonUtil.jsontoMap(appSecretJson, String.class); 
+			String appSecret = map.get(clientID);;
 			if (StringUtils.isEmpty(appSecret)) {
 				ResponsePackUtil.responseWrapper(ctx, BaseApiCode.NOT_FOUND_SECRET);
 				return false;

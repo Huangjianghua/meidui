@@ -1,6 +1,7 @@
 package com.meiduimall.service.sms.service.impl;
 import java.util.List;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.meiduimall.core.exception.ApiException;
 import com.meiduimall.core.util.ExceptionUtils;
-import com.meiduimall.core.util.FastJsonUtil;
+import com.meiduimall.core.util.JacksonUtil;
 import com.meiduimall.core.util.StringUtil;
 import com.meiduimall.service.sms.SysConstant;
 import com.meiduimall.service.sms.entity.MessageChannel;
@@ -38,7 +39,7 @@ public class AliyunServiceImpl implements AliyunService{
 		}
 		String channelJsonStr = messageChannelService.getChannelList(SysConstant.MESSAGE_CHANNEL_KEY);
 		if(!StringUtil.isEmptyByString(channelJsonStr)){
-			List<MessageChannel> channelList = (List<MessageChannel>) FastJsonUtil.deserialize(channelJsonStr, MessageChannel.class);
+			List<MessageChannel> channelList = JacksonUtil.jsonToList(channelJsonStr, MessageChannel.class);
 			for(MessageChannel c : channelList){
 				if(SysConstant.MESSAGE_TEMPLATE_ALI_KEY.equals(c.getChannelKey())){
 					url = c.getRequstUrl();

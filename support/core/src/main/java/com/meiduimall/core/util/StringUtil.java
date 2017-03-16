@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.alibaba.fastjson.JSONObject;
+
 
 public class StringUtil {
 	interface StringValidate {
@@ -290,19 +290,7 @@ public class StringUtil {
 	}
 
 
-	/***
-	 * 基础json数据
-	 * 
-	 * @param dMap
-	 * @return
-	 */
-	@SuppressWarnings("rawtypes")
-	public static String getBasetJsonData(Map dMap) {
-		if (dMap != null) {
-			return JSONObject.toJSONString(dMap);
-		}
-		return null;
-	}
+
 
 	public static String formatDateTime(String dTime) {
 		String dateTime = "";

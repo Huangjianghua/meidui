@@ -1,6 +1,7 @@
 package com.meiduimall.core.util;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -71,16 +72,16 @@ public class JacksonUtil {
     * return  String
     */
     public static String beanToJson(Object bean){
-    	StringWriter sw = new StringWriter();  
-    	JsonGenerator gen = null;
 		try {
-			gen = new JsonFactory().createJsonGenerator(sw);
-	    	getInstance().writeValue(gen, bean);  
-	    	gen.close();
+			return getInstance().writeValueAsString(bean);
+		} catch (JsonGenerationException e) {
+			 logger.error(e.getMessage());
+		} catch (JsonMappingException e) {
+			 logger.error(e.getMessage());
 		} catch (IOException e) {
-			logger.error(e.getMessage(),e);
-		}  
-    	return sw.toString();
+			 logger.error(e.getMessage());
+		}
+    	return null;
     }
     
     
@@ -166,5 +167,6 @@ public class JacksonUtil {
     	}
         return null;
     }
+    
     
 }
