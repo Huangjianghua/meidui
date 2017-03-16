@@ -1,4 +1,4 @@
-package com.meiduimall.api;
+/*package com.meiduimall.api;
 
 
 import java.io.IOException;
@@ -28,11 +28,11 @@ import com.meiduimall.util.HttpClientUtil;
 import com.meiduimall.util.Logger;
 import com.meiduimall.util.SystemConfig;
 
-/**
+*//**
  * 获取用户基本信息
  * @author chencong
  *
- */
+ *//*
 @RestController
 @RequestMapping("/membersbasicinforop")
 public class MembersBasicInforOpController extends BaseController{
@@ -40,12 +40,12 @@ public class MembersBasicInforOpController extends BaseController{
 	@Autowired
 	private HttpServletResponse response;
 	
-	/**
+	*//**
 	 * 获取当前会员基本信息
 	 * @param request
 	 * @param response
 	 * @throws Exception
-	 */
+	 *//*
 	@SuppressWarnings("static-access")
 	@RequestMapping(value = "/getmemberbasicinfo",method=RequestMethod.GET)
 	void getmemberbasicinfo() throws Exception {	
@@ -53,11 +53,11 @@ public class MembersBasicInforOpController extends BaseController{
 		try {
 			pw=response.getWriter();
 			
-			/**从本地变量获取已解析过的json**/
+			*//**从本地变量获取已解析过的json**//*
 			JSONObject j=OauthValidate.postjson.get();
 			Logger.info("接收登录请求："+j.toString());
 			
-			/**转发请求到服务层**/
+			*//**转发请求到服务层**//*
 			String url=SystemConfig.getInstance().configMap.get("Login_Url_Dev");
 			//头部
 			Map<String,String> heads=new HashMap<>();
@@ -71,3 +71,4 @@ public class MembersBasicInforOpController extends BaseController{
 	    }
 
 }
+*/

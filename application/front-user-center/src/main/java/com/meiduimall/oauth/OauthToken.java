@@ -5,7 +5,7 @@ import org.springframework.web.method.HandlerMethod;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.annotation.HasToken;
-import com.meiduimall.constant.SysParaNameConst;
+import com.meiduimall.constant.ApiRespConst;
 import com.meiduimall.redis.util.JedisUtil;
 import com.meiduimall.util.Logger;
 import com.meiduimall.util.StringUtil;
@@ -38,18 +38,18 @@ public class OauthToken {
 			String memid = JedisUtil.getJedisInstance().execGetFromCache(token);
 			//取出memid
 			if (!StringUtil.isEmptyByString(memid)) {
-				json.put(SysParaNameConst.STATUS_CODE, "0");
-				json.put(SysParaNameConst.RESULT_MSG, "token验证通过!");
-				json.put(SysParaNameConst.RESULT,memid);
+				json.put(ApiRespConst.STATUS_CODE, "0");
+				json.put(ApiRespConst.RESULT_MSG, "token验证通过!");
+				json.put(ApiRespConst.RESULT,memid);
 				Logger.info("token验证通过!");
 			} else {
-				json.put(SysParaNameConst.STATUS_CODE, "1008");
-				json.put(SysParaNameConst.RESULT_MSG, "用户令牌错误!");
+				json.put(ApiRespConst.STATUS_CODE, "1008");
+				json.put(ApiRespConst.RESULT_MSG, "用户令牌错误!");
 				Logger.info("token验证失败!");
 			}
 		} catch (Exception e) {
-			json.put(SysParaNameConst.STATUS_CODE, "9999");
-			json.put(SysParaNameConst.RESULT_MSG, "服务器错误!");
+			json.put(ApiRespConst.STATUS_CODE, "9999");
+			json.put(ApiRespConst.RESULT_MSG, "服务器错误!");
 			Logger.error("验证token错误: %s", e.getMessage());
 		}
 		return json;
@@ -78,23 +78,23 @@ public class OauthToken {
 					}
 				}
 				Method method = Class.forName(className).getMethod(methodName, parametersTypes);
-				json.put(SysParaNameConst.STATUS_CODE, "0");
-				json.put(SysParaNameConst.RESULT_MSG, "token标识验证完毕!");
+				json.put(ApiRespConst.STATUS_CODE, "0");
+				json.put(ApiRespConst.RESULT_MSG, "token标识验证完毕!");
 				if (method.isAnnotationPresent(HasToken.class)) {
 					result.put("flag", "Y");
-					json.put(SysParaNameConst.RESULT, result);
+					json.put(ApiRespConst.RESULT, result);
 				} else {
 					result.put("flag", "N");
-					json.put(SysParaNameConst.RESULT, result);
+					json.put(ApiRespConst.RESULT, result);
 				}
 			} else {
-				json.put(SysParaNameConst.STATUS_CODE, "9999");
-				json.put(SysParaNameConst.RESULT_MSG, "服务器错误!");
+				json.put(ApiRespConst.STATUS_CODE, "9999");
+				json.put(ApiRespConst.RESULT_MSG, "服务器错误!");
 				Logger.error("验证token注解错误: 类名或方法名为空!");
 			}
 		} catch (Exception e) {
-			json.put(SysParaNameConst.STATUS_CODE, "9999");
-			json.put(SysParaNameConst.RESULT_MSG, "服务器错误!");
+			json.put(ApiRespConst.STATUS_CODE, "9999");
+			json.put(ApiRespConst.RESULT_MSG, "服务器错误!");
 			Logger.error("验证token注解错误: %s", e.getMessage());
 		}
 		return json;
@@ -113,18 +113,19 @@ public class OauthToken {
 		JSONObject result = new JSONObject();
 		try {
 			Method method = handler.getMethod();
-			json.put(SysParaNameConst.STATUS_CODE, "0");
-			json.put(SysParaNameConst.RESULT_MSG, "token标识验证完毕!");
-			if (method.isAnnotationPresent(HasToken.class)) {
+			method.getName();
+			json.put(ApiRespConst.STATUS_CODE, "0");
+			json.put(ApiRespConst.RESULT_MSG, "token标识验证完毕!");
+			if (method.getAnnotation(HasToken.class)!=null) {
 				result.put("flag", "Y");
-				json.put(SysParaNameConst.RESULT, result);
+				json.put(ApiRespConst.RESULT, result);
 			} else {
 				result.put("flag", "N");
-				json.put(SysParaNameConst.RESULT, result);
+				json.put(ApiRespConst.RESULT, result);
 			}
 		} catch (Exception e) {
-			json.put(SysParaNameConst.STATUS_CODE, "9999");
-			json.put(SysParaNameConst.RESULT_MSG, "服务器错误!");
+			json.put(ApiRespConst.STATUS_CODE, "9999");
+			json.put(ApiRespConst.RESULT_MSG, "服务器错误!");
 			Logger.error("验证token注解错误: %s", e.getMessage());
 		}
 		return json;

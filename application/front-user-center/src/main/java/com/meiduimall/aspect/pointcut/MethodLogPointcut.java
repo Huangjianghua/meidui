@@ -4,7 +4,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 
 /**
- * AOP配置
+ * AOP配置，公共配置meiduimall-common工程中
+ * 方法限定名：com.meiduimall.aspect.pointcut.MethodLogPointcut.pointcutLog()
  * @author chencong
  *
  */

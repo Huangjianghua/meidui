@@ -8,7 +8,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONObject;
-import com.meiduimall.constant.SysParaNameConst;
+import com.meiduimall.constant.ApiRespConst;
 import com.meiduimall.oauth.OauthToken;
 import com.meiduimall.oauth.OauthValidate;
 import com.meiduimall.util.Logger;
@@ -47,12 +47,12 @@ public class ValInterceptor implements HandlerInterceptor {
 
 		/**判断接口是否需要token验证**/
 		JSONObject valTokenFlag = OauthToken.validateTokenFlag((HandlerMethod)object);
-        if ("0".equals(valTokenFlag.get(SysParaNameConst.STATUS_CODE))) {
-        	JSONObject result = valTokenFlag.getJSONObject(SysParaNameConst.RESULT);
+        if ("0".equals(valTokenFlag.get(ApiRespConst.STATUS_CODE))) {
+        	JSONObject result = valTokenFlag.getJSONObject(ApiRespConst.RESULT);
         	JSONObject valOauth = OauthValidate.validate(request,"Y".equals(result.get("flag"))?true:false);
         	//如果请求校验失败
-    		if (!"0".equals(valOauth.get(SysParaNameConst.STATUS_CODE))) {
-    			Logger.info("请求校验失败! 错误信息: %s", valOauth.get(SysParaNameConst.RESULT_MSG));
+    		if (!"0".equals(valOauth.get(ApiRespConst.STATUS_CODE))) {
+    			Logger.info("请求校验失败! 错误信息: %s", valOauth.get(ApiRespConst.RESULT_MSG));
     		}
     		check_result.set(valOauth);
         } else {

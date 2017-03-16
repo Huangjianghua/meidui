@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.meiduimall.constant.HttpRequstConst;
+import com.meiduimall.constant.HttpReqConst;
 import com.meiduimall.constant.OauthConst;
-import com.meiduimall.constant.SysParaNameConst;
+import com.meiduimall.constant.ApiRespConst;
 import com.meiduimall.util.HttpClientUtil;
 import com.meiduimall.util.Logger;
 import com.meiduimall.util.MD5Util;
@@ -45,7 +45,7 @@ public class OauthValidate {
 			
 			/**组装请求参数**/
 			//如果请求方式是get，只认key value形式的请求
-			if(request.getMethod().equals(HttpRequstConst.GET))
+			if(request.getMethod().equals(HttpReqConst.GET))
 			{
 				requestj=HttpClientUtil.readGetStringToJsonObject(request);
 				for(String key:requestj.keySet())
@@ -61,11 +61,11 @@ public class OauthValidate {
 				}
 			}
 			//如果请求方式是post，只认json格式的数据请求
-			else if(request.getMethod().equals(HttpRequstConst.POST))
+			else if(request.getMethod().equals(HttpReqConst.POST))
 			{
 				if(!StringUtil.isEmptyByString(request.getContentType()))
 				{
-					if(request.getContentType().contains(HttpRequstConst.MEDIATYPE_JSON))
+					if(request.getContentType().contains(HttpReqConst.MEDIATYPE_JSON))
 					{
 						requestj=HttpClientUtil.readStreamToJsonObject(request);
 						for(String key:requestj.keySet())
@@ -103,22 +103,25 @@ public class OauthValidate {
 				if (null != token) 
 				{
 					JSONObject valToken = OauthToken.validateToken(token.getValue());
-					if (!"0".equals(valToken.get(SysParaNameConst.STATUS_CODE))) {
+					if (!"0".equals(valToken.get(ApiRespConst.STATUS_CODE))) {
 						return valToken;
 					}
 					else
 					{
-						requestj.put("memId",valToken.getString("memId"));
-						parameters.add(new Parameter("memId",valToken.getString("memId")));//memId也要用于生成签名
+						requestj.put("memId",valToken.getString(ApiRespConst.RESULT));
+						parameters.add(new Parameter("memId",valToken.getString(ApiRespConst.RESULT)));//memId也要用于生成签名
 						//移除token
-						parameters.remove(OauthConst.TOKEN);
+						for (Parameter parameter : parameters) {
+							if(parameter.getKey().equals(OauthConst.TOKEN))
+								parameters.remove(parameter);
+						}
 						requestj.remove(OauthConst.TOKEN);
 					}
 				}
 				else
 				{
-					json.put(SysParaNameConst.STATUS_CODE, "9998");
-					json.put(SysParaNameConst.RESULT_MSG, "缺少请求参数,token不能为空!");
+					json.put(ApiRespConst.STATUS_CODE, "9998");
+					json.put(ApiRespConst.RESULT_MSG, "缺少请求参数,token不能为空!");
 					Logger.info("缺少请求参数,token为空!");
 					tokenFlag = false;
 				}
@@ -158,8 +161,8 @@ public class OauthValidate {
 				}
 			}*/
 		} catch (Exception e) {
-			json.put(SysParaNameConst.STATUS_CODE, "9999");
-			json.put(SysParaNameConst.RESULT_MSG, "服务器错误!");
+			json.put(ApiRespConst.STATUS_CODE, "9999");
+			json.put(ApiRespConst.RESULT_MSG, "服务器错误!");
 			Logger.error("签名验证错误: %s", e.getMessage());
 		}
 		/**更换clientID,key,timestamp,重新生成签名,本地变量加入解析过的json**/
@@ -178,12 +181,12 @@ public class OauthValidate {
 			requestj.put("clientID", clienIDMiddle);
 			requestj.put("timestamp",timeStampMiddle);
 			requestj.put("sign",signMiddle);
-			json.put(SysParaNameConst.STATUS_CODE, "0");
-			json.put(SysParaNameConst.RESULT_MSG, "success");
+			json.put(ApiRespConst.STATUS_CODE, "0");
+			json.put(ApiRespConst.RESULT_MSG, "success");
 			postjson.set(requestj);
 		} catch (Exception e) {
-			json.put(SysParaNameConst.STATUS_CODE, "9999");
-			json.put(SysParaNameConst.RESULT_MSG, "服务器错误!");
+			json.put(ApiRespConst.STATUS_CODE, "9999");
+			json.put(ApiRespConst.RESULT_MSG, "服务器错误!");
 			Logger.error("转发请求生成签名错误: %s", e.getMessage());
 		}
 		return json;
@@ -209,19 +212,19 @@ public class OauthValidate {
 					if (OauthConst.SIGN.equals(p.getKey()))
 						result.put(p.getKey(), p.getValue());
 				} else {
-					json.put(SysParaNameConst.STATUS_CODE, "9998");
-					json.put(SysParaNameConst.RESULT_MSG, "缺少认证参数!");
+					json.put(ApiRespConst.STATUS_CODE, "9998");
+					json.put(ApiRespConst.RESULT_MSG, "缺少认证参数!");
 					Logger.info("参数名或值为空!");
 					return json;
 				}
 			}
-			json.put(SysParaNameConst.STATUS_CODE, "0");
-			json.put(SysParaNameConst.RESULT_MSG, "参数验证通过");
-			json.put(SysParaNameConst.RESULT, result);
+			json.put(ApiRespConst.STATUS_CODE, "0");
+			json.put(ApiRespConst.RESULT_MSG, "参数验证通过");
+			json.put(ApiRespConst.RESULT, result);
 			Logger.info("参数验证通过!");
 		} else {
-			json.put(SysParaNameConst.STATUS_CODE, "9998");
-			json.put(SysParaNameConst.RESULT_MSG, "缺少认证参数!");
+			json.put(ApiRespConst.STATUS_CODE, "9998");
+			json.put(ApiRespConst.RESULT_MSG, "缺少认证参数!");
 			Logger.info("参数集合为空!");
 		}
 		return json;
@@ -242,17 +245,17 @@ public class OauthValidate {
 			Long currentTime = System.currentTimeMillis();
 			Long beforeTime = currentTime - OauthConst.REQUEST_EFFECTIVE_TIME;
 			if (timesatamp >= beforeTime) {
-				json.put(SysParaNameConst.STATUS_CODE, "0");
-				json.put(SysParaNameConst.RESULT_MSG, "时间戳验证通过!");
+				json.put(ApiRespConst.STATUS_CODE, "0");
+				json.put(ApiRespConst.RESULT_MSG, "时间戳验证通过!");
 				Logger.info("时间戳验证通过!");
 			} else {
-				json.put(SysParaNameConst.STATUS_CODE, "9998");
-				json.put(SysParaNameConst.RESULT_MSG, "缺少认证参数!");
+				json.put(ApiRespConst.STATUS_CODE, "9998");
+				json.put(ApiRespConst.RESULT_MSG, "缺少认证参数!");
 				Logger.info("请求超时!");
 			}
 		} catch (Exception e) {
-			json.put(SysParaNameConst.STATUS_CODE, "9999");
-			json.put(SysParaNameConst.RESULT_MSG, "服务器错误!");
+			json.put(ApiRespConst.STATUS_CODE, "9999");
+			json.put(ApiRespConst.RESULT_MSG, "服务器错误!");
 			Logger.error("时间戳验证错误: %s", e.getMessage());
 		}
 		return json;
@@ -275,17 +278,17 @@ public class OauthValidate {
 			String key_app=SystemConfig.getInstance().configMap.get("KEY_APP");
 			String syssign=MD5Util.getSign(parameters,key_app,null,null,1);
 			if (sign.equals(syssign)) {
-				json.put(SysParaNameConst.STATUS_CODE, "0");
-				json.put(SysParaNameConst.RESULT_MSG, "签名验证通过!");
+				json.put(ApiRespConst.STATUS_CODE, "0");
+				json.put(ApiRespConst.RESULT_MSG, "签名验证通过!");
 				Logger.info("签名验证成功!");
 			} else {
-				json.put(SysParaNameConst.STATUS_CODE, "9998");
-				json.put(SysParaNameConst.RESULT_MSG, "签名校验失败!");
+				json.put(ApiRespConst.STATUS_CODE, "9998");
+				json.put(ApiRespConst.RESULT_MSG, "签名校验失败!");
 				Logger.info("签名无效!");
 			}
 		} catch (Exception e) {
-			json.put(SysParaNameConst.STATUS_CODE, "9999");
-			json.put(SysParaNameConst.RESULT_MSG, "服务器错误!");
+			json.put(ApiRespConst.STATUS_CODE, "9999");
+			json.put(ApiRespConst.RESULT_MSG, "服务器错误!");
 			Logger.error("验证签名错误: %s", e.getMessage());
 		}
 		return json;
