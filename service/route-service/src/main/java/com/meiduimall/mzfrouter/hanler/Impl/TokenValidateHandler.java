@@ -2,16 +2,17 @@ package com.meiduimall.mzfrouter.hanler.Impl;
 
 import java.util.Map;
 
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.alibaba.fastjson.JSON;
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.util.ExceptionUtils;
+import com.meiduimall.core.util.JacksonUtil;
 import com.meiduimall.mzfrouter.ResponsePackUtil;
 import com.meiduimall.mzfrouter.hanler.Handler;
 import com.meiduimall.redis.util.JedisUtil;
@@ -34,7 +35,7 @@ public class TokenValidateHandler implements Handler {
 		try {
 			String whiteListJson = JedisUtil.getJedisInstance().execGetFromCache(Constants.WHITE_LIST_STR);
 			log.info("用户是否登录验证处理层,收到请求方式:{},url:{},请求参数:{},白名单:{}", request.getMethod(),
-					request.getRequestURL().toString(), JSON.toJSONString(param), whiteListJson);
+					request.getRequestURL().toString(), JacksonUtil.beanToJson(param), whiteListJson);
 			// 判断服务是不是不在白名单,不在需要进行token验证
 			if (!isWhiteList(request.getRequestURL().toString(), whiteListJson)) {
 				String token = param.get("token");
@@ -50,7 +51,7 @@ public class TokenValidateHandler implements Handler {
 			}
 		} catch (Throwable e) {
 			log.error("用户是否登录验证处理层异常,收到请求方式:{},url:{},请求参数:{},异常:{}", request.getMethod(),
-					request.getRequestURL().toString(), JSON.toJSONString(param),ExceptionUtils.getFullStackTrace(e));
+					request.getRequestURL().toString(),JacksonUtil.beanToJson(param),ExceptionUtils.getFullStackTrace(e));
 			ResponsePackUtil.responseWrapper(ctx, BaseApiCode.TOKEN_VALIDATE_EXCEPTION);
 			return false;
 		}

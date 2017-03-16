@@ -1,8 +1,8 @@
 package com.meiduimall.mzfrouter;
-import com.alibaba.fastjson.JSON;
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.core.util.JacksonUtil;
 import com.netflix.zuul.context.RequestContext;
 
 /**
@@ -22,7 +22,7 @@ public class ResponsePackUtil {
 		ctx.setSendZuulResponse(false);
         ctx.setResponseStatusCode(Constants.UNAUTHORIZED);
         ResBodyData res=new ResBodyData(responseCode,BaseApiCode.getZhMsg(responseCode));
-        ctx.setResponseBody(JSON.toJSONString(res));
+        ctx.setResponseBody(JacksonUtil.beanToJson(res));
 	}
 	
 }

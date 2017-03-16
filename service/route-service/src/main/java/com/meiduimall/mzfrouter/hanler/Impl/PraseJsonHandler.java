@@ -1,19 +1,13 @@
 package com.meiduimall.mzfrouter.hanler.Impl;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.util.ExceptionUtils;
+import com.meiduimall.core.util.JacksonUtil;
 import com.meiduimall.mzfrouter.ResponsePackUtil;
 import com.meiduimall.mzfrouter.hanler.Handler;
 import com.netflix.zuul.context.RequestContext;
@@ -38,13 +32,7 @@ public class PraseJsonHandler implements Handler {
 		try {
 			in=ctx.getRequest().getInputStream();
 			json = IOUtils.toString(in);
-			JSONObject jo = JSON.parseObject(json);
-			Set<String> keys = jo.keySet();
-			Map<String, String> param = new HashMap<String, String>();
-			for (String key : keys) {
-				String value = jo.getString(key);
-				param.put(key, value);
-			}
+			Map param=JacksonUtil.jsontoMap(json, String.class);
 			ctx.set("param", param);
 		} catch (Exception e) {
 			log.error("请求参数Json格式解析处理层,url:{},请求body:{},异常信息:{}",request.getRequestURL().toString(),

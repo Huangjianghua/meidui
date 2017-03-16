@@ -2,6 +2,7 @@ package com.meiduimall.mzfrouter.hanler.Impl;
 import java.util.Map;
 
 
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
@@ -9,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 
-import com.alibaba.fastjson.JSON;
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.util.ExceptionUtils;
@@ -52,13 +52,13 @@ public class SignValidateHandler implements Handler {
 			String encodeSign = GatewaySignUtil.sign(appSecret, param);
 			if (!sign.equals(encodeSign)) {
 				log.info("签名验证处理层,收到请求方式:{},url:{},请求参数:{},服务端签名:{}", request.getMethod(),
-						request.getRequestURL().toString(), JSON.toJSONString(param), encodeSign);
+						request.getRequestURL().toString(),JacksonUtil.beanToJson(param), encodeSign);
 				ResponsePackUtil.responseWrapper(ctx, BaseApiCode.SIGN_INVALID);
 				return false;
 			}
 		} catch (Exception e) {
 			log.error("签名验证处理层异常,收到请求方式:{},url:{},请求参数:{},异常:{}", request.getMethod(),
-					request.getRequestURL().toString(), JSON.toJSONString(param),ExceptionUtils.getFullStackTrace(e));
+					request.getRequestURL().toString(), JacksonUtil.beanToJson(param),ExceptionUtils.getFullStackTrace(e));
 			ResponsePackUtil.responseWrapper(ctx, BaseApiCode.SIGN_VALIDATE_EXCEPTION);
 			return false;
 		}
