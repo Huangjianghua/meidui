@@ -1,19 +1,14 @@
 package com.meiduimall.service.sms.service.impl;
-import java.lang.reflect.InvocationTargetException;
-
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
-import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
 import com.meiduimall.core.BaseApiCode;
@@ -57,13 +52,7 @@ public class SmsServiceImpl implements SmsService{
 		List<TemplateInfo> templateInfoList =JacksonUtil.jsonToList(templateListJsonStr, TemplateInfo.class);
 		for(TemplateInfo info : templateInfoList){
 			if(info.getTemplateKey().equals(templateId)){
-				try {
-					BeanUtils.copyProperties(ti, info);
-				} catch (IllegalAccessException e) {
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					e.printStackTrace();
-				}
+				BeanUtils.copyProperties(ti, info);
 				break;
 			}
 		}
