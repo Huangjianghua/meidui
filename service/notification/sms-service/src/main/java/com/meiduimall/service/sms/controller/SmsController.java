@@ -1,5 +1,6 @@
 package com.meiduimall.service.sms.controller;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,7 +13,7 @@ import com.meiduimall.service.sms.service.SmsService;
 
 
 /**
- * Copyright (C), 2002-2017, 美兑壹购
+ * Copyright (C), 2002-2017, 美兑壹购物
  * FileName: SmsController.java
  * Author:   lin
  * Date:     2017年3月14日 下午3:37:58

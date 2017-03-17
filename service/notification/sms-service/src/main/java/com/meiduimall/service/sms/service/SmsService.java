@@ -3,7 +3,7 @@ import com.meiduimall.core.ResBodyData;
 import com.meiduimall.service.sms.request.SmsRequest;
 
 /**
- * Copyright (C), 2002-2017, 美兑壹购
+ * Copyright (C), 2002-2017, 美兑壹购物
  * FileName: SmsService.java
  * Author:   
  * Date:     2017年3月14日 下午2:58:31

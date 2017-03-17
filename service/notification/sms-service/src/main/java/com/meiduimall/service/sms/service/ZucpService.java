@@ -2,7 +2,7 @@ package com.meiduimall.service.sms.service;
 
 import com.meiduimall.core.exception.ApiException;
 /**
- * Copyright (C), 2002-2017, 美兑壹购
+ * Copyright (C), 2002-2017, 美兑壹购物
  * FileName: ZucpService.java
  * Author:   Administrator
  * Date:     2017年3月15日 下午12:19:39
