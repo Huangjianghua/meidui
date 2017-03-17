@@ -12,8 +12,7 @@
 	<version>v1.0.0</version>
 	<packaging>jar</packaging>
 
-	<name>service-discovery</name>
-	<description>mzf edge service providing service registration and discovery</description>
+
 
 
 	<dependencies>
