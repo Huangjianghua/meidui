@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.meidui.shortmsg.mapper.MessageChannelMapper" >
-  <resultMap id="BaseResultMap" type="com.meidui.shortmsg.entity.MessageChannel" >
+<mapper namespace="com.meiduimall.service.sms.mapper.MessageChannelMapper" >
+  <resultMap id="BaseResultMap" type="com.meiduimall.service.sms.entity.MessageChannel" >
     <result column="id" property="id" jdbcType="VARCHAR" />
     <result column="channel_key" property="channelKey" jdbcType="VARCHAR" />
     <result column="channel_name" property="channelName" jdbcType="VARCHAR" />
@@ -21,7 +21,7 @@
     is_enabled, remark, creater, create_date,sort_no
   </sql>
   
-  <insert id="insert" parameterType="com.meidui.shortmsg.entity.MessageChannel" >
+  <insert id="insert" parameterType="com.meiduimall.service.sms.entity.MessageChannel" >
     insert into msg_message_channel (id, channel_key, channel_name, 
       requst_url, user_name, pass_word, 
       effective_time, is_enabled, remark, 
@@ -31,7 +31,7 @@
       #{effectiveTime,jdbcType=VARCHAR}, #{isEnabled,jdbcType=CHAR}, #{remark,jdbcType=VARCHAR}, 
       #{creater,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},#{sortNo,jdbcType=NUMERIC})
   </insert>
-  <insert id="insertSelective" parameterType="com.meidui.shortmsg.entity.MessageChannel" >
+  <insert id="insertSelective" parameterType="com.meiduimall.service.sms.entity.MessageChannel" >
     insert into msg_message_channel
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

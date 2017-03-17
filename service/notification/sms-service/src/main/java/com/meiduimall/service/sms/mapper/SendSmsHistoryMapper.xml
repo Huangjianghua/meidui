@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.meidui.shortmsg.mapper.SendSmsHistoryMapper" >
-  <resultMap id="BaseResultMap" type="com.meidui.shortmsg.entity.SendSmsHistory" >
+<mapper namespace="com.meiduimall.service.sms.mapper.SendSmsHistoryMapper" >
+  <resultMap id="BaseResultMap" type="com.meiduimall.service.sms.entity.SendSmsHistory" >
     <result column="id" property="id" jdbcType="VARCHAR" />
     <result column="client_id" property="clientId" jdbcType="VARCHAR" />
     <result column="channel_id" property="channelId" jdbcType="VARCHAR" />
@@ -19,7 +19,7 @@
     creater, create_date
   </sql>
    
-  <insert id="insert" parameterType="com.meidui.shortmsg.entity.SendSmsHistory" >
+  <insert id="insert" parameterType="com.meiduimall.service.sms.entity.SendSmsHistory" >
     insert into msg_send_sms_history (id, client_id, channel_id, 
       template_key, phone, request_params, 
       result_msg, remark, creater, 
@@ -29,7 +29,7 @@
       #{resultMsg,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{creater,jdbcType=VARCHAR}, 
       #{createDate,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.meidui.shortmsg.entity.SendSmsHistory" >
+  <insert id="insertSelective" parameterType="com.meiduimall.service.sms.entity.SendSmsHistory" >
     insert into msg_send_sms_history
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

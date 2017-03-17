@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.meidui.shortmsg.mapper.TemplateInfoMapper" >
-  <resultMap id="BaseResultMap" type="com.meidui.shortmsg.entity.TemplateInfo" >
+<mapper namespace="com.meiduimall.service.sms.mapper.TemplateInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.meiduimall.service.sms.entity.TemplateInfo" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="channel_id" property="channelId" jdbcType="VARCHAR" />
     <result column="template_key" property="templateKey" jdbcType="VARCHAR" />
@@ -20,7 +20,7 @@
     group_key, remark, creater, create_date, effective_time
   </sql>
  
-  <insert id="insert" parameterType="com.meidui.shortmsg.entity.TemplateInfo" >
+  <insert id="insert" parameterType="com.meiduimall.service.sms.entity.TemplateInfo" >
     insert into msg_template_info (id, channel_id, template_key, 
       external_template_no, template_name, template_content, 
       group_key, remark, creater, 
