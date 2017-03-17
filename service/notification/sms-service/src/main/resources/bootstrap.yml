@@ -1,7 +1,7 @@
 # Spring Properties
 spring:
   application:
-     name: short_msg_service
+     name: sms_service
   cloud:
     config:
       failFast: true
@@ -9,7 +9,7 @@ spring:
       profile: dev
       discovery:
         enabled: true
-        serviceId: short_msg_service
+        serviceId: sms_service
 
 #Discovery Server Access
 eureka:
