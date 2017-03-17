@@ -43,7 +43,6 @@ public class MessageChannelServiceImpl implements MessageChannelService{
 					channelListJsonStr =JacksonUtil.listToJson(channelList);
 					JedisUtil.getJedisInstance().execSetexToCache(key, Constants.REDIS_NINETY, channelListJsonStr);
 				}
-				
 			} catch (Exception e) {
 				Logger.error("获取渠道异常:{}", e.toString());
 			}
