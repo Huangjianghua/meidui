@@ -38,6 +38,11 @@
     	</encoder>
   </appender>
   
+   <logger name="com.meiduimall.service.sms.dao" level="debug">
+      <appender-ref ref="SQL_FILE_APPENDER" />
+  </logger>
+  
+  
   <root level="INFO">
     <appender-ref ref="STDOUT" />
     <appender-ref ref="FILE_APPENDER" />
