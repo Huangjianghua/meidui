@@ -14,11 +14,8 @@
     <packaging>pom</packaging>
 	<properties>
 	    <redis.version>0.0.1-SNAPSHOT</redis.version>
-	    <logging.version>0.0.1-SNAPSHOT</logging.version>
 	    <security.version>0.0.1-SNAPSHOT</security.version>
 	    <core.version>0.0.1-SNAPSHOT</core.version>
-	    <common.version>0.0.1-SNAPSHOT</common.version>
-	    <bean.version>0.0.1-SNAPSHOT</bean.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
@@ -150,7 +147,6 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql.version}</version>
 		</dependency>
-	
 		<dependency>
 			<groupId>com.zaxxer</groupId>
 			<artifactId>HikariCP</artifactId>
