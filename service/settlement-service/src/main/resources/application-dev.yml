@@ -1,0 +1,54 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.4.236:3306/meidui_settlement?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: meidui@2016.?!
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      connection-init-sql: SELECT 1
+      connection-test-query: SELECT 1 FROM DUAL
+      auto-commit: true
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      maximum-pool-size: 300
+      minimumIdle : 10
+      pool-name: harika-cp
+      
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://192.168.4.240:9001/eureka/
+    registry-fetch-interval-seconds: 10  
+    healthcheck:
+      enabled: true  
+  instance:
+    hostname: 192.168.4.240
+    lease-renewal-interval-in-seconds: 15      # 心跳时间，即服务续约间隔时间（缺省为30s）
+    lease-expiration-duration-in-seconds: 30  # 发呆时间，即服务续约到期时间（缺省为90s）    
+      
+## it doesn't work configuring here so change to configure it in MyBatisConfig.java.  
+#mybatis:
+#  mapper-locations: classpath*:com/meiduimall/settlement/mapper/*Mapper.xml
+#  type-aliases-package: com.meiduimall.settlement.model
+
+# redis
+config:
+  jedis: 
+    jedisShardInfo:  
+      host: 192.168.4.236  
+      port: 6379  
+      password: meiduiredis2016 
+    maxTotal: 1024  
+    maxIdle: 250  
+    maxWaitMillis: 2000 
+    testOnBorrow: true
+    testOnReturn: true
+hystrix:  
+  command:  
+    default:  
+      execution:  
+        isolation:  
+          thread:  
+            timeoutInMilliseconds: 3000 #缺省为1000
