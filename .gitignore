@@ -1,2 +1,15 @@
+*~
+#*
+*#
+.#*
+.classpath
+.project
+.settings/
+.springBeans
 target/
-.idea/
+bin/
+_site/
+.idea
+*.iml
+.factorypath
+/.apt_generated/
