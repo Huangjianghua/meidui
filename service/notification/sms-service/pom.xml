@@ -7,13 +7,12 @@
         <groupId>com.meiduimall</groupId>
         <version>1.0.0</version>
     </parent>
+    
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.meiduimall.service</groupId>
     <artifactId>sms-service</artifactId>
     <version>v1.0.0</version>
-
-	
 	
 	<dependencies>
 		<dependency>

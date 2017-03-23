@@ -1,6 +1,8 @@
 package com.meiduimall.service.sms;
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.http.HttpStatus;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,7 +22,17 @@ import com.meiduimall.core.ResBodyData;
 public class GlobalExceptionHandler {
 	
     @ExceptionHandler(value=MethodArgumentNotValidException.class)  
-    public Object MethodArgumentNotValidHandler(HttpServletRequest request,MethodArgumentNotValidException exception) throws Exception {  
+    public Object MethodJsonArgumentNotValidHandler(HttpServletRequest request,MethodArgumentNotValidException exception) throws Exception {  
+        StringBuffer sb=new StringBuffer();
+        exception.getBindingResult().getFieldErrors().forEach((error)->{
+        	sb.append(error.getDefaultMessage()).append(";");
+        });
+        return new ResBodyData(HttpStatus.SC_BAD_REQUEST, sb.toString());  
+    }  
+    
+    
+    @ExceptionHandler(value=BindException.class)  
+    public Object MethodFromArgumentNotValidHandler(HttpServletRequest request,BindException exception) throws Exception {  
         StringBuffer sb=new StringBuffer();
         exception.getBindingResult().getFieldErrors().forEach((error)->{
         	sb.append(error.getDefaultMessage()).append(";");
