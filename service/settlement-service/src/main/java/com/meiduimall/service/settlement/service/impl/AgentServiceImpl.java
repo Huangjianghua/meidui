@@ -7,7 +7,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.google.common.collect.ImmutableMap;
 import com.meiduimall.service.settlement.dao.BaseMapper;
 import com.meiduimall.service.settlement.model.Draw;
 import com.meiduimall.service.settlement.model.EcmMzfAccount;
@@ -132,7 +131,7 @@ public class AgentServiceImpl implements AgentService {
 	@Override
 	public List<ShareProfitAgentLog> getAgentsRetry(int currentTimestamp, String key) throws Exception {
 		Map<String,Object> params = new HashMap<String,Object>();
-		params.put("currentTimestamp", ImmutableMap.of("currentTimestamp",currentTimestamp));
+		params.put("currentTimestamp", currentTimestamp);
 		params.put("key", key);
 		return baseMapper.selectList(params, "ShareProfitAgentLogMapper.getAgentsRetry");
 	}

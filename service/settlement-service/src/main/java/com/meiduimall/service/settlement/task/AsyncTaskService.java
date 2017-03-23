@@ -252,7 +252,7 @@ public class AsyncTaskService {
 					if(ShareProfitConstants.SHARE_PROFIT_SOURCE_CACHE.equals(dataSource)){
 						agentLog.setRetryFlag(ShareProfitConstants.SHARE_PROFIT_RETRY_FLAG_NO);//重试标识:1需要重试,0不需要重试
 						agentLog.setRetryStatus(ShareProfitConstants.SHARE_PROFIT_RETRY_STATUS_CODE_FAIL);//重试状态 :1成功,0失败
-						agentLog.setRetryTime(DateUtil.getCurrentTimeSec());
+						agentLog.setRetryTime(time);
 						agentLog.setRemark("重试更新积分到会员失败");
 						//重试机制有三次机会  如果是最后一次  则移除redis缓存数据
 						if(ShareProfitConstants.SHARE_PROFIT_RETRY_TYPE_FINAL_ROUND.equals(retryType)){
@@ -277,7 +277,7 @@ public class AsyncTaskService {
 					
 					//插入异常日志(重新开启新事务)
 					depositService.shareProfitAgentLog(agentLog, retryType);
-					
+					log.info("个代送积分异常日志参数：{}", agentLog.toString());
 				}
 			}
 		} catch (Exception e) {

@@ -125,10 +125,10 @@ public class ShareProfitAgentLog implements Serializable {
 	@Override
 	public String toString() {
 		return "ShareProfitAgentLog [id=" + id + ", agentNo=" + agentNo + ", phone=" + phone + ", reason=" + reason
-				+ ", createdDate=" + createdDate + ", retryStatus=" + retryStatus + ", retryTime=" + retryTime
-				+ ", retryFlag=" + retryFlag + ", remark=" + remark + "]";
+				+ ", createdDate=" + createdDate + ", updatedDate=" + updatedDate + ", retryStatus=" + retryStatus
+				+ ", retryTime=" + retryTime + ", retryFlag=" + retryFlag + ", remark=" + remark + "]";
 	}
-	
+
 	
 
 }

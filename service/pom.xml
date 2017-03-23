@@ -19,6 +19,7 @@
         <module>user</module>
         <module>payment-service</module>
         <module>notification</module>
+        <module>settlement-service</module>
     </modules>
 
     <dependencyManagement>

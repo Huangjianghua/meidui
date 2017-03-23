@@ -67,15 +67,15 @@
 		  ecm_mzf_log_shareprofit_agent 
 		WHERE retry_status = 0 AND retry_flag = 1 
 		
-		<if test="key == 'share5MinRetry'">
+		<if test='key=="share5MinRetry"'>
 			AND (#{currentTimestamp}-created_date) &gt;= 300 and (#{currentTimestamp} - created_date) &lt;=900
 		</if>
 		
-		<if test="key == 'share30MinRetry'">
+		<if test='key=="share30MinRetry"'>
 			AND (#{currentTimestamp}-created_date) &gt;= 1800 and (#{currentTimestamp} - created_date) &lt;=2400
 		</if>
 		
-		<if test="key == 'share12HoursRetry'">
+		<if test='key=="share12HoursRetry"'>
 			AND (#{currentTimestamp}-created_date) &gt;= 43200 and (#{currentTimestamp} - created_date) &lt;=43800
 		</if>
 		  

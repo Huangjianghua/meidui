@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -52,7 +53,7 @@ public class OrderController {
 	 */
 	@RequestMapping(value="/shareprofit",method=RequestMethod.POST)
 	@ResponseBody
-	public ResponseBodyData shareProfit(HttpServletRequest request,HttpServletResponse response,EcmOrder ecmOrder)throws Exception{
+	public ResponseBodyData shareProfit(HttpServletRequest request,HttpServletResponse response,@Validated EcmOrder ecmOrder)throws Exception{
 		
 		long start=System.currentTimeMillis();
 		log.info("share profit for order start:{}",start);
