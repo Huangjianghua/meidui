@@ -6,8 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.StringUtil;
 import com.google.common.collect.ImmutableMap;
-import com.meiduimall.service.settlement.common.ResponseBodyData;
+import com.meiduimall.core.ResBodyData;
 import com.meiduimall.service.settlement.common.SettlementUtil;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 import com.meiduimall.service.settlement.common.ShareProfitUtil;
@@ -52,8 +51,7 @@ public class OrderController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/shareprofit",method=RequestMethod.POST)
-	@ResponseBody
-	public ResponseBodyData shareProfit(HttpServletRequest request,HttpServletResponse response,@Validated EcmOrder ecmOrder)throws Exception{
+	public ResBodyData shareProfit(@Validated EcmOrder ecmOrder)throws Exception{
 		
 		long start=System.currentTimeMillis();
 		log.info("share profit for order start:{}",start);
@@ -64,14 +62,6 @@ public class OrderController {
 		Integer shareStatus=1;
 		String resultMsg="订单分润成功!";
 		final List<String> errors=new ArrayList<String>();
-		
-		//1.验证和构建分润数据
-		if(ecmOrder==null || StringUtil.isEmpty(ecmOrder.getOrderSn())){
-			resultMsg="orderSn为空!";
-			statusCode=ShareProfitConstants.RESPONSE_STATUS_CODE_FAILURE;
-			shareStatus=0;
-			return SettlementUtil.buildReponseData(ImmutableMap.of("orderSn", "","shareStatus",shareStatus), statusCode, resultMsg);
-		}	
 		
 		EcmMzfShareProfit shareProfit=null;
 		try {
@@ -135,7 +125,7 @@ public class OrderController {
      * @author wujun 
      */
 	@PostMapping(value="/queryorderstatus")
-	public ResponseBodyData queryOrderStatus(String[] orderSns) throws Exception{
+	public ResBodyData queryOrderStatus(String[] orderSns) throws Exception{
 		
 		List<EcmMzfOrderStatus> queryorderstatus=new ArrayList<EcmMzfOrderStatus>();
 		
@@ -143,7 +133,7 @@ public class OrderController {
 			queryorderstatus = orderService.queryOrderStatus(Arrays.asList(orderSns));
 		}
 		
-		return SettlementUtil.buildReponseData(queryorderstatus, 0, "查询订单状态成功!");
+		return SettlementUtil.buildReponseData(queryorderstatus, ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS, "查询订单状态成功!");
 		
 	}
 	
@@ -155,16 +145,10 @@ public class OrderController {
 	 * @throws Exception
 	 */
 	@PostMapping(value="/syncverifystatus")
-	public ResponseBodyData syncVerifyStatus(EcmMzfOrderStatus orderStatus) throws Exception{
+	public ResBodyData syncVerifyStatus(@Validated EcmMzfOrderStatus orderStatus) throws Exception{
 		log.info("syncVerifyStatus() in the OrderController start--");
 		
 		int statusCode=ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS;
-		
-		List<String> errors=ShareProfitUtil.validate4SyncVerifyStatus(orderStatus);
-		if(errors!=null && !errors.isEmpty()){
-			statusCode=ShareProfitConstants.RESPONSE_STATUS_CODE_FAILURE;
-			return SettlementUtil.buildReponseData("", statusCode, errors.toString());
-		}
 
 		Boolean isSuccess=true;
 		String msg="同步订单审核状态数据到结算系统成功!";
@@ -194,7 +178,7 @@ public class OrderController {
 	 */
 	@RequestMapping(value="/queryshareprofit",method=RequestMethod.POST)
 	@ResponseBody
-	public ResponseBodyData queryShareProfit(String[] orderSns) throws Exception{
+	public ResBodyData queryShareProfit(String[] orderSns) throws Exception{
 		
 		List<EcmMzfShareProfit> shareProfits=new ArrayList<EcmMzfShareProfit>();
 		
@@ -202,7 +186,7 @@ public class OrderController {
 			shareProfits = orderService.queryShareProfit(Arrays.asList(orderSns));
 		}
 
-		return SettlementUtil.buildReponseData(shareProfits, 0, "成功!");
+		return SettlementUtil.buildReponseData(shareProfits, ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS, "成功!");
 
 	}
 	
@@ -216,11 +200,11 @@ public class OrderController {
 	 */
 	@RequestMapping(value="/queryprofitbyrole",method=RequestMethod.POST)
 	@ResponseBody
-	public ResponseBodyData queryProfitByRole(String code,Integer accountRoleType) throws Exception{
+	public ResBodyData queryProfitByRole(String code,Integer accountRoleType) throws Exception{
 		
 		ShareProfitVO shareProfitVO=orderService.queryProfitByRole(code,accountRoleType);
 	
-		return SettlementUtil.buildReponseData(shareProfitVO, 0, "成功!");
+		return SettlementUtil.buildReponseData(shareProfitVO, ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS, "成功!");
 
 	}
 	
@@ -236,7 +220,7 @@ public class OrderController {
 	 */
 	@RequestMapping(value="/queryprofitbywaterbytype",method=RequestMethod.POST)
 	@ResponseBody
-	public ResponseBodyData queryProfitByWaterByType(String waterId,Integer loginType,String code,Integer pageNumber,Integer pageSize) throws Exception{
+	public ResBodyData queryProfitByWaterByType(String waterId,Integer loginType,String code,Integer pageNumber,Integer pageSize) throws Exception{
 		
 		Integer count = orderService.queryProfitCountByWaterId(waterId);
 		
@@ -246,7 +230,7 @@ public class OrderController {
 		map.put("shareProfitList", shareProfitList);
 		map.put("total", count);
 		
-		return SettlementUtil.buildReponseData(map, 0, "查询账单流水详情数据成功!");
+		return SettlementUtil.buildReponseData(map, ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS, "查询账单流水详情数据成功!");
 
 	}
 

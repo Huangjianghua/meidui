@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.StringUtil;
-import com.meiduimall.service.settlement.common.ResponseBodyData;
+import com.meiduimall.core.ResBodyData;
 import com.meiduimall.service.settlement.common.SettlementUtil;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 import com.meiduimall.service.settlement.model.EcmMzfShareProfit;
@@ -54,7 +54,7 @@ public class WaterController {
 	 * @return
 	 */
 	@PostMapping("/querywater")
-	public ResponseBodyData queryWater(
+	public ResBodyData queryWater(
 			@RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = "20") int pageSize,
 			@RequestParam(value = "type", defaultValue = "list") String type,
@@ -96,7 +96,7 @@ public class WaterController {
 	 * @return
 	 */
 	@PostMapping("/querywaterbyid")
-	public ResponseBodyData queryWaterById(String waterId, String waterType,Integer loginType,String  code,Integer pageNumber,Integer pageSize){
+	public ResBodyData queryWaterById(String waterId, String waterType,Integer loginType,String  code,Integer pageNumber,Integer pageSize){
 		
 		if(StringUtil.isEmpty(waterId) || StringUtil.isEmpty(waterType)){
 			return SettlementUtil.buildReponseData("", ShareProfitConstants.RESPONSE_STATUS_CODE_FAILURE, "流水编号或流水类型不能为空!");
@@ -148,7 +148,7 @@ public class WaterController {
 	 * @return
 	 */
 	@PostMapping("/getrecmoney")
-	public ResponseBodyData getRecMoney(@RequestParam HashMap<String, Object> params){
+	public ResBodyData getRecMoney(@RequestParam HashMap<String, Object> params){
 		try {
 			String money = agentService.getRecommenderMoney(params);
 			if(!money.isEmpty()){
