@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Range;
 
 
@@ -24,14 +25,15 @@ public class EcmOrder implements Serializable{
 	@NotBlank(message="消费者手机号码不能为空")
 	private String buyerName; //消费用户手机号
 	
-	@Range(min=0,max=Integer.MAX_VALUE,message="订单状态")
+	@Range(min=0,max=Integer.MAX_VALUE,message="订单状态不能为空,应该为数值。")
 	private int status;
+	
 	private String outTradeSn; //交易号
 	
-	@Range(min=0,max=Integer.MAX_VALUE,message="付款时间")
+	@Range(min=0,max=Integer.MAX_VALUE,message="付款时间不能为空,应该为10位数时间戳.")
 	private int payTime;
 	
-	@Range(min=0,max=Integer.MAX_VALUE,message="订单创建时间不能为空")
+	@Range(min=0,max=Integer.MAX_VALUE,message="订单创建时间不能为空,应该为10位数时间戳.")
 	private int addTime;  //订单时间
 	
 	@NotNull(message="实际支付金额不能为空")
@@ -61,10 +63,10 @@ public class EcmOrder implements Serializable{
 	
 	private int isTwoHundredArea;    //是否是前两百名区代
 	
-	@Range(min=0,max=Integer.MAX_VALUE,message="服务费率不能为空")
+	@Range(min=0,max=Integer.MAX_VALUE,message="服务费率必须为数值且不能小于0.")
 	private int serviceFee;
 	
-	@Range(min=0,max=Integer.MAX_VALUE,message="服务费计算方式不能为空")
+	@Range(min=0,max=Integer.MAX_VALUE,message="服务费计算方式必须为数值.")
 	private int serviceFeeCalc;
 
 	private String discountMsg;

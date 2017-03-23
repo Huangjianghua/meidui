@@ -13,6 +13,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.github.pagehelper.StringUtil;
+import com.meiduimall.core.ResBodyData;
 
 
 /**
@@ -73,17 +74,17 @@ public class SettlementUtil {
 		return false;
 	}
 	
-	public static ResponseBodyData success(Object data, String resultMsg) {
+	public static ResBodyData success(Object data, String resultMsg) {
 		return buildReponseData(data, ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS, resultMsg);
 	}
 	
-	public static ResponseBodyData failure(Object data, String resultMsg) {
+	public static ResBodyData failure(Object data, String resultMsg) {
 		return buildReponseData(data, ShareProfitConstants.RESPONSE_STATUS_CODE_FAILURE, resultMsg);
 	}
 	
-	public static ResponseBodyData buildReponseData(Object data,Integer statusCode,String resultMsg){
-
-		return new ResponseBodyData(data,statusCode,resultMsg);
+	public static ResBodyData buildReponseData(Object data,Integer statusCode,String resultMsg){
+		
+		return new ResBodyData(statusCode,resultMsg,data);
 
 	}
 	

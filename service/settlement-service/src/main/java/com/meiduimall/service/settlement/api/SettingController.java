@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.meiduimall.service.settlement.common.ResponseBodyData;
+import com.meiduimall.core.ResBodyData;
 import com.meiduimall.service.settlement.common.SettlementUtil;
 import com.meiduimall.service.settlement.model.EcmSystemSetting;
 import com.meiduimall.service.settlement.service.SettingService;
@@ -21,10 +21,7 @@ public class SettingController {
 	@Autowired
 	private SettingService settingService;
 	
-	 
-	
-	 
-	 
+
 	
 	/**
 	 * 更新分润比例配置接口
@@ -33,14 +30,9 @@ public class SettingController {
 	 * @throws Exception
 	 */
 	@PostMapping(value="/updatesystemsetting")
-	public ResponseBodyData updatesystemsetting(EcmSystemSetting input) throws Exception{
+	public ResBodyData updatesystemsetting(EcmSystemSetting input) throws Exception{
 		EcmSystemSetting ecmSystemSetting = settingService.updatesystemsetting(input);
-		 
 		return SettlementUtil.buildReponseData(ecmSystemSetting, 0, "成功");
-		 
-		
-			
-		
 	}
 	
 	/**
@@ -50,16 +42,12 @@ public class SettingController {
 	 * @throws Exception
 	 */
 	@PostMapping(value="/listsystemsetting")
-	public ResponseBodyData listsystemsetting(EcmSystemSetting input) throws Exception{
+	public ResBodyData listsystemsetting(EcmSystemSetting input) throws Exception{
 		PageHelper.startPage(input.getPageNum(),input.getPageSize());
 		List<EcmSystemSetting> ecmSystemSetting = settingService.listsystemsetting(input);
-		
 		return SettlementUtil.buildReponseData(new PageInfo<>(ecmSystemSetting), 0, "成功");
 		
 	}
 	
-	 
-	
-	
-	
+
 }

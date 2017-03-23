@@ -1,8 +1,11 @@
 package com.meiduimall.service.settlement.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Date;
+
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.Range;
 
 /**
  * 订单信息表
@@ -15,15 +18,25 @@ public class EcmMzfOrderStatus implements Serializable {
 	
 	private Integer id;
 	//订单号
+	@NotBlank(message="订单号不能为空.")
 	private String orderSn;
 	private Integer status;
 	private Integer shareStatus=0;
 	private Integer billStatus=0;
 	private Integer scoreStatus=0;
 	private Integer cashStatus=0;
+	
+	@Range(min=0,max=Integer.MAX_VALUE,message="审核状态应该为数值。")
+	@NotNull(message="审核状态不能为空.")
 	private Integer verifyStatus;
+	
+	@NotBlank(message="审核人姓名不能为空！")
 	private String verifyName;
+	
+	@Range(min=0,max=Integer.MAX_VALUE,message="审核时间应该为10位数时间戳.")
+	@NotNull(message="审核时间不能为空.")
 	private Integer verifyTime;
+	
 	private Integer addTime;
 	private Integer payTime;
 	private Integer createdDate;

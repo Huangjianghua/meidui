@@ -295,28 +295,6 @@ public class ShareProfitUtil {
 			
 		}
 
-		public static List<String> validate4SyncVerifyStatus(EcmMzfOrderStatus orderStatus) {
-			final List<String> errors=new ArrayList<String>();
-
-			if(StringUtil.isEmpty(orderStatus.getOrderSn())){
-				errors.add("订单号不能为空!");
-			}
-			
-			if(orderStatus.getVerifyStatus()==null){
-				errors.add("审核状态不能为空!");
-			} 
-			
-			if(orderStatus.getVerifyTime()==null || orderStatus.getVerifyTime()<=0){
-				errors.add("审核时间不能为空或不能小于0!");
-			}
-			
-			if(StringUtil.isEmpty(orderStatus.getVerifyName())){
-				errors.add("审核人不能为空!");
-			}
-			
-			return errors;
-			
-		}
 
 		public static void updateBillInfo(List<EcmMzfShareProfit> shareProfits, List<EcmMzfBillWaterVO> billWaterVOs) {
 			if(shareProfits!=null && !shareProfits.isEmpty() && billWaterVOs!=null && !billWaterVOs.isEmpty()){
