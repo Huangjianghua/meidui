@@ -34,7 +34,6 @@ import com.meiduimall.service.settlement.service.AgentService;
 import com.meiduimall.service.settlement.service.BeanSelfAware;
 import com.meiduimall.service.settlement.service.BillService;
 import com.meiduimall.service.settlement.util.DateUtil;
-import com.meiduimall.service.settlement.util.ToolUtils;
 import com.meiduimall.service.settlement.vo.BilledWaterVO2Merge;
 import com.meiduimall.service.settlement.vo.OrderToBilledVO;
 
@@ -82,8 +81,8 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 		List<EcmMzfBillWater> billList = baseMapper.selectList(verifyTime, "EcmBillMapper.queryReviewedShareOrder");
 		List<OrderToBilledVO> orderToBilledList = baseMapper.selectList(verifyTime, "EcmBillMapper.queryOrderToBilled");
 		
-		Date billCreatedtime=sdf.parse(ToolUtils.getCurrentDay()); //账单创建日期
-		Date billtime=sdf.parse(ToolUtils.getUpDAY()); //账单日期
+		Date billCreatedtime=sdf.parse(DateUtil.getCurrentDay()); //账单创建日期
+		Date billtime=sdf.parse(DateUtil.getUpDAY()); //账单日期
 		log.info("账单生成时间:" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())+" 账单日期："+billtime+" 需要插入到账单流水的条数："+billList.size());
 		if(billList.size()>0)
 		{

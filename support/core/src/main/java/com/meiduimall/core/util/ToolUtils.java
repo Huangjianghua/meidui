@@ -1,4 +1,4 @@
-package com.meiduimall.service.settlement.util;
+package com.meiduimall.core.util;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -6,20 +6,16 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 
-import com.alibaba.fastjson.JSON;
-import com.meiduimall.service.settlement.common.ShareProfitConstants;
+import com.meiduimall.core.Constants;
 
 /**
  * 工具类,采用fastjson
@@ -30,90 +26,7 @@ public class ToolUtils {
 	
 	private static final Logger log = LoggerFactory.getLogger(ToolUtils.class);
 
-	
-	/**
-	 * 传参创建map,必须是键值对的形式，例如quickMap("name","张三","age","14")
-	 * @param item
-	 * @return
-	 */
-	public static Map<String,String> quickMap(String...item){
-		if(item.length%2==0){
-			Map<String,String> quickMap = new HashMap<String,String>();
-			for(int i=0;i<item.length;i++){
-				quickMap.put(item[i], item[++i]);
-			}
-			return quickMap;
-		}
-		return null;
-	}
-	
-	/**
-	 * map转json
-	 * @param map
-	 * @return
-	 */
-	public static String mapToJson(Map<String, String> map)
-	{
-		if(map!=null)
-		{
-			return JSON.toJSONString(map);
-		}
-		return null;
-	}
-	
-	/**
-	 * json转map
-	 * @param map
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	public static Map<String, Object> jsonToMap(String json)
-	{
-		Map<String, Object> map=new HashMap<String, Object>();
-		if(StringUtils.isNotBlank(json))
-		{		
-			return (Map<String, Object>)JSON.parse(json);
-		}
-		return map;
-	}
-	
-	
-	
-	/**
-	 * json转model
-	 * @return
-	 */
-	public static Object jsonToModel(String json,Class<?> object)
-	{
-		if(StringUtils.isNoneBlank(json))
-		{
-			return JSON.parseObject(json,object);
-		}
-		return null;
-	}
-	
-	//获取今天
-	public static String getCurrentDay() {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		return dateFormat.format(Calendar.getInstance().getTime());
-	}
-	
-	//获取昨天
-	public static String getUpDAY() {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		Calendar c = Calendar.getInstance();
-		c.add(Calendar.DAY_OF_MONTH, -1);
-		return dateFormat.format(c.getTime());
-	}
 
-	/**
-	 * 获取六位年月日
-	 * @return
-	 */
-	public static String getCurrentSixDay() {
-		return new SimpleDateFormat("yyMMdd").format(new Date());
-	}
-	
 	/**
 	 * Description : 字符串utf-8转码
 	 * Created By : Fkx 
@@ -128,8 +41,8 @@ public class ToolUtils {
 		String encodestr = str;
 		
 		try {
-			if(ShareProfitConstants.ENCODE_UTF8.equalsIgnoreCase(code)){
-				encodestr = URLEncoder.encode(str, ShareProfitConstants.ENCODE_UTF8);
+			if(Constants.ENCODE_UTF8.equalsIgnoreCase(code)){
+				encodestr = URLEncoder.encode(str, Constants.ENCODE_UTF8);
 			}else{
 				return encodestr;
 			}
@@ -237,7 +150,7 @@ public class ToolUtils {
 	public static String encodeStr(String str,String charset){
 		
 		String encodestr = "";
-		String defaultCharSet=ShareProfitConstants.ENCODE_UTF8;
+		String defaultCharSet=Constants.ENCODE_UTF8;
 		if(!StringUtils.isEmpty(charset)){
 			defaultCharSet=charset;
 		}

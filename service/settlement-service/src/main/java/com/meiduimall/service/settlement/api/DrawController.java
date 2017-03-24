@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.StringUtil;
+import com.meiduimall.core.ResBodyData;
 import com.meiduimall.service.settlement.common.DrawCashConstants;
-import com.meiduimall.service.settlement.common.ResponseBodyData;
 import com.meiduimall.service.settlement.common.SettlementUtil;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 import com.meiduimall.service.settlement.common.ShareProfitUtil;
@@ -47,7 +47,7 @@ public class DrawController {
 	 * @throws Exception
 	 */
 	@PostMapping(value="/queryaccoutbalance")
-	public ResponseBodyData queryAccoutBalance(EcmMzfAccount ecmMzfAccount) throws Exception{
+	public ResBodyData queryAccoutBalance(EcmMzfAccount ecmMzfAccount) throws Exception{
 		
 		Map<String, Object> ecmmzfaccount = drawService.queryAccoutBalance(ecmMzfAccount.getCode());
 		return SettlementUtil.buildReponseData(ecmmzfaccount, 0, "成功");
@@ -61,7 +61,7 @@ public class DrawController {
 	 * @throws Exception
 	 */
 	@PostMapping(value = "/drawcash")
-	public ResponseBodyData drawCash(EcmMzfDraw ecmMzfDraw) throws Exception {
+	public ResBodyData drawCash(EcmMzfDraw ecmMzfDraw) throws Exception {
 		try {
 			
 			//提现手续费从配置表获取
@@ -121,7 +121,7 @@ public class DrawController {
 	 * @return
 	 */
 	@PostMapping(value = "/querydrawcash")
-	public ResponseBodyData queryDrawCash(
+	public ResBodyData queryDrawCash(
 			@RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = "20") int pageSize,
 			@RequestParam(value = "type", defaultValue = "list") String type,
@@ -153,7 +153,7 @@ public class DrawController {
 	 * @throws Exception
 	 */
 	@PostMapping(value="/querydrawcashbyid")
-	public ResponseBodyData queryDrawCashById(String drawCode) throws Exception{
+	public ResBodyData queryDrawCashById(String drawCode) throws Exception{
 		EcmMzfDraw ecmmzfdraw = drawService.queryDrawCashById(drawCode);
 		return SettlementUtil.buildReponseData(ecmmzfdraw, 0, "成功");
 		
@@ -166,7 +166,7 @@ public class DrawController {
 	 * @throws Exception
 	 */
 	@PostMapping(value="/verifydrawcashbyid")
-	public ResponseBodyData verifyDrawCashById(EcmMzfDraw ecmmzfdraw) throws Exception{
+	public ResBodyData verifyDrawCashById(EcmMzfDraw ecmmzfdraw) throws Exception{
 		
 		Map<String, Object> hashMap=new HashMap<String,Object>();
 		if(StringUtil.isEmpty(ecmmzfdraw.getDrawCode())){
@@ -202,7 +202,7 @@ public class DrawController {
 	 * @throws Exception
 	 */
 	@PostMapping(value="/rejectdrawcashbyid")
-	public ResponseBodyData rejectDrawCashById(EcmMzfDraw ecmmzfdraw) throws Exception{
+	public ResBodyData rejectDrawCashById(EcmMzfDraw ecmmzfdraw) throws Exception{
 		
 		Map<String, Object> hashMap=new HashMap<String,Object>();
 		if(StringUtil.isEmpty(ecmmzfdraw.getDrawCode()) || StringUtil.isEmpty(ecmmzfdraw.getRemark())){
@@ -237,7 +237,7 @@ public class DrawController {
 	 * @throws Exception
 	 */
 	@PostMapping(value="/confirmdrawcashbyidbytype")
-	public ResponseBodyData confirmDrawCashByIdByType(EcmMzfDraw ecmmzfdraw) throws Exception{
+	public ResBodyData confirmDrawCashByIdByType(EcmMzfDraw ecmmzfdraw) throws Exception{
 		
 		String msg="提现确认转账成功";
 		

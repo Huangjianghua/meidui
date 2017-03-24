@@ -1,15 +1,15 @@
 package com.meiduimall.service.settlement.common;
 
-public class Helper {
+public class PagerHelper {
 
-	
-	private int pageNum = 1;
+	private int pageNumber = 1;
 	private int pageSize = 10;
-	public int getPageNum() {
-		return pageNum;
+
+	public int getPageNumber() {
+		return pageNumber;
 	}
-	public void setPageNum(int pageNum) {
-		this.pageNum = pageNum;
+	public void setPageNumber(int pageNumber) {
+		this.pageNumber = pageNumber;
 	}
 	public int getPageSize() {
 		return pageSize;

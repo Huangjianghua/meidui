@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 import com.github.pagehelper.StringUtil;
 import com.google.common.collect.ImmutableMap;
-import com.meiduimall.core.util.JacksonUtil;
+import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.redis.util.JedisUtil;
 import com.meiduimall.service.settlement.common.CronExpression;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
@@ -52,7 +52,7 @@ public class ShareProfitRetryTask {
 					String shareProfitJsonObj=JedisUtil.getJedisInstance().execGetFromCache(ShareProfitConstants.REDIS_KEY_PREFIX_ORDER+orderSn);
 					EcmMzfShareProfit  shareProfit=null;
 					if(!StringUtil.isEmpty(shareProfitJsonObj)){ 
-						shareProfit=JacksonUtil.jsonToBean(shareProfitJsonObj, EcmMzfShareProfit.class);	
+						shareProfit=JsonUtils.jsonToBean(shareProfitJsonObj, EcmMzfShareProfit.class);	
 						
 						String retryType="";
 						if(ShareProfitConstants.SHARE_PROFIT_RETRY_TYPE_FINAL_ROUND.equals(entry.getValue())){

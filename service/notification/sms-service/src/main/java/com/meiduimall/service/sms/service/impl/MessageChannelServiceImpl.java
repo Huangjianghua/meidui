@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.base.Strings;
 import com.meiduimall.core.Constants;
-import com.meiduimall.core.util.JacksonUtil;
+import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.redis.util.JedisUtil;
 import com.meiduimall.service.sms.entity.MessageChannel;
 import com.meiduimall.service.sms.entity.TemplateInfo;
@@ -40,7 +40,7 @@ public class MessageChannelServiceImpl implements MessageChannelService{
 			try{
 				List<MessageChannel> channelList = messageChannelMapper.getChannelList();
 				if(null != channelList && channelList.size() > 0){
-					channelListJsonStr =JacksonUtil.listToJson(channelList);
+					channelListJsonStr =JsonUtils.listToJson(channelList);
 					JedisUtil.getJedisInstance().execSetexToCache(key, Constants.REDIS_NINETY, channelListJsonStr);
 				}
 			} catch (Exception e) {
@@ -59,7 +59,7 @@ public class MessageChannelServiceImpl implements MessageChannelService{
 			try {
 				List<TemplateInfo> templateInfo = templateInfoMapper.getTemplateInfoList();
 				if(null != templateInfo && templateInfo.size() > 0){
-					templateListJsonStr =JacksonUtil.listToJson(templateInfo);
+					templateListJsonStr =JsonUtils.listToJson(templateInfo);
 					JedisUtil.getJedisInstance().execSetexToCache(key, Constants.REDIS_TENMINUTE, templateListJsonStr);
 				}
 				

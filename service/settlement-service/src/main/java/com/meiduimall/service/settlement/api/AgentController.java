@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.meiduimall.service.settlement.common.ResponseBodyData;
+import com.meiduimall.core.ResBodyData;
 import com.meiduimall.service.settlement.common.SettlementUtil;
 import com.meiduimall.service.settlement.model.EcmAgent;
 import com.meiduimall.service.settlement.model.EcmMzfAccount;
@@ -43,7 +43,7 @@ public class AgentController {
 	 * @return
 	 */
 	@PostMapping("/sharedeposit")
-	public ResponseBodyData shareDeposit(EcmAgent ecmAgent) {
+	public ResBodyData shareDeposit(EcmAgent ecmAgent) {
 		try {
 			
 			long start = System.currentTimeMillis();
@@ -81,7 +81,7 @@ public class AgentController {
 	 * @return
 	 */
 	@PostMapping("/sendscore")
-	public ResponseBodyData sendScore(EcmStore ecmStore){
+	public ResBodyData sendScore(EcmStore ecmStore){
 		try {
 			List<Map<String,Object>> resultList = depositService.updateStoreScore(ecmStore);
 			if(!CollectionUtils.isEmpty(resultList)){
@@ -102,7 +102,7 @@ public class AgentController {
 	 * @return
 	 */
 	@PostMapping("/createaccoutbalance")
-	public ResponseBodyData createAccoutBalance(EcmMzfAccount ecmMzfAccount){
+	public ResBodyData createAccoutBalance(EcmMzfAccount ecmMzfAccount){
 		try {
 			int flag = depositService.createAccount(ecmMzfAccount);
 			if(flag > 0){

@@ -6,12 +6,6 @@ public abstract class ShareProfitConstants {
 	// date
 	public static final String FORMATE_DATE_ALL = "yyyy-mm-dd hh24:mm:ss";
 	
-	// encode
-	public static final String ENCODE_UTF8 = "UTF-8";
-	public static final String ENCODE_GBK = "GBK";
-	public static final String ENCODE_GB2312 = "GB2312";
-	public static final String ENCODE_ISO8859_1 = "ISO-8859-1";
-	
 	//数据来源
 	public static final String DATA_SOURCE_O2O = "o2o";
 	

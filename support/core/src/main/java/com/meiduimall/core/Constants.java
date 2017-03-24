@@ -43,6 +43,12 @@ public class Constants {
 	public final static int REDIS_NINETY = 90;
 	/**无效的int**/
 	public static final int CONSTANT_INVALID_INT = -1;
+	
+	/**编码字符集常量**/
+	public static final String ENCODE_UTF8 = "UTF-8";
+	public static final String ENCODE_GBK = "GBK";
+	public static final String ENCODE_GB2312 = "GB2312";
+	public static final String ENCODE_ISO8859_1 = "ISO-8859-1";
 
 
 }

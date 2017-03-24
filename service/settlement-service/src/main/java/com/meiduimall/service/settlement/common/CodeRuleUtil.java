@@ -7,8 +7,7 @@ import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.meiduimall.service.settlement.util.ToolUtils;
-
+import com.meiduimall.service.settlement.util.DateUtil;
 
 /**
  * 编码规则生成类
@@ -200,19 +199,19 @@ public class CodeRuleUtil {
 	 */
 	public static String getBillid(int type,String code)
 	{
-		String billid="ZD"+code+ToolUtils.getCurrentSixDay();
+		String billid="ZD"+code+DateUtil.getCurrentSixDay();
 		switch (type) {
 		case 1:
-			billid="SZ"+code+ToolUtils.getCurrentSixDay();
+			billid="SZ"+code+DateUtil.getCurrentSixDay();
 			break;
 		case 2:
-			billid="GZ"+code+ToolUtils.getCurrentSixDay();
+			billid="GZ"+code+DateUtil.getCurrentSixDay();
 			break;
 		case 3:
-			billid="QZ"+code+ToolUtils.getCurrentSixDay();
+			billid="QZ"+code+DateUtil.getCurrentSixDay();
 			break;
 		case 4:
-			billid="QZ"+code+ToolUtils.getCurrentSixDay();
+			billid="QZ"+code+DateUtil.getCurrentSixDay();
 			break;
 		default:
 			break;
@@ -227,19 +226,19 @@ public class CodeRuleUtil {
 	 * @return
 	 */
 	public static String getBillFlowCode(int type,String code){
-		String billid="ZD"+code+ToolUtils.getCurrentSixDay();
+		String billid="ZD"+code+DateUtil.getCurrentSixDay();
 		switch (type) {
 		case 1:
-			billid="SL"+code+ToolUtils.getCurrentSixDay()+getRandomNumber(2);
+			billid="SL"+code+DateUtil.getCurrentSixDay()+getRandomNumber(2);
 			break;
 		case 2:
-			billid="GL"+code+ToolUtils.getCurrentSixDay()+getRandomNumber(2);
+			billid="GL"+code+DateUtil.getCurrentSixDay()+getRandomNumber(2);
 			break;
 		case 3:
-			billid="QL"+code+ToolUtils.getCurrentSixDay()+getRandomNumber(2);
+			billid="QL"+code+DateUtil.getCurrentSixDay()+getRandomNumber(2);
 			break;
 		case 4:
-			billid="QL"+code+ToolUtils.getCurrentSixDay()+getRandomNumber(2);
+			billid="QL"+code+DateUtil.getCurrentSixDay()+getRandomNumber(2);
 			break;
 		default:
 			break;

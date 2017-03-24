@@ -12,12 +12,13 @@ import com.github.pagehelper.StringUtil;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableMap;
+import com.meiduimall.core.Constants;
+import com.meiduimall.core.util.ToolUtils;
 import com.meiduimall.service.settlement.context.MemberSystemDataContext;
 import com.meiduimall.service.settlement.model.EcmMzfOrderStatus;
 import com.meiduimall.service.settlement.model.EcmMzfShareProfit;
 import com.meiduimall.service.settlement.model.EcmSystemSetting;
 import com.meiduimall.service.settlement.util.DateUtil;
-import com.meiduimall.service.settlement.util.ToolUtils;
 import com.meiduimall.service.settlement.vo.EcmMzfBillWaterVO;
 import com.meiduimall.service.settlement.vo.ShareProfitVO;
 
@@ -220,7 +221,7 @@ public class ShareProfitUtil {
 			String direction=ctx.getDirection();
 			String tradeTime=String.valueOf(ctx.getTradeTime());
 			String remark=ctx.getRemark();
-			String remarkEncoded=ToolUtils.encodeStr(remark,ShareProfitConstants.ENCODE_UTF8);
+			String remarkEncoded=ToolUtils.encodeStr(remark,Constants.ENCODE_UTF8);
 				
 			String api = apiDomain+apiPath;
 			 
@@ -249,7 +250,7 @@ public class ShareProfitUtil {
 			        + "&trade_time=" + tradeTime
 			        + "&remark=" + remark;
 					
-			String signature = "&oauth_signature=" + ToolUtils.MD5Encrypt(ToolUtils.encodeStr("get&"+api+"&"+oauthParams+dataParams4Sign, ShareProfitConstants.ENCODE_UTF8)); 
+			String signature = "&oauth_signature=" + ToolUtils.MD5Encrypt(ToolUtils.encodeStr("get&"+api+"&"+oauthParams+dataParams4Sign, Constants.ENCODE_UTF8)); 
 			
 			return api+"?"+oauthParams+signature+dataParams;  //不嫩直接将中文字符的remark字段传到请求参数，不然API服务器那边接收到时会出现乱码。
 		}
@@ -295,28 +296,6 @@ public class ShareProfitUtil {
 			
 		}
 
-		public static List<String> validate4SyncVerifyStatus(EcmMzfOrderStatus orderStatus) {
-			final List<String> errors=new ArrayList<String>();
-
-			if(StringUtil.isEmpty(orderStatus.getOrderSn())){
-				errors.add("订单号不能为空!");
-			}
-			
-			if(orderStatus.getVerifyStatus()==null){
-				errors.add("审核状态不能为空!");
-			} 
-			
-			if(orderStatus.getVerifyTime()==null || orderStatus.getVerifyTime()<=0){
-				errors.add("审核时间不能为空或不能小于0!");
-			}
-			
-			if(StringUtil.isEmpty(orderStatus.getVerifyName())){
-				errors.add("审核人不能为空!");
-			}
-			
-			return errors;
-			
-		}
 
 		public static void updateBillInfo(List<EcmMzfShareProfit> shareProfits, List<EcmMzfBillWaterVO> billWaterVOs) {
 			if(shareProfits!=null && !shareProfits.isEmpty() && billWaterVOs!=null && !billWaterVOs.isEmpty()){
