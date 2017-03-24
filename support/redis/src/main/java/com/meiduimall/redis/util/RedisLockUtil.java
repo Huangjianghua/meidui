@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.meiduimall.core.Constants;
-import com.meiduimall.core.exception.SystemException;
+import com.meiduimall.exception.SystemException;
 
 
 

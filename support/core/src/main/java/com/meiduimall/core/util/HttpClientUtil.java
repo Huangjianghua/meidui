@@ -166,7 +166,7 @@ public class HttpClientUtil {
 	 * @param headers
 	 * @return
 	 */
-	public static String doGet(String url, HashMap<String, String> headers) {
+	public static String doGet(String url, Map<String, String> headers) {
 
 		CloseableHttpClient httpclient = HttpClients.createDefault();
 		HttpGet httpGet = new HttpGet(url);
