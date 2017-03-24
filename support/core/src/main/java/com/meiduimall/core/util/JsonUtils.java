@@ -2,16 +2,13 @@ package com.meiduimall.core.util;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.JavaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.StringUtils;
-
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 
 /**
@@ -21,16 +18,15 @@ import com.google.common.base.Strings;
  * Date:     2017年3月15日 下午6:15:47
  * Description: json工具类
  */
-public class JacksonUtil {
+public class JsonUtils {
 	
-	private static final Logger logger = LoggerFactory.getLogger(JacksonUtil.class);
-	private static JacksonUtil jacksonUtil = new JacksonUtil();
+	private static final Logger logger = LoggerFactory.getLogger(JsonUtils.class);
+	private static JsonUtils jacksonUtil = new JsonUtils();
 	
-    private ObjectMapper mapper;  
+    private ObjectMapper mapper;
     
-    private JacksonUtil() {   
+    private JsonUtils() {   
     	mapper = new ObjectMapper();  
-    	mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }  
 
 

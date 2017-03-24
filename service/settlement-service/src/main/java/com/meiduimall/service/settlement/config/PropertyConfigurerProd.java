@@ -5,8 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import com.meiduimall.core.util.ToolUtils;
 import com.meiduimall.service.settlement.common.ShareProfitUtil;
-import com.meiduimall.service.settlement.util.ToolUtils;
 
 @Component
 @Profile("pro")

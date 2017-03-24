@@ -16,7 +16,7 @@ import javax.xml.bind.Unmarshaller;
  * @author chencong
  *
  */
-public class XmlUtil {
+public class XmlUtils {
 
 	/**
 	 * JavaBean转换成xml 默认编码UTF-8

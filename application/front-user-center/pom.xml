@@ -11,10 +11,10 @@
 	<description>front-user-center</description>
 
 	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.4.2.RELEASE</version>
-		<relativePath />
+		<groupId>com.meiduimall</groupId>
+		<artifactId>application</artifactId>
+		<version>1.0.0</version>
+		<!--<relativePath />-->
 	</parent>
 
 	<properties>
@@ -26,11 +26,11 @@
 	<dependencies>
 	
 	    <!-- meiduimall-common-->
-		<dependency>
-			<groupId>com.meiduimall</groupId>
-			<artifactId>meiduimall-common</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>com.meiduimall</groupId>-->
+			<!--<artifactId>meiduimall-common</artifactId>-->
+			<!--<version>0.0.1-SNAPSHOT</version>-->
+		<!--</dependency>-->
 	
 		<!-- 热部署，修改了代码不需要重新启动spring boot -->
 		 <dependency>
@@ -78,7 +78,22 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>com.meiduimall</groupId>
+			<artifactId>meiduimall-support-redis</artifactId>
+			<version>${meiduimall-support-redis.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.meiduimall</groupId>
+			<artifactId>meiduimall-support-security</artifactId>
+			<version>${meiduimall-support-security.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.meiduimall</groupId>
+			<artifactId>meiduimall-support-core</artifactId>
+			<version>${meiduimall-support-core.version}</version>
+		</dependency>
 		
 		<!-- mybatis -->
 		<dependency>

@@ -3,14 +3,14 @@ package com.meiduimall.service.settlement.api;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.service.settlement.common.SettlementUtil;
+import com.meiduimall.service.settlement.common.ShareProfitConstants;
 import com.meiduimall.service.settlement.model.EcmSystemSetting;
 import com.meiduimall.service.settlement.service.SettingService;
 
@@ -20,9 +20,7 @@ public class SettingController {
 	
 	@Autowired
 	private SettingService settingService;
-	
 
-	
 	/**
 	 * 更新分润比例配置接口
 	 * @param input
@@ -30,22 +28,21 @@ public class SettingController {
 	 * @throws Exception
 	 */
 	@PostMapping(value="/updatesystemsetting")
-	public ResBodyData updatesystemsetting(EcmSystemSetting input) throws Exception{
+	public ResBodyData updatesystemsetting(@Validated EcmSystemSetting input) throws Exception{
 		EcmSystemSetting ecmSystemSetting = settingService.updatesystemsetting(input);
-		return SettlementUtil.buildReponseData(ecmSystemSetting, 0, "成功");
+		return SettlementUtil.buildReponseData(ecmSystemSetting, ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS, "成功");
 	}
 	
 	/**
 	 * 分润比例配置列表接口
-	 * @param input
+	 * @param systemSetting
 	 * @return
 	 * @throws Exception
 	 */
 	@PostMapping(value="/listsystemsetting")
-	public ResBodyData listsystemsetting(EcmSystemSetting input) throws Exception{
-		PageHelper.startPage(input.getPageNum(),input.getPageSize());
-		List<EcmSystemSetting> ecmSystemSetting = settingService.listsystemsetting(input);
-		return SettlementUtil.buildReponseData(new PageInfo<>(ecmSystemSetting), 0, "成功");
+	public ResBodyData listsystemsetting(EcmSystemSetting systemSetting) throws Exception{
+		List<EcmSystemSetting> systemSettingList = settingService.listsystemsetting(systemSetting);
+		return SettlementUtil.buildReponseData(systemSettingList, ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS, "成功");
 		
 	}
 	

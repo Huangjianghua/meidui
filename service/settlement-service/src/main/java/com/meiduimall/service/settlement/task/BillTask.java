@@ -20,7 +20,6 @@ import com.meiduimall.service.settlement.service.O2oCallbackService;
 import com.meiduimall.service.settlement.service.ShareProfitLogService;
 import com.meiduimall.service.settlement.service.WaterService;
 import com.meiduimall.service.settlement.util.DateUtil;
-import com.meiduimall.service.settlement.util.ToolUtils;
 import com.meiduimall.service.settlement.vo.BilledWaterVO2Merge;
 
 
@@ -101,7 +100,7 @@ public class BillTask {
 	@Scheduled(cron = CronExpression.TIME_ZERO_HOUR_THIRTY_MIN)
 	public void mergeBilledWaters() throws Exception {
 		
-		Date billtime=sdf.parse(ToolUtils.getUpDAY()); //账单日期
+		Date billtime=sdf.parse(DateUtil.getUpDAY()); //账单日期
 		
 		//对生成账单当天的ecm_mzf_water表相同的 code,op_time,water_type记录进行分组，合并金额，删掉重复记录。主要用于修复：同一个用户既是区代又是跨区代分账后生成流水记录表时一个用户在同一时间点产生两天流水记录。
 		//String remark=sdf.format(billtime)+"账单";

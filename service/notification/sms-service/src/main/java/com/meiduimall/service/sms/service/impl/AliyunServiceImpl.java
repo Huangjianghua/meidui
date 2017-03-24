@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.common.base.Strings;
-import com.meiduimall.core.exception.ApiException;
+import com.meiduimall.exception.ApiException;
 import com.meiduimall.core.util.ExceptionUtils;
-import com.meiduimall.core.util.JacksonUtil;
+import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.service.sms.SysConstant;
 import com.meiduimall.service.sms.entity.MessageChannel;
 import com.meiduimall.service.sms.service.AliyunService;
@@ -40,7 +40,7 @@ public class AliyunServiceImpl implements AliyunService{
 		}
 		String channelJsonStr = messageChannelService.getChannelList(SysConstant.MESSAGE_CHANNEL_KEY);
 		if(!Strings.isNullOrEmpty(channelJsonStr)){
-			List<MessageChannel> channelList = JacksonUtil.jsonToList(channelJsonStr, MessageChannel.class);
+			List<MessageChannel> channelList = JsonUtils.jsonToList(channelJsonStr, MessageChannel.class);
 			for(MessageChannel c : channelList){
 				if(SysConstant.MESSAGE_TEMPLATE_ALI_KEY.equals(c.getChannelKey())){
 					url = c.getRequstUrl();
