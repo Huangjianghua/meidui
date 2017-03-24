@@ -1297,5 +1297,34 @@ public class DateUtil {
 		Long timestamp = Long.parseLong(timestampString) * 1000;
 		return new java.text.SimpleDateFormat(formats).format(new java.util.Date(timestamp));
 	}
+	
+	/**
+	 * 获取今天的日期
+	 * @return
+	 */
+	public static String getCurrentDay() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		return dateFormat.format(Calendar.getInstance().getTime());
+	}
+
+	
+	/**
+	 * 获取昨天的日期
+	 * @return
+	 */
+	public static String getUpDAY() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar c = Calendar.getInstance();
+		c.add(Calendar.DAY_OF_MONTH, -1);
+		return dateFormat.format(c.getTime());
+	}
+
+	/**
+	 * 获取六位年月日
+	 * @return
+	 */
+	public static String getCurrentSixDay() {
+		return new SimpleDateFormat("yyMMdd").format(new Date());
+	}
 
 }

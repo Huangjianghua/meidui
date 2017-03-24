@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,12 +17,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.pagehelper.StringUtil;
 import com.google.common.collect.ImmutableMap;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.service.settlement.common.SettlementUtil;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
-import com.meiduimall.service.settlement.common.ShareProfitUtil;
 import com.meiduimall.service.settlement.model.EcmMzfOrderStatus;
 import com.meiduimall.service.settlement.model.EcmMzfShareProfit;
 import com.meiduimall.service.settlement.model.EcmOrder;

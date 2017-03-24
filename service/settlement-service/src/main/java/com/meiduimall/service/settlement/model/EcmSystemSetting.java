@@ -1,6 +1,11 @@
 package com.meiduimall.service.settlement.model;
 
-import com.meiduimall.service.settlement.common.Helper;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotBlank;
+
+import com.meiduimall.service.settlement.common.PagerHelper;
+import com.meiduimall.service.settlement.validation.ValidGroup1;
 
 /**
  * Title : EcmSystemSetting 
@@ -13,11 +18,19 @@ import com.meiduimall.service.settlement.common.Helper;
  * Modify Content : 
  * -------------------------
  */
-public class EcmSystemSetting extends Helper{
+public class EcmSystemSetting{
+	
 	private Integer sid;
+	
+	@NotBlank(message="scode不能为空")
 	private String scode;
+	
+	@NotBlank(message="value值不能为空")
 	private String value;
+	
+	@NotNull(message="state状态不能为空"/*,groups={ValidGroup1.class}*/)
 	private Integer state;
+	
 	private String desc;
 	
 	 
