@@ -21,14 +21,14 @@ import com.google.common.base.Strings;
  * Date:     2017年3月15日 下午6:15:47
  * Description: json工具类
  */
-public class JacksonUtil {
+public class JsonUtils {
 	
-	private static final Logger logger = LoggerFactory.getLogger(JacksonUtil.class);
-	private static JacksonUtil jacksonUtil = new JacksonUtil();
+	private static final Logger logger = LoggerFactory.getLogger(JsonUtils.class);
+	private static JsonUtils jacksonUtil = new JsonUtils();
 	
     private ObjectMapper mapper;  
     
-    private JacksonUtil() {   
+    private JsonUtils() {   
     	mapper = new ObjectMapper();  
     	mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }  

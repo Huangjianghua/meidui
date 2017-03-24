@@ -14,7 +14,7 @@ import com.google.common.base.Strings;
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.ExceptionUtils;
-import com.meiduimall.core.util.JacksonUtil;
+import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.redis.util.JedisUtil;
 import com.meiduimall.service.sms.SysConstant;
 import com.meiduimall.service.sms.entity.SendSmsHistory;
@@ -49,7 +49,7 @@ public class SmsServiceImpl implements SmsService{
 	
 	private TemplateInfo getTemplateByKey(String templateId,String templateListJsonStr){
 		TemplateInfo ti = new TemplateInfo();
-		List<TemplateInfo> templateInfoList =JacksonUtil.jsonToList(templateListJsonStr, TemplateInfo.class);
+		List<TemplateInfo> templateInfoList =JsonUtils.jsonToList(templateListJsonStr, TemplateInfo.class);
 		for(TemplateInfo info : templateInfoList){
 			if(info.getTemplateKey().equals(templateId)){
 				BeanUtils.copyProperties(ti, info);
@@ -104,7 +104,7 @@ public class SmsServiceImpl implements SmsService{
 				}
 			}
 		}
-		params =JacksonUtil.mapToJson(map);
+		params =JsonUtils.mapToJson(map);
 		return params;
 	}
 	
