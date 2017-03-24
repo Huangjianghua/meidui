@@ -31,6 +31,15 @@ import com.meiduimall.service.settlement.service.ShareProfitLogService;
 import com.meiduimall.service.settlement.service.SmsService;
 import com.meiduimall.service.settlement.util.DateUtil;
 
+
+
+/**
+ * Copyright (C), 2002-2017, 美兑壹购
+ * FileName: AsyncTaskService.java
+ * Author:   许彦雄
+ * Date:     2016年12月26日 下午6:15:47
+ * Description: 异步任务执行服务类
+ */
 @Component
 public class AsyncTaskService {
 	
@@ -57,6 +66,17 @@ public class AsyncTaskService {
 	
 	private static final Logger log=LoggerFactory.getLogger(AsyncTaskService.class);
 	
+
+	/**
+	 * 功能描述:  异步执行送订单所获积分到会员系统
+	 * Author: 许彦 雄
+	 * Date:   2017年3月14日 下午3:38:26   
+	 * param shareProfit
+	 * param shareProfitSource
+	 * param retryType
+	 * return  
+	 * throws Exception
+	 */
 	@Async
 	public void updateScore2MemberSystem(EcmMzfShareProfit shareProfit, String shareProfitSource,String retryType) {
 		
@@ -179,15 +199,17 @@ public class AsyncTaskService {
 		}
 		
 	}
-	
-	
+
 	/**
-	 * 新个代送积分
-	 * @param ecmAgent 代理对象
-	 * @param score 积分
-	 * @param dataSource 数据来源:o2o,Cache
-	 * @param retryType
-	 * @throws Exception
+	 * 功能描述:  异步执行送新个代奖励积分到会员系统
+	 * Author: 许彦 雄
+	 * Date:   2017年3月14日 下午3:38:26   
+	 * param ecmAgent 代理对象
+	 * param score 积分
+	 * param dataSource 数据来源:o2o,Cache
+	 * param retryType
+	 * return  
+	 * throws Exception
 	 */
 	@Async
 	public void updateScore(EcmAgent ecmAgent, int score, String dataSource, String retryType) throws Exception {
@@ -285,8 +307,5 @@ public class AsyncTaskService {
 			throw e;
 		}
 	}
-	
-	
-
 
 }

@@ -4,24 +4,34 @@ import java.util.List;
 
 import com.meiduimall.service.settlement.model.EcmSystemSetting;
 
-
+/**
+ * Copyright (C), 2002-2017, 美兑壹购物
+ * FileName: SettingService.java
+ * Author:   许彦雄
+ * Date:     2017年3月14日 下午3:37:58
+ * Description: 结算服务参数配置和查询服务
+ */
 public interface SettingService {
 
 	
 	 
-    /**
-     * 更新分润比例配置接口
-     * @param input
-     * @return
-     * @throws Exception
-     */
-	EcmSystemSetting updatesystemsetting(EcmSystemSetting input)throws Exception;
+	/**
+	 * 功能描述:  更新分润比例配置接口
+	 * Author: 许彦 雄
+	 * Date:   2017年3月14日 下午3:38:26   
+	 * param systemSetting
+	 * return  EcmSystemSetting
+	 * throws Exception
+	 */
+	EcmSystemSetting updatesystemsetting(EcmSystemSetting systemSetting)throws Exception;
 
 	/**
-	 * 分润比例配置列表接口
-	 * @param input
-	 * @return
-	 * @throws Exception
+	 * 功能描述:  查询分润比例配置列表接口
+	 * Author: 许彦 雄
+	 * Date:   2017年3月14日 下午3:38:26   
+	 * param systemSetting
+	 * return  List<EcmSystemSetting>
+	 * throws Exception
 	 */
 	List<EcmSystemSetting> listsystemsetting(EcmSystemSetting input)throws Exception;
 	

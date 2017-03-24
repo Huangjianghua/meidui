@@ -14,6 +14,13 @@ import com.meiduimall.service.settlement.common.ShareProfitConstants;
 import com.meiduimall.service.settlement.model.EcmSystemSetting;
 import com.meiduimall.service.settlement.service.SettingService;
 
+/**
+ * Copyright (C), 2002-2017, 美兑壹购物
+ * FileName: SettingController.java
+ * Author:   许彦雄
+ * Date:     2017年3月14日 下午3:37:58
+ * Description: 结算服务参数配置和查询接口
+ */
 @RestController
 @RequestMapping("/settlementservice/settingservice/v1")
 public class SettingController {
@@ -22,22 +29,27 @@ public class SettingController {
 	private SettingService settingService;
 
 	/**
-	 * 更新分润比例配置接口
-	 * @param input
-	 * @return
-	 * @throws Exception
+	 * 功能描述:  更新分润比例配置接口
+	 * Author: 许彦 雄
+	 * Date:   2017年3月14日 下午3:38:26   
+	 * param systemSetting
+	 * return  ResBodyData
+	 * throws Exception
 	 */
 	@PostMapping(value="/updatesystemsetting")
-	public ResBodyData updatesystemsetting(@Validated EcmSystemSetting input) throws Exception{
-		EcmSystemSetting ecmSystemSetting = settingService.updatesystemsetting(input);
+	public ResBodyData updatesystemsetting(@Validated EcmSystemSetting systemSetting) throws Exception{
+		EcmSystemSetting ecmSystemSetting = settingService.updatesystemsetting(systemSetting);
 		return SettlementUtil.buildReponseData(ecmSystemSetting, ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS, "成功");
 	}
 	
+
 	/**
-	 * 分润比例配置列表接口
-	 * @param systemSetting
-	 * @return
-	 * @throws Exception
+	 * 功能描述:  查询分润比例配置列表接口
+	 * Author: 许彦 雄
+	 * Date:   2017年3月14日 下午3:38:26   
+	 * param systemSetting
+	 * return  ResBodyData
+	 * throws Exception
 	 */
 	@PostMapping(value="/listsystemsetting")
 	public ResBodyData listsystemsetting(EcmSystemSetting systemSetting) throws Exception{

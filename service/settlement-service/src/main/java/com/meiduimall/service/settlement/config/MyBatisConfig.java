@@ -26,12 +26,12 @@ import com.github.pagehelper.PageHelper;
 
 
 /**
- * mybatis配置类
- * @author Niu Li
- * @date 2016/8/12
- *http://blog.csdn.net/u012706811/article/details/52198677
+ * Copyright (C), 2002-2017, 美兑壹购物
+ * FileName: MyBatisConfig.java
+ * Author:   许彦雄
+ * Date:     2017年3月14日 下午3:37:58
+ * Description: MyBatis启动配置类(参考:http://blog.csdn.net/u012706811/article/details/52198677) 
  */
-
 @Configuration
 @EnableTransactionManagement
 public class MyBatisConfig implements TransactionManagementConfigurer{

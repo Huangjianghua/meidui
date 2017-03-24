@@ -24,9 +24,11 @@ import com.meiduimall.service.settlement.vo.BilledWaterVO2Merge;
 
 
 /**
- * 
- * @author 许彦雄
- * desc:创建账单定时任务
+ * Copyright (C), 2002-2017, 美兑壹购
+ * FileName: BillTask.java
+ * Author:   许彦雄
+ * Date:     2017年2月20日 下午6:15:47
+ * Description: 账单定时任务
  */
 @Component
 public class BillTask {
@@ -50,6 +52,13 @@ public class BillTask {
 	
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	
+	/**
+	 * 功能描述:  创建账单定时任务
+	 * Author: 许彦 雄
+	 * Date:   2017年3月14日 下午3:38:26   
+	 * return  
+	 * throws Exception
+	 */
 	//@Scheduled(cron = CronExpression.EVERY_5_MINUTE)
 	@Scheduled(cron = CronExpression.TIME_ZERO_HOUR_FIVE_MIN)
 	public void CreateBill() throws Exception {
@@ -87,15 +96,20 @@ public class BillTask {
 		}
 
 	}
-	
+
 	/**
-	 * 3. Bug:
+	 * 功能描述:  合并账单流水定时任务
+	 * 	Bug:
 	 *	原因：如果用户U即是商家A的区代，又是商家B的跨区代，如果在同一天时间消费者C即在A消费又在B也消费了，
 	 *	那么在当天账单生成后，在当天生成的流水记录表里对于用户U会生成两条流水记录，一条为区代A的，一条为跨区代B的。
 	 *	修复后：
 	 *	每天的零点30分，会运行一个定时任务来合并属于当天同一个用户的流水记录金额并删掉多余的流水记录。
 	 *	这样，那天的属于该用户U的流水就只有一天，但金额是从A和B分润得来的金额之和。
-     */
+	 * Author: 许彦 雄
+	 * Date:   2017年3月14日 下午3:38:26   
+	 * return  
+	 * throws Exception
+	 */
 	//@Scheduled(cron = CronExpression.EVERY_5_MINUTE)
 	@Scheduled(cron = CronExpression.TIME_ZERO_HOUR_THIRTY_MIN)
 	public void mergeBilledWaters() throws Exception {

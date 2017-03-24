@@ -17,11 +17,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-
 /**
- * @author alex.xu
- * @since 2016 Dec 26
- *
+ * Copyright (C), 2002-2017, 美兑壹购
+ * FileName: DateUtil.java
+ * Author:   许彦雄
+ * Date:     2016年12月26日 下午6:15:47
+ * Description: 日期工具类
  */
 public class DateUtil {
 	

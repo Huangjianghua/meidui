@@ -18,7 +18,7 @@ import org.springframework.util.StringUtils;
 import com.meiduimall.core.Constants;
 
 /**
- * 工具类,采用fastjson
+ * 工具类
  * @author chencong
  *
  */

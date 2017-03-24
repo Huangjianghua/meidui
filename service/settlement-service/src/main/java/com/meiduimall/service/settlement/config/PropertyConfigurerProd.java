@@ -8,6 +8,13 @@ import org.springframework.stereotype.Component;
 import com.meiduimall.core.util.ToolUtils;
 import com.meiduimall.service.settlement.common.ShareProfitUtil;
 
+/**
+ * Copyright (C), 2002-2017, 美兑壹购物
+ * FileName: PropertyConfigurerProd.java
+ * Author:   许彦雄
+ * Date:     2017年3月14日 下午3:37:58
+ * Description: 根据启动的ActiveProfile加载相应的authorized-{profile}.properties等配置文件
+ */
 @Component
 @Profile("pro")
 public class PropertyConfigurerProd implements IPropertyConfigurer {

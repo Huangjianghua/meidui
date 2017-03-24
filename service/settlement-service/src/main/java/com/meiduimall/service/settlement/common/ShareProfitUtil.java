@@ -24,8 +24,11 @@ import com.meiduimall.service.settlement.vo.ShareProfitVO;
 
 
 /**
- * @author 许彦雄
- *
+ * Copyright (C), 2002-2017, 美兑壹购
+ * FileName: ShareProfitUtil.java
+ * Author:   许彦雄
+ * Date:     2017年3月15日 下午6:15:47
+ * Description: 分润工具类
  */
 public class ShareProfitUtil {
 	

@@ -19,6 +19,13 @@ import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSONObject;
 
+/**
+ * Copyright (C), 2002-2017, 美兑壹购
+ * FileName: ConnectionUrlUtil.java
+ * Author:   不详
+ * Date:     2016年12月26日 下午6:15:47
+ * Description: HttpURLConnection工具类
+ */
 public class ConnectionUrlUtil {
 
 	private static Logger log = LoggerFactory.getLogger(ConnectionUrlUtil.class);

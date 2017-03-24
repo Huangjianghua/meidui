@@ -28,6 +28,13 @@ import com.meiduimall.service.settlement.service.OrderService;
 import com.meiduimall.service.settlement.task.AsyncTaskService;
 import com.meiduimall.service.settlement.vo.ShareProfitVO;
 
+/**
+ * Copyright (C), 2002-2017, 美兑壹购物
+ * FileName: OrderController.java
+ * Author:   许彦雄
+ * Date:     2017年3月14日 下午3:37:58
+ * Description: 订单分润和分润查询服务
+ */
 @RestController
 @RequestMapping("/settlementservice/orderservice/v1")
 public class OrderController {
@@ -39,13 +46,14 @@ public class OrderController {
 	@Autowired
 	private AsyncTaskService asyncTaskService;
 
+
 	/**
-	 * 订单分润接口
-	 * @param request
-	 * @param response
-	 * @param ecmOrder
-	 * @return
-	 * @throws Exception
+	 * 功能描述:  订单分润接口
+	 * Author: 许彦 雄
+	 * Date:   2017年3月14日 下午3:38:26   
+	 * param ecmOrder
+	 * return  ResBodyData
+	 * throws Exception
 	 */
 	@RequestMapping(value="/shareprofit",method=RequestMethod.POST)
 	public ResBodyData shareProfit(@Validated EcmOrder ecmOrder)throws Exception{
@@ -114,13 +122,15 @@ public class OrderController {
 		return SettlementUtil.buildReponseData(ImmutableMap.of("orderSn", ecmOrder.getOrderSn(),"shareStatus",shareStatus), statusCode, resultMsg);
 	}
 
-    /**
-     * 根据订单号列表查询订单状态接口
-     * @param input
-     * @return
-     * @throws Exception
-     * @author wujun 
-     */
+
+	/**
+	 * 功能描述:  根据订单号列表查询订单状态接口
+	 * Author: 许彦 雄
+	 * Date:   2017年3月14日 下午3:38:26   
+	 * param orderSns
+	 * return  ResBodyData
+	 * throws Exception
+	 */
 	@PostMapping(value="/queryorderstatus")
 	public ResBodyData queryOrderStatus(String[] orderSns) throws Exception{
 		
@@ -135,11 +145,12 @@ public class OrderController {
 	}
 	
 	/**
-	 * 同步订单审核状态接口
-	 * bill_status状态改为1, status_desc改为待结算
-	 * @param input
-	 * @return
-	 * @throws Exception
+	 * 功能描述:同步订单审核状态接口(bill_status状态改为1, status_desc改为待结算)
+	 * Author: 吴军
+	 * Date:   2017年3月14日 下午3:38:26   
+	 * param input
+	 * return ResBodyData
+	 * throws Exception
 	 */
 	@PostMapping(value="/syncverifystatus")
 	public ResBodyData syncVerifyStatus(@Validated EcmMzfOrderStatus orderStatus) throws Exception{
@@ -165,13 +176,15 @@ public class OrderController {
 		return SettlementUtil.buildReponseData("", statusCode, msg);
 		
 	}
-	
+
 	
 	/**
-	 * 根据订单号列表查询订单状态接口
-	 * @param orderSns
-	 * @return
-	 * @throws Exception
+	 * 功能描述:  根据订单号列表查询订单分润接口
+	 * Author: 许彦 雄
+	 * Date:   2017年3月14日 下午3:38:26   
+	 * param orderSns
+	 * return  ResBodyData
+	 * throws Exception
 	 */
 	@RequestMapping(value="/queryshareprofit",method=RequestMethod.POST)
 	@ResponseBody
@@ -189,11 +202,13 @@ public class OrderController {
 	
 	
 	/**
-	 * 根据区代/个代查询今日订单佣金和待结算金额接口
-	 * @param code
-	 * @param accountRoleType
-	 * @return
-	 * @throws Exception
+	 * 功能描述:  根据区代/个代查询今日订单佣金和待结算金额接口
+	 * Author: 许彦 雄
+	 * Date:   2017年3月14日 下午3:38:26 
+	 * param code
+	 * param accountRoleType
+	 * return ResBodyData
+	 * throws Exception
 	 */
 	@RequestMapping(value="/queryprofitbyrole",method=RequestMethod.POST)
 	@ResponseBody
@@ -206,14 +221,15 @@ public class OrderController {
 	}
 	
 	/**
-	 * 根据流水编号查询分润数据接口 (已经合并到查询账单流水详情接口WaterController.querywaterbyid())
-	 * @param waterId
-	 * @param loginType
-	 * @param code
-	 * @param pageNumber
-	 * @param pageSize
-	 * @return
-	 * @throws Exception
+	 * 功能描述:  根据流水编号查询分润数据接口 (已经合并到查询账单流水详情接口WaterController.querywaterbyid())
+	 * Author: 许彦 雄
+	 * param waterId
+	 * param loginType
+	 * param code
+	 * param pageNumber
+	 * param pageSize
+	 * return ResBodyData
+	 * throws Exception
 	 */
 	@RequestMapping(value="/queryprofitbywaterbytype",method=RequestMethod.POST)
 	@ResponseBody
@@ -232,7 +248,4 @@ public class OrderController {
 	}
 
 
-	
-	
-	
 }

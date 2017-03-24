@@ -15,11 +15,12 @@ import org.apache.commons.logging.LogFactory;
 import com.github.pagehelper.StringUtil;
 import com.meiduimall.core.ResBodyData;
 
-
 /**
- * @author alex.xu
- * @created at 2016/12/23
- *
+ * Copyright (C), 2002-2017, 美兑壹购
+ * FileName: SettlementUtil.java
+ * Author:   许彦雄
+ * Date:     2017年3月15日 下午6:15:47
+ * Description: 结算工具类
  */
 public class SettlementUtil {
 	

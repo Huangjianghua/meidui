@@ -14,9 +14,11 @@ import redis.clients.jedis.JedisShardInfo;
 import redis.clients.jedis.ShardedJedisPool;
 
 /**
- * redis系统配置类
- * @author chencong
- *
+ * Copyright (C), 2002-2017, 美兑壹购物
+ * FileName: RedisConfig.java
+ * Author:   陈建宇
+ * Date:     2017年3月14日 下午3:37:58
+ * Description: Redis启动配置类
  */
 @Configuration
 @ImportResource("classpath:applicationContext-common.xml")

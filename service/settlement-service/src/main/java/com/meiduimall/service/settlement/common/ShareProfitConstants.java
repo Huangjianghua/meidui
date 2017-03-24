@@ -1,5 +1,12 @@
 package com.meiduimall.service.settlement.common;
 
+/**
+ * Copyright (C), 2002-2017, 美兑壹购
+ * FileName: ShareProfitConstants.java
+ * Author:   许彦雄
+ * Date:     2017年3月15日 下午6:15:47
+ * Description: 分润常量定义类
+ */
 public abstract class ShareProfitConstants {
 
 	

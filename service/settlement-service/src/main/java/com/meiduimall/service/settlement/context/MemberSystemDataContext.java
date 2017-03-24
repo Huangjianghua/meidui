@@ -2,6 +2,13 @@ package com.meiduimall.service.settlement.context;
 
 import java.math.BigDecimal;
 
+/**
+ * Copyright (C), 2002-2017, 美兑壹购物
+ * FileName: MemberSystemDataContext.java
+ * Author:   许彦雄
+ * Date:     2017年3月14日 下午3:37:58
+ * Description: 更新积分和现金奖励到会员系统数据上下文
+ */
 public class MemberSystemDataContext {
 	
 	public static final String KEY_AUTHORIZED_OAUTH_SIGNATURE_METHOD="authorized.oauth_signature_method";

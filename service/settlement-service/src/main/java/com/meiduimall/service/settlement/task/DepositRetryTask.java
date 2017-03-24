@@ -23,10 +23,13 @@ import com.meiduimall.service.settlement.model.ShareProfitAgentLog;
 import com.meiduimall.service.settlement.service.AgentService;
 import com.meiduimall.service.settlement.util.DateUtil;
 
+
 /**
- * 保证金分润重试机制  定时任务
- * @author guidl
- *
+ * Copyright (C), 2002-2017, 美兑壹购
+ * FileName: DepositRetryTask.java
+ * Author:   桂冬玲
+ * Date:     2017年2月26日 下午6:15:47
+ * Description: 保证金分润重试机制 定时任务
  */
 @Service
 public class DepositRetryTask {

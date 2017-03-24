@@ -13,13 +13,14 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
-/*
- * fix the bug:Springboot Mybatis,通过setTypeAliasesPackage配置bean的别名， 打包jar后扫描不到 bean的bug。
- * 解决方案参考:
- *http://blog.csdn.net/cml_blog/article/details/53138851
- *http://www.scienjus.com/mybatis-vfs-bug/
- *https://github.com/mybatis/mybatis-3/issues/325
- *https://github.com/mybatis/spring-boot-starter/tree/master/mybatis-spring-boot-autoconfigure/src/main/java/org/mybatis/spring/boot/autoconfigure
+
+/**
+ * Copyright (C), 2002-2017, 美兑壹购物
+ * FileName: SpringBootVFS.java
+ * Author:   许彦雄
+ * Date:     2017年3月14日 下午3:37:58
+ * Description: fix the bug:Springboot Mybatis,通过setTypeAliasesPackage配置bean的别名， 打包jar后扫描不到 bean的bug。
+ * (参考:http://blog.csdn.net/cml_blog/article/details/53138851;http://www.scienjus.com/mybatis-vfs-bug/;https://github.com/mybatis/mybatis-3/issues/325)
  */
 public class SpringBootVFS extends VFS {
 	
