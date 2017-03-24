@@ -6,20 +6,16 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 
-import com.alibaba.fastjson.JSON;
-import com.meiduimall.service.settlement.common.ShareProfitConstants;
+import com.meiduimall.core.Constants;
 
 /**
  * 工具类,采用fastjson
@@ -45,8 +41,8 @@ public class ToolUtils {
 		String encodestr = str;
 		
 		try {
-			if(ShareProfitConstants.ENCODE_UTF8.equalsIgnoreCase(code)){
-				encodestr = URLEncoder.encode(str, ShareProfitConstants.ENCODE_UTF8);
+			if(Constants.ENCODE_UTF8.equalsIgnoreCase(code)){
+				encodestr = URLEncoder.encode(str, Constants.ENCODE_UTF8);
 			}else{
 				return encodestr;
 			}
@@ -154,7 +150,7 @@ public class ToolUtils {
 	public static String encodeStr(String str,String charset){
 		
 		String encodestr = "";
-		String defaultCharSet=ShareProfitConstants.ENCODE_UTF8;
+		String defaultCharSet=Constants.ENCODE_UTF8;
 		if(!StringUtils.isEmpty(charset)){
 			defaultCharSet=charset;
 		}
