@@ -9,6 +9,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,13 +22,19 @@ import com.meiduimall.service.settlement.common.DrawCashConstants;
 import com.meiduimall.service.settlement.common.SettlementUtil;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 import com.meiduimall.service.settlement.common.ShareProfitUtil;
-import com.meiduimall.service.settlement.model.EcmMzfAccount;
 import com.meiduimall.service.settlement.model.EcmMzfDraw;
 import com.meiduimall.service.settlement.model.EcmSystemSetting;
 import com.meiduimall.service.settlement.service.AgentService;
 import com.meiduimall.service.settlement.service.DrawService;
 import com.meiduimall.service.settlement.util.DateUtil;
 
+/**
+ * Copyright (C), 2002-2017, 美兑壹购物
+ * FileName: DrawController.java
+ * Author:   guidl
+ * Date:     2017年3月24日 下午14:14:28
+ * Description: 提现相关接口
+ */
 @RestController
 @RequestMapping("/settlementservice/drawservice/v1")
 public class DrawController {
@@ -40,28 +47,35 @@ public class DrawController {
 	@Autowired
 	private AgentService agentService;
 	
-	/**
-	 * 获取区代、个代或商家可提现金额
-	 * @param code
-	 * @return
-	 * @throws Exception
-	 */
-	@PostMapping(value="/queryaccoutbalance")
-	public ResBodyData queryAccoutBalance(EcmMzfAccount ecmMzfAccount) throws Exception{
-		
-		Map<String, Object> ecmmzfaccount = drawService.queryAccoutBalance(ecmMzfAccount.getCode());
-		return SettlementUtil.buildReponseData(ecmmzfaccount, 0, "成功");
-		
-	}
 	
 	/**
-	 * 新增提现申请记录接口
-	 * @param ecmMzfDraw
-	 * @return
-	 * @throws Exception
+	 * 功能描述:  根据代理编号获取区代、个代或商家可提现金额
+	 * Author: guidl
+	 * Date:   2017年3月24日 下午14:14:28
+	 * param   code
+	 * return  ResBodyData
+	 */
+	@PostMapping(value="/queryaccoutbalance")
+	public ResBodyData queryAccoutBalance(String code) throws Exception{
+		try {
+			Map<String, Object> accountResult = drawService.queryAccoutBalance(code);
+			return SettlementUtil.success(accountResult, "获取可提现金额成功");
+		} catch (Exception e) {
+			log.error(e.toString());
+			return SettlementUtil.failure("", "获取可提现金额失败");
+		}
+	}
+	
+
+	/**
+	 * 功能描述:  新增提现申请
+	 * Author: guidl
+	 * Date:   2017年3月24日 下午14:14:28
+	 * param   ecmMzfDraw
+	 * return  ResBodyData
 	 */
 	@PostMapping(value = "/drawcash")
-	public ResBodyData drawCash(EcmMzfDraw ecmMzfDraw) throws Exception {
+	public ResBodyData drawCash(@Validated EcmMzfDraw ecmMzfDraw) throws Exception {
 		try {
 			
 			//提现手续费从配置表获取
@@ -113,12 +127,12 @@ public class DrawController {
 	
 	
 	/**
-	 * 获取提现管理列表
-	 * @param pageNumber 页数
-	 * @param pageSize 每页显示条数
-	 * @param type(list,export)
-	 * @param params(drawCode,code,drawType,realname,userType,addTime,status,drawName)
-	 * @return
+	 * 功能描述:  获取提现管理列表
+	 * Author: guidl
+	 * Date:   2017年3月24日 下午14:14:28
+	 * param   pageNumber-页数、pageSize-每页显示条数、type(list,export)
+	 * param   params(drawCode,code,drawType,realname,userType,addTime,status,drawName)
+	 * return  ResBodyData
 	 */
 	@PostMapping(value = "/querydrawcash")
 	public ResBodyData queryDrawCash(
@@ -142,28 +156,34 @@ public class DrawController {
 			log.error(e.toString());
 			return SettlementUtil.failure("", "获取提现列表失败");
 		}
-		
 	}
 	
 	
 	/**
-	 * 根据提现编号获取提现详情
-	 * @param drawCode 提现编号
-	 * @return
-	 * @throws Exception
+	 * 功能描述:  根据提现编号获取提现详情
+	 * Author: guidl
+	 * Date:   2017年3月24日 下午14:14:28
+	 * param   drawCode-提现编号
+	 * return  ResBodyData
 	 */
 	@PostMapping(value="/querydrawcashbyid")
 	public ResBodyData queryDrawCashById(String drawCode) throws Exception{
-		EcmMzfDraw ecmmzfdraw = drawService.queryDrawCashById(drawCode);
-		return SettlementUtil.buildReponseData(ecmmzfdraw, 0, "成功");
-		
+		try {
+			EcmMzfDraw drawDetail = drawService.queryDrawCashById(drawCode);
+			return SettlementUtil.success(drawDetail, "获取提现详情成功");
+		} catch (Exception e) {
+			log.error(e.toString());
+			return SettlementUtil.failure("", "获取提现详情失败");
+		}
 	}
 	
+	
 	/**
-	 * 审核提现申请
-	 * @param drawCode
-	 * @return
-	 * @throws Exception
+	 * 功能描述:  审核提现申请
+	 * Author: guidl
+	 * Date:   2017年3月24日 下午14:14:28
+	 * param   ecmmzfdraw
+	 * return  ResBodyData
 	 */
 	@PostMapping(value="/verifydrawcashbyid")
 	public ResBodyData verifyDrawCashById(EcmMzfDraw ecmmzfdraw) throws Exception{
@@ -195,11 +215,13 @@ public class DrawController {
 
 	}
 	
+	
 	/**
-	 * 驳回提现申请接口
-	 * @param ecmMzfDraw
-	 * @return
-	 * @throws Exception
+	 * 功能描述:  驳回提现申请
+	 * Author: guidl
+	 * Date:   2017年3月24日 下午14:14:28
+	 * param   ecmmzfdraw
+	 * return  ResBodyData
 	 */
 	@PostMapping(value="/rejectdrawcashbyid")
 	public ResBodyData rejectDrawCashById(EcmMzfDraw ecmmzfdraw) throws Exception{
@@ -230,11 +252,13 @@ public class DrawController {
 
 	}
 	
+	
 	/**
-	 * 提现确认转账成功或失败接口（财务更改提现单状态）
-	 * @param ecmMzfDraw
-	 * @return
-	 * @throws Exception
+	 * 功能描述:  确认提现转账成功或失败（更改提现状态）
+	 * Author: guidl
+	 * Date:   2017年3月24日 下午14:14:28
+	 * param   ecmmzfdraw
+	 * return  ResBodyData
 	 */
 	@PostMapping(value="/confirmdrawcashbyidbytype")
 	public ResBodyData confirmDrawCashByIdByType(EcmMzfDraw ecmmzfdraw) throws Exception{
@@ -271,11 +295,7 @@ public class DrawController {
 		}
 		
 		return SettlementUtil.buildReponseData(hashMap, statusCode, msg);
-
-		
-		
 	}
-	
 	
 	
 }

@@ -3,6 +3,8 @@ package com.meiduimall.service.settlement.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * 商家账户实体对象
  * @author guidl
@@ -16,9 +18,11 @@ public class EcmMzfAccount implements Serializable {
 	private int accountId;
 	
 	//代理和商家的编码
+	@NotNull(message="代理编号不能为空")
 	private String code;
 	
 	//角色类型，1区代 2个代 3商家
+	@NotNull(message="角色类型不能为空")
 	private String accountRoleType;
 	
 	//账户余额

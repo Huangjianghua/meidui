@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -29,24 +27,25 @@ import com.meiduimall.service.settlement.util.DateUtil;
 @Service
 public class DrawServiceImpl implements DrawService {
 	
-//	private static final Logger log = LoggerFactory.getLogger(DrawServiceImpl.class);
-	
 	@Autowired
 	private BaseMapper baseMapper;
 	
 	@Autowired
 	private AgentService agentService;
 
+	
 	@Override
 	public Map<String, Object> queryAccoutBalance(String code) throws Exception {
 		Map<String, Object> ecmmzfaccount = baseMapper.selectOne(code, "EcmMzfAccountMapper.queryaccoutbalance");
 		return ecmmzfaccount;
 	}
 
+	
 	@Override
 	public List<EcmMzfDraw> queryDrawCash(Map<String, Object> params) throws Exception{
 		return baseMapper.selectList(params, "EcmMzfDrawMapper.querydrawcash");
 	}
+	
 	
 	@Override
 	public int getDrawCount(Map<String,Object> params) throws Exception{
@@ -60,8 +59,9 @@ public class DrawServiceImpl implements DrawService {
 		return ecmmzfdraw;
 	}
 
-	@Override
+	
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	@Override
 	public Map<String, Object> verifyDrawCashById(EcmMzfDraw ecmmzfdraw) throws Exception {
 		Map<String, Object> hashMap = new HashMap<>();
 		Integer update = baseMapper.update(ecmmzfdraw, "EcmMzfDrawMapper.verifydrawcashbyid");
@@ -72,8 +72,9 @@ public class DrawServiceImpl implements DrawService {
 		return hashMap;
 	}
 
-	@Override
+	
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	@Override
 	public Map<String, Object> rejectDrawCashById(EcmMzfDraw ecmmzfdraw) throws Exception {
 		
 		//根据提现编号获取提现信息，目的是将查询出来的数据重新生成提现流水和总流水记录
@@ -152,8 +153,9 @@ public class DrawServiceImpl implements DrawService {
 		return hashMap;
 	}
 
-	@Override
+	
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	@Override
 	public Map<String, Object> confirmDrawCashByIdByType(EcmMzfDraw ecmmzfdraw) throws Exception {
 		
 		Map<String, Object> hashMap = new HashMap<String, Object>();
@@ -255,8 +257,9 @@ public class DrawServiceImpl implements DrawService {
 		return hashMap;
 	}
 	
-	@Override
+	
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	@Override
 	public boolean insertDrawInfo(EcmMzfDraw ecmMzfDraw) throws Exception {
 		
 		//不管是存时间戳还是日期，必须保持一致
@@ -335,24 +338,29 @@ public class DrawServiceImpl implements DrawService {
 		return result;
 	}
 	
+	
 	@Override
 	public int insertDraw(EcmMzfDraw ecmMzfDraw) throws Exception{
 		return baseMapper.insert(ecmMzfDraw, "EcmMzfDrawMapper.insertDraw");
 	}
 
+	
 	@Override
 	public int insertDrawWater(EcmMzfDrawWater ecmMzfDrawWater) throws Exception {
 		return baseMapper.insert(ecmMzfDrawWater, "EcmMzfDrawMapper.insertDrawWater");
 	}
+	
 	
 	@Override
 	public int getDrawWaterCount(Map<String, Object> params) throws Exception {
 		return baseMapper.selectOne(params, "EcmMzfDrawMapper.getDrawWaterCount");
 	}
 
+	
 	@Override
 	public int getCountByCode(Map<String, Object> params) throws Exception {
 		return baseMapper.selectOne(params, "EcmMzfDrawMapper.getCountByCode");
 	}
 
+	
 }

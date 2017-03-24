@@ -26,11 +26,12 @@ import com.meiduimall.service.settlement.service.OrderService;
 import com.meiduimall.service.settlement.service.WaterService;
 
 /**
- * 流水管理
- * @author guidl
- *
+ * Copyright (C), 2002-2017, 美兑壹购物
+ * FileName: WaterController.java
+ * Author:   guidl
+ * Date:     2017年3月24日 下午14:14:28
+ * Description: 流水管理
  */
-
 @RestController
 @RequestMapping("/settlementservice/revenueservice/v1")
 public class WaterController {
@@ -46,12 +47,14 @@ public class WaterController {
 	@Autowired
 	private OrderService orderService;
 	
+	
 	/**
-	 * 获取流水列表
-	 * @param page 页数
-	 * @param params(waterId,code,waterType,opTimeStart,opTimeEnd)
-	 * @param type:list,export 主要用于获取流水列表和导出功能（导出流水列表不需要分页）
-	 * @return
+	 * 功能描述:  获取流水列表
+	 * Author: guidl
+	 * Date:   2017年3月24日 下午14:14:28
+	 * param   params(waterId,code,waterType,opTimeStart,opTimeEnd)
+	 * param   type:list,export 主要用于获取流水列表和导出功能（导出流水列表不需要分页）
+	 * return  ResBodyData
 	 */
 	@PostMapping("/querywater")
 	public ResBodyData queryWater(
@@ -86,14 +89,12 @@ public class WaterController {
 	
 
 	/**
-	 * 根据流水编号获取流水详情
-	 * @param waterId
-	 * @param waterType
-	 * @param loginType  查询账单流水详情数据才需要的参数
-	 * @param code       查询账单流水详情数据才需要的参数
-	 * @param pageNumber  查询账单流水详情数据才需要的参数
-	 * @param pageSize    查询账单流水详情数据才需要的参数
-	 * @return
+	 * 功能描述:  根据流水编号获取流水详情
+	 * Author: guidl
+	 * Date:   2017年3月24日 下午14:14:28
+	 * param   waterId、waterType
+	 * param   loginType、code、pageNumber、pageSize 查询账单流水详情数据才需要的参数
+	 * return  ResBodyData
 	 */
 	@PostMapping("/querywaterbyid")
 	public ResBodyData queryWaterById(String waterId, String waterType,Integer loginType,String  code,Integer pageNumber,Integer pageSize){
@@ -143,9 +144,11 @@ public class WaterController {
 	
 	
 	/**
-	 * 获取推荐人推荐费
-	 * @param params code-推荐人编号,recNo-推荐单号
-	 * @return
+	 * 功能描述:  获取推荐人推荐费
+	 * Author: guidl
+	 * Date:   2017年3月24日 下午14:14:28
+	 * param   code-推荐人编号,recNo-推荐单号
+	 * return  ResBodyData
 	 */
 	@PostMapping("/getrecmoney")
 	public ResBodyData getRecMoney(@RequestParam HashMap<String, Object> params){
@@ -160,5 +163,6 @@ public class WaterController {
 			return SettlementUtil.failure("", "操作失败");
 		}
 	}
+	
 	
 }
