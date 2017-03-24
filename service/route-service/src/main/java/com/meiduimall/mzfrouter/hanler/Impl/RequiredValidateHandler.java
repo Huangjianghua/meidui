@@ -38,7 +38,7 @@ public class RequiredValidateHandler implements Handler{
 			return false;
 		}
 		String timestamp = param.get("timestamp");
-		if (Strings.isNullOrEmpty(timestamp) ||(!CharMatcher.digit().matchesAllOf(timestamp))) {
+		if (Strings.isNullOrEmpty(timestamp) ||(!CharMatcher.DIGIT.matchesAllOf(timestamp))) {
 			log.info("timestamp必填验证处理层,url:{},请求参数:{}", request.getRequestURL().toString(),
 					JsonUtils.beanToJson(param));
 			ResponsePackUtil.responseWrapper(ctx, BaseApiCode.NOT_EXISTS_CLIENTID);
