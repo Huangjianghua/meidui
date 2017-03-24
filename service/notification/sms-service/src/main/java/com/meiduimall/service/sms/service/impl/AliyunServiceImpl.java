@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.common.base.Strings;
-import com.meiduimall.core.exception.ApiException;
+import com.meiduimall.exception.ApiException;
 import com.meiduimall.core.util.ExceptionUtils;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.service.sms.SysConstant;

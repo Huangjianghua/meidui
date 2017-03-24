@@ -3,6 +3,8 @@ package com.meiduimall.service.settlement.model;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * 代理商
  * 
@@ -14,54 +16,70 @@ public class EcmAgent implements Serializable {
 	private static final long serialVersionUID = 2617681316901272701L;
 
 	// 唯一标识
+	@NotNull(message="id不能为空")
 	private int id;
 
 	// 代理商编号
+	@NotNull(message="代理编号不能为空")
 	private String agentNo;
 
 	// 绑定手机
+	@NotNull(message="手机号码不能为空")
 	private String bindPhone;
 
 	// 姓名
+	@NotNull(message="姓名不能为空")
 	private String userName;
 
 	// 会员名
+	@NotNull(message="会员名不能为空")
 	private String misUserId;
 
 	// 公司名称
+	@NotNull(message="公司名称不能为空")
 	private String companyName;
 
 	// 个代 履约保证金(元)
+	@NotNull(message="个代 履约保证金不能为空")
 	private int cashDeposit;
 
 	// 缴费余额
 	private int depositLeftAmount;
 
 	// 推荐人编号
+	@NotNull(message="推荐人编号不能为空")
 	private String recommenderCode;
 
 	// 推荐人姓名
+	@NotNull(message="推荐人姓名不能为空")
 	private String recommenderName;
 
 	// 推荐人联系电话
+	@NotNull(message="推荐人联系电话不能为空")
 	private String recommenderPhone;
 
 	// 推荐单号
+	@NotNull(message="推荐单号不能为空")
 	private String recNo;
 
 	// 推荐类型
+	@NotNull(message="推荐类型不能为空")
 	private int recType;
 
 	// 创建人代理编号
+	@NotNull(message="创建人代理编号不能为空")
 	private String addAgentNo;
 
 	// 创建人手机号码
+	@NotNull(message="创建人手机号码不能为空")
 	private String addBindPhone;
 
 	// 创建人公司名称
+	@NotNull(message="创建人公司名称不能为空")
 	private String addCompanyName;
 
 	// 创建人余款
+	@NotNull(message="创建人余款不能为空")
 	private int addDepositLeftAmount;
 	
 	private Timestamp opTime;

@@ -23,42 +23,42 @@
     </modules>
 
     <dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>${spring-cloud-bom.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-	<dependencies>
-	  	<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-eureka</artifactId>
-		</dependency>
-		
-	<!-- 	<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-config</artifactId>
-		</dependency> -->
-	   <dependency>
-	  	  <groupId>com.meiduimall</groupId>
-		  <artifactId>redis</artifactId>
-		  <version>${redis.version}</version>
-		</dependency>
-		<dependency>
-		  <groupId>com.meiduimall</groupId>
-		  <artifactId>security</artifactId>
-		  <version>${security.version}</version>
-		</dependency>
-			<dependency>
-		  <groupId>com.meiduimall</groupId>
-		  <artifactId>core</artifactId>
-		  <version>${core.version}</version>
-		</dependency>
-	
-	
-	</dependencies>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud-bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-eureka</artifactId>
+        </dependency>
+
+        <!-- 	<dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-config</artifactId>
+            </dependency> -->
+        <dependency>
+            <groupId>com.meiduimall</groupId>
+            <artifactId>meiduimall-support-redis</artifactId>
+            <version>${meiduimall-support-redis.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.meiduimall</groupId>
+            <artifactId>meiduimall-support-security</artifactId>
+            <version>${meiduimall-support-security.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.meiduimall</groupId>
+            <artifactId>meiduimall-support-core</artifactId>
+            <version>${meiduimall-support-core.version}</version>
+        </dependency>
+
+
+    </dependencies>
 </project>

@@ -11,22 +11,23 @@
 
     <groupId>com.meiduimall.service</groupId>
     <artifactId>route-service</artifactId>
-	<version>v1.0.0</version>
-	<packaging>jar</packaging>
+    <version>v1.0.0</version>
+    <packaging>jar</packaging>
 
-	 <dependencies>
-	<dependency>
-   		<groupId>org.springframework.cloud</groupId>
-   		<artifactId>spring-cloud-starter-zuul</artifactId>
-    </dependency>
-	</dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zuul</artifactId>
+        </dependency>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>

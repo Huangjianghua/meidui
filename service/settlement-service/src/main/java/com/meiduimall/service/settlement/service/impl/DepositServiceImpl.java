@@ -36,7 +36,13 @@ import com.meiduimall.service.settlement.service.MemberService;
 import com.meiduimall.service.settlement.service.O2oCallbackService;
 import com.meiduimall.service.settlement.task.AsyncTaskService;
 
-
+/**
+ * Copyright (C), 2002-2017, 美兑壹购物
+ * FileName: DepositServiceImpl.java
+ * Author:   guidl
+ * Date:     2017年3月24日 上午11:25:02
+ * Description: 个代保证金分润相关
+ */
 @Service
 public class DepositServiceImpl implements DepositService, BeanSelfAware {
 	
@@ -91,14 +97,10 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 		
 		return resultList;
 	}
+	
 
-	/**
-	 * 分润主方法
-	 * @param ecmAgent 个代对象 用于分保证金
-	 * @param systemSetting 分润比例
-	 * @throws Exception
-	 */
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	@Override
 	public void shareDepositMain(EcmAgent ecmAgent, Map<String, String> systemSetting) throws Exception {
 		
 		int score = Integer.parseInt(systemSetting.get(ShareProfitConstants.NEWBIE_PERSON_POINT));//新加盟个代获得积分 6500
@@ -223,11 +225,12 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 		}
 	}
 
+	
 	/**
-	 * 区代推荐个代所得推荐费用于抵扣履约保证金
-	 * @param personToPersonAreaDeposit 30%推荐费
-	 * @param areaAgent 区代信息
-	 * @throws Exception
+	 * 功能描述:  区代推荐个代所得推荐费，用于抵扣履约保证金
+	 * Author: guidl
+	 * Date:   2017年3月24日 上午11:25:02
+	 * param   personToPersonAreaDeposit-30%推荐费、areaAgent-区代信息
 	 */
 	private void offsetDeposit(double personToPersonAreaDeposit, EcmAgent areaAgent) throws Exception {
 		try {
@@ -281,11 +284,10 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 
 	
 	/**
-	 * 更新账户余额
-	 * @param code 代理编码
-	 * @param type 流水类型 1-提现、2-账单、3-代理费
-	 * @return
-	 * @throws Exception
+	 * 功能描述:  根据代理流水生成总流水并更新账户余额
+	 * Author: guidl
+	 * Date:   2017年3月24日 上午11:25:02
+	 * param   code-代理编码、remark-备注、type-流水类型 1：提现、2：账单、3：代理费
 	 */
 	private boolean updateAccountBalance(EcmAgent ecmAgent, String remark, String type) throws Exception {
 		boolean flag = false;
@@ -363,13 +365,8 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 	}
 	
 	
-	/**
-	 * 插入异常日志
-	 * @param agentLog
-	 * @param retryType
-	 * @throws Exception
-	 */
 	@Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
+	@Override
 	public void shareProfitAgentLog(ShareProfitAgentLog agentLog, String retryType) throws Exception {
 		int flag = agentService.insertShareProfitAgentLog(agentLog);
 		if(flag <= 0){
@@ -438,17 +435,11 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 	}
 	
 	
-	
 	/**
-	 * 代理获取保证金或返还给个代积分
-	 * @param flowCode 流水编号
-	 * @param agentCode 代理编号
-	 * @param agentDeposit 代理获得保证金
-	 * @param score 返还给个代积分
-	 * @param phone 手机号码
-	 * @param type 角色类型 1-区代、2-个代
-	 * @param agentRate 代理费比例
-	 * @throws Exception 
+	 * 功能描述:  个代保证金分润  插入流水记录或送积分记录
+	 * Author: guidl
+	 * Date:   2017年3月24日 上午11:25:02
+	 * param   flowCode-流水编号、agentCode-代理编号、agentDeposit-代理获得保证金、score-返还给个代积分、phone-手机号码、type-角色类型 1：区代、2：个代、agentRate-代理费比例
 	 */
 	private void addWater(int agentId, String flowCode, String agentCode, double agentDeposit, int score, String phone,
 			int type, int agentRate, String recNo, Timestamp opTime) throws Exception {
@@ -467,6 +458,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 		logger.info("插入分润参数：{}", agentWater.toString());
 	}
 
+	
 	@Override
 	public int createAccount(EcmMzfAccount ecmMzfAccount) throws Exception {
 		int flag = 0;
@@ -477,7 +469,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 			logger.info("===============创建个代账户start===============");
 			EcmMzfAccount account = new EcmMzfAccount();
 			account.setCode(ecmMzfAccount.getCode());
-			account.setAccountRoleType("2");
+			account.setAccountRoleType(ecmMzfAccount.getAccountRoleType());
 			flag = agentService.insertAccount(account);
 		}else{
 			logger.info("新个代{}账户已存在，不可重复创建账户", ecmMzfAccount.getCode());

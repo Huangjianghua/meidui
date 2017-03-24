@@ -3,6 +3,8 @@ package com.meiduimall.service.settlement.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import javax.validation.constraints.NotNull;
+
 public class EcmMzfDraw implements Serializable{
 	
 	private static final long serialVersionUID = 1437673631589990312L;
@@ -13,30 +15,39 @@ public class EcmMzfDraw implements Serializable{
     private String drawCode;
 
     // 角色类型 1区代 2个代 3商家
+	@NotNull(message="角色类型不能为空")
     private Integer drawType;
     
     // 代理和商家的编号
+	@NotNull(message="代理编号不能为空")
     private String code;
     
     // 账号类型1公司，2个人
+	@NotNull(message="账号不能为空")
     private Integer userType;
     
     //收款人姓名
+	@NotNull(message="收款人姓名不能为空")
     private String realname;
 
     //银行名称
+	@NotNull(message="银行名称不能为空")
     private String bankname;
 
     //银行卡号
+	@NotNull(message="银行卡号不能为空")
     private String banknum;
 
     //银行地址
+	@NotNull(message="银行地址不能为空")
     private String bankaddress;
 
     //分行地址
+	@NotNull(message="分行地址不能为空")
     private String bankBranch;
 
     //提现金额
+	@NotNull(message="提现金额不能为空")
     private BigDecimal money;
 
     //提现手续费
@@ -49,6 +60,7 @@ public class EcmMzfDraw implements Serializable{
     private Integer addTime;
     
     //提现状态1待审核，2审核通过，3审核不通过
+    @NotNull(message="提现状态不能为空")
     private Integer status;
 
     //驳回原因

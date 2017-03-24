@@ -7,6 +7,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,9 +22,11 @@ import com.meiduimall.service.settlement.service.AgentService;
 import com.meiduimall.service.settlement.service.DepositService;
 
 /**
- * 个代保证金分润
- * @author guidl
- *
+ * Copyright (C), 2002-2017, 美兑壹购物
+ * FileName: AgentController.java
+ * Author:   guidl
+ * Date:     2017年3月24日 上午11:25:02
+ * Description: 个代保证金分润
  */
 @RestController
 @RequestMapping("/settlementservice/agentservice/v1")
@@ -37,13 +40,16 @@ public class AgentController {
 	@Autowired
 	private AgentService agentService;
 	
+
 	/**
-	 * 保证金分润
-	 * @param ecmAgent
-	 * @return
+	 * 功能描述:  保证金分润
+	 * Author: guidl
+	 * Date:   2017年3月24日 下午11:25:02
+	 * param   ecmAgent
+	 * return  ResBodyData
 	 */
 	@PostMapping("/sharedeposit")
-	public ResBodyData shareDeposit(EcmAgent ecmAgent) {
+	public ResBodyData shareDeposit(@Validated EcmAgent ecmAgent) {
 		try {
 			
 			long start = System.currentTimeMillis();
@@ -75,13 +81,16 @@ public class AgentController {
 	}
 	
 	
+	
 	/**
-	 * 新商家送积分
-	 * @param ecmStore(username-手机号,storeNo-商家编号)
-	 * @return
+	 * 功能描述:  新商家送积分
+	 * Author: guidl
+	 * Date:   2017年3月24日 下午11:25:02   
+	 * param   ecmStore(手机号,商家编号)
+	 * return  ResBodyData
 	 */
 	@PostMapping("/sendscore")
-	public ResBodyData sendScore(EcmStore ecmStore){
+	public ResBodyData sendScore(@Validated EcmStore ecmStore){
 		try {
 			List<Map<String,Object>> resultList = depositService.updateStoreScore(ecmStore);
 			if(!CollectionUtils.isEmpty(resultList)){
@@ -96,13 +105,16 @@ public class AgentController {
 	}
 	
 	
+	
 	/**
-	 * 创建区代、个代和商家账号
-	 * @param ecmMzfAccount(code-代理编号)
-	 * @return
+	 * 功能描述:  创建区代、个代和商家账号
+	 * Author: guidl
+	 * Date:   2017年3月24日 下午11:25:02   
+	 * param   ecmMzfAccount(code-代理编号)
+	 * return  ResBodyData
 	 */
 	@PostMapping("/createaccoutbalance")
-	public ResBodyData createAccoutBalance(EcmMzfAccount ecmMzfAccount){
+	public ResBodyData createAccoutBalance(@Validated EcmMzfAccount ecmMzfAccount){
 		try {
 			int flag = depositService.createAccount(ecmMzfAccount);
 			if(flag > 0){
