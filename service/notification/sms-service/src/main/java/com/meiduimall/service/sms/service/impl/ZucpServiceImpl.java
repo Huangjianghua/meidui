@@ -1,7 +1,6 @@
 package com.meiduimall.service.sms.service.impl;
 
 import java.io.ByteArrayOutputStream;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,9 +19,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 
-import com.meiduimall.exception.ApiException;
 import com.meiduimall.core.util.ExceptionUtils;
-import com.meiduimall.core.util.HttpClientUtil;
+import com.meiduimall.core.util.HttpUtils;
+import com.meiduimall.exception.ApiException;
 import com.meiduimall.password.util.MD5;
 import com.meiduimall.service.sms.entity.SmsSoap;
 import com.meiduimall.service.sms.service.ZucpService;
@@ -84,7 +83,9 @@ public class ZucpServiceImpl implements ZucpService{
 		try {
 			StringEntity param = new StringEntity(buildBody(mobile, content, ext, stime, rrid),"UTF-8");
 			param.setContentEncoding("UTF-8");
-			String result = HttpClientUtil.doPost(zucpUrl, param, headers);
+			
+			String result = HttpUtils.post(zucpUrl, buildBody(mobile, content, ext, stime, rrid),headers);
+			
 			String[] array1 = result.split("<mdSmsSend_uResult>");
 			String[] array2 = array1[1].split("</mdSmsSend_uResult>");
 

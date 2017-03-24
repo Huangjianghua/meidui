@@ -1,7 +1,8 @@
 package com.meiduimall.core.util;
-
 import java.io.IOException;
-
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -16,7 +17,6 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,9 +31,65 @@ import org.slf4j.LoggerFactory;
 public class HttpUtils {
 
 	private static Logger logger = LoggerFactory.getLogger(HttpUtils.class);
-
+	
+	
 	/**
 	 * 功能描述:  get方式
+	 * Author: 陈建宇
+	 * Date:   2017年3月24日 下午4:23:58 
+	 * param   @param url
+	 * return  String
+	 */
+	public static String get(String url) throws ClientProtocolException, IOException {
+		return get(url, null);
+	}
+	
+	
+	/**
+	 * 功能描述:  delete
+	 * Author: 陈建宇
+	 * Date:   2017年3月24日 下午4:47:57 
+	 * param   @param url
+	 * return  String
+	 */
+	public static String delete(String url) throws ClientProtocolException, IOException {
+		return delete(url, null);
+	}
+	
+	
+	
+	/**
+	 * 功能描述:  post方式
+	 * Author: 陈建宇
+	 * Date:   2017年3月24日 下午4:22:04 
+	 * param   @param url
+	 * param   @param sendData
+	 * param   @param headers  
+	 * return  String
+	 */
+	public static String post(String url, String sendData,Map<String,String> headers)
+			throws ClientProtocolException, IOException {
+		return post(url, sendData, headers,null);
+	}
+	
+	
+	/**
+	 * 功能描述:  put
+	 * Author: 陈建宇
+	 * Date:   2017年3月24日 下午4:50:05 
+	 * param   @param url
+	 * param   @param sendData
+	 * param   @param headers
+	 * return  String
+	 */
+	public static String put(String url, String sendData,Map<String,String> headers)
+			throws ClientProtocolException, IOException {
+		return put(url, sendData, headers, null);
+	}
+	
+
+	/**
+	 * 功能描述:  get方式重载
 	 * Author: 陈建宇
 	 * Date:   2017年3月24日 下午2:32:07 
 	 * url:	   
@@ -53,7 +109,7 @@ public class HttpUtils {
 	}
 
 	/**
-	 * 功能描述:  <br>
+	 * 功能描述:  delete方式重载
 	 * Author: 陈建宇
 	 * Date:   2017年3月24日 下午2:35:10 
 	 * url:
@@ -73,23 +129,26 @@ public class HttpUtils {
 	}
 
 	/**
-	 * 功能描述: post方式
+	 * 功能描述: post方式重载
 	 * Author: 陈建宇
 	 * Date:   2017年3月24日 下午2:35:52 
 	 * url:
 	 * sendData: 发送内容
-	 * contentType: header
+	 * header:
 	 * decodeCharset: 返回内容字符编码,默认utf8
 	 * return  String
 	 */
-	public static String post(String url, String sendData, String contentType, String decodeCharset)
+	public static String post(String url, String sendData, Map<String,String> headers,String decodeCharset)
 			throws ClientProtocolException, IOException {
 
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 		try {
 			HttpPost httpPost = new HttpPost(url);
 			config(httpPost);
-			httpPost.setHeader(HTTP.CONTENT_TYPE, contentType);
+			Set<Map.Entry<String,String>> headerSet=headers.entrySet();
+			for(Entry<String,String> entry:headerSet){
+				httpPost.setHeader(entry.getKey(),entry.getValue());
+			}
 			httpPost.setEntity(new StringEntity(sendData));
 			HttpResponse response = httpClient.execute(httpPost);
 			return HttpResToString(response, decodeCharset);
@@ -97,10 +156,10 @@ public class HttpUtils {
 			close(httpClient);
 		}
 	}
-
+	
 	
 	/**
-	 * 功能描述:  put方式
+	 * 功能描述:  put方式重载
 	 * Author: 陈建宇
 	 * Date:   2017年3月24日 下午2:37:11 
 	 * url
@@ -109,14 +168,17 @@ public class HttpUtils {
 	 * decodeCharset: 返回内容字符编码,默认utf8
 	 * return  String
 	 */
-	public static String put(String url, String sendData, String contentType, String decodeCharset)
+	public static String put(String url, String sendData,Map<String,String> headers, String decodeCharset)
 			throws ClientProtocolException, IOException {
 
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 		try {
 			HttpPut HttpPut = new HttpPut(url);
 			config(HttpPut);
-			HttpPut.setHeader(HTTP.CONTENT_TYPE, contentType);
+			Set<Map.Entry<String,String>> headerSet=headers.entrySet();
+			for(Entry<String,String> entry:headerSet){
+				HttpPut.setHeader(entry.getKey(),entry.getValue());
+			}
 			HttpPut.setEntity(new StringEntity(sendData));
 			HttpResponse response = httpClient.execute(HttpPut);
 			return HttpResToString(response, decodeCharset);
@@ -125,6 +187,9 @@ public class HttpUtils {
 		}
 	}
 
+
+	
+	
 	
 	/**
 	 * 功能描述:  返回内容转成string

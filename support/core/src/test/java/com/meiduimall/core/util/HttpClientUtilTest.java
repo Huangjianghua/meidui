@@ -6,11 +6,16 @@
  *  @Copyright: ${year} www.meiduimall.com Inc. All rights reserved.
  *
  *  注意：本内容仅限于美兑壹购物公司内部传阅，禁止外泄以及用于其他的商业目的
- */
+ 
 
 package com.meiduimall.core.util;
 
-import com.google.common.collect.Maps;
+import static org.junit.Assert.assertEquals;
+import static org.mockserver.model.HttpRequest.request;
+import static org.mockserver.model.HttpResponse.response;
+
+import java.util.Map;
+
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -24,19 +29,20 @@ import org.mockserver.junit.MockServerRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Map;
+import com.google.common.collect.Maps;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockserver.model.HttpRequest.request;
-import static org.mockserver.model.HttpResponse.response;
+import io.netty.handler.codec.http.HttpUtil;
 
-/**
+*//**
  * Created by hadoop on 2017/3/24.
- */
+ *//*
 public class HttpClientUtilTest {
   private static Logger logger = LoggerFactory.getLogger(HttpClientUtilTest.class);
 
-  /*private static HttpClientUtil utils = new HttpClientUtil();
+
+  private static HttpClientUtil utils = new HttpClientUtil();
+
+  private static HttpUtil utils = new HttpUtil();
 
   @Rule
   public MockServerRule server = new MockServerRule(this, 5000);
@@ -116,6 +122,6 @@ public class HttpClientUtilTest {
     String result = utils.doGet("http://localhost:5000/util/test", headers);
     logger.info(result);
     assertEquals(expected,result);
-  }*/
+  }
 
-}
+}*/
