@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
+import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -168,7 +168,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 			//判断区代公司名称是否是"美兑壹购物"，如果不是则插入区代数据（流水金额）
 			if(!ecmAgent.getAddCompanyName().equals(ShareProfitConstants.COMPANY_NAME)){
 				
-				if(!StringUtils.isEmpty(ecmAgent.getAddAgentNo()) && !StringUtils.isEmpty(ecmAgent.getAddBindPhone())){
+				if(!Strings.isNullOrEmpty(ecmAgent.getAddAgentNo()) && !Strings.isNullOrEmpty(ecmAgent.getAddBindPhone())){
 					
 					logger.info("===============个代推荐个代，插入创建人区代获取保证金的流水start===============");
 					logger.info("个代推荐个代，创建人区代获取30%代理费");
@@ -397,7 +397,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 			//获取商家初始积分
 			String score = systemSetting.get(ShareProfitConstants.STORE_INIT_POINT);
 			
-			if(!StringUtils.isEmpty(ecmStore.getUsername()) && !StringUtils.isEmpty(ecmStore.getStoreNo())){
+			if(!Strings.isNullOrEmpty(ecmStore.getUsername()) && !Strings.isNullOrEmpty(ecmStore.getStoreNo())){
 				//商家积分流水号
 				String scoreFlow = "EGW" + ecmStore.getStoreNo() + System.currentTimeMillis();
 				//调用积分接口 更新积分 

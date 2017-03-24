@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.StringUtil;
+import com.google.common.base.Strings;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.service.settlement.common.SettlementUtil;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
@@ -67,7 +67,7 @@ public class WaterController {
 				PageHelper.startPage(pageNumber, pageSize);
 			}
 			
-			if(!StringUtils.isEmpty(waterType)){//流水类型可传多个参数，用逗号隔开
+			if(!Strings.isNullOrEmpty(waterType)){//流水类型可传多个参数，用逗号隔开
 				List<String> waterTypeList = Arrays.asList(waterType.split(","));
 				params.put("waterType", waterTypeList);
 			}

@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
+import com.google.common.base.Strings;
 import com.github.pagehelper.StringUtil;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
@@ -188,7 +188,7 @@ public class ShareProfitUtil {
 	}
 	
 	public static String getPersonalAgentType(String personalAgentNo){
-		if(StringUtils.isEmpty(personalAgentNo)){
+		if(Strings.isNullOrEmpty(personalAgentNo)){
 			return PERSONAL_AGENT_TYPE_NORMAL;
 		}else{
 			String prefix6=personalAgentNo.trim().substring(0, 6);
@@ -266,7 +266,7 @@ public class ShareProfitUtil {
 			orderStatus.setPayTime(ecmMzfShareProfit.getPayTime());
 			orderStatus.setCreatedDate(DateUtil.getCurrentTimeSec());
 			orderStatus.setShareStatus(1);  //1:已分润
-			return orderStatus;
+			return orderStatus; 
 		}
 
 		public static BigDecimal getShareProfitByType(String roleType, List<ShareProfitVO> shareProfitVOs,String profitType) {

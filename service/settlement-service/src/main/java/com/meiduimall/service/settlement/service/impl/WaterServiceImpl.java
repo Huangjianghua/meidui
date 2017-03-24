@@ -5,11 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.StringUtil;
+import com.google.common.base.Strings;
 import com.meiduimall.service.settlement.dao.BaseMapper;
 import com.meiduimall.service.settlement.model.EcmMzfDrawWater;
 import com.meiduimall.service.settlement.model.EcmMzfWater;
@@ -31,7 +31,7 @@ public class WaterServiceImpl implements WaterService {
 	public Map<String, Object> getWaterType1Detail(String waterId, String waterType) throws Exception {
 		//获取提现流水详情
 		EcmMzfWater ecmMzfWater = agentService.getWaterDetailByWaterId(waterId, waterType);
-		if(ecmMzfWater != null && !StringUtils.isEmpty(ecmMzfWater.getExtId())){
+		if(ecmMzfWater != null && !Strings.isNullOrEmpty(ecmMzfWater.getExtId())){
 			EcmMzfDrawWater drawWater = agentService.getDrawWaterInfo(ecmMzfWater.getExtId());
 			
 			if(ecmMzfWater.getMoney() != null && !StringUtil.isEmpty(drawWater.getRemark())){//remark字段存储的是提现手续费

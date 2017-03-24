@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang3.StringUtils;
+import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,7 +126,7 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 		String billid=CodeRuleUtil.getBillid(bill.getType(),bill.getCode());
 		bill.setBillId(billid);
 		//开始生成账单流水数据
-		if(StringUtils.isNotBlank(code))
+		if(!Strings.isNullOrEmpty(code))
 		{
 			int i=baseMapper.insert(bill,"EcmBillMapper.createBillWater");
 			log.info("生成编号为"+code+"的账单数据："+i+"条 金额:"+amount+" 角色类型:"+type);
@@ -164,7 +164,7 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	public void createBillAndOrderMapping(EcmMzfBillWater bill, List<OrderToBilledVO> orderToBilledList) throws Exception {
-		if(bill!=null && StringUtils.isNotBlank(bill.getCode())){
+		if(bill!=null && !Strings.isNullOrEmpty(bill.getCode())){
 			final String code=bill.getCode();
 			Collection<OrderToBilledVO> orderToBilledVos=Collections2.filter(orderToBilledList, new Predicate<OrderToBilledVO>(){
 				@Override

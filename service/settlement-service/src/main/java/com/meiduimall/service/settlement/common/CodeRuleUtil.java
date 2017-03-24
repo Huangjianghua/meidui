@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Random;
 
-import org.apache.commons.lang3.StringUtils;
+import com.google.common.base.Strings;
 
 import com.meiduimall.service.settlement.util.DateUtil;
 
@@ -179,11 +179,11 @@ public class CodeRuleUtil {
 		String type = params.get("type");
 		String result = "";
 		
-		if(StringUtils.isEmpty(code)){
+		if(Strings.isNullOrEmpty(code)){
 			result += ",代理编号为空";
 		}
 		
-		if(StringUtils.isEmpty(type)){
+		if(Strings.isNullOrEmpty(type)){
 			result += ",操作类型为空";
 		}
 		

@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
+import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,7 +94,7 @@ public class OrderServiceImpl implements OrderService,BeanSelfAware {
 		
 		ShareProfitContext ctx=new ShareProfitContext();
 		
-		if(StringUtils.isEmpty(ecmOrder.getSellerName())){
+		if(Strings.isNullOrEmpty(ecmOrder.getSellerName())){
 			log.error("商家编号为空!略过该条数据！");
 			errors.add("商家编号不能为空!");
 		}
@@ -321,7 +321,7 @@ public EcmMzfShareProfit buildShareProfitModel(EcmOrder ecmOrder,ShareProfitCont
 			
 		}
 		//获取区代是否为美兑壹购物
-		if(!StringUtils.isEmpty(ecmOrder.getAgentNoRegion())){
+		if(!Strings.isNullOrEmpty(ecmOrder.getAgentNoRegion())){
 			ecmMzfShareProfit.setAreaAgentId(ecmOrder.getAgentNoRegion());
 			ecmMzfShareProfit.setAreaAgentProfit(areaAgentRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
 			//判断区代是否为美兑壹购物
@@ -339,13 +339,13 @@ public EcmMzfShareProfit buildShareProfitModel(EcmOrder ecmOrder,ShareProfitCont
 		ecmMzfShareProfit.setAreaShareprofitRate((isTwoHundreAgentFlag != null && isTwoHundreAgentFlag == true) ? new BigDecimal(systemSetting.get(ShareProfitUtil.TWO_AREA_SCALE)) : new BigDecimal(systemSetting.get(ShareProfitUtil.AREA_SCALE)));
 		ecmMzfShareProfit.setSellerPointRate(new BigDecimal(systemSetting.get(ShareProfitUtil.SELLER_POINT_RATE)));
 		if (null != belongMap && belongMap.size() > 0) {
-			if(!StringUtils.isEmpty(belongMap.get("1"))){  //Alex:fix the bug:belongMap={1=} @2016 Dec 13
+			if(!Strings.isNullOrEmpty(belongMap.get("1"))){  //Alex:fix the bug:belongMap={1=} @2016 Dec 13
 				ecmMzfShareProfit.setBelongOnePhone(belongMap.get("1"));
 				ecmMzfShareProfit.setBelongOnePoint(belongRevenue.setScale(0, BigDecimal.ROUND_DOWN));
 				ecmMzfShareProfit.setFirstReferrerCash(firstReferrerCash.setScale(2, BigDecimal.ROUND_HALF_UP));
 				ecmMzfShareProfit.setFirstReferrerCashRate(new BigDecimal(systemSetting.get(ShareProfitUtil.FIRST_REFERRER_CASH_RATE)));
 			}
-			if (!StringUtils.isEmpty(belongMap.get("2"))) {
+			if (!Strings.isNullOrEmpty(belongMap.get("2"))) {
 				ecmMzfShareProfit.setBelongTwoPhone(belongMap.get("2"));
 				ecmMzfShareProfit.setBelongTwoPoint(belongRevenue.setScale(0, BigDecimal.ROUND_DOWN));
 			}

@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
+import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -217,7 +217,7 @@ public class AsyncTaskService {
 		log.info("更新积分开始时间:" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 		
 		try {
-			if(!StringUtils.isEmpty(ecmAgent.getBindPhone()) && score > 0){//手机号码和积分都不为空，则更新加盟个代积分
+			if(!Strings.isNullOrEmpty(ecmAgent.getBindPhone()) && score > 0){//手机号码和积分都不为空，则更新加盟个代积分
 				//积分流水号
 				String scoreFlow = "EGW" + ecmAgent.getAgentNo() + System.currentTimeMillis();
 				

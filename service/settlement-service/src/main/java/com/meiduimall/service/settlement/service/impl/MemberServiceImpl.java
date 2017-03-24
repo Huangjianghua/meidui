@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.base.Strings;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,7 +88,7 @@ public class MemberServiceImpl implements MemberService {
 		
 		String userId=ctx.getUserId();
 		Boolean isUpdated=Boolean.FALSE;
- 		if(!StringUtils.isEmpty(userId)){
+ 		if(!Strings.isNullOrEmpty(userId)){
 
 			JSONObject resultJson = ConnectionUrlUtil.httpRequest(ShareProfitUtil.buildMemberSystemAmoutUrl(ctx), ShareProfitUtil.REQUEST_METHOD_POST, null);
 			if(resultJson==null){
@@ -189,7 +191,7 @@ public class MemberServiceImpl implements MemberService {
 		List<EcmMzfShareProfit> spOrders = baseMapper.selectList(null, "ShareProfitMapper.getUpdateCashList");
 		for (EcmMzfShareProfit shareProfit : spOrders) {
 			boolean cashUpdated = true;
-			if (!StringUtils.isEmpty(shareProfit.getBelongOnePhone())) {
+			if (!Strings.isNullOrEmpty(shareProfit.getBelongOnePhone())) {
 
 				BigDecimal amount=shareProfit.getFirstReferrerCash();
 				

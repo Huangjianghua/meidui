@@ -9,6 +9,8 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
+
+import com.google.common.base.Strings;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -29,7 +31,7 @@ public class SettlementUtil {
 	public static <K,V> Map<K,V> convert2Map(List<V> list,String propName){
 		
 		Map<K,V> map=new HashMap<K,V>();
-		if(StringUtils.isEmpty(propName)){
+		if(Strings.isNullOrEmpty(propName)){
 			return map;
 		}
 		if(list!=null && !list.isEmpty()){
@@ -49,7 +51,7 @@ public class SettlementUtil {
 	public static <K,V> List<K> convert2ListByProperty(List<V> list,String propName){
 		
 		List<K> retList=new ArrayList<K>();
-		if(StringUtils.isEmpty(propName)){
+		if(Strings.isNullOrEmpty(propName)){
 			return retList;
 		}
 		if(list!=null && !list.isEmpty()){
@@ -92,7 +94,7 @@ public class SettlementUtil {
 	public static boolean contains(String[] src,String ele){
 		boolean result=false;
 		if(src!=null && src.length>0){
-			if(!StringUtils.isEmpty(ele)){
+			if(!Strings.isNullOrEmpty(ele)){
 				result=Arrays.asList(src).contains(ele);
 			}	
 		}
