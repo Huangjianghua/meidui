@@ -13,7 +13,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import com.google.common.collect.ImmutableList;
-import com.meiduimall.core.util.JacksonUtil;
+import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.redis.util.JedisUtil;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 import com.meiduimall.service.settlement.common.ShareProfitUtil;
@@ -71,7 +71,7 @@ public class AsyncTaskService {
 					log.warn("订单分润后更新积分到会员系统失败，记录Log出现异常,orderSn:{},error:{}",shareProfit.getOrderSn(),errors.toString());
 					//将shareProfit 数据放到redis 缓存 
 					if(ShareProfitConstants.SHARE_PROFIT_SOURCE_O2O.equals(shareProfitSource)){
-						JedisUtil.getJedisInstance().execSetToCache(ShareProfitConstants.REDIS_KEY_PREFIX_ORDER+shareProfit.getOrderSn(), JacksonUtil.beanToJson(shareProfit));
+						JedisUtil.getJedisInstance().execSetToCache(ShareProfitConstants.REDIS_KEY_PREFIX_ORDER+shareProfit.getOrderSn(), JsonUtils.beanToJson(shareProfit));
 					}
 					
 					//记录到Log表  
@@ -245,7 +245,7 @@ public class AsyncTaskService {
 					if(ShareProfitConstants.SHARE_PROFIT_SOURCE_O2O.equals(dataSource)){
 						JedisUtil.getJedisInstance().execSetToCache(
 								ShareProfitConstants.REDIS_KEY_PRIFIX_AGENT + ecmAgent.getAgentNo(),
-								JacksonUtil.beanToJson(ecmAgent));
+								JsonUtils.beanToJson(ecmAgent));
 					}
 					
 					//定时任务从缓存获取数据 执行重试机制出错时 插入异常日志

@@ -10,7 +10,7 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.util.ExceptionUtils;
-import com.meiduimall.core.util.JacksonUtil;
+import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.mzfrouter.Constants;
 import com.meiduimall.mzfrouter.ResponsePackUtil;
 import com.meiduimall.mzfrouter.hanler.Handler;
@@ -41,7 +41,7 @@ public class SignValidateHandler implements Handler {
 		String clientID = param.get("clientID");
 		try {
 			String appSecretJson=JedisUtil.getJedisInstance().execGetFromCache(Constants.APP_SECRET_JSON);
-			Map<String,String> map=JacksonUtil.jsontoMap(appSecretJson, String.class); 
+			Map<String,String> map=JsonUtils.jsontoMap(appSecretJson, String.class); 
 			String appSecret = map.get(clientID);;
 			if (StringUtils.isEmpty(appSecret)) {
 				ResponsePackUtil.responseWrapper(ctx, BaseApiCode.NOT_EXISTS_SECRET);
@@ -50,13 +50,13 @@ public class SignValidateHandler implements Handler {
 			String encodeSign = GatewaySignUtil.sign(appSecret, param);
 			if (!sign.equals(encodeSign)) {
 				log.info("签名验证处理层,收到请求方式:{},url:{},请求参数:{},服务端签名:{}", request.getMethod(),
-						request.getRequestURL().toString(),JacksonUtil.beanToJson(param), encodeSign);
+						request.getRequestURL().toString(),JsonUtils.beanToJson(param), encodeSign);
 				ResponsePackUtil.responseWrapper(ctx, BaseApiCode.FAIL_SIGN);
 				return false;
 			}
 		} catch (Exception e) {
 			log.error("签名验证处理层异常,收到请求方式:{},url:{},请求参数:{},异常:{}", request.getMethod(),
-					request.getRequestURL().toString(), JacksonUtil.beanToJson(param),ExceptionUtils.getFullStackTrace(e));
+					request.getRequestURL().toString(), JsonUtils.beanToJson(param),ExceptionUtils.getFullStackTrace(e));
 			ResponsePackUtil.responseWrapper(ctx, BaseApiCode.EXCEPTION_SIGN);
 			return false;
 		}

@@ -2,7 +2,6 @@ package com.meiduimall.mzfrouter.hanler.Impl;
 
 import java.util.Map;
 
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -11,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.util.ExceptionUtils;
-import com.meiduimall.core.util.JacksonUtil;
+import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.mzfrouter.ResponsePackUtil;
 import com.meiduimall.mzfrouter.hanler.Handler;
 import com.netflix.zuul.context.RequestContext;
@@ -36,13 +35,13 @@ public class TimeValidateHandler implements Handler {
 			long curTime = System.currentTimeMillis();
 			if ((curTime - requestTime) > Constants.CONSTANT_FIVEMINUTE) {
 				log.info("时间戳是否超时验证处理层,url:{},请求参数:{}",request.getRequestURL().toString(),
-						JacksonUtil.beanToJson(param));
+						JsonUtils.beanToJson(param));
 				ResponsePackUtil.responseWrapper(ctx, BaseApiCode.FAIL_TIMESTAMP);
 				return false;
 			}
 		} catch (Exception e) {
 			log.error("时间戳是否超时验证处理层,url:{},请求参数:{},异常:{}",
-					request.getRequestURL().toString(), JacksonUtil.beanToJson(param),ExceptionUtils.getFullStackTrace(e));
+					request.getRequestURL().toString(), JsonUtils.beanToJson(param),ExceptionUtils.getFullStackTrace(e));
 			ResponsePackUtil.responseWrapper(ctx, BaseApiCode.EXCEPTION_TIMESTAMP);
 			return false;
 		}

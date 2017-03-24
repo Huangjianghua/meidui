@@ -2,13 +2,16 @@ package com.meiduimall.mzfrouter.hanler.Impl;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
+
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.util.ExceptionUtils;
-import com.meiduimall.core.util.JacksonUtil;
+import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.mzfrouter.ResponsePackUtil;
 import com.meiduimall.mzfrouter.hanler.Handler;
 import com.netflix.zuul.context.RequestContext;
@@ -33,7 +36,7 @@ public class FormPraseHandler implements Handler{
 			Map<String, String[]> map=request.getParameterMap();
 			Set<Map.Entry<String, String[]>> set=map.entrySet();
 			if(!CollectionUtils.isEmpty(set)){
-				log.info("form方式请求参数解析处理层,url:{},请求参数:{}",request.getRequestURL().toString(),JacksonUtil.mapToJson(map));
+				log.info("form方式请求参数解析处理层,url:{},请求参数:{}",request.getRequestURL().toString(),JsonUtils.mapToJson(map));
 				set.forEach((entry)->{
 					String key=entry.getKey();
 					String[] value=entry.getValue();
