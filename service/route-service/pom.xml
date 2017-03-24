@@ -19,21 +19,7 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-zuul</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.meiduimall</groupId>
-            <artifactId>meiduimall-support-core</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.meiduimall</groupId>
-            <artifactId>meiduimall-support-redis</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.meiduimall</groupId>
-            <artifactId>meiduimall-support-security</artifactId>
-            <version>1.0.0</version>
-        </dependency>
+
     </dependencies>
 
     <build>
