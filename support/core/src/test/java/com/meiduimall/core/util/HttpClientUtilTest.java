@@ -36,7 +36,7 @@ import static org.mockserver.model.HttpResponse.response;
 public class HttpClientUtilTest {
   private static Logger logger = LoggerFactory.getLogger(HttpClientUtilTest.class);
 
-  private static HttpClientUtil utils = new HttpClientUtil();
+  /*private static HttpClientUtil utils = new HttpClientUtil();
 
   @Rule
   public MockServerRule server = new MockServerRule(this, 5000);
@@ -116,6 +116,6 @@ public class HttpClientUtilTest {
     String result = utils.doGet("http://localhost:5000/util/test", headers);
     logger.info(result);
     assertEquals(expected,result);
-  }
+  }*/
 
 }
