@@ -1,9 +1,11 @@
 package com.meiduimall.service.settlement.common;
 
 /**
- * 定时任务表达式定义
- * @author guidl
- *
+ * Copyright (C), 2002-2017, 美兑壹购
+ * FileName: CronExpression.java
+ * Author:   桂冬玲
+ * Date:     2017年3月15日 下午6:15:47
+ * Description: 定时任务触发时间常量类
  */
 public class CronExpression {
 

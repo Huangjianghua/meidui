@@ -2,8 +2,12 @@ package com.meiduimall.service.settlement.util;
 
 import java.util.UUID;
 
-/*
- * http://blog.csdn.net/laotoumo/article/details/50334289
+/**
+ * Copyright (C), 2002-2017, 美兑壹购
+ * FileName: DateUtil.java
+ * Author:   许彦雄
+ * Date:     2016年12月26日 下午6:15:47
+ * Description: 生成随机数工具类 (参考:http://blog.csdn.net/laotoumo/article/details/50334289)
  */
 public class RandomCodeGenerator {
 	

@@ -10,9 +10,11 @@ import org.apache.commons.lang3.StringUtils;
 import com.meiduimall.service.settlement.util.DateUtil;
 
 /**
- * 编码规则生成类
- * @author guidl
- *
+ * Copyright (C), 2002-2017, 美兑壹购
+ * FileName: CodeRuleUtil.java
+ * Author:   桂冬玲
+ * Date:     2017年3月15日 下午6:15:47
+ * Description: 提现和流水编号生成工具类
  */
 public class CodeRuleUtil {
 

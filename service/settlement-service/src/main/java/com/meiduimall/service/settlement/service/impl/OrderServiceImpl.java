@@ -57,38 +57,6 @@ public class OrderServiceImpl implements OrderService,BeanSelfAware {
 		this.proxySelf=(OrderService) proxyBean;
  
 	}
-
-/*	@Override
-	public boolean shareProfit(EcmOrder ecmOrder) throws Exception {
-		
-		boolean isSuccess=true;
-		final List<String> errors=new ArrayList<String>();
-		EcmMzfShareProfit shareProfit=null;
-		
-		try{
-			
-			//计算订单分润数据
-			shareProfit=buildShareProfit(ecmOrder,errors);
-			if(errors!=null && errors.size()>0){
-				log.info("orderSn:{},分润数据有错误:{}",ecmOrder.getOrderSn(),errors.toString());
-				return false;
-			}
-
-		}catch(Exception e){
-			log.error("buildShareProfit() got error:{}", e.getMessage(),e);
-			return false;
-		}
-		
-		
-		try {
-			this.proxySelf.saveShareProfit(shareProfit);
-		} catch (Exception e) {
-			isSuccess=false;
-			log.error("doShareProfit() for orderSn:{} got error:{}",shareProfit.getOrderSn(),e.getMessage());
-		}
-		return isSuccess;
-	}*/
-	
 	
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	public void saveShareProfit(EcmMzfShareProfit shareProfit) throws Exception {

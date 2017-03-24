@@ -22,10 +22,13 @@ import com.meiduimall.service.settlement.model.EcmMzfShareProfit;
 import com.meiduimall.service.settlement.model.ShareProfitOrderLog;
 import com.meiduimall.service.settlement.util.DateUtil;
 
+
 /**
- * 
- * @author 许彦雄
- * desc:分润重试机制定时任务
+ * Copyright (C), 2002-2017, 美兑壹购
+ * FileName: ShareProfitRetryTask.java
+ * Author:   许彦雄
+ * Date:     2017年2月26日 下午6:15:47
+ * Description: 订单分润重试机制定时任务
  */
 @Component
 public class ShareProfitRetryTask {

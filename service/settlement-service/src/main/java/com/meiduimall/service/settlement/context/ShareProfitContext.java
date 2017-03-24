@@ -4,6 +4,13 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Copyright (C), 2002-2017, 美兑壹购物
+ * FileName: ShareProfitContext.java
+ * Author:   许彦雄
+ * Date:     2017年3月14日 下午3:37:58
+ * Description: 分润数据上下文
+ */
 public class ShareProfitContext {
 	
 	// 商家收益 = 订单总金额 * 商家收益比例 / 100%
