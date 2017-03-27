@@ -1,6 +1,8 @@
 package com.meiduimall.service.settlement.service.impl;
 
 
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +10,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.alibaba.fastjson.JSONObject;
+import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.service.settlement.common.SettlementUtil;
 import com.meiduimall.service.settlement.common.ShareProfitUtil;
 import com.meiduimall.service.settlement.model.SmsReqDTO;
@@ -33,12 +35,18 @@ public class SmsServiceImpl implements SmsService {
 		String api = ShareProfitUtil.AUTHORIZED_MAP.get(KEY_SMS_API_URL) + ShareProfitUtil.AUTHORIZED_MAP.get(KEY_SEND_MESSAGE);
 		RestTemplate restTemplate = new RestTemplate();
 		String result = restTemplate.postForEntity(api, smsReqDTO, String.class).getBody();
-		JSONObject resultObj = JSONObject.parseObject(result);
-		if("0".equals(resultObj.getString("status_code"))){
-			flag = true;
+		Map<String,String> resultMap=JsonUtils.jsontoMap(result, String.class);
+		
+		if(resultMap==null || resultMap.isEmpty()){
+			logger.info("发送短信通知sendMsm(SmsReqDTO)失败,因为返回结果resultObj为空!");
 		}else{
-			logger.error(resultObj.getString("result_msg"));
+			if("0".equals(resultMap.get("status_code"))){
+				flag = true;
+			}else{
+				logger.error(resultMap.get("result_msg"));
+			}
 		}
+
 		return flag;
 	}
 
@@ -58,12 +66,17 @@ public class SmsServiceImpl implements SmsService {
 			smsReqDTO.setParams(params);
 		}
 		
-		JSONObject resultObj = ConnectionUrlUtil.httpRequest(buildSendMsgUrl(smsReqDTO), ShareProfitUtil.REQUEST_METHOD_POST, null);
-		if("0".equals(resultObj.getString("status_code"))){
-			flag = true;
+		Map<String,String> resultObj = ConnectionUrlUtil.httpRequest(buildSendMsgUrl(smsReqDTO), ShareProfitUtil.REQUEST_METHOD_POST, null);
+		if(resultObj==null || resultObj.isEmpty()){
+			logger.info("发送短信通知sendMessage(SmsReqDTO)失败因为返回结果resultObj为空!");
 		}else{
-			logger.error(resultObj.getString("result_msg"));
+			if("0".equals(resultObj.get("status_code"))){
+				flag = true;
+			}else{
+				logger.error(resultObj.get("result_msg"));
+			}
 		}
+
 		return flag;
 	}
 	

@@ -2,14 +2,15 @@ package com.meiduimall.service.settlement.service.impl;
 
 
 import java.util.Collection;
+import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSONObject;
+import com.google.common.base.Joiner;
+import com.meiduimall.core.Constants;
 import com.meiduimall.service.settlement.common.O2oApiConstants;
 import com.meiduimall.service.settlement.common.ShareProfitUtil;
 import com.meiduimall.service.settlement.model.EcmAgent;
@@ -33,16 +34,17 @@ public class O2oCallbackServiceImpl implements O2oCallbackService{
 		boolean isSuccess=true;
 		String statusCodeMsg=ShareProfitUtil.O2O_SETTLEMENT_STATUS_CODE_MAP.get(statusCode)==null?"":ShareProfitUtil.O2O_SETTLEMENT_STATUS_CODE_MAP.get(statusCode);
 		try{
-			JSONObject resultObj = ConnectionUrlUtil.httpRequest(buildUrl4InformSettlementStatus(orderSns,statusCode), ShareProfitUtil.REQUEST_METHOD_POST, null);
-			if(resultObj.getString("status_code").equals("0")){
-				log.info("通知订单结算状态给O2O成功!orderSns:{},statusCode:{}",StringUtils.join(orderSns, ","),statusCodeMsg);
+			Map<String,String> resultObj = ConnectionUrlUtil.httpRequest(buildUrl4InformSettlementStatus(orderSns,statusCode), ShareProfitUtil.REQUEST_METHOD_POST, null);
+			if(resultObj.get("status_code").equals("0")){
+				log.info("通知订单结算状态给O2O成功!orderSns:{},statusCode:{}",Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSns),statusCodeMsg);
 			}else{
 				isSuccess=false;
-				log.error("通知订单结算状态给O2O失败!orderSns:{},statusCode:{}",StringUtils.join(orderSns, ","),statusCodeMsg);
+				log.error("通知订单结算状态给O2O失败!orderSns:{},statusCode:{}",Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSns),statusCodeMsg);
 			}
 
 		}catch(Exception e){
-			log.error("informSettlementStatus(),通知结算状态给O2O出现异常:orderSn:{},statusCode:{}",StringUtils.join(orderSns, ","),statusCodeMsg);
+			log.error(e.getMessage());
+			log.error("informSettlementStatus(),通知结算状态给O2O出现异常:orderSn:{},statusCode:{}",Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSns),statusCodeMsg);
 			isSuccess=false;
 		}
 		
@@ -75,7 +77,7 @@ public class O2oCallbackServiceImpl implements O2oCallbackService{
 		String apiPath=ShareProfitUtil.AUTHORIZED_MAP.get(O2oApiConstants.KEY_O2O_API_SAVE_ORDER_BILL_STATUS);
 		String apiKey=ShareProfitUtil.AUTHORIZED_MAP.get(O2oApiConstants.KEY_O2O_API_KEY);
 		
-		String orderSnsStr=StringUtils.join(orderSns, ",");
+		String orderSnsStr=Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSns);
 		String params = "?orderSns=" + orderSnsStr + "&statusCode=" + statusCode  + "&apiKey="+apiKey;
 		
 		return apiUrl+apiPath+params;
@@ -85,14 +87,21 @@ public class O2oCallbackServiceImpl implements O2oCallbackService{
 	@Override
 	public String addProxyFee(EcmAgent areaAgent, double amount) throws Exception {
 		String payinId = null;
-		JSONObject resultObj = ConnectionUrlUtil.httpRequest(buildUrl4AddProxyFee(areaAgent,amount), ShareProfitUtil.REQUEST_METHOD_POST, null);
-		if(resultObj.getString("status_code").equals("0")){
-			log.info("回调o2o，更新余款，抵扣保证金插入缴费记录成功");
-			payinId = resultObj.getString("result");
-		}else{
-			log.error("回调o2o更新余款、抵扣保证金插入缴费记录失败,agentNo:{}",areaAgent.getAddAgentNo());
+		Map<String,String> resultObj = ConnectionUrlUtil.httpRequest(buildUrl4AddProxyFee(areaAgent,amount), ShareProfitUtil.REQUEST_METHOD_POST, null);
+		
+		if(resultObj==null || resultObj.isEmpty()){ 
+			log.info("回调o2o更新余款、抵扣保证金插入缴费记录失败,agentNo:{},as resultObj in addProxyFee() is null",areaAgent.getAddAgentNo());
 			throw new Exception("回调o2o更新余款、抵扣保证金插入缴费记录失败");
+		}else{
+			if(resultObj.get("status_code").equals("0")){
+				log.info("回调o2o，更新余款，抵扣保证金插入缴费记录成功");
+				payinId = resultObj.get("result");
+			}else{
+				log.error("回调o2o更新余款、抵扣保证金插入缴费记录失败,agentNo:{}",areaAgent.getAddAgentNo());
+				throw new Exception("回调o2o更新余款、抵扣保证金插入缴费记录失败");
+			}
 		}
+
 		return payinId;
 	}
 	

@@ -49,6 +49,8 @@ public class Constants {
 	public static final String ENCODE_GBK = "GBK";
 	public static final String ENCODE_GB2312 = "GB2312";
 	public static final String ENCODE_ISO8859_1 = "ISO-8859-1";
+	
+	public static final String SEPARATOR_COMMA=",";
 
 
 }

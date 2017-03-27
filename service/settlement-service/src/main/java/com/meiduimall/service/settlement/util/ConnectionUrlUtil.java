@@ -17,7 +17,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.alibaba.fastjson.JSONObject;
+import com.meiduimall.core.util.JsonUtils;
 
 /**
  * Copyright (C), 2002-2017, 美兑壹购
@@ -419,17 +419,8 @@ public class ConnectionUrlUtil {
 		return map;
 	}
 	
-	/**
-	 * Description : Http请求
-	 * Created By : Fkx 
-	 * Creation Time : 2016-6-15 上午10:29:25 
-	 * 
-	 * @param requestUrl
-	 * @param requestMethod
-	 * @param outputStr
-	 * @return
-	 */
-	public static JSONObject httpRequest(String requestUrl, String requestMethod, String outputStr) {
+
+	/*public static JSONObject httpRequest(String requestUrl, String requestMethod, String outputStr) {
 		HttpURLConnection httpConn = null;
 		InputStream input = null;
 		BufferedReader bufferedReader = null;
@@ -490,5 +481,79 @@ public class ConnectionUrlUtil {
 		}
 		//返回JSON
 		return JSONObject.parseObject(buffer.toString());
+	}*/
+	
+	/**
+	 * Description : Http请求
+	 * Created By : Fkx 
+	 * Creation Time : 2016-6-15 上午10:29:25 
+	 * 
+	 * @param requestUrl
+	 * @param requestMethod
+	 * @param outputStr
+	 * @return
+	 */
+	public static Map<String,String> httpRequest(String requestUrl, String requestMethod, String outputStr) {
+		HttpURLConnection httpConn = null;
+		InputStream input = null;
+		BufferedReader bufferedReader = null;
+		InputStreamReader reader = null;
+		StringBuffer buffer = new StringBuffer();
+		try {
+			System.out.println("请求地址:" + requestUrl);
+			System.out.println("请求方法:" + requestMethod);
+			
+			URL url = new URL(requestUrl);
+			//打开Http链接
+			httpConn = (HttpURLConnection)url.openConnection();
+			
+			httpConn.setDoOutput(true);
+			httpConn.setDoInput(true);
+			httpConn.setUseCaches(false); //不使用缓存
+			httpConn.setRequestMethod(requestMethod);//设置请求方式
+			
+			if (null != outputStr) {
+				//获取输出工作流
+				OutputStream output = httpConn.getOutputStream();
+				//写入输出数据
+				output.write(outputStr.getBytes("UTF-8"));
+				//释放
+				output.close();
+			}
+			
+			//从输入流读取返回的内容
+			input = httpConn.getInputStream();
+			reader = new InputStreamReader(input, "UTF-8");
+			bufferedReader = new BufferedReader(reader);
+			buffer = new StringBuffer();
+			String str = null;
+			while ((str = bufferedReader.readLine()) != null) {
+				buffer.append(str);
+			}
+		} catch (Exception e) {
+			System.out.println("http请求异常!");
+			e.printStackTrace();
+		} finally {
+			//释放
+			try {
+				if(bufferedReader!=null){
+					bufferedReader.close();
+				}
+				if(reader!=null){
+					reader.close();
+				}
+				if(input!=null){
+					input.close();
+				}
+				
+			} catch (IOException e) {
+				System.out.println("关闭流异常!");
+				e.printStackTrace();
+			}
+			httpConn.disconnect(); //关闭Http连接
+		}
+		//返回JSON
+		//return JSONObject.parseObject(buffer.toString());
+		return JsonUtils.jsontoMap(buffer.toString(), String.class);
 	}
 }

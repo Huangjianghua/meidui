@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.ImmutableMap;
+import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 import com.meiduimall.service.settlement.common.ShareProfitUtil;
 import com.meiduimall.service.settlement.context.ShareProfitContext;
@@ -32,8 +33,6 @@ import com.meiduimall.service.settlement.util.ConnectionUrlUtil;
 import com.meiduimall.service.settlement.util.DateUtil;
 import com.meiduimall.service.settlement.vo.EcmMzfBillWaterVO;
 import com.meiduimall.service.settlement.vo.ShareProfitVO;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.StringUtil;
 
@@ -120,16 +119,16 @@ public class OrderServiceImpl implements OrderService,BeanSelfAware {
 		log.info("订单支付金额:" + ecmOrder.getOrderAmount());
 		
 		// 获取推荐人信息
-		JSONObject resultJson = ConnectionUrlUtil.httpRequest(ShareProfitUtil.getBelongInfoUrl(ecmOrder.getBuyerName()), ShareProfitUtil.REQUEST_METHOD_POST, null);
-		if (null == resultJson || "".equals(resultJson.toString())) {
+		Map<String,String> resultJson = ConnectionUrlUtil.httpRequest(ShareProfitUtil.getBelongInfoUrl(ecmOrder.getBuyerName()), ShareProfitUtil.REQUEST_METHOD_POST, null);
+		if (null == resultJson || resultJson.isEmpty()) {
 			log.info("会员系统连接失败!略过该条数据");
 			errors.add("从会员系统获取推荐人信息失败!");
 		}
 		// 判断返回是否成功,如果不成功则不理会
 		Map<String, String> belongMap = null;
 		if ("0".equals(resultJson.get("status_code"))) {
-			belongMap = getlvlAndPhone(resultJson.getString("RESULTS"));
-			log.info("推荐人信息:" + resultJson.getString("RESULTS"));
+			belongMap = getlvlAndPhone(resultJson.get("RESULTS"));
+			log.info("推荐人信息:" + resultJson.get("RESULTS"));
 		} else {
 			log.error("errcode:" + resultJson.get("status_code") + ";errmsg:" + resultJson.get("result_msg"));
 		}
@@ -264,6 +263,19 @@ public class OrderServiceImpl implements OrderService,BeanSelfAware {
 
 	}
 
+//remove 
+/*	public static Map<String, String> getlvlAndPhone(String arrStr) throws Exception{
+		Map<String, String> map = new HashMap<String, String>();
+		
+		
+		JSONArray array = JSONArray.parseArray(arrStr);
+		for (int i = 0; i < array.size(); i++) {
+			JSONObject object = array.getJSONObject(i);
+			map.put(object.getString("level"), object.getString("phone"));
+		}
+		return map;
+	}*/
+	
 	/**
 	 * Description : 获取请求接口后的数据提取推荐人手机号
 	 * Created By : Fkx 
@@ -274,10 +286,11 @@ public class OrderServiceImpl implements OrderService,BeanSelfAware {
 	 */
 	public static Map<String, String> getlvlAndPhone(String arrStr) throws Exception{
 		Map<String, String> map = new HashMap<String, String>();
-		JSONArray array = JSONArray.parseArray(arrStr);
-		for (int i = 0; i < array.size(); i++) {
-			JSONObject object = array.getJSONObject(i);
-			map.put(object.getString("level"), object.getString("phone"));
+		List<Map> referrerList=JsonUtils.jsonToList(arrStr, Map.class);
+		if(referrerList!=null && !referrerList.isEmpty()){
+			for(Map referrerMap:referrerList){
+				map.put((String)referrerMap.get("level"), (String)referrerMap.get("phone"));
+			}
 		}
 		return map;
 	}

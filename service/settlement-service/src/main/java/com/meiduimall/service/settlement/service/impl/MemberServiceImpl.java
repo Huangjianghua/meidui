@@ -8,17 +8,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.StringUtil;
+import com.meiduimall.core.Constants;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 import com.meiduimall.service.settlement.common.ShareProfitUtil;
 import com.meiduimall.service.settlement.context.MemberSystemDataContext;
@@ -68,8 +68,8 @@ public class MemberServiceImpl implements MemberService {
 		hashMap.put("order_source",source);
 		hashMap.put("url","Authorized/addConsumePoints");
 		hashMap.put("order_id",order_id);
-		JSONObject resultJson = ConnectionUrlUtil.httpRequest(ShareProfitUtil.belongInfoUrl(hashMap), ShareProfitUtil.REQUEST_METHOD_POST, null);
-		if(resultJson==null){
+		Map<String,String> resultJson = ConnectionUrlUtil.httpRequest(ShareProfitUtil.belongInfoUrl(hashMap), ShareProfitUtil.REQUEST_METHOD_POST, null);
+		if(resultJson==null || resultJson.isEmpty()){
 			log.error("更新积分到会员系统 失败,userId:"+phone+" as resultJson in addConsumePoints() is null.");
 			return false;
 		}else{
@@ -90,8 +90,8 @@ public class MemberServiceImpl implements MemberService {
 		Boolean isUpdated=Boolean.FALSE;
  		if(!Strings.isNullOrEmpty(userId)){
 
-			JSONObject resultJson = ConnectionUrlUtil.httpRequest(ShareProfitUtil.buildMemberSystemAmoutUrl(ctx), ShareProfitUtil.REQUEST_METHOD_POST, null);
-			if(resultJson==null){
+			Map<String,String> resultJson = ConnectionUrlUtil.httpRequest(ShareProfitUtil.buildMemberSystemAmoutUrl(ctx), ShareProfitUtil.REQUEST_METHOD_POST, null);
+			if(resultJson==null || resultJson.isEmpty()){
 				log.error("updateAmout2MemberSystem()失败,userId:"+userId+" as resultJson in updateAmout2MemberSystem(ctx) is null.");
 			}else{
 				String statusCode=resultJson.get("status_code")==null?"":resultJson.get("status_code").toString();
@@ -234,11 +234,11 @@ public class MemberServiceImpl implements MemberService {
 			try {
 				isCashStatusUpdated=orderStatusService.batchUpdCashStatus(orderSnList);
 				if(!isCashStatusUpdated){
-					log.error("orderStatusService.batchUpdCashStatus() in updateReferrerCash() 失败!order size:{},orderSnList:{}",orderSnList.size(),StringUtils.join(orderSnList, ","));
+					log.error("orderStatusService.batchUpdCashStatus() in updateReferrerCash() 失败!order size:{},orderSnList:{}",orderSnList.size(),Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSnList));
 				}
 			} catch (Exception e) {
 				isCashStatusUpdated=false;
-				log.error("orderStatusService.batchUpdCashStatus() in updateReferrerCash() 出现异常!order size:"+orderSnList.size()+",orderSnList:{},error:{}",StringUtils.join(orderSnList, ","),e.getMessage());
+				log.error("orderStatusService.batchUpdCashStatus() in updateReferrerCash() 出现异常!order size:"+orderSnList.size()+",orderSnList:{},error:{}",Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSnList),e.getMessage());
 			}
 			if(!isCashStatusUpdated){
 				String params="一级推荐人1%现金成功送出,但送现金成功状态更新到表 ecm_mzf_order_status表失败,需要手动更新,订单数:"+orderSnList.size();
@@ -263,7 +263,7 @@ public class MemberServiceImpl implements MemberService {
 		
 		if(orderSnList4Err!=null && !orderSnList4Err.isEmpty()){
 			try {
-				log.error("updateReferrerCash() in MemberServiceImpl got error:更新推荐人1%金额到会员系统失败!order size:{},orderSns:{}",orderSnList4Err.size(),StringUtils.join(orderSnList4Err, ","));
+				log.error("updateReferrerCash() in MemberServiceImpl got error:更新推荐人1%金额到会员系统失败!order size:{},orderSns:{}",orderSnList4Err.size(),Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSnList4Err));
 				//log error msg to ecm_mzf_log_createbill;
 				CreateBillLog cbl=new CreateBillLog("updateReferrerCash() in MemberServiceImpl got error:更新推荐人1%金额到会员系统失败!失败订单数量:{}:"+orderSnList4Err.size(),DateUtil.getCurrentTimeSec(),null);
 				boolean isSuccess=shareProfitLogService.logCreateBillLog(cbl);

@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang3.StringUtils;
 
+import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -102,11 +102,11 @@ public class SettlementUtil {
 		return result;
 	}
 	
-	public static String getValues(String[] src,String seperator){
+	public static String getValues(String[] src,String separator){
 		String result="";
-		seperator=StringUtil.isEmpty(seperator)?",":seperator;
+		separator=StringUtil.isEmpty(separator)?",":separator;
 		if(src!=null && src.length>0){
-			result=StringUtils.join(Arrays.asList(src),seperator);
+			result=Joiner.on(separator).skipNulls().join(src);
 		}
 		return result;
 	}
