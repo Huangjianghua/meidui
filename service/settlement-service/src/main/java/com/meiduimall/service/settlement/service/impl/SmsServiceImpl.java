@@ -66,7 +66,8 @@ public class SmsServiceImpl implements SmsService {
 			smsReqDTO.setParams(params);
 		}
 		
-		Map<String,String> resultObj = ConnectionUrlUtil.httpRequest(buildSendMsgUrl(smsReqDTO), ShareProfitUtil.REQUEST_METHOD_POST, null);
+		String resultObjStr = ConnectionUrlUtil.httpRequest(buildSendMsgUrl(smsReqDTO), ShareProfitUtil.REQUEST_METHOD_POST, null);
+		Map<String,String> resultObj=JsonUtils.jsontoMap(resultObjStr, String.class);
 		if(resultObj==null || resultObj.isEmpty()){
 			logger.info("发送短信通知sendMessage(SmsReqDTO)失败因为返回结果resultObj为空!");
 		}else{

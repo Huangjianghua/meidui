@@ -13,6 +13,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableMap;
 import com.meiduimall.core.Constants;
+import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.core.util.ToolUtils;
 import com.meiduimall.service.settlement.context.MemberSystemDataContext;
 import com.meiduimall.service.settlement.model.EcmMzfOrderStatus;
@@ -317,6 +318,24 @@ public class ShareProfitUtil {
 				}
 				
 			}
+		}
+
+		/**
+		 * Description : 获取请求接口后的数据提取推荐人手机号
+		 * Created By : Fkx 
+		 * Creation Time : 2016-10-27 下午5:31:00 
+		 * 
+		 * @param arrStr
+		 * @return
+		 */
+		public static Map<String, String> getlvlAndPhone(List<Map<String, String>> list) {
+			Map<String, String> retMap = new HashMap<String, String>();
+			if(list!=null && !list.isEmpty()){
+				for(Map<String,String> referrerMap:list){
+					retMap.put(referrerMap.get("level"), referrerMap.get("phone"));
+				}
+			}
+			return retMap;
 		}
 
 	 

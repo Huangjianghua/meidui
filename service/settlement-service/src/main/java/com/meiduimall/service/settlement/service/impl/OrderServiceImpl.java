@@ -32,6 +32,7 @@ import com.meiduimall.service.settlement.service.OrderService;
 import com.meiduimall.service.settlement.util.ConnectionUrlUtil;
 import com.meiduimall.service.settlement.util.DateUtil;
 import com.meiduimall.service.settlement.vo.EcmMzfBillWaterVO;
+import com.meiduimall.service.settlement.vo.ReferrersInfoVO;
 import com.meiduimall.service.settlement.vo.ShareProfitVO;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.StringUtil;
@@ -118,16 +119,24 @@ public class OrderServiceImpl implements OrderService,BeanSelfAware {
 		}
 		log.info("订单支付金额:" + ecmOrder.getOrderAmount());
 		
-		// 获取推荐人信息
-		Map<String,String> resultJson = ConnectionUrlUtil.httpRequest(ShareProfitUtil.getBelongInfoUrl(ecmOrder.getBuyerName()), ShareProfitUtil.REQUEST_METHOD_POST, null);
+		// 获取推荐人信息		
+		String resultStr = ConnectionUrlUtil.httpRequest(ShareProfitUtil.getBelongInfoUrl(ecmOrder.getBuyerName()), ShareProfitUtil.REQUEST_METHOD_POST, null);
+	
+		Map<String,Object> resultJson= JsonUtils.jsontoMap(resultStr, Object.class);
+		
+		
 		if (null == resultJson || resultJson.isEmpty()) {
 			log.info("会员系统连接失败!略过该条数据");
 			errors.add("从会员系统获取推荐人信息失败!");
 		}
 		// 判断返回是否成功,如果不成功则不理会
 		Map<String, String> belongMap = null;
+		
 		if ("0".equals(resultJson.get("status_code"))) {
-			belongMap = getlvlAndPhone(resultJson.get("RESULTS"));
+			
+			List<Map<String,String>> map=(List<Map<String, String>>) resultJson.get("RESULTS");
+
+			belongMap = ShareProfitUtil.getlvlAndPhone(map);
 			log.info("推荐人信息:" + resultJson.get("RESULTS"));
 		} else {
 			log.error("errcode:" + resultJson.get("status_code") + ";errmsg:" + resultJson.get("result_msg"));
@@ -263,19 +272,6 @@ public class OrderServiceImpl implements OrderService,BeanSelfAware {
 
 	}
 
-//remove 
-/*	public static Map<String, String> getlvlAndPhone(String arrStr) throws Exception{
-		Map<String, String> map = new HashMap<String, String>();
-		
-		
-		JSONArray array = JSONArray.parseArray(arrStr);
-		for (int i = 0; i < array.size(); i++) {
-			JSONObject object = array.getJSONObject(i);
-			map.put(object.getString("level"), object.getString("phone"));
-		}
-		return map;
-	}*/
-	
 	/**
 	 * Description : 获取请求接口后的数据提取推荐人手机号
 	 * Created By : Fkx 
@@ -284,16 +280,18 @@ public class OrderServiceImpl implements OrderService,BeanSelfAware {
 	 * @param arrStr
 	 * @return
 	 */
-	public static Map<String, String> getlvlAndPhone(String arrStr) throws Exception{
-		Map<String, String> map = new HashMap<String, String>();
-		List<Map> referrerList=JsonUtils.jsonToList(arrStr, Map.class);
-		if(referrerList!=null && !referrerList.isEmpty()){
-			for(Map referrerMap:referrerList){
-				map.put((String)referrerMap.get("level"), (String)referrerMap.get("phone"));
+	/*	public static Map<String, String> getlvlAndPhone(String arrStr) throws Exception{
+			Map<String, String> map = new HashMap<String, String>();
+			
+			
+			JSONArray array = JSONArray.parseArray(arrStr);
+			for (int i = 0; i < array.size(); i++) {
+				JSONObject object = array.getJSONObject(i);
+				map.put(object.getString("level"), object.getString("phone"));
 			}
-		}
-		return map;
-	}
+			return map;
+		}*/
+	
 	
 public EcmMzfShareProfit buildShareProfitModel(EcmOrder ecmOrder,ShareProfitContext ctx,List<String> meiduiCompanyAgentNos) throws Exception{
 		

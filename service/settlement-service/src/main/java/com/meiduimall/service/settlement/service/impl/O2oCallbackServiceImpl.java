@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.base.Joiner;
 import com.meiduimall.core.Constants;
+import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.service.settlement.common.O2oApiConstants;
 import com.meiduimall.service.settlement.common.ShareProfitUtil;
 import com.meiduimall.service.settlement.model.EcmAgent;
@@ -34,7 +35,10 @@ public class O2oCallbackServiceImpl implements O2oCallbackService{
 		boolean isSuccess=true;
 		String statusCodeMsg=ShareProfitUtil.O2O_SETTLEMENT_STATUS_CODE_MAP.get(statusCode)==null?"":ShareProfitUtil.O2O_SETTLEMENT_STATUS_CODE_MAP.get(statusCode);
 		try{
-			Map<String,String> resultObj = ConnectionUrlUtil.httpRequest(buildUrl4InformSettlementStatus(orderSns,statusCode), ShareProfitUtil.REQUEST_METHOD_POST, null);
+			String resultObjStr = ConnectionUrlUtil.httpRequest(buildUrl4InformSettlementStatus(orderSns,statusCode), ShareProfitUtil.REQUEST_METHOD_POST, null);
+			
+			Map<String,String> resultObj=JsonUtils.jsontoMap(resultObjStr, String.class);
+			
 			if(resultObj.get("status_code").equals("0")){
 				log.info("通知订单结算状态给O2O成功!orderSns:{},statusCode:{}",Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSns),statusCodeMsg);
 			}else{
@@ -87,7 +91,9 @@ public class O2oCallbackServiceImpl implements O2oCallbackService{
 	@Override
 	public String addProxyFee(EcmAgent areaAgent, double amount) throws Exception {
 		String payinId = null;
-		Map<String,String> resultObj = ConnectionUrlUtil.httpRequest(buildUrl4AddProxyFee(areaAgent,amount), ShareProfitUtil.REQUEST_METHOD_POST, null);
+		String resultObjStr = ConnectionUrlUtil.httpRequest(buildUrl4AddProxyFee(areaAgent,amount), ShareProfitUtil.REQUEST_METHOD_POST, null);
+		
+		Map<String,String> resultObj=JsonUtils.jsontoMap(resultObjStr, String.class);
 		
 		if(resultObj==null || resultObj.isEmpty()){ 
 			log.info("回调o2o更新余款、抵扣保证金插入缴费记录失败,agentNo:{},as resultObj in addProxyFee() is null",areaAgent.getAddAgentNo());
