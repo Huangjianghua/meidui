@@ -39,6 +39,9 @@ public class EcmMzfWater implements Serializable {
 	
 	//推荐单号
 	private String recNo;
+	
+	//账号可提现金额
+	private BigDecimal balance;
 
 	public int getId() {
 		return id;
@@ -112,14 +115,20 @@ public class EcmMzfWater implements Serializable {
 		this.recNo = recNo;
 	}
 	
-	@Override
-	public String toString() {
-		return "EcmMzfWater [id=" + id + ", waterId=" + waterId + ", code="
-				+ code + ", money=" + money + ", remark=" + remark
-				+ ", opTime=" + opTime + ", waterType=" + waterType
-				+ ", extId=" + extId + "]";
+	public BigDecimal getBalance() {
+		return balance;
+	}
+
+	public void setBalance(BigDecimal balance) {
+		this.balance = balance;
 	}
 	
+	@Override
+	public String toString() {
+		return "EcmMzfWater [id=" + id + ", waterId=" + waterId + ", code=" + code + ", money=" + money + ", remark="
+				+ remark + ", opTime=" + opTime + ", waterType=" + waterType + ", extId=" + extId + ", recNo=" + recNo
+				+ ", balance=" + balance + "]";
+	}
 	
 
 }

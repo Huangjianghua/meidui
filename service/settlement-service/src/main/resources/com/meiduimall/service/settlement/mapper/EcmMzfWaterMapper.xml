@@ -68,11 +68,14 @@
 		  a.op_time opTime,
 		  a.water_type waterType,
 		  a.ext_id extId,
-		  b.rec_no recNo
+		  b.rec_no recNo,
+		  c.balance 
 		FROM
 		  ecm_mzf_water a 
 		  LEFT JOIN ecm_mzf_agent_water b 
-		    ON a.ext_id = b.agent_water_id
+		    ON a.ext_id = b.agent_water_id 
+		  LEFT JOIN ecm_mzf_account c 
+		    ON a.code = c.code 
 		WHERE 1 = 1 
 		<if test="waterId != null and waterId != ''">
 			AND a.water_id = #{waterId}
