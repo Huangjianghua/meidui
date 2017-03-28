@@ -32,7 +32,6 @@ import com.meiduimall.service.settlement.service.OrderService;
 import com.meiduimall.service.settlement.util.ConnectionUrlUtil;
 import com.meiduimall.service.settlement.util.DateUtil;
 import com.meiduimall.service.settlement.vo.EcmMzfBillWaterVO;
-import com.meiduimall.service.settlement.vo.ReferrersInfoVO;
 import com.meiduimall.service.settlement.vo.ShareProfitVO;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.StringUtil;
