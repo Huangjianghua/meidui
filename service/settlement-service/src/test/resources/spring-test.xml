@@ -50,8 +50,31 @@
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
 	</bean>  
 	
-	
-	
+	<!-- redis相关配置 -->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxTotal" value="1000"/> 
+        <property name="maxIdle" value="10"/> 
+        <property name="minIdle" value="1"/>
+        <property name="maxWaitMillis" value="30000"/> 
+        <property name="testOnBorrow" value="true"/> 
+        <property name="testOnReturn" value="true"/> 
+        <property name="testWhileIdle" value="true"/>
+        <!-- <property name="testWhileIdle" value="true"/> -->
+    </bean>
 
+    <bean id="shardedJedisPool" class="redis.clients.jedis.ShardedJedisPool" destroy-method="destroy">
+        <constructor-arg index="0" ref="jedisPoolConfig" />
+        <constructor-arg index="1">
+            <list>
+                <bean class="redis.clients.jedis.JedisShardInfo">
+                    <constructor-arg name="host" value="192.168.4.236" />
+                    <constructor-arg name="port" value="6379" />
+                    <constructor-arg name="password" value="meiduiredis2016" />
+                    <constructor-arg name="timeout" value="3000" />
+                    <constructor-arg name="weight" value="1" />
+                </bean>
+            </list>
+        </constructor-arg>
+    </bean>
 	
 </beans>

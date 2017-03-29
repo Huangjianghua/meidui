@@ -35,7 +35,7 @@ public class SmsServiceImpl implements SmsService {
 		String api = ShareProfitUtil.AUTHORIZED_MAP.get(KEY_SMS_API_URL) + ShareProfitUtil.AUTHORIZED_MAP.get(KEY_SEND_MESSAGE);
 		RestTemplate restTemplate = new RestTemplate();
 		String result = restTemplate.postForEntity(api, smsReqDTO, String.class).getBody();
-		Map<String,String> resultMap=JsonUtils.jsonToMap(result, String.class);
+		Map<String,String> resultMap=JsonUtils.jsontoMap(result, String.class);
 		
 		if(resultMap==null || resultMap.isEmpty()){
 			logger.info("发送短信通知sendMsm(SmsReqDTO)失败,因为返回结果resultObj为空!");
@@ -67,7 +67,7 @@ public class SmsServiceImpl implements SmsService {
 		}
 		
 		String resultObjStr = ConnectionUrlUtil.httpRequest(buildSendMsgUrl(smsReqDTO), ShareProfitUtil.REQUEST_METHOD_POST, null);
-		Map<String,String> resultObj=JsonUtils.jsonToMap(resultObjStr, String.class);
+		Map<String,String> resultObj=JsonUtils.jsontoMap(resultObjStr, String.class);
 		if(resultObj==null || resultObj.isEmpty()){
 			logger.info("发送短信通知sendMessage(SmsReqDTO)失败因为返回结果resultObj为空!");
 		}else{
