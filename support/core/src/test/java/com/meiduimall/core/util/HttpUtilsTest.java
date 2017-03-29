@@ -8,6 +8,7 @@
 
 package com.meiduimall.core.util;
 import static org.junit.Assert.assertEquals;
+
 import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
 import java.util.Map;
@@ -18,8 +19,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.mockserver.client.server.MockServerClient;
 import org.mockserver.junit.MockServerRule;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import com.google.common.collect.Maps;
 
 

@@ -12,8 +12,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 
 /**
- * Copyright (C), 2002-2017, 美兑壹购
- * FileName: JacksonUtil.java
+ * Copyright (C), 2002-2017, 美兑壹购物
+ * FileName: JsonUtils.java
  * Author:   Administrator
  * Date:     2017年3月15日 下午6:15:47
  * Description: json工具类
