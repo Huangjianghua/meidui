@@ -145,7 +145,7 @@ public class JsonUtils {
      * Date:   2017年3月16日 上午9:44:49   
      * return  Map<String,T>
      */
-    public static <T> Map<String,T> jsontoMap(String json,Class<T> valueType){
+    public static <T> Map<String,T> jsonToMap(String json,Class<T> valueType){
     	if(!Strings.isNullOrEmpty(json)){
             try {
             	JavaType javaType = getInstance().getTypeFactory().constructParametricType(Map.class,String.class, valueType);

@@ -8,18 +8,13 @@
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
        ">
-    <context:component-scan base-package="com.meiduimall.service.settlement" use-default-filters="false">
-        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
-        <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
-        <context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
-        <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
-        <context:exclude-filter type="annotation" expression="com.meiduimall.service.settlement.config.MyBatisConfig"/>
+    <context:component-scan base-package="com.meiduimall.service.settlement" >
 
     </context:component-scan>
     <!-- <mvc:annotation-driven/> -->
     
      <!-- Hikari Datasource -->  
-     <bean id="dataSourceHikari" class="com.zaxxer.hikari.HikariDataSource" destroy-method="shutdown">  
+     <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="shutdown">  
 	     <property name="jdbcUrl" value="jdbc:mysql://192.168.4.236:3306/meidui_settlement?useUnicode=true;characterEncoding=utf-8;useSSL=false" />  
 	     <property name="username" value="root" />  
 	     <property name="password" value="meidui@2016.?!" />  
@@ -37,16 +32,17 @@
      
      <!-- MyBatis配置 -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSourceHikari" ref="dataSourceHikari" />
+		<property name="dataSource" ref="dataSource" />
 		<!-- 自动扫描entity目录, 省掉trade-ibatis-sqlMapConfig.xml里的手工配置 -->
 		<property name="typeAliasesPackage" value="com.meiduimall.service.settlement.model" />
 		<!-- 显式指定Mapper文件位置 -->
 		<property name="mapperLocations" value="classpath:com/meiduimall/service/settlement/mapper/*Mapper.xml" />
 	</bean>
 	
-	<!-- <bean id="baseMapper" class="com.meiduimall.service.settlement.dao.impl.BaseMapperImpl">
-	    <property name="sqlSessionFactory" ref="sqlSessionFactory" />
-	</bean> -->
+	
+	<bean id="sqlSessionTemplate"  class="org.mybatis.spring.SqlSessionTemplate">   
+          <constructor-arg index="0" ref="sqlSessionFactory" />   
+    </bean>  
 
 	<!-- 扫描basePackage下所有以@MyBatisRepository标识的 接口 -->
 	<bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
@@ -54,9 +50,8 @@
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
 	</bean>  
 	
-	<!-- 事务管理 -->
-    <!-- <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSourceHikari" ref="dataSourceHikari"></property>
-    </bean> -->
+	
+	
+
 	
 </beans>
