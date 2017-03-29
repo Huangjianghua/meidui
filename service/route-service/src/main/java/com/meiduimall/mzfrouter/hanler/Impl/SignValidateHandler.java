@@ -41,7 +41,7 @@ public class SignValidateHandler implements Handler {
 		String clientID = param.get("clientID");
 		try {
 			String appSecretJson=JedisUtil.getJedisInstance().execGetFromCache(Constants.APP_SECRET_JSON);
-			Map<String,String> map=JsonUtils.jsontoMap(appSecretJson, String.class); 
+			Map<String,String> map=JsonUtils.jsonToMap(appSecretJson, String.class); 
 			String appSecret = map.get(clientID);;
 			if (StringUtils.isEmpty(appSecret)) {
 				ResponsePackUtil.responseWrapper(ctx, BaseApiCode.NOT_EXISTS_SECRET);

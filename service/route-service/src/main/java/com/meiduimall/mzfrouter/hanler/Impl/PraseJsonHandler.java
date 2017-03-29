@@ -37,7 +37,7 @@ public class PraseJsonHandler implements Handler {
 		try {
 			in=ctx.getRequest().getInputStream();
 			json = CharStreams.toString(new InputStreamReader(in));
-			Map param=JsonUtils.jsontoMap(json, String.class);
+			Map param=JsonUtils.jsonToMap(json, String.class);
 			ctx.set("param", param);
 		} catch (Exception e) {
 			log.error("请求参数Json格式解析处理层,url:{},请求body:{},异常信息:{}",request.getRequestURL().toString(),

@@ -28,9 +28,8 @@ import com.google.common.collect.Maps;
  /**
  * Created by hadoop on 2017/3/24.
  */
-public class HttpClientUtilTest {
-  private static Logger logger = LoggerFactory.getLogger(HttpClientUtilTest.class);
-  private static HttpUtils utils = new HttpUtils();
+public class HttpUtilsTest {
+	
 
   @Rule
   public MockServerRule server = new MockServerRule(this, 5000);
@@ -101,7 +100,7 @@ public class HttpClientUtilTest {
   
   @Test
   public void testGet() throws Exception {
-    String result = utils.get("http://localhost:5000/util/test?token=12345","UTF-8");
+    String result = HttpUtils.get("http://localhost:5000/util/test?token=12345","UTF-8");
     assertEquals(expected,result);
   }
 
@@ -112,7 +111,7 @@ public class HttpClientUtilTest {
   public void testPost() throws Exception {
 	Map<String,String> headers=Maps.newHashMap();
 	headers.put(HttpHeaders.CONTENT_TYPE,"application/json");
-    String result = utils.post("http://localhost:5000/util/test", requestJson, headers,"UTF-8");
+    String result = HttpUtils.post("http://localhost:5000/util/test", requestJson, headers,"UTF-8");
     assertEquals(expected,result);
   }
 
@@ -122,13 +121,13 @@ public class HttpClientUtilTest {
   public void testPut() throws Exception {
     Map<String, String> headers = Maps.newHashMap();
 	headers.put(HttpHeaders.CONTENT_TYPE,"application/json");
-    String result = utils.put("http://localhost:5000/util/test", requestJson, headers,"UTF-8");
+    String result = HttpUtils.put("http://localhost:5000/util/test", requestJson, headers,"UTF-8");
     assertEquals(expected,result);
   }
 
   @Test
   public void testDelete() throws Exception {
-	  String result = utils.delete("http://localhost:5000/util/test?token=12345","UTF-8");
+	  String result = HttpUtils.delete("http://localhost:5000/util/test?token=12345","UTF-8");
 	  assertEquals(expected,result);
   }
 
