@@ -14,6 +14,8 @@ import org.springframework.web.context.WebApplicationContext;
 public class BaseTest {
 	
    public MockMvc mockMvc;
+   
+   
    @Autowired
    private WebApplicationContext webApplicationContext;
    

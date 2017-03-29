@@ -1,14 +1,19 @@
 package com.meiduimall.core.util;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -17,6 +22,7 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,6 +92,8 @@ public class HttpUtils {
 			throws ClientProtocolException, IOException {
 		return put(url, sendData, headers, null);
 	}
+	
+	
 	
 
 	/**
@@ -189,6 +197,34 @@ public class HttpUtils {
 
 
 	
+	/**
+	 * 功能描述:  form表单提交
+	 * Author: 陈建宇
+	 * Date:   2017年3月29日 下午6:15:32 
+	 * param   @param url
+	 * param   @param sendData
+	 * return  String
+	 */
+	public static String form(String url, Map<String,String> sendData)
+			throws ClientProtocolException, IOException {
+		CloseableHttpClient httpClient = HttpClients.createDefault();
+		try {
+			HttpPost httpPost = new HttpPost(url);
+			config(httpPost);
+			Set<Map.Entry<String,String>> dataSet=sendData.entrySet();
+			List<NameValuePair> formParams = new ArrayList<NameValuePair>();
+			for(Entry<String,String> entry:dataSet){
+				formParams.add(new BasicNameValuePair(entry.getKey(),entry.getValue()));
+			}
+			UrlEncodedFormEntity uefEntity= new UrlEncodedFormEntity(formParams, Consts.UTF_8.name());
+			httpPost.setEntity(uefEntity);
+			HttpResponse response = httpClient.execute(httpPost);
+			return HttpResToString(response, Consts.UTF_8.name());
+		} finally {
+			close(httpClient);
+		}
+		
+	}
 	
 	
 	/**
