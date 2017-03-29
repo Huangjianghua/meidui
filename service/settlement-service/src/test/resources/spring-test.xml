@@ -9,8 +9,53 @@
        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
        ">
     <context:component-scan base-package="com.meiduimall.service.settlement" use-default-filters="false">
- <!--        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
-        <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/> -->
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
+        <context:exclude-filter type="annotation" expression="com.meiduimall.service.settlement.config.MyBatisConfig"/>
     </context:component-scan>
-    <mvc:annotation-driven/>
+    <!-- <mvc:annotation-driven/> -->
+    
+     <!-- Hikari Datasource -->  
+     <bean id="dataSourceHikari" class="com.zaxxer.hikari.HikariDataSource" destroy-method="shutdown">  
+	     <property name="jdbcUrl" value="jdbc:mysql://192.168.4.236:3306/meidui_settlement?useUnicode=true;characterEncoding=utf-8;useSSL=false" />  
+	     <property name="username" value="root" />  
+	     <property name="password" value="meidui@2016.?!" />  
+	      <!-- 连接只读数据库时配置为true， 保证安全 -->  
+	     <property name="readOnly" value="false" />  
+	     <!-- 等待连接池分配连接的最大时长（毫秒），超过这个时长还没可用的连接则发生SQLException， 缺省:30秒 -->  
+	     <property name="connectionTimeout" value="30000" />  
+	     <!-- 一个连接idle状态的最大时长（毫秒），超时则被释放（retired），缺省:10分钟 -->  
+	     <property name="idleTimeout" value="600000" />  
+	     <!-- 一个连接的生命时长（毫秒），超时而且没被使用则被释放（retired），缺省:30分钟，建议设置比数据库超时时长少30秒，参考MySQL wait_timeout参数（show variables like '%timeout%';） -->  
+	     <property name="maxLifetime" value="1800000" />  
+	     <!-- 连接池中允许的最大连接数。缺省值：10；推荐的公式：((core_count * 2) + effective_spindle_count) -->  
+	     <property name="maximumPoolSize" value="15" />  
+     </bean>
+     
+     <!-- MyBatis配置 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSourceHikari" ref="dataSourceHikari" />
+		<!-- 自动扫描entity目录, 省掉trade-ibatis-sqlMapConfig.xml里的手工配置 -->
+		<property name="typeAliasesPackage" value="com.meiduimall.service.settlement.model" />
+		<!-- 显式指定Mapper文件位置 -->
+		<property name="mapperLocations" value="classpath:com/meiduimall/service/settlement/mapper/*Mapper.xml" />
+	</bean>
+	
+	<!-- <bean id="baseMapper" class="com.meiduimall.service.settlement.dao.impl.BaseMapperImpl">
+	    <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean> -->
+
+	<!-- 扫描basePackage下所有以@MyBatisRepository标识的 接口 -->
+	<bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.meiduimall.service.settlement.dao" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+	</bean>  
+	
+	<!-- 事务管理 -->
+    <!-- <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSourceHikari" ref="dataSourceHikari"></property>
+    </bean> -->
+	
 </beans>
