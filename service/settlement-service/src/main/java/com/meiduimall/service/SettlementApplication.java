@@ -15,7 +15,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableAsync
 @EnableHystrix
 //@EnableEurekaClient
-@EnableDiscoveryClient
+//@EnableDiscoveryClient
 public class SettlementApplication {
 
 	public static void main(String[] args) {
