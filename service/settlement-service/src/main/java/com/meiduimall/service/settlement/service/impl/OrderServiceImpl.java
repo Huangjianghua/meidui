@@ -121,7 +121,7 @@ public class OrderServiceImpl implements OrderService,BeanSelfAware {
 		// 获取推荐人信息		
 		String resultStr = ConnectionUrlUtil.httpRequest(ShareProfitUtil.getBelongInfoUrl(ecmOrder.getBuyerName()), ShareProfitUtil.REQUEST_METHOD_POST, null);
 	
-		Map<String,Object> resultJson= JsonUtils.jsonToMap(resultStr, Object.class);
+		Map<String,Object> resultJson= JsonUtils.jsontoMap(resultStr, Object.class);
 		
 		
 		if (null == resultJson || resultJson.isEmpty()) {
