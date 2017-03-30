@@ -94,9 +94,9 @@
 	
 	<!-- 一个区代即可能是区代也可能是跨区代 -->
 	<select id="getAreaAgentShareProfit4Period" resultType="com.meiduimall.service.settlement.vo.ShareProfitVO">
- 		  SELECT 'areaAgent' as `type`, IFNULL(SUM(f.`area_agent_profit`),0) as profit4Today FROM ecm_mzf_shareprofit f INNER JOIN ecm_mzf_order_status o ON o.`order_sn`=f.`order_sn` WHERE f.`area_agent_id` =#{areaAgentNo} AND o.`bill_status`=0 AND (o.`add_time` &gt;#{startDate} AND o.`add_time` &lt;=#{endDate})
+ 		  SELECT 'areaAgent' as `type`, IFNULL(SUM(f.`area_agent_profit`),0) as profitToday FROM ecm_mzf_shareprofit f INNER JOIN ecm_mzf_order_status o ON o.`order_sn`=f.`order_sn` WHERE f.`area_agent_id` =#{areaAgentNo} AND o.`bill_status`=0 AND (o.`add_time` &gt;#{startDate} AND o.`add_time` &lt;=#{endDate})
 		  union all
-		  SELECT 'outAreaAgent' as `type`, IFNULL(SUM(f.`outarea_agent_profit`),0) as profit4Today FROM ecm_mzf_shareprofit f INNER JOIN ecm_mzf_order_status o ON o.`order_sn`=f.`order_sn` WHERE f.`outarea_agent_id`=#{areaAgentNo} AND o.`bill_status`=0 AND (o.`add_time` &gt;#{startDate} AND o.`add_time` &lt;=#{endDate})
+		  SELECT 'outAreaAgent' as `type`, IFNULL(SUM(f.`outarea_agent_profit`),0) as profitToday FROM ecm_mzf_shareprofit f INNER JOIN ecm_mzf_order_status o ON o.`order_sn`=f.`order_sn` WHERE f.`outarea_agent_id`=#{areaAgentNo} AND o.`bill_status`=0 AND (o.`add_time` &gt;#{startDate} AND o.`add_time` &lt;=#{endDate})
 	</select>
 	
 	<select id="getAreaAgentShareProfit4Settlement" resultType="com.meiduimall.service.settlement.vo.ShareProfitVO">
@@ -106,7 +106,7 @@
 	</select>
 
 	<select id="getPersonalAgentShareProfit4Period" resultType="com.meiduimall.service.settlement.vo.ShareProfitVO">
-		SELECT 'personalAgent' as `type`, IFNULL(SUM(f.`person_agent_profit`),0) as profit4Today FROM ecm_mzf_shareprofit f INNER JOIN ecm_mzf_order_status o ON o.`order_sn`=f.`order_sn` WHERE f.`person_agent_id`=#{personalAgentNo} AND o.`bill_status`=0 AND (o.`add_time` &gt;#{startDate} AND o.`add_time` &lt;=#{endDate})
+		SELECT 'personalAgent' as `type`, IFNULL(SUM(f.`person_agent_profit`),0) as profitToday FROM ecm_mzf_shareprofit f INNER JOIN ecm_mzf_order_status o ON o.`order_sn`=f.`order_sn` WHERE f.`person_agent_id`=#{personalAgentNo} AND o.`bill_status`=0 AND (o.`add_time` &gt;#{startDate} AND o.`add_time` &lt;=#{endDate})
 	</select>
 	
 	<select id="getPersonalAgentShareProfit4Settlement" resultType="com.meiduimall.service.settlement.vo.ShareProfitVO">
@@ -116,8 +116,5 @@
 	<select id="checkShareProfitExisted" resultType="java.lang.Integer">
 		SELECT COUNT(sf.`order_sn`) AS cnt FROM ecm_mzf_shareprofit sf WHERE sf.`order_sn`=#{orderSn};
 	</select>
-	
-     
-	
-	
+
 </mapper>

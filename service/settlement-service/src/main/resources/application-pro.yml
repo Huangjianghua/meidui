@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: ##
-    username: ##
-    password: ##
+    url: ##jdbc:mysql://192.168.4.236:3306/meidui_settlement?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: ##root
+    password: ##meidui@2016.?!
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
       connection-init-sql: SELECT 1
@@ -37,9 +37,10 @@ eureka:
 config:
   jedis: 
     jedisShardInfo:  
-      host: ## 
-      port: ## 
-      password: 
+      host: ##192.168.4.236
+      port: ##6379  
+      password: ##meiduiredis2016
+      database: 1
     maxTotal: 1024  
     maxIdle: 250  
     maxWaitMillis: 2000 

@@ -2,6 +2,7 @@ package com.meiduimall.service.sms.request;
 
 import javax.validation.constraints.Pattern;
 
+
 import org.hibernate.validator.constraints.NotBlank;
 
 public class SmsRequest {

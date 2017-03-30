@@ -70,7 +70,7 @@ public class MemberServiceImpl implements MemberService {
 		hashMap.put("url","Authorized/addConsumePoints");
 		hashMap.put("order_id",order_id);
 		String resultJsonStr = ConnectionUrlUtil.httpRequest(ShareProfitUtil.belongInfoUrl(hashMap), ShareProfitUtil.REQUEST_METHOD_POST, null);
-		Map<String,String> resultJson=JsonUtils.jsontoMap(resultJsonStr, String.class);
+		Map<String,String> resultJson=JsonUtils.jsonToMap(resultJsonStr, String.class);
 		if(resultJson==null || resultJson.isEmpty()){
 			log.error("更新积分到会员系统 失败,userId:"+phone+" as resultJson in addConsumePoints() is null.");
 			return false;
@@ -94,7 +94,7 @@ public class MemberServiceImpl implements MemberService {
 
 			String resultJsonStr = ConnectionUrlUtil.httpRequest(ShareProfitUtil.buildMemberSystemAmoutUrl(ctx), ShareProfitUtil.REQUEST_METHOD_POST, null);
 			
-			Map<String,Object> resultJson= JsonUtils.jsontoMap(resultJsonStr, Object.class);
+			Map<String,Object> resultJson= JsonUtils.jsonToMap(resultJsonStr, Object.class);
 			
 			if(resultJson==null || resultJson.isEmpty()){
 				log.error("updateAmout2MemberSystem()失败,userId:"+userId+" as resultJson in updateAmout2MemberSystem(ctx) is null.");

@@ -81,7 +81,9 @@ public class OrderController {
 		} catch (Exception e) {
 			resultMsg="订单分润失败!";
 			shareStatus=0;
-			log.error("shareprofit() for orderSn:{} in OrderController got error:{}",ecmOrder.getOrderSn(),e.getMessage());
+			statusCode=ShareProfitConstants.RESPONSE_STATUS_CODE_FAILURE;
+			log.error("buildShareProfit() for orderSn:{} in OrderController got error:{}",ecmOrder.getOrderSn(),e.getMessage());
+			log.info("buildShareProfit() got exception:"+errors.toString());
 			return SettlementUtil.buildReponseData(ImmutableMap.of("orderSn", ecmOrder.getOrderSn(),"shareStatus",shareStatus), statusCode, resultMsg);
 		}
 		
@@ -99,7 +101,7 @@ public class OrderController {
 				orderService.saveShareProfit(shareProfit);
 			}catch(Exception e){
 				isSuccess=false;
-				log.error("saveShareProfit() for orderSn:{} got error:{}",shareProfit.getOrderSn(),e.getMessage());
+				log.error("saveShareProfit() for orderSn:{} got Exception:{}",shareProfit.getOrderSn(),e.getMessage());
 			}
 		}else{
 			isSuccess=false;
@@ -111,9 +113,7 @@ public class OrderController {
 			shareStatus=0;
 		}else{
 			//异步同步积分到会员系统...
-			//orderService.updateScore2MemberSystem(shareProfit,ShareProfitConstants.SHARE_PROFIT_SOURCE_O2O,null);
 			asyncTaskService.updateScore2MemberSystem(shareProfit,ShareProfitConstants.SHARE_PROFIT_SOURCE_O2O,null);
-
 		}
 		
 		long end=System.currentTimeMillis();
@@ -244,6 +244,28 @@ public class OrderController {
 		map.put("total", count);
 		
 		return SettlementUtil.buildReponseData(map, ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS, "查询账单流水详情数据成功!");
+
+	}
+	
+	/**
+	 * 功能描述:  根据代理或商家编号查询汇总分润数据接口
+	 * Author: 许彦 雄
+	 * Date:   2017年3月28日 下午14:41:02
+	 * param codes
+	 * param billStartDate
+	 * param billEndDate
+	 * return  ResBodyData
+	 * throws Exception
+	 */
+	@RequestMapping(value="/querytotalprofit",method=RequestMethod.POST)
+	public ResBodyData queryTotalProfit(String[] codes,Integer billStartDate,Integer billEndDate) throws Exception{
+		
+		List<ShareProfitVO> shareProfitVOs=new ArrayList<ShareProfitVO>();
+		if(codes!=null && codes.length>0){
+			shareProfitVOs= orderService.queryTotalProfit(Arrays.asList(codes),billStartDate,billEndDate);
+		}
+
+		return SettlementUtil.buildReponseData(shareProfitVOs, ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS, "查询汇总分润数据成功!");
 
 	}
 

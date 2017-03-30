@@ -114,5 +114,17 @@ public interface OrderService {
 	 */
 	public boolean checkShareProfitExisted(String orderSn)throws Exception;
 
+	/**
+	 * 功能描述:  根据代理或商家编号查询分润数据接口
+	 * Author: 许彦 雄
+	 * Date:   2017年3月28日 下午14:25:02
+	 * param codes
+	 * param billStartDate
+	 * param billEndDate
+	 * return  ResBodyData
+	 * throws Exception
+	 */
+	public List<ShareProfitVO> queryTotalProfit(Collection<String> codes, Integer billStartDate, Integer billEndDate) throws Exception;
+
 
 }

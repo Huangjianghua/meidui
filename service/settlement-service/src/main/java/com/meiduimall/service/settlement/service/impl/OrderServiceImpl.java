@@ -121,7 +121,7 @@ public class OrderServiceImpl implements OrderService,BeanSelfAware {
 		// 获取推荐人信息		
 		String resultStr = ConnectionUrlUtil.httpRequest(ShareProfitUtil.getBelongInfoUrl(ecmOrder.getBuyerName()), ShareProfitUtil.REQUEST_METHOD_POST, null);
 	
-		Map<String,Object> resultJson= JsonUtils.jsontoMap(resultStr, Object.class);
+		Map<String,Object> resultJson= JsonUtils.jsonToMap(resultStr, Object.class);
 		
 		
 		if (null == resultJson || resultJson.isEmpty()) {
@@ -170,7 +170,7 @@ public class OrderServiceImpl implements OrderService,BeanSelfAware {
 		// 个代分账 = 消费者返积分 * 个代分账比例
 		BigDecimal personAgentRevenue = null;
 		// 是否是前200区代
-		Boolean isTwoHundreAgentFlag = null;
+		Boolean isTwoHundreAgentFlag = Boolean.FALSE;
 		
 		String personalAgentNo=ecmOrder.getAgentNoPersonal();
 		String personalAgentType= ShareProfitUtil.getPersonalAgentType(personalAgentNo);
@@ -213,16 +213,30 @@ public class OrderServiceImpl implements OrderService,BeanSelfAware {
 		}else{
 			// 商家跨区
 			if (null != ecmOrder.getAgentNoRegionS() && !"".equals(ecmOrder.getAgentNoRegionS())) {
+				log.info("商家跨区,不用判断是否前两百名区代判断问题。");
 				areaAgentRevenue = memberRevenue.multiply(new BigDecimal(systemSetting.get(ShareProfitUtil.AREA_SCALE)).divide(new BigDecimal(100)));
 				personAgentRevenue = memberRevenue.multiply(new BigDecimal(systemSetting.get(ShareProfitUtil.CROSS_PERSONAL_SCALE)).divide(new BigDecimal(100)));
 				crossAreaAgentRevenue = memberRevenue.multiply(new BigDecimal(systemSetting.get(ShareProfitUtil.CROSS_AREA_SCALE)).divide(new BigDecimal(100)));
+			
+				if(log.isInfoEnabled()){
+					log.info("--普通个代信息--");
+					log.info("跨区个代分账比例:" + systemSetting.get(ShareProfitUtil.CROSS_PERSONAL_SCALE) + "%;个代收益:$" + personAgentRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
+					log.info("区代分账比例:" + systemSetting.get(ShareProfitUtil.AREA_SCALE) + "%;区代收益:$" + areaAgentRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
+					if (crossAreaAgentRevenue!=null) {
+						log.info("跨区区代分账比例:" + systemSetting.get(ShareProfitUtil.CROSS_AREA_SCALE) + "%;跨区区代收益:$" + crossAreaAgentRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
+					}
+				}
+			
 			} else {
+				log.info("本区区代,将判断是否为前两百名区代。");
 				personAgentRevenue = memberRevenue.multiply(new BigDecimal(systemSetting.get(ShareProfitUtil.PERSONAL_SCALE)).divide(new BigDecimal(100)));
 				
 				Integer isTwoHundredAgent =ecmOrder.getIsTwoHundredArea();
 				if (null == isTwoHundredAgent || "".equals(isTwoHundredAgent)) {
 					log.info("前二百区代标识为空!略过该条数据");
 					errors.add("前二百区代标识不能为空!");
+				}else{
+					log.info("前二百区代:"+isTwoHundredAgent.toString());
 				}
 				// 判断区代是否为前200区代
 				if (isTwoHundredAgent.equals(Integer.valueOf(1))) {
@@ -232,16 +246,18 @@ public class OrderServiceImpl implements OrderService,BeanSelfAware {
 					areaAgentRevenue = memberRevenue.multiply(new BigDecimal(systemSetting.get(ShareProfitUtil.AREA_SCALE)).divide(new BigDecimal(100)));
 					isTwoHundreAgentFlag = false;
 				}
-	
-			}
-			
-			if(log.isInfoEnabled()){
-				log.info("--普通个代信息--");
-				log.info("个代分账比例:" + systemSetting.get(ShareProfitUtil.PERSONAL_SCALE) + "%;个代收益:$" + personAgentRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
-				log.info("区代分账比例:" + systemSetting.get(ShareProfitUtil.AREA_SCALE) + "%;区代收益:$" + areaAgentRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
-				if (crossAreaAgentRevenue!=null) {
-					log.info("跨区区代分账比例:" + systemSetting.get(ShareProfitUtil.CROSS_AREA_SCALE) + "%;跨区区代收益:$" + crossAreaAgentRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
+				
+				if(log.isInfoEnabled()){
+					log.info("--普通个代信息--");
+					log.info("个代分账比例:" + systemSetting.get(ShareProfitUtil.PERSONAL_SCALE) + "%;个代收益:$" + personAgentRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
+					log.info("isTwoHundreAgentFlag:{}",isTwoHundreAgentFlag);
+					if(isTwoHundreAgentFlag){
+						log.info("区代分账比例:" + systemSetting.get(ShareProfitUtil.TWO_AREA_SCALE) + "%;区代收益:$" + areaAgentRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
+					}else{
+						log.info("区代分账比例:" + systemSetting.get(ShareProfitUtil.AREA_SCALE) + "%;区代收益:$" + areaAgentRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
+					}
 				}
+	
 			}
 		}
 		ctx.setPersonAgentRevenue(personAgentRevenue);
@@ -548,6 +564,14 @@ public EcmMzfShareProfit buildShareProfitModel(EcmOrder ecmOrder,ShareProfitCont
 		return count>0?true:false;
 	}
 	
-
+	@Override
+	public List<ShareProfitVO> queryTotalProfit(Collection<String> codes, Integer billStartDate, Integer billEndDate)
+			throws Exception {
+		final Map<String,Object> params=new HashMap<String,Object>();
+		params.put("codes", codes);
+		params.put("billStartDate", billStartDate);
+		params.put("billEndDate", billEndDate);
+		return baseMapper.selectList(params, "EcmBillMapper.querytotalprofit");
+	}
 
 }

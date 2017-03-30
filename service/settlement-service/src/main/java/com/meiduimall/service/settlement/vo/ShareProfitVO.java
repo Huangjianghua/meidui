@@ -9,18 +9,21 @@ public class ShareProfitVO implements Serializable{
 
 	private String type;
 	private String code;
-	private BigDecimal profit4Today;
+	private BigDecimal profitToday;
 	private BigDecimal profit4Settlement;
+	
+	//for 结算5.24接口 --刘万峰的新需求
+	private BigDecimal totalProfit;
 
 	public ShareProfitVO() {
 		super();
 	}
 	
-	public ShareProfitVO(String type, String code, BigDecimal profit4Today, BigDecimal profit4Settlement) {
+	public ShareProfitVO(String type, String code, BigDecimal profitToday, BigDecimal profit4Settlement) {
 		super();
 		this.type = type;
 		this.code = code;
-		this.profit4Today = profit4Today;
+		this.profitToday = profitToday;
 		this.profit4Settlement = profit4Settlement;
 	}
 	
@@ -36,12 +39,15 @@ public class ShareProfitVO implements Serializable{
 	public void setCode(String code) {
 		this.code = code;
 	}
+
 	public BigDecimal getProfitToday() {
-		return profit4Today;
+		return profitToday;
 	}
+
 	public void setProfitToday(BigDecimal profitToday) {
-		this.profit4Today = profit4Today;
+		this.profitToday = profitToday;
 	}
+
 	public BigDecimal getProfit4Settlement() {
 		return profit4Settlement;
 	}
@@ -49,5 +55,11 @@ public class ShareProfitVO implements Serializable{
 		this.profit4Settlement = profit4Settlement;
 	}
 
+	public BigDecimal getTotalProfit() {
+		return totalProfit;
+	}
 
+	public void setTotalProfit(BigDecimal totalProfit) {
+		this.totalProfit = totalProfit;
+	}
 }

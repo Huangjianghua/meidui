@@ -37,18 +37,19 @@ public class O2oCallbackServiceImpl implements O2oCallbackService{
 		try{
 			String resultObjStr = ConnectionUrlUtil.httpRequest(buildUrl4InformSettlementStatus(orderSns,statusCode), ShareProfitUtil.REQUEST_METHOD_POST, null);
 			
-			Map<String,String> resultObj=JsonUtils.jsontoMap(resultObjStr, String.class);
+			Map<String,String> resultObj=JsonUtils.jsonToMap(resultObjStr, String.class);
 			
 			if(resultObj.get("status_code").equals("0")){
 				log.info("通知订单结算状态给O2O成功!orderSns:{},statusCode:{}",Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSns),statusCodeMsg);
 			}else{
 				isSuccess=false;
 				log.error("通知订单结算状态给O2O失败!orderSns:{},statusCode:{}",Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSns),statusCodeMsg);
+				log.error("通知订单结算状态给O2O失败!orderSns:{},失败信息:{}",Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSns),resultObj.get("result_msg"));
 			}
 
 		}catch(Exception e){
-			log.error(e.getMessage());
 			log.error("informSettlementStatus(),通知结算状态给O2O出现异常:orderSn:{},statusCode:{}",Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSns),statusCodeMsg);
+			log.error("informSettlementStatus(),通知结算状态给O2O出现异常:orderSn:{},异常信息:{}",Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSns),e.getMessage());
 			isSuccess=false;
 		}
 		
@@ -93,7 +94,7 @@ public class O2oCallbackServiceImpl implements O2oCallbackService{
 		String payinId = null;
 		String resultObjStr = ConnectionUrlUtil.httpRequest(buildUrl4AddProxyFee(areaAgent,amount), ShareProfitUtil.REQUEST_METHOD_POST, null);
 		
-		Map<String,String> resultObj=JsonUtils.jsontoMap(resultObjStr, String.class);
+		Map<String,String> resultObj=JsonUtils.jsonToMap(resultObjStr, String.class);
 		
 		if(resultObj==null || resultObj.isEmpty()){ 
 			log.info("回调o2o更新余款、抵扣保证金插入缴费记录失败,agentNo:{},as resultObj in addProxyFee() is null",areaAgent.getAddAgentNo());

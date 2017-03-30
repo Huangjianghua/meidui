@@ -54,9 +54,8 @@ public class SettingController {
 	@PostMapping(value="/listsystemsetting")
 	public ResBodyData listsystemsetting(EcmSystemSetting systemSetting) throws Exception{
 		List<EcmSystemSetting> systemSettingList = settingService.listsystemsetting(systemSetting);
-		return SettlementUtil.buildReponseData(systemSettingList, ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS, "成功");
-		
-	}
+		return SettlementUtil.buildReponseData(systemSettingList, ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS, "成功");	
+	 }
 	
 
 }
