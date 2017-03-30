@@ -1,53 +1,61 @@
 package com.meiduimall.service.settlement.api;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.UnsupportedEncodingException;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.ResultHandler;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest
-@WebAppConfiguration
-public class WaterControllerTest {
+import com.meiduimall.service.BaseTest;
+
+
+public class WaterControllerTest extends BaseTest {
 	
-public MockMvc mvc;
-	
-	@Autowired
-	WebApplicationContext webApplicationContext;
-	 
-	 
-	 @Before
-	 public void setup() {
-	  mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+	@Test
+	public void testQueryWater() throws UnsupportedEncodingException, Exception {
+		
+		ResultActions results = mockMvc.perform(
+				MockMvcRequestBuilders.post("/settlementservice/revenueservice/v1/querywater"))
+				.andExpect(status().isOk());
+		
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("*********"+result.getResponse().getContentAsString());
+			}
+		});
 	}
 
 	@Test
-	public void testQueryWater() throws UnsupportedEncodingException, Exception {
-		String responseString = mvc.perform(post("/settlementservice/revenueservice/v1/querywater").contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
-		System.out.println(responseString);
+	public void testQueryWaterById() throws Exception {
+		ResultActions results = mockMvc
+				.perform(MockMvcRequestBuilders.post("/settlementservice/revenueservice/v1/querywaterbyid")
+						.param("waterId", "QL41010216121426").param("waterType", "3"))
+				.andExpect(status().isOk());
+		
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("*********"+result.getResponse().getContentAsString());
+			}
+		});
 	}
 
-//	@Test
-//	public void testQueryWaterById() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testGetRecMoney() {
-//		fail("Not yet implemented");
-//	}
+	@Test
+	public void testGetRecMoney() throws Exception {
+		ResultActions results = mockMvc
+				.perform(MockMvcRequestBuilders.post("/settlementservice/revenueservice/v1/getrecmoney")
+						.param("code", "440511").param("recNo", "QTG440511161209001"));
+		results.andDo(new ResultHandler(){
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("*********"+result.getResponse().getContentAsString());
+			}
+		});
+	}
 
 }
