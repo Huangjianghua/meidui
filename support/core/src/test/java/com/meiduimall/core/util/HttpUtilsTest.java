@@ -19,6 +19,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.mockserver.client.server.MockServerClient;
 import org.mockserver.junit.MockServerRule;
+import org.mockserver.model.Parameter;
+
 import com.google.common.collect.Maps;
 
 
@@ -89,6 +91,19 @@ public class HttpUtilsTest {
                 .withBody(expected)
         );
     
+    
+    mockClient.when(
+            request()
+                .withPath("/util/test")
+                .withMethod("POST")
+                .withBody("token=12345")
+         
+        ).respond(
+            response()
+                .withStatusCode(200)
+                .withBody(expected)
+        );
+    
   }
 
   @After
@@ -127,6 +142,14 @@ public class HttpUtilsTest {
   @Test
   public void testDelete() throws Exception {
 	  String result = HttpUtils.delete("http://localhost:5000/util/test?token=12345","UTF-8");
+	  assertEquals(expected,result);
+  }
+  
+  @Test
+  public void testForm() throws Exception {
+	  Map<String,String> param=Maps.newHashMap();
+	  param.put("token", "12345");
+	  String result = HttpUtils.form("http://localhost:5000/util/test",param);
 	  assertEquals(expected,result);
   }
 
