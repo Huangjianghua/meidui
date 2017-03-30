@@ -154,7 +154,7 @@ public class DrawController {
 			Map<String,Object> result = new HashMap<String,Object>();
 			result.put("list", ecmMzfDrawList);
 			result.put("total", total);
-			return SettlementUtil.success(result, "获取流水列表成功");
+			return SettlementUtil.success(result, "获取提现列表成功");
 			
 		} catch (Exception e) {
 			log.error(e.toString());
