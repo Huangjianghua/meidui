@@ -40,7 +40,7 @@ public class SettlementUtil {
 					K k=(K) PropertyUtils.getProperty(v, propName);
 					map.put(k, v);
 				}catch(Exception e){
-					log.error(e.getMessage());
+					log.error(e.getMessage(),e);
 				}
 			}
 		}
@@ -60,7 +60,7 @@ public class SettlementUtil {
 					K k=(K) PropertyUtils.getProperty(v, propName);
 					retList.add(k);
 				}catch(Exception e){
-					log.error(e.getMessage());
+					log.error(e.getMessage(),e);
 				}
 			}
 		}
@@ -70,7 +70,7 @@ public class SettlementUtil {
 	
 	public static boolean isZero(double number){
 		
-		BigDecimal num=new BigDecimal(number);
+		BigDecimal num=BigDecimal.valueOf(number);
 		if(num.compareTo(BigDecimal.ZERO)==0){
 			return true;
 		}

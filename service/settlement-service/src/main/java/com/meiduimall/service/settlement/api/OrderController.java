@@ -87,7 +87,7 @@ public class OrderController {
 			return SettlementUtil.buildReponseData(ImmutableMap.of("orderSn", ecmOrder.getOrderSn(),"shareStatus",shareStatus), statusCode, resultMsg);
 		}
 		
-		if(errors!=null && errors.size()>0){
+		if(errors!=null && !errors.isEmpty()){
 			log.info("orderSn:{},分润数据有错误:{}",ecmOrder.getOrderSn(),errors.toString());
 			resultMsg=errors.toString();
 			statusCode=ShareProfitConstants.RESPONSE_STATUS_CODE_FAILURE;
@@ -101,7 +101,7 @@ public class OrderController {
 				orderService.saveShareProfit(shareProfit);
 			}catch(Exception e){
 				isSuccess=false;
-				log.error("saveShareProfit() for orderSn:{} got Exception:{}",shareProfit.getOrderSn(),e.getMessage());
+				log.error("saveShareProfit() for orderSn:{} got Exception:{}",shareProfit.getOrderSn(),e.getMessage(),e);
 			}
 		}else{
 			isSuccess=false;
@@ -164,7 +164,7 @@ public class OrderController {
 			isSuccess = orderService.syncVerifyStatus(orderStatus);
 		} catch (Exception e) {
 			isSuccess=false;
-			log.error("同步订单审核状态接口 出错，orderService.syncVerifyStatus() for orderSn:{} got error:{}",orderStatus.getOrderSn(),e.getMessage());
+			log.error("同步订单审核状态接口 出错，orderService.syncVerifyStatus() for orderSn:{} got error:{}",orderStatus.getOrderSn(),e.getMessage(),e);
 		}
 		
 		if(!isSuccess){
