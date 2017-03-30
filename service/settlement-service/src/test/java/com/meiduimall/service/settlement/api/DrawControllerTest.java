@@ -1,8 +1,11 @@
 package com.meiduimall.service.settlement.api;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.Test;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.meiduimall.service.BaseTest;
@@ -21,9 +24,16 @@ public class DrawControllerTest extends BaseTest {
 	 */
 	@Test
 	public void testQueryAccoutBalance() throws Exception {
-		ResultActions results = mockMvc
-				.perform(MockMvcRequestBuilders.post("/settlementservice/drawservice/v1/queryaccoutbalance"))
+		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
+				.post("/settlementservice/drawservice/v1/queryaccoutbalance").param("code", "440305"))
 				.andExpect(status().isOk());
+		
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("*********" + result.getResponse().getContentAsString());
+			}
+		});
 	}
 
 	/**
@@ -32,9 +42,20 @@ public class DrawControllerTest extends BaseTest {
 	 */
 	@Test
 	public void testDrawCash() throws Exception {
-		ResultActions results = mockMvc
-				.perform(MockMvcRequestBuilders.post("/settlementservice/drawservice/v1/drawcash"))
+		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
+				.post("/settlementservice/drawservice/v1/drawcash")
+				.param("drawType", "1").param("code", "1871477642662").param("userType", "2")
+				.param("realname", "黄丫丫").param("bankname", "招商银行").param("banknum", "1236548")
+				.param("bankaddress", "广东省深圳市福田区").param("bankBranch", "富华支行").param("money", "5")
+				.param("status", "1").param("drawName", "人工"))
 				.andExpect(status().isOk());
+		
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("*********" + result.getResponse().getContentAsString());
+			}
+		});
 	}
 
 	/**
@@ -46,6 +67,13 @@ public class DrawControllerTest extends BaseTest {
 		ResultActions results = mockMvc
 				.perform(MockMvcRequestBuilders.post("/settlementservice/drawservice/v1/querydrawcash"))
 				.andExpect(status().isOk());
+		
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("*********" + result.getResponse().getContentAsString());
+			}
+		});
 	}
 
 	/**
@@ -54,9 +82,16 @@ public class DrawControllerTest extends BaseTest {
 	 */
 	@Test
 	public void testQueryDrawCashById() throws Exception {
-		ResultActions results = mockMvc
-				.perform(MockMvcRequestBuilders.post("/settlementservice/drawservice/v1/querydrawcashbyid"))
+		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
+				.post("/settlementservice/drawservice/v1/querydrawcashbyid").param("drawCode", "QZ44030817032700"))
 				.andExpect(status().isOk());
+		
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("*********" + result.getResponse().getContentAsString());
+			}
+		});
 	}
 
 	/**
