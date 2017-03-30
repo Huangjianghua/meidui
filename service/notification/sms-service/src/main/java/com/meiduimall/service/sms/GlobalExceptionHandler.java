@@ -40,4 +40,5 @@ public class GlobalExceptionHandler {
         return new ResBodyData(HttpStatus.SC_BAD_REQUEST, sb.toString());  
     }  
 
+
 }
