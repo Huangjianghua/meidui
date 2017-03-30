@@ -1,11 +1,22 @@
 package com.meiduimall.service.settlement.common;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.net.URLEncoder;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Strings;
 import com.github.pagehelper.StringUtil;
@@ -13,8 +24,6 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableMap;
 import com.meiduimall.core.Constants;
-import com.meiduimall.core.util.JsonUtils;
-import com.meiduimall.core.util.ToolUtils;
 import com.meiduimall.service.settlement.context.MemberSystemDataContext;
 import com.meiduimall.service.settlement.model.EcmMzfOrderStatus;
 import com.meiduimall.service.settlement.model.EcmMzfShareProfit;
@@ -32,6 +41,8 @@ import com.meiduimall.service.settlement.vo.ShareProfitVO;
  * Description: 分润工具类
  */
 public class ShareProfitUtil {
+	
+	private static final Logger log=LoggerFactory.getLogger(ShareProfitUtil.class);
 	
 	//大区个代提成比例
 	public final static String PERSONAL_SCALE_FOR_BIG_REGION = "person_shareprofit_rate_for_big_region";
@@ -99,7 +110,7 @@ public class ShareProfitUtil {
 	//接口参数url拼接
 	public static String getBelongInfoUrl(String phone) {
 		String timeStamp = String.valueOf(System.currentTimeMillis() / 1000L);
-		String nonce = ToolUtils.getRandomNum();
+		String nonce = getRandomNum();
 		String belongInfoUrl = AUTHORIZED_MAP.get("authorized.url") 
 				+ AUTHORIZED_MAP.get("authorized.belong")
 				+ "?oauth_signature_method=" + AUTHORIZED_MAP.get("authorized.oauth_signature_method")
@@ -124,7 +135,7 @@ public class ShareProfitUtil {
 				+ "&oauth_nonce=" + nonce 
 				+ "&oauth_version=" + AUTHORIZED_MAP.get("authorized.oauth_version") 
 				+ "&share_man=" + phone;
-		return ToolUtils.MD5Encrypt(ToolUtils.encode(md5Str, "UTF-8"));
+		return MD5Encrypt(encodeStr(md5Str, "UTF-8"));
 	}
 	
 	
@@ -149,7 +160,7 @@ public class ShareProfitUtil {
 				ShareProfit.put(systemSetting.getScode(), systemSetting.getValue());
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e.getMessage(),e);
 		}
 		return ShareProfit;
 	}
@@ -158,7 +169,7 @@ public class ShareProfitUtil {
 	//接口参数url拼接
 	public static String belongInfoUrl(Map<String, String> map) {
 			String timeStamp = String.valueOf(System.currentTimeMillis() / 1000L);
-			String nonce = ToolUtils.getRandomNum();
+			String nonce = getRandomNum();
 			map.put("timeStamp", timeStamp);
 			map.put("nonce", nonce);
 			
@@ -183,7 +194,7 @@ public class ShareProfitUtil {
 					+ "&order_source=" + order_source
 			        + "&order_id=" + order_id;
 					
-			String oauth_signature  = "&oauth_signature=" + ToolUtils.MD5Encrypt(ToolUtils.encode("get&"+belongInfoUrl+"&"+belongInfo+belongInfoend, "UTF-8")); 
+			String oauth_signature  = "&oauth_signature=" + MD5Encrypt(encodeStr("get&"+belongInfoUrl+"&"+belongInfo+belongInfoend, "UTF-8")); 
 			
 			return belongInfoUrl+"?"+belongInfo+oauth_signature+belongInfoend;
 	}
@@ -217,7 +228,7 @@ public class ShareProfitUtil {
 			String version=AUTHORIZED_MAP.get(MemberSystemDataContext.KEY_AUTHORIZED_OAUTH_VERSION);
 			
 			String timeStamp = String.valueOf(System.currentTimeMillis() / 1000L);
-			String nonce = ToolUtils.getRandomNum();
+			String nonce = getRandomNum();
 			String source=ctx.getSource();
 			String orderId=ctx.getOrderSn();
 			String tradeType=ctx.getTradeType();
@@ -225,7 +236,7 @@ public class ShareProfitUtil {
 			String direction=ctx.getDirection();
 			String tradeTime=String.valueOf(ctx.getTradeTime());
 			String remark=ctx.getRemark();
-			String remarkEncoded=ToolUtils.encodeStr(remark,Constants.ENCODE_UTF8);
+			String remarkEncoded=encodeStr(remark,Constants.ENCODE_UTF8);
 				
 			String api = apiDomain+apiPath;
 			 
@@ -254,7 +265,7 @@ public class ShareProfitUtil {
 			        + "&trade_time=" + tradeTime
 			        + "&remark=" + remark;
 					
-			String signature = "&oauth_signature=" + ToolUtils.MD5Encrypt(ToolUtils.encodeStr("get&"+api+"&"+oauthParams+dataParams4Sign, Constants.ENCODE_UTF8)); 
+			String signature = "&oauth_signature=" + MD5Encrypt(encodeStr("get&"+api+"&"+oauthParams+dataParams4Sign, Constants.ENCODE_UTF8)); 
 			
 			return api+"?"+oauthParams+signature+dataParams;  //不嫩直接将中文字符的remark字段传到请求参数，不然API服务器那边接收到时会出现乱码。
 		}
@@ -336,6 +347,114 @@ public class ShareProfitUtil {
 				}
 			}
 			return retMap;
+		}
+		
+		
+		public static String MD5Encrypt(String values) {
+			StringBuffer buf = new StringBuffer("");
+			try {
+				MessageDigest md = MessageDigest.getInstance("MD5");
+				md.update(values.toLowerCase().getBytes());
+				byte b[] = md.digest();
+
+				int i;
+				for (int offset = 0; offset < b.length; offset++) {
+					i = b[offset];
+					if (i < 0)
+						i += 256;
+					if (i < 16)
+						buf.append("0");
+					buf.append(Integer.toHexString(i));
+				}
+			} catch (NoSuchAlgorithmException e) {
+				log.error(e.getMessage(),e);
+			}
+			return buf.toString();
+		}
+		
+		/**
+		 * 描述:  生成不重复随机数，生成方式：毫秒+5位随机数<br>
+		 * @return
+		 */
+		public final static String getRandomNum() {
+			
+			//当前秒数
+			String timeMillis = String.valueOf(System.currentTimeMillis()/1000L);
+			
+			String newString = null;
+			// 得到0.0到1.0之间的数字,并扩大100000倍
+			double doubleP = Math.random() * 100000;
+			// 如果数据等于100000,则减少1
+			if (doubleP >= 100000) {
+				doubleP = 99999;
+			}
+			// 然后把这个数字转化为不包含小数点的整数
+			int tempString = (int) Math.ceil(doubleP);
+			// 转化为字符串
+			newString = "" + tempString;
+			// 把得到的数增加为固定长度,为5位
+			while (newString.length() < 5) {
+				newString = "0" + newString;
+			}
+
+			return (timeMillis + newString);
+		}
+		
+		/**
+		 * Description : 加载配置文件
+		 * Created By : Fkx 
+		 * Creation Time : 2016-10-28 上午11:34:07 
+		 * 
+		 * @param config
+		 * @return
+		 */
+		public static Map<String, String> loadProperty(String config) {
+			InputStream is = null;
+			Map<String, String> map = new HashMap<String, String>();
+			try {
+				is = Thread.currentThread().getContextClassLoader().getResourceAsStream(config);
+				Properties pro = new Properties();
+				pro.load(is);
+				Iterator<Object> localIterator = pro.keySet().iterator();
+				while (localIterator.hasNext()) {
+					Object key = localIterator.next();
+					map.put(key.toString(), pro.get(key).toString());
+				}
+			} catch (Exception ex) {
+				log.error("配置文件:{},加载出错!error:{}",config,ex.getMessage());
+			} finally {
+				try {
+					if (is != null)
+					is.close();
+				} catch (IOException e) {
+					log.error(e.getMessage(),e);
+				}
+			}
+			return map;
+		}
+		
+		/**
+		 * @param str
+		 * @param charset
+		 * @return
+		 * @author alex.xu
+		 */
+		public static String encodeStr(String str,String charset){
+			
+			String encodestr = "";
+			String defaultCharSet=Constants.ENCODE_UTF8;
+			if(!Strings.isNullOrEmpty(charset)){
+				defaultCharSet=charset;
+			}
+			
+			try {
+				if(!Strings.isNullOrEmpty(str)){
+					encodestr = URLEncoder.encode(str, defaultCharSet);
+				}
+			} catch (UnsupportedEncodingException e) {
+				log.error(e.getMessage());
+			}
+			return encodestr;
 		}
 
 	 
