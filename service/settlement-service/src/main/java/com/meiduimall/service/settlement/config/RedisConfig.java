@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 
+import com.meiduimall.service.settlement.redis.JedisDBShardInfo;
+
 import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.JedisShardInfo;
 import redis.clients.jedis.ShardedJedisPool;
@@ -26,7 +28,7 @@ public class RedisConfig {
 	
 	@Bean(name ="shardedJedisPool")
 	public ShardedJedisPool shardedJedisPool(@Qualifier("jedis.config")JedisPoolConfig config,
-			@Qualifier("jedisShardInfo") JedisShardInfo jedisShardInfo) {
+			@Qualifier("jedisShardInfo") JedisDBShardInfo jedisShardInfo) {
 		List<JedisShardInfo> list=new ArrayList<JedisShardInfo>();
 		list.add(jedisShardInfo);
 		return new ShardedJedisPool(config,list);
@@ -34,10 +36,12 @@ public class RedisConfig {
 
 	
 	@Bean(name="jedisShardInfo")
-	public JedisShardInfo jedisShardInfo(@Value("${config.jedis.jedisShardInfo.host}") String host,
-			@Value("${config.jedis.jedisShardInfo.port}") int port,@Value("${config.jedis.jedisShardInfo.password}") String password) {
-		JedisShardInfo jedisShardInfo=new JedisShardInfo(host, port);
+	public JedisDBShardInfo jedisShardInfo(@Value("${config.jedis.jedisShardInfo.host}") String host,
+			@Value("${config.jedis.jedisShardInfo.port}") int port,@Value("${config.jedis.jedisShardInfo.password}") String password,
+			@Value("${config.jedis.jedisShardInfo.database}") int database) {
+		JedisDBShardInfo jedisShardInfo=new JedisDBShardInfo(host, port);
 		jedisShardInfo.setPassword(password);
+		jedisShardInfo.setDatabase(database);
 		return jedisShardInfo;
 	}
 	

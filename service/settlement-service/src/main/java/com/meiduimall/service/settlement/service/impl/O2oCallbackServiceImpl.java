@@ -44,11 +44,12 @@ public class O2oCallbackServiceImpl implements O2oCallbackService{
 			}else{
 				isSuccess=false;
 				log.error("通知订单结算状态给O2O失败!orderSns:{},statusCode:{}",Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSns),statusCodeMsg);
+				log.error("通知订单结算状态给O2O失败!orderSns:{},失败信息:{}",Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSns),resultObj.get("result_msg"));
 			}
 
 		}catch(Exception e){
-			log.error(e.getMessage());
 			log.error("informSettlementStatus(),通知结算状态给O2O出现异常:orderSn:{},statusCode:{}",Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSns),statusCodeMsg);
+			log.error("informSettlementStatus(),通知结算状态给O2O出现异常:orderSn:{},异常信息:{}",Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSns),e.getMessage());
 			isSuccess=false;
 		}
 		

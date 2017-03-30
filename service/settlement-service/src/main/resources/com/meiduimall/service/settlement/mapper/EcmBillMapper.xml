@@ -52,6 +52,19 @@
 		INSERT INTO ecm_mzf_bill_water_order(bill_id,order_sn) VALUES(#{billId},#{orderSn});
     </update>
     
+    <select id="querytotalprofit" resultType="com.meiduimall.service.settlement.vo.ShareProfitVO">
+    	SELECT bw.code,SUM(amount) AS totalProfit FROM `ecm_mzf_bill_water` bw WHERE bw.code IN 
+    	 <foreach item="code" index="index" collection="codes" open="(" separator="," close=")">  
+			#{code}  
+		</foreach>
+		<if test="billStartDate != null">
+			AND UNIX_TIMESTAMP(bw.`bill_date`) &gt;=#{billStartDate}
+		</if>
+		<if test="billEndDate != null">
+			AND UNIX_TIMESTAMP(bw.`bill_date`) &lt;=#{billEndDate}
+		</if>
+    	GROUP BY bw.code
+    </select>
 	
 
 </mapper>

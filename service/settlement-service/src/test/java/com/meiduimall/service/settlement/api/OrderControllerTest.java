@@ -3,6 +3,8 @@ package com.meiduimall.service.settlement.api;
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,13 +21,16 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
+import com.google.common.collect.ImmutableList;
 import com.meiduimall.service.BaseTest;
+import com.meiduimall.service.settlement.model.EcmMzfOrderStatus;
 import com.meiduimall.service.settlement.service.OrderService;
+import com.meiduimall.service.settlement.task.AsyncTaskService;
 
-@RunWith(SpringRunner.class)
-@WebMvcTest(OrderController.class)
-public class OrderControllerTest/* extends BaseTest*/ {
+
+public class OrderControllerTest extends BaseTest {
 
 /*	@Before
 	public void setUp() throws Exception {
@@ -34,8 +39,6 @@ public class OrderControllerTest/* extends BaseTest*/ {
 	  @Autowired
 	  private MockMvc mvc;
 	  
-	  @MockBean
-	  private OrderService orderService;
 
 	@After
 	public void tearDown() throws Exception {
@@ -48,10 +51,9 @@ public class OrderControllerTest/* extends BaseTest*/ {
 
 	@Test
 	public void testQueryOrderStatus() throws Exception{
-		/*ResultActions results = mockMvc.perform(
+		ResultActions results = mockMvc.perform(
 				MockMvcRequestBuilders.post("/settlementservice/orderservice/v1/queryorderstatus")
-				.param("orderSns", "D1301020000011701030001")
-				.accept(MediaType.APPLICATION_FORM_URLENCODED))
+				.param("orderSns", "'D1301020000011701040001', 'D1301020000011701040002'"))
 				.andExpect(status().isOk());
 		
 		results.andDo(new ResultHandler() {
@@ -59,9 +61,7 @@ public class OrderControllerTest/* extends BaseTest*/ {
 			public void handle(MvcResult result) throws Exception {
 				System.out.println("*********"+result.getResponse().getContentAsString());
 			}
-		});*/
-		
-		//orderService.queryOrderStatus(orderSns);
+		});
 
 		
 		

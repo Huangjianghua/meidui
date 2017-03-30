@@ -40,6 +40,7 @@ config:
       host : 10.45.178.235
       port : 6379  
       password : meiduiredis2017Md?!
+      database: 1
     maxTotal: 1024  
     maxIdle: 250  
     maxWaitMillis: 2000 
@@ -52,4 +53,3 @@ hystrix:
         isolation:  
           thread:  
             timeoutInMilliseconds: 3000 #缺省为1000
-            
