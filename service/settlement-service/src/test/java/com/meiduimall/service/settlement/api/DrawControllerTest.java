@@ -7,6 +7,12 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.meiduimall.service.BaseTest;
 
+/**
+ * Copyright (C), 2002-2017, 美兑壹购物
+ * FileName: DrawControllerTest.java
+ * Author:   guidl
+ * Description: 提现相关接口单元测试
+ */
 public class DrawControllerTest extends BaseTest {
 
 	/**
