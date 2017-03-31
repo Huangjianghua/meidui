@@ -139,9 +139,19 @@ public class DrawControllerTest extends BaseTest {
 	 */
 	@Test
 	public void testConfirmDrawCashByIdByType() throws Exception {
+		//type:1-成功，0-失败  financeId:财务审核人id
 		ResultActions results = mockMvc
-				.perform(MockMvcRequestBuilders.post("/settlementservice/drawservice/v1/confirmdrawcashbyidbytype"))
+				.perform(MockMvcRequestBuilders.post("/settlementservice/drawservice/v1/confirmdrawcashbyidbytype")
+						.param("drawCode", "QZ187147764266217033101").param("remark", "驳回原因").param("financeId", "1")
+						.param("type", "1"))
 				.andExpect(status().isOk());
+		
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("*********" + result.getResponse().getContentAsString());
+			}
+		});
 	}
 
 }
