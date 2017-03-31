@@ -110,7 +110,8 @@
     verify_id=#{verifyId},
     verify_name=#{verifyName},
     verify_time=#{verifyTime},
-    remark=#{remark} 
+    remark=#{remark},
+    draw_name = #{drawName}
     where draw_code = #{drawCode}
   </update>
   

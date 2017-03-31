@@ -120,8 +120,17 @@ public class DrawControllerTest extends BaseTest {
 	@Test
 	public void testRejectDrawCashById() throws Exception {
 		ResultActions results = mockMvc
-				.perform(MockMvcRequestBuilders.post("/settlementservice/drawservice/v1/rejectdrawcashbyid"))
+				.perform(MockMvcRequestBuilders.post("/settlementservice/drawservice/v1/rejectdrawcashbyid")
+						.param("drawCode", "QZ187147764266217033101").param("remark", "驳回原因").param("verifyId", "1")
+						.param("drawName", "人工"))
 				.andExpect(status().isOk());
+		
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("*********" + result.getResponse().getContentAsString());
+			}
+		});
 	}
 
 	/**
