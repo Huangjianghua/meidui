@@ -47,7 +47,7 @@ public class DrawControllerTest extends BaseTest {
 				.param("drawType", "1").param("code", "1871477642662").param("userType", "2")
 				.param("realname", "黄丫丫").param("bankname", "招商银行").param("banknum", "1236548")
 				.param("bankaddress", "广东省深圳市福田区").param("bankBranch", "富华支行").param("money", "5")
-				.param("status", "1").param("drawName", "人工"))
+				.param("status", "1"))//.param("drawName", "人工")
 				.andExpect(status().isOk());
 		
 		results.andDo(new ResultHandler() {
@@ -101,8 +101,16 @@ public class DrawControllerTest extends BaseTest {
 	@Test
 	public void testVerifyDrawCashById() throws Exception {
 		ResultActions results = mockMvc
-				.perform(MockMvcRequestBuilders.post("/settlementservice/drawservice/v1/verifydrawcashbyid"))
+				.perform(MockMvcRequestBuilders.post("/settlementservice/drawservice/v1/verifydrawcashbyid")
+						.param("drawCode", "QZ187147764266217033101").param("drawName", "人工").param("verifyId", "1"))
 				.andExpect(status().isOk());
+		
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("*********" + result.getResponse().getContentAsString());
+			}
+		});
 	}
 
 	/**
