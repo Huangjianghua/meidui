@@ -359,20 +359,7 @@ public class JedisUtil {
 	}
 	
 	
-	/**
-	 * 功能描述:  2.8支持的设置key value  time
-	 * Author: 陈建宇
-	 * Date:   2016年12月29日 下午2:37:56   
-	 * return  String
-	 */
-	public String execSetnxToCache2(final String cacheKey, final String value,final Long time) {
-		return execJedisOperate(new JedisCallback<String>() {
-			@Override
-			public String invoke(ShardedJedis jedis) {
-				return jedis.set(cacheKey, value, "nx", "px", time);
-			}
-		});
-	}
+
 	
 
 	/**
