@@ -53,35 +53,5 @@ public class GatewaySignUtil {
         return MD5.MD5Encode(buffer.toString()).toUpperCase();
 	}
 	
-	/**
-	 * 功能描述: 产生签名的字符串
-	 * Author: 陈建宇
-	 * Date:   2016年12月19日 上午10:28:55
-	 * @param appKey
-	 * @param parameters
-	 * @throws Exception    
-	 * @return String   
-	 * @throws
-	 */
-	/*public static String buildEncodeSortParam(String appKey,Map<String, String> parameters) throws Exception{
-		StringBuilder getSB = new StringBuilder();
-		String key;
-		String value;
-		for (Map.Entry<String, String> entry : parameters.entrySet()) {
-			key = entry.getKey();
-			value = entry.getValue();
-			if (key.equals("sign")||Stringu  .isEmpty(value)) {
-				continue;
-			}
-			getSB.append(key).append(URLEQUALS)
-					.append(URLEncoder.encode(value, INPUT_CHARSET_DEFAULT))
-					.append(URLCONNCTION);
-		}
-		String[] arrs = getSB.toString().split(URLCONNCTION);
-		Arrays.sort(arrs);
-		return StringUtils.join(arrs, URLCONNCTION).concat("key=").concat(appKey);
-	}*/
-	
-
 
 }

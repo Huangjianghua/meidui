@@ -1,9 +1,13 @@
 package com.meiduimall.core.util;
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JavaType;
@@ -85,11 +89,13 @@ public class JsonUtils {
      * Date:   2017年3月15日 下午6:10:54   
      * return  List<T>
      */
-    public static <T> List<T> jsonToList(String json,Class<T> valueType) {
+    public static <T> List<T> jsonToList(String json,Class<T> clazz) {
     	if(!Strings.isNullOrEmpty(json)){
+    		T[] t =  (T[]) Array.newInstance(clazz, 1024);
             try {
-            	JavaType javaType = getInstance().getTypeFactory().constructParametricType(List.class, valueType);
-    			return getInstance().readValue(json, javaType);
+                t =  (T[]) getInstance().readValue(json, t.getClass());
+                List<T> list = (List<T>) Arrays.asList(t);
+                return list;
             } catch (JsonGenerationException e) {
                 logger.error(e.getMessage());
             } catch (JsonMappingException e) {
@@ -100,6 +106,8 @@ public class JsonUtils {
     	}
         return null;
     }
+    
+    
     
     /**
      * 功能描述:  list转string

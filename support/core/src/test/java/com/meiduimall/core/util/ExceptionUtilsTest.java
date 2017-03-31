@@ -9,8 +9,10 @@
  */
 
 package com.meiduimall.core.util;
-import org.junit.Test;
+import java.util.List;
+
 import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Created by hadoop on 2017/3/23.
@@ -19,8 +21,10 @@ public class ExceptionUtilsTest {
 
   @Test
   public void testGetFullStackTrace() throws Exception {
-    String msg = ExceptionUtils.getFullStackTrace(new NullPointerException());
-    Assert.assertNotNull(msg);
+    String msg = ExceptionUtils.getFullStackTrace(new RuntimeException("testGetFullStackTrace"));
+    List<List> list=JsonUtils.jsonToList(msg,List.class);
+    List e=list.get(0);
+    Assert.assertEquals("testGetFullStackTrace",e.get(3));
   }
 
 }

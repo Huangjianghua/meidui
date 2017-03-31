@@ -283,7 +283,6 @@ public class JedisUtilTest {
 	}
 	
 	
-	
 	/**
 	 * 功能描述:  测试移除有序集
 	 * Author: 陈建宇
@@ -305,7 +304,8 @@ public class JedisUtilTest {
 	 * return  void
 	 */
 	@Test
-	public void testExecZrangeByScoreToCache() {
+	public void testExecZrangeByScoreToCache(){
+		
 		Set<String> set=JedisUtil.getJedisInstance().execZrangeByScoreToCache("testExecZrangeByScoreToCache", 1d, 20d);
 		assertEquals(0,set.size());
 	}
