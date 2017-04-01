@@ -10,13 +10,18 @@
 
 package com.meiduimall.service.route;
 import org.hamcrest.Matchers;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.embedded.EmbeddedWebApplicationContext;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.context.annotation.Bean;
+import org.springframework.core.env.Environment;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 
 
 import static junit.framework.TestCase.assertNotNull;
@@ -26,13 +31,22 @@ import static org.junit.Assert.assertThat;
  * Created by hadoop on 2017/3/31.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = RouteServiceApplicationTest.class)
-@WebAppConfiguration
-public class RouteServiceApplicationTest {
+@SpringBootTest(classes = RouterServiceApplicationTest.class)
+
+public class RouterServiceApplicationTest {
 
   private TestRestTemplate template = new TestRestTemplate();
-  @Value("${server.port}")// 注入端口号
-  private int port=-1;
+
+  private int port=9050;
+
+  @BeforeClass
+  public static void setUp(){
+    RouterServiceApplication.main(new String[]{""});
+  }
+  @AfterClass
+  public static void setDown(){
+
+  }
 
   @Test
   public void test1(){

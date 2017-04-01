@@ -1,6 +1,5 @@
-spring:
-  profiles:
-    active: dev
+server:
+  port: ${PORT:9050}
 hystrix:
   command:
     default:
