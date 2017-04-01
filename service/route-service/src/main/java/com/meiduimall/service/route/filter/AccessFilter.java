@@ -50,7 +50,7 @@ public class AccessFilter extends ZuulFilter {
   private SignValidateHandler signValidateHandler;
 
   @Autowired
-  private FormPraseHandler formPraseHandler;
+  private FormParseHandler formParseHandler;
 
 
   @Override
@@ -88,7 +88,7 @@ public class AccessFilter extends ZuulFilter {
         chain.addProcesser(praseJsonHandler);
       } else if (header != null && (Constants.CONTENTTYPE_FORM.equalsIgnoreCase(header.get(0))
           || Constants.CONTENTTYPE_MULTIPART.equalsIgnoreCase(header.get(0)))) {
-        chain.addProcesser(formPraseHandler);
+        chain.addProcesser(formParseHandler);
       } else {
         chain.addProcesser(paramPraseHandler);
       }

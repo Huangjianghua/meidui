@@ -28,9 +28,9 @@ import com.netflix.zuul.context.RequestContext;
 
 
 
-public class FormPraseHandler implements Handler{
+public class FormParseHandler implements Handler{
 
-	private static Logger log = LoggerFactory.getLogger(FormPraseHandler.class);
+	private static Logger log = LoggerFactory.getLogger(FormParseHandler.class);
 	
 	
 	/**

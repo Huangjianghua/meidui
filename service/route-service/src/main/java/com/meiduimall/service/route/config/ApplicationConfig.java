@@ -37,8 +37,6 @@ import java.util.List;
 @ConfigurationProperties(prefix = "config")
 public class ApplicationConfig {
 
-  private ApplicationConfig(){}
-
   @Scope("prototype")
   @Bean("chain")
   public HandlerChain handlerChain() {
@@ -55,6 +53,17 @@ public class ApplicationConfig {
   @Bean
   public BlackListValidateHandler blackListValidateHandler() {
     return new BlackListValidateHandler();
+  }
+
+  /**
+   * 功能描述:  表单kv数据解析处理器
+   * Author: 陈建宇
+   * Date:   2017年2月22日 上午10:06:50
+   * return  FormParseHandler
+   */
+  @Bean
+  public FormParseHandler formParseHandler() {
+    return new FormParseHandler();
   }
 
 
@@ -160,6 +169,7 @@ public class ApplicationConfig {
     config.setMaxWaitMillis(maxWaitMillis);
     return config;
   }
+
 
 
 }

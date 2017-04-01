@@ -68,5 +68,5 @@ public class BlackListValidateHandler implements Handler {
     }
     return false;
   }
-  
+
 }
