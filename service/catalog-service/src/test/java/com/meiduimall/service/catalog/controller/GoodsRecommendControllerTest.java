@@ -10,23 +10,20 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.meiduimall.service.catalog.BaseTest;
 
-/**
- * Copyright (C), 2002-2017, 美兑壹购物
- * FileName: GoodsDetailControllerTest.java
- * Author:   yangchangfu
- * Description: 商品信息查询测试类单元测试
- */
-public class GoodsDetailControllerTest extends BaseTest {
+public class GoodsRecommendControllerTest extends BaseTest {
 
 	/**
-	 * 检查商品是否存在，item_id为int
+	 * 批量插入推荐商品
 	 * @throws Exception
 	 */
 	@Test
-	public void testCheckItemIsExist1() throws Exception {
+	public void testInsertBatchItems1() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
-				.post("/mall/catalog-service/v1/goodsDetail/isExist")
-				.param("item_id", "300"))
+				.post("/mall/catalog-service/v1/goodsRecommend/insertBatch")
+				.param("item_id", "300")
+				.param("type", "2")
+				.param("level", "200")
+				.param("opt_user", "张三"))
 				.andExpect(status().isOk());
 		
 		results.andDo(new ResultHandler() {
@@ -38,14 +35,15 @@ public class GoodsDetailControllerTest extends BaseTest {
 	}
 	
 	/**
-	 * 检查商品是否存在，item_id不是int
+	 * 获取推荐商品
 	 * @throws Exception
 	 */
 	@Test
-	public void testCheckItemIsExist2() throws Exception {
+	public void testGetFirstRecommendItems2() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
-				.post("/mall/catalog-service/v1/goodsDetail/isExist")
-				.param("item_id", "ada"))
+				.post("/mall/catalog-service/v1/goodsRecommend/getFirstRecommend")
+				.param("type", "2")
+				.param("req_id", "10086"))
 				.andExpect(status().isOk());
 		
 		results.andDo(new ResultHandler() {
@@ -57,35 +55,13 @@ public class GoodsDetailControllerTest extends BaseTest {
 	}
 	
 	/**
-	 * 根据商品item_id，查询商品详情
+	 * 获取正在推荐的商品
 	 * @throws Exception
 	 */
 	@Test
-	public void testGetItemDetail1() throws Exception {
+	public void testRGetFirstRecommendItemsAllType3() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
-				.post("/mall/catalog-service/v1/goodsDetail/getItem")
-				.param("token", "adfsadfsafsadafdsa05")
-				.param("item_id", "300"))
-				.andExpect(status().isOk());
-		
-		results.andDo(new ResultHandler() {
-			@Override
-			public void handle(MvcResult result) throws Exception {
-				System.out.println("*********" + result.getResponse().getContentAsString());
-			}
-		});
-	}
-	
-	/**
-	 * 根据商品item_id，查询商品详情
-	 * @throws Exception
-	 */
-	@Test
-	public void testGetItemDetail2() throws Exception {
-		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
-				.post("/mall/catalog-service/v1/goodsDetail/getItem")
-				.param("token", "adfsadfsafsadafdsa05")
-				.param("item_id", "adsf"))
+				.post("/mall/catalog-service/v1/goodsRecommend/getFirstRecommendItemId"))
 				.andExpect(status().isOk());
 		
 		results.andDo(new ResultHandler() {

@@ -148,6 +148,10 @@ public class GoodsRecommendController {
 		}
 	}
 	
+	/**
+	 * 获取正在推荐的商品
+	 * @return
+	 */
 	@RequestMapping(value = "/getFirstRecommendItemId")
 	public ResBodyData getFirstRecommendItemsAllType(){
 		try {
