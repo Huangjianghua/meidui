@@ -16,7 +16,7 @@ public class BaseApiCode {
 	/** 正常**/
 	public static final Integer SUCCESS = 0;
 	/** 失败 **/
-	public static final Integer FAIL = 1;
+//	public static final Integer FAIL = 1;
 	
 	/** clientID参数无效 **/
 	public static final Integer NOT_EXISTS_CLIENTID = 1000;
@@ -66,6 +66,13 @@ public class BaseApiCode {
 	/** form解析异常 **/
 	public static final Integer EXCEPTION_PRASE_FORM = 3008;
 
+	/** 操作失败 */
+	public static final Integer OPERAT_FAIL = 4001;
+	/** 请求参数错误 */
+	public static final Integer REQUEST_PARAMS_ERROR = 4002;
+	/** 暂无数据 */
+	public static final Integer NONE_DATA = 4003;
+	
 	
 	
 	
@@ -75,7 +82,7 @@ public class BaseApiCode {
 
 	static {
 		zhMsgMap.put(SUCCESS, "系统正常");
-		zhMsgMap.put(FAIL, "系统异常");
+//		zhMsgMap.put(FAIL, "系统异常");
 		zhMsgMap.put(NOT_EXISTS_CLIENTID, "clientID请求参数不存在");
 		zhMsgMap.put(NOT_EXISTS_TIMESTAMP, "timestamp请求参数不存在或者非数字");
 		zhMsgMap.put(NOT_EXISTS_SIGN, "sign请求参数不存在");
@@ -97,6 +104,9 @@ public class BaseApiCode {
 		zhMsgMap.put(FAIL_SMS_CHANNEL, "短信渠道失败");
 		zhMsgMap.put(EXCEPTION_SMS_SEND, "发送短信异常");
 		zhMsgMap.put(EXCEPTION_PRASE_FORM, "form解析异常");
+		zhMsgMap.put(OPERAT_FAIL, "操作失败");
+		zhMsgMap.put(REQUEST_PARAMS_ERROR, "请求参数错误");
+		zhMsgMap.put(NONE_DATA, "暂无数据");
 	}
 
 }

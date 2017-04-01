@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="SysitemItemStatusMapper" >
+  <resultMap id="BaseResultMap" type="com.meiduimall.model.SysitemItemStatus" >
+    <id column="item_id" property="itemId" jdbcType="INTEGER" />
+    <result column="shop_id" property="shopId" jdbcType="INTEGER" />
+    <result column="approve_status" property="approveStatus" jdbcType="VARCHAR" />
+    <result column="list_time" property="listTime" jdbcType="INTEGER" />
+    <result column="delist_time" property="delistTime" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  
+  <sql id="Base_Column_List" >
+    item_id, shop_id, approve_status, list_time, delist_time
+  </sql>
+  
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.model.SysitemItemStatusExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    * 
+    <!-- <include refid="Base_Column_List" /> -->
+    from sysitem_item_status
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    * 
+    <!-- <include refid="Base_Column_List" /> -->
+    from sysitem_item_status
+    where item_id = #{itemId,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sysitem_item_status
+    where item_id = #{itemId,jdbcType=INTEGER}
+  </delete>
+  
+  <delete id="deleteByExample" parameterType="com.meiduimall.model.SysitemItemStatusExample" >
+    delete from sysitem_item_status
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  
+  <insert id="insert" parameterType="com.meiduimall.model.SysitemItemStatus" >
+    insert into sysitem_item_status (item_id, shop_id, approve_status, 
+      list_time, delist_time)
+    values (#{itemId,jdbcType=INTEGER}, #{shopId,jdbcType=INTEGER}, #{approveStatus,jdbcType=VARCHAR}, 
+      #{listTime,jdbcType=INTEGER}, #{delistTime,jdbcType=INTEGER})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.meiduimall.model.SysitemItemStatus" >
+    insert into sysitem_item_status
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="itemId != null" >
+        item_id,
+      </if>
+      <if test="shopId != null" >
+        shop_id,
+      </if>
+      <if test="approveStatus != null" >
+        approve_status,
+      </if>
+      <if test="listTime != null" >
+        list_time,
+      </if>
+      <if test="delistTime != null" >
+        delist_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="itemId != null" >
+        #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="shopId != null" >
+        #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="approveStatus != null" >
+        #{approveStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="listTime != null" >
+        #{listTime,jdbcType=INTEGER},
+      </if>
+      <if test="delistTime != null" >
+        #{delistTime,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+  <select id="countByExample" parameterType="com.meiduimall.model.SysitemItemStatusExample" resultType="java.lang.Integer" >
+    select count(*) from sysitem_item_status
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sysitem_item_status
+    <set >
+      <if test="record.itemId != null" >
+        item_id = #{record.itemId,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopId != null" >
+        shop_id = #{record.shopId,jdbcType=INTEGER},
+      </if>
+      <if test="record.approveStatus != null" >
+        approve_status = #{record.approveStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.listTime != null" >
+        list_time = #{record.listTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.delistTime != null" >
+        delist_time = #{record.delistTime,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  
+  <update id="updateByExample" parameterType="map" >
+    update sysitem_item_status
+    set item_id = #{record.itemId,jdbcType=INTEGER},
+      shop_id = #{record.shopId,jdbcType=INTEGER},
+      approve_status = #{record.approveStatus,jdbcType=VARCHAR},
+      list_time = #{record.listTime,jdbcType=INTEGER},
+      delist_time = #{record.delistTime,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.model.SysitemItemStatus" >
+    update sysitem_item_status
+    <set >
+      <if test="shopId != null" >
+        shop_id = #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="approveStatus != null" >
+        approve_status = #{approveStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="listTime != null" >
+        list_time = #{listTime,jdbcType=INTEGER},
+      </if>
+      <if test="delistTime != null" >
+        delist_time = #{delistTime,jdbcType=INTEGER},
+      </if>
+    </set>
+    where item_id = #{itemId,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.meiduimall.model.SysitemItemStatus" >
+    update sysitem_item_status
+    set shop_id = #{shopId,jdbcType=INTEGER},
+      approve_status = #{approveStatus,jdbcType=VARCHAR},
+      list_time = #{listTime,jdbcType=INTEGER},
+      delist_time = #{delistTime,jdbcType=INTEGER}
+    where item_id = #{itemId,jdbcType=INTEGER}
+  </update>
+</mapper>
