@@ -1,7 +1,7 @@
 package com.meiduimall.service.financial.service;
 
+import com.meiduimall.core.ResBodyData;
 import com.meiduimall.service.financial.entity.DownloadStatistics;
-import com.meiduimall.service.financial.entity.ResultBody;
 
 /**
  * 渠道下载信息服务类
@@ -15,7 +15,7 @@ public interface DownloadStatisticsService {
 	 * @param downloadStatistics 
 	 * @return
 	 */
-	ResultBody insert(DownloadStatistics downloadStatistics);
+	ResBodyData insert(DownloadStatistics downloadStatistics);
 
 	/**
 	 * 统计下载渠道
@@ -23,5 +23,5 @@ public interface DownloadStatisticsService {
 	 * @param endDate
 	 * @return
 	 */
-	ResultBody queryByDate(String beginDate, String endDate);
+	ResBodyData queryByDate(String beginDate, String endDate);
 }

@@ -3,7 +3,8 @@ package com.meiduimall.service.financial.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.meiduimall.aspect.advice.MethodLogAdvice;
+import com.meiduimall.core.advice.MethodLogAdvice;
+
 
 /**
  * aop配置，公共配置在meiduimall-common这个工程里面

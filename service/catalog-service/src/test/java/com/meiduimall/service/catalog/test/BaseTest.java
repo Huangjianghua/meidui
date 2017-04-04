@@ -1,4 +1,4 @@
-package com.meiduimall.service.catalog;
+package com.meiduimall.service.catalog.test;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;

@@ -1,4 +1,4 @@
-package com.meiduimall.service.financial.util;
+package com.meiduimall.core.util;
 
 import java.io.IOException;
 import java.io.InputStream;
