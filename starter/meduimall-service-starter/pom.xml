@@ -40,7 +40,7 @@
         <!--<spring.version>4.3.3.RELEASE</spring.version>-->
         <spring-cloud-bom.version>Camden.SR2</spring-cloud-bom.version>
         <zipkin.version>1.0.10.RELEASE</zipkin.version>
-
+		<log4jdbc.version>1.2</log4jdbc.version>  
         <slf4j.version>1.7.6</slf4j.version>
 
     </properties>
@@ -157,6 +157,11 @@
                 <artifactId>jul-to-slf4j</artifactId>
                 <version>${slf4j.version}</version>
             </dependency>
+	         <dependency>  
+	            <groupId>com.googlecode.log4jdbc</groupId>  
+	            <artifactId>log4jdbc</artifactId> 
+	            <version>${log4jdbc.version}</version> 
+	        </dependency> 
         </dependencies>
     </dependencyManagement>
 
@@ -201,6 +206,10 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>
+        <dependency>  
+            <groupId>com.googlecode.log4jdbc</groupId>  
+            <artifactId>log4jdbc</artifactId>  
+        </dependency>  
     </dependencies>
 
     <profiles>

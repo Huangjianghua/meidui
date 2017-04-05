@@ -90,32 +90,5 @@ public class RedisLockUtil {
 		}
 	}
 	
-	/**
-	 * 多参数锁定 原子性操作
-	 * @param operator
-	 * @param keyArray
-	 * @return
-	 */
-	public static <T> T executeSyncOperate(MainOperator<T> operator,String[] keyArray){
-		Arrays.sort(keyArray);//排序  防止死锁
-		List<String> lockKeyList = new ArrayList<String>(keyArray.length);
-		Boolean locked = true;
-		T resultObj = null;
-		try{
-			for(String key : keyArray){
-				if(SUCCESS.equalsIgnoreCase(JedisUtil.getJedisInstance().execSetnxToCache2(key,LOCKED,new Long(EXPIRE)))){
-					lockKeyList.add(key);
-				}else{
-					locked = false;
-					break;
-				}
-			}
-			resultObj = operator.executeInvokeLogic(locked);
-		}finally{
-			for(String key : lockKeyList){
-				JedisUtil.getJedisInstance().execDelToCache(key);
-			}
-		}
-		return resultObj;
-	}
+	
 }

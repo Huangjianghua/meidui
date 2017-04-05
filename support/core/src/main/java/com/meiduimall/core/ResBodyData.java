@@ -9,6 +9,8 @@ public class ResBodyData {
 	private Object data;
 
 
+	public ResBodyData(){
+	}
 	
 	
 	public ResBodyData(Integer status, String msg) {

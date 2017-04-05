@@ -1,0 +1,15 @@
+server:
+  port: 10092
+  
+# AOP
+spring :
+  aop :
+    auto : true
+    proxy-target-class : true
+
+# 配置微服务网关
+service : 
+  host : http://10.45.178.235:9050
+  sign-clientID : test
+  sign-key : test123
+    

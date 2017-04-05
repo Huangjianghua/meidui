@@ -1,7 +1,7 @@
 spring:
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://192.168.4.236:3306/meidui_settlement?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    driver-class-name: net.sf.log4jdbc.DriverSpy
+    url: jdbc:log4jdbc:mysql://192.168.4.236:3306/meidui_settlement?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
     password: meidui@2016.?!
     type: com.zaxxer.hikari.HikariDataSource
