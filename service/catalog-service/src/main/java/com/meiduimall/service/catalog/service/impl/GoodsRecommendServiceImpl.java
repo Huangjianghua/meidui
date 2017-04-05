@@ -5,11 +5,13 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.service.catalog.dao.BaseDao;
@@ -19,10 +21,11 @@ import com.meiduimall.service.catalog.entity.JsonCheckGoodsResult;
 import com.meiduimall.service.catalog.entity.ListGoodsDetailResult;
 import com.meiduimall.service.catalog.entity.SysitemItemRecommend;
 import com.meiduimall.service.catalog.service.GoodsRecommendService;
-import com.meiduimall.service.catalog.util.Logger;
 
 @Service
 public class GoodsRecommendServiceImpl implements GoodsRecommendService {
+
+	private static org.slf4j.Logger logger = LoggerFactory.getLogger(GoodsRecommendServiceImpl.class);
 
 	@Autowired
 	private Environment env;
@@ -39,18 +42,19 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 			SysitemItemRecommend bean = null;
 			for (int i = 0; i < item_ids.length; i++) {
 
-				/**  ----------验证这个item_id是否存在-------- */
+				/** ----------验证这个item_id是否存在-------- */
 				int count = baseDao.selectOne(item_ids[i], "SysitemItemMapper.getItemCountByItemId");
 				if (count < 1) {
 					continue;
 				}
-				
+
 				/** TODO ----------查询该商品状态------- */
-				/*SysitemItemStatus itemStatus = baseDao.selectOne(item_ids[i], "SysitemItemStatusMapper.selectByPrimaryKey");
-				String approveStatus = itemStatus.getApproveStatus();
-				if (!"onsale".equals(approveStatus)) {
-					continue;
-				}*/
+				/*
+				 * SysitemItemStatus itemStatus = baseDao.selectOne(item_ids[i],
+				 * "SysitemItemStatusMapper.selectByPrimaryKey"); String
+				 * approveStatus = itemStatus.getApproveStatus(); if
+				 * (!"onsale".equals(approveStatus)) { continue; }
+				 */
 
 				bean = new SysitemItemRecommend();
 				bean.setItemId(item_ids[i]);
@@ -66,8 +70,9 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 
 			if (list.size() > 0) {
 				/** TODO 是否需要删除就数据?? */
-				// baseDao.delete(null, "SysitemItemRecommendMapper.deleteByExample");
-				
+				// baseDao.delete(null,
+				// "SysitemItemRecommendMapper.deleteByExample");
+
 				Integer rows = baseDao.insertBatch(list, "SysitemItemRecommendMapper.insertBatch");
 				if (rows > 0 && rows == list.size()) {
 					result.setStatus(BaseApiCode.SUCCESS);
@@ -85,9 +90,9 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 		} catch (Exception e) {
 			result.setStatus(BaseApiCode.OPERAT_FAIL);
 			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
-			Logger.error("批量插入推荐商品，service报异常：%s", e);
+			logger.error("批量插入推荐商品，service报异常：%s", e);
 		}
-		result.setData("{}");
+		result.setData(new JSONObject());
 		return result;
 	}
 
@@ -143,19 +148,19 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 				} else {
 					result.setStatus(BaseApiCode.NONE_DATA);
 					result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.NONE_DATA));
-					result.setData("{}");
+					result.setData(new JSONObject());
 				}
 			} else {
 				result.setStatus(BaseApiCode.NONE_DATA);
 				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.NONE_DATA));
-				result.setData("{}");
+				result.setData(new JSONObject());
 			}
 
 		} catch (Exception e) {
 			result.setStatus(BaseApiCode.OPERAT_FAIL);
 			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
-			result.setData("{}");
-			Logger.error("获取推荐商品，service报异常：%s", e);
+			result.setData(new JSONObject());
+			logger.error("获取推荐商品，service报异常：%s", e);
 		}
 		return result;
 	}
@@ -203,8 +208,8 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 		} catch (Exception e) {
 			result.setStatus(BaseApiCode.OPERAT_FAIL);
 			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
-			result.setData("{}");
-			Logger.error("获取推荐商品，service报异常：%s", e);
+			result.setData(new JSONObject());
+			logger.error("获取推荐商品，service报异常：%s", e);
 		}
 		return result;
 	}

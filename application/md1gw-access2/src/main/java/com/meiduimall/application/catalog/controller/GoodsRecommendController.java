@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.catalog.constant.ApiStatusConst;
 import com.meiduimall.application.catalog.entity.ResultBody;
 import com.meiduimall.application.catalog.util.HttpGatewayUtils;
@@ -53,7 +54,7 @@ public class GoodsRecommendController {
 			ResultBody errorBody = new ResultBody();
 			errorBody.setStatus(ApiStatusConst.SERVER_ERROR);
 			errorBody.setMsg(ApiStatusConst.SERVER_ERROR_C);
-			errorBody.setData("{}");
+			errorBody.setData(new JSONObject());
 			return JSON.toJSONString(errorBody);
 		}
 	}

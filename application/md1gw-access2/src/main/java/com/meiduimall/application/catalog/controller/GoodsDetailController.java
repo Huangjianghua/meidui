@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.catalog.constant.ApiStatusConst;
 import com.meiduimall.application.catalog.entity.ResultBody;
 import com.meiduimall.application.catalog.util.HttpGatewayUtils;
@@ -34,7 +35,7 @@ public class GoodsDetailController {
 			ResultBody errorBody = new ResultBody();
 			errorBody.setStatus(ApiStatusConst.PARAMS_ERROR);
 			errorBody.setMsg(ApiStatusConst.PARAMS_ERROR_C);
-			errorBody.setData("{}");
+			errorBody.setData(new JSONObject());
 			return JSON.toJSONString(errorBody);
 		}
 	}

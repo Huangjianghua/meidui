@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 public class PHPSerializer {
-	
+
 	private static Package[] __packages = Package.getPackages();
 	private static final byte __Quote = 34;
 	private static final byte __0 = 48;
@@ -325,9 +325,8 @@ public class PHPSerializer {
 					} else if (Modifier.isProtected(mod)) {
 						writeString(stream, getBytes("\0*\0" + f[i].getName(), charset));
 					} else {
-						writeString(
-								stream,
-								getBytes("\0" + getClassName(f[i].getDeclaringClass()) + "\0" + f[i].getName(), charset));
+						writeString(stream, getBytes(
+								"\0" + getClassName(f[i].getDeclaringClass()) + "\0" + f[i].getName(), charset));
 					}
 					Object o;
 

@@ -2,6 +2,7 @@ package com.meiduimall.service.financial.service.impl;
 
 import java.util.List;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,15 +15,17 @@ import com.meiduimall.service.financial.entity.DownloadStatistics;
 import com.meiduimall.service.financial.entity.DownloadStatisticsDTO;
 import com.meiduimall.service.financial.entity.DownloadStatisticsResult;
 import com.meiduimall.service.financial.service.DownloadStatisticsService;
-import com.meiduimall.service.financial.util.Logger;
 
 @Component
 public class DownloadStatisticsServiceImpl implements DownloadStatisticsService {
+	
+	private static org.slf4j.Logger logger = LoggerFactory.getLogger(DownloadStatisticsServiceImpl.class);
 
 	@Autowired
 	private BaseDao baseDao;
 
 	@Transactional
+	@Override
 	public ResBodyData insert(DownloadStatistics downloadStatistics) {
 		ResBodyData result = new ResBodyData();
 		try {
@@ -35,11 +38,11 @@ public class DownloadStatisticsServiceImpl implements DownloadStatisticsService 
 				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
 			}
 		} catch (Exception e) {
-			Logger.error("插入下载渠道，service报异常：%s", e);
+			logger.error("插入下载渠道，service报异常：%s", e);
 			result.setStatus(BaseApiCode.OPERAT_FAIL);
 			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
 		}
-		result.setData("{}");
+		result.setData(new JSONObject());
 		return result;
 	}
 
@@ -64,13 +67,13 @@ public class DownloadStatisticsServiceImpl implements DownloadStatisticsService 
 			} else {
 				result.setStatus(BaseApiCode.NONE_DATA);
 				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.NONE_DATA));
-				result.setData("{}");
+				result.setData(new JSONObject());
 			}
 		} catch (Exception e) {
-			Logger.error("查询下载渠道信息，service报异常：%s", e);
+			logger.error("查询下载渠道信息，service报异常：%s", e);
 			result.setStatus(BaseApiCode.OPERAT_FAIL);
 			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
-			result.setData("{}");
+			result.setData(new JSONObject());
 		}
 		return result;
 	}

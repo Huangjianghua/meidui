@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.service.catalog.dao.BaseDao;
@@ -29,7 +31,6 @@ import com.meiduimall.service.catalog.entity.SysitemSkuWithBLOBs;
 import com.meiduimall.service.catalog.entity.SysrateDsrWithBLOBs;
 import com.meiduimall.service.catalog.entity.SysshopShopWithBLOBs;
 import com.meiduimall.service.catalog.service.GoodsDetailService;
-import com.meiduimall.service.catalog.util.Logger;
 import com.meiduimall.service.catalog.util.NumberFormatUtil;
 import com.meiduimall.service.catalog.util.ParserItemSpecDescBean;
 import com.meiduimall.service.catalog.util.ParserItemSpecDescBean.PropBean;
@@ -41,6 +42,8 @@ import com.meiduimall.service.catalog.util.ParserSysRateDsrInfo;
 @Service
 public class GoodsDetailServiceImpl implements GoodsDetailService {
 
+	private static org.slf4j.Logger logger = LoggerFactory.getLogger(GoodsDetailServiceImpl.class);
+
 	@Autowired
 	private Environment env;
 
@@ -51,7 +54,7 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 	public ResBodyData checkItemIsExistById(int item_id) {
 		ResBodyData result = new ResBodyData();
 		try {
-			
+
 			/** TODO --------查询这个商品ID是否存在-------- */
 			int count = baseDao.selectOne(item_id, "SysitemItemMapper.getItemCountByItemId");
 			if (count > 0) {
@@ -65,35 +68,33 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 				result.setStatus(BaseApiCode.SUCCESS);
 				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.SUCCESS));
 			} else {
-				result.setData("{}");
+				result.setData(new JSONObject());
 				result.setStatus(BaseApiCode.NONE_DATA);
 				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.NONE_DATA));
 			}
-			
-			/** TODO ----------查询该商品状态------- */
-			/*SysitemItemStatus itemStatus = baseDao.selectOne(item_id, "SysitemItemStatusMapper.selectByPrimaryKey");
-			String approveStatus = itemStatus.getApproveStatus();
-			if ("onsale".equals(approveStatus)) {
-				// 返回访问这个商品的详情页的地址
-				CheckGoodsResult bean = new CheckGoodsResult();
-				String base_url = env.getProperty("estore.base-url");
-				String url = base_url + "/item.html?item_id=" + item_id;
-				bean.setUrl(url);
 
-				result.setData(bean);
-				result.setStatus(BaseApiCode.SUCCESS);
-				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.SUCCESS));
-			} else {
-				result.setData("{}");
-				result.setStatus(BaseApiCode.NONE_DATA);
-				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.NONE_DATA));
-			}*/
-			
+			/** TODO ----------查询该商品状态------- */
+			/*
+			 * SysitemItemStatus itemStatus = baseDao.selectOne(item_id,
+			 * "SysitemItemStatusMapper.selectByPrimaryKey"); String
+			 * approveStatus = itemStatus.getApproveStatus(); if
+			 * ("onsale".equals(approveStatus)) { // 返回访问这个商品的详情页的地址
+			 * CheckGoodsResult bean = new CheckGoodsResult(); String base_url =
+			 * env.getProperty("estore.base-url"); String url = base_url +
+			 * "/item.html?item_id=" + item_id; bean.setUrl(url);
+			 * 
+			 * result.setData(bean); result.setStatus(BaseApiCode.SUCCESS);
+			 * result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.SUCCESS)); } else
+			 * { result.setData(new JSONObject());
+			 * result.setStatus(BaseApiCode.NONE_DATA);
+			 * result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.NONE_DATA)); }
+			 */
+
 		} catch (Exception e) {
-			result.setData("{}");
+			result.setData(new JSONObject());
 			result.setStatus(BaseApiCode.OPERAT_FAIL);
 			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
-			Logger.error("查询商品信息，service报异常：%s", e);
+			logger.error("查询商品信息，service报异常：%s", e);
 		}
 		return result;
 	}
@@ -125,7 +126,7 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 			if (itemWithBLOBs == null) {// 查询不到该商品
 				result.setStatus(BaseApiCode.NONE_DATA);
 				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.NONE_DATA));
-				result.setData("{}");
+				result.setData(new JSONObject());
 				return result;
 			}
 
@@ -147,12 +148,10 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 
 					if (parserItemSpecDescBean != null) {
 						// 根据规格ID查找规格名称--TODO 待优化
-						System.out.println(
-								"parserItemSpecDescBean.getProp_id()----------" + parserItemSpecDescBean.getProp_id());
 						SyscategoryProps categoryProps = baseDao.selectOne(parserItemSpecDescBean.getProp_id(),
 								"SyscategoryPropsMapper.selectByPrimaryKey");
 
-						itemProps.setProp_id(parserItemSpecDescBean.getProp_id() + "");
+						itemProps.setProp_id(parserItemSpecDescBean.getProp_id().toString());
 						itemProps.setProp_name(categoryProps.getPropName());
 
 						// 遍历该规格下的每一种规格属性
@@ -166,7 +165,7 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 									propValues = new JsonItemDetailResult_Prop_Values();
 									Integer spec_value_id = propBean.getPropValueBean().getSpec_value_id();
 									String spec_value = propBean.getPropValueBean().getSpec_value();
-									propValues.setProp_value_id(spec_value_id + "");
+									propValues.setProp_value_id(spec_value_id.toString());
 									propValues.setProp_value(spec_value);
 									prop_list.add(propValues);
 									propValues = null;
@@ -211,7 +210,7 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 			if (rateCount == null) {
 				itemData.setRate_count("0");
 			} else {
-				itemData.setRate_count("" + rateCount);
+				itemData.setRate_count(rateCount.toString());
 			}
 
 			// 商品销量=虚拟销量+实际销量
@@ -240,17 +239,17 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 			// 商品上架时间
 			Integer listTime = itemStatus.getListTime();
 			if (listTime != null) {
-				itemData.setList_time("" + listTime);
+				itemData.setList_time(listTime.toString());
 			} else {
 				itemData.setList_time("");
 			}
 
 			itemData.setBn(itemWithBLOBs.getBn());
 			itemData.setImage_default_id(itemWithBLOBs.getImageDefaultId());
-			itemData.setItme_id(itemWithBLOBs.getItemId() + "");
+			itemData.setItme_id(itemWithBLOBs.getItemId().toString());
 			itemData.setList_image(itemWithBLOBs.getListImage());
-			itemData.setPoint(itemWithBLOBs.getPoint() + "");
-			itemData.setPrice(itemWithBLOBs.getPrice() + "");
+			itemData.setPoint(itemWithBLOBs.getPoint().toString());
+			itemData.setPrice(itemWithBLOBs.getPrice().toString());
 
 			String subTitle = itemWithBLOBs.getSubTitle();
 			String title = itemWithBLOBs.getTitle();
@@ -287,7 +286,6 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 
 			if (itemSkuWithBLOBsList != null && itemSkuWithBLOBsList.size() > 0) {
 				JsonItemDetailResult_Sku result_sku = null;
-				System.out.println("itemSkuWithBLOBsList.size()--------" + itemSkuWithBLOBsList.size());
 				for (int i = 0; i < itemSkuWithBLOBsList.size(); i++) {
 					SysitemSkuWithBLOBs sysitemSkuWithBLOBs = itemSkuWithBLOBsList.get(i);
 					if (sysitemSkuWithBLOBs == null) {
@@ -295,9 +293,9 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 					}
 					result_sku = new JsonItemDetailResult_Sku();
 
-					result_sku.setPoint(sysitemSkuWithBLOBs.getPoint() + "");
-					result_sku.setPrice(sysitemSkuWithBLOBs.getPrice() + "");
-					result_sku.setSku_id(sysitemSkuWithBLOBs.getSkuId() + "");
+					result_sku.setPoint(sysitemSkuWithBLOBs.getPoint().toString());
+					result_sku.setPrice(sysitemSkuWithBLOBs.getPrice().toString());
+					result_sku.setSku_id(sysitemSkuWithBLOBs.getSkuId().toString());
 					result_sku.setSpec_info(sysitemSkuWithBLOBs.getSpecInfo());
 					String sku_status = sysitemSkuWithBLOBs.getStatus();
 					if ("normal".equals(sku_status)) {
@@ -305,13 +303,13 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 					} else {
 						result_sku.setStatus("删除");
 					}
-					result_sku.setWeight(sysitemSkuWithBLOBs.getWeight() + "");
+					result_sku.setWeight(sysitemSkuWithBLOBs.getWeight().toString());
 
 					// 反序列化数据---解析每一个商品对应的SKU数据
 					List<ParserSkuSpecDescBean> skuSpecDescBeanList = ParserSkuSpecDescUtil
 							.parser(sysitemSkuWithBLOBs.getSpecDesc());
 					if (skuSpecDescBeanList != null && skuSpecDescBeanList.size() > 0) {
-						StringBuffer sb = new StringBuffer();
+						StringBuilder sb = new StringBuilder();
 						for (int j = 0; j < skuSpecDescBeanList.size(); j++) {
 							Integer prop_value_id = skuSpecDescBeanList.get(j).getProp_value_id();
 							sb.append(prop_value_id + "_");
@@ -337,7 +335,7 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 			JsonItemDetailResult_ShopData shopData = new JsonItemDetailResult_ShopData();
 			Integer shopId = itemWithBLOBs.getShopId();
 			SysshopShopWithBLOBs shopWithBLOBs = baseDao.selectOne(shopId, "SysshopShopMapper.selectByPrimaryKey");
-			SysrateDsrWithBLOBs rateDsrWithBLOBs = baseDao.selectOne(new Long(shopId),
+			SysrateDsrWithBLOBs rateDsrWithBLOBs = baseDao.selectOne(new Long(shopId.longValue()),
 					"SysrateDsrMapper.selectByPrimaryKey");
 
 			// 反序列化数据---解析店铺信息中的：描述相符、服务态度、发货速度的分值
@@ -356,7 +354,7 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 			}
 
 			shopData.setShop_descript(shopWithBLOBs.getShopDescript());
-			shopData.setShop_id(shopId + "");
+			shopData.setShop_id(shopId.toString());
 			shopData.setShop_logo(shopWithBLOBs.getShopLogo());
 			shopData.setShop_name(shopWithBLOBs.getShopName());
 			String shopType = shopWithBLOBs.getShopType();
@@ -378,11 +376,10 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.SUCCESS));
 
 		} catch (Exception e) {
-			e.printStackTrace();
-			Logger.error("根据商品编号，获取商品详情，service报异常：%s", e);
+			logger.error("根据商品编号，获取商品详情，service报异常：%s", e);
 			result.setStatus(BaseApiCode.OPERAT_FAIL);
 			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
-			result.setData("{}");
+			result.setData(new JSONObject());
 		}
 		return result;
 	}

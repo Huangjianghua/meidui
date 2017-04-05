@@ -6,20 +6,23 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.core.util.HttpTools;
 import com.meiduimall.service.financial.entity.DownloadStatistics;
 import com.meiduimall.service.financial.service.DownloadStatisticsService;
-import com.meiduimall.service.financial.util.HttpTooUtils;
-import com.meiduimall.service.financial.util.Logger;
 
 @RestController
 @RequestMapping("/financial/financial-system-service/v1/statistics")
 public class DownloadStatisticsController {
+
+	private static org.slf4j.Logger logger = LoggerFactory.getLogger(DownloadStatisticsController.class);
 
 	@Autowired
 	private HttpServletRequest request;
@@ -27,9 +30,8 @@ public class DownloadStatisticsController {
 	@Autowired
 	private DownloadStatisticsService downloadStatisticsService;
 
-	
 	/**
-	 * 插入下载渠道信息  
+	 * 插入下载渠道信息
 	 * 
 	 * @param portal
 	 *            渠道编号，必须要传
@@ -38,21 +40,20 @@ public class DownloadStatisticsController {
 	@RequestMapping(value = "/insert")
 	public ResBodyData insertPortal(String portal) {
 		try {
-			Logger.info("插入下载渠道，渠道编号：%s", portal);
+			logger.info("插入下载渠道，渠道编号：%s", portal);
 
 			if (StringUtils.isEmpty(portal)) {
 				ResBodyData result = new ResBodyData();
 				result.setStatus(BaseApiCode.REQUEST_PARAMS_ERROR);
 				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.REQUEST_PARAMS_ERROR));
-				result.setData("{}");
+				result.setData(new JSONObject());
 				return result;
 			}
 
 			DownloadStatistics bean = new DownloadStatistics();
 			bean.setPortal(Integer.parseInt(portal.trim()));
 
-			// String ip = request.getRemoteAddr();
-			String ip = HttpTooUtils.getIpAddr(request);
+			String ip = HttpTools.getIpAddr(request);
 			bean.setIp(ip);
 
 			String userAgent = request.getHeader("User-Agent");
@@ -62,11 +63,11 @@ public class DownloadStatisticsController {
 			return downloadStatisticsService.insert(bean);
 
 		} catch (Exception e) {
-			Logger.error("插入下载渠道，报异常：%s", e);
+			logger.error("插入下载渠道，报异常：%s", e);
 			ResBodyData result = new ResBodyData();
 			result.setStatus(BaseApiCode.OPERAT_FAIL);
 			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
-			result.setData("{}");
+			result.setData(new JSONObject());
 			return result;
 		}
 	}
@@ -85,11 +86,11 @@ public class DownloadStatisticsController {
 
 		try {
 			String ip = request.getRemoteAddr();
-			Logger.info("查询下载渠道信息，请求IP：%s", ip);
+			logger.info("查询下载渠道信息，请求IP：%s", ip);
 
 			// 特殊处理--日期时间包含空格和冒号，需要进行URL编码和URL解码
-			
-			if (!StringUtils.isEmpty(beginDate)) {				
+
+			if (!StringUtils.isEmpty(beginDate)) {
 				beginDate = URLDecoder.decode(beginDate, "utf-8");
 			}
 			if (!StringUtils.isEmpty(beginDate)) {
@@ -99,11 +100,11 @@ public class DownloadStatisticsController {
 			return downloadStatisticsService.queryByDate(beginDate, endDate);
 
 		} catch (Exception e) {
-			Logger.error("查询下载渠道信息，报异常：%s", e);
+			logger.error("查询下载渠道信息，报异常：%s", e);
 			ResBodyData result = new ResBodyData();
 			result.setStatus(BaseApiCode.OPERAT_FAIL);
 			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
-			result.setData("{}");
+			result.setData(new JSONObject());
 			return result;
 		}
 	}

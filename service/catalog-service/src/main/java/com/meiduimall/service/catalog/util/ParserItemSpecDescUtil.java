@@ -186,7 +186,7 @@ public class ParserItemSpecDescUtil {
 													continue;
 												}
 											}
-											// TODO 添加 PropValueBean
+											// 添加 PropValueBean
 											propBean.setPropValueBean(bean);
 										} else {
 											continue;
@@ -198,7 +198,7 @@ public class ParserItemSpecDescUtil {
 							} else {
 								continue;
 							}
-							// TODO 添加 PropBean
+							// 添加 PropBean
 							propBeanList.add(propBean);
 						}
 						itemSpecDescBean.setPropBeanList(propBeanList);
