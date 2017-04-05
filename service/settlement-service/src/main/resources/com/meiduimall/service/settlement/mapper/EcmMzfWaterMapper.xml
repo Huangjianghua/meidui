@@ -12,6 +12,7 @@
 		  remark,
 		  op_time,
 		  water_type,
+		  balance,
 		  ext_id
 		) 
 		VALUES
@@ -22,6 +23,7 @@
 		    #{remark},
 		    #{opTime},
 		    #{waterType},
+		    #{balance},
 		    #{extId}
 		  )
 	</insert>
@@ -69,13 +71,11 @@
 		  a.water_type waterType,
 		  a.ext_id extId,
 		  b.rec_no recNo,
-		  c.balance 
+		  a.balance 
 		FROM
 		  ecm_mzf_water a 
 		  LEFT JOIN ecm_mzf_agent_water b 
 		    ON a.ext_id = b.agent_water_id 
-		  LEFT JOIN ecm_mzf_account c 
-		    ON a.code = c.code 
 		WHERE 1 = 1 
 		<if test="waterId != null and waterId != ''">
 			AND a.water_id = #{waterId}

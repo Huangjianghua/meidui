@@ -133,6 +133,10 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 			
 			//BUG #3029::金额为0的账单不需要生成流水
 			if(!SettlementUtil.isZero(amount)){
+				
+				//获取账户余额(2017-04-01)
+				EcmMzfAccount ecmMzfAccount = agentService.findAccountByCode(code);
+				
 				//账单数据插入到流水汇总表
 				EcmMzfWater water=null;
 				water=new EcmMzfWater();
@@ -143,6 +147,7 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 				water.setWaterType("2");
 				water.setExtId(billid);
 				water.setOpTime(opTime);
+				water.setBalance(ecmMzfAccount.getBalance());//变更前可提现金额(2017-04-01)
 				int i2=agentService.insertWater(water);
 				log.info("生成编号为"+code+"的流水汇总数据："+i2+"条  金额:"+amount+" 角色类型:"+type);	
 				

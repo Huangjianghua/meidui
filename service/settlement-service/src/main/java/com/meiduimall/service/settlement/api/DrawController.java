@@ -108,6 +108,7 @@ public class DrawController {
 			Map<String, Object> account = drawService.queryAccoutBalance(ecmMzfDraw.getCode());
 			if(account.get("balance") != null && !"".equals(account.get("balance"))){
 				balance = new BigDecimal(account.get("balance").toString());
+				ecmMzfDraw.setBalance(balance);
 			}
 			
 			//如果提现总金额=提现金额+手续费 > 账户总金额时，返回提现金额不能大于账号可提现金额，请重新输入
