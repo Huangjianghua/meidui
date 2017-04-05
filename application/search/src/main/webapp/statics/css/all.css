@@ -1,0 +1,38 @@
+/* CSS Document By Aring QQ:838278506 http://www.divsz.com/ */
+*{ margin:0; padding:0;}
+table{ border-collapse:collapse; border-spacing:0;}
+fieldset,img,abbr,acronym{ border:0;}
+address,caption,cite,code,dfn,em,th,var{ font-style:normal; font-weight:normal;}
+ul,ol{ list-style:none;}
+caption,th{ text-align:left;}
+h1,h2,h3,h4,h5,h6{ font-size:100%; font-weight:normal;}
+q:before,q:after{ content:"";}
+img{ vertical-align:middle;}
+input{ font-family:"微软雅黑"; font-size:12px; color:#666666;}
+/**** clear ****/
+.clearfix:after{ visibility:hidden; display:block; font-size:0; content:""; clear:both; height:0;}
+* html .clearfix{ zoom:1;} /* IE6 */
+*:first-child+html .clearfix{ zoom:1;} /* IE7 */
+.clear{ clear:both; font-size:0; height:0; overflow:hidden;}
+/*body{ font-family:"微软雅黑"; font-size:14px; color:#666666;}*/
+a{ color:#464646; text-decoration:none; outline:none; display:inline-block;}
+a:hover{ color:#3e93ed;}
+.p_2em{ text-indent:2em;}
+em{ font-family:Arial;}
+.f_l{ float:left;}
+.f_r{ float:right;}
+.none{ display:none;}
+/**** height ****/
+.h_10{ height:10px; width:100%; overflow:hidden;}
+.h_20{ height:20px; width:100%; overflow:hidden;}
+.h_30{ height:30px; width:100%; overflow:hidden;}
+.h_40{ height:40px; width:100%; overflow:hidden;}
+.h_50{ height:50px; width:100%; overflow:hidden;}
+.h_60{ height:60px; width:100%; overflow:hidden;}
+.h_70{ height:70px; width:100%; overflow:hidden;}
+.h_80{ height:80px; width:100%; overflow:hidden;}
+.h_90{ height:90px; width:100%; overflow:hidden;}
+.h_100{ height:100px; width:100%; overflow:hidden;}
+.h_200{ height:200px; width:100%; overflow:hidden;}
+.h_300{ height:300px; width:100%; overflow:hidden;}
+.h_500{ height:500px; width:100%; overflow:hidden;}

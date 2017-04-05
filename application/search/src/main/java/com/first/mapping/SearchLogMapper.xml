@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.first.IDao.SearchLogMapper">
+	<resultMap type="com.first.domain.SearchLog" id="SearchLogResultMap">
+		<id column="log_id" property="logId"/>
+		<result column="keyword" property="keyword"/>
+		<result column="result_num" property="resultNum"/>
+		<result column="type" property="type"/>
+		<result column="search_time" property="searchTime"/>
+	</resultMap>
+	<sql id="Base_Column_List" >
+    log_id, keyword, ip, result_num, type, search_time
+  </sql>
+	
+  <select id="querySearchLogs" parameterType="com.first.page.PageView" resultMap="SearchLogResultMap">
+		SELECT 
+	<include refid="Base_Column_List" /> 
+		FROM sysitem_search_log
+		<if test="pageSize!=null and pageSize!=''">
+		LIMIT #{offset},#{pageSize}
+		</if>
+  </select>
+  <select id="querySearchLogCount" resultType="java.lang.Long">
+		SELECT COUNT(*) FROM sysitem_search_log
+  </select>
+  <select id="querySearchLogById" parameterType="java.lang.Integer" resultMap="SearchLogResultMap">
+    SELECT 
+		<include refid="Base_Column_List" /> 
+		FROM sysitem_search_log 
+		WHERE log_id=#{#{logId}}
+  </select>
+  <insert id="addSearchLog" parameterType="java.util.List" >
+    insert into sysitem_search_log (keyword, ip, result_num, type, search_time) values
+    <foreach collection="list" item="item" index="index" separator=",">
+    	(#{item.keyword}, #{item.ip}, #{item.resultNum}, #{item.type}, #{item.searchTime})
+    </foreach>
+  </insert>
+   <update id="updateSearchLog" parameterType="com.first.domain.SearchLog">
+   	UPDATE sysitem_search_log
+		<set>
+        <if test="keyword !=null and keyword !=''">
+           keyword =#{keyword},
+        </if>
+        <if test="ip !=null and ip !=''">
+            ip =#{ip},
+        </if>
+        <if test="resultNum !=null and resultNum !=''">
+            result_num =#{resultNum}
+        </if>
+        <if test="type !=null and type !=''">
+            type =#{type}
+        </if>
+        <if test="searchTime !=null and searchTime !=''">
+            search_time =#{searchTime}
+        </if>
+     </set>
+   	WHERE log_id = #{logId}
+   </update>
+   <delete id="deleteSearchLogById" parameterType="java.lang.Integer">
+   	DELETE FROM TABLE sysitem_search_log WHERE log_id = #{logId}
+   </delete>
+</mapper>

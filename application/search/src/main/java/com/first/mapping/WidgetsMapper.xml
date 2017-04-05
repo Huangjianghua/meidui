@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.first.IDao.WidgetsMapper">
+	<resultMap type="com.first.pojo.Widgets" id="WidgetsResultMap">
+		<id column="widgets_id" property="widgetsId"/>
+		<result column="widgets_type" property="widgetsType"/>
+		<result column="params" property="params"/>
+		<result column="modified" property="modified"/>
+	</resultMap>
+	
+  <select id="queryWidgets" parameterType="java.lang.String" resultMap="WidgetsResultMap">
+		SELECT widgets_id, widgets_type, params, modified FROM `site_widgets_instance` 
+		WHERE theme='newfirst' AND  widgets_type=#{widgetsType}
+  </select>
+</mapper>

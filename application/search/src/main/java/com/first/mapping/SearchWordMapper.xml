@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.first.IDao.SearchWordMapper">
+	<resultMap type="com.first.domain.SearchWord" id="SearchWordResultMap">
+		<id column="word_id" property="wordId"/>
+		<result column="word" property="word"/>
+	</resultMap>
+	
+    <select id="querySearchWords" parameterType="com.first.page.PageView" resultMap="SearchWordResultMap">
+		SELECT word_id, word FROM syssearch_word
+		<if test="pageSize!=null and pageSize!=''">
+		LIMIT #{offset},#{pageSize}
+		</if>
+    </select>
+    <select id="querySearchWordCount" resultType="java.lang.Long">
+		SELECT COUNT(*) FROM syssearch_word
+    </select>
+    <select id="querySearchWordById" parameterType="java.lang.Integer" resultMap="SearchWordResultMap">
+		SELECT word_id, word FROM syssearch_word WHERE word_id=#{#{wordId}}
+    </select>
+    <insert id="addSearchWord" parameterType="com.first.domain.SearchWord">
+    	INSERT INTO syssearch_word(word) VALUES(#{word})
+    </insert>
+    <update id="updateSearchWord" parameterType="com.first.domain.SearchWord">
+    	UPDATE syssearch_word SET word = #{word} WHERE word_id = #{wordId}
+    </update>
+    <delete id="deleteSearchWordById" parameterType="java.lang.Integer">
+    	DELETE FROM TABLE syssearch_word WHERE word_id = #{wordId}
+    </delete>
+    <delete id="deleteSearchWordByName" parameterType="java.lang.String">
+    	DELETE FROM TABLE syssearch_word WHERE word = #{word}
+    </delete>
+</mapper>

@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   
-      <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
   <parent>
         <groupId>com.meiduimall</groupId>
         <artifactId>application</artifactId>
@@ -11,13 +11,15 @@
   <artifactId>search-manage</artifactId>
   <version>v1.0.0</version>
   <packaging>jar</packaging>
+  
+  
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 	</properties>
   <dependencies>
- 	<dependency>
+	<dependency>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-web</artifactId>
 	</dependency>
@@ -33,14 +35,6 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-test</artifactId>
 		<scope>test</scope>
-	</dependency>
-    <dependency>
-	     <groupId>javax.servlet</groupId>
-	     <artifactId>javax.servlet-api</artifactId>
-     </dependency>
-    <dependency>
-		<groupId>javax.servlet</groupId>
-		<artifactId>jstl</artifactId>
 	</dependency>
     <dependency>
 		<groupId>org.springframework.boot</groupId>
@@ -179,13 +173,6 @@
 					<artifactId>spring-boot-maven-plugin</artifactId>
 					 <configuration>  
 					    <mainClass>com.first.SearchManageApplication</mainClass>
-				        <source>${java.version}</source>  
-				        <target>${java.version}</target>  
-				        <encoding>${project.build.sourceEncoding}</encoding>  
-				        <compilerArguments>  
-				           <verbose />  
-				           <bootclasspath>${java.home}/lib/rt.jar;${java.home}/lib/jce.jar</bootclasspath>  
-				        </compilerArguments>  
 				    </configuration>  
 				</plugin>
 			</plugins>
