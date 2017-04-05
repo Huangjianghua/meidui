@@ -36,7 +36,7 @@ import com.meiduimall.service.settlement.service.WaterService;
 @RequestMapping("/settlementservice/revenueservice/v1")
 public class WaterController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(AgentController.class);
+	private static final Logger logger = LoggerFactory.getLogger(WaterController.class);
 	
 	@Autowired
 	private AgentService agentService;
