@@ -14,7 +14,7 @@
                         http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
       <bean id="configUtils" name="configUtils" class="com.first.utility.ConfigUtils" init-method="init" />
 	<!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器 -->
-	<context:component-scan base-package="com.first.controller" />
+	<context:component-scan base-package="com.meiduimall.application.search.controller" />
 	
 	<!-- 允许使用静态资源 -->
 	<mvc:annotation-driven />
