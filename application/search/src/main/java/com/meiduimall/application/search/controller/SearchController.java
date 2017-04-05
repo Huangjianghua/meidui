@@ -1,6 +1,7 @@
 package com.meiduimall.application.search.controller;
 
 import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -34,7 +35,6 @@ import com.meiduimall.application.search.services.MeiduiPointService;
 import com.meiduimall.application.search.services.NewestPriceService;
 import com.meiduimall.application.search.services.ProductIndexService;
 import com.meiduimall.application.search.services.WidgetService;
-import com.meiduimall.application.search.utility.PointCalculateUtil;
 import com.meiduimall.application.search.utility.StringUtil;
 
 /**

@@ -31,7 +31,6 @@ import com.meiduimall.application.search.oauth.OAuth;
 import com.meiduimall.application.search.oauth.OAuthMessage;
 import com.meiduimall.application.search.oauth.OAuthProblemException;
 import com.meiduimall.application.search.oauth.ParameterStyle;
-import com.meiduimall.application.search.oauth.client.ExcerptInputStream;
 
 /**
  * An HTTP request or response.

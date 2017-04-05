@@ -1,7 +1,4 @@
 package com.meiduimall.application.search.utility;
-
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Iterator;

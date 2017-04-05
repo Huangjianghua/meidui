@@ -1,6 +1,7 @@
 package com.meiduimall.application.search.controller;
 
 import java.io.IOException;
+
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,7 +40,6 @@ import com.meiduimall.application.search.services.AppProductIndexService;
 import com.meiduimall.application.search.services.MeiduiPointService;
 import com.meiduimall.application.search.services.NewestPriceService;
 import com.meiduimall.application.search.services.WidgetService;
-import com.meiduimall.application.search.utility.PointCalculateUtil;
 import com.meiduimall.application.search.utility.StringUtil;
 
 /**
@@ -130,48 +130,6 @@ public class AppSearchController extends BaseController {
 				searchParam.setPage(totalPage.toString());
 				qir = appProductIndexService.query(searchParam);
 			}
-			
-//			// 获取所有商品ID
-//			List<Item> dataList = qir.getDataList();
-//			List<Integer> ids = new ArrayList<Integer>(SolrConstant.PAGE_LIMIT_FORTY);
-//			for (Item item : dataList) {
-//				String itemId = item.getItemId();
-//				ids.add(Integer.parseInt(itemId));
-//			}
-//			// 根据ID集合查询可用积分数量及实时价格
-//			LinkedList<NewestPrice> newestPrices = newestPriceService.getNewestPrices(ids);
-//			List<Item> items = new ArrayList<Item>(SolrConstant.PAGE_LIMIT_FORTY);
-//			// 临时表，用存储两个集合不同元素
-//			LinkedList<Item> itemList = new LinkedList<Item>();
-//			
-//			MeiduiPoint meiduiPoint = meiduiPointService.queryMeiduiPoint();
-//			
-//			for (Item item : dataList) {
-//				itemList.add(item);
-//				Iterator<NewestPrice> iterator = newestPrices.iterator();
-//				while (iterator.hasNext()) {
-//					NewestPrice newestPrice = iterator.next();
-//					if (Integer.parseInt(item.getItemId()) == newestPrice.getItemId()) {
-//						double point = PointCalculateUtil.getPoint(meiduiPoint.getValue(), newestPrice.getPrice(), newestPrice.getCostPrice());
-//						if (point == -1) {
-//							item.setPoint(newestPrice.getPrice());
-//						} else {
-//							item.setPoint(point);
-//						}
-//						item.setPrice(newestPrice.getPrice());
-//						items.add(item);
-//						// 如sku价格存在则移除列表头元素
-//						itemList.removeFirst();
-//						// 价格列表中移除该商品信息
-//						newestPrices.remove(newestPrice);
-//						break;
-//					}
-//				}
-//			}
-//			if (!itemList.isEmpty()) {
-//				items.addAll(itemList);
-//			}
-//			qir.setDataList(items);
 			return qir;
 		} catch (Exception e) {
 			log.error("查询索引库信息异常，异常信息", e);

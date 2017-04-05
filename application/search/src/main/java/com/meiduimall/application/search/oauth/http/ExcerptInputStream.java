@@ -1,3 +1,5 @@
+package com.meiduimall.application.search.oauth.http;
+
 /*
  * Copyright 2008 Sam Pullara
  *
@@ -13,14 +15,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.meiduimall.application.search.oauth.client;
-
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
 import com.meiduimall.application.search.oauth.OAuth;
-
 /** A decorator that retains a copy of the first few bytes of data. */
 public class ExcerptInputStream extends BufferedInputStream
 {
@@ -29,7 +27,6 @@ public class ExcerptInputStream extends BufferedInputStream
      * stream.
      */
     public static final byte[] ELLIPSIS = OAuth.encodeCharacters(" ...");
-
     public ExcerptInputStream(InputStream in) throws IOException {
         super(in);
         mark(LIMIT);
@@ -46,14 +43,11 @@ public class ExcerptInputStream extends BufferedInputStream
         }
         reset();
     }
-
     private static final int LIMIT = 1024;
     private byte[] excerpt = new byte[LIMIT + ELLIPSIS.length];
-
     /** The first few bytes of data, plus ELLIPSIS if there are more bytes. */
     public byte[] getExcerpt()
     {
         return excerpt;
     }
-
 }

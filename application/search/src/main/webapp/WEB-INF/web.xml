@@ -92,7 +92,7 @@
 	<!-- 验证码servlet -->
 	<servlet>
 	 <servlet-name>GetValidateCodeServlet</servlet-name>
-	 <servlet-class>com.first.servlet.GetValidateCodeServlet</servlet-class>
+	 <servlet-class>com.meiduimall.application.search.servlet.GetValidateCodeServlet</servlet-class>
 	</servlet>
 	
 	<servlet-mapping>
