@@ -4,13 +4,20 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.LoggerFactory;
+
+import com.meiduimall.core.util.HttpUtils;
+import com.meiduimall.password.util.MD5;
+
 /**
  * Http网关请求工具类
  * 
- * @author yangchang
+ * @author yangchangfu
  *
  */
 public class HttpGatewayUtils {
+	
+	private static org.slf4j.Logger logger = LoggerFactory.getLogger(HttpGatewayUtils.class);
 
 	/**
 	 * GET请求，自动签名
@@ -56,10 +63,10 @@ public class HttpGatewayUtils {
 
 		url = url + "?" + params_content;
 
-		Logger.info("请求地址：%s", url);
-		String result = HttpTooUtils.sendGet(url);
+		logger.info("请求地址：%s", url);
+		String result = HttpUtils.get(url);
 
-		Logger.info("请求结果：%s", result);
+		logger.info("请求结果：%s", result);
 		return result;
 	}
 
@@ -105,10 +112,10 @@ public class HttpGatewayUtils {
 
 		String params_content = sb.toString();
 
-		Logger.info("请求地址：%s", url);
-		Logger.info("POST实体内容：%s", params_content);
-		String result = HttpTooUtils.sendPost(url, params_content);
-		Logger.info("请求结果：%s", result);
+		logger.info("请求地址：%s", url);
+		logger.info("POST实体内容：%s", params_content);
+		String result = HttpUtils.post(url, params_content, null);
+		logger.info("请求结果：%s", result);
 		return result;
 	}
 
@@ -149,7 +156,7 @@ public class HttpGatewayUtils {
 			String tempStr = buffer.toString();
 
 			// MD5签名
-			signResult = MD5Util.MD5EncryptBy32(tempStr).toUpperCase();
+			signResult = MD5.getMD5EncodeUTF8(tempStr).toUpperCase();
 		} catch (Exception e) {
 			throw e;
 		}

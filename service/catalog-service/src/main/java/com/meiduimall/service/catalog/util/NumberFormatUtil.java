@@ -20,7 +20,6 @@ public class NumberFormatUtil {
             DecimalFormat decimalFormat = new DecimalFormat("#.##");
             return decimalFormat.format(money);
         } catch (Exception e) {
-            e.printStackTrace();
             return "" + money;
         }
     }
@@ -37,7 +36,6 @@ public class NumberFormatUtil {
             float value = Float.parseFloat(money);
             return decimalFormat.format(value);
         } catch (Exception e) {
-            e.printStackTrace();
             return "" + money;
         }
     }
@@ -85,7 +83,7 @@ public class NumberFormatUtil {
      */
     public static String formatString(double orignal, int count) {
 
-        StringBuffer sb = new StringBuffer();
+    	StringBuilder sb = new StringBuilder();
         if (count <= 0) {
             sb.append("#");
         } else {
@@ -100,7 +98,6 @@ public class NumberFormatUtil {
             DecimalFormat decimalFormat = new DecimalFormat(sb.toString());
             return decimalFormat.format(orignal);
         } catch (Exception e) {
-            e.printStackTrace();
             return "" + orignal;
         }
     }
