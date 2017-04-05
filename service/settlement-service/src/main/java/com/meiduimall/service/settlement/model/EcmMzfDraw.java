@@ -100,6 +100,17 @@ public class EcmMzfDraw implements Serializable{
 	private Integer addTimeEnd;
     
 	private Integer type;  //成功或失败。
+	
+	//账号可提现金额(2017-04-01)
+	private BigDecimal balance;
+
+	public BigDecimal getBalance() {
+		return balance;
+	}
+
+	public void setBalance(BigDecimal balance) {
+		this.balance = balance;
+	}
 
 	public Integer getType() {
 		return type;

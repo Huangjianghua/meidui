@@ -250,6 +250,9 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 				
 				String payinId = o2oCallbackService.addProxyFee(areaAgent, amount);
 				
+				//获取账户余额
+				EcmMzfAccount ecmMzfAccount = agentService.findAccountByCode(areaAgent.getAddAgentNo());
+				
 				
 				//ecm_mzf_water流水表扣除30%区代获取的代理费  类型为保证金
 				EcmMzfWater water = new EcmMzfWater();
@@ -261,6 +264,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 				water.setWaterType(ShareProfitConstants.WATER_TYPE_DEPOSIT);//保证金
 				water.setExtId(payinId);//ecm_agent_payin表中的id
 				water.setOpTime(areaAgent.getOpTime());
+				water.setBalance(ecmMzfAccount.getBalance());//变更前可提现金额(2017-04-01)
 				int waterFlag = agentService.insertWater(water);
 				
 				//更新账户余额 
@@ -340,6 +344,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 							water.setWaterType(type);
 							water.setExtId(agentWater.getAgentWaterId());
 							water.setOpTime(ecmAgent.getOpTime());
+							water.setBalance(ecmMzfAccount.getBalance());//变更前可提现金额(2017-04-01)
 							insertCount = agentService.insertWater(water);
 							insertCount++;
 							logger.info("插入代理流水参数：" + water.toString());

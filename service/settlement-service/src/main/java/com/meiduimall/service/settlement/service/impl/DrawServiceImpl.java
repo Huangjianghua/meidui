@@ -124,6 +124,15 @@ public class DrawServiceImpl implements DrawService {
 		ecmMzfWater.setWaterType(ShareProfitConstants.WATER_TYPE_DRAW_CASH);//流水类型为：1-提现
 		ecmMzfWater.setExtId(drawCode);
 		ecmMzfWater.setOpTime(timestamp);
+		
+		//根据code查询账户余额(2017-04-01)
+		BigDecimal balance = null;
+		Map<String, Object> accountMap = queryAccoutBalance(ecmMzfDraw.getCode());
+		if(accountMap.get("balance") != null && !"".equals(accountMap.get("balance"))){
+			balance = new BigDecimal(accountMap.get("balance").toString());
+			ecmMzfWater.setBalance(balance);
+		}
+				
 		String remark = "提现失败";
 		if(ecmMzfDraw.getCashWithdrawalFee().compareTo(BigDecimal.ZERO) > 0){
 			remark = remark + "(退" + ecmMzfDraw.getCashWithdrawalFee() + "元手续费)";
@@ -230,6 +239,15 @@ public class DrawServiceImpl implements DrawService {
 			ecmMzfWater.setWaterType(ShareProfitConstants.WATER_TYPE_DRAW_CASH);//流水类型为：1-提现
 			ecmMzfWater.setExtId(drawCode);
 			ecmMzfWater.setOpTime(timestamp);
+			
+			//根据code查询账户余额(2017-04-01)
+			BigDecimal balance = null;
+			Map<String, Object> accountMap = queryAccoutBalance(ecmMzfDraw.getCode());
+			if(accountMap.get("balance") != null && !"".equals(accountMap.get("balance"))){
+				balance = new BigDecimal(accountMap.get("balance").toString());
+				ecmMzfWater.setBalance(balance);
+			}
+			
 			String remark = "提现失败";
 			if(ecmMzfDraw.getCashWithdrawalFee().compareTo(BigDecimal.ZERO) > 0){
 				remark = remark + "(退" + ecmMzfDraw.getCashWithdrawalFee() + "元手续费)";
@@ -315,6 +333,7 @@ public class DrawServiceImpl implements DrawService {
 		ecmMzfWater.setWaterType(ShareProfitConstants.WATER_TYPE_DRAW_CASH);//流水类型为：1-提现
 		ecmMzfWater.setExtId(ecmMzfDraw.getDrawCode());
 		ecmMzfWater.setOpTime(timestamp);
+		ecmMzfWater.setBalance(ecmMzfDraw.getBalance());//账号可提现金额(2017-04-01)
 		
 		//插入  提现申请
 		int flag = insertDraw(ecmMzfDraw);
