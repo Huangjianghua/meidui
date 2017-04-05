@@ -55,13 +55,13 @@
     </servlet-mapping>
  <servlet>
   <servlet-name>InitLog4jServlet</servlet-name>
-  <servlet-class>com.first.constant.InitLog4jServlet</servlet-class>
+  <servlet-class>com.meiduimall.application.search.constant.InitLog4jServlet</servlet-class>
   <load-on-startup>2</load-on-startup>
  </servlet>
    
     <filter>
         <filter-name>ServletFilter</filter-name>
-        <filter-class>com.first.filter.ServletFilter</filter-class>
+        <filter-class>com.meiduimall.application.search.filter.ServletFilter</filter-class>
     </filter> 
 
     <filter-mapping>
@@ -71,7 +71,7 @@
 
        <!-- 配置自定义监听器 -->
    <listener>
-      <listener-class>com.first.Listener.SysInitListener</listener-class>
+      <listener-class>com.meiduimall.application.search.Listener.SysInitListener</listener-class>
    </listener>
    
     <welcome-file-list>  
