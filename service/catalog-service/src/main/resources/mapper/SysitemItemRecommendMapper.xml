@@ -3,7 +3,7 @@
 <mapper namespace="SysitemItemRecommendMapper" >
 
   <!-- resultMap定义区域 -->
-  <resultMap id="BaseResultMap" type="com.meiduimall.model.SysitemItemRecommend" >
+  <resultMap id="BaseResultMap" type="com.meiduimall.service.catalog.entity.SysitemItemRecommend" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="item_id" property="itemId" jdbcType="INTEGER" />
     <result column="reco_time" property="recoTime" jdbcType="TIMESTAMP" />
@@ -13,7 +13,7 @@
     <result column="ip" property="ip" jdbcType="VARCHAR" />
     <result column="curr_time" property="currTime" jdbcType="TIMESTAMP" />
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.meiduimall.model.SysitemItemRecommend" extends="BaseResultMap" >
+  <resultMap id="ResultMapWithBLOBs" type="com.meiduimall.service.catalog.entity.SysitemItemRecommend" extends="BaseResultMap" >
     <result column="reco_desc" property="recoDesc" jdbcType="LONGVARCHAR" />
   </resultMap>
   
@@ -89,7 +89,7 @@
   
   
   <!-- 查询语句 -->
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.meiduimall.model.SysitemItemRecommendExample" >
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.meiduimall.service.catalog.entity.SysitemItemRecommendExample" >
     select
     <if test="distinct" >
       distinct
@@ -105,7 +105,7 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.model.SysitemItemRecommendExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.service.catalog.entity.SysitemItemRecommendExample" >
     select
     <if test="distinct" >
       distinct
@@ -127,7 +127,7 @@
     from sysitem_item_recommend
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="countByExample" parameterType="com.meiduimall.model.SysitemItemRecommendExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.meiduimall.service.catalog.entity.SysitemItemRecommendExample" resultType="java.lang.Integer" >
     select count(*) from sysitem_item_recommend
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -144,7 +144,7 @@
     delete from sysitem_item_recommend
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.meiduimall.model.SysitemItemRecommendExample" >
+  <delete id="deleteByExample" parameterType="com.meiduimall.service.catalog.entity.SysitemItemRecommendExample" >
     delete from sysitem_item_recommend
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -153,7 +153,7 @@
   
   
   <!-- 插入语句 -->
-  <insert id="insert" parameterType="com.meiduimall.model.SysitemItemRecommend" >
+  <insert id="insert" parameterType="com.meiduimall.service.catalog.entity.SysitemItemRecommend" >
     insert into sysitem_item_recommend (id, item_id, reco_time, 
       reco_level, reco_type, opt_user, 
       ip, curr_time, reco_desc
@@ -178,7 +178,7 @@
     </foreach>
   </insert>
   
-  <insert id="insertSelective" parameterType="com.meiduimall.model.SysitemItemRecommend" >
+  <insert id="insertSelective" parameterType="com.meiduimall.service.catalog.entity.SysitemItemRecommend" >
     insert into sysitem_item_recommend
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -306,7 +306,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.model.SysitemItemRecommend" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.service.catalog.entity.SysitemItemRecommend" >
     update sysitem_item_recommend
     <set >
       <if test="itemId != null" >
@@ -336,7 +336,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.meiduimall.model.SysitemItemRecommend" >
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.meiduimall.service.catalog.entity.SysitemItemRecommend" >
     update sysitem_item_recommend
     set item_id = #{itemId,jdbcType=INTEGER},
       reco_time = #{recoTime,jdbcType=TIMESTAMP},
@@ -348,7 +348,7 @@
       reco_desc = #{recoDesc,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.meiduimall.model.SysitemItemRecommend" >
+  <update id="updateByPrimaryKey" parameterType="com.meiduimall.service.catalog.entity.SysitemItemRecommend" >
     update sysitem_item_recommend
     set item_id = #{itemId,jdbcType=INTEGER},
       reco_time = #{recoTime,jdbcType=TIMESTAMP},

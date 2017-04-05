@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="SysshopShopMapper" >
-  <resultMap id="BaseResultMap" type="com.meiduimall.model.SysshopShop" >
+  <resultMap id="BaseResultMap" type="com.meiduimall.service.catalog.entity.SysshopShop" >
     <id column="shop_id" property="shopId" jdbcType="INTEGER" />
     <result column="shop_name" property="shopName" jdbcType="VARCHAR" />
     <result column="shop_type" property="shopType" jdbcType="VARCHAR" />
@@ -23,7 +23,7 @@
     <result column="check_goods" property="checkGoods" jdbcType="INTEGER" />
   </resultMap>
   
-  <resultMap id="ResultMapWithBLOBs" type="com.meiduimall.model.SysshopShopWithBLOBs" extends="BaseResultMap" >
+  <resultMap id="ResultMapWithBLOBs" type="com.meiduimall.service.catalog.entity.SysshopShopWithBLOBs" extends="BaseResultMap" >
     <result column="shop_descript" property="shopDescript" jdbcType="LONGVARCHAR" />
     <result column="shop_addr" property="shopAddr" jdbcType="LONGVARCHAR" />
   </resultMap>
@@ -98,7 +98,7 @@
     shop_descript, shop_addr
   </sql>
   
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.meiduimall.model.SysshopShopExample" >
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.meiduimall.service.catalog.entity.SysshopShopExample" >
     select
     <if test="distinct" >
       distinct
@@ -116,7 +116,7 @@
     </if>
   </select>
   
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.model.SysshopShopExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.service.catalog.entity.SysshopShopExample" >
     select
     <if test="distinct" >
       distinct
@@ -149,14 +149,14 @@
     where shop_id = #{shopId,jdbcType=INTEGER}
   </delete>
   
-  <delete id="deleteByExample" parameterType="com.meiduimall.model.SysshopShopExample" >
+  <delete id="deleteByExample" parameterType="com.meiduimall.service.catalog.entity.SysshopShopExample" >
     delete from sysshop_shop
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   
-  <insert id="insert" parameterType="com.meiduimall.model.SysshopShopWithBLOBs" >
+  <insert id="insert" parameterType="com.meiduimall.service.catalog.entity.SysshopShopWithBLOBs" >
     insert into sysshop_shop (shop_id, shop_name, shop_type, 
       seller_id, status, open_time, 
       close_time, close_reason, shop_logo, 
@@ -175,7 +175,7 @@
       )
   </insert>
   
-  <insert id="insertSelective" parameterType="com.meiduimall.model.SysshopShopWithBLOBs" >
+  <insert id="insertSelective" parameterType="com.meiduimall.service.catalog.entity.SysshopShopWithBLOBs" >
     insert into sysshop_shop
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="shopId != null" >
@@ -309,7 +309,7 @@
     </trim>
   </insert>
   
-  <select id="countByExample" parameterType="com.meiduimall.model.SysshopShopExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.meiduimall.service.catalog.entity.SysshopShopExample" resultType="java.lang.Integer" >
     select count(*) from sysshop_shop
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -442,7 +442,7 @@
     </if>
   </update>
   
-  <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.model.SysshopShopWithBLOBs" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.service.catalog.entity.SysshopShopWithBLOBs" >
     update sysshop_shop
     <set >
       <if test="shopName != null" >
@@ -509,7 +509,7 @@
     where shop_id = #{shopId,jdbcType=INTEGER}
   </update>
   
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.meiduimall.model.SysshopShopWithBLOBs" >
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.meiduimall.service.catalog.entity.SysshopShopWithBLOBs" >
     update sysshop_shop
     set shop_name = #{shopName,jdbcType=VARCHAR},
       shop_type = #{shopType,jdbcType=VARCHAR},
@@ -534,7 +534,7 @@
     where shop_id = #{shopId,jdbcType=INTEGER}
   </update>
   
-  <update id="updateByPrimaryKey" parameterType="com.meiduimall.model.SysshopShop" >
+  <update id="updateByPrimaryKey" parameterType="com.meiduimall.service.catalog.entity.SysshopShop" >
     update sysshop_shop
     set shop_name = #{shopName,jdbcType=VARCHAR},
       shop_type = #{shopType,jdbcType=VARCHAR},

@@ -51,6 +51,8 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 	public ResBodyData checkItemIsExistById(int item_id) {
 		ResBodyData result = new ResBodyData();
 		try {
+			
+			/** TODO --------查询这个商品ID是否存在-------- */
 			int count = baseDao.selectOne(item_id, "SysitemItemMapper.getItemCountByItemId");
 			if (count > 0) {
 				// 返回访问这个商品的详情页的地址
@@ -67,6 +69,26 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 				result.setStatus(BaseApiCode.NONE_DATA);
 				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.NONE_DATA));
 			}
+			
+			/** TODO ----------查询该商品状态------- */
+			/*SysitemItemStatus itemStatus = baseDao.selectOne(item_id, "SysitemItemStatusMapper.selectByPrimaryKey");
+			String approveStatus = itemStatus.getApproveStatus();
+			if ("onsale".equals(approveStatus)) {
+				// 返回访问这个商品的详情页的地址
+				CheckGoodsResult bean = new CheckGoodsResult();
+				String base_url = env.getProperty("estore.base-url");
+				String url = base_url + "/item.html?item_id=" + item_id;
+				bean.setUrl(url);
+
+				result.setData(bean);
+				result.setStatus(BaseApiCode.SUCCESS);
+				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.SUCCESS));
+			} else {
+				result.setData("{}");
+				result.setStatus(BaseApiCode.NONE_DATA);
+				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.NONE_DATA));
+			}*/
+			
 		} catch (Exception e) {
 			result.setData("{}");
 			result.setStatus(BaseApiCode.OPERAT_FAIL);

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="SysitemSkuMapper" >
-  <resultMap id="BaseResultMap" type="com.meiduimall.model.SysitemSku" >
+  <resultMap id="BaseResultMap" type="com.meiduimall.service.catalog.entity.SysitemSku" >
     <id column="sku_id" property="skuId" jdbcType="INTEGER" />
     <result column="item_id" property="itemId" jdbcType="INTEGER" />
     <result column="title" property="title" jdbcType="VARCHAR" />
@@ -20,7 +20,7 @@
     <result column="point" property="point" jdbcType="INTEGER" />
   </resultMap>
   
-  <resultMap id="ResultMapWithBLOBs" type="com.meiduimall.model.SysitemSkuWithBLOBs" extends="BaseResultMap" >
+  <resultMap id="ResultMapWithBLOBs" type="com.meiduimall.service.catalog.entity.SysitemSkuWithBLOBs" extends="BaseResultMap" >
     <result column="properties" property="properties" jdbcType="LONGVARCHAR" />
     <result column="spec_info" property="specInfo" jdbcType="LONGVARCHAR" />
     <result column="spec_desc" property="specDesc" jdbcType="LONGVARCHAR" />
@@ -95,7 +95,7 @@
     properties, spec_info, spec_desc
   </sql>
   
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.meiduimall.model.SysitemSkuExample" >
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.meiduimall.service.catalog.entity.SysitemSkuExample" >
     select
     <if test="distinct" >
       distinct
@@ -112,7 +112,7 @@
     </if>
   </select>
   
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.model.SysitemSkuExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.service.catalog.entity.SysitemSkuExample" >
     select
     <if test="distinct" >
       distinct
@@ -141,14 +141,14 @@
     where sku_id = #{skuId,jdbcType=INTEGER}
   </delete>
   
-  <delete id="deleteByExample" parameterType="com.meiduimall.model.SysitemSkuExample" >
+  <delete id="deleteByExample" parameterType="com.meiduimall.service.catalog.entity.SysitemSkuExample" >
     delete from sysitem_sku
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   
-  <insert id="insert" parameterType="com.meiduimall.model.SysitemSkuWithBLOBs" >
+  <insert id="insert" parameterType="com.meiduimall.service.catalog.entity.SysitemSkuWithBLOBs" >
     insert into sysitem_sku (sku_id, item_id, title, 
       bn, price, cost_price, 
       mkt_price, barcode, weight, 
@@ -165,7 +165,7 @@
       #{specDesc,jdbcType=LONGVARCHAR})
   </insert>
   
-  <insert id="insertSelective" parameterType="com.meiduimall.model.SysitemSkuWithBLOBs" >
+  <insert id="insertSelective" parameterType="com.meiduimall.service.catalog.entity.SysitemSkuWithBLOBs" >
     insert into sysitem_sku
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="skuId != null" >
@@ -287,7 +287,7 @@
     </trim>
   </insert>
   
-  <select id="countByExample" parameterType="com.meiduimall.model.SysitemSkuExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.meiduimall.service.catalog.entity.SysitemSkuExample" resultType="java.lang.Integer" >
     select count(*) from sysitem_sku
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -409,7 +409,7 @@
     </if>
   </update>
   
-  <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.model.SysitemSkuWithBLOBs" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.service.catalog.entity.SysitemSkuWithBLOBs" >
     update sysitem_sku
     <set >
       <if test="itemId != null" >
@@ -470,7 +470,7 @@
     where sku_id = #{skuId,jdbcType=INTEGER}
   </update>
   
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.meiduimall.model.SysitemSkuWithBLOBs" >
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.meiduimall.service.catalog.entity.SysitemSkuWithBLOBs" >
     update sysitem_sku
     set item_id = #{itemId,jdbcType=INTEGER},
       title = #{title,jdbcType=VARCHAR},
@@ -493,7 +493,7 @@
     where sku_id = #{skuId,jdbcType=INTEGER}
   </update>
   
-  <update id="updateByPrimaryKey" parameterType="com.meiduimall.model.SysitemSku" >
+  <update id="updateByPrimaryKey" parameterType="com.meiduimall.service.catalog.entity.SysitemSku" >
     update sysitem_sku
     set item_id = #{itemId,jdbcType=INTEGER},
       title = #{title,jdbcType=VARCHAR},

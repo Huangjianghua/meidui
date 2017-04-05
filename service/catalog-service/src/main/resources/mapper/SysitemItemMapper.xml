@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="SysitemItemMapper" >
 
-  <resultMap id="BaseResultMap" type="com.meiduimall.model.SysitemItem" >
+  <resultMap id="BaseResultMap" type="com.meiduimall.service.catalog.entity.SysitemItem" >
     <id column="item_id" property="itemId" jdbcType="INTEGER" />
     <result column="shop_id" property="shopId" jdbcType="INTEGER" />
     <result column="cat_id" property="catId" jdbcType="INTEGER" />
@@ -44,7 +44,7 @@
     <result column="is_show_weight" property="isShowWeight" jdbcType="INTEGER" />
   </resultMap>
   
-  <resultMap id="ResultMapWithBLOBs" type="com.meiduimall.model.SysitemItemWithBLOBs" extends="BaseResultMap" >
+  <resultMap id="ResultMapWithBLOBs" type="com.meiduimall.service.catalog.entity.SysitemItemWithBLOBs" extends="BaseResultMap" >
     <result column="list_image" property="listImage" jdbcType="LONGVARCHAR" />
     <result column="spec_desc" property="specDesc" jdbcType="LONGVARCHAR" />
     <result column="props_name" property="propsName" jdbcType="LONGVARCHAR" />
@@ -132,7 +132,7 @@
 	
 	<!-- 根据商品多个ID查询多个商品信息 -->
 	<select id="getItemsInItemId" parameterType="java.util.List"
-		resultType="com.meiduimall.model.GoodsDetailResult">
+		resultType="com.meiduimall.service.catalog.entity.GoodsDetailResult">
 		SELECT item_id,title,sub_title,price,point,image_default_id FROM
 		sysitem_item
 		<if test="list != null">
@@ -144,7 +144,7 @@
 	</select>
   
   
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.meiduimall.model.SysitemItemExample" >
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.meiduimall.service.catalog.entity.SysitemItemExample" >
     select
     <if test="distinct" >
       distinct
@@ -162,7 +162,7 @@
     </if>
   </select>
   
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.model.SysitemItemExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.service.catalog.entity.SysitemItemExample" >
     select
     <if test="distinct" >
       distinct
@@ -197,14 +197,14 @@
     where item_id = #{itemId,jdbcType=INTEGER}
   </delete>
   
-  <delete id="deleteByExample" parameterType="com.meiduimall.model.SysitemItemExample" >
+  <delete id="deleteByExample" parameterType="com.meiduimall.service.catalog.entity.SysitemItemExample" >
     delete from sysitem_item
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   
-  <insert id="insert" parameterType="com.meiduimall.model.SysitemItemWithBLOBs" >
+  <insert id="insert" parameterType="com.meiduimall.service.catalog.entity.SysitemItemWithBLOBs" >
     insert into sysitem_item (item_id, shop_id, cat_id, 
       brand_id, shop_cat_id, title, 
       sub_title, bn, price, 
@@ -237,7 +237,7 @@
       )
   </insert>
   
-  <insert id="insertSelective" parameterType="com.meiduimall.model.SysitemItemWithBLOBs" >
+  <insert id="insertSelective" parameterType="com.meiduimall.service.catalog.entity.SysitemItemWithBLOBs" >
     insert into sysitem_item
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="itemId != null" >
@@ -503,7 +503,7 @@
     </trim>
   </insert>
   
-  <select id="countByExample" parameterType="com.meiduimall.model.SysitemItemExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.meiduimall.service.catalog.entity.SysitemItemExample" resultType="java.lang.Integer" >
     select count(*) from sysitem_item
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -744,7 +744,7 @@
     </if>
   </update>
   
-  <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.model.SysitemItemWithBLOBs" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.service.catalog.entity.SysitemItemWithBLOBs" >
     update sysitem_item
     <set >
       <if test="shopId != null" >
@@ -877,7 +877,7 @@
     where item_id = #{itemId,jdbcType=INTEGER}
   </update>
   
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.meiduimall.model.SysitemItemWithBLOBs" >
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.meiduimall.service.catalog.entity.SysitemItemWithBLOBs" >
     update sysitem_item
     set shop_id = #{shopId,jdbcType=INTEGER},
       cat_id = #{catId,jdbcType=INTEGER},
@@ -924,7 +924,7 @@
     where item_id = #{itemId,jdbcType=INTEGER}
   </update>
   
-  <update id="updateByPrimaryKey" parameterType="com.meiduimall.model.SysitemItem" >
+  <update id="updateByPrimaryKey" parameterType="com.meiduimall.service.catalog.entity.SysitemItem" >
     update sysitem_item
     set shop_id = #{shopId,jdbcType=INTEGER},
       cat_id = #{catId,jdbcType=INTEGER},

@@ -1,4 +1,4 @@
-package com.meiduimall.service.catalog.controller.test;
+package com.meiduimall.service.financial.controller.test;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -8,8 +8,14 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import com.meiduimall.service.catalog.test.BaseTest;
+import com.meiduimall.service.financial.test.BaseTest;
 
+/**
+ * Copyright (C), 2002-2017, 美兑壹购物
+ * FileName: DownloadStatisticsControllerTest.java
+ * Author:   yangchangfu
+ * Description: APP下载渠道统计测试类单元测试
+ */
 public class DownloadStatisticsControllerTest extends BaseTest {
 
 	@Test

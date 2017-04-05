@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="SysitemItemStatusMapper" >
-  <resultMap id="BaseResultMap" type="com.meiduimall.model.SysitemItemStatus" >
+  <resultMap id="BaseResultMap" type="com.meiduimall.service.catalog.entity.SysitemItemStatus" >
     <id column="item_id" property="itemId" jdbcType="INTEGER" />
     <result column="shop_id" property="shopId" jdbcType="INTEGER" />
     <result column="approve_status" property="approveStatus" jdbcType="VARCHAR" />
@@ -73,7 +73,7 @@
     item_id, shop_id, approve_status, list_time, delist_time
   </sql>
   
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.model.SysitemItemStatusExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.service.catalog.entity.SysitemItemStatusExample" >
     select
     <if test="distinct" >
       distinct
@@ -102,21 +102,21 @@
     where item_id = #{itemId,jdbcType=INTEGER}
   </delete>
   
-  <delete id="deleteByExample" parameterType="com.meiduimall.model.SysitemItemStatusExample" >
+  <delete id="deleteByExample" parameterType="com.meiduimall.service.catalog.entity.SysitemItemStatusExample" >
     delete from sysitem_item_status
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   
-  <insert id="insert" parameterType="com.meiduimall.model.SysitemItemStatus" >
+  <insert id="insert" parameterType="com.meiduimall.service.catalog.entity.SysitemItemStatus" >
     insert into sysitem_item_status (item_id, shop_id, approve_status, 
       list_time, delist_time)
     values (#{itemId,jdbcType=INTEGER}, #{shopId,jdbcType=INTEGER}, #{approveStatus,jdbcType=VARCHAR}, 
       #{listTime,jdbcType=INTEGER}, #{delistTime,jdbcType=INTEGER})
   </insert>
   
-  <insert id="insertSelective" parameterType="com.meiduimall.model.SysitemItemStatus" >
+  <insert id="insertSelective" parameterType="com.meiduimall.service.catalog.entity.SysitemItemStatus" >
     insert into sysitem_item_status
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="itemId != null" >
@@ -154,7 +154,7 @@
     </trim>
   </insert>
   
-  <select id="countByExample" parameterType="com.meiduimall.model.SysitemItemStatusExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.meiduimall.service.catalog.entity.SysitemItemStatusExample" resultType="java.lang.Integer" >
     select count(*) from sysitem_item_status
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -197,7 +197,7 @@
     </if>
   </update>
   
-  <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.model.SysitemItemStatus" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.service.catalog.entity.SysitemItemStatus" >
     update sysitem_item_status
     <set >
       <if test="shopId != null" >
@@ -216,7 +216,7 @@
     where item_id = #{itemId,jdbcType=INTEGER}
   </update>
   
-  <update id="updateByPrimaryKey" parameterType="com.meiduimall.model.SysitemItemStatus" >
+  <update id="updateByPrimaryKey" parameterType="com.meiduimall.service.catalog.entity.SysitemItemStatus" >
     update sysitem_item_status
     set shop_id = #{shopId,jdbcType=INTEGER},
       approve_status = #{approveStatus,jdbcType=VARCHAR},

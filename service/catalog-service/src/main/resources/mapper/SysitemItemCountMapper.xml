@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="SysitemItemCountMapper" >
-  <resultMap id="BaseResultMap" type="com.meiduimall.model.SysitemItemCount" >
+  <resultMap id="BaseResultMap" type="com.meiduimall.service.catalog.entity.SysitemItemCount" >
     <id column="item_id" property="itemId" jdbcType="INTEGER" />
     <result column="sold_quantity" property="soldQuantity" jdbcType="INTEGER" />
     <result column="rate_count" property="rateCount" jdbcType="INTEGER" />
@@ -78,7 +78,7 @@
     view_count, buy_count, vitural_quantity
   </sql>
   
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.model.SysitemItemCountExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.service.catalog.entity.SysitemItemCountExample" >
     select
     <if test="distinct" >
       distinct
@@ -107,14 +107,14 @@
     where item_id = #{itemId,jdbcType=INTEGER}
   </delete>
   
-  <delete id="deleteByExample" parameterType="com.meiduimall.model.SysitemItemCountExample" >
+  <delete id="deleteByExample" parameterType="com.meiduimall.service.catalog.entity.SysitemItemCountExample" >
     delete from sysitem_item_count
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   
-  <insert id="insert" parameterType="com.meiduimall.model.SysitemItemCount" >
+  <insert id="insert" parameterType="com.meiduimall.service.catalog.entity.SysitemItemCount" >
     insert into sysitem_item_count (item_id, sold_quantity, rate_count, 
       rate_good_count, rate_neutral_count, rate_bad_count, 
       view_count, buy_count, vitural_quantity
@@ -125,7 +125,7 @@
       )
   </insert>
   
-  <insert id="insertSelective" parameterType="com.meiduimall.model.SysitemItemCount" >
+  <insert id="insertSelective" parameterType="com.meiduimall.service.catalog.entity.SysitemItemCount" >
     insert into sysitem_item_count
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="itemId != null" >
@@ -187,7 +187,7 @@
     </trim>
   </insert>
   
-  <select id="countByExample" parameterType="com.meiduimall.model.SysitemItemCountExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.meiduimall.service.catalog.entity.SysitemItemCountExample" resultType="java.lang.Integer" >
     select count(*) from sysitem_item_count
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -246,7 +246,7 @@
     </if>
   </update>
   
-  <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.model.SysitemItemCount" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.service.catalog.entity.SysitemItemCount" >
     update sysitem_item_count
     <set >
       <if test="soldQuantity != null" >
@@ -277,7 +277,7 @@
     where item_id = #{itemId,jdbcType=INTEGER}
   </update>
   
-  <update id="updateByPrimaryKey" parameterType="com.meiduimall.model.SysitemItemCount" >
+  <update id="updateByPrimaryKey" parameterType="com.meiduimall.service.catalog.entity.SysitemItemCount" >
     update sysitem_item_count
     set sold_quantity = #{soldQuantity,jdbcType=INTEGER},
       rate_count = #{rateCount,jdbcType=INTEGER},

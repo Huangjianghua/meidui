@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="SysrateDsrMapper" >
-  <resultMap id="BaseResultMap" type="com.meiduimall.model.SysrateDsr" >
+  <resultMap id="BaseResultMap" type="com.meiduimall.service.catalog.entity.SysrateDsr" >
     <id column="shop_id" property="shopId" jdbcType="BIGINT" />
     <result column="cat_id" property="catId" jdbcType="INTEGER" />
     <result column="modified_time" property="modifiedTime" jdbcType="INTEGER" />
   </resultMap>
   
-  <resultMap id="ResultMapWithBLOBs" type="com.meiduimall.model.SysrateDsrWithBLOBs" extends="BaseResultMap" >
+  <resultMap id="ResultMapWithBLOBs" type="com.meiduimall.service.catalog.entity.SysrateDsrWithBLOBs" extends="BaseResultMap" >
     <result column="tally_dsr" property="tallyDsr" jdbcType="LONGVARCHAR" />
     <result column="attitude_dsr" property="attitudeDsr" jdbcType="LONGVARCHAR" />
     <result column="delivery_speed_dsr" property="deliverySpeedDsr" jdbcType="LONGVARCHAR" />
@@ -81,7 +81,7 @@
     tally_dsr, attitude_dsr, delivery_speed_dsr
   </sql>
   
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.meiduimall.model.SysrateDsrExample" >
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.meiduimall.service.catalog.entity.SysrateDsrExample" >
     select
     <if test="distinct" >
       distinct
@@ -99,7 +99,7 @@
     </if>
   </select>
   
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.model.SysrateDsrExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.service.catalog.entity.SysrateDsrExample" >
     select
     <if test="distinct" >
       distinct
@@ -130,14 +130,14 @@
     where shop_id = #{shopId,jdbcType=BIGINT}
   </delete>
   
-  <delete id="deleteByExample" parameterType="com.meiduimall.model.SysrateDsrExample" >
+  <delete id="deleteByExample" parameterType="com.meiduimall.service.catalog.entity.SysrateDsrExample" >
     delete from sysrate_dsr
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   
-  <insert id="insert" parameterType="com.meiduimall.model.SysrateDsrWithBLOBs" >
+  <insert id="insert" parameterType="com.meiduimall.service.catalog.entity.SysrateDsrWithBLOBs" >
     insert into sysrate_dsr (shop_id, cat_id, modified_time, 
       tally_dsr, attitude_dsr, delivery_speed_dsr
       )
@@ -146,7 +146,7 @@
       )
   </insert>
   
-  <insert id="insertSelective" parameterType="com.meiduimall.model.SysrateDsrWithBLOBs" >
+  <insert id="insertSelective" parameterType="com.meiduimall.service.catalog.entity.SysrateDsrWithBLOBs" >
     insert into sysrate_dsr
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="shopId != null" >
@@ -190,7 +190,7 @@
     </trim>
   </insert>
   
-  <select id="countByExample" parameterType="com.meiduimall.model.SysrateDsrExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.meiduimall.service.catalog.entity.SysrateDsrExample" resultType="java.lang.Integer" >
     select count(*) from sysrate_dsr
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -247,7 +247,7 @@
     </if>
   </update>
   
-  <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.model.SysrateDsrWithBLOBs" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.service.catalog.entity.SysrateDsrWithBLOBs" >
     update sysrate_dsr
     <set >
       <if test="catId != null" >
@@ -269,7 +269,7 @@
     where shop_id = #{shopId,jdbcType=BIGINT}
   </update>
   
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.meiduimall.model.SysrateDsrWithBLOBs" >
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.meiduimall.service.catalog.entity.SysrateDsrWithBLOBs" >
     update sysrate_dsr
     set cat_id = #{catId,jdbcType=INTEGER},
       modified_time = #{modifiedTime,jdbcType=INTEGER},
@@ -279,7 +279,7 @@
     where shop_id = #{shopId,jdbcType=BIGINT}
   </update>
   
-  <update id="updateByPrimaryKey" parameterType="com.meiduimall.model.SysrateDsr" >
+  <update id="updateByPrimaryKey" parameterType="com.meiduimall.service.catalog.entity.SysrateDsr" >
     update sysrate_dsr
     set cat_id = #{catId,jdbcType=INTEGER},
       modified_time = #{modifiedTime,jdbcType=INTEGER}

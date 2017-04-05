@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="downloadStatisticsMapper" >
-  <resultMap id="BaseResultMap" type="com.meiduimall.model.DownloadStatistics" >
+  <resultMap id="BaseResultMap" type="com.meiduimall.service.financial.entity.DownloadStatistics" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="portal" property="portal" jdbcType="INTEGER" />
     <result column="request_time" property="requestTime" jdbcType="TIMESTAMP" />
     <result column="ip" property="ip" jdbcType="VARCHAR" />
     <result column="curr_time" property="currTime" jdbcType="TIMESTAMP" />
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.meiduimall.model.DownloadStatistics" extends="BaseResultMap" >
+  <resultMap id="ResultMapWithBLOBs" type="com.meiduimall.service.financial.entity.DownloadStatistics" extends="BaseResultMap" >
     <result column="user_agent" property="userAgent" jdbcType="LONGVARCHAR" />
   </resultMap>
   
-  <resultMap id="downloadStatisticsResult" type="com.meiduimall.model.DownloadStatisticsResult">
+  <resultMap id="downloadStatisticsResult" type="com.meiduimall.service.financial.entity.DownloadStatisticsResult">
   	<result column="portal" property="portal"/>
   	<result column="count(*)" property="count"/>
   </resultMap>
   
-  <select id="queryGroupByPortal" parameterType="com.meiduimall.model.DownloadStatisticsDTO" resultMap="downloadStatisticsResult">
+  <select id="queryGroupByPortal" parameterType="com.meiduimall.service.financial.entity.DownloadStatisticsDTO" resultMap="downloadStatisticsResult">
   	SELECT portal,count(*) FROM download_statistics
   	<where>
   		<if test="beginDate!=null and beginDate!=''">
@@ -94,7 +94,7 @@
   <sql id="Blob_Column_List" >
     user_agent
   </sql>
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.meiduimall.model.DownloadStatisticsExample" >
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.meiduimall.service.financial.entity.DownloadStatisticsExample" >
     select
     <if test="distinct" >
       distinct
@@ -110,7 +110,7 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.model.DownloadStatisticsExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.service.financial.entity.DownloadStatisticsExample" >
     select
     <if test="distinct" >
       distinct
@@ -136,13 +136,13 @@
     delete from download_statistics
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.meiduimall.model.DownloadStatisticsExample" >
+  <delete id="deleteByExample" parameterType="com.meiduimall.service.financial.entity.DownloadStatisticsExample" >
     delete from download_statistics
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.meiduimall.model.DownloadStatistics" >
+  <insert id="insert" parameterType="com.meiduimall.service.financial.entity.DownloadStatistics" >
     insert into download_statistics (id, portal, request_time, 
       ip, curr_time, user_agent
       )
@@ -150,7 +150,7 @@
       #{ip,jdbcType=VARCHAR}, #{currTime,jdbcType=TIMESTAMP}, #{userAgent,jdbcType=LONGVARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.meiduimall.model.DownloadStatistics" >
+  <insert id="insertSelective" parameterType="com.meiduimall.service.financial.entity.DownloadStatistics" >
     insert into download_statistics
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -193,7 +193,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.meiduimall.model.DownloadStatisticsExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.meiduimall.service.financial.entity.DownloadStatisticsExample" resultType="java.lang.Integer" >
     select count(*) from download_statistics
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -248,7 +248,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.model.DownloadStatistics" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.service.financial.entity.DownloadStatistics" >
     update download_statistics
     <set >
       <if test="portal != null" >
@@ -269,7 +269,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.meiduimall.model.DownloadStatistics" >
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.meiduimall.service.financial.entity.DownloadStatistics" >
     update download_statistics
     set portal = #{portal,jdbcType=INTEGER},
       request_time = #{requestTime,jdbcType=TIMESTAMP},
@@ -278,7 +278,7 @@
       user_agent = #{userAgent,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.meiduimall.model.DownloadStatistics" >
+  <update id="updateByPrimaryKey" parameterType="com.meiduimall.service.financial.entity.DownloadStatistics" >
     update download_statistics
     set portal = #{portal,jdbcType=INTEGER},
       request_time = #{requestTime,jdbcType=TIMESTAMP},

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="SysitemItemDescMapper" >
-  <resultMap id="BaseResultMap" type="com.meiduimall.model.SysitemItemDesc" >
+  <resultMap id="BaseResultMap" type="com.meiduimall.service.catalog.entity.SysitemItemDesc" >
     <id column="item_id" property="itemId" jdbcType="INTEGER" />
   </resultMap>
   
-  <resultMap id="ResultMapWithBLOBs" type="com.meiduimall.model.SysitemItemDesc" extends="BaseResultMap" >
+  <resultMap id="ResultMapWithBLOBs" type="com.meiduimall.service.catalog.entity.SysitemItemDesc" extends="BaseResultMap" >
     <result column="pc_desc" property="pcDesc" jdbcType="LONGVARCHAR" />
     <result column="wap_desc" property="wapDesc" jdbcType="LONGVARCHAR" />
     <result column="wireless_desc" property="wirelessDesc" jdbcType="LONGVARCHAR" />
@@ -79,7 +79,7 @@
     pc_desc, wap_desc, wireless_desc
   </sql>
   
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.meiduimall.model.SysitemItemDescExample" >
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.meiduimall.service.catalog.entity.SysitemItemDescExample" >
     select
     <if test="distinct" >
       distinct
@@ -97,7 +97,7 @@
     </if>
   </select>
   
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.model.SysitemItemDescExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.service.catalog.entity.SysitemItemDescExample" >
     select
     <if test="distinct" >
       distinct
@@ -128,21 +128,21 @@
     where item_id = #{itemId,jdbcType=INTEGER}
   </delete>
   
-  <delete id="deleteByExample" parameterType="com.meiduimall.model.SysitemItemDescExample" >
+  <delete id="deleteByExample" parameterType="com.meiduimall.service.catalog.entity.SysitemItemDescExample" >
     delete from sysitem_item_desc
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   
-  <insert id="insert" parameterType="com.meiduimall.model.SysitemItemDesc" >
+  <insert id="insert" parameterType="com.meiduimall.service.catalog.entity.SysitemItemDesc" >
     insert into sysitem_item_desc (item_id, pc_desc, wap_desc, 
       wireless_desc)
     values (#{itemId,jdbcType=INTEGER}, #{pcDesc,jdbcType=LONGVARCHAR}, #{wapDesc,jdbcType=LONGVARCHAR}, 
       #{wirelessDesc,jdbcType=LONGVARCHAR})
   </insert>
   
-  <insert id="insertSelective" parameterType="com.meiduimall.model.SysitemItemDesc" >
+  <insert id="insertSelective" parameterType="com.meiduimall.service.catalog.entity.SysitemItemDesc" >
     insert into sysitem_item_desc
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="itemId != null" >
@@ -174,7 +174,7 @@
     </trim>
   </insert>
   
-  <select id="countByExample" parameterType="com.meiduimall.model.SysitemItemDescExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.meiduimall.service.catalog.entity.SysitemItemDescExample" resultType="java.lang.Integer" >
     select count(*) from sysitem_item_desc
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -221,7 +221,7 @@
     </if>
   </update>
   
-  <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.model.SysitemItemDesc" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.service.catalog.entity.SysitemItemDesc" >
     update sysitem_item_desc
     <set >
       <if test="pcDesc != null" >
@@ -237,7 +237,7 @@
     where item_id = #{itemId,jdbcType=INTEGER}
   </update>
   
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.meiduimall.model.SysitemItemDesc" >
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.meiduimall.service.catalog.entity.SysitemItemDesc" >
     update sysitem_item_desc
     set pc_desc = #{pcDesc,jdbcType=LONGVARCHAR},
       wap_desc = #{wapDesc,jdbcType=LONGVARCHAR},

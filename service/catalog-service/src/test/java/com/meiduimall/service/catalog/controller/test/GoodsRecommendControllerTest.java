@@ -10,6 +10,12 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.meiduimall.service.catalog.test.BaseTest;
 
+/**
+ * Copyright (C), 2002-2017, 美兑壹购物
+ * FileName: GoodsRecommendControllerTest.java
+ * Author:   yangchangfu
+ * Description: 推荐商品测试类单元测试
+ */
 public class GoodsRecommendControllerTest extends BaseTest {
 
 	/**

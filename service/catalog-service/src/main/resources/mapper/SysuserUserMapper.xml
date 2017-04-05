@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="SysuserUserMapper" >
-  <resultMap id="BaseResultMap" type="com.meiduimall.model.SysuserUser" >
+  <resultMap id="BaseResultMap" type="com.meiduimall.service.catalog.entity.SysuserUser" >
     <id column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="grade_id" property="gradeId" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
@@ -98,7 +98,7 @@
     experience, source, area, addr, email_verify, frozen_money, m_point, m_frozen_point
   </sql>
   
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.model.SysuserUserExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.service.catalog.entity.SysuserUserExample" >
     select
     <if test="distinct" >
       distinct
@@ -127,14 +127,14 @@
     where user_id = #{userId,jdbcType=INTEGER}
   </delete>
   
-  <delete id="deleteByExample" parameterType="com.meiduimall.model.SysuserUserExample" >
+  <delete id="deleteByExample" parameterType="com.meiduimall.service.catalog.entity.SysuserUserExample" >
     delete from sysuser_user
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   
-  <insert id="insert" parameterType="com.meiduimall.model.SysuserUser" >
+  <insert id="insert" parameterType="com.meiduimall.service.catalog.entity.SysuserUser" >
     insert into sysuser_user (user_id, grade_id, name, 
       username, point, money, 
       coupon, pay_percent, refer_id, 
@@ -157,7 +157,7 @@
       #{mFrozenPoint,jdbcType=DECIMAL})
   </insert>
   
-  <insert id="insertSelective" parameterType="com.meiduimall.model.SysuserUser" >
+  <insert id="insertSelective" parameterType="com.meiduimall.service.catalog.entity.SysuserUser" >
     insert into sysuser_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="userId != null" >
@@ -333,7 +333,7 @@
     </trim>
   </insert>
   
-  <select id="countByExample" parameterType="com.meiduimall.model.SysuserUserExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.meiduimall.service.catalog.entity.SysuserUserExample" resultType="java.lang.Integer" >
     select count(*) from sysuser_user
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -468,7 +468,7 @@
     </if>
   </update>
   
-  <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.model.SysuserUser" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.service.catalog.entity.SysuserUser" >
     update sysuser_user
     <set >
       <if test="gradeId != null" >
@@ -556,7 +556,7 @@
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
   
-  <update id="updateByPrimaryKey" parameterType="com.meiduimall.model.SysuserUser" >
+  <update id="updateByPrimaryKey" parameterType="com.meiduimall.service.catalog.entity.SysuserUser" >
     update sysuser_user
     set grade_id = #{gradeId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},

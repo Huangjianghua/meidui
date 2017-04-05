@@ -39,11 +39,18 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 			SysitemItemRecommend bean = null;
 			for (int i = 0; i < item_ids.length; i++) {
 
-				// 验证这个item_id是否有效
+				/**  ----------验证这个item_id是否存在-------- */
 				int count = baseDao.selectOne(item_ids[i], "SysitemItemMapper.getItemCountByItemId");
 				if (count < 1) {
 					continue;
 				}
+				
+				/** TODO ----------查询该商品状态------- */
+				/*SysitemItemStatus itemStatus = baseDao.selectOne(item_ids[i], "SysitemItemStatusMapper.selectByPrimaryKey");
+				String approveStatus = itemStatus.getApproveStatus();
+				if (!"onsale".equals(approveStatus)) {
+					continue;
+				}*/
 
 				bean = new SysitemItemRecommend();
 				bean.setItemId(item_ids[i]);
@@ -58,6 +65,9 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 			}
 
 			if (list.size() > 0) {
+				/** TODO 是否需要删除就数据?? */
+				// baseDao.delete(null, "SysitemItemRecommendMapper.deleteByExample");
+				
 				Integer rows = baseDao.insertBatch(list, "SysitemItemRecommendMapper.insertBatch");
 				if (rows > 0 && rows == list.size()) {
 					result.setStatus(BaseApiCode.SUCCESS);

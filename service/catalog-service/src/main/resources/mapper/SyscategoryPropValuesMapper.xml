@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="SyscategoryPropValuesMapper" >
-  <resultMap id="BaseResultMap" type="com.meiduimall.model.SyscategoryPropValues" >
+  <resultMap id="BaseResultMap" type="com.meiduimall.service.catalog.entity.SyscategoryPropValues" >
     <id column="prop_value_id" property="propValueId" jdbcType="INTEGER" />
     <result column="prop_id" property="propId" jdbcType="INTEGER" />
     <result column="prop_value" property="propValue" jdbcType="VARCHAR" />
@@ -73,7 +73,7 @@
     prop_value_id, prop_id, prop_value, prop_image, order_sort
   </sql>
   
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.model.SyscategoryPropValuesExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.service.catalog.entity.SyscategoryPropValuesExample" >
     select
     <if test="distinct" >
       distinct
@@ -102,21 +102,21 @@
     where prop_value_id = #{propValueId,jdbcType=INTEGER}
   </delete>
   
-  <delete id="deleteByExample" parameterType="com.meiduimall.model.SyscategoryPropValuesExample" >
+  <delete id="deleteByExample" parameterType="com.meiduimall.service.catalog.entity.SyscategoryPropValuesExample" >
     delete from syscategory_prop_values
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   
-  <insert id="insert" parameterType="com.meiduimall.model.SyscategoryPropValues" >
+  <insert id="insert" parameterType="com.meiduimall.service.catalog.entity.SyscategoryPropValues" >
     insert into syscategory_prop_values (prop_value_id, prop_id, prop_value, 
       prop_image, order_sort)
     values (#{propValueId,jdbcType=INTEGER}, #{propId,jdbcType=INTEGER}, #{propValue,jdbcType=VARCHAR}, 
       #{propImage,jdbcType=VARCHAR}, #{orderSort,jdbcType=INTEGER})
   </insert>
   
-  <insert id="insertSelective" parameterType="com.meiduimall.model.SyscategoryPropValues" >
+  <insert id="insertSelective" parameterType="com.meiduimall.service.catalog.entity.SyscategoryPropValues" >
     insert into syscategory_prop_values
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="propValueId != null" >
@@ -154,7 +154,7 @@
     </trim>
   </insert>
   
-  <select id="countByExample" parameterType="com.meiduimall.model.SyscategoryPropValuesExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.meiduimall.service.catalog.entity.SyscategoryPropValuesExample" resultType="java.lang.Integer" >
     select count(*) from syscategory_prop_values
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -197,7 +197,7 @@
     </if>
   </update>
   
-  <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.model.SyscategoryPropValues" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.service.catalog.entity.SyscategoryPropValues" >
     update syscategory_prop_values
     <set >
       <if test="propId != null" >
@@ -216,7 +216,7 @@
     where prop_value_id = #{propValueId,jdbcType=INTEGER}
   </update>
   
-  <update id="updateByPrimaryKey" parameterType="com.meiduimall.model.SyscategoryPropValues" >
+  <update id="updateByPrimaryKey" parameterType="com.meiduimall.service.catalog.entity.SyscategoryPropValues" >
     update syscategory_prop_values
     set prop_id = #{propId,jdbcType=INTEGER},
       prop_value = #{propValue,jdbcType=VARCHAR},

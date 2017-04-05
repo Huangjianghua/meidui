@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="SysuserUserFavMapper" >
-  <resultMap id="BaseResultMap" type="com.meiduimall.model.SysuserUserFav" >
+  <resultMap id="BaseResultMap" type="com.meiduimall.service.catalog.entity.SysuserUserFav" >
     <id column="gnotify_id" property="gnotifyId" jdbcType="INTEGER" />
     <result column="item_id" property="itemId" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
@@ -18,7 +18,7 @@
     <result column="object_type" property="objectType" jdbcType="VARCHAR" />
   </resultMap>
   
-  <resultMap id="ResultMapWithBLOBs" type="com.meiduimall.model.SysuserUserFav" extends="BaseResultMap" >
+  <resultMap id="ResultMapWithBLOBs" type="com.meiduimall.service.catalog.entity.SysuserUserFav" extends="BaseResultMap" >
     <result column="remark" property="remark" jdbcType="LONGVARCHAR" />
   </resultMap>
   
@@ -91,7 +91,7 @@
     remark
   </sql>
   
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.meiduimall.model.SysuserUserFavExample" >
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.meiduimall.service.catalog.entity.SysuserUserFavExample" >
     select
     <if test="distinct" >
       distinct
@@ -109,7 +109,7 @@
     </if>
   </select>
   
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.model.SysuserUserFavExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.service.catalog.entity.SysuserUserFavExample" >
     select
     <if test="distinct" >
       distinct
@@ -141,14 +141,14 @@
     where gnotify_id = #{gnotifyId,jdbcType=INTEGER}
   </delete>
   
-  <delete id="deleteByExample" parameterType="com.meiduimall.model.SysuserUserFavExample" >
+  <delete id="deleteByExample" parameterType="com.meiduimall.service.catalog.entity.SysuserUserFavExample" >
     delete from sysuser_user_fav
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   
-  <insert id="insert" parameterType="com.meiduimall.model.SysuserUserFav" >
+  <insert id="insert" parameterType="com.meiduimall.service.catalog.entity.SysuserUserFav" >
     insert into sysuser_user_fav (gnotify_id, item_id, user_id, 
       sku_id, cat_id, goods_name, 
       goods_price, image_default_id, email, 
@@ -163,7 +163,7 @@
       )
   </insert>
   
-  <insert id="insertSelective" parameterType="com.meiduimall.model.SysuserUserFav" >
+  <insert id="insertSelective" parameterType="com.meiduimall.service.catalog.entity.SysuserUserFav" >
     insert into sysuser_user_fav
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="gnotifyId != null" >
@@ -261,7 +261,7 @@
     </trim>
   </insert>
   
-  <select id="countByExample" parameterType="com.meiduimall.model.SysuserUserFavExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.meiduimall.service.catalog.entity.SysuserUserFavExample" resultType="java.lang.Integer" >
     select count(*) from sysuser_user_fav
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -365,7 +365,7 @@
     </if>
   </update>
   
-  <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.model.SysuserUserFav" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.service.catalog.entity.SysuserUserFav" >
     update sysuser_user_fav
     <set >
       <if test="itemId != null" >
@@ -414,7 +414,7 @@
     where gnotify_id = #{gnotifyId,jdbcType=INTEGER}
   </update>
   
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.meiduimall.model.SysuserUserFav" >
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.meiduimall.service.catalog.entity.SysuserUserFav" >
     update sysuser_user_fav
     set item_id = #{itemId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
@@ -433,7 +433,7 @@
     where gnotify_id = #{gnotifyId,jdbcType=INTEGER}
   </update>
   
-  <update id="updateByPrimaryKey" parameterType="com.meiduimall.model.SysuserUserFav" >
+  <update id="updateByPrimaryKey" parameterType="com.meiduimall.service.catalog.entity.SysuserUserFav" >
     update sysuser_user_fav
     set item_id = #{itemId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},

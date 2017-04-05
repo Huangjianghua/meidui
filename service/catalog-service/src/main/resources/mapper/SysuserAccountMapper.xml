@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="SysuserAccountMapper" >
-  <resultMap id="BaseResultMap" type="com.meiduimall.model.SysuserAccount" >
+  <resultMap id="BaseResultMap" type="com.meiduimall.service.catalog.entity.SysuserAccount" >
     <id column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="login_account" property="loginAccount" jdbcType="VARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
@@ -84,7 +84,7 @@
     area, disabled, createtime, modified_time, pay_password, mem_id, use_pay_password
   </sql>
   
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.model.SysuserAccountExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.service.catalog.entity.SysuserAccountExample" >
     select
     <if test="distinct" >
       distinct
@@ -113,14 +113,14 @@
     where user_id = #{userId,jdbcType=INTEGER}
   </delete>
   
-  <delete id="deleteByExample" parameterType="com.meiduimall.model.SysuserAccountExample" >
+  <delete id="deleteByExample" parameterType="com.meiduimall.service.catalog.entity.SysuserAccountExample" >
     delete from sysuser_account
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   
-  <insert id="insert" parameterType="com.meiduimall.model.SysuserAccount" >
+  <insert id="insert" parameterType="com.meiduimall.service.catalog.entity.SysuserAccount" >
     insert into sysuser_account (user_id, login_account, email, 
       mobile, login_password, login_token, 
       login_type, share_man, area, 
@@ -135,7 +135,7 @@
       )
   </insert>
   
-  <insert id="insertSelective" parameterType="com.meiduimall.model.SysuserAccount" >
+  <insert id="insertSelective" parameterType="com.meiduimall.service.catalog.entity.SysuserAccount" >
     insert into sysuser_account
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="userId != null" >
@@ -233,7 +233,7 @@
     </trim>
   </insert>
   
-  <select id="countByExample" parameterType="com.meiduimall.model.SysuserAccountExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.meiduimall.service.catalog.entity.SysuserAccountExample" resultType="java.lang.Integer" >
     select count(*) from sysuser_account
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -316,7 +316,7 @@
     </if>
   </update>
   
-  <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.model.SysuserAccount" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.service.catalog.entity.SysuserAccount" >
     update sysuser_account
     <set >
       <if test="loginAccount != null" >
@@ -365,7 +365,7 @@
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
   
-  <update id="updateByPrimaryKey" parameterType="com.meiduimall.model.SysuserAccount" >
+  <update id="updateByPrimaryKey" parameterType="com.meiduimall.service.catalog.entity.SysuserAccount" >
     update sysuser_account
     set login_account = #{loginAccount,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
