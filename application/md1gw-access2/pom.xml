@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	
+	<parent>
+		<groupId>com.meiduimall</groupId>
+		<artifactId>application</artifactId>
+		<version>1.0.0</version>
+	</parent>
+	
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.meiduimall</groupId>
@@ -10,12 +17,12 @@
 	<name>md1gw-access2</name>
 	<description>md1gw-access2</description>
 
-	<parent>
+	<!-- <parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.4.2.RELEASE</version>
 		<relativePath />
-	</parent>
+	</parent> -->
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -25,12 +32,23 @@
 
 	<dependencies>
 	
-	    <!-- meiduimall-common-->
 		<dependency>
+            <groupId>com.meiduimall</groupId>
+            <artifactId>meiduimall-support-security</artifactId>
+            <version>${meiduimall-support-security.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.meiduimall</groupId>
+            <artifactId>meiduimall-support-core</artifactId>
+            <version>${meiduimall-support-core.version}</version>
+        </dependency>
+	
+	    <!-- meiduimall-common-->
+		<!-- <dependency>
 			<groupId>com.meiduimall</groupId>
 			<artifactId>meiduimall-common</artifactId>
 			<version>0.0.2-SNAPSHOT</version>
-		</dependency>
+		</dependency> -->
 	
 		<!-- 热部署，修改了代码不需要重新启动spring boot -->
 		 <dependency>

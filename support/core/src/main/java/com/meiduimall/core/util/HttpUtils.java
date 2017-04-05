@@ -153,10 +153,14 @@ public class HttpUtils {
 		try {
 			HttpPost httpPost = new HttpPost(url);
 			config(httpPost);
-			Set<Map.Entry<String,String>> headerSet=headers.entrySet();
-			for(Entry<String,String> entry:headerSet){
-				httpPost.setHeader(entry.getKey(),entry.getValue());
+			
+			if(headers != null && headers.size() > 0){
+				Set<Map.Entry<String,String>> headerSet=headers.entrySet();
+				for(Entry<String,String> entry:headerSet){
+					httpPost.setHeader(entry.getKey(),entry.getValue());
+				}
 			}
+			
 			httpPost.setEntity(new StringEntity(sendData));
 			HttpResponse response = httpClient.execute(httpPost);
 			return HttpResToString(response, decodeCharset);

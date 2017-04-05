@@ -8,16 +8,14 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * test
- * @author chencong
- *
+ * @author yangchangfu
  */
 @SpringBootApplication
 @EnableTransactionManagement
 @EnableAsync
-@ComponentScan({"com.meiduimall"})
-public class CatalogAccessApplication extends SpringBootServletInitializer{
-	
+@ComponentScan({ "com.meiduimall" })
+public class CatalogAccessApplication extends SpringBootServletInitializer {
+
 	public static void main(String[] args) {
 		SpringApplication.run(CatalogAccessApplication.class, args);
 	}
