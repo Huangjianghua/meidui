@@ -18,6 +18,7 @@
         <module>front-user-center</module>
         <module>mall-api</module>
 		<module>md1gw-access2</module>
+		<module>search-manage</module>
     </modules>
 
     <dependencies>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.first.IDao.MenuMapper">
+    <select id="selectMenuByRId" resultType="com.first.system.domain.Menu" parameterType="hashMap">
+        select m.* from  t_menu m ,t_privilege p where   m.id=p.mid
+        <if test="rid !=null  and rid !='' " >
+           and  rid = #{rid}
+        </if>
+    </select>
+    
+    <select id="selectMenuList" resultType="com.first.system.domain.Menu" parameterType="com.first.system.domain.Menu">
+        select id,pid,NAME from  t_menu 
+    </select>
+    
+     <select id="selectMenuOne" resultType="com.first.system.domain.Menu" parameterType="com.first.system.domain.Menu">
+       select * from  t_menu where 1=1
+       <if test="id !=null and id!=''" >
+          and id = #{id}
+       </if>
+    </select>
+    
+         
+    <update id="updateMenu" parameterType="com.first.system.domain.Menu">
+        UPDATE   t_menu 
+        <set>
+           <if test="name !=null and name !=''">
+              name =#{name},
+           </if>
+           <if test="url !=null and url !=''">
+               url =#{url},
+           </if>
+           <if test="pic !=null and pic !=''">
+               pic =#{pic}
+           </if>
+        </set>
+        where id=#{id}
+    </update>
+    
+    <insert id="insertMenu" parameterType="com.first.system.domain.Menu">
+       INSERT  INTO  t_menu (name,url,pid,pic)
+       VALUES(#{name},#{url},#{pid},#{pic})
+    </insert>
+    
+     <select id="selectMenuFirst" resultType="com.first.system.domain.Menu" parameterType="hashMap">
+        select m.* from  t_menu m ,t_privilege p where   m.id=p.mid
+        <if test="rid !=null  and rid !='' " >
+           and  rid = #{rid} and  pid='0'
+        </if>
+    </select>   
+   
+    <select id="selectMenuByPId" resultType="com.first.system.domain.Menu" parameterType="hashMap">
+        select m.* from  t_menu m ,t_privilege p where   m.id=p.mid
+        <if test="rid !=null  and rid !='' " >
+           and  rid = #{rid} and pid !='0' and pid=#{pid}
+        </if>
+    </select>
+    
+    <delete id="deletMenuById" parameterType="java.lang.Integer">
+         DELETE FROM t_menu 
+          <if test="_parameter !=null and _parameter!=''">
+             WHERE  id=#{_parameter}
+          </if>
+    </delete>
+    
+</mapper>

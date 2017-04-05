@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.first.mapper.ItemMapper">
+	<resultMap type="com.first.pojo.ItemModel" id="ItemResultMap">
+		<id column="item_id" property="id"/>
+		<id column="item_id" property="itemId"/>
+		<result column="title" property="title"/>
+		<result column="price" property="price"/>
+		<result column="cost_price" property="costPrice"/>
+		<result column="mkt_price" property="mktPrice"/>
+		<result column="spec_desc" property="specDesc"/>
+		<result column="image_default_id" property="image"/>
+		<result column="cat_id" property="catId"/>
+		<result column="cat_name" property="cat"/>
+		<result column="cat_path" property="catPath"/>
+		<result column="parent_id" property="catParentId"/>
+		<result column="brand_id" property="brandId"/>
+		<result column="brand_name" property="brand"/>
+		<result column="shop_id" property="shopId"/>
+		<result column="shop_name" property="shopName"/>
+		<result column="shop_descript" property="shopDescript"/>
+		<result column="shop_logo" property="shopLogo"/>
+		<result column="tally_score" property="tallyScore"/>
+		<result column="attitude_score" property="attitudeScore"/>
+		<result column="delivery_speed_score" property="deliverySpeedScore"/>
+		<result column="sold_quantity" property="soldQuantity"/>
+		<result column="rate_count" property="rateCount"/>
+		<result column="rate_good_count" property="rateGoodCount"/>
+		<result column="buy_count" property="buyCount"/>
+		<result column="view_count" property="viewCount"/>
+		<result column="fav_count" property="favCount"/>
+		<result column="list_time" property="listTime"/>
+	</resultMap>
+	
+	<sql id="Base_Column">
+	  sysitem_item.`item_id`,
+	  sysitem_item.`title`,
+	  sysitem_item.`cat_id`,
+	  syscategory_cat.`cat_name`,
+	  syscategory_cat.`parent_id`,
+	  syscategory_cat.`cat_path`,
+	  sysitem_item.`brand_id`,
+	  syscategory_brand.`brand_name`,
+	  sysitem_item.`price`,
+	  sysitem_item.`point`,
+	  sysitem_item.`cost_price`,
+	  sysitem_item.`mkt_price`,
+	  sysitem_item.`spec_desc`,
+	  sysitem_item.`image_default_id`,
+	  sysitem_item.`modified_time`,
+	  shop.shop_id,
+	  shop.shop_name,
+	  shop.shop_descript,
+	  shop.shop_logo,
+	  shop.status,
+	  shop.tally_score,
+	  shop.attitude_score,
+	  shop.delivery_speed_score,
+	  sysitem_item_count.`buy_count`,
+	  sysitem_item_count.`rate_count`,
+	  sysitem_item_count.`rate_good_count`,
+	  sysitem_item_count.`sold_quantity`,
+	  sysitem_item_count.`view_count`,
+	  s_user_fav.fav_count,
+	  sysitem_item_status.`list_time`,
+	  sysitem_item_status.`approve_status` 
+	</sql>
+	
+	<sql id="Base_Tables">
+		sysitem_item 
+		  LEFT JOIN sysitem_item_count 
+		    ON sysitem_item.`item_id` = sysitem_item_count.`item_id` 
+		  LEFT JOIN sysitem_item_status 
+		    ON sysitem_item.`item_id` = sysitem_item_status.`item_id` 
+		  LEFT JOIN syscategory_cat 
+		    ON sysitem_item.`cat_id` = syscategory_cat.`cat_id` 
+		  LEFT JOIN syscategory_brand 
+		    ON sysitem_item.`brand_id` = syscategory_brand.`brand_id` 
+		  LEFT JOIN 
+		    (SELECT 
+		      ss.shop_id,
+		      ss.shop_name,
+		      ss.shop_descript,
+		      ss.shop_logo,
+		      ss.status,
+		      s_score.tally_score,
+		      s_score.attitude_score,
+		      s_score.delivery_speed_score 
+		    FROM
+		      sysshop_shop ss 
+		      LEFT JOIN 
+		        (SELECT 
+		          shop_id,
+		          user_id,
+		          tally_score,
+		          attitude_score,
+		          delivery_speed_score,
+		          logistics_service_score,
+		          disabled 
+		        FROM
+		          sysrate_score 
+		        GROUP BY shop_id) s_score 
+		        ON ss.shop_id = s_score.shop_id) shop 
+		    ON sysitem_item.`shop_id` = shop.`shop_id` 
+		  LEFT JOIN 
+		    (SELECT 
+		      item_id,
+		      COUNT(*) fav_count 
+		    FROM
+		      sysuser_user_fav 
+		    GROUP BY item_id) s_user_fav 
+		    ON sysitem_item.`item_id` = s_user_fav.item_id 
+		WHERE (1) 
+		  AND sysitem_item.`use_platform` IN ('0', '1') 
+		  AND sysitem_item.`check_status` = '1' 
+		  AND sysitem_item_status.`approve_status` = 'onsale'
+		  AND shop.shop_id != 178
+	</sql>
+	
+	<sql id="queryCondition">
+	  <if test="itemId !=null and itemId !=''"> AND sysitem_item.item_id = #{itemId}</if>
+	  <if test="title !=null and title !=''"> AND sysitem_item.title  LIKE CONCAT('%',#{title},'%')</if>
+	  <if test="catId !=null and catId !=''"> AND syscategory_cat.cat_id = #{catId}</if>
+	  <if test="cat !=null and cat !=''"> AND syscategory_cat.cat_name LIKE CONCAT('%',#{cat},'%')</if>
+	  <if test="brandId !=null and brandId !=''"> AND syscategory_brand.brand_id = #{brandId}</if>
+	  <if test="brand !=null and brand !=''"> AND syscategory_brand.brand_name LIKE CONCAT('%',#{brand},'%')</if>
+	  <if test="shopId !=null and shopId !=''"> AND shop.shop_id = #{shopId}</if>
+	  <if test="shopName !=null and shopName !=''"> AND shop.shop_name LIKE CONCAT('%',#{shopName},'%')</if>
+	</sql>
+	
+    <select id="queryItems" parameterType="com.first.pojo.ItemModel" resultMap="ItemResultMap">
+		SELECT 
+		  <include refid="Base_Column" />
+		FROM 
+		  <include refid="Base_Tables" />
+		  <include refid="queryCondition" />
+		  <if test="offset !=null and pageSize !=null">
+			LIMIT #{offset},#{pageSize}
+		  </if>
+    </select>
+	
+    <select id="queryItemById" parameterType="java.lang.Integer" resultMap="ItemResultMap">
+		SELECT 
+		  <include refid="Base_Column" /> 
+		FROM
+		  <include refid="Base_Tables" />
+		  AND sysitem_item.`item_id` = #{itemId} 
+    </select>
+	
+    <select id="queryItemsCount" parameterType="com.first.pojo.ItemModel" resultType="java.lang.Long">
+		SELECT COUNT(0) FROM
+		  <include refid="Base_Tables" />
+		  <include refid="queryCondition" />
+    </select>
+	
+    <select id="queryAllItemsId" resultType="java.lang.Integer">
+		SELECT sysitem_item.item_id FROM <include refid="Base_Tables" />
+    </select>
+</mapper>

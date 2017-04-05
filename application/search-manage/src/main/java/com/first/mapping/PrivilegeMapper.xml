@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.first.IDao.PrivilegeMapper">
+    
+    <select id="selectPrivilegeList" parameterType="com.first.system.domain.Privilege" resultType="com.first.system.domain.Privilege">
+        SELECT rid ,MID FROM  t_privilege WHERE 1=1
+         <if test="rid!=null and rid!=''">
+           AND rid = #{rid}
+         </if>
+    </select>
+
+    <insert id="insertPrivilege" parameterType="com.first.system.domain.Privilege" >
+         INSERT INTO t_privilege(rid,mid)
+                VALUES(#{rid},#{mid})
+    </insert>
+    
+    <!-- 批量插入 -->
+     <insert id="insertPrivilegeBatch" parameterType="java.util.List">
+	       INSERT INTO t_privilege(rid,mid)
+	       VALUES
+		   <foreach collection="list" item="item" separator=",">
+		      ( 
+		       #{item.rid},#{item.mid}
+		     )
+		   </foreach>
+     </insert>
+     
+     <delete id="deleteById" parameterType="java.lang.Integer">
+          DELETE FROM t_privilege 
+          <if test="_parameter !=null and _parameter!=''">
+              WHERE rid= #{_parameter}
+          </if>
+     </delete>
+     
+      <delete id="deleteByIdMenuId" parameterType="java.lang.Integer">
+          DELETE FROM t_privilege 
+          <if test="_parameter !=null and _parameter!=''">
+              WHERE mid= #{_parameter}
+          </if>
+     </delete>
+</mapper>
