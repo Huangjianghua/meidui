@@ -2,9 +2,13 @@ package com.meiduimall.application.search.IDao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
+
 import com.meiduimall.application.search.domain.SearchLog;
 import com.meiduimall.application.search.page.PageView;
 
+@Mapper
 public interface SearchLogMapper {
 	
 	/**

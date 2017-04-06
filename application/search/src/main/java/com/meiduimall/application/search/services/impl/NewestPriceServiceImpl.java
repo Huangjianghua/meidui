@@ -1,12 +1,8 @@
 package com.meiduimall.application.search.services.impl;
-
 import java.util.LinkedList;
 import java.util.List;
-
-import javax.annotation.Resource;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.meiduimall.application.search.IDao.NewestPriceMapper;
 import com.meiduimall.application.search.pojo.NewestPrice;
 import com.meiduimall.application.search.services.NewestPriceService;
@@ -14,7 +10,7 @@ import com.meiduimall.application.search.services.NewestPriceService;
 @Service
 public class NewestPriceServiceImpl implements NewestPriceService {
 
-	@Resource
+	@Autowired
 	private NewestPriceMapper newestPriceMapper;
 	
 	@Override

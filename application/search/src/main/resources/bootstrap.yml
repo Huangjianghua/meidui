@@ -1,0 +1,11 @@
+# Spring Properties
+spring:
+  application:
+     name: search
+server:
+  port: 80
+  
+  
+
+  
+ 

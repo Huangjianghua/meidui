@@ -2,8 +2,11 @@ package com.meiduimall.application.search.IDao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import com.meiduimall.application.search.system.domain.Privilege;
 
+@Mapper
 public interface PrivilegeMapper {
 
 	public void insertPrivilege(Privilege privilege) ;

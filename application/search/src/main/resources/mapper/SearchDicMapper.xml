@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.first.IDao.SearchDicMapper">
-	<resultMap type="com.first.domain.SearchDic" id="SearchDicResultMap">
+<mapper namespace="com.meiduimall.application.search.IDao.SearchDicMapper">
+	<resultMap type="com.meiduimall.application.search.domain.SearchDic" id="SearchDicResultMap">
 		<id column="dic_id" property="dicId"/>
 		<result column="dic_name" property="dicName"/>
 	</resultMap>
 	
-    <select id="querySearchDics" parameterType="com.first.page.PageView" resultMap="SearchDicResultMap">
+    <select id="querySearchDics" parameterType="com.meiduimall.application.search.page.PageView" resultMap="SearchDicResultMap">
 		SELECT dic_id, dic_name FROM syssearch_dic
 		<if test="pageSize!=null and pageSize!=''">
 		LIMIT #{offset},#{pageSize}
@@ -18,10 +18,10 @@
     <select id="querySearchDicById" parameterType="java.lang.Integer" resultMap="SearchDicResultMap">
 		SELECT dic_id, dic_name FROM syssearch_dic WHERE dic_id=#{#{dicId}}
     </select>
-    <insert id="addSearchDic" parameterType="com.first.domain.SearchDic">
+    <insert id="addSearchDic" parameterType="com.meiduimall.application.search.domain.SearchDic">
     	INSERT INTO syssearch_dic(dic_name) VALUES(#{dicName})
     </insert>
-    <update id="updateSearchDic" parameterType="com.first.domain.SearchDic">
+    <update id="updateSearchDic" parameterType="com.meiduimall.application.search.domain.SearchDic">
     	UPDATE syssearch_dic SET dic_name = #{dicName} WHERE dic_id = #{dicId}
     </update>
     <delete id="deleteSearchDicById" parameterType="java.lang.Integer">

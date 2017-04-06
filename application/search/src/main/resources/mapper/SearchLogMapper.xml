@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.first.IDao.SearchLogMapper">
-	<resultMap type="com.first.domain.SearchLog" id="SearchLogResultMap">
+<mapper namespace="com.meiduimall.application.search.IDao.SearchLogMapper">
+	<resultMap type="com.meiduimall.application.search.domain.SearchLog" id="SearchLogResultMap">
 		<id column="log_id" property="logId"/>
 		<result column="keyword" property="keyword"/>
 		<result column="result_num" property="resultNum"/>
@@ -12,7 +12,7 @@
     log_id, keyword, ip, result_num, type, search_time
   </sql>
 	
-  <select id="querySearchLogs" parameterType="com.first.page.PageView" resultMap="SearchLogResultMap">
+  <select id="querySearchLogs" parameterType="com.meiduimall.application.search.page.PageView" resultMap="SearchLogResultMap">
 		SELECT 
 	<include refid="Base_Column_List" /> 
 		FROM sysitem_search_log
@@ -35,7 +35,7 @@
     	(#{item.keyword}, #{item.ip}, #{item.resultNum}, #{item.type}, #{item.searchTime})
     </foreach>
   </insert>
-   <update id="updateSearchLog" parameterType="com.first.domain.SearchLog">
+   <update id="updateSearchLog" parameterType="com.meiduimall.application.search.domain.SearchLog">
    	UPDATE sysitem_search_log
 		<set>
         <if test="keyword !=null and keyword !=''">

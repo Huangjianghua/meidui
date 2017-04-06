@@ -1,15 +1,10 @@
 package com.meiduimall.application.search.pojo;
 
-import java.io.Serializable;
+
 
 import org.apache.solr.client.solrj.beans.Field;
 
-public class CatModel implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3867002458833222140L;
+public class CatModel {
 
 	@Field(value = "catId")
 	private int catId;

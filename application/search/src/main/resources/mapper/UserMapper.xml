@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.first.IDao.UserMapper">
-    <select id="selectUserList" parameterType="com.first.system.domain.User"  resultType="com.first.system.domain.User">
+<mapper namespace="com.meiduimall.application.search.IDao.UserMapper">
+    <select id="selectUserList" parameterType="com.meiduimall.application.search.system.domain.User"  resultType="com.meiduimall.application.search.system.domain.User">
           SELECT u.* ,r.role_name FROM t_user u  LEFT  JOIN  t_role r  ON  u.rid = r.id
            WHERE u.status='y'
         <if test="id!=null and id!=''">
@@ -24,14 +24,14 @@
 	      </if>
    </select>
     
-    <select id="selectByUserId"  parameterType="java.lang.Integer" resultType="com.first.system.domain.User">
+    <select id="selectByUserId"  parameterType="java.lang.Integer" resultType="com.meiduimall.application.search.system.domain.User">
          SELECT * FROM t_user 
           <if test="_parameter !=null and _parameter!=''">
               WHERE id= #{_parameter}
           </if>
     </select>
     
-    <update id="updateUser" parameterType="com.first.system.domain.User">
+    <update id="updateUser" parameterType="com.meiduimall.application.search.system.domain.User">
 		 UPDATE  t_user
 		 <set>
 			  <if test="userName!=null and userName!=''">
@@ -66,16 +66,16 @@
 		 where id=#{id}
 	</update>
 	
-	<select id="validateOldPwd"  parameterType="java.lang.String" resultType="com.first.system.domain.User">
+	<select id="validateOldPwd"  parameterType="java.lang.String" resultType="com.meiduimall.application.search.system.domain.User">
          SELECT * FROM t_user where id = #{id} and password= #{password}
     </select>
      
-    <insert id="insertUser" parameterType="com.first.system.domain.User" >
+    <insert id="insertUser" parameterType="com.meiduimall.application.search.system.domain.User" >
          INSERT INTO t_user(username,password,createtime ,updatetime,createAccount,updateAccount,status,rid,nickname)
                  VALUES(#{userName},#{password},#{createTime},#{updateTime},#{createAccount},#{updateAccount},#{status},#{rid},#{nickName})
     </insert>
     
-    <select id="selectPageCount" parameterType="com.first.system.domain.User"  resultType="java.lang.Integer">
+    <select id="selectPageCount" parameterType="com.meiduimall.application.search.system.domain.User"  resultType="java.lang.Integer">
          SELECT COUNT(1) FROM t_user u  LEFT  JOIN  t_role r  ON  u.rid = r.id
            WHERE u.status='y'
         <if test="id!=null and id!=''">

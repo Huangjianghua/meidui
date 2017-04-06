@@ -1,11 +1,10 @@
 package com.meiduimall.application.search.system.domain;
 
-import java.io.Serializable;
+
 
 import com.meiduimall.application.search.page.PageView;
 
-public class User extends PageView implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class User extends PageView {
 
 	private String id;
 	/**

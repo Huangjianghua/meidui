@@ -9,10 +9,8 @@ import com.meiduimall.application.search.utility.DESC;
  * 会员消费记录表
  * 
  **/
-public class Order implements Serializable {
+public class Order {
 	
-
-	private static final long serialVersionUID = -2877438787646171674L;
 
 	/** 会员消费记录表ID **/
 	private String mchId;

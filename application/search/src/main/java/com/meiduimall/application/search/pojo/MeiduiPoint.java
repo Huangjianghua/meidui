@@ -1,13 +1,7 @@
 package com.meiduimall.application.search.pojo;
 
-import java.io.Serializable;
 
-public class MeiduiPoint implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class MeiduiPoint {
 
 	private String app;
 	

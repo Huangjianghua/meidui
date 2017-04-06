@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    type : com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://192.168.4.195:3306/sqldb?useUnicode=true&characterEncoding=utf-8
+    username: test
+    password: 111
+    hikari:
+      connection-init-sql: SELECT 1
+      connection-test-query: SELECT 1 FROM DUAL
+      auto-commit: true
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      maximum-pool-size: 300
+      minimumIdle : 10
+      pool-name: harika-cp
+      
+search_server_url: http://127.0.0.1:8081/solr      

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.first.IDao.NewestPriceMapper">
-	<resultMap type="com.first.pojo.NewestPrice" id="NewestPriceResultMap">
+<mapper namespace="com.meiduimall.application.search.IDao.NewestPriceMapper">
+	<resultMap type="com.meiduimall.application.search.pojo.NewestPrice" id="NewestPriceResultMap">
 		<id column="item_id" property="itemId"/>
 		<result column="price" property="price"/>
 		<result column="cost_price" property="costPrice"/>

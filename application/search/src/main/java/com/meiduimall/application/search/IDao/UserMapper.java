@@ -3,9 +3,12 @@ package com.meiduimall.application.search.IDao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
+
 import com.meiduimall.application.search.system.domain.User;
 
-
+@Mapper
 public interface UserMapper {
 	/**
 	 * 查询所有用户
