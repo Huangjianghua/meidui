@@ -278,9 +278,15 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 			itemData.setTitle(title);
 			BigDecimal weight = itemWithBLOBs.getWeight();
 			if (weight != null) {
-				itemData.setWeight(weight.intValue() + "");
+				itemData.setWeight(weight.toString());
 			} else {
 				itemData.setWeight("");
+			}
+			
+			if(itemWithBLOBs.getIsShowWeight() != null){
+				itemData.setIs_show_weight(itemWithBLOBs.getIsShowWeight().toString());
+			} else{
+				itemData.setIs_show_weight("0");
 			}
 
 			// 查询商品的库存，表sysitem_item_store

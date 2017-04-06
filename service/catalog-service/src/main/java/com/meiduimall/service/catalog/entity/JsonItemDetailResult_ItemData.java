@@ -24,6 +24,15 @@ public class JsonItemDetailResult_ItemData {
 	private String approve_status;// 商品状态：onsale 出售中，instock 库中
 	private String list_time;// 商品上架时间
 	private String item_store;// 商品库存
+	private String is_show_weight;//是否显示重量
+	
+	public String getIs_show_weight() {
+		return is_show_weight;
+	}
+
+	public void setIs_show_weight(String is_show_weight) {
+		this.is_show_weight = is_show_weight;
+	}
 
 	public String getItem_store() {
 		return item_store;

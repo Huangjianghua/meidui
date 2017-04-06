@@ -71,7 +71,7 @@ public class GoodsDetailController {
 	}
 
 	/**
-	 * 根据商品编号，查询商品信息
+	 * 根据商品编号，查询商品详情
 	 * 
 	 * @param item_id
 	 *            商品编号，必须传入，否则报错
