@@ -39,7 +39,8 @@ import com.meiduimall.service.settlement.vo.ShareProfitVO;
 @RequestMapping("/settlementservice/orderservice/v1")
 public class OrderController {
 	
-	private static final Logger log=LoggerFactory.getLogger(OrderController.class);
+	private static final Logger log = LoggerFactory.getLogger(OrderController.class);
+	
 	@Autowired
 	private OrderService orderService;
 	
