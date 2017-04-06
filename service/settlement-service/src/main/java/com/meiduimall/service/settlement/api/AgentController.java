@@ -74,7 +74,7 @@ public class AgentController {
 			return SettlementUtil.failure("", "保证金分润失败");
 
 		} catch (Exception e) {
-			logger.error(e.toString());
+			logger.error("保证金分润异常：{}", e);
 			return SettlementUtil.failure("", "操作失败");
 		}
 
@@ -99,7 +99,7 @@ public class AgentController {
 			return SettlementUtil.failure("", "新商家送积分失败");
 			
 		} catch (Exception e) {
-			logger.error(e.toString());
+			logger.error("新商家送积分异常：{}", e);
 			return SettlementUtil.failure("", "操作失败");
 		}
 	}
@@ -122,7 +122,7 @@ public class AgentController {
 			}
 			return SettlementUtil.failure("", "创建账户失败");
 		} catch (Exception e) {
-			logger.error(e.toString());
+			logger.error("创建账户异常：{}", e);
 			return SettlementUtil.failure("", "操作失败");
 		}
 	}
