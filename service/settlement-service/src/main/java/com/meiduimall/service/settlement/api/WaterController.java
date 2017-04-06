@@ -82,7 +82,7 @@ public class WaterController {
 			return SettlementUtil.success(map, "获取流水列表成功");
 
 		} catch (Exception e) {
-			logger.error(e.toString());
+			logger.error("获取流水列表异常：{}", e);
 			return SettlementUtil.failure("", "操作失败");
 		}
 	}
@@ -136,7 +136,7 @@ public class WaterController {
 				return SettlementUtil.success(result, "获取流水详情成功");
 			}
 		} catch (Exception e) {
-			logger.error(e.toString());
+			logger.error("获取流水详情异常：{}", e);
 			return SettlementUtil.failure("", "操作失败");
 		}
 		return null;
@@ -159,7 +159,7 @@ public class WaterController {
 			}
 			return SettlementUtil.failure("", "无数据");
 		} catch (Exception e) {
-			logger.error(e.toString());
+			logger.error("获取推荐人推荐费异常：{}", e);
 			return SettlementUtil.failure("", "操作失败");
 		}
 	}

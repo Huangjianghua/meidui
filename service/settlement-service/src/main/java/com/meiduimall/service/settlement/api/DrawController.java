@@ -63,7 +63,7 @@ public class DrawController {
 			Map<String, Object> accountResult = drawService.queryAccoutBalance(code);
 			return SettlementUtil.success(accountResult, "获取可提现金额成功");
 		} catch (Exception e) {
-			log.error(e.toString());
+			log.error("获取可提现金额异常：{}", e);
 			return SettlementUtil.failure("", "获取可提现金额失败");
 		}
 	}
@@ -123,7 +123,7 @@ public class DrawController {
 			return SettlementUtil.failure("", "申请提现失败");
 			
 		} catch (Exception e) {
-			log.error(e.toString());
+			log.error("申请提现异常：{}", e);
 			return SettlementUtil.failure("", "申请提现失败");
 		}
 	}
@@ -146,8 +146,6 @@ public class DrawController {
 		try {
 			if("list".equals(type)){
 				PageHelper.startPage(pageNumber, pageSize);
-		
-			
 			}
 			List<EcmMzfDraw> ecmMzfDrawList = drawService.queryDrawCash(params);
 			int total = drawService.getDrawCount(params);
@@ -158,7 +156,7 @@ public class DrawController {
 			return SettlementUtil.success(result, "获取提现列表成功");
 			
 		} catch (Exception e) {
-			log.error(e.toString());
+			log.error("获取提现列表异常：{}", e);
 			return SettlementUtil.failure("", "获取提现列表失败");
 		}
 	}
@@ -177,7 +175,7 @@ public class DrawController {
 			EcmMzfDraw drawDetail = drawService.queryDrawCashById(drawCode);
 			return SettlementUtil.success(drawDetail, "获取提现详情成功");
 		} catch (Exception e) {
-			log.error(e.toString());
+			log.error("获取提现详情异常：{}", e);
 			return SettlementUtil.failure("", "获取提现详情失败");
 		}
 	}
