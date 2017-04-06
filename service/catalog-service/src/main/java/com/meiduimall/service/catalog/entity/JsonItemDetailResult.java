@@ -10,10 +10,10 @@ import java.util.List;
  */
 public class JsonItemDetailResult {
 
-	private JsonItemDetailResult_ShopData shopData;
-	private JsonItemDetailResult_ItemData itemData;
-	private List<JsonItemDetailResult_Sku> skuList;
-	private List<JsonItemDetailResult_Props> itemPropsList;
+	private JsonItemDetailResult_ShopData shopData;//店铺相关
+	private JsonItemDetailResult_ItemData itemData;//商品相关
+	private List<JsonItemDetailResult_Sku> skuList;//SKU相关
+	private List<JsonItemDetailResult_Props> itemPropsList;//规格相关
 	
 	public JsonItemDetailResult_ShopData getShopData() {
 		return shopData;

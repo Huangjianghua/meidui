@@ -10,8 +10,8 @@ import java.util.List;
  */
 public class JsonItemDetailResult_Props {
 	
-	private String prop_id;//规格ID
-	private String prop_name;//规格名称--比如：颜色、服装尺码
+	private String prop_id;//规格ID。比如：4,5
+	private String prop_name;//规格名称。比如：颜色、服装尺码
 	private List<JsonItemDetailResult_Prop_Values> prop_list;
 	
 	public String getProp_id() {

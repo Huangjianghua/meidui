@@ -91,6 +91,15 @@
     remark
   </sql>
   
+  <!-- 根据token和item_id，查找该用户是否收藏了该商品 -->
+  <select id="selectCountByItemIdAndToken" resultType="int" parameterType="com.meiduimall.service.catalog.entity.ItemIdAndToken">
+  	SELECT count(*) FROM sysuser_user_fav 
+  	WHERE 
+  	user_id=(SELECT user_id FROM sysuser_account WHERE login_token=#{token}) 
+  	AND 
+  	item_id=#{item_id};
+  </select>
+  
   <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.meiduimall.service.catalog.entity.SysuserUserFavExample" >
     select
     <if test="distinct" >

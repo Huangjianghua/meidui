@@ -11,13 +11,21 @@ public class JsonItemDetailResult_Sku {
 	private String sku_id;
 	private String price;// 该规格商品价格
 	private String weight;// 该规格商品重量
-	private String spec_info;// 该规格描述信息
+	//private String spec_info;// 该规格描述信息
 	private String status;// sku状态: normal 代表正常， delete 代表删除
 	private String point;// 该规格商品可用美兑积分
 	
 	// 由syscategory_prop_values表中的prop_value_id组成的字符串，格式如下： 51_4_76
 	private String prop_value_ids;
 	
+	private String sku_store;//每一个SKU对应的库存
+	
+	public String getSku_store() {
+		return sku_store;
+	}
+	public void setSku_store(String sku_store) {
+		this.sku_store = sku_store;
+	}
 	public String getSku_id() {
 		return sku_id;
 	}
@@ -36,12 +44,12 @@ public class JsonItemDetailResult_Sku {
 	public void setWeight(String weight) {
 		this.weight = weight;
 	}
-	public String getSpec_info() {
-		return spec_info;
-	}
-	public void setSpec_info(String spec_info) {
-		this.spec_info = spec_info;
-	}
+//	public String getSpec_info() {
+//		return spec_info;
+//	}
+//	public void setSpec_info(String spec_info) {
+//		this.spec_info = spec_info;
+//	}
 	public String getStatus() {
 		return status;
 	}
