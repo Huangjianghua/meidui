@@ -94,7 +94,7 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 			result.setData(new JSONObject());
 			result.setStatus(BaseApiCode.OPERAT_FAIL);
 			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
-			logger.error("查询商品信息，service报异常：%s", e);
+			logger.error("查询商品信息，service报异常：" + e);
 		}
 		return result;
 	}
@@ -376,7 +376,7 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.SUCCESS));
 
 		} catch (Exception e) {
-			logger.error("根据商品编号，获取商品详情，service报异常：%s", e);
+			logger.error("根据商品编号，获取商品详情，service报异常：" + e);
 			result.setStatus(BaseApiCode.OPERAT_FAIL);
 			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
 			result.setData(new JSONObject());

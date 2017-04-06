@@ -90,7 +90,7 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 		} catch (Exception e) {
 			result.setStatus(BaseApiCode.OPERAT_FAIL);
 			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
-			logger.error("批量插入推荐商品，service报异常：%s", e);
+			logger.error("批量插入推荐商品，service报异常：" + e);
 		}
 		result.setData(new JSONObject());
 		return result;
@@ -160,7 +160,7 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 			result.setStatus(BaseApiCode.OPERAT_FAIL);
 			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
 			result.setData(new JSONObject());
-			logger.error("获取推荐商品，service报异常：%s", e);
+			logger.error("获取推荐商品，service报异常：" + e);
 		}
 		return result;
 	}
@@ -209,7 +209,7 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 			result.setStatus(BaseApiCode.OPERAT_FAIL);
 			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
 			result.setData(new JSONObject());
-			logger.error("获取推荐商品，service报异常：%s", e);
+			logger.error("获取推荐商品，service报异常：" + e);
 		}
 		return result;
 	}

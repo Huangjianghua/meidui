@@ -40,7 +40,7 @@ public class DownloadStatisticsController {
 	@RequestMapping(value = "/insert")
 	public ResBodyData insertPortal(String portal) {
 		try {
-			logger.info("插入下载渠道，渠道编号：%s", portal);
+			logger.info("插入下载渠道，渠道编号：" + portal);
 
 			if (StringUtils.isEmpty(portal)) {
 				ResBodyData result = new ResBodyData();
@@ -63,7 +63,7 @@ public class DownloadStatisticsController {
 			return downloadStatisticsService.insert(bean);
 
 		} catch (Exception e) {
-			logger.error("插入下载渠道，报异常：%s", e);
+			logger.error("插入下载渠道，报异常：" + e);
 			ResBodyData result = new ResBodyData();
 			result.setStatus(BaseApiCode.OPERAT_FAIL);
 			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
@@ -86,7 +86,7 @@ public class DownloadStatisticsController {
 
 		try {
 			String ip = request.getRemoteAddr();
-			logger.info("查询下载渠道信息，请求IP：%s", ip);
+			logger.info("查询下载渠道信息，请求IP：" + ip);
 
 			// 特殊处理--日期时间包含空格和冒号，需要进行URL编码和URL解码
 
@@ -100,7 +100,7 @@ public class DownloadStatisticsController {
 			return downloadStatisticsService.queryByDate(beginDate, endDate);
 
 		} catch (Exception e) {
-			logger.error("查询下载渠道信息，报异常：%s", e);
+			logger.error("查询下载渠道信息，报异常：" + e);
 			ResBodyData result = new ResBodyData();
 			result.setStatus(BaseApiCode.OPERAT_FAIL);
 			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));

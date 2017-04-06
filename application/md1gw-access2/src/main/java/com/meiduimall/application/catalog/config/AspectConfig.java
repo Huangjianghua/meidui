@@ -1,4 +1,4 @@
-package com.meiduimall.service.catalog.config;
+package com.meiduimall.application.catalog.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

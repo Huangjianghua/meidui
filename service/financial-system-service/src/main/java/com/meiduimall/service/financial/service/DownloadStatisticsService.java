@@ -5,7 +5,7 @@ import com.meiduimall.service.financial.entity.DownloadStatistics;
 
 /**
  * 渠道下载信息服务类
- * @author yangchang
+ * @author yangchangfu
  *
  */
 public interface DownloadStatisticsService {

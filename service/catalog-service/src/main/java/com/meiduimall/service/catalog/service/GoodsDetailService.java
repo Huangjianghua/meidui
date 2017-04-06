@@ -5,7 +5,7 @@ import com.meiduimall.core.ResBodyData;
 /**
  * 商品详情基本操作
  * 
- * @author yangchang
+ * @author yangchangfu
  *
  */
 public interface GoodsDetailService {

@@ -38,7 +38,7 @@ public class DownloadStatisticsServiceImpl implements DownloadStatisticsService 
 				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
 			}
 		} catch (Exception e) {
-			logger.error("插入下载渠道，service报异常：%s", e);
+			logger.error("插入下载渠道，service报异常：" + e);
 			result.setStatus(BaseApiCode.OPERAT_FAIL);
 			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
 		}
@@ -70,7 +70,7 @@ public class DownloadStatisticsServiceImpl implements DownloadStatisticsService 
 				result.setData(new JSONObject());
 			}
 		} catch (Exception e) {
-			logger.error("查询下载渠道信息，service报异常：%s", e);
+			logger.error("查询下载渠道信息，service报异常：" + e);
 			result.setStatus(BaseApiCode.OPERAT_FAIL);
 			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
 			result.setData(new JSONObject());

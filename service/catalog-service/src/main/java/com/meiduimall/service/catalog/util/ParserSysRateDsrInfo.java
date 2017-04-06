@@ -3,6 +3,11 @@ package com.meiduimall.service.catalog.util;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * 
+ * @author yangchang
+ *
+ */
 public class ParserSysRateDsrInfo {
 
 	public static float getValue(String content) throws Exception {

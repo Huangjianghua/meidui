@@ -5,7 +5,7 @@ import com.meiduimall.core.ResBodyData;
 /**
  * 商品推荐相关操作
  * 
- * @author yangchang
+ * @author yangchangfu
  *
  */
 public interface GoodsRecommendService {

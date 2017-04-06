@@ -15,7 +15,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 /**
  * mysql数据源配置
- * @author chencong
+ * @author yangchangfu
  *
  */
 @Configuration

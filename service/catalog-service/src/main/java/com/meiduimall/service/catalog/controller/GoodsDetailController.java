@@ -16,7 +16,7 @@ import com.meiduimall.service.catalog.service.GoodsDetailService;
 /**
  * 商品详情相关操作
  * 
- * @author yangchang
+ * @author yangchangfu
  *
  */
 @RestController
@@ -42,15 +42,15 @@ public class GoodsDetailController {
 	public ResBodyData checkItemIsExist(String item_id) {
 		try {
 			String ip = HttpTools.getIpAddr(request);
-			logger.info("请求IP：%s", ip);
-			logger.info("根据商品编号，查询商品是否存在，商品编号：%s", item_id);
+			logger.info("请求IP：" + ip);
+			logger.info("根据商品编号，查询商品是否存在，商品编号：" + item_id);
 
 			int id = 0;
 
 			try {
 				id = Integer.parseInt(item_id);
 			} catch (NumberFormatException e) {
-				logger.error("根据商品编号，查询商品是否存在，商品编号：%s", e);
+				logger.error("根据商品编号，查询商品是否存在，商品编号：" + e);
 				ResBodyData result = new ResBodyData();
 				result.setStatus(BaseApiCode.REQUEST_PARAMS_ERROR);
 				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.REQUEST_PARAMS_ERROR));
@@ -61,7 +61,7 @@ public class GoodsDetailController {
 			return goodsDetailService.checkItemIsExistById(id);
 
 		} catch (Exception e) {
-			logger.error("根据商品编号，查询商品是否存在，服务器异常：%s", e);
+			logger.error("根据商品编号，查询商品是否存在，服务器异常：" + e);
 			ResBodyData result = new ResBodyData();
 			result.setStatus(BaseApiCode.OPERAT_FAIL);
 			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
@@ -81,14 +81,14 @@ public class GoodsDetailController {
 	public ResBodyData getItemDetail(String token, String item_id) {
 		try {
 			String ip = HttpTools.getIpAddr(request);
-			logger.info("请求IP：%s", ip);
-			logger.info("根据商品编号，获取商品详情，商品编号：%s", item_id);
+			logger.info("请求IP：" + ip);
+			logger.info("根据商品编号，获取商品详情，商品编号：" + item_id);
 
 			int id = 0;
 			try {
 				id = Integer.parseInt(item_id);
 			} catch (NumberFormatException e) {
-				logger.error("根据商品编号，获取商品详情，服务器报异常：%s", e);
+				logger.error("根据商品编号，获取商品详情，服务器报异常：" + e);
 				ResBodyData result = new ResBodyData();
 				result.setStatus(BaseApiCode.REQUEST_PARAMS_ERROR);
 				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.REQUEST_PARAMS_ERROR));
@@ -99,7 +99,7 @@ public class GoodsDetailController {
 			return goodsDetailService.getItemDetailById(token, id);
 
 		} catch (Exception e) {
-			logger.error("根据商品编号，获取商品详情，服务器报异常：%s", e);
+			logger.error("根据商品编号，获取商品详情，服务器报异常：" + e);
 			ResBodyData result = new ResBodyData();
 			result.setStatus(BaseApiCode.OPERAT_FAIL);
 			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));

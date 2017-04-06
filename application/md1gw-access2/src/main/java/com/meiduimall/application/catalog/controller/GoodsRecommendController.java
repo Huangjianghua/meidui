@@ -45,7 +45,7 @@ public class GoodsRecommendController {
 	public @ResponseBody String getFirstRecommendGoods(String type,
 			@RequestParam(value = "req_id", required = false, defaultValue = "1") String req_id) {
 		try {
-			logger.info("根据推荐类型，查询推荐商品，推荐类型：%s", type);
+			logger.info("根据推荐类型，查询推荐商品，推荐类型：" + type);
 
 			int reco_type = Integer.parseInt(type);
 			int reco_req_id = Integer.parseInt(req_id);
@@ -56,7 +56,7 @@ public class GoodsRecommendController {
 
 			return result;
 		} catch (Exception e) {
-			logger.error("根据推荐类型，查询推荐商品，服务器异常：%s", e);
+			logger.error("根据推荐类型，查询推荐商品，服务器异常：" + e);
 			ResBodyData errorBody = new ResBodyData();
 			errorBody.setStatus(BaseApiCode.OPERAT_FAIL);
 			errorBody.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));

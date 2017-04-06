@@ -1,4 +1,4 @@
-package com.meiduimall.service.financial;
+package com.meiduimall.application.catalog;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.http.HttpStatus;
@@ -14,11 +14,11 @@ import com.meiduimall.core.ResBodyData;
 /**
  * Copyright (C), 2002-2017, 美兑壹购物
  * FileName: GlobalExceptionHandler.java
- * Author:   yangchangfu
+ * Author:   Administrator
  * Date:     2017年3月17日 下午4:11:30
  * Description: 全局参数验证不通过的处理
  */
-@ControllerAdvice(basePackages = "com.meiduimall.service.financial.controller")
+@ControllerAdvice(basePackages = "com.meiduimall.application.catalog.controller")
 @ResponseBody
 public class GlobalExceptionHandler {
 	

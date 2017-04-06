@@ -34,7 +34,7 @@ public class HttpGatewayUtils {
 	public static String sendGet(String url, String clientID, String signKey, Map<String, String> params)
 			throws Exception {
 
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		Map<String, String> req_params = new HashMap<String, String>();
 
 		long timestamp = System.currentTimeMillis();
@@ -63,10 +63,10 @@ public class HttpGatewayUtils {
 
 		url = url + "?" + params_content;
 
-		logger.info("请求地址：%s", url);
+		logger.info("请求地址：" + url);
 		String result = HttpUtils.get(url);
 
-		logger.info("请求结果：%s", result);
+		logger.info("请求结果：" + result);
 		return result;
 	}
 
@@ -85,7 +85,7 @@ public class HttpGatewayUtils {
 	public static String sendPost(String url, String clientID, String signKey, Map<String, String> params)
 			throws Exception {
 
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		Map<String, String> req_params = new HashMap<String, String>();
 
 		long timestamp = System.currentTimeMillis();
@@ -112,10 +112,10 @@ public class HttpGatewayUtils {
 
 		String params_content = sb.toString();
 
-		logger.info("请求地址：%s", url);
-		logger.info("POST实体内容：%s", params_content);
+		logger.info("请求地址：" + url);
+		logger.info("POST实体内容：" + params_content);
 		String result = HttpUtils.post(url, params_content, null);
-		logger.info("请求结果：%s", result);
+		logger.info("请求结果：" + result);
 		return result;
 	}
 
@@ -146,7 +146,7 @@ public class HttpGatewayUtils {
 			Arrays.sort(arr);
 
 			// 拼接参数
-			StringBuffer buffer = new StringBuffer();
+			StringBuilder buffer = new StringBuilder();
 			for (int k = 0; k < arr.length; k++) {
 				buffer.append(arr[k]);
 				buffer.append("&");

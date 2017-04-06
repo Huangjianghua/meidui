@@ -12,6 +12,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+/**
+ * 实现PHP的序列化和反序列化
+ * @author yangchang
+ *
+ */
 public class PHPSerializer {
 
 	private static Package[] __packages = Package.getPackages();

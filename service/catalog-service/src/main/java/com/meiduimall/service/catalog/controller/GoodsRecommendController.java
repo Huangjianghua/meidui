@@ -18,7 +18,7 @@ import com.meiduimall.service.catalog.service.GoodsRecommendService;
 /**
  * 商品推荐相关操作
  * 
- * @author yangchang
+ * @author yangchangfu
  *
  */
 @RestController
@@ -51,8 +51,8 @@ public class GoodsRecommendController {
 			@RequestParam(value = "level", required = false, defaultValue = "0") String level) {
 		try {
 			String ip = HttpTools.getIpAddr(request);
-			logger.info("请求IP：%s", ip);
-			logger.info("批量插入推荐商品，商品编号：%s", item_ids);
+			logger.info("请求IP：" + ip);
+			logger.info("批量插入推荐商品，商品编号：" + item_ids);
 
 			int reco_type = 0;
 			int reco_level = 0;
@@ -61,7 +61,7 @@ public class GoodsRecommendController {
 				reco_type = Integer.parseInt(type);
 				reco_level = Integer.parseInt(level);
 			} catch (NumberFormatException e) {
-				logger.error("批量插入推荐商品，商品编号：%s", e);
+				logger.error("批量插入推荐商品，商品编号：" + e);
 				ResBodyData result = new ResBodyData();
 				result.setStatus(BaseApiCode.REQUEST_PARAMS_ERROR);
 				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.REQUEST_PARAMS_ERROR));
@@ -93,7 +93,7 @@ public class GoodsRecommendController {
 			}
 
 		} catch (Exception e) {
-			logger.error("批量插入推荐商品，服务器异常：%s", e);
+			logger.error("批量插入推荐商品，服务器异常：" + e);
 			ResBodyData result = new ResBodyData();
 			result.setStatus(BaseApiCode.OPERAT_FAIL);
 			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
@@ -119,8 +119,8 @@ public class GoodsRecommendController {
 			@RequestParam(value = "req_id", required = false, defaultValue = "1") String req_id) {
 		try {
 			String ip = HttpTools.getIpAddr(request);
-			logger.info("请求IP：%s", ip);
-			logger.info("获取推荐商品，推荐类型：%s", type);
+			logger.info("请求IP：" + ip);
+			logger.info("获取推荐商品，推荐类型：" + type);
 
 			int reco_type = 0;
 			int reco_count = 0;
@@ -131,7 +131,7 @@ public class GoodsRecommendController {
 				reco_count = Integer.parseInt(count);
 				reco_req_id = Integer.parseInt(req_id);
 			} catch (NumberFormatException e) {
-				logger.error("获取推荐商品，推荐类型：%s", e);
+				logger.error("获取推荐商品，推荐类型：" + e);
 				ResBodyData result = new ResBodyData();
 				result.setStatus(BaseApiCode.REQUEST_PARAMS_ERROR);
 				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.REQUEST_PARAMS_ERROR));
@@ -142,7 +142,7 @@ public class GoodsRecommendController {
 			return goodsRecommendService.getFirstRecommendItems(reco_type, reco_count, reco_req_id);
 
 		} catch (Exception e) {
-			logger.error("获取推荐商品，服务器异常：%s", e);
+			logger.error("获取推荐商品，服务器异常：" + e);
 			ResBodyData result = new ResBodyData();
 			result.setStatus(BaseApiCode.OPERAT_FAIL);
 			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
@@ -159,10 +159,10 @@ public class GoodsRecommendController {
 	@RequestMapping(value = "/getFirstRecommendItemId")
 	public ResBodyData getFirstRecommendItemsAllType() {
 		try {
-			logger.info("获取当前正在显示的推荐商品，不分类型推荐类型：%s", 4);
+			logger.info("获取当前正在显示的推荐商品，不分类型推荐类型：" + 4);
 			return goodsRecommendService.getFirstRecommendItemsAllType(4);
 		} catch (Exception e) {
-			logger.error("获取推荐商品，服务器异常：%s", e);
+			logger.error("获取推荐商品，服务器异常：" + e);
 			ResBodyData result = new ResBodyData();
 			result.setStatus(BaseApiCode.OPERAT_FAIL);
 			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));

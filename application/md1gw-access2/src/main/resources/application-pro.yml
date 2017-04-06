@@ -10,6 +10,6 @@ spring :
 # 配置微服务网关
 service : 
   host : http://192.168.4.240:9050
-  sign-clientID : test
-  sign-key : test123
+  sign-clientID : mall_java
+  sign-key : 
     

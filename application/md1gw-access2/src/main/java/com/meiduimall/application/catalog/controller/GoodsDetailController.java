@@ -32,12 +32,12 @@ public class GoodsDetailController {
 	@RequestMapping("/getItem")
 	public @ResponseBody String getItemDetail(String item_id, String token) {
 		try {
-			logger.info("请求商品详情，商品item_id：%s", item_id);
+			logger.info("请求商品详情，商品item_id：" + item_id);
 			int id = Integer.parseInt(item_id);
 			String result = requestDataByUtils(id, token);
 			return result;
 		} catch (Exception e) {
-			logger.error("请求商品详情，服务器异常：%s", e);
+			logger.error("请求商品详情，服务器异常：" + e);
 			ResBodyData errorBody = new ResBodyData();
 			errorBody.setStatus(BaseApiCode.OPERAT_FAIL);
 			errorBody.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));

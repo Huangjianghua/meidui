@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 /**
  * 
- * @author chencong
+ * @author yangchangfu
  *
  */
 @EnableHystrix
