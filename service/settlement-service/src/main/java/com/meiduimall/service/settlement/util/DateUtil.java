@@ -555,7 +555,6 @@ public class DateUtil {
 		calendar.set(Calendar.DATE, month);
 		dateBegin(calendar);
 		return calendar.getTime();
-		// return parseDate(formatDate(date).substring(0,4)+"-01-01");
 	}
 
 	/**
@@ -573,7 +572,6 @@ public class DateUtil {
 		calendar.set(Calendar.DATE, day);
 		dateEnd(calendar);
 		return calendar.getTime();
-		// return parseDate(formatDate(date).substring(0,4)+"-12-31");
 	}
 
 	/**
@@ -703,11 +701,6 @@ public class DateUtil {
 	 * @return
 	 */
 	public static Date addDays(Date date, int days) {
-//		该方式出现计算错误，已改正为使用下面这种方式
-//		Date newdate = new Date();
-//		long newtimems = date.getTime() + (days * 24 * 60 * 60 * 1000);
-//		newdate.setTime(newtimems);
-//		return newdate;
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		calendar.add(Calendar.DATE, days);
@@ -995,13 +988,11 @@ public class DateUtil {
 	 * @param now 当前时间
 	 * @return
 	 */
-//	@SuppressWarnings("unused")
 	public static long dateDiff(Date date, Date now) {
 		long l = date.getTime() - now.getTime();
 		long day = l / (24 * 60 * 60 * 1000);
 		long hour = (l / (60 * 60 * 1000) - day * 24);
 		long min = ((l / (60 * 1000)) - day * 24 * 60 - hour * 60);
-//		long s = (l / 1000 - day * 24 * 60 * 60 - hour * 60 * 60 - min * 60);
 		day = day * 24 * 60;
 		hour = hour * 60;
 		return day + hour + min;
@@ -1051,21 +1042,11 @@ public class DateUtil {
 	 */
 	public static boolean compare_date(String date1, String date2) throws Exception {
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//		try {
-			java.util.Date d1 = df.parse(date1);
-			java.util.Date d2 = df.parse(date2);
-			if (d1.getTime() < d2.getTime()) {
-				return true;
-			} 
-//			else if (d1.getTime() > d2.getTime()) {
-//				return false;
-//			} 
-//			else {
-//				return false;
-//			}
-//		} catch (Exception exception) {
-//			exception.printStackTrace();
-//		}
+		java.util.Date d1 = df.parse(date1);
+		java.util.Date d2 = df.parse(date2);
+		if (d1.getTime() < d2.getTime()) {
+			return true;
+		} 
 		return false;
 	}
 	
@@ -1077,20 +1058,11 @@ public class DateUtil {
 	 */
 	public static boolean compare_date_time(String date1, String date2) throws Exception {
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//		try {
-			java.util.Date d1 = df.parse(date1);
-			java.util.Date d2 = df.parse(date2);
-			if (d1.getTime() < d2.getTime()) {
-				return true;
-			} 
-//			else if (d1.getTime() > d2.getTime()) {
-//				return false;
-//			} else {
-//				return false;
-//			}
-//		} catch (Exception exception) {
-//			exception.printStackTrace();
-//		}
+		java.util.Date d1 = df.parse(date1);
+		java.util.Date d2 = df.parse(date2);
+		if (d1.getTime() < d2.getTime()) {
+			return true;
+		} 
 		return false;
 	}
 	
