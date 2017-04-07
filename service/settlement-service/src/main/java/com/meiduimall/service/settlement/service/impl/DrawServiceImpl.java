@@ -126,10 +126,9 @@ public class DrawServiceImpl implements DrawService {
 		ecmMzfWater.setOpTime(timestamp);
 		
 		//根据code查询账户余额(2017-04-01)
-		BigDecimal balance = null;
 		Map<String, Object> accountMap = queryAccoutBalance(ecmMzfDraw.getCode());
 		if(accountMap.get("balance") != null && !"".equals(accountMap.get("balance"))){
-			balance = new BigDecimal(accountMap.get("balance").toString());
+			BigDecimal balance = new BigDecimal(accountMap.get("balance").toString());
 			ecmMzfWater.setBalance(balance);
 		}
 				
@@ -241,10 +240,9 @@ public class DrawServiceImpl implements DrawService {
 			ecmMzfWater.setOpTime(timestamp);
 			
 			//根据code查询账户余额(2017-04-01)
-			BigDecimal balance = null;
 			Map<String, Object> accountMap = queryAccoutBalance(ecmMzfDraw.getCode());
 			if(accountMap.get("balance") != null && !"".equals(accountMap.get("balance"))){
-				balance = new BigDecimal(accountMap.get("balance").toString());
+				BigDecimal balance = new BigDecimal(accountMap.get("balance").toString());
 				ecmMzfWater.setBalance(balance);
 			}
 			
