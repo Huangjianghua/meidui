@@ -9,7 +9,6 @@
  */
 
 package com.meiduimall.service.route.hanler.impl;
-
 import com.google.common.io.CharStreams;
 import com.google.common.io.Closeables;
 import com.meiduimall.core.BaseApiCode;
@@ -43,11 +42,10 @@ public class PraseJsonHandler implements Handler {
   public Boolean process(RequestContext ctx) {
     HttpServletRequest request = ctx.getRequest();
     String json = null;
-    try (
-        InputStream in = ctx.getRequest().getInputStream()
-    ) {
+    try{
+      InputStream in = ctx.getRequest().getInputStream();
       json = CharStreams.toString(new InputStreamReader(in));
-      Map param = JsonUtils.jsonToMap(json, String.class);
+  	  Map<String, String> param =JsonUtils.jsonToBean(json, Map.class);
       ctx.set("param", param);
       Closeables.closeQuietly(in);
     } catch (Exception e) {
