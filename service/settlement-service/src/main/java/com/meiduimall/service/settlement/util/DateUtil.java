@@ -739,17 +739,12 @@ public class DateUtil {
 
 	/**
 	 * 用户自定义格式化时间,如:"YY年MM月dd日 E"
-	 * 
-	 * @param s
-	 *            时间格式字符串
+	 * @param formatTime 时间格式字符串
 	 * @return 自定义格式化的时间
 	 */
-	public static String getUesrDefinedDateTime(String s) {
-		String string = "";
-		String formatTime = s;
+	public static String getUesrDefinedDateTime(String formatTime) {
 		SimpleDateFormat sdf = new SimpleDateFormat(formatTime);
-		string = sdf.format(new Date());
-		return string;
+		return sdf.format(new Date());
 	}
 
 	private static String[] oldCase = new String[] { "00", "0", "一", "二", "三",
