@@ -63,7 +63,7 @@ public class WaterController {
 			@RequestParam(value = "type", defaultValue = "list") String type,
 			@RequestParam HashMap<String, Object> params, String waterType) {
 		try {
-			if(type.equals("list")){
+			if("list".equals(type)){
 				PageHelper.startPage(pageNumber, pageSize);
 			}
 			
