@@ -97,7 +97,8 @@ public class WaterController {
 	 * return  ResBodyData
 	 */
 	@PostMapping("/querywaterbyid")
-	public ResBodyData queryWaterById(String waterId, String waterType,Integer loginType,String  code,Integer pageNumber,Integer pageSize){
+	public ResBodyData queryWaterById(String waterId, String waterType, Integer loginType, String code,
+			Integer pageNumber, Integer pageSize) {
 		
 		if(StringUtil.isEmpty(waterId) || StringUtil.isEmpty(waterType)){
 			return SettlementUtil.buildReponseData("", ShareProfitConstants.RESPONSE_STATUS_CODE_FAILURE, "流水编号或流水类型不能为空!");

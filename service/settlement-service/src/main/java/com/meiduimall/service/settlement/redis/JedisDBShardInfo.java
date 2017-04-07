@@ -44,6 +44,7 @@ public class JedisDBShardInfo extends JedisShardInfo {
         this.database=database;  
     }  
   
+    @Override
     public Jedis createResource() {  
         Jedis jedis=new Jedis(this);  
             try {  

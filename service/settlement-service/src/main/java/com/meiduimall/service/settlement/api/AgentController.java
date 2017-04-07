@@ -57,7 +57,7 @@ public class AgentController {
 			
 			//判断当前个代是否已分润过
 			List<EcmMzfAgentWater> shareResults = agentService.getShareProfitResult(ecmAgent.getId(), ecmAgent.getRecNo());
-			if(!CollectionUtils.isEmpty(shareResults)){
+			if(CollectionUtils.isNotEmpty(shareResults)){
 				return SettlementUtil.failure("", "新个代"+ecmAgent.getAgentNo()+"已分润，不可重复分润");
 			}
 			
@@ -68,7 +68,7 @@ public class AgentController {
 			logger.info("share profit for agent end:{}", end);
 			logger.info("total time(second) for shareprofit:{}", (end - start) / 1000);
 			
-			if(!CollectionUtils.isEmpty(resultList)){
+			if(CollectionUtils.isNotEmpty(resultList)){
 				return SettlementUtil.success(resultList, "保证金分润成功");
 			}
 			return SettlementUtil.failure("", "保证金分润失败");
@@ -93,7 +93,7 @@ public class AgentController {
 	public ResBodyData sendScore(@Validated EcmStore ecmStore){
 		try {
 			List<Map<String,Object>> resultList = depositService.updateStoreScore(ecmStore);
-			if(!CollectionUtils.isEmpty(resultList)){
+			if(CollectionUtils.isNotEmpty(resultList)){
 				return SettlementUtil.success(resultList, "新商家送积分成功");
 			}
 			return SettlementUtil.failure("", "新商家送积分失败");
