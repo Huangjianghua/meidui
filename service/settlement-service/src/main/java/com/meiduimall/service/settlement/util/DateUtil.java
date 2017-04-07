@@ -1060,18 +1060,11 @@ public class DateUtil {
 	 * @param date2 结束时间
 	 * @return true开始时间少于结束时间，false开始时间大于结束时间 
 	 */
-	public static boolean compare_date_time(String date1, String date2) throws Exception {
+	public static boolean compare_date_time(String date1, String date2) throws ParseException {
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		try {
-			java.util.Date d1 = df.parse(date1);
-			java.util.Date d2 = df.parse(date2);
-			if (d1.getTime() < d2.getTime()) {
-				return true;
-			} 
-		} catch (ParseException e) {
-			throw e;
-		}
-		return false;
+		java.util.Date d1 = df.parse(date1);
+		java.util.Date d2 = df.parse(date2);
+		return d1.getTime() < d2.getTime();
 	}
 	
 	
