@@ -1040,18 +1040,11 @@ public class DateUtil {
 	 * @param date2 结束时间
 	 * @return true开始时间少于结束时间，false开始时间大于结束时间 
 	 */
-	public static boolean compare_date(String date1, String date2) throws Exception {
+	public static boolean compare_date(String date1, String date2) throws ParseException {
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-		try {
-			java.util.Date d1 = df.parse(date1);
-			java.util.Date d2 = df.parse(date2);
-			if (d1.getTime() < d2.getTime()) {
-				return true;
-			} 
-		} catch (ParseException e) {
-			throw e;
-		}
-		return false;
+		java.util.Date d1 = df.parse(date1);
+		java.util.Date d2 = df.parse(date2);
+		return d1.getTime() < d2.getTime();
 	}
 	
 	/**
@@ -1068,18 +1061,12 @@ public class DateUtil {
 	}
 	
 	
-	public static Date getRandomDate() throws Exception {
-		Date date = null;
+	public static Date getRandomDate() throws ParseException {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		try {
-			int m = new Random().nextInt(8) + 1;
-			int d = new Random().nextInt(18) + 10;
-			String dateStr = "2015-0" + m + "-" + d + " 12:20:56";
-			date = df.parse(dateStr);
-		} catch (ParseException e) {
-			throw e;
-		}
-		return date;
+		int m = new Random().nextInt(8) + 1;
+		int d = new Random().nextInt(18) + 10;
+		String dateStr = "2015-0" + m + "-" + d + " 12:20:56";
+		return df.parse(dateStr);
 	}
 	
 	/**
