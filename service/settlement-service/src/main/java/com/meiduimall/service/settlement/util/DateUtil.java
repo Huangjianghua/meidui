@@ -1049,7 +1049,7 @@ public class DateUtil {
 				return true;
 			} 
 		} catch (ParseException e) {
-			throw new Exception(e);
+			throw e;
 		}
 		return false;
 	}
@@ -1069,7 +1069,7 @@ public class DateUtil {
 				return true;
 			} 
 		} catch (ParseException e) {
-			throw new Exception(e);
+			throw e;
 		}
 		return false;
 	}
@@ -1084,7 +1084,7 @@ public class DateUtil {
 			String dateStr = "2015-0" + m + "-" + d + " 12:20:56";
 			date = df.parse(dateStr);
 		} catch (ParseException e) {
-			throw new Exception(e);
+			throw e;
 		}
 		return date;
 	}
