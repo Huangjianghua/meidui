@@ -275,9 +275,9 @@ public class DateUtil {
 	 * @return
 	 */
 	public static final int year(Date date) {
-		if (date == null)
+		if (date == null){
 			return 0;
-
+		}
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		return calendar.get(Calendar.YEAR);
@@ -451,13 +451,13 @@ public class DateUtil {
 
 	/**
 	 * 一天的开始时间
-	 * 
 	 * @param date
 	 * @return
 	 */
 	public static final Date dateBegin(Date date) {
-		if (date == null)
+		if (date == null){
 			return null;
+		}
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		dateBegin(calendar);
@@ -466,13 +466,13 @@ public class DateUtil {
 
 	/**
 	 * 一天的结束时间
-	 * 
 	 * @param date
 	 * @return
 	 */
 	public static final Date dateEnd(Date date) {
-		if (date == null)
+		if (date == null){
 			return null;
+		}
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		dateEnd(calendar);
@@ -481,13 +481,13 @@ public class DateUtil {
 
 	/**
 	 * 一天的结束时间
-	 * 
 	 * @param calendar
 	 * @return
 	 */
 	public static final Calendar dateEnd(Calendar calendar) {
-		if (calendar == null)
+		if (calendar == null){
 			return null;
+		}
 		calendar.set(Calendar.HOUR_OF_DAY, 23);
 		calendar.set(Calendar.MINUTE, 59);
 		calendar.set(Calendar.SECOND, 59);
@@ -497,13 +497,13 @@ public class DateUtil {
 
 	/**
 	 * 一天的开始时间
-	 * 
 	 * @param calendar
 	 * @return
 	 */
 	public static final Calendar dateBegin(Calendar calendar) {
-		if (calendar == null)
+		if (calendar == null){
 			return null;
+		}
 		calendar.set(Calendar.HOUR_OF_DAY, 0);
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
@@ -513,13 +513,13 @@ public class DateUtil {
 
 	/**
 	 * 一月的开始时间
-	 * 
 	 * @param date
 	 * @return
 	 */
 	public static final Date monthBegin(Date date) {
-		if (date == null)
+		if (date == null){
 			return null;
+		}
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		int day = calendar.getActualMinimum(Calendar.DAY_OF_MONTH);
@@ -529,8 +529,9 @@ public class DateUtil {
 	}
 
 	public static final int getMonthsBeginDate(Date date) {
-		if (date == null)
+		if (date == null){
 			return 1;
+		}
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		return calendar.getActualMinimum(Calendar.DAY_OF_MONTH);
@@ -538,13 +539,13 @@ public class DateUtil {
 
 	/**
 	 * 一月的结束时间
-	 * 
 	 * @param date
 	 * @return
 	 */
 	public static final Date monthEnd(Date date) {
-		if (date == null)
+		if (date == null){
 			return null;
+		}
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		int day = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
@@ -554,8 +555,9 @@ public class DateUtil {
 	}
 
 	public static final int getMonthsEndDate(Date date) {
-		if (date == null)
+		if (date == null){
 			return 31;
+		}
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		return calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
@@ -563,13 +565,13 @@ public class DateUtil {
 
 	/**
 	 * 一年的开始时间
-	 * 
 	 * @param date
 	 * @return
 	 */
 	public static final Date yearBegin(Date date) {
-		if (date == null)
+		if (date == null){
 			return null;
+		}
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		int month = calendar.getActualMinimum(Calendar.DAY_OF_YEAR);
@@ -581,13 +583,13 @@ public class DateUtil {
 
 	/**
 	 * 一年的结束时间
-	 * 
 	 * @param date
 	 * @return
 	 */
 	public static final Date yearEnd(Date date) {
-		if (date == null)
+		if (date == null){
 			return null;
+		}
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		int day = calendar.getActualMaximum(Calendar.DAY_OF_YEAR);
@@ -597,18 +599,13 @@ public class DateUtil {
 		// return parseDate(formatDate(date).substring(0,4)+"-12-31");
 	}
 
-
 	/**
 	 * Method：时间格式化，一般在页面上显示比较多，用户可以自定义格式化格式<br>
 	 * Remark：把数据库里的DATE格式转换成HTML页面需要的时间字符串格式：
 	 * <code>DateUtil.format(date, DateUtil.YYYY_MM_DD);</code><br>
 	 * <br>
-	 * Author：HF-JWinder(2008-10-6 下午04:04:12)
-	 * 
-	 * @param date
-	 *            时间Date
-	 * @param format
-	 *            时间格式
+	 * @param date 时间Date
+	 * @param format 时间格式
 	 * @return 时间字符串
 	 */
 	public static final String format(Date date, String format) {
@@ -617,7 +614,6 @@ public class DateUtil {
 		}
 		if (date == null) {
 			return "";
-			// date = new Date();
 		}
 
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
@@ -635,8 +631,7 @@ public class DateUtil {
 	 * <br>
 	 * Author：HF-JWinder(2008-10-6 下午04:04:12)
 	 * 
-	 * @param format
-	 *            时间格式
+	 * @param format 时间格式
 	 * @return 时间字符串
 	 */
 	public static final String format(String format) {
@@ -657,15 +652,17 @@ public class DateUtil {
 	 * @return
 	 */
 	public static String formatDate(Date date) {
-		if (date == null)
+		if (date == null) {
 			return "";
-		else
+		} else {
 			return dateFormat.format(date);
+		}
 	}
  
 	public static String formatDate(Date date1, Date date2) {
-		if (date1 == null)
+		if (date1 == null){
 			return formatDate(date2);
+		}
 		return dateFormat.format(date1);
 	}
 
@@ -676,8 +673,9 @@ public class DateUtil {
 	 * @return
 	 */
 	public static String formatDate_input(Date date) {
-		if (date == null)
+		if (date == null){
 			return "";
+		}
 		return dateFormat_input.format(date);
 	}
 
@@ -688,20 +686,23 @@ public class DateUtil {
 	 * @return
 	 */
 	public static String formatDateTime(Date date) {
-		if (date == null)
+		if (date == null){
 			return "";
+		}
 		return dateTimeFormat.format(date);
 	}
 
 	public static String formatDateTime1(Date date) {
-		if (date == null)
+		if (date == null){
 			return "";
+		}
 		return dateFormat.format(date);
 	}
 
 	public static String formatDateTime_input(Date date) {
-		if (date == null)
+		if (date == null){
 			return "";
+		}
 		return dateTimeFormat_input.format(date);
 	}
 
@@ -713,8 +714,7 @@ public class DateUtil {
 	 */
 	public static boolean isLeapYear(int yearInt) {
 		boolean flag = false;
-		if (((yearInt % 4 == 0) && (yearInt % 100 != 0))
-				|| ((yearInt % 4 == 0) && (yearInt % 400 == 0))) {
+		if (((yearInt % 4 == 0) && (yearInt % 100 != 0)) || ((yearInt % 4 == 0) && (yearInt % 400 == 0))) {
 			return true;
 		}
 		return flag;
@@ -775,9 +775,7 @@ public class DateUtil {
 
 	/**
 	 * 时间格式转换 <li>yyyy-MM-dd 转 yyyy年MM月dd日</li> <li>yyyy年MM月dd日 转 yyyy-MM-dd</li>
-	 * 
-	 * @param date
-	 *            Old Date
+	 * @param date Old Date
 	 * @return New Date To String
 	 * @throws Exception
 	 */
@@ -808,12 +806,9 @@ public class DateUtil {
 	/**
 	 * 时间格式转换 <li>yyyy/MM/dd, yyyy-MM-dd , yyyy年MM月dd日 转 二00八年一月七日</li> <li>
 	 * 二00八年一月七日 转 2008-01-07</li>
-	 * 
-	 * @param date
-	 *            Old Date String
+	 * @param date Old Date String
 	 * @return New Date To String
-	 * @throws Exception
-	 *             <b>Date Format is Error Throws Exception.</b>
+	 * @throws Exception <b>Date Format is Error Throws Exception.</b>
 	 */
 	public static String replaceDate(String date) throws Exception {
 		try {
@@ -874,7 +869,6 @@ public class DateUtil {
 
 	/**
 	 * 判断8位的日期的字符串是否为正确的日期字符串
-	 * 
 	 * @param dateString
 	 * @return 不是正确的日期字符串返回true
 	 */
@@ -899,8 +893,9 @@ public class DateUtil {
 		if (monthInt > 0 && monthInt < 12) {
 			switch (monthInt) {
 			case 1:
-				if (dayInt > 31 || dayInt < 1)
+				if (dayInt > 31 || dayInt < 1) {
 					flag = true;
+				}
 				break;
 			case 2:
 				if (isLeapYear(yearInt)) {
@@ -912,46 +907,55 @@ public class DateUtil {
 				}
 				break;
 			case 3:
-				if (dayInt > 31 || dayInt < 1)
+				if (dayInt > 31 || dayInt < 1) {
 					flag = true;
+				}
 				break;
 			case 4:
-				if (dayInt > 30 || dayInt < 1)
+				if (dayInt > 30 || dayInt < 1) {
 					flag = true;
+				}
 				break;
 			case 5:
-				if (dayInt > 31 || dayInt < 1)
+				if (dayInt > 31 || dayInt < 1) {
 					flag = true;
+				}
 				break;
 			case 6:
-				if (dayInt > 30 || dayInt < 1)
+				if (dayInt > 30 || dayInt < 1) {
 					flag = true;
+				}
 				break;
 			case 7:
-				if (dayInt > 31 || dayInt < 1)
+				if (dayInt > 31 || dayInt < 1) {
 					flag = true;
+				}
 				break;
 			case 8:
-				if (dayInt > 31 || dayInt < 1)
+				if (dayInt > 31 || dayInt < 1) {
 					flag = true;
+				}
 				break;
 			case 9:
-				if (dayInt > 30 || dayInt < 1)
+				if (dayInt > 30 || dayInt < 1) {
 					flag = true;
+				}
 				break;
 			case 10:
-				if (dayInt > 31 || dayInt < 1)
+				if (dayInt > 31 || dayInt < 1) {
 					flag = true;
+				}
 				break;
 			case 11:
-				if (dayInt > 30 || dayInt < 1)
+				if (dayInt > 30 || dayInt < 1) {
 					flag = true;
+				}
 				break;
 			case 12:
-				if (dayInt > 31 || dayInt < 1)
+				if (dayInt > 31 || dayInt < 1) {
 					flag = true;
+				}
 				break;
-
 			default:
 				break;
 			}
@@ -963,9 +967,8 @@ public class DateUtil {
 
 	/**
 	 * 返回两个日期相差的天数
-	 * 
-	 * @param a
-	 * @param b
+	 * @param date1
+	 * @param date2
 	 * @return
 	 */
 	public static final int compareDay(Date date1, Date date2) {
@@ -982,42 +985,32 @@ public class DateUtil {
 		return Math.abs(compareDay(date1, date2));
 	}
 
-
-
 	/**
 	 * 返回自定义格式的当前日期时间字符串
-	 * 
-	 * @param format
-	 *            格式规则
-	 * @return String 返回当前字符串型日期时间
+	 * @param format 格式规则
+	 * @return 返回当前字符串型日期时间
 	 */
 	public static String getCurrentTime(String format) {
-		String returnStr = null;
 		SimpleDateFormat f = new SimpleDateFormat(format);
 		Date date = new Date();
-		returnStr = f.format(date);
-		return returnStr;
+		return f.format(date);
 	}
 
 	/**
 	 * 返回当前日期时间字符串<br>
 	 * 默认格式:yyyy-mm-dd hh:mm:ss
-	 * 
-	 * @return String 返回当前字符串型日期时间
+	 * @return 返回当前字符串型日期时间
 	 */
 	public static String getCurrentTime() {
-		String returnStr = null;
 		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date date = new Date();
-		returnStr = f.format(date);
-		return returnStr;
+		return f.format(date);
 	}
 
 	/**
 	 * 获取今天是星期几
-	 * 
 	 * @return int 1-周日，2-星期1.....7星期6
-	 **/
+	 */
 	public static int getDayOfWeek() {
 		Calendar c = Calendar.getInstance();
 		c.setTime(new Date(System.currentTimeMillis()));
@@ -1026,13 +1019,10 @@ public class DateUtil {
 
 	/**
 	 * 判断两个日期分钟数相差
-	 * 
-	 * @param Date
-	 *            date 比对日期
-	 * @param Date
-	 *            now 当前时间
-	 * @return long
-	 * */
+	 * @param date 比对日期
+	 * @param now 当前时间
+	 * @return
+	 */
 	@SuppressWarnings("unused")
 	public static long dateDiff(Date date, Date now) {
 		long l = date.getTime() - now.getTime();
@@ -1045,11 +1035,16 @@ public class DateUtil {
 		return day + hour + min;
 	}
 
-	// 计算百分比
+	/**
+	 * 计算百分比
+	 * @param x
+	 * @param total
+	 * @return
+	 */
 	public static String getPercent(int x, int total) {
-		if (x <= 0 && total <= 0)
+		if (x <= 0 && total <= 0){
 			return "0";
-
+		}
 		// 创建一个数值格式化对象
 		NumberFormat numberFormat = NumberFormat.getInstance();
 		// 设置精确到小数点后2位
@@ -1058,11 +1053,16 @@ public class DateUtil {
 		return result;
 	}
 
-	// 计算百分比
+	/**
+	 * 计算百分比
+	 * @param x
+	 * @param total
+	 * @return
+	 */
 	public static String getPercent(double x, double total) {
-		if (x <= 0 && total <= 0)
+		if (x <= 0 && total <= 0){
 			return "0";
-
+		}
 		// 创建一个数值格式化对象
 		NumberFormat numberFormat = NumberFormat.getInstance();
 		// 设置精确到小数点后1位
@@ -1070,92 +1070,92 @@ public class DateUtil {
 		String result = numberFormat.format((float) x / (float) total * 100);
 		return result;
 	}
+	
 	/**
 	 * 日期比较
 	 * @param date1 开始时间
 	 * @param date2 结束时间
 	 * @return true开始时间少于结束时间，false开始时间大于结束时间 
 	 */
-	public static boolean compare_date(String date1, String date2)
-	{                   
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");        
-		try {               
-			java.util.Date d1 = df.parse(date1);              
-			java.util.Date d2 = df.parse(date2);               
-			if (d1.getTime() < d2.getTime())                  
-			{                                              
-				return true;                  
-			}else if (d1.getTime() > d2.getTime()){                                              
-				return false;                 
-			} else {                        
-				return false;                
-				}        
-		} catch (Exception exception) {                
-			exception.printStackTrace();        
+	public static boolean compare_date(String date1, String date2) {
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			java.util.Date d1 = df.parse(date1);
+			java.util.Date d2 = df.parse(date2);
+			if (d1.getTime() < d2.getTime()) {
+				return true;
+			} else if (d1.getTime() > d2.getTime()) {
+				return false;
+			} else {
+				return false;
+			}
+		} catch (Exception exception) {
+			exception.printStackTrace();
 		}
-		return false;   
+		return false;
 	}
+	
 	/**
 	 * 日期+时间比较
 	 * @param date1 开始时间
 	 * @param date2 结束时间
 	 * @return true开始时间少于结束时间，false开始时间大于结束时间 
 	 */
-	public static boolean compare_date_time(String date1, String date2)
-	{                   
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");        
-		try {               
-			java.util.Date d1 = df.parse(date1);              
-			java.util.Date d2 = df.parse(date2);               
-			if (d1.getTime() < d2.getTime())                  
-			{                                              
-				return true;                  
-			}else if (d1.getTime() > d2.getTime()){                                              
-				return false;                 
-			} else {                        
-				return false;                
-			}        
-		} catch (Exception exception) {                
-			exception.printStackTrace();        
+	public static boolean compare_date_time(String date1, String date2) {
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		try {
+			java.util.Date d1 = df.parse(date1);
+			java.util.Date d2 = df.parse(date2);
+			if (d1.getTime() < d2.getTime()) {
+				return true;
+			} else if (d1.getTime() > d2.getTime()) {
+				return false;
+			} else {
+				return false;
+			}
+		} catch (Exception exception) {
+			exception.printStackTrace();
 		}
-		return false;   
+		return false;
 	}
-	public static Date getRandomDate(){
-		Date date=null;
+	
+	
+	public static Date getRandomDate() {
+		Date date = null;
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
-			 int m= new Random().nextInt(8)+1;
-			 int d = new Random().nextInt(18)+10;
-			  String dateStr="2015-0"+m+"-"+d+" 12:20:56";
-			  date=df.parse(dateStr);
+			int m = new Random().nextInt(8) + 1;
+			int d = new Random().nextInt(18) + 10;
+			String dateStr = "2015-0" + m + "-" + d + " 12:20:56";
+			date = df.parse(dateStr);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 		return date;
-		
 	}
 	
-	public static int daysBetween(Date date1,Date date2)  
+	/**
+	 * 获取时间段相隔的天数
+	 * @param date1
+	 * @param date2
+	 * @return
+	 */
+	public static int daysBetween(Date date1, Date date2){
 
-    {  
+		Calendar cal = Calendar.getInstance();
 
-        Calendar cal = Calendar.getInstance();  
+		cal.setTime(date1);
 
-        cal.setTime(date1);  
+		long time1 = cal.getTimeInMillis();
 
-        long time1 = cal.getTimeInMillis();               
+		cal.setTime(date2);
 
-        cal.setTime(date2);  
+		long time2 = cal.getTimeInMillis();
 
-        long time2 = cal.getTimeInMillis();       
+		long between_days = (time2 - time1) / (1000 * 3600 * 24);
 
-        long between_days=(time2-time1)/(1000*3600*24);  
-
-          
-
-       return Integer.parseInt(String.valueOf(between_days));         
-
-    }  
+		return Integer.parseInt(String.valueOf(between_days));
+	}
 	
 	/**
 	 * 方法名: findDates
@@ -1217,14 +1217,12 @@ public class DateUtil {
 	 */
 	public static String getLastDateNow(){
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd"); 
-		
 		Calendar ca = Calendar.getInstance();    
 		ca.set(Calendar.DAY_OF_MONTH, ca.getActualMaximum(Calendar.DAY_OF_MONTH));  
 		String last = format.format(ca.getTime());
 		return last;
 	}
 	
-
 	/**
 	 * 获取当前时间的时间对象
 	 * @return
@@ -1245,8 +1243,7 @@ public class DateUtil {
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmssSSS");
 		Date from = df.parse(fromDate);
 		Date to = df.parse(toDate);
-		days = (int) Math.abs((to.getTime() - from.getTime())
-				/ (24 * 60 * 60 * 1000)) + 1;
+		days = (int) Math.abs((to.getTime() - from.getTime()) / (24 * 60 * 60 * 1000)) + 1;
 		return days;
 	}
 	
@@ -1255,7 +1252,6 @@ public class DateUtil {
 	 * @return
 	 */
 	public static Date getNextDAY() {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar c = Calendar.getInstance();
 		c.add(Calendar.DAY_OF_MONTH, 1);
 		return c.getTime();
@@ -1270,23 +1266,6 @@ public class DateUtil {
 	public static final int subSecond(Date a, Date b) {
 		return (int) (a.getTime() / (1000) - b.getTime() / (1000));
 	}
-	
-	
-	/*public static void main(String[] args){
-		
-		System.out.println(getLastDayBeginByMillisecond());
-		System.out.println(new Date(getLastDayBeginByMillisecond()));
-		System.out.println("======================");
-		System.out.println(getLastDayEndByMillisecond());
-		System.out.println(new Date(getLastDayEndByMillisecond()));
-		System.out.println("======================");
-		System.out.println(getLastDayBeginBySecond());
-		System.out.println(new Date(getLastDayBeginBySecond()*1000));
-		System.out.println("======================");
-		System.out.println(getLastDayEndBySecond());
-		System.out.println(new Date(getLastDayEndBySecond()*1000));
-		
-	}*/
 	
 	/**
 	 * 将时间戳转换为日期
