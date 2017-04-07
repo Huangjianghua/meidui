@@ -104,7 +104,7 @@ public class DrawController {
 			}
 			
 			//根据code查询账户余额
-			BigDecimal balance = null;
+			BigDecimal balance = new BigDecimal("0");
 			Map<String, Object> account = drawService.queryAccoutBalance(ecmMzfDraw.getCode());
 			if(account.get("balance") != null && !"".equals(account.get("balance"))){
 				balance = new BigDecimal(account.get("balance").toString());
@@ -112,7 +112,7 @@ public class DrawController {
 			}
 			
 			//如果提现总金额=提现金额+手续费 > 账户总金额时，返回提现金额不能大于账号可提现金额，请重新输入
-			if(balance.compareTo(ecmMzfDraw.getTotalMoney()) == -1){//balance>totalMoney时返回1,-1是小于,0是等于
+			if(balance.compareTo(ecmMzfDraw.getTotalMoney()) < 0){//balance>totalMoney时返回1,-1是小于,0是等于
 				return SettlementUtil.failure("", "提现金额不能大于账号可提现金额，请重新输入");
 			}
 
