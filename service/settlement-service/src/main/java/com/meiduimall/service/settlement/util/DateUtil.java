@@ -1042,11 +1042,15 @@ public class DateUtil {
 	 */
 	public static boolean compare_date(String date1, String date2) throws Exception {
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-		java.util.Date d1 = df.parse(date1);
-		java.util.Date d2 = df.parse(date2);
-		if (d1.getTime() < d2.getTime()) {
-			return true;
-		} 
+		try {
+			java.util.Date d1 = df.parse(date1);
+			java.util.Date d2 = df.parse(date2);
+			if (d1.getTime() < d2.getTime()) {
+				return true;
+			} 
+		} catch (ParseException e) {
+			throw new Exception(e);
+		}
 		return false;
 	}
 	
@@ -1058,16 +1062,20 @@ public class DateUtil {
 	 */
 	public static boolean compare_date_time(String date1, String date2) throws Exception {
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		java.util.Date d1 = df.parse(date1);
-		java.util.Date d2 = df.parse(date2);
-		if (d1.getTime() < d2.getTime()) {
-			return true;
-		} 
+		try {
+			java.util.Date d1 = df.parse(date1);
+			java.util.Date d2 = df.parse(date2);
+			if (d1.getTime() < d2.getTime()) {
+				return true;
+			} 
+		} catch (ParseException e) {
+			throw new Exception(e);
+		}
 		return false;
 	}
 	
 	
-	public static Date getRandomDate() {
+	public static Date getRandomDate() throws Exception {
 		Date date = null;
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
@@ -1076,7 +1084,7 @@ public class DateUtil {
 			String dateStr = "2015-0" + m + "-" + d + " 12:20:56";
 			date = df.parse(dateStr);
 		} catch (ParseException e) {
-			e.printStackTrace();
+			throw new Exception(e);
 		}
 		return date;
 	}
