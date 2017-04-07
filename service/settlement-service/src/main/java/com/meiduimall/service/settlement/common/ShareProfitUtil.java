@@ -351,7 +351,7 @@ public class ShareProfitUtil {
 		
 		
 		public static String MD5Encrypt(String values) {
-			StringBuffer buf = new StringBuffer("");
+			StringBuilder buf = new StringBuilder("");
 			try {
 				MessageDigest md = MessageDigest.getInstance("MD5");
 				md.update(values.toLowerCase().getBytes());
@@ -452,7 +452,7 @@ public class ShareProfitUtil {
 					encodestr = URLEncoder.encode(str, defaultCharSet);
 				}
 			} catch (UnsupportedEncodingException e) {
-				log.error(e.getMessage());
+				log.error("{}",e.getMessage());
 			}
 			return encodestr;
 		}
