@@ -225,7 +225,6 @@ public class DateUtil {
 
 	/**
 	 * 获取时间格式化对象 "yyyy-MM-dd"
-	 * 
 	 * @return
 	 */
 	public static final DateFormat getDateFormat() {
@@ -234,7 +233,6 @@ public class DateUtil {
 
 	/**
 	 * 日期输入格式采用"yyyyMMdd"
-	 * 
 	 * @return
 	 */
 	public static final DateFormat getDateFormat_input() {
@@ -243,7 +241,6 @@ public class DateUtil {
 
 	/**
 	 * 获取时间日期格式化对象 "yyyy-MM-dd HH:mm"
-	 * 
 	 * @return
 	 */
 	public static final DateFormat getDateTimeFormat() {
@@ -252,7 +249,6 @@ public class DateUtil {
 
 	/**
 	 * 系统最小时间
-	 * 
 	 * @return
 	 */
 	public static final Date minDate() {
@@ -261,7 +257,6 @@ public class DateUtil {
 
 	/**
 	 * 系统最大时间
-	 * 
 	 * @return
 	 */
 	public static final Date maxDate() {
@@ -270,7 +265,6 @@ public class DateUtil {
 
 	/**
 	 * 获取指定时间的年
-	 * 
 	 * @param date
 	 * @return
 	 */
@@ -285,7 +279,6 @@ public class DateUtil {
 
 	/**
 	 * 获取指定时间的月
-	 * 
 	 * @param date
 	 * @return
 	 */
@@ -297,7 +290,6 @@ public class DateUtil {
 
 	/**
 	 * 获取指定时间的日
-	 * 
 	 * @param date
 	 * @return
 	 */
@@ -309,13 +301,9 @@ public class DateUtil {
 
 	/**
 	 * 获取一个时间对象
-	 * 
-	 * @param year
-	 *            格式为：2004
-	 * @param month
-	 *            从1开始
-	 * @param date
-	 *            从1开始
+	 * @param year 格式为：2004
+	 * @param month 从1开始
+	 * @param date 从1开始
 	 * @return
 	 */
 	public static final Date getDate(int year, int month, int date) {
@@ -326,13 +314,9 @@ public class DateUtil {
 
 	/**
 	 * 获取一个时间对象
-	 * 
-	 * @param year
-	 *            格式为：2004
-	 * @param month
-	 *            从1开始
-	 * @param date
-	 *            从1开始
+	 * @param year 格式为：2004
+	 * @param month 从1开始
+	 * @param date 从1开始
 	 * @param hour
 	 * @param minute
 	 * @param second
@@ -367,27 +351,20 @@ public class DateUtil {
 
 	/**
 	 * 计算两个日期间的天数
-	 * 
-	 * @param fromDate
-	 *            起始日期
-	 * @param toDate
-	 *            结束日期
+	 * @param fromDate 起始日期
+	 * @param toDate 结束日期
 	 * @return
 	 * @throws ParseException
 	 */
 	public static int dateDiff(String fromDate, String toDate) throws ParseException {
-		int days = 0;
 		SimpleDateFormat df = new SimpleDateFormat("yyyy/M/d");
 		Date from = df.parse(fromDate);
 		Date to = df.parse(toDate);
-		days = (int) Math.abs((to.getTime() - from.getTime())
-				/ (24 * 60 * 60 * 1000)) + 1;
-		return days;
+		return (int) Math.abs((to.getTime() - from.getTime()) / (24 * 60 * 60 * 1000)) + 1;
 	}
 
 	/**
 	 * 返回两个时间相差的天数
-	 * 
 	 * @param a
 	 * @param b
 	 * @return
@@ -810,7 +787,7 @@ public class DateUtil {
 			// 过滤时间里的/, 年, 月, 日,
 			String str = date.trim().replace("/", "-").replace("年", "-")
 					.replace("月", "-").replace("日", "-");
-			StringBuffer buf = new StringBuffer();
+			StringBuilder buf = new StringBuilder();
 			String[] sqlit = str.split("-");
 			if (sqlit.length >= 3) {
 				// 年份格式判断，并且转换
@@ -1234,12 +1211,10 @@ public class DateUtil {
 	 * @throws ParseException
 	 */
 	public static int dateDiffMilli(String fromDate, String toDate) throws ParseException {
-		int days = 0;
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmssSSS");
 		Date from = df.parse(fromDate);
 		Date to = df.parse(toDate);
-		days = (int) Math.abs((to.getTime() - from.getTime()) / (24 * 60 * 60 * 1000)) + 1;
-		return days;
+		return (int) Math.abs((to.getTime() - from.getTime()) / (24 * 60 * 60 * 1000)) + 1;
 	}
 	
 	/**
