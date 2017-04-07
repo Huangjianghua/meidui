@@ -72,6 +72,8 @@ public class BaseApiCode {
 	public static final Integer REQUEST_PARAMS_ERROR = 4002;
 	/** 暂无数据 */
 	public static final Integer NONE_DATA = 4003;
+	/** 请先登录 */
+	public static final Integer NO_LOGIN = 4004;
 	
 	
 	
@@ -107,6 +109,7 @@ public class BaseApiCode {
 		zhMsgMap.put(OPERAT_FAIL, "操作失败");
 		zhMsgMap.put(REQUEST_PARAMS_ERROR, "请求参数错误");
 		zhMsgMap.put(NONE_DATA, "暂无数据");
+		zhMsgMap.put(NO_LOGIN, "请先登录");
 	}
 
 }

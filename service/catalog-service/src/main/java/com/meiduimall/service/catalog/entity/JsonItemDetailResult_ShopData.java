@@ -19,7 +19,28 @@ public class JsonItemDetailResult_ShopData {
 	private String tally_dsr;// 店铺评分--描述相符
 	private String attitude_dsr;// 店铺评分--描述相符
 	private String delivery_speed_dsr;// 店铺评分--描述相符
-	
+	private String shop_area;//店铺所在地
+	private String open_time;//开店时间
+	private String is_collect;//是否收藏了该店铺：0没有收藏，1收藏了
+
+	public String getShop_area() {
+		return shop_area;
+	}
+	public void setShop_area(String shop_area) {
+		this.shop_area = shop_area;
+	}
+	public String getOpen_time() {
+		return open_time;
+	}
+	public void setOpen_time(String open_time) {
+		this.open_time = open_time;
+	}
+	public String getIs_collect() {
+		return is_collect;
+	}
+	public void setIs_collect(String is_collect) {
+		this.is_collect = is_collect;
+	}
 	public String getShop_id() {
 		return shop_id;
 	}

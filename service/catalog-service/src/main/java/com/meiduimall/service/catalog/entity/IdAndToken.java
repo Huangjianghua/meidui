@@ -1,15 +1,15 @@
 package com.meiduimall.service.catalog.entity;
 
-public class ItemIdAndToken {
+public class IdAndToken {
 
-	private int item_id;
+	private int id;
 	private String token;
 	
-	public int getItem_id() {
-		return item_id;
+	public int getId() {
+		return id;
 	}
-	public void setItem_id(int item_id) {
-		this.item_id = item_id;
+	public void setId(int id) {
+		this.id = id;
 	}
 	public String getToken() {
 		return token;

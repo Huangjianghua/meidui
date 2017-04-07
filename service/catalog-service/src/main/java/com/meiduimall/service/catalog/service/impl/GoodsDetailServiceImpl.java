@@ -16,7 +16,7 @@ import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.service.catalog.dao.BaseDao;
 import com.meiduimall.service.catalog.entity.CheckGoodsResult;
-import com.meiduimall.service.catalog.entity.ItemIdAndToken;
+import com.meiduimall.service.catalog.entity.IdAndToken;
 import com.meiduimall.service.catalog.entity.JsonItemDetailResult;
 import com.meiduimall.service.catalog.entity.JsonItemDetailResult_ItemData;
 import com.meiduimall.service.catalog.entity.JsonItemDetailResult_Prop_Values;
@@ -32,16 +32,13 @@ import com.meiduimall.service.catalog.entity.SysitemItemWithBLOBs;
 import com.meiduimall.service.catalog.entity.SysitemSkuExample;
 import com.meiduimall.service.catalog.entity.SysitemSkuStore;
 import com.meiduimall.service.catalog.entity.SysitemSkuWithBLOBs;
-import com.meiduimall.service.catalog.entity.SysrateDsrWithBLOBs;
-import com.meiduimall.service.catalog.entity.SysshopShopWithBLOBs;
 import com.meiduimall.service.catalog.service.GoodsDetailService;
-import com.meiduimall.service.catalog.util.NumberFormatUtil;
+import com.meiduimall.service.catalog.service.common.ShopCommonService;
 import com.meiduimall.service.catalog.util.ParserItemSpecDescBean;
 import com.meiduimall.service.catalog.util.ParserItemSpecDescBean.PropBean;
 import com.meiduimall.service.catalog.util.ParserItemSpecDescUtil;
 import com.meiduimall.service.catalog.util.ParserSkuSpecDescBean;
 import com.meiduimall.service.catalog.util.ParserSkuSpecDescUtil;
-import com.meiduimall.service.catalog.util.ParserSysRateDsrInfo;
 
 @Service
 public class GoodsDetailServiceImpl implements GoodsDetailService {
@@ -282,10 +279,10 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 			} else {
 				itemData.setWeight("");
 			}
-			
-			if(itemWithBLOBs.getIsShowWeight() != null){
+
+			if (itemWithBLOBs.getIsShowWeight() != null) {
 				itemData.setIs_show_weight(itemWithBLOBs.getIsShowWeight().toString());
-			} else{
+			} else {
 				itemData.setIs_show_weight("0");
 			}
 
@@ -310,10 +307,10 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 				itemData.setIs_collect("0");
 			} else {
 				// 处理token
-				ItemIdAndToken itemIdAndToken = new ItemIdAndToken();
-				itemIdAndToken.setItem_id(item_id.intValue());
-				itemIdAndToken.setToken(token);
-				int count = baseDao.selectOne(itemIdAndToken, "SysuserUserFavMapper.selectCountByItemIdAndToken");
+				IdAndToken idAndToken = new IdAndToken();
+				idAndToken.setId(item_id.intValue());
+				idAndToken.setToken(token);
+				int count = baseDao.selectOne(idAndToken, "SysuserUserFavMapper.selectCountByItemIdAndToken");
 				if (count > 0) {
 					itemData.setIs_collect("1");
 				} else {
@@ -395,46 +392,10 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 			jsonResult.setSkuList(skuList);
 
 			// -------------4、开始拼接商家数据-----------
-			JsonItemDetailResult_ShopData shopData = new JsonItemDetailResult_ShopData();
 			Integer shopId = itemWithBLOBs.getShopId();
-			SysshopShopWithBLOBs shopWithBLOBs = baseDao.selectOne(shopId, "SysshopShopMapper.selectByPrimaryKey");
-			SysrateDsrWithBLOBs rateDsrWithBLOBs = baseDao.selectOne(new Long(shopId.longValue()),
-					"SysrateDsrMapper.selectByPrimaryKey");
-
-			// 反序列化数据---解析店铺信息中的：描述相符、服务态度、发货速度的分值
-			if (rateDsrWithBLOBs != null) {
-				float fTallyDsr = ParserSysRateDsrInfo.getValue(rateDsrWithBLOBs.getTallyDsr());
-				float fDeliverySpeedDsr = ParserSysRateDsrInfo.getValue(rateDsrWithBLOBs.getDeliverySpeedDsr());
-				float fAttitudeDsr = ParserSysRateDsrInfo.getValue(rateDsrWithBLOBs.getAttitudeDsr());
-
-				shopData.setAttitude_dsr(NumberFormatUtil.formatString(fAttitudeDsr, 1));
-				shopData.setDelivery_speed_dsr(NumberFormatUtil.formatString(fDeliverySpeedDsr, 1));
-				shopData.setTally_dsr(NumberFormatUtil.formatString(fTallyDsr, 1));
-			} else {
-				shopData.setAttitude_dsr("5.0");
-				shopData.setDelivery_speed_dsr("5.0");
-				shopData.setTally_dsr("5.0");
-			}
-
-			shopData.setShop_descript(shopWithBLOBs.getShopDescript());
-			shopData.setShop_id(shopId.toString());
-			shopData.setShop_logo(shopWithBLOBs.getShopLogo());
-			shopData.setShop_name(shopWithBLOBs.getShopName());
-			String shopType = shopWithBLOBs.getShopType();
-
-			shopData.setShop_type(shopType);
-			// if ("brand".equals(shopType)) {
-			// shopData.setShop_type("品牌专卖店");
-			// } else if ("cat".equals(shopType)) {
-			// shopData.setShop_type("类目专营店");
-			// } else if ("flag".equals(shopType)) {
-			// shopData.setShop_type("品牌旗舰店");
-			// } else if ("self".equals(shopType)) {
-			// shopData.setShop_type("运营商自营店铺");
-			// } else {
-			// shopData.setShop_type("未知");
-			// }
-
+			JsonItemDetailResult_ShopData shopData = ShopCommonService.getJsonItemDetailResult_ShopData(baseDao, shopId,
+					token);
+			
 			jsonResult.setShopData(shopData);
 
 			result.setData(jsonResult);
