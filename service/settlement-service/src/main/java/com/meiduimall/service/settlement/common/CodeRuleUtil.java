@@ -109,9 +109,7 @@ public class CodeRuleUtil {
 	 */
 	private static String flowCode(String prefix,String code,int length){
 		SimpleDateFormat fmt = new SimpleDateFormat(DAY_PATTERN);
-		String result = "";
-		result = prefix + code + fmt.format(new Date()) + getRandomNumber(length);
-		return result;
+		return prefix + code + fmt.format(new Date()) + getRandomNumber(length);
 	}
 	
 	
