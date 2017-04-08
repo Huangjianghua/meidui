@@ -1,52 +1,52 @@
 package com.meiduimall.core;
+
 import java.util.HashMap;
 
 import java.util.Map;
 
 /**
- * Copyright (C), 2002-2017, 美兑壹购
- * FileName: BaseApiCode.java
- * Author:   陈建宇
- * Date:     2017年3月14日 上午10:16:57
- * Description: //模块目的、功能描述
+ * @Copyright (C), 2002-2017, 美兑壹购
+ * @FileName: BaseApiCode.java
+ * @Author: 陈建宇
+ * @Date:2017年3月14日 上午10:16:57
+ * @Description: //模块目的、功能描述
  */
 public class BaseApiCode {
-	
+
 	public static final Map<Integer, String> zhMsgMap = new HashMap<Integer, String>(300);
-	/** 正常**/
+	/** 正常 **/
 	public static final Integer SUCCESS = 0;
 	/** 失败 **/
-//	public static final Integer FAIL = 1;
-	
+	// public static final Integer FAIL = 1;
+
 	/** clientID参数无效 **/
 	public static final Integer NOT_EXISTS_CLIENTID = 1000;
 	/** 时间戳参数无效 **/
 	public static final Integer NOT_EXISTS_TIMESTAMP = 1001;
 	/** 签名参数无效 **/
 	public static final Integer NOT_EXISTS_SIGN = 1002;
-	/** 短信服务获取不到模板id对应短信模板记录**/
+	/** 短信服务获取不到模板id对应短信模板记录 **/
 	public static final Integer NOT_EXISTS_SMSTEMPLATE = 1003;
 	/** 未发现秘钥 **/
 	public static final Integer NOT_EXISTS_SECRET = 1004;
-	
-	
+
 	/** 签名验证失败 **/
 	public static final Integer FAIL_SIGN = 2000;
 	/** 调用超出五分钟时间范围 **/
 	public static final Integer FAIL_TIMESTAMP = 2001;
-	/** 短信服务请勿频繁重复发送短信**/
+	/** 短信服务请勿频繁重复发送短信 **/
 	public static final Integer FAIL_REPEAT = 2002;
-	/** 短信服务获取短信模板列表失败**/
+	/** 短信服务获取短信模板列表失败 **/
 	public static final Integer FAIL_TEMPLATE = 2003;
-	/** 替换内容与替换参数不匹配**/
+	/** 替换内容与替换参数不匹配 **/
 	public static final Integer FAIL_SMSTEMPLATE_PRASE = 2004;
-	/** 短信发送失败**/
+	/** 短信发送失败 **/
 	public static final Integer FAIL_SMS_SEND = 2005;
-	/** 短信渠道错误**/
+	/** 短信渠道错误 **/
 	public static final Integer FAIL_SMS_CHANNEL = 2006;
 	/** 黑名单验证不通过 **/
 	public static final Integer FAIL_BLACKLIST_VALIDATE = 2007;
-	
+
 	/** 时间戳超时验证异常 **/
 	public static final Integer EXCEPTION_TIMESTAMP = 3000;
 	/** 签名验证异常 **/
@@ -57,7 +57,7 @@ public class BaseApiCode {
 	public static final Integer EXCEPTION_BLACKLIST = 3003;
 	/** 网关层过滤器异常 **/
 	public static final Integer EXCEPTION_GATEWAY = 3004;
-	/** 发送短信异常**/
+	/** 发送短信异常 **/
 	public static final Integer EXCEPTION_SMS_SEND = 3005;
 	/** json解析报错 **/
 	public static final Integer EXCEPTION_PRASE_JSON = 3006;
@@ -74,17 +74,24 @@ public class BaseApiCode {
 	public static final Integer NONE_DATA = 4003;
 	/** 请先登录 */
 	public static final Integer NO_LOGIN = 4004;
-	
-	
-	
-	
+	/** 没有这个店铺 */
+	public static final Integer NO_SHOP = 4005;
+	/** 收藏成功 */
+	public static final Integer COLLECT_SUCCESS = 4006;
+	/** 收藏失败 */
+	public static final Integer COLLECT_FAIL = 4007;
+	/** 取消收藏成功 */
+	public static final Integer CANCEL_COLLECT_SUCCESS = 4008;
+	/** 取消收藏失败 */
+	public static final Integer CANCEL_COLLECT_FAIL = 4009;
+
 	public static String getZhMsg(Integer errorCode) {
 		return zhMsgMap.get(errorCode);
 	}
 
 	static {
 		zhMsgMap.put(SUCCESS, "系统正常");
-//		zhMsgMap.put(FAIL, "系统异常");
+		// zhMsgMap.put(FAIL, "系统异常");
 		zhMsgMap.put(NOT_EXISTS_CLIENTID, "clientID请求参数不存在");
 		zhMsgMap.put(NOT_EXISTS_TIMESTAMP, "timestamp请求参数不存在或者非数字");
 		zhMsgMap.put(NOT_EXISTS_SIGN, "sign请求参数不存在");
@@ -110,6 +117,11 @@ public class BaseApiCode {
 		zhMsgMap.put(REQUEST_PARAMS_ERROR, "请求参数错误");
 		zhMsgMap.put(NONE_DATA, "暂无数据");
 		zhMsgMap.put(NO_LOGIN, "请先登录");
+		zhMsgMap.put(NO_SHOP, "没有这个店铺");
+		zhMsgMap.put(COLLECT_SUCCESS, "收藏成功");
+		zhMsgMap.put(COLLECT_FAIL, "收藏失败");
+		zhMsgMap.put(CANCEL_COLLECT_SUCCESS, "取消收藏成功");
+		zhMsgMap.put(CANCEL_COLLECT_FAIL, "取消收藏失败");
 	}
 
 }

@@ -84,6 +84,10 @@
     area, disabled, createtime, modified_time, pay_password, mem_id, use_pay_password
   </sql>
   
+  <select id="selectUserIdByToken" resultType="java.lang.Integer" parameterType="java.lang.String">
+  	SELECT user_id FROM sysuser_account WHERE login_token=#{token};
+  </select>
+  
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.service.catalog.entity.SysuserAccountExample" >
     select
     <if test="distinct" >
