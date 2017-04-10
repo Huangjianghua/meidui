@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.meiduimall.core.util.JsonUtils;
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.settlement.common.SettlementUtil;
 import com.meiduimall.service.settlement.common.ShareProfitUtil;
 import com.meiduimall.service.settlement.model.SmsReqDTO;
@@ -30,7 +31,7 @@ public class SmsServiceImpl implements SmsService {
 	
 	
 	@Override
-	public boolean sendMsm(SmsReqDTO smsReqDTO) throws Exception{
+	public boolean sendMsm(SmsReqDTO smsReqDTO) throws ServiceException{
 		boolean flag = false;
 		String api = ShareProfitUtil.AUTHORIZED_MAP.get(KEY_SMS_API_URL) + ShareProfitUtil.AUTHORIZED_MAP.get(KEY_SEND_MESSAGE);
 		RestTemplate restTemplate = new RestTemplate();
@@ -51,7 +52,7 @@ public class SmsServiceImpl implements SmsService {
 	}
 
 	@Override
-	public boolean sendMessage(SmsReqDTO smsReqDTO) throws Exception {
+	public boolean sendMessage(SmsReqDTO smsReqDTO) throws ServiceException {
 		boolean flag = false;
 		
 		//许彦雄@2017-03-21;添加消息发送的环境，以便区分来自生产环境，开发环境和测试环境的短信。

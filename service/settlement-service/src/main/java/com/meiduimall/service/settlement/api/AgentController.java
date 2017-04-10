@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.ApiException;
 import com.meiduimall.service.settlement.common.SettlementUtil;
 import com.meiduimall.service.settlement.model.EcmAgent;
 import com.meiduimall.service.settlement.model.EcmMzfAccount;
@@ -73,7 +74,7 @@ public class AgentController {
 			}
 			return SettlementUtil.failure("", "保证金分润失败");
 
-		} catch (Exception e) {
+		} catch (ApiException e) {
 			logger.error("保证金分润异常：{}", e);
 			return SettlementUtil.failure("", "操作失败");
 		}

@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.settlement.common.CodeRuleUtil;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 import com.meiduimall.service.settlement.common.ShareProfitUtil;
@@ -70,7 +71,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 
 	
 	@Override
-	public List<Map<String, Object>> shareDeposit(EcmAgent ecmAgent) throws Exception {
+	public List<Map<String, Object>> shareDeposit(EcmAgent ecmAgent) throws ServiceException {
 
 		logger.info("分账开始时间:"+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 
@@ -101,7 +102,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	@Override
-	public void shareDepositMain(EcmAgent ecmAgent, Map<String, String> systemSetting) throws Exception {
+	public void shareDepositMain(EcmAgent ecmAgent, Map<String, String> systemSetting) throws ServiceException {
 		
 		int score = Integer.parseInt(systemSetting.get(ShareProfitConstants.NEWBIE_PERSON_POINT));//新加盟个代获得积分 6500
 		double areaToPersonRate = Double.parseDouble(systemSetting.get(ShareProfitConstants.AREA_TO_PERSON_RATE));//区代直推个代代理费分成  50%
@@ -221,7 +222,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 			
 		}else{
 			logger.error("更新账户余额失败");
-			throw new Exception("更新账户余额失败");
+			throw new ServiceException("更新账户余额失败");
 		}
 	}
 
@@ -232,7 +233,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 	 * Date:   2017年3月24日 上午11:25:02
 	 * param   personToPersonAreaDeposit-30%推荐费、areaAgent-区代信息
 	 */
-	private void offsetDeposit(double personToPersonAreaDeposit, EcmAgent areaAgent) throws Exception {
+	private void offsetDeposit(double personToPersonAreaDeposit, EcmAgent areaAgent) throws ServiceException {
 		try {
 			if(areaAgent.getAddDepositLeftAmount() != 0){
 				//如果区代保证金余款>30%
@@ -277,10 +278,10 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 					logger.info("区代30%代理费抵扣保证金成功");
 				}else{
 					logger.error("区代30%代理费抵扣保证金失败");
-					throw new Exception("区代30%代理费抵扣保证金失败");
+					throw new ServiceException("区代30%代理费抵扣保证金失败");
 				}
 			}
-		} catch (Exception e) {
+		} catch (ServiceException e) {
 			logger.error(e.toString());
 			throw e;
 		}
@@ -293,7 +294,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 	 * Date:   2017年3月24日 上午11:25:02
 	 * param   code-代理编码、remark-备注、type-流水类型 1：提现、2：账单、3：代理费
 	 */
-	private boolean updateAccountBalance(EcmAgent ecmAgent, String remark, String type) throws Exception {
+	private boolean updateAccountBalance(EcmAgent ecmAgent, String remark, String type) throws ServiceException {
 		boolean flag = false;
 		try {
 			
@@ -350,7 +351,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 							logger.info("插入代理流水参数：" + water.toString());
 						}else{
 							logger.error("代理编号为：{}的账户不存在,无法更新账户余额", agentWater.getCode());
-							throw new Exception("代理编号为："+agentWater.getCode()+"的账户不存在,无法更新账户余额");
+							throw new ServiceException("代理编号为："+agentWater.getCode()+"的账户不存在,无法更新账户余额");
 						}
 						
 					}
@@ -372,7 +373,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
 	@Override
-	public void shareProfitAgentLog(ShareProfitAgentLog agentLog, String retryType) throws Exception {
+	public void shareProfitAgentLog(ShareProfitAgentLog agentLog, String retryType) throws ServiceException {
 		int flag = agentService.insertShareProfitAgentLog(agentLog);
 		if(flag <= 0){
 			logger.error("更新积分失败时，插入异常日志记录失败");
@@ -447,7 +448,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 	 * param   flowCode-流水编号、agentCode-代理编号、agentDeposit-代理获得保证金、score-返还给个代积分、phone-手机号码、type-角色类型 1：区代、2：个代、agentRate-代理费比例
 	 */
 	private void addWater(int agentId, String flowCode, String agentCode, double agentDeposit, int score, String phone,
-			int type, int agentRate, String recNo, Timestamp opTime) throws Exception {
+			int type, int agentRate, String recNo, Timestamp opTime) throws ServiceException {
 		EcmMzfAgentWater agentWater = new EcmMzfAgentWater();
 		agentWater.setAgentId(agentId);
 		agentWater.setAgentWaterId(flowCode);//流水编号
@@ -465,7 +466,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 
 	
 	@Override
-	public int createAccount(EcmMzfAccount ecmMzfAccount) throws Exception {
+	public int createAccount(EcmMzfAccount ecmMzfAccount) throws ServiceException {
 		int flag = 0;
 		//判断当前个代账户是否存在，如果不存在，则创建账户
 		EcmMzfAccount mzfAccount = agentService.findAccountByCode(ecmMzfAccount.getCode());

@@ -2,6 +2,7 @@ package com.meiduimall.service.settlement.service;
 
 import java.util.Collection;
 
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.settlement.model.EcmMzfOrderStatus;
 
 
@@ -22,7 +23,7 @@ public interface OrderStatusService {
 	 * return  boolean
 	 * throws Exception
 	 */
-	public boolean updateShareStatus(String orderSn)throws Exception;
+	public boolean updateShareStatus(String orderSn)throws ServiceException;
 	
 	/**
 	 * 更新订单积分是否成功送出
@@ -30,7 +31,7 @@ public interface OrderStatusService {
 	 * @return
 	 * @throws Exception
 	 */
-	public boolean updateScoreStatus(String orderSn)throws Exception;
+	public boolean updateScoreStatus(String orderSn)throws ServiceException;
 	
 	/**
 	 * 功能描述:  更新账单是否创建成功状态
@@ -40,7 +41,7 @@ public interface OrderStatusService {
 	 * return  boolean
 	 * throws Exception
 	 */
-	public boolean updateBillStatus(EcmMzfOrderStatus orderStatus)throws Exception;
+	public boolean updateBillStatus(EcmMzfOrderStatus orderStatus)throws ServiceException;
 	
 	/**
 	 * 功能描述:  更新一级推荐人1%现金余额是否成功送出状态
@@ -50,7 +51,7 @@ public interface OrderStatusService {
 	 * return  boolean
 	 * throws Exception
 	 */
-	public boolean updateCashStatus(String orderSn)throws Exception;
+	public boolean updateCashStatus(String orderSn)throws ServiceException;
 	
 	
 	/**
@@ -62,7 +63,7 @@ public interface OrderStatusService {
 	 * throws Exception
 	 */
 	//注意：好像如果orderSns.size()>5000, in update 语句好像或报错。将来最好把orderSns进行分割，使每次orderSns小于5000
-	public boolean batchUpdCashStatus(Collection<String> orderSns)throws Exception;
+	public boolean batchUpdCashStatus(Collection<String> orderSns)throws ServiceException;
 	
 
 	

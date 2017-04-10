@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.StringUtil;
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.util.JsonUtils;
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 import com.meiduimall.service.settlement.common.ShareProfitUtil;
 import com.meiduimall.service.settlement.context.MemberSystemDataContext;
@@ -57,7 +58,7 @@ public class MemberServiceImpl implements MemberService {
 
 	
 	@Override
-	public Boolean addConsumePoints(String phone, String credit,String source,String order_id) throws Exception{
+	public Boolean addConsumePoints(String phone, String credit,String source,String order_id) throws ServiceException{
 		
 		if("0".equals(credit)){
 			log.info("积分为0,userId:{},忽略该积分的发送。",phone);
@@ -188,7 +189,7 @@ public class MemberServiceImpl implements MemberService {
 
 	@Async
 	@Override
-	public void updateReferrerCash() throws Exception {
+	public void updateReferrerCash() throws ServiceException {
 		
 		final List<String> orderSnList=new ArrayList<String>();
 		final List<String> orderSnList4Err=new ArrayList<String>();

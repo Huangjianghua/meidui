@@ -2,7 +2,7 @@ package com.meiduimall.service.settlement.service;
 
 import java.util.Collection;
 
-
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.settlement.model.EcmAgent;
 
 /**
@@ -34,6 +34,6 @@ public interface O2oCallbackService {
 	 * return  boolean
 	 * throws Exception
 	 */
-	public String addProxyFee(EcmAgent areaAgent, double amount) throws Exception;
+	public String addProxyFee(EcmAgent areaAgent, double amount) throws ServiceException;
 
 }

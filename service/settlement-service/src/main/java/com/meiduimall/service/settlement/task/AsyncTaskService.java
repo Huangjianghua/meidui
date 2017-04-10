@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import com.google.common.collect.ImmutableList;
 import com.meiduimall.core.util.JsonUtils;
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.redis.util.JedisUtil;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 import com.meiduimall.service.settlement.common.ShareProfitUtil;
@@ -212,7 +213,7 @@ public class AsyncTaskService {
 	 * throws Exception
 	 */
 	@Async
-	public void updateScore(EcmAgent ecmAgent, int score, String dataSource, String retryType) throws Exception {
+	public void updateScore(EcmAgent ecmAgent, int score, String dataSource, String retryType) throws ServiceException {
 		
 		log.info("更新积分开始时间:" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 		
@@ -302,7 +303,7 @@ public class AsyncTaskService {
 					log.info("个代送积分异常日志参数：{}", agentLog.toString());
 				}
 			}
-		} catch (Exception e) {
+		} catch (ServiceException e) {
 			log.error("更新积分："+e.toString());
 			throw e;
 		}

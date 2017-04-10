@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.google.common.base.Joiner;
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.util.JsonUtils;
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.settlement.common.O2oApiConstants;
 import com.meiduimall.service.settlement.common.ShareProfitUtil;
 import com.meiduimall.service.settlement.model.EcmAgent;
@@ -90,7 +91,7 @@ public class O2oCallbackServiceImpl implements O2oCallbackService{
 
 
 	@Override
-	public String addProxyFee(EcmAgent areaAgent, double amount) throws Exception {
+	public String addProxyFee(EcmAgent areaAgent, double amount) throws ServiceException {
 		String payinId = null;
 		String resultObjStr = ConnectionUrlUtil.httpRequest(buildUrl4AddProxyFee(areaAgent,amount), ShareProfitUtil.REQUEST_METHOD_POST, null);
 		
@@ -98,14 +99,14 @@ public class O2oCallbackServiceImpl implements O2oCallbackService{
 		
 		if(resultObj==null || resultObj.isEmpty()){ 
 			log.info("回调o2o更新余款、抵扣保证金插入缴费记录失败,agentNo:{},as resultObj in addProxyFee() is null",areaAgent.getAddAgentNo());
-			throw new Exception("回调o2o更新余款、抵扣保证金插入缴费记录失败");
+			throw new ServiceException("回调o2o更新余款、抵扣保证金插入缴费记录失败");
 		}else{
 			if("0".equals(resultObj.get("status_code"))){
 				log.info("回调o2o，更新余款，抵扣保证金插入缴费记录成功");
 				payinId = resultObj.get("result");
 			}else{
 				log.error("回调o2o更新余款、抵扣保证金插入缴费记录失败,agentNo:{}",areaAgent.getAddAgentNo());
-				throw new Exception("回调o2o更新余款、抵扣保证金插入缴费记录失败");
+				throw new ServiceException("回调o2o更新余款、抵扣保证金插入缴费记录失败");
 			}
 		}
 
