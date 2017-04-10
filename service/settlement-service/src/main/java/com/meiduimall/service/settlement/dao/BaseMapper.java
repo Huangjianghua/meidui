@@ -16,7 +16,7 @@ public interface BaseMapper {
 	 * @return 根据primaryKey查询T
 	 * @throws Exception
 	 */
-	public <T, P> T selectOne(P params, String sqlTag) throws Exception;
+	public <T, P> T selectOne(P params, String sqlTag);
 
 	/**
 	 * @param params

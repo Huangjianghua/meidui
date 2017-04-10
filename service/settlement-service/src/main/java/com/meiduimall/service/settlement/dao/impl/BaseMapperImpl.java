@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
 
+import com.meiduimall.exception.DaoException;
 import com.meiduimall.service.settlement.dao.BaseMapper;
 
 @Repository
@@ -20,12 +21,12 @@ public class BaseMapperImpl extends SqlSessionDaoSupport implements BaseMapper {
     
     
     @Override
-	public <T, P> T selectOne(P params, String sqlTag) throws Exception {
+	public <T, P> T selectOne(P params, String sqlTag) {
 		T rt = null;
 		try {
 			rt = getSqlSession().selectOne(sqlTag, params);
 		} catch (Exception e) {
-			throw new Exception(sqlTag + " error, params = " + params, e);
+			throw new DaoException(sqlTag + " error, params = " + params, e);
 		}
 		return rt;
 	}
