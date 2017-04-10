@@ -58,6 +58,7 @@ public class OrderServiceImpl implements OrderService,BeanSelfAware {
 	}
 	
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	@Override
 	public void saveShareProfit(EcmMzfShareProfit shareProfit) throws Exception {
 		if(shareProfit!=null){
 				
@@ -83,7 +84,7 @@ public class OrderServiceImpl implements OrderService,BeanSelfAware {
 	}
 	
 	
-
+	@Override
 	public EcmMzfShareProfit buildShareProfit(EcmOrder ecmOrder,Collection<String> errors) throws Exception{
 
 		log.info("buildShareProfit start:Current Date:" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));

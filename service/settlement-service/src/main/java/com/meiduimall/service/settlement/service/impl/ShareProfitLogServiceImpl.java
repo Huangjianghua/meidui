@@ -22,6 +22,7 @@ public class ShareProfitLogServiceImpl implements ShareProfitLogService {
 	private BaseMapper baseMapper;
 	
 	@Transactional(propagation=Propagation.REQUIRES_NEW, rollbackFor=Exception.class)
+	@Override
 	public void logShareProfitOrder(ShareProfitOrderLog orderLog,String retryType,Integer retryStatus) throws Exception{
 		retryStatus=retryStatus==null?0:retryStatus;
 		Integer flag = baseMapper.insert(orderLog, "ShareProfitOrderLogMapper.saveShareProfitOrderLog");

@@ -55,6 +55,10 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 	@Autowired
 	private AgentService agentService;
 	
+	/**
+	 * spring声明式事务 同一类内方法调用事务失效
+	 * //http://blog.csdn.net/jiesa/article/details/53438342
+	 */
 	@Autowired
 	private DepositService proxySelf;
 	
