@@ -48,7 +48,7 @@ public class JedisDBShardInfo extends JedisShardInfo {
     public Jedis createResource() {  
         Jedis jedis=new Jedis(this);  
             try {  
-            if (this.database != 0&&jedis.ping().equals("PONG")) {  
+			if (this.database != 0 && "PONG".equals(jedis.ping())) {
                 jedis.select(this.database);  
                 return jedis;  
             }  

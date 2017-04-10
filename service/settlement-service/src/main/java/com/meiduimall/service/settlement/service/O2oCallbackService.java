@@ -15,7 +15,7 @@ import com.meiduimall.service.settlement.model.EcmAgent;
 public interface O2oCallbackService {
 	
 	/**
-	 * 功能描述:  知订单结算各阶段状态给O2O
+	 * 功能描述:  通知订单结算各阶段状态给O2O
 	 * Author: 吴军
 	 * Date:   2017年3月14日 下午3:38:26   
 	 * @param orderSns

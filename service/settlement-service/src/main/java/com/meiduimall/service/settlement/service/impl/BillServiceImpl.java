@@ -138,12 +138,11 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 				EcmMzfAccount ecmMzfAccount = agentService.findAccountByCode(code);
 				
 				//账单数据插入到流水汇总表
-				EcmMzfWater water=null;
-				water=new EcmMzfWater();
+				EcmMzfWater water = new EcmMzfWater();
 				water.setWaterId(CodeRuleUtil.getBillFlowCode(type,code));
 				water.setRemark(sdf.format(billtime)+"账单");
 				water.setCode(code);
-				water.setMoney(new BigDecimal(amount));
+				water.setMoney(BigDecimal.valueOf(amount));
 				water.setWaterType("2");
 				water.setExtId(billid);
 				water.setOpTime(opTime);
@@ -153,10 +152,9 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 				
 				//更新账户
 				String newtype=String.valueOf(CodeRuleUtil.getAccountRoleType(type));
-				EcmMzfAccount ccount=null;
-				ccount=new EcmMzfAccount();
+				EcmMzfAccount ccount = new EcmMzfAccount();
 				ccount.setAccountRoleType(newtype);
-				ccount.setBalance(new BigDecimal(amount));//double改为BigDecimal
+				ccount.setBalance(BigDecimal.valueOf(amount));//double改为BigDecimal
 				ccount.setCode(code);
 				int d=agentService.updateAccount(ccount);
 				log.info("更新编号"+code+"的账户："+d+"条 金额:"+amount+" 角色类型:"+newtype);
