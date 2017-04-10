@@ -64,7 +64,6 @@ public class BillTask {
 	public void CreateBill() throws Exception {
 		
 		Collection<String> orderSns=null;
-		boolean isBillStatusInformedToO2o=true;
 		try {
 			
 			orderSns=billService.createBills();
@@ -75,7 +74,7 @@ public class BillTask {
 		if(orderSns!=null && !orderSns.isEmpty()){  //账单创建成功
 			
 			//通知O2O结算状态:账单创建成功。。。。
-			isBillStatusInformedToO2o=o2oCallbackService.informSettlementStatus(orderSns, ShareProfitConstants.O2O_SETTLEMENT_STATUS_CODE_BILL);
+			boolean isBillStatusInformedToO2o=o2oCallbackService.informSettlementStatus(orderSns, ShareProfitConstants.O2O_SETTLEMENT_STATUS_CODE_BILL);
 			
 			//2.记录错误信息 到ecm_mzf_log_createbill
 			if(!isBillStatusInformedToO2o){

@@ -29,7 +29,7 @@ public class RandomCodeGenerator {
 	    int len = uuid.length();  
 	      
 	    /*定义随机码字符串变量，初始化为""*/  
-	    String random = "";  
+	    StringBuilder random = new StringBuilder();  
 	      
 	    /* 
 	     * 循环截取UUID 
@@ -40,7 +40,8 @@ public class RandomCodeGenerator {
 	    int remainder = len%length;  
 	      
 	    /*定义substring的两个参数*/  
-	    int start = 0,end = 0;  
+	    int start = 0;
+	    int end = 0;  
 	    for(int i=0;i<length;i++){  
 	        /* 
 	         * 计算start和end的值 
@@ -61,11 +62,11 @@ public class RandomCodeGenerator {
 	            count += Integer.valueOf(String.valueOf(c),16);  
 	        }  
 	        /*将求和结果转化成36位，并增加到随机码中，36位包含了0-9a-z*/  
-	        random += Integer.toString(count%36, 36);  
+	        random.append(Integer.toString(count%36, 36));  
 	        start = end;  
 	    }  
 	    /*返回随机码*/  
-	    return random;  
+	    return random.toString();  
 	} 
 	
 	/** 
@@ -76,14 +77,14 @@ public class RandomCodeGenerator {
 	 * @return 
 	 */  
 	public static String random2(int length){  
-	    String random = "";  
+	    StringBuilder random = new StringBuilder();  
 	    /*随机数函数*/  
 	    java.util.Random r=new java.util.Random();  
 	    for(int i = 0;i<length;i++){  
 	        /*生成36以内的随机数，不含36，并转化为36位*/  
-	        random += Integer.toString(r.nextInt(36), 36);  
+	        random.append(Integer.toString(r.nextInt(36), 36));  
 	    }  
-	    return random;  
+	    return random.toString();  
 	} 
 
 }

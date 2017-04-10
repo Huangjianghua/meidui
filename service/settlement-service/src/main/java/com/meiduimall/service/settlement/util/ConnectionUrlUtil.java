@@ -114,7 +114,7 @@ public class ConnectionUrlUtil {
 			URL u0 = new URL(url);
 			HttpURLConnection conn = (HttpURLConnection) u0.openConnection();
 			conn.setRequestMethod("POST");
-			byte contentbyte[] = requestXml.toString().getBytes();
+			byte contentbyte[] = requestXml.getBytes();
 			conn.setRequestProperty("Content-Type", "text/plain");
 			conn.setRequestProperty("Content-Length", (new StringBuilder())
 					.append(contentbyte.length).toString());
@@ -126,7 +126,7 @@ public class ConnectionUrlUtil {
 			conn.setDoOutput(true);
 			BufferedWriter bWriter = new BufferedWriter(new OutputStreamWriter(
 					conn.getOutputStream()));
-			bWriter.write(requestXml.toString());
+			bWriter.write(requestXml);
 			bWriter.flush();
 			bWriter.close();
 			InputStream in = conn.getInputStream();
