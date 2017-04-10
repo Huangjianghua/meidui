@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.core.util.HttpTools;
 import com.meiduimall.service.financial.entity.DownloadStatistics;
 import com.meiduimall.service.financial.service.DownloadStatisticsService;
+import com.meiduimall.service.financial.util.HttpTools;
 
 @RestController
 @RequestMapping("/financial/financial-system-service/v1/statistics")
@@ -93,7 +93,7 @@ public class DownloadStatisticsController {
 			if (!StringUtils.isEmpty(beginDate)) {
 				beginDate = URLDecoder.decode(beginDate, "utf-8");
 			}
-			if (!StringUtils.isEmpty(beginDate)) {
+			if (!StringUtils.isEmpty(endDate)) {
 				endDate = URLDecoder.decode(endDate, "utf-8");
 			}
 

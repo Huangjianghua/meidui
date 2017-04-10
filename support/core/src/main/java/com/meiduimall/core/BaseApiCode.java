@@ -66,6 +66,8 @@ public class BaseApiCode {
 	/** form解析异常 **/
 	public static final Integer EXCEPTION_PRASE_FORM = 3008;
 
+	/** 操作成功 */
+	public static final Integer OPERAT_SUCCESS = 4000;
 	/** 操作失败 */
 	public static final Integer OPERAT_FAIL = 4001;
 	/** 请求参数错误 */
@@ -117,6 +119,7 @@ public class BaseApiCode {
 		zhMsgMap.put(FAIL_SMS_CHANNEL, "短信渠道失败");
 		zhMsgMap.put(EXCEPTION_SMS_SEND, "发送短信异常");
 		zhMsgMap.put(EXCEPTION_PRASE_FORM, "form解析异常");
+		zhMsgMap.put(OPERAT_SUCCESS, "操作成功");
 		zhMsgMap.put(OPERAT_FAIL, "操作失败");
 		zhMsgMap.put(REQUEST_PARAMS_ERROR, "请求参数错误");
 		zhMsgMap.put(NONE_DATA, "暂无数据");

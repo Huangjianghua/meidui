@@ -32,7 +32,7 @@ public class DownloadStatisticsServiceImpl implements DownloadStatisticsService 
 			int rows = baseDao.insert(downloadStatistics, "downloadStatisticsMapper.insert");
 			if (rows > 0) {
 				result.setStatus(BaseApiCode.SUCCESS);
-				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.SUCCESS));
+				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_SUCCESS));
 			} else {
 				result.setStatus(BaseApiCode.OPERAT_FAIL);
 				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
@@ -62,7 +62,7 @@ public class DownloadStatisticsServiceImpl implements DownloadStatisticsService 
 				jsonObj.put("result", list);
 				
 				result.setStatus(BaseApiCode.SUCCESS);
-				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.SUCCESS));
+				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_SUCCESS));
 				result.setData(jsonObj);
 			} else {
 				result.setStatus(BaseApiCode.NONE_DATA);

@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.core.util.HttpTools;
 import com.meiduimall.service.catalog.service.GoodsDetailService;
+import com.meiduimall.service.catalog.util.HttpTools;
 
 /**
  * 商品详情相关操作
