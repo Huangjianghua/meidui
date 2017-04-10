@@ -76,7 +76,7 @@ public class ShopController {
 	 */
 	@HasToken
 	@RequestMapping(value = "/collectShop")
-	public ResBodyData cancelOrCollectShop(String shop_id, String is_collect) {
+	public ResBodyData collectOrCancelShop(String shop_id, String is_collect) {
 		try {
 			if ("1".equals(is_collect)) {
 				logger.info("收藏店铺：" + shop_id);
