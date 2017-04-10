@@ -114,6 +114,7 @@ public class MemberServiceImpl implements MemberService {
 
 	}
 
+	@Override
 	public List<String> sendScore(EcmMzfShareProfit shareProfit){
 		
 		final List<String> errors=new ArrayList<String>();
