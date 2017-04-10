@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.settlement.common.CodeRuleUtil;
 import com.meiduimall.service.settlement.common.DrawCashConstants;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
@@ -35,26 +36,26 @@ public class DrawServiceImpl implements DrawService {
 
 	
 	@Override
-	public Map<String, Object> queryAccoutBalance(String code) throws Exception {
+	public Map<String, Object> queryAccoutBalance(String code) throws ServiceException {
 		Map<String, Object> ecmmzfaccount = baseMapper.selectOne(code, "EcmMzfAccountMapper.queryaccoutbalance");
 		return ecmmzfaccount;
 	}
 
 	
 	@Override
-	public List<EcmMzfDraw> queryDrawCash(Map<String, Object> params) throws Exception{
+	public List<EcmMzfDraw> queryDrawCash(Map<String, Object> params) throws ServiceException{
 		return baseMapper.selectList(params, "EcmMzfDrawMapper.querydrawcash");
 	}
 	
 	
 	@Override
-	public int getDrawCount(Map<String,Object> params) throws Exception{
+	public int getDrawCount(Map<String,Object> params) throws ServiceException{
 		return baseMapper.selectOne(params, "EcmMzfDrawMapper.getDrawCount");
 	}
 	
 
 	@Override
-	public EcmMzfDraw queryDrawCashById(String drawCode) throws Exception {
+	public EcmMzfDraw queryDrawCashById(String drawCode) throws ServiceException {
 		EcmMzfDraw ecmmzfdraw = baseMapper.selectOne(drawCode, "EcmMzfDrawMapper.querydrawcashbyid");
 		return ecmmzfdraw;
 	}
@@ -62,7 +63,7 @@ public class DrawServiceImpl implements DrawService {
 	
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	@Override
-	public Map<String, Object> verifyDrawCashById(EcmMzfDraw ecmmzfdraw) throws Exception {
+	public Map<String, Object> verifyDrawCashById(EcmMzfDraw ecmmzfdraw) throws ServiceException {
 		Map<String, Object> hashMap = new HashMap<>();
 		Integer update = baseMapper.update(ecmmzfdraw, "EcmMzfDrawMapper.verifydrawcashbyid");
 		if(update>0){
@@ -75,7 +76,7 @@ public class DrawServiceImpl implements DrawService {
 	
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	@Override
-	public Map<String, Object> rejectDrawCashById(EcmMzfDraw ecmmzfdraw) throws Exception {
+	public Map<String, Object> rejectDrawCashById(EcmMzfDraw ecmmzfdraw) throws ServiceException {
 		
 		//根据提现编号获取提现信息，目的是将查询出来的数据重新生成提现流水和总流水记录
 		EcmMzfDraw ecmMzfDraw = queryDrawCashById(ecmmzfdraw.getDrawCode());
@@ -164,7 +165,7 @@ public class DrawServiceImpl implements DrawService {
 	
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	@Override
-	public Map<String, Object> confirmDrawCashByIdByType(EcmMzfDraw ecmmzfdraw) throws Exception {
+	public Map<String, Object> confirmDrawCashByIdByType(EcmMzfDraw ecmmzfdraw) throws ServiceException {
 		
 		Map<String, Object> hashMap = new HashMap<String, Object>();
 		
@@ -276,7 +277,7 @@ public class DrawServiceImpl implements DrawService {
 	
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	@Override
-	public boolean insertDrawInfo(EcmMzfDraw ecmMzfDraw) throws Exception {
+	public boolean insertDrawInfo(EcmMzfDraw ecmMzfDraw) throws ServiceException {
 		
 		//不管是存时间戳还是日期，必须保持一致
 		int time = DateUtil.getCurrentTimeSec();
@@ -357,25 +358,25 @@ public class DrawServiceImpl implements DrawService {
 	
 	
 	@Override
-	public int insertDraw(EcmMzfDraw ecmMzfDraw) throws Exception{
+	public int insertDraw(EcmMzfDraw ecmMzfDraw) throws ServiceException{
 		return baseMapper.insert(ecmMzfDraw, "EcmMzfDrawMapper.insertDraw");
 	}
 
 	
 	@Override
-	public int insertDrawWater(EcmMzfDrawWater ecmMzfDrawWater) throws Exception {
+	public int insertDrawWater(EcmMzfDrawWater ecmMzfDrawWater) throws ServiceException {
 		return baseMapper.insert(ecmMzfDrawWater, "EcmMzfDrawMapper.insertDrawWater");
 	}
 	
 	
 	@Override
-	public int getDrawWaterCount(Map<String, Object> params) throws Exception {
+	public int getDrawWaterCount(Map<String, Object> params) throws ServiceException {
 		return baseMapper.selectOne(params, "EcmMzfDrawMapper.getDrawWaterCount");
 	}
 
 	
 	@Override
-	public int getCountByCode(Map<String, Object> params) throws Exception {
+	public int getCountByCode(Map<String, Object> params) throws ServiceException {
 		return baseMapper.selectOne(params, "EcmMzfDrawMapper.getCountByCode");
 	}
 

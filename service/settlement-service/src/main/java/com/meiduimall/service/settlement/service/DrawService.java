@@ -3,6 +3,7 @@ package com.meiduimall.service.settlement.service;
 import java.util.List;
 import java.util.Map;
 
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.settlement.model.EcmMzfDraw;
 import com.meiduimall.service.settlement.model.EcmMzfDrawWater;
 
@@ -23,7 +24,7 @@ public interface DrawService {
 	 * param   code
 	 * return  
 	 */
-	public Map<String, Object> queryAccoutBalance(String code) throws Exception;
+	public Map<String, Object> queryAccoutBalance(String code) throws ServiceException;
 
 	
 	/**
@@ -33,7 +34,7 @@ public interface DrawService {
 	 * param   params
 	 * return  
 	 */
-	public List<EcmMzfDraw> queryDrawCash(Map<String, Object> params) throws Exception;
+	public List<EcmMzfDraw> queryDrawCash(Map<String, Object> params) throws ServiceException;
 	
 
 	/**
@@ -43,7 +44,7 @@ public interface DrawService {
 	 * param   params
 	 * return  
 	 */
-	public int getDrawCount(Map<String,Object> params) throws Exception;
+	public int getDrawCount(Map<String,Object> params) throws ServiceException;
 
 
 	/**
@@ -53,7 +54,7 @@ public interface DrawService {
 	 * param   drawCode
 	 * return  
 	 */
-	public EcmMzfDraw queryDrawCashById(String drawCode)throws Exception;
+	public EcmMzfDraw queryDrawCashById(String drawCode)throws ServiceException;
 
 	
 	/**
@@ -63,7 +64,7 @@ public interface DrawService {
 	 * param   ecmmzfdraw
 	 * return  
 	 */
-	public Map<String, Object> verifyDrawCashById(EcmMzfDraw ecmmzfdraw)throws Exception;
+	public Map<String, Object> verifyDrawCashById(EcmMzfDraw ecmmzfdraw)throws ServiceException;
 
 	
 	/**
@@ -73,7 +74,7 @@ public interface DrawService {
 	 * param   ecmmzfdraw
 	 * return  
 	 */
-	public Map<String, Object> rejectDrawCashById(EcmMzfDraw ecmmzfdrawinput)throws Exception;
+	public Map<String, Object> rejectDrawCashById(EcmMzfDraw ecmmzfdrawinput)throws ServiceException;
 
 	
 	/**
@@ -83,7 +84,7 @@ public interface DrawService {
 	 * param   ecmmzfdrawinput
 	 * return  
 	 */
-	public Map<String, Object> confirmDrawCashByIdByType(EcmMzfDraw ecmmzfdrawinput)throws Exception;
+	public Map<String, Object> confirmDrawCashByIdByType(EcmMzfDraw ecmmzfdrawinput)throws ServiceException;
 	
 
 	/**
@@ -93,7 +94,7 @@ public interface DrawService {
 	 * param   ecmMzfDraw
 	 * return  
 	 */
-	public boolean insertDrawInfo(EcmMzfDraw ecmMzfDraw) throws Exception;
+	public boolean insertDrawInfo(EcmMzfDraw ecmMzfDraw) throws ServiceException;
 	
 	
 	/**
@@ -103,7 +104,7 @@ public interface DrawService {
 	 * param   ecmMzfDraw
 	 * return  
 	 */
-	public int insertDraw(EcmMzfDraw ecmMzfDraw) throws Exception;
+	public int insertDraw(EcmMzfDraw ecmMzfDraw) throws ServiceException;
  
 	
 	/**
@@ -113,7 +114,7 @@ public interface DrawService {
 	 * param   ecmMzfDrawWater
 	 * return  
 	 */
-	public int insertDrawWater(EcmMzfDrawWater ecmMzfDrawWater) throws Exception;
+	public int insertDrawWater(EcmMzfDrawWater ecmMzfDrawWater) throws ServiceException;
 	
 	
 	/**
@@ -123,7 +124,7 @@ public interface DrawService {
 	 * param   params
 	 * return  
 	 */
-	public int getDrawWaterCount(Map<String, Object> params) throws Exception;
+	public int getDrawWaterCount(Map<String, Object> params) throws ServiceException;
 	
 
 	/**
@@ -133,7 +134,7 @@ public interface DrawService {
 	 * param   params
 	 * return  
 	 */
-	public int getCountByCode(Map<String,Object> params) throws Exception;
+	public int getCountByCode(Map<String,Object> params) throws ServiceException;
 	
 	
 }
