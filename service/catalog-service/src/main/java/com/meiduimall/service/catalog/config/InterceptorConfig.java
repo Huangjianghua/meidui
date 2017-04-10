@@ -1,6 +1,8 @@
 package com.meiduimall.service.catalog.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -16,7 +18,13 @@ import com.meiduimall.service.catalog.interceptor.TokenInterceptor;
 public class InterceptorConfig extends WebMvcConfigurerAdapter {
 
 	// 注册拦截器
+	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new TokenInterceptor()).addPathPatterns("/**");
+		registry.addInterceptor(getTokenInterceptor()).addPathPatterns("/**");
 	}
+	
+	@Bean
+    public HandlerInterceptor getTokenInterceptor(){
+        return new TokenInterceptor();
+    }
 }

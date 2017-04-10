@@ -254,7 +254,7 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 			// 商品上架时间
 			Integer listTime = itemStatus.getListTime();
 			if (listTime != null) {
-				itemData.setList_time(DateFormatUtils.format(listTime.intValue(), "yyyy-MM-dd HH:mm:ss"));
+				itemData.setList_time(DateFormatUtils.format(listTime.intValue() * 1000l, "yyyy-MM-dd HH:mm:ss"));
 			} else {
 				itemData.setList_time("");
 			}

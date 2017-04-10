@@ -29,11 +29,15 @@ public class ShopCommonService {
 	 */
 	public static JsonItemDetailResult_ShopData getJsonItemDetailResult_ShopData(BaseDao baseDao, Integer shopId,
 			String token) throws Exception {
-		JsonItemDetailResult_ShopData shopData = new JsonItemDetailResult_ShopData();
 		SysshopShopWithBLOBs shopWithBLOBs = baseDao.selectOne(shopId, "SysshopShopMapper.selectByPrimaryKey");
+		if(shopWithBLOBs == null){
+			return null;
+		}
+
 		SysrateDsrWithBLOBs rateDsrWithBLOBs = baseDao.selectOne(new Long(shopId.longValue()),
 				"SysrateDsrMapper.selectByPrimaryKey");
-
+		
+		JsonItemDetailResult_ShopData shopData = new JsonItemDetailResult_ShopData();
 		// 反序列化数据---解析店铺信息中的：描述相符、服务态度、发货速度的分值
 		if (rateDsrWithBLOBs != null) {
 			float fTallyDsr = ParserSysRateDsrInfo.getValue(rateDsrWithBLOBs.getTallyDsr());
@@ -58,7 +62,7 @@ public class ShopCommonService {
 		// 开店时间
 		Integer openTime = shopWithBLOBs.getOpenTime();
 		if (openTime != null) {
-			shopData.setOpen_time(DateFormatUtils.format(openTime.intValue(), "yyyy年MM月dd日"));
+			shopData.setOpen_time(DateFormatUtils.format(openTime.intValue() * 1000l, "yyyy年MM月dd日"));
 		} else {
 			shopData.setOpen_time("");
 		}

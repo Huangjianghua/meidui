@@ -1,6 +1,7 @@
 package com.meiduimall.service.catalog.service;
 
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.service.catalog.entity.SysuserAccount;
 
 /**
  * 店铺相关
@@ -22,11 +23,11 @@ public interface ShopService {
 	 * 收藏或者取消收藏店铺
 	 * 
 	 * @param shop_id
-	 * @param token
+	 * @param sysuserAccount 用户基本账户信息
 	 * @param isCollect 1表示收藏，0表示取消收藏
 	 * @return
 	 */
-	ResBodyData cancelOrCollectShop(Integer shopId, String token, int isCollect);
+	ResBodyData collectOrCancelShop(Integer shopId, SysuserAccount sysuserAccount, int isCollect);
 
 	/**
 	 * 查询店铺的商品分类

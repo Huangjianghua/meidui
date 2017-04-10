@@ -74,6 +74,7 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 				// "SysitemItemRecommendMapper.deleteByExample");
 
 				Integer rows = baseDao.insertBatch(list, "SysitemItemRecommendMapper.insertBatch");
+				
 				if (rows > 0 && rows == list.size()) {
 					result.setStatus(BaseApiCode.SUCCESS);
 					result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.SUCCESS));
@@ -101,7 +102,7 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 		ResBodyData result = new ResBodyData();
 		String base_url = env.getProperty("estore.base-url");
 		try {
-			// 先查询出最后推荐的商品item_id(这里已经过滤了重复数据)
+			// 先查询出最后推荐的商品item_id(不需要过滤重复数据)
 			List<Integer> list = baseDao.selectList(type, "SysitemItemRecommendMapper.selectLastRecordByType");
 
 			// 集合反转

@@ -10,8 +10,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.service.catalog.dao.BaseDao;
+import com.meiduimall.service.catalog.entity.JsonItemDetailResult_ShopData;
 import com.meiduimall.service.catalog.entity.SysshopShop;
 import com.meiduimall.service.catalog.entity.SysshopShopExample;
+import com.meiduimall.service.catalog.entity.SysuserAccount;
 import com.meiduimall.service.catalog.entity.SysuserShopFav;
 import com.meiduimall.service.catalog.entity.SysuserShopFavExample;
 import com.meiduimall.service.catalog.service.ShopService;
@@ -29,7 +31,18 @@ public class ShopServiceImpl implements ShopService {
 	public ResBodyData getShopDetail(Integer shopId, String token) {
 		ResBodyData result = new ResBodyData();// 最终返回的数据对象
 		try {
-			result.setData(ShopCommonService.getJsonItemDetailResult_ShopData(baseDao, shopId, token));
+			JsonItemDetailResult_ShopData shopData = ShopCommonService.getJsonItemDetailResult_ShopData(baseDao, shopId,
+					token);
+
+			if (shopData == null) {
+				/** 没有这个店铺 */
+				result.setStatus(BaseApiCode.NO_THIS_SHOP);
+				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.NO_THIS_SHOP));
+				result.setData(new JSONObject());
+				return result;
+			}
+
+			result.setData(shopData);
 			result.setStatus(BaseApiCode.SUCCESS);
 			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.SUCCESS));
 		} catch (Exception e) {
@@ -42,54 +55,60 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
-	public ResBodyData cancelOrCollectShop(Integer shopId, String token, int isCollect) {
+	public ResBodyData collectOrCancelShop(Integer shopId, SysuserAccount sysuserAccount, int isCollect) {
 		ResBodyData result = new ResBodyData();// 最终返回的数据对象
 		try {
-			if (isCollect == 1) {
-				logger.error("收藏店铺，service报异常，店铺ID：" + shopId);
-			} else {
-				logger.error("取消收藏店铺，service报异常，店铺ID：" + shopId);
-			}
-
-			// 根据token查找user_id
-			List<Integer> userIds = baseDao.selectList(token, "SysuserAccountMapper.selectUserIdByToken");
-			if (userIds == null || userIds.size() == 0) {
-				// 查询不到user_id
+			// 获取user_id
+			if (sysuserAccount == null) {
 				result.setStatus(BaseApiCode.NO_LOGIN);
 				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.NO_LOGIN));
 				result.setData(new JSONObject());
 				return result;
 			}
-			Integer userId = userIds.get(0);
+			Integer userId = sysuserAccount.getUserId();
 
 			if (isCollect == 1) {
 				// 收藏店铺
+				// 1.首先判断该用户是否收藏了该店铺
+				SysuserShopFavExample shopFavExample = new SysuserShopFavExample();
+				SysuserShopFavExample.Criteria criteria = shopFavExample.createCriteria();
+				criteria.andShopIdEqualTo(shopId);
+				criteria.andUserIdEqualTo(userId);
+				int collectCount = baseDao.selectOne(shopFavExample, "SysuserShopFavMapper.countByExample");
+				if (collectCount > 0) {
+					result.setStatus(BaseApiCode.ALREADY_COLLECT);
+					result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.ALREADY_COLLECT));
+					result.setData(new JSONObject());
+					return result;
+				}
 
-				// 1.查询店铺信息
+				// 2.查询店铺信息
 				SysshopShopExample shopExample = new SysshopShopExample();
 				SysshopShopExample.Criteria shopCriteria = shopExample.createCriteria();
 				shopCriteria.andShopIdEqualTo(shopId);
-				List<SysshopShop> shopList = baseDao.selectOne(shopExample, "SysshopShopMapper.selectByExample");
+				List<SysshopShop> shopList = baseDao.selectList(shopExample, "SysshopShopMapper.selectByExample");
+
 				if (shopList == null || shopList.size() == 0) {
 					// 没有这个店铺
-					result.setStatus(BaseApiCode.NO_SHOP);
-					result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.NO_SHOP));
+					result.setStatus(BaseApiCode.NO_THIS_SHOP);
+					result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.NO_THIS_SHOP));
 					result.setData(new JSONObject());
 					return result;
 				}
 				SysshopShop sysshopShop = shopList.get(0);
 
-				// 2.保存数据
+				// 3.保存数据
 				SysuserShopFav shopFav = new SysuserShopFav();
+
 				// TODO 时间如何取值
-				shopFav.setCreateTime(new Long(System.currentTimeMillis()).intValue());
+				shopFav.setCreateTime(new Long(System.currentTimeMillis() / 1000l).intValue());
 				shopFav.setShopId(shopId);
 				shopFav.setShopLogo(sysshopShop.getShopLogo());
 				shopFav.setShopName(sysshopShop.getShopName());
 				shopFav.setUserId(userId);
 				Integer insertCount = baseDao.insert(shopFav, "SysuserShopFavMapper.insertSelective");
 				if (insertCount > 0) {
-					result.setStatus(BaseApiCode.COLLECT_SUCCESS);
+					result.setStatus(BaseApiCode.SUCCESS);
 					result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.COLLECT_SUCCESS));
 					result.setData(new JSONObject());
 				} else {
@@ -105,7 +124,7 @@ public class ShopServiceImpl implements ShopService {
 				shopFavCriteria.andShopIdEqualTo(shopId);
 				Integer deleteCount = baseDao.delete(shopFavExample, "SysuserShopFavMapper.deleteByExample");
 				if (deleteCount > 0) {
-					result.setStatus(BaseApiCode.CANCEL_COLLECT_SUCCESS);
+					result.setStatus(BaseApiCode.SUCCESS);
 					result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.CANCEL_COLLECT_SUCCESS));
 					result.setData(new JSONObject());
 				} else {
