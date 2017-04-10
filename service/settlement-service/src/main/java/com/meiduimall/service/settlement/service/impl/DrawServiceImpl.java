@@ -179,7 +179,7 @@ public class DrawServiceImpl implements DrawService {
 			int drawWaterStatus = DrawCashConstants.STATUS_TRANSFER_SUCCESS == ecmmzfdraw.getStatus()
 					? DrawCashConstants.STATUS_TRANSFER_SUCCESS : DrawCashConstants.STATUS_VERIFIED_SUCDESS;
 			
-			EcmMzfDrawWater drawWater = new EcmMzfDrawWater(ecmmzfdraw.getDrawCode(), drawWaterStatus + "");
+			EcmMzfDrawWater drawWater = new EcmMzfDrawWater(ecmmzfdraw.getDrawCode(), String.valueOf(drawWaterStatus));
 			
 			int waterCrm = baseMapper.update(drawWater, "EcmMzfDrawMapper.updDrawWaterStatusById");
 			

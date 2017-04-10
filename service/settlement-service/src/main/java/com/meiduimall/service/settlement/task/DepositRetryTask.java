@@ -103,11 +103,11 @@ public class DepositRetryTask {
 		
 		for (int i = 0; i < list.size(); i++) {
 			String key = list.get(i);
-			if(key.equals("share5MinRetry")){
+			if("share5MinRetry".equals(key)){
 				share5MinRetry = agentService.getAgentsRetry(currentTimestamp, key);
-			}else if(key.equals("share30MinRetry")){
+			}else if("share30MinRetry".equals(key)){
 				share30MinRetry = agentService.getAgentsRetry(currentTimestamp, key);
-			}else if(key.equals("share12HoursRetry")){
+			}else if("share12HoursRetry".equals(key)){
 				share12HoursRetry = agentService.getAgentsRetry(currentTimestamp, key);
 			}
 		}

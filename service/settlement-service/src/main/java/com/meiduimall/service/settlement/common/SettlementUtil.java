@@ -104,9 +104,9 @@ public class SettlementUtil {
 	
 	public static String getValues(String[] src,String separator){
 		String result="";
-		separator=StringUtil.isEmpty(separator)?",":separator;
+		String newSeparator=StringUtil.isEmpty(separator)?",":separator;
 		if(src!=null && src.length>0){
-			result=Joiner.on(separator).skipNulls().join(src);
+			result=Joiner.on(newSeparator).skipNulls().join(src);
 		}
 		return result;
 	}

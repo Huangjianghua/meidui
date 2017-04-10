@@ -87,15 +87,15 @@ public class AsyncTaskService {
 				//更新积分到会员系统
 				final List<String> errors=memberService.sendScore(shareProfit);
 				
-				if(errors!=null && errors.size()>0){
-					log.warn("订单分润后更新积分到会员系统失败，记录Log出现异常,orderSn:{},error:{}",shareProfit.getOrderSn(),errors.toString());
+				if(errors != null && !errors.isEmpty()){
+					log.warn("订单分润后更新积分到会员系统失败，记录Log出现异常,orderSn:{},error:{}",shareProfit.getOrderSn(),String.valueOf(errors));
 					//将shareProfit 数据放到redis 缓存 
 					if(ShareProfitConstants.SHARE_PROFIT_SOURCE_O2O.equals(shareProfitSource)){
 						JedisUtil.getJedisInstance().execSetToCache(ShareProfitConstants.REDIS_KEY_PREFIX_ORDER+shareProfit.getOrderSn(), JsonUtils.beanToJson(shareProfit));
 					}
 					
 					//记录到Log表  
-					ShareProfitOrderLog orderLog=new ShareProfitOrderLog(shareProfit.getOrderSn(),errors.toString(),DateUtil.getCurrentTimeSec(),"更新积分到会员系统失败!");
+					ShareProfitOrderLog orderLog=new ShareProfitOrderLog(shareProfit.getOrderSn(),String.valueOf(errors),DateUtil.getCurrentTimeSec(),"更新积分到会员系统失败!");
 					orderLog.setRetryFlag(ShareProfitConstants.SHARE_PROFIT_RETRY_FLAG_YES);
 					
 					if(ShareProfitConstants.SHARE_PROFIT_SOURCE_CACHE.equals(shareProfitSource)){
@@ -160,7 +160,7 @@ public class AsyncTaskService {
 					//如果是重试且重试成功。。
 					if(ShareProfitConstants.SHARE_PROFIT_SOURCE_CACHE.equals(shareProfitSource)){
 						//记录到Log表 
-						ShareProfitOrderLog orderLog=new ShareProfitOrderLog(shareProfit.getOrderSn(),errors.toString(),DateUtil.getCurrentTimeSec(),"重试机制中更新积分到会员系统成功!");
+						ShareProfitOrderLog orderLog=new ShareProfitOrderLog(shareProfit.getOrderSn(),String.valueOf(errors),DateUtil.getCurrentTimeSec(),"重试机制中更新积分到会员系统成功!");
 						orderLog.setRetryFlag(ShareProfitConstants.SHARE_PROFIT_RETRY_FLAG_NO);
 						orderLog.setRetryStatus(ShareProfitConstants.SHARE_PROFIT_RETRY_STATUS_CODE_SUCCESS);
 						orderLog.setRetryTime(DateUtil.getCurrentTimeSec());

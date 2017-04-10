@@ -324,7 +324,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 							//更新账户余额（ecm_mzf_account）
 							EcmMzfAccount account = new EcmMzfAccount();
 							account.setCode(agentWater.getCode());
-							account.setBalance(new BigDecimal(agentWater.getMoney()));
+							account.setBalance(BigDecimal.valueOf((agentWater.getMoney())));
 							updateCount = agentService.updateAccount(account);
 							updateCount++;
 							logger.info("更新账户余额参数：{},{}", agentWater.getCode(), agentWater.getMoney());
@@ -339,7 +339,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 							}
 							water.setWaterId(flowCode);
 							water.setCode(agentWater.getCode());
-							water.setMoney(new BigDecimal(agentWater.getMoney()));
+							water.setMoney(BigDecimal.valueOf((agentWater.getMoney())));
 							water.setRemark(remark);
 							water.setWaterType(type);
 							water.setExtId(agentWater.getAgentWaterId());
