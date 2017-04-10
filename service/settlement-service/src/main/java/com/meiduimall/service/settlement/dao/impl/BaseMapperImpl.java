@@ -21,80 +21,80 @@ public class BaseMapperImpl extends SqlSessionDaoSupport implements BaseMapper {
     
     
     @Override
-	public <T, P> T selectOne(P params, String sqlTag) {
+	public <T, P> T selectOne(P params, String sqlTag) throws DaoException {
 		T rt = null;
 		try {
 			rt = getSqlSession().selectOne(sqlTag, params);
-		} catch (Exception e) {
+		} catch (DaoException e) {
 			throw new DaoException(sqlTag + " error, params = " + params, e);
 		}
 		return rt;
 	}
 
 	@Override
-	public <T, P> List<T> selectList(P params, String sqlTag) throws Exception {
+	public <T, P> List<T> selectList(P params, String sqlTag) throws DaoException {
 		List<T> rt = null;
 		try {
 			rt = getSqlSession().selectList(sqlTag, params);
-		} catch (Exception e) {
-			throw new Exception(sqlTag + " error, params = " + params, e);
+		} catch (DaoException e) {
+			throw new DaoException(sqlTag + " error, params = " + params, e);
 		}
 		return rt;
 	}
 	
 	@Override
-	public <T> Integer insert(T t, String sqlTag) throws Exception {
+	public <T> Integer insert(T t, String sqlTag) throws DaoException {
 		Integer rt = null;
 		try {
 			rt = getSqlSession().insert(sqlTag, t);
-		} catch (Exception e) {
-			throw new Exception(sqlTag + " error, t = " + t, e);
+		} catch (DaoException e) {
+			throw new DaoException(sqlTag + " error, t = " + t, e);
 		}
 		return rt;
 	}
 
 	@Override
-	public <T> Integer insertBatch(List<T> ts, String sqlTag) throws Exception {
+	public <T> Integer insertBatch(List<T> ts, String sqlTag) throws DaoException {
 		Integer rt = null;
 		try {
 			rt = getSqlSession().insert(sqlTag + "." + sqlTag, ts);
-		} catch (Exception e) {
-			throw new Exception(sqlTag + " error, ts = " + ts, e);
+		} catch (DaoException e) {
+			throw new DaoException(sqlTag + " error, ts = " + ts, e);
 		}
 		return rt;
 	}
 
 	@Override
-	public <P> Integer update(P params, String sqlTag) throws Exception {
+	public <P> Integer update(P params, String sqlTag) throws DaoException {
 		Integer rt = null;
 		try {
 			rt = getSqlSession().update(sqlTag, params);
-		} catch (Exception e) {
-			throw new Exception(sqlTag + " error, params = " + params, e);
+		} catch (DaoException e) {
+			throw new DaoException(sqlTag + " error, params = " + params, e);
 		}
 		return rt;
 	}
 
 	@Override
-	public <P> Integer delete(P params, String sqlTag) throws Exception {
+	public <P> Integer delete(P params, String sqlTag) throws DaoException {
 		Integer rt = null;
 
 		try {
 			rt = getSqlSession().delete(sqlTag, params);
-		} catch (Exception e) {
-			throw new Exception(sqlTag + " error, params = " + params, e);
+		} catch (DaoException e) {
+			throw new DaoException(sqlTag + " error, params = " + params, e);
 		}
 		return rt;
 	}
 
 	@Override
 	public <P> Integer deleteBatch(List<P> params, String sqlTag)
-			throws Exception {
+			throws DaoException {
 		Integer rt = null;
 		try {
 			rt = getSqlSession().delete(sqlTag, params);
-		} catch (Exception e) {
-			throw new Exception(sqlTag + " error, params = " + params, e);
+		} catch (DaoException e) {
+			throw new DaoException(sqlTag + " error, params = " + params, e);
 		}
 		return rt;
 	}
