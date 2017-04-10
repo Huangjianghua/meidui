@@ -16,6 +16,7 @@ import com.meiduimall.service.catalog.entity.SysshopShopExample;
 import com.meiduimall.service.catalog.entity.SysuserAccount;
 import com.meiduimall.service.catalog.entity.SysuserShopFav;
 import com.meiduimall.service.catalog.entity.SysuserShopFavExample;
+import com.meiduimall.service.catalog.request.ShopProductRequest;
 import com.meiduimall.service.catalog.service.ShopService;
 import com.meiduimall.service.catalog.service.common.ShopCommonService;
 
@@ -28,11 +29,11 @@ public class ShopServiceImpl implements ShopService {
 	private BaseDao baseDao;
 
 	@Override
-	public ResBodyData getShopDetail(Integer shopId, String token) {
+	public ResBodyData getShopDetail(Integer shopId, String mem_id) {
 		ResBodyData result = new ResBodyData();// 最终返回的数据对象
 		try {
 			JsonItemDetailResult_ShopData shopData = ShopCommonService.getJsonItemDetailResult_ShopData(baseDao, shopId,
-					token);
+					mem_id);
 
 			if (shopData == null) {
 				/** 没有这个店铺 */
@@ -148,12 +149,20 @@ public class ShopServiceImpl implements ShopService {
 
 	@Override
 	public ResBodyData getShopProductCatalog(Integer shopId) {
-		// TODO Auto-generated method stub
-		return null;
+		ResBodyData result = new ResBodyData();// 最终返回的数据对象
+		try {
+
+		} catch (Exception e) {
+			logger.error("获取店铺分类商品，service报异常：" + e);
+			result.setStatus(BaseApiCode.OPERAT_FAIL);
+			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
+			result.setData(new JSONObject());
+		}
+		return result;
 	}
 
 	@Override
-	public ResBodyData getShopProductList(Integer shopId, String orderBy, String column) {
+	public ResBodyData getShopProductList(ShopProductRequest params) {
 		// TODO Auto-generated method stub
 		return null;
 	}

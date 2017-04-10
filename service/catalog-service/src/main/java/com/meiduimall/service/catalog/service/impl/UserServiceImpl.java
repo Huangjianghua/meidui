@@ -20,12 +20,12 @@ public class UserServiceImpl implements UserService {
 	private BaseDao baseDao;
 
 	@Override
-	public SysuserAccount getUserByToken(String token) {
+	public SysuserAccount getUserByToken(String mem_id) {
 		try {
-			logger.info("根据token查询用户信息,token：" + token);
+			logger.info("根据token查询用户信息,mem_id：" + mem_id);
 			SysuserAccountExample userAccountExample = new SysuserAccountExample();
 			SysuserAccountExample.Criteria userAccountCriteria = userAccountExample.createCriteria();
-			userAccountCriteria.andLoginTokenEqualTo(token);
+			userAccountCriteria.andMemIdEqualTo(mem_id);
 			List<SysuserAccount> list = baseDao.selectList(userAccountExample, "SysuserAccountMapper.selectByExample");
 			if (list != null && list.size() > 0) {
 				return list.get(0);

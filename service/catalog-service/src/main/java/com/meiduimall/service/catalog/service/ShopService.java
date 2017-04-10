@@ -2,6 +2,7 @@ package com.meiduimall.service.catalog.service;
 
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.service.catalog.entity.SysuserAccount;
+import com.meiduimall.service.catalog.request.ShopProductRequest;
 
 /**
  * 店铺相关
@@ -14,10 +15,10 @@ public interface ShopService {
 	 * 查询店铺详情
 	 * 
 	 * @param shop_id
-	 * @param token
+	 * @param mem_id 会员系统ID
 	 * @return
 	 */
-	ResBodyData getShopDetail(Integer shopId, String token);
+	ResBodyData getShopDetail(Integer shopId, String mem_id);
 
 	/**
 	 * 收藏或者取消收藏店铺
@@ -45,5 +46,5 @@ public interface ShopService {
 	 * @param column 排序规则：desc降序，asc升序；默认desc降序
 	 * @return
 	 */
-	ResBodyData getShopProductList(Integer shopId, String orderBy, String column);
+	ResBodyData getShopProductList(ShopProductRequest params);
 }

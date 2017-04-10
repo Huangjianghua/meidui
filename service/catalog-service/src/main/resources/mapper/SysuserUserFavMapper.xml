@@ -92,10 +92,10 @@
   </sql>
   
   <!-- 根据token和item_id，查找该用户是否收藏了该商品 -->
-  <select id="selectCountByItemIdAndToken" resultType="int" parameterType="com.meiduimall.service.catalog.entity.IdAndToken">
+  <select id="selectCountByItemIdAndMemId" resultType="int" parameterType="com.meiduimall.service.catalog.entity.IdAndMemId">
   	SELECT count(*) FROM sysuser_user_fav 
   	WHERE 
-  	user_id=(SELECT user_id FROM sysuser_account WHERE login_token=#{token}) 
+  	user_id=(SELECT user_id FROM sysuser_account WHERE mem_id=#{mem_id}) 
   	AND 
   	item_id=#{id};
   </select>

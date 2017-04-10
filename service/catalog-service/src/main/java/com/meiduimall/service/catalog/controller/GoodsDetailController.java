@@ -73,12 +73,13 @@ public class GoodsDetailController {
 	/**
 	 * 根据商品编号，查询商品详情
 	 * 
+	 * @param mem_id 会员系统ID
 	 * @param item_id
 	 *            商品编号，必须传入，否则报错
 	 * @return
 	 */
 	@RequestMapping(value = "/getItem")
-	public ResBodyData getItemDetail(String token, String item_id) {
+	public ResBodyData getItemDetail(String mem_id, String item_id) {
 		try {
 			String ip = HttpTools.getIpAddr(request);
 			logger.info("请求IP：" + ip);
@@ -96,7 +97,7 @@ public class GoodsDetailController {
 				return result;
 			}
 
-			return goodsDetailService.getItemDetailById(token, id);
+			return goodsDetailService.getItemDetailById(mem_id, id);
 
 		} catch (Exception e) {
 			logger.error("根据商品编号，获取商品详情，服务器报异常：" + e);

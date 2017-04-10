@@ -13,8 +13,8 @@ public interface UserService {
 	/**
 	 * 根据token，获取用户的账户信息
 	 * 
-	 * @param token
+	 * @param mem_id 用户的会员系统ID
 	 * @return
 	 */
-	SysuserAccount getUserByToken(String token);
+	SysuserAccount getUserByToken(String mem_id);
 }

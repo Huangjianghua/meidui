@@ -4,7 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
 import com.meiduimall.service.catalog.dao.BaseDao;
-import com.meiduimall.service.catalog.entity.IdAndToken;
+import com.meiduimall.service.catalog.entity.IdAndMemId;
 import com.meiduimall.service.catalog.entity.JsonItemDetailResult_ShopData;
 import com.meiduimall.service.catalog.entity.SysrateDsrWithBLOBs;
 import com.meiduimall.service.catalog.entity.SysshopShopWithBLOBs;
@@ -28,7 +28,7 @@ public class ShopCommonService {
 	 * @throws Exception
 	 */
 	public static JsonItemDetailResult_ShopData getJsonItemDetailResult_ShopData(BaseDao baseDao, Integer shopId,
-			String token) throws Exception {
+			String mem_id) throws Exception {
 		SysshopShopWithBLOBs shopWithBLOBs = baseDao.selectOne(shopId, "SysshopShopMapper.selectByPrimaryKey");
 		if(shopWithBLOBs == null){
 			return null;
@@ -82,15 +82,15 @@ public class ShopCommonService {
 		// }
 
 		// 查询用户是否收藏了该店铺，查 表sysuser_shop_fav
-		if (StringUtils.isEmpty(token)) {
+		if (StringUtils.isEmpty(mem_id)) {
 			// 没有token，不需要处理
 			shopData.setIs_collect("0");
 		} else {
 			// 处理token
-			IdAndToken idAndToken = new IdAndToken();
-			idAndToken.setId(shopId.intValue());
-			idAndToken.setToken(token);
-			int count = baseDao.selectOne(idAndToken, "SysuserShopFavMapper.selectCountByShopIdAndToken");
+			IdAndMemId idAndMemId = new IdAndMemId();
+			idAndMemId.setId(shopId.intValue());
+			idAndMemId.setMem_id(mem_id);
+			int count = baseDao.selectOne(idAndMemId, "SysuserShopFavMapper.selectCountByItemIdAndMemId");
 			if (count > 0) {
 				shopData.setIs_collect("1");
 			} else {

@@ -1,9 +1,9 @@
 package com.meiduimall.service.catalog.entity;
 
-public class IdAndToken {
+public class IdAndMemId {
 
 	private int id;
-	private String token;
+	private String mem_id;
 	
 	public int getId() {
 		return id;
@@ -11,10 +11,10 @@ public class IdAndToken {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getToken() {
-		return token;
+	public String getMem_id() {
+		return mem_id;
 	}
-	public void setToken(String token) {
-		this.token = token;
+	public void setMem_id(String mem_id) {
+		this.mem_id = mem_id;
 	}
 }

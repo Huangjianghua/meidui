@@ -21,9 +21,9 @@ public interface GoodsDetailService {
 	/**
 	 * 根据商品id获得商品详细信息
 	 * 
-	 * @param token
+	 * @param mem_id 会员系统ID
 	 * @param item_id
 	 * @return
 	 */
-	ResBodyData getItemDetailById(String token, Integer item_id);
+	ResBodyData getItemDetailById(String mem_id, Integer item_id);
 }

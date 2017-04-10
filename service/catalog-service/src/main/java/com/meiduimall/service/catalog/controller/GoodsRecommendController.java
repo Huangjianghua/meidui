@@ -42,7 +42,7 @@ public class GoodsRecommendController {
 	 *            推荐类型，不能为空，1代表支付成功推荐，2代表注册成功推荐
 	 * @param opt_user
 	 *            操作人
-	 * @param reco_level
+	 * @param level
 	 *            推荐等级
 	 * @return
 	 */

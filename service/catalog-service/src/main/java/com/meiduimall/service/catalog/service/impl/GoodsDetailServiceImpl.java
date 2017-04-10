@@ -16,7 +16,7 @@ import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.service.catalog.dao.BaseDao;
 import com.meiduimall.service.catalog.entity.CheckGoodsResult;
-import com.meiduimall.service.catalog.entity.IdAndToken;
+import com.meiduimall.service.catalog.entity.IdAndMemId;
 import com.meiduimall.service.catalog.entity.JsonItemDetailResult;
 import com.meiduimall.service.catalog.entity.JsonItemDetailResult_ItemData;
 import com.meiduimall.service.catalog.entity.JsonItemDetailResult_Prop_Values;
@@ -101,7 +101,7 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 	}
 
 	@Override
-	public ResBodyData getItemDetailById(String token, Integer item_id) {
+	public ResBodyData getItemDetailById(String mem_id, Integer item_id) {
 		/**
 		 * <table schema="" tableName="sysitem_item">
 		 * <table schema="" tableName="sysitem_item_desc">
@@ -302,15 +302,15 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 			}
 
 			// 检查用户是否收藏了该商品
-			if (StringUtils.isEmpty(token)) {
+			if (StringUtils.isEmpty(mem_id)) {
 				// 没有token，不需要处理
 				itemData.setIs_collect("0");
 			} else {
 				// 处理token
-				IdAndToken idAndToken = new IdAndToken();
-				idAndToken.setId(item_id.intValue());
-				idAndToken.setToken(token);
-				int count = baseDao.selectOne(idAndToken, "SysuserUserFavMapper.selectCountByItemIdAndToken");
+				IdAndMemId idAndMemId = new IdAndMemId();
+				idAndMemId.setId(item_id.intValue());
+				idAndMemId.setMem_id(mem_id);
+				int count = baseDao.selectOne(idAndMemId, "SysuserUserFavMapper.selectCountByItemIdAndMemId");
 				if (count > 0) {
 					itemData.setIs_collect("1");
 				} else {
@@ -394,7 +394,7 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 			// -------------4、开始拼接商家数据-----------
 			Integer shopId = itemWithBLOBs.getShopId();
 			JsonItemDetailResult_ShopData shopData = ShopCommonService.getJsonItemDetailResult_ShopData(baseDao, shopId,
-					token);
+					mem_id);
 			
 			jsonResult.setShopData(shopData);
 

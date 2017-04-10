@@ -47,13 +47,13 @@ public class TokenInterceptor implements HandlerInterceptor {
 
 			if (method.getAnnotation(HasToken.class) != null) {
 				/** 需要校验token */
-				String token = request.getParameter("token");
-				if (StringUtil.isEmptyByString(token)) {
+				String mem_id = request.getParameter("mem_id");
+				if (StringUtil.isEmptyByString(mem_id)) {
 					// token为空，不通过
 					return outPut(response, BaseApiCode.NO_LOGIN);
 				}
 
-				SysuserAccount sysuserAccount = userService.getUserByToken(token);
+				SysuserAccount sysuserAccount = userService.getUserByToken(mem_id);
 				if (sysuserAccount == null) {
 					// 验证不通过
 					return outPut(response, BaseApiCode.NO_LOGIN);
