@@ -163,8 +163,8 @@ public class ShopServiceImpl implements ShopService {
 			criteria.andShopIdEqualTo(Integer.valueOf(shopId));
 			List<SysshopShopCat> list = baseDao.selectList(example, "SysshopShopCatMapper.selectByExample");
 
-			ShopCatResult shopCatResult = new ShopCatResult();
 			if (list != null && list.size() > 0) {
+				ShopCatResult shopCatResult = new ShopCatResult();
 				List<ParentShopCat> results = new ArrayList<ParentShopCat>();
 
 				// 1.先得到所有的parent_id
@@ -195,10 +195,16 @@ public class ShopServiceImpl implements ShopService {
 						}
 					}
 				}
-
 				shopCatResult.setResults(results);
+				
+				result.setData(shopCatResult);
+				result.setStatus(BaseApiCode.SUCCESS);
+				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.SUCCESS));
+			} else {
+				result.setStatus(BaseApiCode.NONE_DATA);
+				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.NONE_DATA));
+				result.setData(new JSONObject());
 			}
-			result.setData(shopCatResult);
 		} catch (Exception e) {
 			logger.error("获取店铺分类商品，service报异常：" + e);
 			result.setStatus(BaseApiCode.OPERAT_FAIL);
