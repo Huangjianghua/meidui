@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -14,12 +15,14 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.service.catalog.annotation.HasToken;
+import com.meiduimall.service.catalog.annotation.HasMemId;
 import com.meiduimall.service.catalog.entity.SysuserAccount;
 import com.meiduimall.service.catalog.service.UserService;
 import com.meiduimall.service.catalog.util.StringUtil;
 
 public class MemIdInterceptor implements HandlerInterceptor {
+
+	private static org.slf4j.Logger logger = LoggerFactory.getLogger(MemIdInterceptor.class);
 
 	@Autowired
 	private UserService userService;
@@ -45,7 +48,7 @@ public class MemIdInterceptor implements HandlerInterceptor {
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
 			Method method = handlerMethod.getMethod();
 
-			if (method.getAnnotation(HasToken.class) != null) {
+			if (method.getAnnotation(HasMemId.class) != null) {
 				/** 需要校验mem_id */
 				String mem_id = request.getParameter("mem_id");
 				if (StringUtil.isEmptyByString(mem_id)) {
@@ -67,6 +70,7 @@ public class MemIdInterceptor implements HandlerInterceptor {
 				return true;
 			}
 		} catch (Exception e) {
+			logger.error("验证mem_id，拦截器报异常： " + e);
 			return outPut(response, BaseApiCode.TOKEN_VALIDATE_ERROR);
 		}
 	}

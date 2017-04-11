@@ -36,7 +36,7 @@ public class HttpTools {
 					try {
 						inet = InetAddress.getLocalHost();
 					} catch (UnknownHostException e) {
-						e.printStackTrace();
+						logger.error("获取IP失败：" + e);
 					}
 					ipAddress = inet.getHostAddress();
 				}

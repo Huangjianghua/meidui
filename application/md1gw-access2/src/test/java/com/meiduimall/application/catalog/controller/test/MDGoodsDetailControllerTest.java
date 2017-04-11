@@ -17,7 +17,7 @@ import com.meiduimall.application.catalog.test.BaseTest;
  * Author:   yangchangfu
  * Description: 商品信息查询测试类单元测试
  */
-public class GoodsDetailControllerTest extends BaseTest {
+public class MDGoodsDetailControllerTest extends BaseTest {
 	
 	/**
 	 * 根据商品item_id，查询商品详情

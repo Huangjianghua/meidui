@@ -12,6 +12,10 @@ import com.meiduimall.service.catalog.test.BaseTest;
 
 public class ShopControllerTest extends BaseTest {
 	
+	/**
+	 * 根据店铺shop_id，获取店铺信息
+	 * @throws Exception
+	 */
 	@Test
 	public void testGetShopDetail1() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -28,6 +32,10 @@ public class ShopControllerTest extends BaseTest {
 		});
 	}
 	
+	/**
+	 * 根据店铺shop_id，获取店铺信息
+	 * @throws Exception
+	 */
 	@Test
 	public void testGetShopDetail2() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -43,6 +51,10 @@ public class ShopControllerTest extends BaseTest {
 		});
 	}
 	
+	/**
+	 * 根据店铺shop_id，获取店铺信息
+	 * @throws Exception
+	 */
 	@Test
 	public void testGetShopDetail3() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -58,6 +70,10 @@ public class ShopControllerTest extends BaseTest {
 		});
 	}
 	
+	/**
+	 * 店铺收藏或者取消收藏
+	 * @throws Exception
+	 */
 	@Test
 	public void testCollectOrCancelShop1() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -75,6 +91,10 @@ public class ShopControllerTest extends BaseTest {
 		});
 	}
 	
+	/**
+	 * 店铺收藏或者取消收藏
+	 * @throws Exception
+	 */
 	@Test
 	public void testCollectOrCancelShop2() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -92,6 +112,10 @@ public class ShopControllerTest extends BaseTest {
 		});
 	}
 	
+	/**
+	 * 店铺收藏或者取消收藏
+	 * @throws Exception
+	 */
 	@Test
 	public void testCollectOrCancelShop3() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -109,6 +133,10 @@ public class ShopControllerTest extends BaseTest {
 		});
 	}
 	
+	/**
+	 * 店铺收藏或者取消收藏
+	 * @throws Exception
+	 */
 	@Test
 	public void testCollectOrCancelShop4() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -126,6 +154,10 @@ public class ShopControllerTest extends BaseTest {
 		});
 	}
 	
+	/**
+	 * 获取店铺自定义商品分类
+	 * @throws Exception
+	 */
 	@Test
 	public void testgetShopProductCatalog1() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -141,6 +173,10 @@ public class ShopControllerTest extends BaseTest {
 		});
 	}
 	
+	/**
+	 * 获取店铺自定义商品分类
+	 * @throws Exception
+	 */
 	@Test
 	public void testgetShopProductCatalog2() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -156,6 +192,10 @@ public class ShopControllerTest extends BaseTest {
 		});
 	}
 	
+	/**
+	 * 获取店铺自定义商品分类
+	 * @throws Exception
+	 */
 	@Test
 	public void testgetShopProductCatalog3() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders

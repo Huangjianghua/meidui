@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.service.catalog.annotation.HasToken;
+import com.meiduimall.service.catalog.annotation.HasMemId;
 import com.meiduimall.service.catalog.entity.SysuserAccount;
 import com.meiduimall.service.catalog.request.ShopProductRequest;
 import com.meiduimall.service.catalog.service.ShopService;
@@ -74,7 +74,7 @@ public class ShopController {
 	 *            1代表收藏，0代表取消收藏
 	 * @return
 	 */
-	@HasToken
+	@HasMemId
 	@RequestMapping(value = "/collectShop")
 	public ResBodyData collectOrCancelShop(String shop_id, String is_collect) {
 		try {
