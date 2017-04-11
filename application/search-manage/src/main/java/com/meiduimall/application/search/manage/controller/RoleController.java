@@ -1,13 +1,11 @@
 package com.meiduimall.application.search.manage.controller;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,6 +22,10 @@ public class RoleController {
 	
 	@Resource
 	private IRoleService roleService ;
+
+	@Autowired
+	private HttpServletResponse response;
+	
 	/**
 	 * 查询角色列表
 	 * @return ModelAndView
@@ -103,7 +105,7 @@ public class RoleController {
 	 * @return
 	 */
 	@RequestMapping("/checkRoleName")
-	public  void checkRoleName(Role role,HttpServletResponse response){
+	public  void checkRoleName(Role role){
 		boolean bl =  roleService.checkRoleName(role);
 		response.setCharacterEncoding("utf-8");
 		PrintWriter write = null;

@@ -1,35 +1,28 @@
 package com.meiduimall.application.search.manage.controller;
-
 import java.util.List;
-
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.meiduimall.application.search.manage.constant.SysConstant;
 import com.meiduimall.application.search.manage.system.domain.Menu;
 import com.meiduimall.application.search.manage.system.domain.User;
 import com.meiduimall.application.search.manage.system.services.IMenuService;
 
 
-@Controller
-@RequestMapping("/menu")
+@RestController("/menu")
 public class MenuController {
 	
 	@Autowired
 	private  IMenuService menuService ;
 	
-	//respnoseBody 将java 对象转换成json字符串
-	@ResponseBody
+	@Autowired
+	private  HttpServletRequest request;
+
 	@RequestMapping("/selectJosnMenu")
-	public  Object  selectJsonMenu(HttpServletRequest request, HttpServletResponse response){
+	public  Object  selectJsonMenu(){
 		//从session中获取rid  根据rid 查询出菜单
 	     User user = (User) request.getSession().getAttribute(SysConstant.USER_SESSSION_INFO);
 	     String pid = (String) request.getParameter("pid");
@@ -40,9 +33,8 @@ public class MenuController {
 	/**
 	 * 查询菜单第一级
 	 */
-	@ResponseBody
 	@RequestMapping("/selectMenuFirst")
-	public  Object  selectMenuFirst(HttpSession session, HttpServletResponse response){
+	public  Object  selectMenuFirst(HttpSession session){
 		//从session中获取rid  根据rid 查询出菜单
 	     User user = (User) session.getAttribute(SysConstant.USER_SESSSION_INFO);
 		 List<Menu> menuList =  menuService.selectMenuFirst(user);
@@ -55,9 +47,8 @@ public class MenuController {
 	 * @param response
 	 * @return Object
 	 */
-	@ResponseBody
 	@RequestMapping("/slectCheckdMenu")
-	public  Object slectCheckdMenu(HttpSession session, HttpServletResponse response ,String type,Integer rid){
+	public  Object slectCheckdMenu(String type,Integer rid){
 		 List<Menu> menuList = menuService.selectCheckdList(rid,type);
 		 return menuList ;
 	}

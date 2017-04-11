@@ -4,9 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,10 +34,12 @@ public class ScannerController {
 	@Autowired
 	private ProductIndexService productIndexService;
 	
+	
+	
 	@RequestMapping(value = "queryWaitScanner")
-	public ModelAndView queryWaitScanner(HttpServletRequest request) {
+	public ModelAndView queryWaitScanner(String currentPage) {
+		
 		ModelAndView mav = new ModelAndView();
-		String currentPage = request.getParameter("currentPage");
 		int page = 1;
 		if (!StringUtil.isEmptyByString(currentPage)) {
 			page = Integer.parseInt(currentPage);
@@ -61,8 +60,11 @@ public class ScannerController {
 		return mav;
 	}
 	
+	
+	
+	
 	@RequestMapping(value = "manualUpdateAll")
-	public ModelAndView manualUpdateAll(HttpServletRequest request) {
+	public ModelAndView manualUpdateAll() {
 		ModelAndView mav = new ModelAndView("redirect:/scanner/queryWaitScanner.do");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		log.info("开始手动更新数据库和索引库未同步信息，开始时间： " + sdf.format(new Date()));
@@ -105,8 +107,8 @@ public class ScannerController {
 				for (String itemId : idList) {
 					if (itemId != null) {
 						indexService.addProductIndexById(Integer.parseInt(itemId));
-						// 如果是类目同时修改类目索引
-						if (table.equals("cat")) {
+						//如果是类目同时修改类目索引
+						if (table.equals("cat")){
 							indexService.addCatlogIndexById(updateId);
 						}
 						count++;
@@ -129,18 +131,19 @@ public class ScannerController {
 		return mav;
 	}
 	
+	
+	
 	@RequestMapping(value = "manualUpdate")
-	public ModelAndView manualUpdate(HttpServletRequest request) {
+	public ModelAndView manualUpdate(String id) {
 		ModelAndView mav = new ModelAndView("redirect:/scanner/queryWaitScanner.do");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		log.info("开始手动更新数据库和索引库未同步信息，开始时间： " + sdf.format(new Date()));
-		String idStr = request.getParameter("id");
-		if (StringUtil.isEmptyByString(idStr)) {
+		if (StringUtil.isEmptyByString(id)) {
 			mav.addObject(SysConstant.RESULT_MSG, "id不能为空");
 			log.error("手动更新数据库和索引库未同步信息记录ID为空");
 			return mav;
 		}
-		int id = Integer.parseInt(idStr);
+		int ids = Integer.parseInt(id);
 		int count = 0;
 		String table = "";
 		try {
@@ -181,7 +184,7 @@ public class ScannerController {
 			}
 			// 已删除ID
 			List<Integer> deletedIds = new ArrayList<Integer>();
-			deletedIds.add(id);
+			deletedIds.add(ids);
 			// 同步结束 删除已扫描记录
 			int deleteNum = scannerService.deleteScanned(deletedIds);
 			if (deleteNum > 0) {

@@ -28,14 +28,19 @@ public class ItemController {
 	@Autowired
 	private ItemService itemService;
 	
+	
+	@Autowired
+	private  HttpServletRequest request;
+	
 	@RequestMapping("queryItems")
 	public String queryItems() {
 		return "/search/itemList";
 	}
 	
+	
 	@RequestMapping("showListPage")
-	public ModelAndView showListPage(HttpServletRequest request, ItemModel itemModel) {
-		ModelAndView mav = this.getModel(request);
+	public ModelAndView showListPage(ItemModel itemModel) {
+		ModelAndView mav = this.getModel();
 		try {
 			QueryResult result = itemService.queryItems(itemModel);
 			PageView pageView = new PageView(itemModel.getCurrentPage());
@@ -49,7 +54,7 @@ public class ItemController {
 		return mav;
 	}
 	
-	private ModelAndView getModel(HttpServletRequest request) {
+	private ModelAndView getModel() {
 		ModelAndView mav = new ModelAndView();
 		Map<String, String[]> parameterMap = request.getParameterMap();
 		if (!parameterMap.isEmpty()) {

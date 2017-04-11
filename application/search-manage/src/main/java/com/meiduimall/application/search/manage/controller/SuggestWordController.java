@@ -23,8 +23,12 @@ public class SuggestWordController {
 	@Autowired
 	private SuggestWordService suggestWordService;
 	
+	
+	@Autowired
+	private HttpServletRequest request;
+	
 	@RequestMapping(value = "querySuggestWord")
-	public ModelAndView querySuggestWord(HttpServletRequest request) {
+	public ModelAndView querySuggestWord() {
 		ModelAndView mav = new ModelAndView();
 		String currentPage = request.getParameter("currentPage");
 		int page = 1;
@@ -48,7 +52,7 @@ public class SuggestWordController {
 	}
 	
 	@RequestMapping(value = "queryWord")
-	public ModelAndView queryWord(HttpServletRequest request) {
+	public ModelAndView queryWord() {
 		ModelAndView mav = new ModelAndView();
 		String key = request.getParameter("key");
 		PageView pageView = new PageView(1);
@@ -68,7 +72,7 @@ public class SuggestWordController {
 	}
 	
 	@RequestMapping(value = "updateSuggestWord")
-	public ModelAndView updateSuggestWord(HttpServletRequest request) {
+	public ModelAndView updateSuggestWord() {
 		ModelAndView mav = new ModelAndView();
 		String kw = request.getParameter("key");
 		try {
@@ -89,7 +93,7 @@ public class SuggestWordController {
 	}
 	
 	@RequestMapping(value = "deleteSuggestWord")
-	public ModelAndView deleteSuggestWord(HttpServletRequest request) {
+	public ModelAndView deleteSuggestWord() {
 		ModelAndView mav = new ModelAndView();
 		String keyId = request.getParameter("keyId");
 		try {

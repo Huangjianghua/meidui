@@ -78,10 +78,6 @@ public class BaseController {
 			return null;
 		}
 
-//		if (jsonObject != null && jsonObject.size() > 0) {
-//			String uri = ((HttpServletRequest) request).getRequestURI();
-//			return validate(jsonObject,uri);
-//		}
 		return jsonObject;
 	}
 	

@@ -90,28 +90,7 @@ public class DESC {
 			return "";
 		}
 	}
-//	/**
-//	 * 邮箱
-//	 * 
-//	 * @param str
-//	 *            需要加密的字符串
-//	 * @param memberId
-//	 *            当前加密的会员编号
-//	 * @return
-//	 */
-//	public static String firstEncryption1(String str, String memberId) {
-//		try {
-//			if(StringUtil.isEmptyByString(memberId) || StringUtil.isEmptyByString(str)){
-//				return str;
-//			}else{
-//				return encrypt(str, MD5Tool.encrypeString(memberId));
-//			}
-//		} catch (Exception e) {
-//			
-//			e.printStackTrace();
-//			return str;
-//		}
-//	}
+
 
 	/**
 	 * 对字符串解密
@@ -142,29 +121,6 @@ public class DESC {
 			return null;
 		}
 	}
-//	/**
-//	 * 邮箱解密
-//	 * 
-//	 * @param str
-//	 *            需要加密的字符串
-//	 * @param memberId
-//	 *            当前加密的会员编号
-//	 * @return
-//	 */
-//	public static String firstDeyption1(String str, String memberId) {
-//		try {
-//			if(StringUtil.isEmptyByString(memberId) || StringUtil.isEmptyByString(str)){
-//				return str;
-//			}
-//			else{
-//				return decrypt(str, MD5Tool.encrypeString(memberId));
-//			}
-//		} catch (Exception e) {
-//			//  Auto-generated catch block
-//			e.printStackTrace();
-//			return str;
-//		}
-//	}
 
 	/**
 	 * 对字符串加密 系统默认加密 对应系统默认解密

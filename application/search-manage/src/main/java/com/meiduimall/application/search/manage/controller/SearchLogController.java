@@ -33,6 +33,10 @@ public class SearchLogController {
 	
 	private String startTime = "";
 	
+	
+	@Autowired
+	private  HttpServletRequest request;
+	
 	public void init() {
 		// 默认查询近一周搜索日志
 		Date date = new Date();
@@ -44,7 +48,7 @@ public class SearchLogController {
 	}
 
 	@RequestMapping(value = "listSearchLog")
-	public ModelAndView listSearchLog(LogParam logParam, HttpServletRequest request) {
+	public ModelAndView listSearchLog(LogParam logParam) {
 		ModelAndView mav = new ModelAndView();
 		String currentPage = request.getParameter("currentPage");
 		int page = 1;
@@ -72,7 +76,7 @@ public class SearchLogController {
 	}
 	
 	@RequestMapping(value = "statisticSearchLog")
-	public ModelAndView statisticSearchLog(LogParam logParam, HttpServletRequest request) {
+	public ModelAndView statisticSearchLog(LogParam logParam) {
 		ModelAndView mav = new ModelAndView();
 		String currentPage = request.getParameter("currentPage");
 		int page = 1;
@@ -101,7 +105,7 @@ public class SearchLogController {
 	
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "updateSuggest")
-	public String updateSuggest(HttpServletRequest request, LogParam logParam) {
+	public String updateSuggest(LogParam logParam) {
 		String url = "redirect:/searchLog/statisticSearchLog.do";
 		try {
 			QueryResult result = searchLogService.queryStatisticLogs(logParam);
