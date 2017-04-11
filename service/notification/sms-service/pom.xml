@@ -12,9 +12,18 @@
 
     <groupId>com.meiduimall.service</groupId>
     <artifactId>sms-service</artifactId>
+	<name>notification::sms-service</name>
     <version>v1.0.0</version>
 	
 	<dependencies>
+
+		<dependency>
+			<groupId>com.meiduimall</groupId>
+			<artifactId>meiduimall-support-core</artifactId>
+			<version>${meiduimall-support-core.version}</version>
+			<!--<scope>provided</scope>-->
+		</dependency>
+
 		<dependency>
 			<groupId>com.taobao</groupId>
 			<artifactId>taobao-sdk-java-auto</artifactId>
@@ -47,6 +56,17 @@
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
         </dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>5.3.1.Final</version>
+		</dependency>
 	</dependencies>
 
 	<build>

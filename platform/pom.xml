@@ -12,6 +12,7 @@
 
     <groupId>com.meiduimall</groupId>
     <artifactId>platform</artifactId>
+    <name>mall::platform</name>
     <packaging>pom</packaging>
     <version>1.0.0</version>
     <modules>

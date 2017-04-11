@@ -43,7 +43,7 @@ public class BlackListValidateHandler implements Handler {
 
     try {
 
-      String blackListJson = JedisUtil.getJedisInstance().execGetFromCache(Constants.BLACK_LIST_JSON);
+      String blackListJson = JedisUtil.getJedisInstance().execHgetToCache().execGetFromCache(Constants.BLACK_LIST_JSON);
       List<String> blackList = JsonUtils.jsonToList(blackListJson, String.class);
       if (!CollectionUtils.isEmpty(blackList) && isBlackList(request.getRequestURL().toString(), blackList)) {
         log.info("黑名单验证处理层,url:{},黑名单:{}", request.getRequestURL().toString(), blackListJson);

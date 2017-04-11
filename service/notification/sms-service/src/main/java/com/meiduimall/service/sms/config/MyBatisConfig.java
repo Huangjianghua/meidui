@@ -1,3 +1,13 @@
+/*
+ *  @项目名称: ${project_name}
+ *
+ *  @文件名称: ${file_name}
+ *  @Date: ${date}
+ *  @Copyright: ${year} www.meiduimall.com Inc. All rights reserved.
+ *
+ *  注意：本内容仅限于美兑壹购物公司内部传阅，禁止外泄以及用于其他的商业目的
+ */
+
 package com.meiduimall.service.sms.config;
 
 import java.util.Properties;
@@ -46,7 +56,7 @@ public class MyBatisConfig implements TransactionManagementConfigurer{
     public SqlSessionFactory sqlSessionFactory() {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
-        bean.setTypeAliasesPackage("com.meidui.shortmsg.mapper");
+        bean.setTypeAliasesPackage("com.meiduimall.service.sms.mapper");
         //分页插件,插件无非是设置mybatis的拦截器
         PageHelper pageHelper = new PageHelper();
         Properties properties = new Properties();

@@ -3,9 +3,9 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://192.168.4.195:3306/sms_service?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
-    username: test
-    password: 111
+    url: jdbc:mysql://192.168.4.236:3306/sms_service?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
+    username: meidui
+    password: meiduishop
     connectionTimeout: 30000
     idleTimeout: 600000
     maxLifetime: 1800000
@@ -14,16 +14,17 @@ spring:
     autoCommit: true;
     connectionTestQuery: SELECT 1
 
-#redis
+# redis
 config:
-  jedis :  
-    jedisShardInfo :  
-      host : 192.168.4.236
-      port : 6379  
-      password : meiduiredis2016  
-    maxTotal: 1024  
-    maxIdle: 250  
-    maxWaitMillis : 2000 
+  jedis:
+    jedisShardInfo:
+      host: 192.168.4.236
+      port: 6379
+      password: meiduiredis2016
+      database: 15
+    maxTotal: 1024
+    maxIdle: 250
+    maxWaitMillis: 2000
     testOnBorrow: true
     testOnReturn: true
 

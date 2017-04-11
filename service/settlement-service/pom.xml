@@ -10,9 +10,9 @@
 
     <groupId>com.meiduimall.service</groupId>
     <artifactId>settlement-service</artifactId>
-	<version>v1.0.0</version>
+	<name>service::settlement-service</name>
+	<version>1.0.0</version>
 	<packaging>jar</packaging>
-	<name>settlement service</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

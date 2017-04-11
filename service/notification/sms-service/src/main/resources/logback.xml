@@ -3,10 +3,11 @@
 
     <!-- <property resource="resource1.properties" /> -->
 	<property name="LOG_HOME" value="/var/log/meiduimall" />
-	<property name="FILE_NAME" value="sms-service" />
+	<property name="FILE_NAME" value="short-msg-service" />
+	
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 	    <layout class="ch.qos.logback.classic.PatternLayout">
-	      <pattern>%d  %-4relative %-5level %logger{35} [%X{X-B3-TraceId:-} %X{X-B3-SpanId:-} ] - %msg%n</pattern>
+	      <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36}:%line - %msg%n</Pattern>
 	    </layout>
   	</appender>
 
@@ -20,7 +21,7 @@
 			<totalSizeCap>1GB</totalSizeCap>
     	</rollingPolicy>
 		<encoder>
-      		<pattern>%d  %-4relative %-5level %logger{35} [%X{X-B3-TraceId:-} %X{X-B3-SpanId:-} ] - %msg%n</pattern>
+      		<pattern>%d{HH:mm:ss.SSS} %-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
     	</encoder>
   </appender>
   
@@ -34,15 +35,26 @@
 			<totalSizeCap>1GB</totalSizeCap>
     	</rollingPolicy>
 		<encoder>
-      		<pattern>%d  %-4relative %-5level %logger{35} [%X{X-B3-TraceId:-} %X{X-B3-SpanId:-} ] - %msg%n</pattern>
+      		<pattern>%d{HH:mm:ss.SSS} %-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
     	</encoder>
   </appender>
   
-   <logger name="com.meiduimall.service.sms.dao" level="debug">
+  <!-- <logger name="org.apache.ibatis" level="ERROR">
       <appender-ref ref="SQL_FILE_APPENDER" />
   </logger>
   
+   <logger name="org.hibernate" level="ERROR">
+      <appender-ref ref="SQL_FILE_APPENDER" />
+  </logger> -->
   
+   <logger name="org.springframework.data" level="INFO">
+      <appender-ref ref="SQL_FILE_APPENDER" />
+  </logger>
+  
+  <logger name="com.wisers.labeltool.dao" level="INFO">
+      <appender-ref ref="SQL_FILE_APPENDER" />
+  </logger>
+
   <root level="INFO">
     <appender-ref ref="STDOUT" />
     <appender-ref ref="FILE_APPENDER" />
