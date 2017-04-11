@@ -6,7 +6,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import com.meiduimall.service.catalog.interceptor.TokenInterceptor;
+import com.meiduimall.service.catalog.interceptor.MemIdInterceptor;
 
 /**
  * 注册拦截器到上下文
@@ -25,6 +25,6 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
 	
 	@Bean
     public HandlerInterceptor getTokenInterceptor(){
-        return new TokenInterceptor();
+        return new MemIdInterceptor();
     }
 }

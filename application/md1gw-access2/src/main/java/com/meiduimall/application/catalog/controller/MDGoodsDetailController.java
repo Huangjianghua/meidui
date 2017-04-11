@@ -1,5 +1,7 @@
 package com.meiduimall.application.catalog.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -27,6 +29,9 @@ public class MDGoodsDetailController {
 	@Autowired
 	private Environment env;
 
+	@Autowired
+	private HttpServletRequest request;
+
 	/**
 	 * 根据商品item_id获取商品详情
 	 * 
@@ -35,7 +40,7 @@ public class MDGoodsDetailController {
 	 * @return
 	 */
 	@RequestMapping("/getItem")
-	public @ResponseBody String getItemDetail(String item_id, String mem_id) {
+	public @ResponseBody String getItemDetail(String item_id) {
 		try {
 			logger.info("请求商品详情，商品item_id：" + item_id);
 
@@ -51,6 +56,8 @@ public class MDGoodsDetailController {
 				return JSON.toJSONString(errorBody);
 			}
 
+			String mem_id = (String) request.getAttribute("mem_id");
+			
 			return MDGoodsDetailControllerHttp.getItemDetailHttp(env, id, mem_id);
 		} catch (Exception e) {
 			logger.error("请求商品详情，服务器异常：" + e);

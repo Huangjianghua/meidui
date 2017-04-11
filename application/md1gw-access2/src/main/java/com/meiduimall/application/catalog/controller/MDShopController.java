@@ -1,5 +1,7 @@
 package com.meiduimall.application.catalog.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -21,6 +23,9 @@ public class MDShopController {
 
 	@Autowired
 	private Environment env;
+	
+	@Autowired
+	private HttpServletRequest request;
 
 	/**
 	 * 根据店铺shop_id，获取店铺详情
@@ -30,7 +35,7 @@ public class MDShopController {
 	 * @return
 	 */
 	@RequestMapping(value = "/getShopDetail")
-	public String getShopDetail(String shop_id, String mem_id) {
+	public String getShopDetail(String shop_id) {
 		try {
 			logger.info("请求店铺详情，店铺shop_id：" + shop_id);
 			int shopId = 0;
@@ -44,6 +49,9 @@ public class MDShopController {
 				errorBody.setData(new JSONObject());
 				return JSON.toJSONString(errorBody);
 			}
+			
+			String mem_id = (String) request.getAttribute("mem_id");
+			
 			return MDShopControllerHttp.getShopDetailHttp(env, shopId, mem_id);
 		} catch (Exception e) {
 			logger.error("请求店铺详情，服务器异常：" + e);
@@ -64,7 +72,7 @@ public class MDShopController {
 	 */
 	@HasToken
 	@RequestMapping(value = "/collectShop")
-	public String collectOrCancelShop(String shop_id, String is_collect, String mem_id) {
+	public String collectOrCancelShop(String shop_id, String is_collect) {
 		try {
 			logger.info("收藏或者取消收藏，店铺shop_id：" + shop_id);
 			int shopId = 0;
@@ -80,6 +88,9 @@ public class MDShopController {
 				errorBody.setData(new JSONObject());
 				return JSON.toJSONString(errorBody);
 			}
+			
+			String mem_id = (String) request.getAttribute("mem_id");
+			
 			return MDShopControllerHttp.collectOrCancelShopHttp(env, shopId, isCollect, mem_id);
 
 		} catch (Exception e) {
