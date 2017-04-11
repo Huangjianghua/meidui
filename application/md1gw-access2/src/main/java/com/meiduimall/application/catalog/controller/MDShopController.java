@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.meiduimall.application.catalog.annotation.HasToken;
 import com.meiduimall.application.catalog.controller.http.MDShopControllerHttp;
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
@@ -61,6 +62,7 @@ public class MDShopController {
 	 * @param mem_id
 	 * @return
 	 */
+	@HasToken
 	@RequestMapping(value = "/collectShop")
 	public String collectOrCancelShop(String shop_id, String is_collect, String mem_id) {
 		try {
