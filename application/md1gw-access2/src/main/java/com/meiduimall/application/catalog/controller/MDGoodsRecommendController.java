@@ -62,7 +62,7 @@ public class MDGoodsRecommendController {
 
 			String result = MDGoodsRecommendControllerHttp.getFirstRecommendGoodsHttp(env, reco_type, reco_req_id);
 
-			// 开发环境增加头部
+			// 增加头部--解决JS跨域问题
 			response.setHeader("Access-Control-Allow-Origin", "*");
 
 			return result;
