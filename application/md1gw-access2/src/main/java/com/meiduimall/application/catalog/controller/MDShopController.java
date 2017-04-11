@@ -19,7 +19,7 @@ import com.meiduimall.core.ResBodyData;
 @RequestMapping("/md1gwmall/md1gw_access/v1/shopInfo")
 public class MDShopController {
 
-	private static org.slf4j.Logger logger = LoggerFactory.getLogger(MDGoodsDetailController.class);
+	private static org.slf4j.Logger logger = LoggerFactory.getLogger(MDShopController.class);
 
 	@Autowired
 	private Environment env;
