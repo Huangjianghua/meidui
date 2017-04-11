@@ -264,7 +264,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 				EcmMzfWater water = new EcmMzfWater();
 				water.setWaterId(CodeRuleUtil.getAreaAgentFlowCode(areaAgent.getAddAgentNo()));//生成区代流水编号
 				water.setCode(areaAgent.getAddAgentNo());
-				water.setMoney(BigDecimal.valueOf((-amount)));
+				water.setMoney(BigDecimal.valueOf(-amount));
 				water.setRemark(ShareProfitConstants.REMARK_3_TYPE);//备注内容 推荐费抵扣;
 
 				water.setWaterType(ShareProfitConstants.WATER_TYPE_DEPOSIT);//保证金
@@ -276,7 +276,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 				//更新账户余额 
 				EcmMzfAccount account = new EcmMzfAccount();
 				account.setCode(areaAgent.getAddAgentNo());
-				account.setBalance(BigDecimal.valueOf((-amount)));
+				account.setBalance(BigDecimal.valueOf(-amount));
 				int accountFlag = agentService.updateAccount(account);
 				
 				if(waterFlag > 0 && accountFlag > 0){
@@ -330,7 +330,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 							//更新账户余额（ecm_mzf_account）
 							EcmMzfAccount account = new EcmMzfAccount();
 							account.setCode(agentWater.getCode());
-							account.setBalance(BigDecimal.valueOf((agentWater.getMoney())));
+							account.setBalance(BigDecimal.valueOf(agentWater.getMoney()));
 							updateCount = agentService.updateAccount(account);
 							updateCount++;
 							logger.info("更新账户余额参数：{},{}", agentWater.getCode(), agentWater.getMoney());
@@ -345,7 +345,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 							}
 							water.setWaterId(flowCode);
 							water.setCode(agentWater.getCode());
-							water.setMoney(BigDecimal.valueOf((agentWater.getMoney())));
+							water.setMoney(BigDecimal.valueOf(agentWater.getMoney()));
 							water.setRemark(remark);
 							water.setWaterType(type);
 							water.setExtId(agentWater.getAgentWaterId());
