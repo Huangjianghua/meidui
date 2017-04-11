@@ -111,15 +111,13 @@ public class CodeRuleUtil {
 	
 	private static String createDrawCode(String prefix,String code,String count){
 		SimpleDateFormat fmt = new SimpleDateFormat(DAY_PATTERN);
-		String result = "";
 		String random = "";
 		if(count.length() > 1){
 			random = count;
 		}else{
 			random = "0" + count;
 		}
-		result = prefix + code + fmt.format(new Date()) + random;
-		return result;
+		return prefix + code + fmt.format(new Date()) + random;
 	}
 	
 	/**

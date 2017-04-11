@@ -196,11 +196,10 @@ public class DateUtil {
 	/**
 	 * 日期时间格式化对象
 	 */
-	private static DateFormat dateTimeFormat = new SimpleDateFormat(
-			"yyyy-MM-dd HH:mm");
+	private static DateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
-	private static DateFormat dateTimeFormat_input = new SimpleDateFormat(
-			"yyyyMMddHHmm");
+	private static DateFormat dateTimeFormat_input = new SimpleDateFormat("yyyyMMddHHmm");
+	
 	/**
 	 * 时间格式化对象
 	 */
@@ -214,6 +213,8 @@ public class DateUtil {
 	 * 用于重点生产资料监测系统
 	 */
 	private static final int lastDay = 15;
+	
+	private static final int constDateSub = -36500;
 
 	public static int getDay() {
 		return day;
@@ -346,8 +347,6 @@ public class DateUtil {
 		calendar.add(Calendar.DATE, date);
 		return calendar.getTime();
 	}
-
-	public static int constDateSub = -36500;
 
 	/**
 	 * 计算两个日期间的天数
@@ -1101,7 +1100,7 @@ public class DateUtil {
 	 * @return list
 	 */
 	public static List<Date> findDates(Date dBegin, Date dEnd) {  
-        List lDate = new ArrayList();  
+        List<Date> lDate = new ArrayList<Date>();  
         lDate.add(dBegin);  
         Calendar calBegin = Calendar.getInstance();  
         // 使用给定的 Date 设置此 Calendar 的时间    
