@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.meiduimall.application.search.manage.mapper.CatMapper">
+	<resultMap type="com.meiduimall.application.search.manage.pojo.CatModel" id="CatResultMap">
+		<id column="cat_id" property="catId"/>
+		<result column="cat_name" property="catName"/>
+		<result column="parent_id" property="parentId"/>
+		<result column="parent_name" property="parentName"/>
+		<result column="level" property="level"/>
+	</resultMap>
+	
+    <select id="queryCats" parameterType="com.meiduimall.application.search.manage.page.PageView" resultMap="CatResultMap">
+		SELECT sc1.`cat_id` parent_id, sc1.`cat_name` parent_name, sc1.`level`, sc2.`cat_id`, sc2.`cat_name` 
+		FROM syscategory_cat sc1
+		RIGHT JOIN syscategory_cat sc2 ON sc1.`cat_id`=sc2.`parent_id`
+		<if test="pageSize!=null and pageSize!=''">
+		  LIMIT #{offset},#{pageSize}
+		</if>
+    </select>
+    <select id="queryCatById" parameterType="java.lang.Integer" resultMap="CatResultMap">
+		SELECT sc1.`cat_id` parent_id, sc1.`cat_name` parent_name, sc1.`level`, sc2.`cat_id`, sc2.`cat_name` 
+		FROM syscategory_cat sc1
+		RIGHT JOIN syscategory_cat sc2 ON sc1.`cat_id`=sc2.`parent_id`
+		WHERE sc2.`cat_id`=#{id}
+    </select>
+    <select id="queryAllCatsId" resultMap="CatResultMap">
+		SELECT sc.`cat_id` FROM syscategory_cat sc
+    </select>
+    <select id="queryCatsCount" resultType="java.lang.Long">
+    	SELECT COUNT(cat_id) FROM syscategory_cat
+    </select>
+</mapper>

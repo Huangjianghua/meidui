@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.meiduimall.application.search.manage.IDao.UserMapper">
+    <select id="selectUserList" parameterType="com.meiduimall.application.search.manage.system.domain.User"  resultType="com.meiduimall.application.search.manage.system.domain.User">
+          SELECT u.* ,r.role_name FROM t_user u  LEFT  JOIN  t_role r  ON  u.rid = r.id
+           WHERE 1=1
+        <if test="id!=null and id!=''">
+		   and u.id=#{id}
+		</if>
+	     <if test="userName!=null and userName!=''">
+			and u.username=#{userName} 
+		 </if>
+		 <if test="password!=null and password!=''">
+			and u.password=#{password} 
+		 </if>
+		 <if test="status!=null and status!=''">
+			and u.status= #{status}
+		 </if>
+		 <if test="rid!=null and rid!=''">
+			and u.rid=#{rid}
+		 </if>
+		  <!-- <if test="pageSize!=null and pageSize!=''">
+	       limit #{offset},#{pageSize}
+	      </if> -->
+   </select>
+    
+    <select id="selectByUserId"  parameterType="java.lang.Integer" resultType="com.meiduimall.application.search.manage.system.domain.User">
+         SELECT * FROM t_user 
+          <if test="_parameter !=null and _parameter!=''">
+              WHERE id= #{_parameter}
+          </if>
+    </select>
+    
+    <update id="updateUser" parameterType="com.meiduimall.application.search.manage.system.domain.User">
+		 UPDATE  t_user
+		 <set>
+			  <if test="userName!=null and userName!=''">
+				username=#{userName} ,
+			 </if>
+			 <if test="password!=null and password!=''">
+				password=#{password} ,
+			 </if>
+			 <if test="status!=null and status!=''">
+				status= #{status},
+			 </if>
+			 <if test="nickName!=null and nickName!=''">
+			     nickname = #{nickName},
+			 </if>
+			 <if test="updateAccount!=null and updateAccount!=''">
+			     updateAccount=#{updateAccount},
+			 </if>
+			 <if test="updateTime!=null and updateTime!=''">
+			     updateTime=#{updateTime},
+			 </if>
+			 <if test="phone!=null and phone!=''">
+				 phone=#{phone},
+			 </if>  
+			 <if test="explanation!=null and explanation!=''">
+				 explanation=#{explanation},
+			 </if> 
+			 <if test="rid!=null and rid!=''">
+				 rid=#{rid}
+			 </if>    
+			 
+		 </set> 
+		 where id=#{id}
+	</update>
+	
+	<select id="validateOldPwd"  parameterType="java.lang.String" resultType="com.meiduimall.application.search.manage.system.domain.User">
+         SELECT * FROM t_user where id = #{id} and password= #{password}
+    </select>
+     
+    <insert id="insertUser" parameterType="com.meiduimall.application.search.manage.system.domain.User" >
+         INSERT INTO t_user(username,password,createtime ,updatetime,createAccount,updateAccount,status,rid,nickname)
+                 VALUES(#{userName},#{password},#{createTime},#{updateTime},#{createAccount},#{updateAccount},#{status},#{rid},#{nickName})
+    </insert>
+    
+    <select id="pageCount" parameterType="com.meiduimall.application.search.manage.system.domain.User"  resultType="java.lang.Integer">
+         SELECT COUNT(1) FROM t_user u  LEFT  JOIN  t_role r  ON  u.rid = r.id
+           WHERE 1=1
+        <if test="id!=null and id!=''">
+		   and u.id=#{id}
+		</if>
+	     <if test="userName!=null and userName!=''">
+			and u.username=#{userName} 
+		 </if>
+		 <if test="password!=null and password!=''">
+			and u.password=#{password} 
+		 </if>
+		 <if test="status!=null and status!=''">
+			and u.status= #{status}
+		 </if>
+		 <if test="rid!=null and rid!=''">
+			and u.rid=#{rid}
+		 </if>    
+    </select>
+</mapper>

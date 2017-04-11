@@ -1,5 +1,6 @@
 package com.meiduimall.application.search.config;
 import java.util.Properties;
+
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 import org.apache.ibatis.plugin.Interceptor;
