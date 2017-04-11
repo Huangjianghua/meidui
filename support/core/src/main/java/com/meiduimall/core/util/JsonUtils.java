@@ -23,29 +23,29 @@ import com.google.common.base.Strings;
  * Description: json工具类
  */
 public class JsonUtils {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(JsonUtils.class);
 	private static JsonUtils jacksonUtil = new JsonUtils();
-	
+
     private ObjectMapper mapper;
-    
-    private JsonUtils() {   
-    	mapper = new ObjectMapper();  
-    }  
+
+    private JsonUtils() {
+    	mapper = new ObjectMapper();
+    }
 
 
-    public static ObjectMapper getInstance() {  
-        return jacksonUtil.mapper;  
-    } 
-    
-    
+    public static ObjectMapper getInstance() {
+        return jacksonUtil.mapper;
+    }
+
+
     /**
      * 功能描述:  json转化为java bean
      * Author: 陈建宇
-     * Date:   2017年3月15日 下午6:15:32   
+     * Date:   2017年3月15日 下午6:15:32
      * return  T
      */
-    public static <T> T jsonToBean(String json,  Class<T> valueType){    
+    public static <T> T jsonToBean(String json,  Class<T> valueType){
     	if(!Strings.isNullOrEmpty(json)){
     		try {
     			return getInstance().readValue(json, valueType);
@@ -59,13 +59,13 @@ public class JsonUtils {
     	}
     	return null;
     }
-    
-    
+
+
    /**
-    * 
+    *
     * 功能描述:  java bean转化为json
     * Author: 陈建宇
-    * Date:   2017年3月15日 下午6:15:16   
+    * Date:   2017年3月15日 下午6:15:16
     * return  String
     */
     public static String beanToJson(Object bean){
@@ -80,13 +80,13 @@ public class JsonUtils {
 		}
     	return null;
     }
-    
-    
-    
+
+
+
     /**
-     * 功能描述:  json转list 
+     * 功能描述:  json转list
      * Author: 陈建宇
-     * Date:   2017年3月15日 下午6:10:54   
+     * Date:   2017年3月15日 下午6:10:54
      * return  List<T>
      */
     public static <T> List<T> jsonToList(String json,Class<T> clazz) {
@@ -106,13 +106,13 @@ public class JsonUtils {
     	}
         return null;
     }
-    
-    
-    
+
+
+
     /**
      * 功能描述:  list转string
      * Author: 陈建宇
-     * Date:   2017年3月15日 下午6:10:14   
+     * Date:   2017年3月15日 下午6:10:14
      * return  String
      */
     public static String listToJson(List<?> list){
@@ -127,11 +127,11 @@ public class JsonUtils {
         }
         return null;
     }
-    
+
     /**
      * 功能描述:  map转json
      * Author: 陈建宇
-     * Date:   2017年3月16日 上午9:44:44   
+     * Date:   2017年3月16日 上午9:44:44
      * return  String
      */
     public static String mapToJson(Map<String,?> map){
@@ -150,7 +150,7 @@ public class JsonUtils {
     /**
      * 功能描述:  json转map
      * Author: 陈建宇
-     * Date:   2017年3月16日 上午9:44:49   
+     * Date:   2017年3月16日 上午9:44:49
      * return  Map<String,T>
      */
     public static <T> Map<String,T> jsonToMap(String json,Class<T> valueType){
@@ -168,6 +168,9 @@ public class JsonUtils {
     	}
         return null;
     }
-    
-  
+
+
+  public static String beanToJsonAndFmDate(Object channelList) {
+    return beanToJson(channelList);
+  }
 }

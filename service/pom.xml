@@ -12,11 +12,11 @@
 
     <groupId>com.meiduimall</groupId>
     <artifactId>service</artifactId>
+    <name>mall::service</name>
     <packaging>pom</packaging>
     <version>1.0.0</version>
     <modules>
         <module>route-service</module>
-        <module>user</module>
         <module>payment-service</module>
         <module>notification</module>
         <module>settlement-service</module>

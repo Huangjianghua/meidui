@@ -9,6 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>discovery-service</artifactId>
+    <name>platform::discovery-service</name>
     <version>v1.0.0</version>
     <packaging>jar</packaging>
 

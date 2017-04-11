@@ -19,6 +19,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -153,15 +154,11 @@ public class HttpUtils {
 		try {
 			HttpPost httpPost = new HttpPost(url);
 			config(httpPost);
-			
-			if(headers != null && headers.size() > 0){
-				Set<Map.Entry<String,String>> headerSet=headers.entrySet();
-				for(Entry<String,String> entry:headerSet){
-					httpPost.setHeader(entry.getKey(),entry.getValue());
-				}
+			Set<Map.Entry<String,String>> headerSet=headers.entrySet();
+			for(Entry<String,String> entry:headerSet){
+				httpPost.setHeader(entry.getKey(),entry.getValue());
 			}
-			
-			httpPost.setEntity(new StringEntity(sendData));
+			httpPost.setEntity(new StringEntity(sendData,decodeCharset));
 			HttpResponse response = httpClient.execute(httpPost);
 			return HttpResToString(response, decodeCharset);
 		} finally {

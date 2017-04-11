@@ -14,16 +14,17 @@ spring:
     autoCommit: true;
     connectionTestQuery: SELECT 1
 
-#redis
+# redis
 config:
-  jedis :  
-    jedisShardInfo :  
-      host : 192.168.4.236
-      port : 6379  
-      password : meiduiredis2016  
-    maxTotal: 1024  
-    maxIdle: 250  
-    maxWaitMillis : 2000 
+  jedis:
+    jedisShardInfo:
+      host: 192.168.4.236
+      port: 6379
+      password: meiduiredis2016
+      database: 15
+    maxTotal: 1024
+    maxIdle: 250
+    maxWaitMillis: 2000
     testOnBorrow: true
     testOnReturn: true
 

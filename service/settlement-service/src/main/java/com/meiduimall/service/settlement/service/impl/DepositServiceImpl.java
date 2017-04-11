@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.common.base.Strings;
+import com.meiduimall.service.SettlementServiceErrorInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -226,7 +227,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 			
 		}else{
 			logger.error("更新账户余额失败");
-			throw new ServiceException("更新账户余额失败");
+			throw new ServiceException(SettlementServiceErrorInfo.UPD_BALANCE_FAILD);
 		}
 	}
 
@@ -282,7 +283,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 					logger.info("区代30%代理费抵扣保证金成功");
 				}else{
 					logger.error("区代30%代理费抵扣保证金失败");
-					throw new ServiceException("区代30%代理费抵扣保证金失败");
+					throw new ServiceException(SettlementServiceErrorInfo.DEDUCT_DEPOSIT_FAILED);
 				}
 			}
 		} catch (ServiceException e) {
@@ -355,7 +356,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 							logger.info("插入代理流水参数：" + water.toString());
 						}else{
 							logger.error("代理编号为：{}的账户不存在,无法更新账户余额", agentWater.getCode());
-							throw new ServiceException("代理编号为："+agentWater.getCode()+"的账户不存在,无法更新账户余额");
+							throw new ServiceException(SettlementServiceErrorInfo.AGENCY_ACCOUNT_NOT_FOUND);
 						}
 						
 					}

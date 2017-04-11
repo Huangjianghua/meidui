@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ * @项目名称: ${project_name}
+  ~ *
+  ~ * @文件名称: ${file_name}
+  ~ * @Date: ${date}
+  ~ * @Copyright: ${year} www.meiduimall.com Inc. All rights reserved.
+  ~ *
+  ~ * 注意：本内容仅限于美兑壹购物公司内部传阅，禁止外泄以及用于其他的商业目的
+  -->
+
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.meiduimall.service.sms.mapper.SendSmsHistoryMapper" >
   <resultMap id="BaseResultMap" type="com.meiduimall.service.sms.entity.SendSmsHistory" >
     <result column="id" property="id" jdbcType="VARCHAR" />
-    <result column="client_id" property="clientId" jdbcType="VARCHAR" />
     <result column="channel_id" property="channelId" jdbcType="VARCHAR" />
     <result column="template_key" property="templateKey" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
@@ -15,16 +24,16 @@
   </resultMap>
   
   <sql id="Base_Column_List" >
-    id, client_id, channel_id, template_key, phone, request_params, result_msg, remark, 
+    id, channel_id, template_key, phone, request_params, result_msg, remark, 
     creater, create_date
   </sql>
    
   <insert id="insert" parameterType="com.meiduimall.service.sms.entity.SendSmsHistory" >
-    insert into msg_send_sms_history (id, client_id, channel_id, 
+    insert into msg_send_sms_history (id, channel_id, 
       template_key, phone, request_params, 
       result_msg, remark, creater, 
       create_date)
-    values (#{id,jdbcType=VARCHAR}, #{clientId,jdbcType=VARCHAR}, #{channelId,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR}, #{channelId,jdbcType=VARCHAR}, 
       #{templateKey,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{requestParams,jdbcType=VARCHAR}, 
       #{resultMsg,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{creater,jdbcType=VARCHAR}, 
       #{createDate,jdbcType=TIMESTAMP})
@@ -34,9 +43,6 @@
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
-      </if>
-      <if test="clientId != null" >
-        client_id,
       </if>
       <if test="channelId != null" >
         channel_id,
@@ -66,9 +72,6 @@
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="clientId != null" >
-        #{clientId,jdbcType=VARCHAR},
       </if>
       <if test="channelId != null" >
         #{channelId,jdbcType=VARCHAR},

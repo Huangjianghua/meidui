@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ * @项目名称: ${project_name}
+  ~ *
+  ~ * @文件名称: ${file_name}
+  ~ * @Date: ${date}
+  ~ * @Copyright: ${year} www.meiduimall.com Inc. All rights reserved.
+  ~ *
+  ~ * 注意：本内容仅限于美兑壹购物公司内部传阅，禁止外泄以及用于其他的商业目的
+  -->
+
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.meiduimall.service.sms.mapper.MessageChannelMapper" >
   <resultMap id="BaseResultMap" type="com.meiduimall.service.sms.entity.MessageChannel" >

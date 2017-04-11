@@ -11,7 +11,8 @@
 
     <groupId>com.meiduimall.service</groupId>
     <artifactId>route-service</artifactId>
-    <version>v1.0.0</version>
+    <name>service::route-service</name>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <dependencies>

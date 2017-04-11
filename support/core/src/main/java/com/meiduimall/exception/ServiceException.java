@@ -10,20 +10,26 @@
 
 package com.meiduimall.exception;
 
+import com.meiduimall.core.ErrorInfo;
+
+/**
+ * 统一错误码异常
+ *
+ * Created by simon on 14/03/2017.
+ */
 public class ServiceException extends RuntimeException {
 
-	private static final long serialVersionUID = 5985132497087826419L;
-	
-	public ServiceException(String e){
-		super(e);
-	}
-	
-	public ServiceException(Exception e){
-		super(e);
-	}
+  private ErrorInfo errorInfo;
 
-	public ServiceException(String message, Throwable cause){
-		super(message, cause);
-	}
+  public ServiceException(ErrorInfo errorInfo) {
+    this.errorInfo = errorInfo;
+  }
 
+  public ErrorInfo getErrorInfo() {
+    return errorInfo;
+  }
+
+  public void setErrorInfo(ErrorInfo errorInfo) {
+    this.errorInfo = errorInfo;
+  }
 }

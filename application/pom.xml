@@ -12,10 +12,10 @@
 
     <groupId>com.meiduimall</groupId>
     <artifactId>application</artifactId>
+    <name>mall::application</name>
     <packaging>pom</packaging>
     <version>1.0.0</version>
     <modules>
-        <module>front-user-center</module>
         <module>mall-api</module>
 		<module>md1gw-access2</module>
 	

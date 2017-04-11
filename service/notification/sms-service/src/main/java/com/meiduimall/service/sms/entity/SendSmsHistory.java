@@ -1,3 +1,13 @@
+/*
+ *  @项目名称: ${project_name}
+ *
+ *  @文件名称: ${file_name}
+ *  @Date: ${date}
+ *  @Copyright: ${year} www.meiduimall.com Inc. All rights reserved.
+ *
+ *  注意：本内容仅限于美兑壹购物公司内部传阅，禁止外泄以及用于其他的商业目的
+ */
+
 package com.meiduimall.service.sms.entity;
 
 import java.io.Serializable;
@@ -11,7 +21,7 @@ public class SendSmsHistory implements Serializable{
 
 	private String id;
 
-    private String clientId;
+//    private String clientId;
 
     private String channelId;
 
@@ -37,13 +47,13 @@ public class SendSmsHistory implements Serializable{
         this.id = id == null ? null : id.trim();
     }
 
-    public String getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(String clientId) {
-        this.clientId = clientId == null ? null : clientId.trim();
-    }
+//    public String getClientId() {
+//        return clientId;
+//    }
+//
+//    public void setClientId(String clientId) {
+//        this.clientId = clientId == null ? null : clientId.trim();
+//    }
 
     public String getChannelId() {
         return channelId;
