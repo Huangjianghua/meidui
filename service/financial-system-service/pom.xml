@@ -12,7 +12,7 @@
 
 	<groupId>com.meiduimall</groupId>
 	<artifactId>financial-system-service</artifactId>
-	<version>v1.0.0</version>
+	<version>1.0.0</version>
 	<packaging>jar</packaging>
 	<name>financial-system-service</name>
 	<description>financial-system-service</description>

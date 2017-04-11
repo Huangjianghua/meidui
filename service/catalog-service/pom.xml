@@ -12,7 +12,7 @@
 
 	<groupId>com.meiduimall</groupId>
 	<artifactId>catalog-service</artifactId>
-	<version>v1.0.0</version>
+	<version>1.0.0</version>
 	<packaging>jar</packaging>
 	<name>catalog-service</name>
 	<description>catalog-service</description>
