@@ -19,7 +19,7 @@ import com.meiduimall.service.catalog.entity.SysuserAccount;
 import com.meiduimall.service.catalog.service.UserService;
 import com.meiduimall.service.catalog.util.StringUtil;
 
-public class TokenInterceptor implements HandlerInterceptor {
+public class MemIdInterceptor implements HandlerInterceptor {
 
 	@Autowired
 	private UserService userService;
@@ -46,14 +46,14 @@ public class TokenInterceptor implements HandlerInterceptor {
 			Method method = handlerMethod.getMethod();
 
 			if (method.getAnnotation(HasToken.class) != null) {
-				/** 需要校验token */
+				/** 需要校验mem_id */
 				String mem_id = request.getParameter("mem_id");
 				if (StringUtil.isEmptyByString(mem_id)) {
-					// token为空，不通过
+					// mem_id为空，不通过
 					return outPut(response, BaseApiCode.NO_LOGIN);
 				}
 
-				SysuserAccount sysuserAccount = userService.getUserByToken(mem_id);
+				SysuserAccount sysuserAccount = userService.getUserByMemId(mem_id);
 				if (sysuserAccount == null) {
 					// 验证不通过
 					return outPut(response, BaseApiCode.NO_LOGIN);
@@ -63,7 +63,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 					return true;
 				}
 			} else {
-				/** 不需要校验token，放行 */
+				/** 不需要校验mem_id，放行 */
 				return true;
 			}
 		} catch (Exception e) {

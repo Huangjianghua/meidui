@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
 	private BaseDao baseDao;
 
 	@Override
-	public SysuserAccount getUserByToken(String mem_id) {
+	public SysuserAccount getUserByMemId(String mem_id) {
 		try {
 			logger.info("根据token查询用户信息,mem_id：" + mem_id);
 			SysuserAccountExample userAccountExample = new SysuserAccountExample();

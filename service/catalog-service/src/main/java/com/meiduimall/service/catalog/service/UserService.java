@@ -16,5 +16,5 @@ public interface UserService {
 	 * @param mem_id 用户的会员系统ID
 	 * @return
 	 */
-	SysuserAccount getUserByToken(String mem_id);
+	SysuserAccount getUserByMemId(String mem_id);
 }
