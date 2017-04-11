@@ -8,6 +8,7 @@
     verify_id verifyId, verify_name verifyName, verify_time verifyTime, verify_status verifyStatus, finance_id financeId, finance_name financeName, finance_time financeTime, 
     finance_status financeStatus, draw_name drawName
   </sql>
+  
   <select id="selectByPrimaryKey" resultType="EcmMzfDraw" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -164,8 +165,6 @@
   <update id="updDrawWaterStatusById" parameterType="EcmMzfDrawWater">
   	UPDATE ecm_mzf_draw_water dw SET dw.`status`=#{status} WHERE dw.`draw_code`=#{drawCode};
   </update>
-  
-  
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from ecm_mzf_draw
@@ -372,6 +371,7 @@
       </if>
     </trim>
   </insert>
+  
   <update id="updateByPrimaryKeySelective" parameterType="EcmMzfDraw" >
     update ecm_mzf_draw
     <set >
@@ -453,6 +453,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
   <update id="updateByPrimaryKey" parameterType="EcmMzfDraw" >
     update ecm_mzf_draw
     set draw_code = #{drawCode,jdbcType=VARCHAR},
