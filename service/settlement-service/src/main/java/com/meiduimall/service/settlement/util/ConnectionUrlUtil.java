@@ -49,7 +49,7 @@ public class ConnectionUrlUtil {
 			bWriter.flush();
 			bWriter.close();
 			InputStream in = conn.getInputStream();
-			StringBuffer buffer = new StringBuffer();
+			StringBuilder buffer = new StringBuilder();
 			for (int i = 0; i != -1;) {
 				i = in.read();
 				if (i != -1)
@@ -90,7 +90,7 @@ public class ConnectionUrlUtil {
 			bWriter.flush();
 			bWriter.close();
 			InputStream in = conn.getInputStream();
-			StringBuffer buffer = new StringBuffer();
+			StringBuilder buffer = new StringBuilder();
 			for (int i = 0; i != -1;) {
 				i = in.read();
 				if (i != -1)
@@ -130,7 +130,7 @@ public class ConnectionUrlUtil {
 			bWriter.flush();
 			bWriter.close();
 			InputStream in = conn.getInputStream();
-			StringBuffer buffer = new StringBuffer();
+			StringBuilder buffer = new StringBuilder();
 			for (int i = 0; i != -1;) {
 				i = in.read();
 				if (i != -1)
@@ -173,7 +173,7 @@ public class ConnectionUrlUtil {
 			bWriter.flush();
 			bWriter.close();
 			InputStream in = conn.getInputStream();
-			StringBuffer buffer = new StringBuffer();
+			StringBuilder buffer = new StringBuilder();
 			for (int i = 0; i != -1;) {
 				i = in.read();
 				if (i != -1)
@@ -214,7 +214,7 @@ public class ConnectionUrlUtil {
 			bWriter.flush();
 			bWriter.close();
 			InputStream in = conn.getInputStream();
-			StringBuffer buffer = new StringBuffer();
+			StringBuilder buffer = new StringBuilder();
 			for (int i = 0; i != -1;) {
 				i = in.read();
 				if (i != -1)
@@ -257,7 +257,7 @@ public class ConnectionUrlUtil {
 			bWriter.flush();
 			bWriter.close();
 			InputStream in = conn.getInputStream();
-			StringBuffer buffer = new StringBuffer();
+			StringBuilder buffer = new StringBuilder();
 			for (int i = 0; i != -1;) {
 				i = in.read();
 				if (i != -1)
@@ -283,7 +283,7 @@ public class ConnectionUrlUtil {
 			conn.setDoInput(true);
 			conn.setDoOutput(true);
 			conn.setRequestMethod("POST");
-			StringBuffer params = new StringBuffer();
+			StringBuilder params = new StringBuilder();
 
 			params.append(param);
 			byte[] bypes = params.toString().getBytes("utf-8");
@@ -292,7 +292,7 @@ public class ConnectionUrlUtil {
 			InputStream inStream = conn.getInputStream();
 			BufferedReader br = new BufferedReader(new InputStreamReader(
 					inStream));
-			StringBuffer res = new StringBuffer("");
+			StringBuilder res = new StringBuilder("");
 			String line = "";
 			while ((line = br.readLine()) != null) {
 				res.append(line);
@@ -326,7 +326,7 @@ public class ConnectionUrlUtil {
 		// DataInputStream dis = new DataInputStream(con.getInputStream());
 		InputStream in = con.getInputStream();
 
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		for (int i = 0; i != -1;) {
 			i = in.read();
 			if (i != -1)
@@ -365,7 +365,7 @@ public class ConnectionUrlUtil {
 			bWriter.flush();
 			bWriter.close();
 			InputStream in = conn.getInputStream();
-			StringBuffer buffer = new StringBuffer();
+			StringBuilder buffer = new StringBuilder();
 			for (int i = 0; i != -1;) {
 				i = in.read();
 				if (i != -1)
@@ -403,7 +403,7 @@ public class ConnectionUrlUtil {
 
 		map.put("sessionid", sessionid);
 
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		for (int i = 0; i != -1;) {
 			i = in.read();
 			if (i != -1)
@@ -423,7 +423,7 @@ public class ConnectionUrlUtil {
 		InputStream input = null;
 		BufferedReader bufferedReader = null;
 		InputStreamReader reader = null;
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		try {
 			System.out.println("请求地址:" + requestUrl);
 			System.out.println("请求方法:" + requestMethod);
@@ -450,7 +450,7 @@ public class ConnectionUrlUtil {
 			input = httpConn.getInputStream();
 			reader = new InputStreamReader(input, "UTF-8");
 			bufferedReader = new BufferedReader(reader);
-			buffer = new StringBuffer();
+			buffer = new StringBuilder();
 			String str = null;
 			while ((str = bufferedReader.readLine()) != null) {
 				buffer.append(str);
@@ -496,7 +496,7 @@ public class ConnectionUrlUtil {
 		InputStream input = null;
 		BufferedReader bufferedReader = null;
 		InputStreamReader reader = null;
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		try {
 			System.out.println("请求地址:" + requestUrl);
 			System.out.println("请求方法:" + requestMethod);
@@ -523,7 +523,7 @@ public class ConnectionUrlUtil {
 			input = httpConn.getInputStream();
 			reader = new InputStreamReader(input, "UTF-8");
 			bufferedReader = new BufferedReader(reader);
-			buffer = new StringBuffer();
+			buffer = new StringBuilder();
 			String str = null;
 			while ((str = bufferedReader.readLine()) != null) {
 				buffer.append(str);
@@ -562,7 +562,7 @@ public class ConnectionUrlUtil {
 		InputStream input = null;
 		BufferedReader bufferedReader = null;
 		InputStreamReader reader = null;
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		try {
 			System.out.println("请求地址:" + requestUrl);
 			System.out.println("请求方法:" + requestMethod);
@@ -589,7 +589,7 @@ public class ConnectionUrlUtil {
 			input = httpConn.getInputStream();
 			reader = new InputStreamReader(input, "UTF-8");
 			bufferedReader = new BufferedReader(reader);
-			buffer = new StringBuffer();
+			buffer = new StringBuilder();
 			String str = null;
 			while ((str = bufferedReader.readLine()) != null) {
 				buffer.append(str);

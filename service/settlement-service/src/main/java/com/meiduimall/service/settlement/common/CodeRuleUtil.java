@@ -2,10 +2,7 @@ package com.meiduimall.service.settlement.common;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Map;
 import java.util.Random;
-
-import com.google.common.base.Strings;
 
 import com.meiduimall.service.settlement.util.DateUtil;
 
@@ -112,7 +109,6 @@ public class CodeRuleUtil {
 		return prefix + code + fmt.format(new Date()) + getRandomNumber(length);
 	}
 	
-	
 	private static String createDrawCode(String prefix,String code,String count){
 		SimpleDateFormat fmt = new SimpleDateFormat(DAY_PATTERN);
 		String result = "";
@@ -125,9 +121,6 @@ public class CodeRuleUtil {
 		result = prefix + code + fmt.format(new Date()) + random;
 		return result;
 	}
-	
-	
-	
 	
 	/**
 	 * 获得0-9,a-z,A-Z范围的随机数
@@ -142,7 +135,7 @@ public class CodeRuleUtil {
 				'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W',
 				'X', 'Y', 'Z' };
 		Random random = new Random();
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		for (int i = 0; i < length; i++) {
 			buffer.append(chr[random.nextInt(62)]);
 		}
@@ -160,35 +153,11 @@ public class CodeRuleUtil {
 	 */
 	public static String getRandomNumber(int length) {
 		Random random = new Random();
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		for (int i = 0; i < length; i++) {
 			buffer.append(random.nextInt(10));
 		}
 		return buffer.toString();
-	}
-	
-	/**
-	 * 验证参数是否为空
-	 * @param params
-	 * @return
-	 */
-	public static String verifyMsg(Map<String, String> params){
-		String code = params.get("code");
-		String type = params.get("type");
-		String result = "";
-		
-		if(Strings.isNullOrEmpty(code)){
-			result += ",代理编号为空";
-		}
-		
-		if(Strings.isNullOrEmpty(type)){
-			result += ",操作类型为空";
-		}
-		
-		if(result.length() > 1){
-			return result.substring(1);
-		}
-		return null;
 	}
 	
 	/**
@@ -197,21 +166,22 @@ public class CodeRuleUtil {
 	 * @param code 角色编号
 	 * @return
 	 */
-	public static String getBillid(int type,String code)
-	{
-		String billid="ZD"+code+DateUtil.getCurrentSixDay();
+	public static String getBillid(int type, String code) {
+		
+		String billid = "ZD" + code + DateUtil.getCurrentSixDay();
+		
 		switch (type) {
 		case 1:
-			billid="SZ"+code+DateUtil.getCurrentSixDay();
+			billid = "SZ" + code + DateUtil.getCurrentSixDay();
 			break;
 		case 2:
-			billid="GZ"+code+DateUtil.getCurrentSixDay();
+			billid = "GZ" + code + DateUtil.getCurrentSixDay();
 			break;
 		case 3:
-			billid="QZ"+code+DateUtil.getCurrentSixDay();
+			billid = "QZ" + code + DateUtil.getCurrentSixDay();
 			break;
 		case 4:
-			billid="QZ"+code+DateUtil.getCurrentSixDay();
+			billid = "QZ" + code + DateUtil.getCurrentSixDay();
 			break;
 		default:
 			break;
@@ -225,20 +195,22 @@ public class CodeRuleUtil {
 	 * @param code 角色编号
 	 * @return
 	 */
-	public static String getBillFlowCode(int type,String code){
-		String billid="ZD"+code+DateUtil.getCurrentSixDay();
+	public static String getBillFlowCode(int type, String code) {
+		
+		String billid = "ZD" + code + DateUtil.getCurrentSixDay();
+		
 		switch (type) {
 		case 1:
-			billid="SL"+code+DateUtil.getCurrentSixDay()+getRandomNumber(2);
+			billid = "SL" + code + DateUtil.getCurrentSixDay() + getRandomNumber(2);
 			break;
 		case 2:
-			billid="GL"+code+DateUtil.getCurrentSixDay()+getRandomNumber(2);
+			billid = "GL" + code + DateUtil.getCurrentSixDay() + getRandomNumber(2);
 			break;
 		case 3:
-			billid="QL"+code+DateUtil.getCurrentSixDay()+getRandomNumber(2);
+			billid = "QL" + code + DateUtil.getCurrentSixDay() + getRandomNumber(2);
 			break;
 		case 4:
-			billid="QL"+code+DateUtil.getCurrentSixDay()+getRandomNumber(2);
+			billid = "QL" + code + DateUtil.getCurrentSixDay() + getRandomNumber(2);
 			break;
 		default:
 			break;
@@ -246,31 +218,30 @@ public class CodeRuleUtil {
 		return billid;
 	}
 	
-	
 	/**
 	 * 由于账户表和账单流水表类型不对应，为了代码简洁，做特殊处理
 	 * @param type 原始类型编号
 	 * @return
 	 */
-	public static int getAccountRoleType(int type)
-	{
-		int newtype=0;
+	public static int getAccountRoleType(int type) {
+		int newtype = 0;
 		switch (type) {
 		case 1:
-			newtype=3;
+			newtype = 3;
 			break;
 		case 2:
-			newtype=2;
+			newtype = 2;
 			break;
 		case 3:
-			newtype=1;
+			newtype = 1;
 			break;
 		case 4:
-			newtype=1;
+			newtype = 1;
 			break;
 		default:
 			break;
 		}
 		return newtype;
 	}
+	
 }
