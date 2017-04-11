@@ -34,7 +34,7 @@ public class ShopController {
 	 * 
 	 * @param shop_id
 	 * @param mem_id
-	 *            会员系统ID
+	 *            会员系统ID 
 	 * @return
 	 */
 	@RequestMapping(value = "/getShopDetail")

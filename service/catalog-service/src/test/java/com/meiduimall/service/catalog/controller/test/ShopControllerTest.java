@@ -57,4 +57,9 @@ public class ShopControllerTest extends BaseTest {
 			}
 		});
 	}
+	
+	@Test
+	public void testCollectOrCancelShop1() throws Exception {
+		
+	}
 }
