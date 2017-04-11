@@ -25,7 +25,7 @@ public class BaseMapperImpl extends SqlSessionDaoSupport implements BaseMapper {
 		T rt = null;
 		try {
 			rt = getSqlSession().selectOne(sqlTag, params);
-		} catch (DaoException e) {
+		} catch (RuntimeException e) {
 			throw new DaoException(sqlTag + " error, params = " + params, e);
 		}
 		return rt;

@@ -73,18 +73,14 @@ public class SmsController {
    */
   @RequestMapping("send_sms_verification_code")
   public ResultBody sendSmsVerificationCode(CommonShortMessageModel model) {
-    logger.info("开始发短信验证码程序");
     ResultBody result = new ResultBody();
+
     if (null == model) {
       return result;
     }
-//    try {
+
     String code = smsService.sendSmsVerificationCode(model);
     result.setResult(code);
-//    } catch (Exception e) {
-//      throw new ServiceException(SmsServiceErrorInfoEnum.NOT_FOUND);
-//    }
-    logger.info("结束发短信验证码程序");
 
     return result;
   }
@@ -97,12 +93,10 @@ public class SmsController {
    */
   @RequestMapping("check_sms_verification_code")
   public ResultBody checkSmsVerificationCode(@Valid CommonShortMessageModel model) {
-    logger.info("开始校验短信验证码程序");
 
-
-    if (null == model) {
-      return new ResultBody(SmsServiceErrorInfoEnum.PARAM_ERROR, null);
-    }
+//    if (null == model) {
+//      return new ResultBody(SmsServiceErrorInfoEnum.PARAM_ERROR, null);
+//    }
 
     switch  (smsService.checkSmsVerificationCode(model)) {
       case 0:

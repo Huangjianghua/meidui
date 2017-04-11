@@ -4,6 +4,7 @@ package com.meiduimall.service.settlement.service.impl;
 import java.util.Collection;
 import java.util.Map;
 
+import com.meiduimall.service.SettlementServiceErrorInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,14 +100,14 @@ public class O2oCallbackServiceImpl implements O2oCallbackService{
 		
 		if(resultObj==null || resultObj.isEmpty()){ 
 			log.info("回调o2o更新余款、抵扣保证金插入缴费记录失败,agentNo:{},as resultObj in addProxyFee() is null",areaAgent.getAddAgentNo());
-			throw new ServiceException("回调o2o更新余款、抵扣保证金插入缴费记录失败");
+			throw new ServiceException(SettlementServiceErrorInfo.CALLBACK_O2O_UPD_BALANCE_FAILD);
 		}else{
 			if("0".equals(resultObj.get("status_code"))){
 				log.info("回调o2o，更新余款，抵扣保证金插入缴费记录成功");
 				payinId = resultObj.get("result");
 			}else{
 				log.error("回调o2o更新余款、抵扣保证金插入缴费记录失败,agentNo:{}",areaAgent.getAddAgentNo());
-				throw new ServiceException("回调o2o更新余款、抵扣保证金插入缴费记录失败");
+				throw new ServiceException(SettlementServiceErrorInfo.CALLBACK_O2O_UPD_BALANCE_FAILD);
 			}
 		}
 
