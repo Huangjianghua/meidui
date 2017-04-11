@@ -63,4 +63,24 @@ public class MDShopControllerHttp {
 		params.put("is_collect", "" + is_collect);
 		return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
 	}
+
+	/**
+	 * 请求商家自定义商品分类列表
+	 * 
+	 * @param env
+	 * @param shop_id
+	 * @return
+	 * @throws Exception
+	 */
+	public static String getShopProductCatalogHttp(Environment env, int shop_id) throws Exception {
+		String uri = "/mall/catalog-service/v1/shopInfo/getShopCatalog";
+		String host = env.getProperty("service.host");
+		String clientID = env.getProperty("service.sign-clientID");
+		String signKey = env.getProperty("service.sign-key");
+		String url = host + uri;
+
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("shop_id", "" + shop_id);
+		return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
+	}
 }

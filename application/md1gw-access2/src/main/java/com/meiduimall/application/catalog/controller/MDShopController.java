@@ -89,4 +89,36 @@ public class MDShopController {
 			return JSON.toJSONString(errorBody);
 		}
 	}
+
+	/**
+	 * 请求商家自定义商品分类列表
+	 * 
+	 * @param shop_id
+	 * @return
+	 */
+	@RequestMapping(value = "/getShopCatalog")
+	public String getShopProductCatalog(String shop_id) {
+		try {
+			logger.info("请求店铺自定义商品分类，店铺shop_id：" + shop_id);
+			int shopId = 0;
+			try {
+				shopId = Integer.parseInt(shop_id);
+			} catch (Exception e) {
+				logger.error("请求店铺自定义商品分类，服务器异常：" + e);
+				ResBodyData errorBody = new ResBodyData();
+				errorBody.setStatus(BaseApiCode.REQUEST_PARAMS_ERROR);
+				errorBody.setMsg(BaseApiCode.getZhMsg(BaseApiCode.REQUEST_PARAMS_ERROR));
+				errorBody.setData(new JSONObject());
+				return JSON.toJSONString(errorBody);
+			}
+			return MDShopControllerHttp.getShopProductCatalogHttp(env, shopId);
+		} catch (Exception e) {
+			logger.error("请求店铺自定义商品分类，服务器异常：" + e);
+			ResBodyData errorBody = new ResBodyData();
+			errorBody.setStatus(BaseApiCode.OPERAT_FAIL);
+			errorBody.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
+			errorBody.setData(new JSONObject());
+			return JSON.toJSONString(errorBody);
+		}
+	}
 }

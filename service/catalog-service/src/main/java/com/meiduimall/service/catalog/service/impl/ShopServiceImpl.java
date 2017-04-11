@@ -157,6 +157,7 @@ public class ShopServiceImpl implements ShopService {
 	public ResBodyData getShopProductCatalog(Integer shopId) {
 		ResBodyData result = new ResBodyData();// 最终返回的数据对象
 		try {
+			logger.error("获取店铺自定义分类商品，shop_id： " + shopId);
 			SysshopShopCatExample example = new SysshopShopCatExample();
 			SysshopShopCatExample.Criteria criteria = example.createCriteria();
 			criteria.andShopIdEqualTo(Integer.valueOf(shopId));
