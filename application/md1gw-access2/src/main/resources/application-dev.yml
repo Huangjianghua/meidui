@@ -13,3 +13,6 @@ service :
   sign-clientID : mall_java
   sign-key : Test123
     
+# 会员系统地址
+member : 
+  host : 192.168.4.240:8097

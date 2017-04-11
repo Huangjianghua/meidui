@@ -12,4 +12,8 @@ service :
   host : http://192.168.4.240:9050
   sign-clientID : mall_java
   sign-key : 
+     
+# 会员系统地址
+member : 
+  host : vip.api.meiduimall.com
     

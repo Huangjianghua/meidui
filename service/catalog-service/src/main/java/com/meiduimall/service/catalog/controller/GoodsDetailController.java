@@ -35,7 +35,7 @@ public class GoodsDetailController {
 	 * 根据商品编号，查询商品是否存在
 	 * 
 	 * @param item_id
-	 *            商品编号，必须传入，否则报错
+	 *            商品编号，必须传入，否则报错 
 	 * @return
 	 */
 	@RequestMapping(value = "/isExist")

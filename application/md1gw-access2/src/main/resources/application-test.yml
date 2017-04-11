@@ -13,3 +13,7 @@ service :
   sign-clientID : mall_java
   sign-key : Test123
     
+# 会员系统地址
+member : 
+  host : vipt.api.meiduimall.com
+    

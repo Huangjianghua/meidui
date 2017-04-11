@@ -31,8 +31,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		return true;
-		/*try {
+		try {
 			request.setCharacterEncoding("utf-8");
 			response.setCharacterEncoding("utf-8");
 			response.setContentType("text/html;charset=utf-8");
@@ -41,7 +40,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 			Method method = handlerMethod.getMethod();
 
 			if (method.getAnnotation(HasToken.class) != null) {
-				*//** 需要校验token *//*
+				/** 需要校验token */
 				String token = request.getParameter("token");
 				if (StringUtil.isEmptyByString(token)) {
 					// token为空，不通过
@@ -49,15 +48,15 @@ public class TokenInterceptor implements HandlerInterceptor {
 				}
 
 				// 调用会员系统，验证token
-				return false;
+				return true;
 				
 			} else {
-				*//** 不需要校验token，放行 *//*
+				/** 不需要校验token，放行 */
 				return true;
 			}
 		} catch (Exception e) {
 			return outPut(response, BaseApiCode.TOKEN_VALIDATE_ERROR);
-		}*/
+		}
 	}
 
 	private boolean outPut(HttpServletResponse response, Integer code) throws Exception {
