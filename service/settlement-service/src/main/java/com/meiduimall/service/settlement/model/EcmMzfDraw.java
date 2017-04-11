@@ -103,6 +103,17 @@ public class EcmMzfDraw implements Serializable{
 	
 	//账号可提现金额(2017-04-01)
 	private BigDecimal balance;
+	
+	//当日提现总次数
+	private Integer drawNo;
+
+	public Integer getDrawNo() {
+		return drawNo;
+	}
+
+	public void setDrawNo(Integer drawNo) {
+		this.drawNo = drawNo;
+	}
 
 	public BigDecimal getBalance() {
 		return balance;

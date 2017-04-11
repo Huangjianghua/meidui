@@ -17,10 +17,42 @@
   
   <!-- 获取提现管理列表  -->
   <select id="querydrawcash" parameterType="java.util.Map" resultType="EcmMzfDraw">
-        select 
-    <include refid="Base_Column_List" />
-    from ecm_mzf_draw
-    where 1 = 1
+        SELECT 
+		  a.id,
+		  a.draw_code drawCode,
+		  a.draw_type drawType,
+		  a.code,
+		  a.user_type userType,
+		  a.realname,
+		  a.bankname,
+		  a.banknum,
+		  a.bankaddress,
+		  a.bank_branch bankBranch,
+		  a.money,
+		  a.cash_withdrawal_fee cashWithdrawalFee,
+		  a.total_money totalMoney,
+		  a.add_time addTime,
+		  a.status,
+		  a.remark,
+		  a.draw_time drawTime,
+		  a.verify_id verifyId,
+		  a.verify_name verifyName,
+		  a.verify_time verifyTime,
+		  a.verify_status verifyStatus,
+		  a.finance_id financeId,
+		  a.finance_name financeName,
+		  a.finance_time financeTime,
+		  a.finance_status financeStatus,
+		  a.draw_name drawName,
+		  (SELECT 
+		    COUNT(*) 
+		  FROM
+		    ecm_mzf_draw b 
+		  WHERE b.code = a.code 
+		    AND FROM_UNIXTIME(b.add_time, '%Y-%m-%d') = FROM_UNIXTIME(a.add_time, '%Y-%m-%d')) drawNo 
+		FROM
+		  ecm_mzf_draw a 
+		WHERE 1 = 1 
     <if test="drawCode!= null" >
      and draw_code = #{drawCode,jdbcType=VARCHAR}
     </if>

@@ -80,7 +80,7 @@ public class CodeRuleUtil {
 	 * @return
 	 */
 	public static String getQZDrawCode(String code, String count){
-		return CodeRuleUtil.createDrawCode("QZ", code, count);
+		return CodeRuleUtil.createDrawCode("QT", code, count);
 	}
 	
 	/**
@@ -89,7 +89,7 @@ public class CodeRuleUtil {
 	 * @return
 	 */
 	public static String getGZDrawCode(String code, String count){
-		return CodeRuleUtil.createDrawCode("GZ", code, count);
+		return CodeRuleUtil.createDrawCode("GT", code, count);
 	}
 	
 	/**
