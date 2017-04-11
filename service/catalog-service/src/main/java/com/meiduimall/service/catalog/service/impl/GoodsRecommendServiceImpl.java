@@ -15,11 +15,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.service.catalog.dao.BaseDao;
-import com.meiduimall.service.catalog.entity.CheckGoodsResult;
-import com.meiduimall.service.catalog.entity.GoodsDetailResult;
-import com.meiduimall.service.catalog.entity.JsonCheckGoodsResult;
-import com.meiduimall.service.catalog.entity.ListGoodsDetailResult;
 import com.meiduimall.service.catalog.entity.SysitemItemRecommend;
+import com.meiduimall.service.catalog.result.CheckGoodsResult;
+import com.meiduimall.service.catalog.result.GoodsDetailResult;
+import com.meiduimall.service.catalog.result.JsonCheckGoodsResult;
+import com.meiduimall.service.catalog.result.ListGoodsDetailResult;
 import com.meiduimall.service.catalog.service.GoodsRecommendService;
 
 @Service

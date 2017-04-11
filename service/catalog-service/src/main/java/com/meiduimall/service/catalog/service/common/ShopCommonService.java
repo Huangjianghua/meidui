@@ -5,9 +5,9 @@ import org.apache.commons.lang3.time.DateFormatUtils;
 
 import com.meiduimall.service.catalog.dao.BaseDao;
 import com.meiduimall.service.catalog.entity.IdAndMemId;
-import com.meiduimall.service.catalog.entity.JsonItemDetailResult_ShopData;
 import com.meiduimall.service.catalog.entity.SysrateDsrWithBLOBs;
 import com.meiduimall.service.catalog.entity.SysshopShopWithBLOBs;
+import com.meiduimall.service.catalog.result.JsonItemDetailResult_ShopData;
 import com.meiduimall.service.catalog.util.NumberFormatUtil;
 import com.meiduimall.service.catalog.util.ParserSysRateDsrInfo;
 

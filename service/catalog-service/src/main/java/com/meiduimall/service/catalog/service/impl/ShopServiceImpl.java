@@ -1,5 +1,6 @@
 package com.meiduimall.service.catalog.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.LoggerFactory;
@@ -10,13 +11,18 @@ import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.service.catalog.dao.BaseDao;
-import com.meiduimall.service.catalog.entity.JsonItemDetailResult_ShopData;
 import com.meiduimall.service.catalog.entity.SysshopShop;
+import com.meiduimall.service.catalog.entity.SysshopShopCat;
+import com.meiduimall.service.catalog.entity.SysshopShopCatExample;
 import com.meiduimall.service.catalog.entity.SysshopShopExample;
 import com.meiduimall.service.catalog.entity.SysuserAccount;
 import com.meiduimall.service.catalog.entity.SysuserShopFav;
 import com.meiduimall.service.catalog.entity.SysuserShopFavExample;
 import com.meiduimall.service.catalog.request.ShopProductRequest;
+import com.meiduimall.service.catalog.result.ChildShopCat;
+import com.meiduimall.service.catalog.result.JsonItemDetailResult_ShopData;
+import com.meiduimall.service.catalog.result.ParentShopCat;
+import com.meiduimall.service.catalog.result.ShopCatResult;
 import com.meiduimall.service.catalog.service.ShopService;
 import com.meiduimall.service.catalog.service.common.ShopCommonService;
 
@@ -70,15 +76,15 @@ public class ShopServiceImpl implements ShopService {
 
 			if (isCollect == 1) {
 				// 收藏店铺
-				// 1.首先判断该用户是否收藏了该店铺
+				// 1.首先判断该用户是否收藏了该店铺--如果已经收藏了，直接提示收藏成功
 				SysuserShopFavExample shopFavExample = new SysuserShopFavExample();
 				SysuserShopFavExample.Criteria criteria = shopFavExample.createCriteria();
 				criteria.andShopIdEqualTo(shopId);
 				criteria.andUserIdEqualTo(userId);
 				int collectCount = baseDao.selectOne(shopFavExample, "SysuserShopFavMapper.countByExample");
 				if (collectCount > 0) {
-					result.setStatus(BaseApiCode.ALREADY_COLLECT);
-					result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.ALREADY_COLLECT));
+					result.setStatus(BaseApiCode.SUCCESS);
+					result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.COLLECT_SUCCESS));
 					result.setData(new JSONObject());
 					return result;
 				}
@@ -101,7 +107,7 @@ public class ShopServiceImpl implements ShopService {
 				// 3.保存数据
 				SysuserShopFav shopFav = new SysuserShopFav();
 
-				// TODO 时间如何取值
+				// 时间只保存到秒
 				shopFav.setCreateTime(new Long(System.currentTimeMillis() / 1000l).intValue());
 				shopFav.setShopId(shopId);
 				shopFav.setShopLogo(sysshopShop.getShopLogo());
@@ -151,7 +157,47 @@ public class ShopServiceImpl implements ShopService {
 	public ResBodyData getShopProductCatalog(Integer shopId) {
 		ResBodyData result = new ResBodyData();// 最终返回的数据对象
 		try {
+			SysshopShopCatExample example = new SysshopShopCatExample();
+			SysshopShopCatExample.Criteria criteria = example.createCriteria();
+			criteria.andShopIdEqualTo(Integer.valueOf(shopId));
+			List<SysshopShopCat> list = baseDao.selectList(example, "SysshopShopCatMapper.selectByExample");
 
+			ShopCatResult shopCatResult = new ShopCatResult();
+			if (list != null && list.size() > 0) {
+				List<ParentShopCat> results = new ArrayList<ParentShopCat>();
+
+				// 1.先得到所有的parent_id
+				for (SysshopShopCat cat : list) {
+					Integer parentId = cat.getParentId();
+					if (parentId != null && parentId.intValue() == 0) {
+						ParentShopCat parentShopCat = new ParentShopCat();
+						parentShopCat.setCat_id(cat.getCatId());
+						parentShopCat.setCat_name(cat.getCatName());
+						parentShopCat.setChildShopCat(new ArrayList<ChildShopCat>());
+						results.add(parentShopCat);
+					}
+				}
+
+				// 2.将所有的cat_id放到对应的parent_id集合中
+				out: for (SysshopShopCat cat : list) {
+					Integer parentId = cat.getParentId();
+					if (parentId != null && parentId.intValue() != 0) {
+						for (ParentShopCat parent : results) {
+							Integer cat_id = parent.getCat_id();
+							if (cat_id != null && cat_id.intValue() == parentId.intValue()) {
+								ChildShopCat childShopCat = new ChildShopCat();
+								childShopCat.setCat_id(cat.getCatId());
+								childShopCat.setCat_name(cat.getCatName());
+								parent.getChildShopCat().add(childShopCat);
+								continue out;
+							}
+						}
+					}
+				}
+
+				shopCatResult.setResults(results);
+			}
+			result.setData(shopCatResult);
 		} catch (Exception e) {
 			logger.error("获取店铺分类商品，service报异常：" + e);
 			result.setStatus(BaseApiCode.OPERAT_FAIL);

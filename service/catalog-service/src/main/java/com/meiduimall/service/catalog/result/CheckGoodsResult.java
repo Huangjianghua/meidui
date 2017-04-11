@@ -1,4 +1,4 @@
-package com.meiduimall.service.catalog.entity;
+package com.meiduimall.service.catalog.result;
 
 /**
  * json数据构造对象--返回商品详情页访问地址

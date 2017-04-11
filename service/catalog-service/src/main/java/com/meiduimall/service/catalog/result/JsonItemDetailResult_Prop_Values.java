@@ -1,4 +1,4 @@
-package com.meiduimall.service.catalog.entity;
+package com.meiduimall.service.catalog.result;
 
 /**
  * 每一个商品规格分别对应的值

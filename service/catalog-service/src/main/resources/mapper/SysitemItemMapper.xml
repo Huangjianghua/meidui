@@ -132,7 +132,7 @@
 	
 	<!-- 根据商品多个ID查询多个商品信息 -->
 	<select id="getItemsInItemId" parameterType="java.util.List"
-		resultType="com.meiduimall.service.catalog.entity.GoodsDetailResult">
+		resultType="com.meiduimall.service.catalog.result.GoodsDetailResult">
 		SELECT item_id,title,sub_title,price,point,image_default_id FROM
 		sysitem_item
 		<if test="list != null">

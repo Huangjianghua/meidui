@@ -1,4 +1,4 @@
-package com.meiduimall.service.catalog.entity;
+package com.meiduimall.service.catalog.result;
 
 /**
  * 查询结果--商品详情对象

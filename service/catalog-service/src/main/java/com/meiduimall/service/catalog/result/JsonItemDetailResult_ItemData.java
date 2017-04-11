@@ -1,4 +1,4 @@
-package com.meiduimall.service.catalog.entity;
+package com.meiduimall.service.catalog.result;
 
 /**
  * 商品详情
