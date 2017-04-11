@@ -17,7 +17,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class SettlementApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SettlementApplication.class,args); 
+		SpringApplication.run(SettlementApplication.class, args); 
 	}
 	
 

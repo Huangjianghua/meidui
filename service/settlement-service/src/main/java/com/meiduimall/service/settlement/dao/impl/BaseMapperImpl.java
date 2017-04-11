@@ -36,7 +36,7 @@ public class BaseMapperImpl extends SqlSessionDaoSupport implements BaseMapper {
 		List<T> rt = null;
 		try {
 			rt = getSqlSession().selectList(sqlTag, params);
-		} catch (DaoException e) {
+		} catch (RuntimeException e) {
 			throw new DaoException(sqlTag + " error, params = " + params, e);
 		}
 		return rt;
@@ -47,7 +47,7 @@ public class BaseMapperImpl extends SqlSessionDaoSupport implements BaseMapper {
 		Integer rt = null;
 		try {
 			rt = getSqlSession().insert(sqlTag, t);
-		} catch (DaoException e) {
+		} catch (RuntimeException e) {
 			throw new DaoException(sqlTag + " error, t = " + t, e);
 		}
 		return rt;
@@ -58,7 +58,7 @@ public class BaseMapperImpl extends SqlSessionDaoSupport implements BaseMapper {
 		Integer rt = null;
 		try {
 			rt = getSqlSession().insert(sqlTag + "." + sqlTag, ts);
-		} catch (DaoException e) {
+		} catch (RuntimeException e) {
 			throw new DaoException(sqlTag + " error, ts = " + ts, e);
 		}
 		return rt;
@@ -69,7 +69,7 @@ public class BaseMapperImpl extends SqlSessionDaoSupport implements BaseMapper {
 		Integer rt = null;
 		try {
 			rt = getSqlSession().update(sqlTag, params);
-		} catch (DaoException e) {
+		} catch (RuntimeException e) {
 			throw new DaoException(sqlTag + " error, params = " + params, e);
 		}
 		return rt;
@@ -78,22 +78,20 @@ public class BaseMapperImpl extends SqlSessionDaoSupport implements BaseMapper {
 	@Override
 	public <P> Integer delete(P params, String sqlTag) throws DaoException {
 		Integer rt = null;
-
 		try {
 			rt = getSqlSession().delete(sqlTag, params);
-		} catch (DaoException e) {
+		} catch (RuntimeException e) {
 			throw new DaoException(sqlTag + " error, params = " + params, e);
 		}
 		return rt;
 	}
 
 	@Override
-	public <P> Integer deleteBatch(List<P> params, String sqlTag)
-			throws DaoException {
+	public <P> Integer deleteBatch(List<P> params, String sqlTag) throws DaoException {
 		Integer rt = null;
 		try {
 			rt = getSqlSession().delete(sqlTag, params);
-		} catch (DaoException e) {
+		} catch (RuntimeException e) {
 			throw new DaoException(sqlTag + " error, params = " + params, e);
 		}
 		return rt;
