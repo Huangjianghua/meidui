@@ -4,7 +4,6 @@ package com.meiduimall.service.settlement.service.impl;
 import java.util.Collection;
 import java.util.Map;
 
-import com.meiduimall.service.SettlementServiceErrorInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +11,10 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.base.Joiner;
 import com.meiduimall.core.Constants;
+import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.ServiceException;
+import com.meiduimall.service.SettlementServiceErrorInfo;
 import com.meiduimall.service.settlement.common.O2oApiConstants;
 import com.meiduimall.service.settlement.common.ShareProfitUtil;
 import com.meiduimall.service.settlement.model.EcmAgent;
@@ -22,6 +23,7 @@ import com.meiduimall.service.settlement.service.O2oCallbackService;
 import com.meiduimall.service.settlement.service.SmsService;
 import com.meiduimall.service.settlement.util.ConnectionUrlUtil;
 import com.meiduimall.service.settlement.util.DateUtil;
+
 
 @Service
 public class O2oCallbackServiceImpl implements O2oCallbackService{
@@ -39,14 +41,14 @@ public class O2oCallbackServiceImpl implements O2oCallbackService{
 		try{
 			String resultObjStr = ConnectionUrlUtil.httpRequest(buildUrl4InformSettlementStatus(orderSns,statusCode), ShareProfitUtil.REQUEST_METHOD_POST, null);
 			
-			Map<String,String> resultObj=JsonUtils.jsonToMap(resultObjStr, String.class);
+			ResBodyData resultObj = JsonUtils.jsonToBean(resultObjStr, ResBodyData.class);
 			
-			if("0".equals(resultObj.get("status_code"))){
+			if("0".equals(resultObj.getStatus())){
 				log.info("通知订单结算状态给O2O成功!orderSns:{},statusCode:{}",Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSns),statusCodeMsg);
 			}else{
 				isSuccess=false;
 				log.error("通知订单结算状态给O2O失败!orderSns:{},statusCode:{}",Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSns),statusCodeMsg);
-				log.error("通知订单结算状态给O2O失败!orderSns:{},失败信息:{}",Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSns),resultObj.get("result_msg"));
+				log.error("通知订单结算状态给O2O失败!orderSns:{},失败信息:{}",Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSns),resultObj.getMsg());
 			}
 
 		}catch(Exception e){
@@ -94,21 +96,16 @@ public class O2oCallbackServiceImpl implements O2oCallbackService{
 	@Override
 	public String addProxyFee(EcmAgent areaAgent, double amount) throws ServiceException {
 		String payinId = null;
-		String resultObjStr = ConnectionUrlUtil.httpRequest(buildUrl4AddProxyFee(areaAgent,amount), ShareProfitUtil.REQUEST_METHOD_POST, null);
-		
-		Map<String,String> resultObj=JsonUtils.jsonToMap(resultObjStr, String.class);
-		
-		if(resultObj==null || resultObj.isEmpty()){ 
-			log.info("回调o2o更新余款、抵扣保证金插入缴费记录失败,agentNo:{},as resultObj in addProxyFee() is null",areaAgent.getAddAgentNo());
-			throw new ServiceException(SettlementServiceErrorInfo.CALLBACK_O2O_UPD_BALANCE_FAILD);
-		}else{
-			if("0".equals(resultObj.get("status_code"))){
-				log.info("回调o2o，更新余款，抵扣保证金插入缴费记录成功");
-				payinId = resultObj.get("result");
-			}else{
-				log.error("回调o2o更新余款、抵扣保证金插入缴费记录失败,agentNo:{}",areaAgent.getAddAgentNo());
-				throw new ServiceException(SettlementServiceErrorInfo.CALLBACK_O2O_UPD_BALANCE_FAILD);
-			}
+		String resultObjStr = ConnectionUrlUtil.httpRequest(buildUrl4AddProxyFee(areaAgent, amount), ShareProfitUtil.REQUEST_METHOD_POST, null);
+
+		ResBodyData resultObj = JsonUtils.jsonToBean(resultObjStr, ResBodyData.class);
+
+		if ("0".equals(resultObj.getStatus())) {
+			log.info("回调o2o，更新余款，抵扣保证金插入缴费记录成功");
+			payinId = (String) resultObj.getData();
+		} else {
+			log.error("回调o2o更新余款、抵扣保证金插入缴费记录失败,agentNo:{}", areaAgent.getAddAgentNo());
+//			throw new ServiceException(SettlementServiceErrorInfo.CALLBACK_O2O_UPD_BALANCE_FAILD);
 		}
 
 		return payinId;

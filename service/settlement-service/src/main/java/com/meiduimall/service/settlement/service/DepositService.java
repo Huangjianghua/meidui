@@ -3,6 +3,7 @@ package com.meiduimall.service.settlement.service;
 import java.util.List;
 import java.util.Map;
 
+import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.settlement.model.EcmAgent;
 import com.meiduimall.service.settlement.model.EcmMzfAccount;
@@ -46,7 +47,7 @@ public interface DepositService {
 	 * param   ecmMzfAccount
 	 * return  
 	 */
-	public int createAccount(EcmMzfAccount ecmMzfAccount) throws ServiceException;
+	public int createAccount(EcmMzfAccount ecmMzfAccount) throws DaoException;
 	
 	
 	/**

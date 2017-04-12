@@ -1,9 +1,5 @@
 package com.meiduimall.application.search.manage.controller;
-
 import java.util.ArrayList;
-
-
-
 import java.util.List;
 import java.util.Map;
 
@@ -39,6 +35,8 @@ public class AuthorizationController extends BaseController {
 
 	private Logger log = Logger.getLogger(AuthorizationController.class);
 	
+	
+	
 	// 更新产品索引URL
 	private String updateProductIndexUrl = "";
 	
@@ -68,6 +66,9 @@ public class AuthorizationController extends BaseController {
 	
 	@Autowired
 	private IndexService indexService;
+	
+	@Autowired
+	private  HttpServletRequest request;
 	
 	private void initUrl() {
 		try {
@@ -104,7 +105,7 @@ public class AuthorizationController extends BaseController {
 	 */
 	@RequestMapping(value = "updateCatlogIndex", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	public Object updateCatlogIndex(HttpServletRequest request) {
+	public Object updateCatlogIndex() {
 		initUrl();
 		JSONObject jsonObj = super.getReqJSONBean(request);
 		JSONObject result = new JSONObject();
@@ -146,7 +147,7 @@ public class AuthorizationController extends BaseController {
 	 */
 	@RequestMapping(value = "updateCatlogIndexById", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	public Object updateCatlogIndexById(HttpServletRequest request) {
+	public Object updateCatlogIndexById() {
 		initUrl();
 		JSONObject jsonObj = super.getReqJSONBean(request);
 		JSONObject result = new JSONObject();
@@ -194,7 +195,7 @@ public class AuthorizationController extends BaseController {
 	 */
 	@RequestMapping(value = "deleteCatlogIndexById", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	public Object deleteCatlogIndexByItemId(HttpServletRequest request) {
+	public Object deleteCatlogIndexByItemId() {
 		initUrl();
 		JSONObject jsonObj = super.getReqJSONBean(request);
 		JSONObject result = new JSONObject();
@@ -243,7 +244,7 @@ public class AuthorizationController extends BaseController {
 	 */
 	@RequestMapping(value = "updateProductIndex", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	public Object updateProductIndex(HttpServletRequest request) {
+	public Object updateProductIndex() {
 		initUrl();
 		JSONObject jsonObj = super.getReqJSONBean(request);
 		JSONObject result = new JSONObject();
@@ -285,7 +286,7 @@ public class AuthorizationController extends BaseController {
 	 */
 	@RequestMapping(value = "updateProductIndexById", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	public Object updateProductIndexById(HttpServletRequest request) {
+	public Object updateProductIndexById() {
 		initUrl();
 		JSONObject jsonObj = super.getReqJSONBean(request);
 		JSONObject result = new JSONObject();
@@ -333,7 +334,7 @@ public class AuthorizationController extends BaseController {
 	 */
 	@RequestMapping(value = "deleteProductIndexById", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	public Object deleteProductIndexByItemId(HttpServletRequest request) {
+	public Object deleteProductIndexByItemId() {
 		initUrl();
 		JSONObject jsonObj = super.getReqJSONBean(request);
 		JSONObject result = new JSONObject();
@@ -381,7 +382,7 @@ public class AuthorizationController extends BaseController {
 	 */
 	@RequestMapping(value = "deleteProductIndexByQuery", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	public Object deleteProductIndexByQuery(HttpServletRequest request) {
+	public Object deleteProductIndexByQuery() {
 		initUrl();
 		JSONObject jsonObj = super.getReqJSONBean(request);
 		JSONObject result = new JSONObject();
@@ -429,7 +430,7 @@ public class AuthorizationController extends BaseController {
 	 */
 	@RequestMapping(value = "updateSuggestIndex", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	public Object addSuggestIndex(HttpServletRequest request) {
+	public Object addSuggestIndex() {
 		initUrl();
 		JSONObject jsonObj = super.getReqJSONBean(request);
 		JSONObject result = new JSONObject();
@@ -471,7 +472,7 @@ public class AuthorizationController extends BaseController {
 	 */
 	@RequestMapping(value = "updateSuggestIndexById", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	public Object addSuggestIndexById(HttpServletRequest request) {
+	public Object addSuggestIndexById() {
 		initUrl();
 		JSONObject jsonObj = super.getReqJSONBean(request);
 		JSONObject result = new JSONObject();
@@ -519,7 +520,7 @@ public class AuthorizationController extends BaseController {
 	 */
 	@RequestMapping(value = "deleteSuggestIndexById", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	public Object deleteSuggestIndexById(HttpServletRequest request) {
+	public Object deleteSuggestIndexById() {
 		initUrl();
 		JSONObject jsonObj = super.getReqJSONBean(request);
 		JSONObject result = new JSONObject();

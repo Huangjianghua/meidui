@@ -13,7 +13,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.meiduimall.core.util.JsonUtils;
-import com.meiduimall.redis.util.JedisUtil;
+import com.meiduimall.redis.util.RedisUtils;
 import com.meiduimall.service.settlement.common.CronExpression;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 import com.meiduimall.service.settlement.common.ShareProfitUtil;
@@ -62,8 +62,7 @@ public class DepositRetryTask {
 				String retryType = "";
 				
 				for (Map.Entry<String, Object> entry : result.entrySet()) {
-					String shareProfitJsonObj = JedisUtil.getJedisInstance()
-							.execGetFromCache(ShareProfitConstants.REDIS_KEY_PRIFIX_AGENT + entry.getKey());
+					String shareProfitJsonObj = RedisUtils.get(ShareProfitConstants.REDIS_KEY_PRIFIX_AGENT + entry.getKey());
 					EcmAgent ecmAgent = JsonUtils.jsonToBean(shareProfitJsonObj, EcmAgent.class);
 					
 					if (ShareProfitConstants.SHARE_PROFIT_RETRY_TYPE_FINAL_ROUND.equals(entry.getValue())) {

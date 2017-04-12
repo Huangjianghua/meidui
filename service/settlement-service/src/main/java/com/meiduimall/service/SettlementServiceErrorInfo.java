@@ -10,12 +10,12 @@
 
 package com.meiduimall.service;
 
-import com.meiduimall.core.ErrorInfo;
+//import com.meiduimall.core.ErrorInfo;
 
 /**
  * Created by hadoop on 2017/4/11.
  */
-public enum SettlementServiceErrorInfo  implements ErrorInfo {
+public enum SettlementServiceErrorInfo {//implements ErrorInfo
 //  SUCCESS("0", "success"),
   DEDUCT_DEPOSIT_FAILED("-1","区代30%代理费抵扣保证金失败"),
   UPD_BALANCE_FAILD("-2","更新账户余额失败"),

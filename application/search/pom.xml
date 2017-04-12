@@ -139,6 +139,12 @@
 		    <artifactId>dom4j</artifactId>
 		    <version>1.6.1</version>
 		</dependency>
+		<dependency>
+            <groupId>com.meiduimall</groupId>
+            <artifactId>meiduimall-support-core</artifactId>
+            <version>${meiduimall-support-core.version}</version>
+        </dependency>
+	
 	</dependencies>
 	<build>
 		<plugins>

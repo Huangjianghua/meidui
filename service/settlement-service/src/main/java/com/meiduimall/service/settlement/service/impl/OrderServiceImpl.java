@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.StringUtil;
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
+import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 import com.meiduimall.service.settlement.common.ShareProfitUtil;
@@ -27,35 +30,19 @@ import com.meiduimall.service.settlement.model.EcmMzfOrderStatus;
 import com.meiduimall.service.settlement.model.EcmMzfShareProfit;
 import com.meiduimall.service.settlement.model.EcmOrder;
 import com.meiduimall.service.settlement.model.EcmSystemSetting;
-import com.meiduimall.service.settlement.service.BeanSelfAware;
 import com.meiduimall.service.settlement.service.OrderService;
 import com.meiduimall.service.settlement.util.ConnectionUrlUtil;
 import com.meiduimall.service.settlement.util.DateUtil;
 import com.meiduimall.service.settlement.vo.EcmMzfBillWaterVO;
 import com.meiduimall.service.settlement.vo.ShareProfitVO;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.StringUtil;
 
 @Service
-public class OrderServiceImpl implements OrderService,BeanSelfAware {
+public class OrderServiceImpl implements OrderService {
 	
 	private static final Logger log = LoggerFactory.getLogger(OrderServiceImpl.class);
 	
 	@Autowired
 	private BaseMapper baseMapper;
-	
-	/**
-	 * spring声明式事务 同一类内方法调用事务失效
-	 * //http://blog.csdn.net/jiesa/article/details/53438342
-	 */
-	@Autowired
-	private OrderService proxySelf;  
-
-	@Override
-	public void setSelf(Object proxyBean) {
-		this.proxySelf=(OrderService) proxyBean;
- 
-	}
 	
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	@Override
@@ -122,35 +109,34 @@ public class OrderServiceImpl implements OrderService,BeanSelfAware {
 		// 获取推荐人信息		
 		String resultStr = ConnectionUrlUtil.httpRequest(ShareProfitUtil.getBelongInfoUrl(ecmOrder.getBuyerName()), ShareProfitUtil.REQUEST_METHOD_POST, null);
 	
-		Map<String,Object> resultJson= JsonUtils.jsonToMap(resultStr, Object.class);
+//		Map<String,Object> resultJson= JsonUtils.jsonToMap(resultStr, Object.class);
+		ResBodyData resultJson= JsonUtils.jsonToBean(resultStr, ResBodyData.class);
 		
 		
-		if (null == resultJson || resultJson.isEmpty()) {
+		if (null == resultJson) { // || resultJson.isEmpty()
 			log.info("会员系统连接失败!略过该条数据");
 			errors.add("从会员系统获取推荐人信息失败!");
 		}
 		// 判断返回是否成功,如果不成功则不理会
 		Map<String, String> belongMap = null;
 		
-		if ("0".equals(resultJson.get("status_code"))) {
+		if ("0".equals(resultJson.getStatus())) {
 			
-			List<Map<String,String>> map=(List<Map<String, String>>) resultJson.get("RESULTS");
+//			List<Map<String,String>> map=(List<Map<String, String>>) resultJson.get("RESULTS");
+			List<Map<String,String>> map=(List<Map<String, String>>) resultJson.getData();
 
 			belongMap = ShareProfitUtil.getlvlAndPhone(map);
-			log.info("推荐人信息:" + resultJson.get("RESULTS"));
+//			log.info("推荐人信息:" + resultJson.get("RESULTS"));
+			log.info("推荐人信息:" + resultJson.getData());
 		} else {
-			log.error("errcode:" + resultJson.get("status_code") + ";errmsg:" + resultJson.get("result_msg"));
+			log.error("errcode:" + resultJson.getStatus() + ";errmsg:" + resultJson.getMsg());
 		}
 		
-		// 平台分账 = 订单总金额 - 商家收益
-		//BigDecimal platformRevenue = ecmOrder.getTotalFee().subtract(merchantRevenue);
 		// 平台分账(即服务费) = 参与让利金额 * 店铺服务费率
 		//因为PHP部门已经根据全额返利和部分返利这两种情况，经参与让利金额计算到ecm_order.rebate_amount字段，所以结算这边无需再判断是全额返利还是部分返利。
 		BigDecimal platformRevenue =ecmOrder.getRebateAmount().multiply(serviceRate).divide(new BigDecimal(100));
 		log.info("平台分账 = 参与让利金额("+ecmOrder.getRebateAmount()+") * 店铺服务费率("+serviceRate.divide(new BigDecimal(100))+"):"+platformRevenue);
 		
-		// 商家收益 = 订单总金额 * 商家收益比例 / 100%
-		//BigDecimal merchantRevenue = ecmOrder.getTotalFee().multiply(discount).divide(new BigDecimal(100));
 		//商家收益 = 订单支付金额 -平台分账(即服务费) 
 		BigDecimal merchantRevenue = ecmOrder.getOrderAmount().subtract(platformRevenue);
 		log.info("商家收益 = 订单支付金额 -平台分账(即服务费):"+merchantRevenue);
@@ -288,28 +274,8 @@ public class OrderServiceImpl implements OrderService,BeanSelfAware {
 
 	}
 
-	/**
-	 * Description : 获取请求接口后的数据提取推荐人手机号
-	 * Created By : Fkx 
-	 * Creation Time : 2016-10-27 下午5:31:00 
-	 * 
-	 * @param arrStr
-	 * @return
-	 */
-	/*	public static Map<String, String> getlvlAndPhone(String arrStr) throws Exception{
-			Map<String, String> map = new HashMap<String, String>();
-			
-			
-			JSONArray array = JSONArray.parseArray(arrStr);
-			for (int i = 0; i < array.size(); i++) {
-				JSONObject object = array.getJSONObject(i);
-				map.put(object.getString("level"), object.getString("phone"));
-			}
-			return map;
-		}*/
 	
-	
-public EcmMzfShareProfit buildShareProfitModel(EcmOrder ecmOrder,ShareProfitContext ctx,List<String> meiduiCompanyAgentNos) throws Exception{
+	public EcmMzfShareProfit buildShareProfitModel(EcmOrder ecmOrder,ShareProfitContext ctx,List<String> meiduiCompanyAgentNos) throws Exception{
 		
 		BigDecimal merchantRevenue=ctx.getMerchantRevenue();
 		BigDecimal sellerRevenue=ctx.getSellerRevenue();
@@ -353,15 +319,12 @@ public EcmMzfShareProfit buildShareProfitModel(EcmOrder ecmOrder,ShareProfitCont
 			ecmMzfShareProfit.setAreaAgentProfit(areaAgentRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
 			//判断区代是否为美兑壹购物
 			if(meiduiCompanyAgentNos.contains(ecmOrder.getAgentNoRegion())){
-				//ecmMzfShareProfit.setAreaAgentId(null);
 				ecmMzfShareProfit.setAreaAgentProfit(new BigDecimal(0));
 			}
 		}
 		ecmMzfShareProfit.setPhone(ecmOrder.getBuyerName());
 		ecmMzfShareProfit.setOrderFee(ecmOrder.getTotalFee());
 		ecmMzfShareProfit.setPoint(memberRevenue.setScale(0, BigDecimal.ROUND_DOWN));
-		//ecmMzfShareProfit.setPayTime(ecmOrder.getGmtPayment());
-		//ecmMzfShareProfit.setPayTime(new Date(ecmOrder.getPayTime()*1000L));
 		ecmMzfShareProfit.setSellerShareprofitRate(discount);
 		ecmMzfShareProfit.setAreaShareprofitRate((isTwoHundreAgentFlag != null && isTwoHundreAgentFlag == true) ? new BigDecimal(systemSetting.get(ShareProfitUtil.TWO_AREA_SCALE)) : new BigDecimal(systemSetting.get(ShareProfitUtil.AREA_SCALE)));
 		ecmMzfShareProfit.setSellerPointRate(new BigDecimal(systemSetting.get(ShareProfitUtil.SELLER_POINT_RATE)));
@@ -385,7 +348,6 @@ public EcmMzfShareProfit buildShareProfitModel(EcmOrder ecmOrder,ShareProfitCont
 			//判断跨区区代是否为美兑壹购物
 			if(meiduiCompanyAgentNos.contains(ecmOrder.getAgentNoRegionS())){
 				ecmMzfShareProfit.setOutareaAgentProfit(new BigDecimal(0));
-				//ecmMzfShareProfit.setOutareaAgentId(null);
 			}
 			
 			ecmMzfShareProfit.setOutareaShareprofitRate(new BigDecimal(systemSetting.get(ShareProfitUtil.CROSS_AREA_SCALE)));
@@ -398,22 +360,18 @@ public EcmMzfShareProfit buildShareProfitModel(EcmOrder ecmOrder,ShareProfitCont
 		
 		//直营商家
 		if(ShareProfitUtil.PERSONAL_AGENT_TYPE_DIRECT_SALE.equalsIgnoreCase(personalAgentType)){
-			//ecmMzfShareProfit.setPersonAgentId(null);  //保留代理ID，不要设置为空，否则导致 出现bug:分润后创建账单后订单的结算状态有可能无法更新为已结算。
-			ecmMzfShareProfit.setPersonAgentId(ecmOrder.getAgentNoPersonal());
+			ecmMzfShareProfit.setPersonAgentId(ecmOrder.getAgentNoPersonal());//保留代理ID，不要设置为空，否则导致 出现bug:分润后创建账单后订单的结算状态有可能无法更新为已结算。
 			ecmMzfShareProfit.setPersonAgentProfit(BigDecimal.ZERO);
 			ecmMzfShareProfit.setPersonShareprofitRate(null);
 			
-			//ecmMzfShareProfit.setAreaAgentId(null);
 			ecmMzfShareProfit.setAreaAgentId(ecmOrder.getAgentNoRegion());
 			ecmMzfShareProfit.setAreaAgentProfit(BigDecimal.ZERO);
 			ecmMzfShareProfit.setAreaShareprofitRate(null);
 			
-			//ecmMzfShareProfit.setOutareaAgentId(null);
 			ecmMzfShareProfit.setOutareaAgentId(ecmOrder.getAgentNoRegionS());
 			ecmMzfShareProfit.setOutareaAgentProfit(BigDecimal.ZERO);
 			ecmMzfShareProfit.setOutareaShareprofitRate(null);
 		}else if(ShareProfitUtil.PERSONAL_AGENT_TYPE_BIG_REGION.equalsIgnoreCase(personalAgentType)){  //大区个代
-			//ecmMzfShareProfit.setOutareaAgentId(null);
 			ecmMzfShareProfit.setOutareaAgentId(ecmOrder.getAgentNoRegionS());
 			ecmMzfShareProfit.setOutareaAgentProfit(BigDecimal.ZERO);
 			ecmMzfShareProfit.setOutareaShareprofitRate(null);
@@ -429,28 +387,6 @@ public EcmMzfShareProfit buildShareProfitModel(EcmOrder ecmOrder,ShareProfitCont
 		return ecmMzfShareProfit;
 	}
 
-/*	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
-	public void insertShareProfit(EcmMzfShareProfit ecmMzfShareProfit, String orderSn) throws Exception {
-		
-		Integer flag = baseMapper.insert(ecmMzfShareProfit, "ShareProfitMapper.shareProfit");
-
-		if (flag <= 0) {
-			log.error("OrderServiceImpl-->insertShareProfit-->ShareProfitMapper.shareProfit-->分润数据插入失败!");
-			throw new Exception("OrderServiceImpl-->insertShareProfit-->ShareProfitMapper.shareProfit-->分润数据插入失败!");
-		} else {
-			log.info("OrderServiceImpl-->insertShareProfit-->ShareProfitMapper.shareProfit-->分润数据插入成功!");
-			
-			EcmMzfOrderStatus orderStatus=ShareProfitUtil.buildOrderStatusObj(ecmMzfShareProfit);
-			Integer orderStatusCreated = baseMapper.insert(orderStatus, "EcmMzfOrderStatusMapper.createOrderStatus");
-			
-			if (orderStatusCreated <= 0) {
-				log.error("OrderServiceImpl-->insertShareProfit-->EcmMzfOrderStatusMapper.createOrderStatus-->创建订单状态数据失败!");
-				throw new Exception("OrderServiceImpl-->insertShareProfit-->EcmMzfOrderStatusMapper.createOrderStatus-->创建订单状态数据失败!");
-			} else {
-				log.info("OrderServiceImpl-->insertShareProfit-->EcmMzfOrderStatusMapper.createOrderStatus-->创建订单状态数据成功!");
-			}
-		}
-	}*/
 
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)

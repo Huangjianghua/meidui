@@ -9,8 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.base.Strings;
-import com.meiduimall.service.SettlementServiceErrorInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +17,10 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import com.google.common.base.Strings;
+import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.ServiceException;
+import com.meiduimall.service.SettlementServiceErrorInfo;
 import com.meiduimall.service.settlement.common.CodeRuleUtil;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 import com.meiduimall.service.settlement.common.ShareProfitUtil;
@@ -227,7 +228,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 			
 		}else{
 			logger.error("更新账户余额失败");
-			throw new ServiceException(SettlementServiceErrorInfo.UPD_BALANCE_FAILD);
+//			throw new ServiceException(SettlementServiceErrorInfo.UPD_BALANCE_FAILD);
 		}
 	}
 
@@ -283,7 +284,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 					logger.info("区代30%代理费抵扣保证金成功");
 				}else{
 					logger.error("区代30%代理费抵扣保证金失败");
-					throw new ServiceException(SettlementServiceErrorInfo.DEDUCT_DEPOSIT_FAILED);
+//					throw new ServiceException(SettlementServiceErrorInfo.DEDUCT_DEPOSIT_FAILED);
 				}
 			}
 		} catch (ServiceException e) {
@@ -356,7 +357,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 							logger.info("插入代理流水参数：" + water.toString());
 						}else{
 							logger.error("代理编号为：{}的账户不存在,无法更新账户余额", agentWater.getCode());
-							throw new ServiceException(SettlementServiceErrorInfo.AGENCY_ACCOUNT_NOT_FOUND);
+//							throw new ServiceException(SettlementServiceErrorInfo.AGENCY_ACCOUNT_NOT_FOUND);
 						}
 						
 					}
@@ -471,7 +472,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 
 	
 	@Override
-	public int createAccount(EcmMzfAccount ecmMzfAccount) throws ServiceException {
+	public int createAccount(EcmMzfAccount ecmMzfAccount) throws DaoException {
 		int flag = 0;
 		//判断当前个代账户是否存在，如果不存在，则创建账户
 		EcmMzfAccount mzfAccount = agentService.findAccountByCode(ecmMzfAccount.getCode());

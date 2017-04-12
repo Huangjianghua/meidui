@@ -1,15 +1,12 @@
 package com.meiduimall.application.search.controller;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
+import org.springframework.web.bind.annotation.RestController;
 import com.meiduimall.application.search.services.SuggestService;
 import com.meiduimall.application.search.utility.Pinyin4jUtil;
 
@@ -17,16 +14,17 @@ import com.meiduimall.application.search.utility.Pinyin4jUtil;
  * 输入提示
  * @date 2016年4月26日
  */
-@Controller
+@RestController
 public class SuggestController {
 
 	private Logger logger = Logger.getLogger(SuggestController.class);
 	
+	
 	@Autowired
 	private SuggestService suggestService;
 	
+	
 	@RequestMapping(value = "suggest", method = RequestMethod.POST)
-	@ResponseBody
 	public List<String> suggest(String keyword) {
 		try {
 			if (keyword == null || "".equals(keyword)) {

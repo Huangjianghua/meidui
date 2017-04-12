@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.settlement.dao.BaseMapper;
 import com.meiduimall.service.settlement.model.Draw;
@@ -34,7 +35,7 @@ public class AgentServiceImpl implements AgentService {
 
 	
 	@Override
-	public int insertAgentWater(EcmMzfAgentWater agentWater) throws ServiceException{
+	public int insertAgentWater(EcmMzfAgentWater agentWater) throws DaoException{
 		return baseMapper.insert(agentWater, "EcmMzfAgentWaterMapper.insertAgentWater");
 	}
 
@@ -43,7 +44,7 @@ public class AgentServiceImpl implements AgentService {
 	 * 暂时用synchronized同步，后期再优化
 	 */
 	@Override
-	public synchronized int updateAccount(EcmMzfAccount account) throws ServiceException {
+	public synchronized int updateAccount(EcmMzfAccount account) throws DaoException {
 		return baseMapper.update(account, "EcmMzfAccountMapper.updateAccountByCode");
 	}
 
@@ -55,7 +56,7 @@ public class AgentServiceImpl implements AgentService {
 	
 	
 	@Override
-	public int updateScoreStatusByCode(int id, String code, int score) throws ServiceException {
+	public int updateScoreStatusByCode(int id, String code, int score) throws DaoException {
 		Map<String,Object> params = new HashMap<String,Object>();
 		params.put("id", id);
 		params.put("code", code);
@@ -65,62 +66,62 @@ public class AgentServiceImpl implements AgentService {
 	
 	
 	@Override
-	public int insertAccount(EcmMzfAccount account) throws ServiceException {
+	public int insertAccount(EcmMzfAccount account) throws DaoException {
 		return baseMapper.insert(account, "EcmMzfAccountMapper.insertAccount");
 	}
 	
 	
 	@Override
-	public EcmMzfAccount findAccountByCode(String code) throws ServiceException {
+	public EcmMzfAccount findAccountByCode(String code) throws DaoException {
 		return baseMapper.selectOne(code, "EcmMzfAccountMapper.findAccountByCode");
 	}
 	
 	
 	@Override
-	public EcmMzfAgentWater findAgentWaterByCode(String code) throws ServiceException {
+	public EcmMzfAgentWater findAgentWaterByCode(String code) throws DaoException {
 		return baseMapper.selectOne(code, "EcmMzfAgentWaterMapper.findAgentWaterByCode");
 	}
 	
 	
 	@Override
 	public List<EcmMzfAgentWater> findAgentWaterByAgentCode(int id)
-			throws ServiceException {
+			throws DaoException {
 		return baseMapper.selectList(id, "EcmMzfAgentWaterMapper.findAgentWaterByAgentCode");
 	}
 	
 	
 	@Override
-	public List<EcmMzfAgentWater> getAgentWaterScore() throws ServiceException {
+	public List<EcmMzfAgentWater> getAgentWaterScore() throws DaoException {
 		return baseMapper.selectList(null, "EcmMzfAgentWaterMapper.getAgentWaterScore");
 	}
 
 	
 	@Override
-	public int insertStoreRecord(EcmMzfStoreRecord ecmMzfStoreRecord) throws ServiceException {
+	public int insertStoreRecord(EcmMzfStoreRecord ecmMzfStoreRecord) throws DaoException {
 		return baseMapper.insert(ecmMzfStoreRecord, "EcmStoreMapper.insertStoreRecord");
 	}
 	
 	
 	@Override
-	public List<EcmSystemSetting> quertSharefit() throws ServiceException {
+	public List<EcmSystemSetting> quertSharefit() throws DaoException {
 		return baseMapper.selectList(null, "ShareProfitMapper.quertSharefit");
 	}
 	
 
 	@Override
-	public List<EcmMzfWater> getWaterList(Map<String, Object> params) throws ServiceException {
+	public List<EcmMzfWater> getWaterList(Map<String, Object> params) throws DaoException {
 		return baseMapper.selectList(params, "EcmMzfWaterMapper.getWaterList");
 	}
 	
 	
 	@Override
-	public int getWaterCount(Map<String, Object> params) throws ServiceException {
+	public int getWaterCount(Map<String, Object> params) throws DaoException {
 		return baseMapper.selectOne(params, "EcmMzfWaterMapper.getWaterCount");
 	}
 
 	
 	@Override
-	public EcmMzfWater getWaterDetailByWaterId(String waterId, String waterType) throws ServiceException {
+	public EcmMzfWater getWaterDetailByWaterId(String waterId, String waterType) throws DaoException {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("waterId", waterId);
 		params.put("waterType", waterType);
@@ -129,31 +130,31 @@ public class AgentServiceImpl implements AgentService {
 
 	
 	@Override
-	public Draw getDrawDetailByDrawCode(String drawCode) throws ServiceException {
+	public Draw getDrawDetailByDrawCode(String drawCode) throws DaoException {
 		return baseMapper.selectOne(drawCode, "EcmMzfWaterMapper.getDrawDetailByDrawCode");
 	}
 
 	
 	@Override
-	public int insertShareProfitAgentLog(ShareProfitAgentLog shareProfitAgentLog) throws ServiceException {
+	public int insertShareProfitAgentLog(ShareProfitAgentLog shareProfitAgentLog) throws DaoException {
 		return baseMapper.insert(shareProfitAgentLog, "ShareProfitAgentLogMapper.insertShareProfitAgentLog");
 	}
 	
 	
 	@Override
-	public int updateRetryFlag(String agentNo) throws ServiceException {
+	public int updateRetryFlag(String agentNo) throws DaoException {
 		return baseMapper.update(agentNo, "ShareProfitAgentLogMapper.updateRetryFlag");
 	}
 	
 	
 	@Override
-	public int updateStatusFlag(String agentNo) throws ServiceException {
+	public int updateStatusFlag(String agentNo) throws DaoException {
 		return baseMapper.update(agentNo, "ShareProfitAgentLogMapper.updateStatusFlag");
 	}
 
 	
 	@Override
-	public List<ShareProfitAgentLog> getAgentsRetry(int currentTimestamp, String key) throws ServiceException {
+	public List<ShareProfitAgentLog> getAgentsRetry(int currentTimestamp, String key) throws DaoException {
 		Map<String,Object> params = new HashMap<String,Object>();
 		params.put("currentTimestamp", currentTimestamp);
 		params.put("key", key);
@@ -162,13 +163,13 @@ public class AgentServiceImpl implements AgentService {
 
 	
 	@Override
-	public String getRecommenderMoney(Map<String, Object> params) throws ServiceException {
+	public String getRecommenderMoney(Map<String, Object> params) throws DaoException {
 		return baseMapper.selectOne(params, "EcmMzfWaterMapper.getRecommenderMoney");
 	}
 
 	
 	@Override
-	public List<EcmMzfAgentWater> getShareProfitResult(int id, String recNo) throws ServiceException {
+	public List<EcmMzfAgentWater> getShareProfitResult(int id, String recNo) throws DaoException {
 		Map<String,Object> params = new HashMap<String,Object>();
 		params.put("id", id);
 		params.put("recNo", recNo);
@@ -177,13 +178,13 @@ public class AgentServiceImpl implements AgentService {
 
 	
 	@Override
-	public EcmMzfDrawWater getDrawWaterInfo(String drawCode) throws ServiceException {
+	public EcmMzfDrawWater getDrawWaterInfo(String drawCode) throws DaoException {
 		return baseMapper.selectOne(drawCode, "EcmMzfWaterMapper.getDrawWaterInfo");
 	}
 
 	
 	@Override
-	public int getCountCreateWaterId(Map<String, Object> params) throws ServiceException {
+	public int getCountCreateWaterId(Map<String, Object> params) throws DaoException {
 		return baseMapper.selectOne(params, "EcmMzfWaterMapper.getCountCreateWaterId");
 	}
 	

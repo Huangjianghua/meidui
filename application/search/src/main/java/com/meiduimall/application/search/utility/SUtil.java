@@ -1,6 +1,7 @@
 package com.meiduimall.application.search.utility;
 
 import java.io.File;
+
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,7 +13,6 @@ import java.util.List;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
-import antlr.StringUtils;
 
 /**
  * 系统公用方法集

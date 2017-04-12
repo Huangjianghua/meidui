@@ -1,38 +1,25 @@
 package com.meiduimall.application.search.controller;
-
 import java.text.SimpleDateFormat;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.search.constant.SolrConstant;
-import com.meiduimall.application.search.domain.Item;
 import com.meiduimall.application.search.page.PageView;
 import com.meiduimall.application.search.pojo.Brand;
 import com.meiduimall.application.search.pojo.Cat;
-import com.meiduimall.application.search.pojo.MeiduiPoint;
-import com.meiduimall.application.search.pojo.NewestPrice;
 import com.meiduimall.application.search.pojo.QueryIndexResult;
 import com.meiduimall.application.search.pojo.SearchParam;
 import com.meiduimall.application.search.pojo.WidgetResult;
-import com.meiduimall.application.search.services.MeiduiPointService;
-import com.meiduimall.application.search.services.NewestPriceService;
 import com.meiduimall.application.search.services.ProductIndexService;
 import com.meiduimall.application.search.services.WidgetService;
 import com.meiduimall.application.search.utility.StringUtil;
@@ -48,15 +35,10 @@ public class SearchController extends BaseController {
 	
 	@Autowired
 	private ProductIndexService productIndexService;
-	
 	@Autowired
 	private WidgetService widgetService;
-	
 	@Autowired
-	private NewestPriceService newestPriceService;
-	
-	@Autowired
-	private MeiduiPointService meiduiPointService;
+	private HttpServletRequest request;
 	
 	/**
 	 * 列表
@@ -65,7 +47,7 @@ public class SearchController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "list")
-	public ModelAndView list(HttpServletRequest request, SearchParam searchParam) {
+	public ModelAndView list(SearchParam searchParam) {
 		ModelAndView model = new ModelAndView("list");
 		try {
 			Integer catId = searchParam.getCat_id();
@@ -194,7 +176,7 @@ public class SearchController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "search")
-	public ModelAndView search(HttpServletRequest request, SearchParam searchParam) {
+	public ModelAndView search(SearchParam searchParam) {
 		ModelAndView model = new ModelAndView("index");
 		searchParam.setRows(SolrConstant.PAGE_LIMIT_FORTY);
 		String keyword = searchParam.getKeyword();
@@ -403,48 +385,6 @@ public class SearchController extends BaseController {
 				searchParam.setPage(totalPage.toString());
 				qir = productIndexService.query(searchParam);
 			}
-			
-//			// 获取所有商品ID
-//			List<Item> dataList = qir.getDataList();
-//			List<Integer> ids = new ArrayList<Integer>(SolrConstant.PAGE_LIMIT_FORTY);
-//			for (Item item : dataList) {
-//				String itemId = item.getItemId();
-//				ids.add(Integer.parseInt(itemId));
-//			}
-//			// 根据ID集合查询可用积分数量及实时价格
-//			LinkedList<NewestPrice> newestPrices = newestPriceService.getNewestPrices(ids);
-//			List<Item> items = new ArrayList<Item>(SolrConstant.PAGE_LIMIT_FORTY);
-//			// 临时表，用存储两个集合不同元素
-//			LinkedList<Item> itemList = new LinkedList<Item>();
-//			
-//			MeiduiPoint meiduiPoint = meiduiPointService.queryMeiduiPoint();
-//			
-//			for (Item item : dataList) {
-//				itemList.add(item);
-//				Iterator<NewestPrice> iterator = newestPrices.iterator();
-//				while (iterator.hasNext()) {
-//					NewestPrice newestPrice = iterator.next();
-//					if (Integer.parseInt(item.getItemId()) == newestPrice.getItemId()) {
-//						double point = PointCalculateUtil.getPoint(meiduiPoint.getValue(), newestPrice.getPrice(), newestPrice.getCostPrice());
-//						if (point == -1) {
-//							item.setPoint(newestPrice.getPrice());
-//						} else {
-//							item.setPoint(point);
-//						}
-//						item.setPrice(newestPrice.getPrice());
-//						items.add(item);
-//						// 如sku价格存在则移除列表头元素
-//						itemList.removeFirst();
-//						// 价格列表中移除该商品信息
-//						newestPrices.remove(newestPrice);
-//						break;
-//					}
-//				}
-//			}
-//			if (!itemList.isEmpty()) {
-//				items.addAll(itemList);
-//			}
-//			qir.setDataList(items);
 			return qir;
 		} catch (Exception e) {
 			log.error("查询索引库信息异常，异常信息", e);
