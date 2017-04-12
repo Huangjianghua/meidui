@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.settlement.common.SettlementUtil;
 import com.meiduimall.service.settlement.model.EcmAgent;
 import com.meiduimall.service.settlement.model.EcmMzfAccount;
@@ -82,7 +83,6 @@ public class AgentController {
 	}
 	
 	
-	
 	/**
 	 * 功能描述:  新商家送积分
 	 * Author: guidl
@@ -106,7 +106,6 @@ public class AgentController {
 	}
 	
 	
-	
 	/**
 	 * 功能描述:  创建区代、个代和商家账号
 	 * Author: guidl
@@ -115,17 +114,9 @@ public class AgentController {
 	 * return  ResBodyData
 	 */
 	@PostMapping("/createaccoutbalance")
-	public ResBodyData createAccoutBalance(@Validated EcmMzfAccount ecmMzfAccount){
-		try {
-			int flag = depositService.createAccount(ecmMzfAccount);
-			if(flag > 0){
-				return SettlementUtil.success("", "创建账户成功");
-			}
-			return SettlementUtil.failure("", "创建账户失败");
-		} catch (Exception e) {
-			logger.error("创建账户异常：{}", e);
-			return SettlementUtil.failure("", "操作失败");
-		}
+	public ResBodyData createAccoutBalance(@Validated EcmMzfAccount ecmMzfAccount) throws ServiceException {
+		depositService.createAccount(ecmMzfAccount);
+		return SettlementUtil.success("", "创建账户成功");
 	}
 	
 	

@@ -1,11 +1,17 @@
 package com.meiduimall.service.settlement.exception;
 import javax.servlet.http.HttpServletRequest;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+//import com.meiduimall.core.ErrorInfo;
 import com.meiduimall.core.ResBodyData;
+//import com.meiduimall.core.ResultBody;
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 
 /**
@@ -19,13 +25,37 @@ import com.meiduimall.service.settlement.common.ShareProfitConstants;
 @ResponseBody
 public class GlobalExceptionHandler {
 	
-    @ExceptionHandler(value=BindException.class)  
-    public Object MethodArgumentNotValidHandler(HttpServletRequest request,BindException exception) throws Exception {  
-        StringBuffer sb=new StringBuffer();
-        exception.getBindingResult().getFieldErrors().forEach((error)->{
-        	sb.append(error.getDefaultMessage()).append(";");
-        });
-        return new ResBodyData(ShareProfitConstants.RESPONSE_STATUS_CODE_FAILURE, sb.toString());  
-    }  
+	private static Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+	
+	/**
+	 * 请求参数验证，返回异常
+	 * @param request
+	 * @param exception
+	 * @return
+	 * @throws Exception
+	 */
+	@ExceptionHandler(value = BindException.class)
+	public Object methodArgumentNotValidHandler(HttpServletRequest request, BindException exception) {
+		StringBuffer sb = new StringBuffer();
+		exception.getBindingResult().getFieldErrors().forEach((error) -> {
+			sb.append(error.getDefaultMessage()).append(";");
+		});
+		return new ResBodyData(ShareProfitConstants.RESPONSE_STATUS_CODE_FAILURE, sb.toString());
+	}
+	
+	/**
+	 * 业务逻辑处理，返回异常
+	 * @param request
+	 * @param exception
+	 * @return
+	 */
+//	@ExceptionHandler(value = ServiceException.class)
+//	public Object serviceExceptionHandler(HttpServletRequest request, ServiceException exception) {
+//		logger.error(request.getContextPath() + request.getRequestURI() + " " + exception.getLocalizedMessage());
+//		ErrorInfo errorInfo = exception.getErrorInfo();
+//		ResultBody result = new ResultBody(errorInfo, null);
+//		System.out.println("===========抛异常吧============");
+//		return result;
+//	}
 
 }

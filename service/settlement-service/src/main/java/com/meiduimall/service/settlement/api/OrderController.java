@@ -96,7 +96,7 @@ public class OrderController {
 			return SettlementUtil.buildReponseData(ImmutableMap.of("orderSn", ecmOrder.getOrderSn(),"shareStatus",shareStatus), statusCode, resultMsg);
 		}
 		
-		//2.保存分润数据到DB。。。
+		//2.保存分润数据到DB
 		if(shareProfit!=null){
 			try{
 				orderService.saveShareProfit(shareProfit);
@@ -113,7 +113,7 @@ public class OrderController {
 			resultMsg="订单分润失败!";
 			shareStatus=0;
 		}else{
-			//异步同步积分到会员系统...
+			//异步同步积分到会员系统
 			asyncTaskService.updateScore2MemberSystem(shareProfit,ShareProfitConstants.SHARE_PROFIT_SOURCE_O2O,null);
 		}
 		

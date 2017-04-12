@@ -5,17 +5,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.ServiceException;
-import com.meiduimall.redis.util.JedisUtil;
+import com.meiduimall.redis.util.RedisUtils;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 import com.meiduimall.service.settlement.common.ShareProfitUtil;
 import com.meiduimall.service.settlement.model.EcmAgent;
@@ -92,7 +92,7 @@ public class AsyncTaskService {
 					log.warn("订单分润后更新积分到会员系统失败，记录Log出现异常,orderSn:{},error:{}",shareProfit.getOrderSn(),String.valueOf(errors));
 					//将shareProfit 数据放到redis 缓存 
 					if(ShareProfitConstants.SHARE_PROFIT_SOURCE_O2O.equals(shareProfitSource)){
-						JedisUtil.getJedisInstance().execSetToCache(ShareProfitConstants.REDIS_KEY_PREFIX_ORDER+shareProfit.getOrderSn(), JsonUtils.beanToJson(shareProfit));
+						RedisUtils.set(ShareProfitConstants.REDIS_KEY_PREFIX_ORDER+shareProfit.getOrderSn(), JsonUtils.beanToJson(shareProfit));
 					}
 					
 					//记录到Log表  
@@ -106,7 +106,7 @@ public class AsyncTaskService {
 						
 						//移除redis 缓存的分润数据 
 						if(ShareProfitConstants.SHARE_PROFIT_RETRY_TYPE_FINAL_ROUND.equals(retryType)){
-							JedisUtil.getJedisInstance().execDelToCache(ShareProfitConstants.REDIS_KEY_PREFIX_ORDER+shareProfit.getOrderSn());
+							RedisUtils.del(ShareProfitConstants.REDIS_KEY_PREFIX_ORDER+shareProfit.getOrderSn());
 							//三次重试仍然失败，发邮件或短信通知,重试机制终止,需要手动触发重试机制  。。todo..
 							//select sf.* from ecm_mzf_shareprofit sf inner join `ecm_mzf_order_status` os where sf.`order_sn`=os.`order_sn` and os.`score_status`=0;
 							String params="经过三次重试后;更新积分到会员系统仍然失败;重试机制终止;需要手动触发重试机制或手动更新积分到会员系统;orderSn:"+shareProfit.getOrderSn();
@@ -170,7 +170,7 @@ public class AsyncTaskService {
 							shareProfitLogService.logShareProfitOrder(orderLog,retryType,ShareProfitConstants.SHARE_PROFIT_RETRY_STATUS_CODE_SUCCESS);
 							
 							//移除redis 缓存的分润数据
-							JedisUtil.getJedisInstance().execDelToCache(ShareProfitConstants.REDIS_KEY_PREFIX_ORDER+shareProfit.getOrderSn());
+							RedisUtils.del(ShareProfitConstants.REDIS_KEY_PREFIX_ORDER+shareProfit.getOrderSn());
 							
 						}catch(Exception e){
 							log.error("订单分润失败但在重试机制中重试成功后更新积分到会员系统成功，记录Log出现异常,orderSn:{},error:{}",orderLog.getOrderSn(),e.getMessage());
@@ -226,8 +226,6 @@ public class AsyncTaskService {
 				Boolean result = memberService.addConsumePoints(ecmAgent.getBindPhone(), String.valueOf(score),
 						ShareProfitConstants.DATA_SOURCE_O2O, scoreFlow);
 
-//				Boolean result = false;
-				
 				if(result){
 					//修改分润表中积分状态为已更新
 					int flag = agentService.updateScoreStatusByCode(ecmAgent.getId(), ecmAgent.getAgentNo(), score);
@@ -240,8 +238,7 @@ public class AsyncTaskService {
 							agentService.updateStatusFlag(ecmAgent.getAgentNo());
 							
 							//重试成功 删除缓存数据
-							JedisUtil.getJedisInstance().execDelToCache(
-									ShareProfitConstants.REDIS_KEY_PRIFIX_AGENT + ecmAgent.getAgentNo());
+							RedisUtils.del(ShareProfitConstants.REDIS_KEY_PRIFIX_AGENT + ecmAgent.getAgentNo());
 							
 						}
 						
@@ -266,8 +263,7 @@ public class AsyncTaskService {
 					
 					//o2o调用代理保证金分润方法 执行更新积分环节失败时 将代理数据放入redis缓存中 用于定时器执行重试机制
 					if(ShareProfitConstants.SHARE_PROFIT_SOURCE_O2O.equals(dataSource)){
-						JedisUtil.getJedisInstance().execSetToCache(
-								ShareProfitConstants.REDIS_KEY_PRIFIX_AGENT + ecmAgent.getAgentNo(),
+						RedisUtils.set(ShareProfitConstants.REDIS_KEY_PRIFIX_AGENT + ecmAgent.getAgentNo(),
 								JsonUtils.beanToJson(ecmAgent));
 					}
 					
@@ -280,8 +276,7 @@ public class AsyncTaskService {
 						//重试机制有三次机会  如果是最后一次  则移除redis缓存数据
 						if(ShareProfitConstants.SHARE_PROFIT_RETRY_TYPE_FINAL_ROUND.equals(retryType)){
 							
-							JedisUtil.getJedisInstance().execDelToCache(
-									ShareProfitConstants.REDIS_KEY_PRIFIX_AGENT + ecmAgent.getAgentNo());
+							RedisUtils.del(ShareProfitConstants.REDIS_KEY_PRIFIX_AGENT + ecmAgent.getAgentNo());
 							
 							//三次重试仍然失败，发邮件或短信通知,重试机制终止,需要手动触发重试机制
 							agentLog.setRemark("三次自动重试更新积分到会员失败，需手动更新积分到会员");

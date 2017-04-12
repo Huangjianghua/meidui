@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.StringUtil;
 import com.meiduimall.core.Constants;
+import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
@@ -71,18 +72,13 @@ public class MemberServiceImpl implements MemberService {
 		hashMap.put("url","Authorized/addConsumePoints");
 		hashMap.put("order_id",order_id);
 		String resultJsonStr = ConnectionUrlUtil.httpRequest(ShareProfitUtil.belongInfoUrl(hashMap), ShareProfitUtil.REQUEST_METHOD_POST, null);
-		Map<String,String> resultJson=JsonUtils.jsonToMap(resultJsonStr, String.class);
-		if(resultJson==null || resultJson.isEmpty()){
-			log.error("更新积分到会员系统 失败,userId:"+phone+" as resultJson in addConsumePoints() is null.");
+		ResBodyData resultJson = JsonUtils.jsonToBean(resultJsonStr, ResBodyData.class);
+		// 判断返回是否成功,如果不成功则不理会
+		if ("0".equals(resultJson.getStatus())) {
+			 return true;
+		} else {
+			log.error("errcode:" + resultJson.getStatus() + ";errmsg:" + resultJson.getMsg()+ ";userId:"+phone);
 			return false;
-		}else{
-			// 判断返回是否成功,如果不成功则不理会
-			if ("0".equals(resultJson.get("status_code"))) {
-				 return true;
-			} else {
-				log.error("errcode:" + resultJson.get("status_code") + ";errmsg:" + resultJson.get("result_msg")+ ";userId:"+phone);
-				return false;
-			}
 		}
 		
 	}
@@ -95,20 +91,15 @@ public class MemberServiceImpl implements MemberService {
 
 			String resultJsonStr = ConnectionUrlUtil.httpRequest(ShareProfitUtil.buildMemberSystemAmoutUrl(ctx), ShareProfitUtil.REQUEST_METHOD_POST, null);
 			
-			Map<String,Object> resultJson= JsonUtils.jsonToMap(resultJsonStr, Object.class);
+			ResBodyData resultJson= JsonUtils.jsonToBean(resultJsonStr, ResBodyData.class);
 			
-			if(resultJson==null || resultJson.isEmpty()){
-				log.error("updateAmout2MemberSystem()失败,userId:"+userId+" as resultJson in updateAmout2MemberSystem(ctx) is null.");
-			}else{
-				String statusCode=resultJson.get("status_code")==null?"":resultJson.get("status_code").toString();
-				// 判断返回是否成功,如果不成功则不理会
-				if ("0".equals(statusCode)) {
-					isUpdated=Boolean.TRUE;
-				} else {
-					log.error("errcode:" + resultJson.get("status_code") + ";errmsg:" + resultJson.get("result_msg") + ";userId:"+userId);
-				}
+			String statusCode=resultJson.getStatus()==null?"":resultJson.getStatus().toString();
+			// 判断返回是否成功,如果不成功则不理会
+			if ("0".equals(statusCode)) {
+				isUpdated=Boolean.TRUE;
+			} else {
+				log.error("errcode:" + resultJson.getStatus() + ";errmsg:" + resultJson.getMsg() + ";userId:"+userId);
 			}
-			
 		}
 		
 		return isUpdated;

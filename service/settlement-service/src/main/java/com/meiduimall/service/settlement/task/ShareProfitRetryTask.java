@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import com.github.pagehelper.StringUtil;
 import com.google.common.collect.ImmutableMap;
 import com.meiduimall.core.util.JsonUtils;
-import com.meiduimall.redis.util.JedisUtil;
+import com.meiduimall.redis.util.RedisUtils;
 import com.meiduimall.service.settlement.common.CronExpression;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 import com.meiduimall.service.settlement.dao.BaseMapper;
@@ -52,7 +52,7 @@ public class ShareProfitRetryTask {
 			if(map!=null && !map.isEmpty()){
 				for(Map.Entry<String, String> entry:map.entrySet()){
 					String orderSn=entry.getKey();
-					String shareProfitJsonObj=JedisUtil.getJedisInstance().execGetFromCache(ShareProfitConstants.REDIS_KEY_PREFIX_ORDER+orderSn);
+					String shareProfitJsonObj=RedisUtils.get(ShareProfitConstants.REDIS_KEY_PREFIX_ORDER+orderSn);
 					EcmMzfShareProfit  shareProfit=null;
 					if(!StringUtil.isEmpty(shareProfitJsonObj)){ 
 						shareProfit=JsonUtils.jsonToBean(shareProfitJsonObj, EcmMzfShareProfit.class);	

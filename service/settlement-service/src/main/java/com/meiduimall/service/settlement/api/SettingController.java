@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.settlement.common.SettlementUtil;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 import com.meiduimall.service.settlement.model.EcmSystemSetting;
@@ -37,7 +38,7 @@ public class SettingController {
 	 * throws Exception
 	 */
 	@PostMapping(value="/updatesystemsetting")
-	public ResBodyData updatesystemsetting(@Validated EcmSystemSetting systemSetting) throws Exception{
+	public ResBodyData updatesystemsetting(@Validated EcmSystemSetting systemSetting) throws ServiceException{
 		EcmSystemSetting ecmSystemSetting = settingService.updatesystemsetting(systemSetting);
 		return SettlementUtil.buildReponseData(ecmSystemSetting, ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS, "成功");
 	}
@@ -52,10 +53,9 @@ public class SettingController {
 	 * throws Exception
 	 */
 	@PostMapping(value="/listsystemsetting")
-	public ResBodyData listsystemsetting(EcmSystemSetting systemSetting) throws Exception{
+	public ResBodyData listsystemsetting(EcmSystemSetting systemSetting) throws ServiceException{
 		List<EcmSystemSetting> systemSettingList = settingService.listsystemsetting(systemSetting);
 		return SettlementUtil.buildReponseData(systemSettingList, ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS, "成功");	
 	 }
 	
-
 }

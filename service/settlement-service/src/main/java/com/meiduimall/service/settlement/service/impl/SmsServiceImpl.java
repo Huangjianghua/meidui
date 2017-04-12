@@ -10,6 +10,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.settlement.common.SettlementUtil;
@@ -31,21 +32,17 @@ public class SmsServiceImpl implements SmsService {
 	
 	
 	@Override
-	public boolean sendMsm(SmsReqDTO smsReqDTO) throws ServiceException{
+	public boolean sendMsm(SmsReqDTO smsReqDTO) throws ServiceException {
 		boolean flag = false;
 		String api = ShareProfitUtil.AUTHORIZED_MAP.get(KEY_SMS_API_URL) + ShareProfitUtil.AUTHORIZED_MAP.get(KEY_SEND_MESSAGE);
 		RestTemplate restTemplate = new RestTemplate();
 		String result = restTemplate.postForEntity(api, smsReqDTO, String.class).getBody();
-		Map<String,String> resultMap=JsonUtils.jsonToMap(result, String.class);
-		
-		if(resultMap==null || resultMap.isEmpty()){
-			logger.info("发送短信通知sendMsm(SmsReqDTO)失败,因为返回结果resultObj为空!");
-		}else{
-			if("0".equals(resultMap.get("status_code"))){
-				flag = true;
-			}else{
-				logger.error(resultMap.get("result_msg"));
-			}
+		ResBodyData resBodyData = JsonUtils.jsonToBean(result, ResBodyData.class);
+
+		if ("0".equals(resBodyData.getStatus())) {
+			flag = true;
+		} else {
+			logger.error(resBodyData.getMsg());
 		}
 
 		return flag;
@@ -68,15 +65,12 @@ public class SmsServiceImpl implements SmsService {
 		}
 		
 		String resultObjStr = ConnectionUrlUtil.httpRequest(buildSendMsgUrl(smsReqDTO), ShareProfitUtil.REQUEST_METHOD_POST, null);
-		Map<String,String> resultObj=JsonUtils.jsonToMap(resultObjStr, String.class);
-		if(resultObj==null || resultObj.isEmpty()){
-			logger.info("发送短信通知sendMessage(SmsReqDTO)失败因为返回结果resultObj为空!");
-		}else{
-			if("0".equals(resultObj.get("status_code"))){
-				flag = true;
-			}else{
-				logger.error(resultObj.get("result_msg"));
-			}
+		ResBodyData resBodyData = JsonUtils.jsonToBean(resultObjStr, ResBodyData.class);
+
+		if ("0".equals(resBodyData.getStatus())) {
+			flag = true;
+		} else {
+			logger.error(resBodyData.getMsg());
 		}
 
 		return flag;

@@ -3,7 +3,7 @@ package com.meiduimall.service.settlement.service;
 import java.util.List;
 import java.util.Map;
 
-import com.meiduimall.exception.ServiceException;
+import com.meiduimall.exception.DaoException;
 import com.meiduimall.service.settlement.model.Draw;
 import com.meiduimall.service.settlement.model.EcmMzfAccount;
 import com.meiduimall.service.settlement.model.EcmMzfAgentWater;
@@ -30,7 +30,7 @@ public interface AgentService {
 	 * param   agentWater
 	 * return  
 	 */
-	public int insertAgentWater(EcmMzfAgentWater agentWater) throws ServiceException;
+	public int insertAgentWater(EcmMzfAgentWater agentWater) throws DaoException;
 	
 	
 	/**
@@ -40,7 +40,7 @@ public interface AgentService {
 	 * param   account
 	 * return  
 	 */
-	public int updateAccount(EcmMzfAccount account) throws ServiceException;
+	public int updateAccount(EcmMzfAccount account) throws DaoException;
 	
 	
 	/**
@@ -50,7 +50,7 @@ public interface AgentService {
 	 * param   account
 	 * return  
 	 */
-	public int insertAccount(EcmMzfAccount account) throws ServiceException;
+	public int insertAccount(EcmMzfAccount account) throws DaoException;
 	
 
 	/**
@@ -60,7 +60,7 @@ public interface AgentService {
 	 * param   code
 	 * return  
 	 */
-	public EcmMzfAccount findAccountByCode(String code) throws ServiceException;
+	public EcmMzfAccount findAccountByCode(String code) throws DaoException;
 
 	
 	/**
@@ -70,7 +70,7 @@ public interface AgentService {
 	 * param   water
 	 * return  
 	 */
-	public int insertWater(EcmMzfWater water) throws ServiceException;
+	public int insertWater(EcmMzfWater water) throws DaoException;
 	
 
 	/**
@@ -80,7 +80,7 @@ public interface AgentService {
 	 * param   id-代理唯一标识id、code-代理编号、score-积分
 	 * return  
 	 */
-	public int updateScoreStatusByCode(int id, String code, int score) throws ServiceException;
+	public int updateScoreStatusByCode(int id, String code, int score) throws DaoException;
 	
 	
 	/**
@@ -90,7 +90,7 @@ public interface AgentService {
 	 * param   code-代理编号
 	 * return  
 	 */
-	public EcmMzfAgentWater findAgentWaterByCode(String code) throws ServiceException;
+	public EcmMzfAgentWater findAgentWaterByCode(String code) throws DaoException;
 	
 	
 	/**
@@ -100,7 +100,7 @@ public interface AgentService {
 	 * param   id
 	 * return  EcmMzfAgentWater
 	 */
-	public List<EcmMzfAgentWater> findAgentWaterByAgentCode(int id) throws ServiceException;
+	public List<EcmMzfAgentWater> findAgentWaterByAgentCode(int id) throws DaoException;
 	
 	
 	/**
@@ -110,7 +110,7 @@ public interface AgentService {
 	 * param   
 	 * return  EcmMzfAgentWater
 	 */
-	public List<EcmMzfAgentWater> getAgentWaterScore() throws ServiceException;
+	public List<EcmMzfAgentWater> getAgentWaterScore() throws DaoException;
 	
 	
 	/**
@@ -120,7 +120,7 @@ public interface AgentService {
 	 * param   ecmMzfStoreRecord
 	 * return  
 	 */
-	public int insertStoreRecord(EcmMzfStoreRecord ecmMzfStoreRecord) throws ServiceException;
+	public int insertStoreRecord(EcmMzfStoreRecord ecmMzfStoreRecord) throws DaoException;
 	
 	
 	/**
@@ -130,7 +130,7 @@ public interface AgentService {
 	 * param   ecmMzfStoreRecord
 	 * return  
 	 */
-	public List<EcmSystemSetting> quertSharefit() throws ServiceException;
+	public List<EcmSystemSetting> quertSharefit() throws DaoException;
 	
 	
 	/**
@@ -140,7 +140,7 @@ public interface AgentService {
 	 * param   
 	 * return  
 	 */
-	public List<EcmMzfWater> getWaterList(Map<String,Object> params) throws ServiceException;
+	public List<EcmMzfWater> getWaterList(Map<String,Object> params) throws DaoException;
 	
 	
 	/**
@@ -150,7 +150,7 @@ public interface AgentService {
 	 * param   
 	 * return  
 	 */
-	public int getWaterCount(Map<String,Object> params) throws ServiceException;
+	public int getWaterCount(Map<String,Object> params) throws DaoException;
 	
 	
 	/**
@@ -160,7 +160,7 @@ public interface AgentService {
 	 * param   
 	 * return  
 	 */
-	public EcmMzfWater getWaterDetailByWaterId(String waterId, String waterType) throws ServiceException;
+	public EcmMzfWater getWaterDetailByWaterId(String waterId, String waterType) throws DaoException;
 	
 
 	/**
@@ -170,7 +170,7 @@ public interface AgentService {
 	 * param   drawCode
 	 * return  
 	 */
-	public Draw getDrawDetailByDrawCode(String drawCode) throws ServiceException;
+	public Draw getDrawDetailByDrawCode(String drawCode) throws DaoException;
 	
 	
 	/**
@@ -180,7 +180,7 @@ public interface AgentService {
 	 * param   shareProfitAgentLog
 	 * return  
 	 */
-	public int insertShareProfitAgentLog(ShareProfitAgentLog shareProfitAgentLog) throws ServiceException;
+	public int insertShareProfitAgentLog(ShareProfitAgentLog shareProfitAgentLog) throws DaoException;
 	
 	
 	/**
@@ -190,7 +190,7 @@ public interface AgentService {
 	 * param   agentNo
 	 * return  
 	 */
-	public int updateRetryFlag(String agentNo) throws ServiceException;
+	public int updateRetryFlag(String agentNo) throws DaoException;
 	
 
 	/**
@@ -200,7 +200,7 @@ public interface AgentService {
 	 * param   agentNo
 	 * return  
 	 */
-	public int updateStatusFlag(String agentNo) throws ServiceException;
+	public int updateStatusFlag(String agentNo) throws DaoException;
 	
 	
 	/**
@@ -210,7 +210,7 @@ public interface AgentService {
 	 * param   currentTimestamp、key
 	 * return  
 	 */
-	public List<ShareProfitAgentLog> getAgentsRetry(int currentTimestamp, String key) throws ServiceException;
+	public List<ShareProfitAgentLog> getAgentsRetry(int currentTimestamp, String key) throws DaoException;
 	
 	
 	/**
@@ -220,7 +220,7 @@ public interface AgentService {
 	 * param   
 	 * return  
 	 */
-	public String getRecommenderMoney(Map<String, Object> params) throws ServiceException;
+	public String getRecommenderMoney(Map<String, Object> params) throws DaoException;
 	
 	
 	/**
@@ -230,7 +230,7 @@ public interface AgentService {
 	 * param   id、recNo
 	 * return  
 	 */
-	public List<EcmMzfAgentWater> getShareProfitResult(int id, String recNo) throws ServiceException;
+	public List<EcmMzfAgentWater> getShareProfitResult(int id, String recNo) throws DaoException;
 	
 	
 	/**
@@ -240,7 +240,7 @@ public interface AgentService {
 	 * param   drawCode
 	 * return  
 	 */
-	public EcmMzfDrawWater getDrawWaterInfo(String drawCode) throws ServiceException;
+	public EcmMzfDrawWater getDrawWaterInfo(String drawCode) throws DaoException;
 	
 	
 	/**
@@ -250,7 +250,7 @@ public interface AgentService {
 	 * param   code、waterType、nowTime
 	 * return  
 	 */
-	public int getCountCreateWaterId(Map<String,Object> params) throws ServiceException;
+	public int getCountCreateWaterId(Map<String,Object> params) throws DaoException;
 	
 	
 }
