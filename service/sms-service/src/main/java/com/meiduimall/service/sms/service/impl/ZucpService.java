@@ -99,7 +99,7 @@ public class ZucpService {
 
 		try {
 
-			String result = HttpUtils.post(zucpUrl, buildBody(mobile, content, ext, stime, rrid), headers,"UTF-8");
+			String result = HttpUtils.post(zucpUrl, buildBody(mobile, content, ext, stime, rrid), headers,"UTF-8","UTF-8");
 			logger.info("Zucp::Result -> %s", result);
 
 			String[] array1 = result.split("<mdSmsSend_uResult>");

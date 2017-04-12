@@ -108,13 +108,13 @@ public class JsonUtils {
     }
 
 
-
-    /**
+/*
+    *//**
      * 功能描述:  list转string
      * Author: 陈建宇
      * Date:   2017年3月15日 下午6:10:14
      * return  String
-     */
+     *//*
     public static String listToJson(List<?> list){
         try {
             return getInstance().writeValueAsString(list);
@@ -128,12 +128,12 @@ public class JsonUtils {
         return null;
     }
 
-    /**
+    *//**
      * 功能描述:  map转json
      * Author: 陈建宇
      * Date:   2017年3月16日 上午9:44:44
      * return  String
-     */
+     *//*
     public static String mapToJson(Map<String,?> map){
         try {
             return getInstance().writeValueAsString(map);
@@ -147,12 +147,12 @@ public class JsonUtils {
         return null;
     }
 
-    /**
+    *//**
      * 功能描述:  json转map
      * Author: 陈建宇
      * Date:   2017年3月16日 上午9:44:49
      * return  Map<String,T>
-     */
+     *//*
     public static <T> Map<String,T> jsonToMap(String json,Class<T> valueType){
     	if(!Strings.isNullOrEmpty(json)){
             try {
@@ -168,7 +168,7 @@ public class JsonUtils {
     	}
         return null;
     }
-
+   **/
 
   public static String beanToJsonAndFmDate(Object channelList) {
     return beanToJson(channelList);

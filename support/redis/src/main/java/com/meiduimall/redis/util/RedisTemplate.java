@@ -1,32 +1,29 @@
 package com.meiduimall.redis.util;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import com.meiduimall.core.Constants;
 import com.meiduimall.exception.RedisClientException;
 import com.meiduimall.redis.util.spring.AppContextLauncher;
-
 import redis.clients.jedis.ShardedJedis;
 import redis.clients.jedis.ShardedJedisPipeline;
 import redis.clients.jedis.ShardedJedisPool;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 
-public class JedisUtil {
+public class RedisTemplate {
 
 	private static int RETRY_NUM = 5;
 
-	private static JedisUtil jedisUtil = new JedisUtil();
+	private static RedisTemplate redisTemplate = new RedisTemplate();
 
 	private ShardedJedisPool sharedJedisPool = null;
 
-	private JedisUtil() {
+	private RedisTemplate() {
 		sharedJedisPool = AppContextLauncher.getBean("shardedJedisPool", ShardedJedisPool.class);
 	}
 
-	public static JedisUtil getJedisInstance() {
-		return jedisUtil;
+	public static RedisTemplate getJedisInstance() {
+		return redisTemplate;
 	}
 
 	/**
@@ -91,7 +88,7 @@ public class JedisUtil {
 	 * @param  callback
 	 * @throws
 	 */
-	public <T> T execJedisOperate(JedisCallback<T> callback) {
+	public <T> T execJedisOperate(RedisCallback<T> callback) {
 		T result = null;
 		for (int index = 1; index <= RETRY_NUM; index++) {
 			try {
@@ -147,7 +144,7 @@ public class JedisUtil {
 	 * @return T   
 	 * @throws
 	 */
-	private <T> T invokeJedis(JedisCallback<T> callback) {
+	private <T> T invokeJedis(RedisCallback<T> callback) {
 		boolean isReturn = true;
 		ShardedJedis shardedJedis = null;
 		try {
@@ -178,7 +175,7 @@ public class JedisUtil {
 	 * @throws
 	 */
 	public Long execIncrByToCache(final String cacheKey, final int num) {
-		Long pkVal = execJedisOperate(new JedisCallback<Long>() {
+		Long pkVal = execJedisOperate(new RedisCallback<Long>() {
 			@Override
 			public Long invoke(ShardedJedis jedis) {
 				return jedis.incrBy(cacheKey, (long) num);
@@ -198,7 +195,7 @@ public class JedisUtil {
 	 * @throws
 	 */
 	public Long execIncrToCache(final String cacheKey) {
-		Long pkVal = execJedisOperate(new JedisCallback<Long>() {
+		Long pkVal = execJedisOperate(new RedisCallback<Long>() {
 			@Override
 			public Long invoke(ShardedJedis jedis) {
 				return jedis.incr(cacheKey);
@@ -215,7 +212,7 @@ public class JedisUtil {
 	 * return  Long
 	 */
 	public Long execDecrToCache(final String cacheKey) {
-		Long pkVal = execJedisOperate(new JedisCallback<Long>() {
+		Long pkVal = execJedisOperate(new RedisCallback<Long>() {
 			@Override
 			public Long invoke(ShardedJedis jedis) {
 				return jedis.decr(cacheKey);
@@ -231,7 +228,7 @@ public class JedisUtil {
 	 * return  Long
 	 */
 	public Long execDecrByToCache(final String cacheKey, final int num) {
-		Long pkVal = execJedisOperate(new JedisCallback<Long>() {
+		Long pkVal = execJedisOperate(new RedisCallback<Long>() {
 			@Override
 			public Long invoke(ShardedJedis jedis) {
 				return jedis.decrBy(cacheKey, (long) num);
@@ -251,7 +248,7 @@ public class JedisUtil {
 	 * @throws
 	 */
 	public boolean execDelToCache(final String cacheKey) {
-		return execJedisOperate(new JedisCallback<Boolean>() {
+		return execJedisOperate(new RedisCallback<Boolean>() {
 			@Override
 			public Boolean invoke(ShardedJedis jedis) {
 				return jedis.del(cacheKey) == Constants.CONSTANT_ZERO_INT ? false : true;
@@ -268,7 +265,7 @@ public class JedisUtil {
 	 * @throws
 	 */
 	public void execSetToCache(final String cacheKey, final String value) {
-		execJedisOperate(new JedisCallback<Void>() {
+		execJedisOperate(new RedisCallback<Void>() {
 			@Override
 			public Void invoke(ShardedJedis jedis) {
 				jedis.set(cacheKey, value);
@@ -284,7 +281,7 @@ public class JedisUtil {
 	 * return  void
 	 */
 	public void execSetexToCache(final String cacheKey, final int seconds, final String value) {
-		execJedisOperate(new JedisCallback<Void>() {
+		execJedisOperate(new RedisCallback<Void>() {
 			@Override
 			public Void invoke(ShardedJedis jedis) {
 				jedis.setex(cacheKey, seconds, value);
@@ -300,7 +297,7 @@ public class JedisUtil {
 	 * return  String
 	 */
 	public String execGetFromCache(final String cacheKey) {
-		return execJedisOperate(new JedisCallback<String>() {
+		return execJedisOperate(new RedisCallback<String>() {
 			@Override
 			public String invoke(ShardedJedis jedis) {
 				return jedis.get(cacheKey);
@@ -317,7 +314,7 @@ public class JedisUtil {
 	 * @throws
 	 */
 	public Boolean execExistsFromCache(final String cacheKey) {
-		return execJedisOperate(new JedisCallback<Boolean>() {
+		return execJedisOperate(new RedisCallback<Boolean>() {
 			@Override
 			public Boolean invoke(ShardedJedis jedis) {
 				return jedis.exists(cacheKey);
@@ -335,7 +332,7 @@ public class JedisUtil {
 	 * @throws
 	 */
 	public Long execExpireToCache(final String cacheKey, final int seconds) {
-		return execJedisOperate(new JedisCallback<Long>() {
+		return execJedisOperate(new RedisCallback<Long>() {
 			@Override
 			public Long invoke(ShardedJedis jedis) {
 				return jedis.expire(cacheKey, seconds);
@@ -350,7 +347,7 @@ public class JedisUtil {
 	 * return  Long
 	 */
 	public Long execSetnxToCache(final String cacheKey, final String value) {
-		return execJedisOperate(new JedisCallback<Long>() {
+		return execJedisOperate(new RedisCallback<Long>() {
 			@Override
 			public Long invoke(ShardedJedis jedis) {
 				return jedis.setnx(cacheKey, value);
@@ -371,7 +368,7 @@ public class JedisUtil {
 	 * @throws
 	 */
 	public Set<String> execKeysFromCache(final String cacheKey) {
-		return execJedisOperate(new JedisCallback<Set<String>>() {
+		return execJedisOperate(new RedisCallback<Set<String>>() {
 			@Override
 			public Set<String> invoke(ShardedJedis jedis) {
 				return jedis.getShard(Constants.CONSTANT_ONE_STR).keys(cacheKey);
@@ -388,7 +385,7 @@ public class JedisUtil {
 	 * @throws
 	 */
 	public Long execTtlFormCache(final String cacheKey) {
-		return execJedisOperate(new JedisCallback<Long>() {
+		return execJedisOperate(new RedisCallback<Long>() {
 			@Override
 			public Long invoke(ShardedJedis jedis) {
 				return jedis.ttl(cacheKey);
@@ -406,7 +403,7 @@ public class JedisUtil {
 	 * @throws
 	 */
 	public String execHmsetToCache(final String cacheKey, final Map<String, String> hash) {
-		return execJedisOperate(new JedisCallback<String>() {
+		return execJedisOperate(new RedisCallback<String>() {
 			@Override
 			public String invoke(ShardedJedis jedis) {
 				return jedis.hmset(cacheKey, hash);
@@ -424,7 +421,7 @@ public class JedisUtil {
 	 * @throws
 	 */
 	public List<String> execHmgetToCache(final String cacheKey, final String hashKey) {
-		return execJedisOperate(new JedisCallback<List<String>>() {
+		return execJedisOperate(new RedisCallback<List<String>>() {
 			@Override		
 			public List<String> invoke(ShardedJedis jedis) {
 				return jedis.hmget(cacheKey, hashKey);
@@ -442,7 +439,7 @@ public class JedisUtil {
 	 * @throws
 	 */
 	public String execHgetToCache(final String cacheKey, final String field) {
-		return execJedisOperate(new JedisCallback<String>() {
+		return execJedisOperate(new RedisCallback<String>() {
 			@Override
 			public String invoke(ShardedJedis jedis) {
 				return jedis.hget(cacheKey, field);
@@ -461,7 +458,7 @@ public class JedisUtil {
 	 * @throws
 	 */
 	public Long execHsetToCache(final String cacheKey, final String field, final String value) {
-		return execJedisOperate(new JedisCallback<Long>() {
+		return execJedisOperate(new RedisCallback<Long>() {
 			@Override
 			public Long invoke(ShardedJedis jedis) {
 				return jedis.hset(cacheKey, field, value);
@@ -478,7 +475,7 @@ public class JedisUtil {
 	 * @throws
 	 */
 	public Map<String, String> execHgetAllToCache(final String cacheKey) {
-		return execJedisOperate(new JedisCallback<Map<String, String>>() {
+		return execJedisOperate(new RedisCallback<Map<String, String>>() {
 			@Override
 			public Map<String, String> invoke(ShardedJedis jedis) {
 				return jedis.hgetAll(cacheKey);
@@ -496,7 +493,7 @@ public class JedisUtil {
 	 * @throws
 	 */
 	public Long execExpireAtTimeToCache(final String cacheKey, final Long unixTime) {
-		return execJedisOperate(new JedisCallback<Long>() {
+		return execJedisOperate(new RedisCallback<Long>() {
 			@Override
 			public Long invoke(ShardedJedis jedis) {
 				return jedis.expireAt(cacheKey, unixTime);
@@ -515,7 +512,7 @@ public class JedisUtil {
 	 * @throws
 	 */
 	public Long execZaddToCache(final String cacheKey, final Double score, final String member) {
-		return execJedisOperate(new JedisCallback<Long>() {
+		return execJedisOperate(new RedisCallback<Long>() {
 			@Override
 			public Long invoke(ShardedJedis jedis) {
 				return jedis.zadd(cacheKey, score, member);
@@ -535,7 +532,7 @@ public class JedisUtil {
 	 * @throws
 	 */
 	public Long execZremToCache(final String cacheKey, final String... members) {
-		return execJedisOperate(new JedisCallback<Long>() {
+		return execJedisOperate(new RedisCallback<Long>() {
 			@Override
 			public Long invoke(ShardedJedis jedis) {
 				return jedis.zrem(cacheKey, members);
@@ -554,7 +551,7 @@ public class JedisUtil {
 	 * @throws
 	 */
 	public Set<String> execZrangeByScoreToCache(final String cacheKey, final double min, final double max) {
-		return execJedisOperate(new JedisCallback<Set<String>>() {
+		return execJedisOperate(new RedisCallback<Set<String>>() {
 			@Override
 			public Set<String> invoke(ShardedJedis jedis) {
 				return jedis.zrangeByScore(cacheKey, min, max);

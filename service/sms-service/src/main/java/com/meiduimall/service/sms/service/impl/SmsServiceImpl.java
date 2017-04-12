@@ -9,10 +9,9 @@
  */
 
 package com.meiduimall.service.sms.service.impl;
-
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.ServiceException;
-import com.meiduimall.redis.util.JedisUtil;
+import com.meiduimall.redis.util.RedisUtils;
 import com.meiduimall.service.sms.SmsServiceErrorInfoEnum;
 import com.meiduimall.service.sms.SysConstant;
 import com.meiduimall.service.sms.entity.SendSmsHistory;
@@ -130,7 +129,7 @@ public class SmsServiceImpl implements SmsService {
 
   private void send(String channel, String phone, String templateId, String params){
 
-    String tempMsg = JedisUtil.getJedisInstance().execGetFromCache(phone + templateId + params);
+    String tempMsg = RedisUtils.get(phone + templateId + params);
     if (StringUtils.isNotEmpty(tempMsg)) {
       throw new ServiceException(SmsServiceErrorInfoEnum.REPEATING);
     }
@@ -167,7 +166,7 @@ public class SmsServiceImpl implements SmsService {
 //    ResultBody result = new ResultBody(ResultBody.SUCCESS, "success");
 
 //    String tempMsg = redisService.get(model.getPhones() + model.getTemplateId() + model.getParams()) == null ? "" : redisService.get(model.getPhones() + model.getTemplateId() + model.getParams()).toString();
-    String tempMsg = JedisUtil.getJedisInstance().execGetFromCache(model.getPhones() + model.getTemplateId() + model.getParams());
+    String tempMsg = RedisUtils.get(model.getPhones() + model.getTemplateId() + model.getParams());
     if (StringUtils.isNotEmpty(tempMsg)) {
       throw new ServiceException(SmsServiceErrorInfoEnum.REPEATING);
 //      return result;
@@ -217,7 +216,7 @@ public class SmsServiceImpl implements SmsService {
 //            return result;
           }
         }
-        JedisUtil.getJedisInstance().execSetexToCache(model.getPhones() + model.getTemplateId() + model.getParams(), Time.parseDuration(ti.getEffectiveTime()) , content);
+        RedisUtils.setex(model.getPhones() + model.getTemplateId() + model.getParams(), Time.parseDuration(ti.getEffectiveTime()) , content);
 
         ssh.setRequestParams(model.getPhones() + "ali send param:" + ti.getExternalTemplateNo() + params + ";mandao send param:" + content);
         ssh.setResultMsg("ali result, flag:" + String.valueOf(flag) + ";mandao result, res:" + String.valueOf(res));
@@ -362,7 +361,7 @@ public class SmsServiceImpl implements SmsService {
 //    ResultBody result = new ResultBody(ResultBody.SUCCESS, "success");
     String result = "";
 
-    String tempMsg = JedisUtil.getJedisInstance().execGetFromCache(model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId());
+    String tempMsg = RedisUtils.get(model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId());
 
     if (StringUtils.isNotEmpty(tempMsg)) {
       throw new ServiceException(SmsServiceErrorInfoEnum.REPEATING);
@@ -430,7 +429,7 @@ public class SmsServiceImpl implements SmsService {
           }
         }
         int expire = Time.parseDuration(model.getTimeout() == null ? ti.getEffectiveTime() : model.getTimeout());
-        JedisUtil.getJedisInstance().execSetexToCache(model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId(), expire, result);
+        RedisUtils.setex(model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId(), expire, result);
 
 
         ssh.setRequestParams(model.getPhones() + "ali send param:" + ti.getExternalTemplateNo() + params + ";mandao send param:" + content);
@@ -479,7 +478,7 @@ public class SmsServiceImpl implements SmsService {
   @Override
   public int checkSmsVerificationCode(CommonShortMessageModel model)  {
 //    ResultBody result = new ResultBody(ResultBody.SUCCESS, "success");
-    String tempVerificationCode = JedisUtil.getJedisInstance().execGetFromCache(model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId());
+    String tempVerificationCode = RedisUtils.get(model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId());
 
     //设置发送历史记录值
 //    SendSmsHistory ssh = setHistory(model);
@@ -502,7 +501,7 @@ public class SmsServiceImpl implements SmsService {
 //    ssh.setResultMsg("验证返回结果：" + ToStringBuilder.reflectionToString(result));
 //    sendSmsHistoryMapper.insert(ssh);
 
-    JedisUtil.getJedisInstance().execDelToCache(model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId());
+    RedisUtils.del(model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId());
 
     //验证通过
     return  0;

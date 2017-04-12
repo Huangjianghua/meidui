@@ -10,22 +10,22 @@
 
 package com.meiduimall.service.route.hanler.impl;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
+
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.util.ExceptionUtils;
 import com.meiduimall.core.util.JsonUtils;
-import com.meiduimall.redis.util.JedisUtil;
+import com.meiduimall.redis.util.RedisUtils;
 import com.meiduimall.service.route.Constants;
 import com.meiduimall.service.route.ResponsePackUtil;
 import com.meiduimall.service.route.hanler.Handler;
 import com.netflix.zuul.context.RequestContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.util.AntPathMatcher;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.PathMatcher;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 public class BlackListValidateHandler implements Handler {
 
@@ -43,7 +43,7 @@ public class BlackListValidateHandler implements Handler {
 
     try {
 
-      String blackListJson = JedisUtil.getJedisInstance().execGetFromCache(Constants.BLACK_LIST_JSON);
+      String blackListJson = RedisUtils.get(Constants.BLACK_LIST_JSON);
       List<String> blackList = JsonUtils.jsonToList(blackListJson, String.class);
       if (!CollectionUtils.isEmpty(blackList) && isBlackList(request.getRequestURL().toString(), blackList)) {
         log.info("黑名单验证处理层,url:{},黑名单:{}", request.getRequestURL().toString(), blackListJson);

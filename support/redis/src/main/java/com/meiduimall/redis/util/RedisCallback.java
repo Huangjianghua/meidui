@@ -3,7 +3,7 @@ import redis.clients.jedis.ShardedJedis;
 
 
 
-public interface JedisCallback<T> {
+public interface RedisCallback<T> {
 	
 	public T invoke(ShardedJedis jedis);
 

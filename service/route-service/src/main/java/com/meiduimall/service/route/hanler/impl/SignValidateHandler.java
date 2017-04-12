@@ -9,12 +9,11 @@
  */
 
 package com.meiduimall.service.route.hanler.impl;
-
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.util.ExceptionUtils;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.password.GatewaySignUtil;
-import com.meiduimall.redis.util.JedisUtil;
+import com.meiduimall.redis.util.RedisUtils;
 import com.meiduimall.service.route.Constants;
 import com.meiduimall.service.route.ResponsePackUtil;
 import com.meiduimall.service.route.hanler.Handler;
@@ -23,7 +22,6 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
@@ -49,8 +47,8 @@ public class SignValidateHandler implements Handler {
     String sign = param.get("sign");
     String clientID = param.get("clientID");
     try {
-      String appSecretJson = JedisUtil.getJedisInstance().execGetFromCache(Constants.APP_SECRET_JSON);
-      Map<String, String> map = JsonUtils.jsonToMap(appSecretJson, String.class);
+      String appSecretJson = RedisUtils.get(Constants.APP_SECRET_JSON);
+      Map<String, String> map = JsonUtils.jsonToBean(appSecretJson, Map.class);
       String appSecret = map.get(clientID);
       if (StringUtils.isEmpty(appSecret)) {
         ResponsePackUtil.responseWrapper(ctx, BaseApiCode.NOT_EXISTS_SECRET);

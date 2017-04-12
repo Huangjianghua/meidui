@@ -42,26 +42,7 @@ public class JsonUtilsTest {
 	}
 	
 	
-	@Test
-	public void listToJsonTest(){
-		List<Integer> list=Lists.newArrayList(1,2,34,5);
-		Assert.assertEquals(listStr, JsonUtils.listToJson(list));
-	}
-	
-	
-	
-	@Test
-	public void mapToJsonTest(){
-		Map<String,Integer> map=JsonUtils.jsonToMap(mapStr, Integer.class);
-		Assert.assertNotNull(map);
-	}
-	
-	@Test
-	public void jsonToMapTest(){
-		Map<String,Integer> map=Maps.newHashMap();
-		map.put("age", 13);
-		Assert.assertEquals(mapStr, JsonUtils.mapToJson(map));
-	}
+
 	
 	public static class Json{
 		private String name;

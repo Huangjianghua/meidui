@@ -37,7 +37,7 @@ public class JedisUtilTest {
 	 */
 	@Test
 	public void testExecIncrByToCache(){
-		Long value=JedisUtil.getJedisInstance().execIncrByToCache("testExecIncrByToCache", 1);
+		Long value=RedisTemplate.getJedisInstance().execIncrByToCache("testExecIncrByToCache", 1);
 		Assert.assertNotNull(value);
 	}
 	
@@ -50,7 +50,7 @@ public class JedisUtilTest {
 	 */
 	@Test
 	public void testExecIncrToCache(){
-		Long value=JedisUtil.getJedisInstance().execIncrToCache("testExecIncrToCache");
+		Long value=RedisTemplate.getJedisInstance().execIncrToCache("testExecIncrToCache");
 		Assert.assertNotNull(value);
 	}
 	
@@ -63,7 +63,7 @@ public class JedisUtilTest {
 	 */
 	@Test
 	public void testExecDecrToCache(){
-		Long value=JedisUtil.getJedisInstance().execDecrToCache("testExecIncrToCache");
+		Long value=RedisTemplate.getJedisInstance().execDecrToCache("testExecIncrToCache");
 		Assert.assertNotNull(value);
 	}
 	
@@ -75,7 +75,7 @@ public class JedisUtilTest {
 	 */
 	@Test
 	public void testExecDecrByToCache(){
-		Long value=JedisUtil.getJedisInstance().execDecrByToCache("testExecDecrByToCache", 1);
+		Long value=RedisTemplate.getJedisInstance().execDecrByToCache("testExecDecrByToCache", 1);
 		Assert.assertNotNull(value);
 	}
 	
@@ -90,7 +90,7 @@ public class JedisUtilTest {
 	 */
 	@Test
 	public void testExecSetToCache(){
-		Long value=JedisUtil.getJedisInstance().execSetnxToCache("testExecSetToCache", "testExecSetToCache");
+		Long value=RedisTemplate.getJedisInstance().execSetnxToCache("testExecSetToCache", "testExecSetToCache");
 		Assert.assertNotNull(value);
 	}
 	
@@ -103,7 +103,7 @@ public class JedisUtilTest {
 	 */
 	@Test
 	public void testExecDelToCache(){
-		boolean res=JedisUtil.getJedisInstance().execDelToCache("testExecSetToCache");
+		boolean res=RedisTemplate.getJedisInstance().execDelToCache("testExecSetToCache");
 		Assert.assertTrue(res);
 	}
 	
@@ -116,7 +116,7 @@ public class JedisUtilTest {
 	 */
 	@Test
 	public void testExecSetexToCache(){
-		JedisUtil.getJedisInstance().execSetexToCache("testExecSetexToCache", 60, "testExecSetexToCache");
+		RedisTemplate.getJedisInstance().execSetexToCache("testExecSetexToCache", 60, "testExecSetexToCache");
 	}
 	
 	
@@ -128,7 +128,7 @@ public class JedisUtilTest {
 	 */
 	@Test
 	public void testExecGetFromCache(){
-		String value=JedisUtil.getJedisInstance().execGetFromCache("testExecGetFromCache");
+		String value=RedisTemplate.getJedisInstance().execGetFromCache("testExecGetFromCache");
 		Assert.assertNull(value);
 	}
 	
@@ -141,7 +141,7 @@ public class JedisUtilTest {
 	 */
 	@Test
 	public void testExecExistsFromCache(){
-		Boolean res=JedisUtil.getJedisInstance().execExistsFromCache("testExecSetexToCache");
+		Boolean res=RedisTemplate.getJedisInstance().execExistsFromCache("testExecSetexToCache");
 		Assert.assertNotNull(res);
 	}
 	
@@ -154,7 +154,7 @@ public class JedisUtilTest {
 	 */
 	@Test
 	public void testExecExpireToCache(){
-		Long res=JedisUtil.getJedisInstance().execExpireToCache("testExecSetexToCache",5);
+		Long res=RedisTemplate.getJedisInstance().execExpireToCache("testExecSetexToCache",5);
 		Assert.assertNotNull(res);
 	}
 
@@ -168,7 +168,7 @@ public class JedisUtilTest {
 	 */
 	@Test
 	public void testExecSetnxToCache(){
-		Long value=JedisUtil.getJedisInstance().execSetnxToCache("testExecSetnxToCache", "testExecSetnxToCache");
+		Long value=RedisTemplate.getJedisInstance().execSetnxToCache("testExecSetnxToCache", "testExecSetnxToCache");
 		Assert.assertNotNull(value);
 	}
 	
@@ -183,7 +183,7 @@ public class JedisUtilTest {
 	 */
 	@Test
 	public void testExecKeysFromCache(){
-		Set<String> set=JedisUtil.getJedisInstance().execKeysFromCache("testExecKeysFromCache");
+		Set<String> set=RedisTemplate.getJedisInstance().execKeysFromCache("testExecKeysFromCache");
 		assertEquals(0,set.size());
 	}
 	
@@ -196,7 +196,7 @@ public class JedisUtilTest {
 	 */
 	@Test
 	public void testExecTtlFormCache(){
-		Long value=JedisUtil.getJedisInstance().execTtlFormCache("testExecTtlFormCache");
+		Long value=RedisTemplate.getJedisInstance().execTtlFormCache("testExecTtlFormCache");
 		assertEquals(-1,value.intValue());
 	}
 	
@@ -212,7 +212,7 @@ public class JedisUtilTest {
 	public void testExecHmsetToCache(){
 		Map<String,String> param=Maps.newHashMap();
 		param.put("testExecHmsetToCache","testExecHmsetToCache");
-		String value=JedisUtil.getJedisInstance().execHmsetToCache("testExecHmsetToCache",param);
+		String value=RedisTemplate.getJedisInstance().execHmsetToCache("testExecHmsetToCache",param);
 		assertEquals("OK",value);
 	}
 	
@@ -225,7 +225,7 @@ public class JedisUtilTest {
 	 */
 	@Test
 	public void testExecHmgetToCache(){
-		List<String> list=JedisUtil.getJedisInstance().execHmgetToCache("testExecHmgetToCache", "testExecHmgetToCache");
+		List<String> list=RedisTemplate.getJedisInstance().execHmgetToCache("testExecHmgetToCache", "testExecHmgetToCache");
 		Assert.assertNull(list.get(0));
 	}
 	
@@ -238,7 +238,7 @@ public class JedisUtilTest {
 	 */
 	@Test
 	public void testExecHsetToCache(){
-		Long value=JedisUtil.getJedisInstance().execHsetToCache("testExecHsetToCache","testExecHsetToCache","testExecHsetToCache");
+		Long value=RedisTemplate.getJedisInstance().execHsetToCache("testExecHsetToCache","testExecHsetToCache","testExecHsetToCache");
 		Assert.assertNotNull(value);
 	}
 	
@@ -250,7 +250,7 @@ public class JedisUtilTest {
 	 */
 	@Test
 	public void testExecHgetAllToCache(){
-		Map<String, String> map=JedisUtil.getJedisInstance().execHgetAllToCache("testExecHsetToCache");
+		Map<String, String> map=RedisTemplate.getJedisInstance().execHgetAllToCache("testExecHsetToCache");
 		Assert.assertNotNull(map);
 	}
 	
@@ -264,7 +264,7 @@ public class JedisUtilTest {
 	@Test
 	public void testExecExpireAtTimeToCache(){
 		Long second=(System.currentTimeMillis()/1000) +20;
-		Long value=JedisUtil.getJedisInstance().execExpireAtTimeToCache("testExecExpireAtTimeToCache",second);
+		Long value=RedisTemplate.getJedisInstance().execExpireAtTimeToCache("testExecExpireAtTimeToCache",second);
 		assertEquals(0,value.intValue());
 		
 	}
@@ -278,7 +278,7 @@ public class JedisUtilTest {
 	 */
 	@Test
 	public void testExecZaddToCache(){
-		Long value=JedisUtil.getJedisInstance().execZaddToCache("testExecZaddToCache", 10d, "testExecZaddToCache");
+		Long value=RedisTemplate.getJedisInstance().execZaddToCache("testExecZaddToCache", 10d, "testExecZaddToCache");
 		Assert.assertNotNull(value);
 	}
 	
@@ -291,7 +291,7 @@ public class JedisUtilTest {
 	 */
 	@Test
 	public void testExecZremToCache() {
-		Long value=JedisUtil.getJedisInstance().execZremToCache("testExecZremToCache", "testExecZremToCache");
+		Long value=RedisTemplate.getJedisInstance().execZremToCache("testExecZremToCache", "testExecZremToCache");
 		assertEquals(0,value.intValue());
 		
 	}
@@ -306,7 +306,7 @@ public class JedisUtilTest {
 	@Test
 	public void testExecZrangeByScoreToCache(){
 		
-		Set<String> set=JedisUtil.getJedisInstance().execZrangeByScoreToCache("testExecZrangeByScoreToCache", 1d, 20d);
+		Set<String> set=RedisTemplate.getJedisInstance().execZrangeByScoreToCache("testExecZrangeByScoreToCache", 1d, 20d);
 		assertEquals(0,set.size());
 	}
 	

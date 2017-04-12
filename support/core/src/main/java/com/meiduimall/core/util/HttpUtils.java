@@ -1,5 +1,6 @@
 package com.meiduimall.core.util;
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -76,7 +76,7 @@ public class HttpUtils {
 	 */
 	public static String post(String url, String sendData,Map<String,String> headers)
 			throws ClientProtocolException, IOException {
-		return post(url, sendData, headers,null);
+		return post(url, sendData, headers,null,null);
 	}
 	
 	
@@ -91,7 +91,7 @@ public class HttpUtils {
 	 */
 	public static String put(String url, String sendData,Map<String,String> headers)
 			throws ClientProtocolException, IOException {
-		return put(url, sendData, headers, null);
+		return put(url, sendData, headers, null,null);
 	}
 	
 	
@@ -145,9 +145,10 @@ public class HttpUtils {
 	 * sendData: 发送内容
 	 * header:
 	 * decodeCharset: 返回内容字符编码,默认utf8
+	 * encodeCharset: 返回内容字符编码,默认utf8
 	 * return  String
 	 */
-	public static String post(String url, String sendData, Map<String,String> headers,String decodeCharset)
+	public static String post(String url, String sendData, Map<String,String> headers,String encodeCharset,String decodeCharset)
 			throws ClientProtocolException, IOException {
 
 		CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -158,7 +159,7 @@ public class HttpUtils {
 			for(Entry<String,String> entry:headerSet){
 				httpPost.setHeader(entry.getKey(),entry.getValue());
 			}
-			httpPost.setEntity(new StringEntity(sendData,decodeCharset));
+			httpPost.setEntity(new StringEntity(sendData,encodeCharset == null?Consts.UTF_8.name():encodeCharset));
 			HttpResponse response = httpClient.execute(httpPost);
 			return HttpResToString(response, decodeCharset);
 		} finally {
@@ -175,9 +176,10 @@ public class HttpUtils {
 	 * sendData: 发送内容
 	 * contentType: header
 	 * decodeCharset: 返回内容字符编码,默认utf8
+	 * encodeCharset: 返回内容字符编码,默认utf8
 	 * return  String
 	 */
-	public static String put(String url, String sendData,Map<String,String> headers, String decodeCharset)
+	public static String put(String url, String sendData,Map<String,String> headers,String encodeCharset,String decodeCharset)
 			throws ClientProtocolException, IOException {
 
 		CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -188,7 +190,7 @@ public class HttpUtils {
 			for(Entry<String,String> entry:headerSet){
 				HttpPut.setHeader(entry.getKey(),entry.getValue());
 			}
-			HttpPut.setEntity(new StringEntity(sendData));
+			HttpPut.setEntity(new StringEntity(sendData,encodeCharset== null?Consts.UTF_8.name():encodeCharset));
 			HttpResponse response = httpClient.execute(HttpPut);
 			return HttpResToString(response, decodeCharset);
 		} finally {

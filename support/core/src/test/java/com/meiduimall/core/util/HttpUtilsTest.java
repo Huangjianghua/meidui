@@ -125,7 +125,7 @@ public class HttpUtilsTest {
   public void testPost() throws Exception {
 	Map<String,String> headers=Maps.newHashMap();
 	headers.put(HttpHeaders.CONTENT_TYPE,"application/json");
-    String result = HttpUtils.post("http://localhost:5000/util/test", requestJson, headers,"UTF-8");
+    String result = HttpUtils.post("http://localhost:5000/util/test", requestJson, headers,"UTF-8","UTF-8");
     assertEquals(expected,result);
   }
 
@@ -135,7 +135,7 @@ public class HttpUtilsTest {
   public void testPut() throws Exception {
     Map<String, String> headers = Maps.newHashMap();
 	headers.put(HttpHeaders.CONTENT_TYPE,"application/json");
-    String result = HttpUtils.put("http://localhost:5000/util/test", requestJson, headers,"UTF-8");
+    String result = HttpUtils.put("http://localhost:5000/util/test", requestJson, headers,"UTF-8","UTF-8");
     assertEquals(expected,result);
   }
 
