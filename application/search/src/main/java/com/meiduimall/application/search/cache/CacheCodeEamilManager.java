@@ -112,15 +112,8 @@ public class CacheCodeEamilManager <K, V> extends AbstractMap<K, V> {
 	}
 
 	public V remove(Object keyss) {
-		// Object[] keys = map.keySet().toArray();
-		// for (Object key : keys) {
-		// if (keyss.equals(key)) {
-		// synchronized (map) {
 		map.remove(keyss);
 		log.info("手动清理清理key=" + keyss + "---time:" + new SimpleDateFormat("HH:mm:ss").format(new Date()));
-		// }
-		// }
-		// }
 		return null;
 	}
 }

@@ -1,13 +1,14 @@
 package com.meiduimall.application.search.pojo;
+import javax.validation.constraints.Digits;
 
-import com.meiduimall.application.search.constant.SolrConstant;
+import org.hibernate.validator.constraints.NotBlank;
+
 
 /**
  * 搜索参数
  * @date 2016年4月25日
  */
 public class AppSearchParam {
-
 	/**
 	 * 搜索词
 	 */

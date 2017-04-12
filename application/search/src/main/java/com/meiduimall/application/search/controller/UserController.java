@@ -1,18 +1,14 @@
 package com.meiduimall.application.search.controller;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.meiduimall.application.search.constant.SysConstant;
 import com.meiduimall.application.search.page.PageView;
 import com.meiduimall.application.search.page.QueryResult;
@@ -30,13 +26,17 @@ public class UserController {
 	
 	@Resource
 	private IRoleService roleService ;
+	@Autowired
+	private HttpServletRequest request;
+	@Autowired
+	private HttpServletResponse response;
 	
 	@RequestMapping("/login")
-	public  void login(User user ,HttpSession session ,HttpServletResponse response){
+	public  void login(User user){
 		try {
 			PrintWriter write = response.getWriter();
 			//验证码
-			String  realVcode = (String) session.getAttribute("vcode");
+			String  realVcode = (String) request.getSession().getAttribute("vcode");
 			if(!realVcode.equalsIgnoreCase(user.getVcode())){
 				write.println(4);
 				return ;
@@ -57,7 +57,7 @@ public class UserController {
 				return ;
 			}
 			//保存用户信息到session当中
-			session.setAttribute(SysConstant.USER_SESSSION_INFO, user);
+			request.getSession().setAttribute(SysConstant.USER_SESSSION_INFO, user);
 			write.print(3);
 			write.close();
 		} catch (IOException e) {
@@ -93,7 +93,7 @@ public class UserController {
 	}
 	
 	@RequestMapping("/logout") 
-	public String  logout(HttpServletRequest request ){
+	public String  logout(){
 		request.getSession().invalidate();
 		return "redirect:/index.jsp";
 	}
@@ -137,9 +137,9 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping("/editUser")
-	public  ModelAndView  editUser(User user ,HttpSession session){
+	public  ModelAndView  editUser(User user){
 		ModelAndView  mav = new ModelAndView();
-		User loginUser = (User) session.getAttribute(SysConstant.USER_SESSSION_INFO);
+		User loginUser = (User) request.getSession().getAttribute(SysConstant.USER_SESSSION_INFO);
 		user.setUpdateAccount(loginUser.getUserName());
 		userService.editUser(user);
 		mav.setViewName("redirect:/user/showListPage.do");
@@ -165,9 +165,9 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping("/addUser")
-	public  ModelAndView  addUser(User user ,HttpSession session){
+	public  ModelAndView  addUser(User user){
 		ModelAndView mav = new ModelAndView();
-		User loginUser = (User) session.getAttribute(SysConstant.USER_SESSSION_INFO);
+		User loginUser = (User) request.getSession().getAttribute(SysConstant.USER_SESSSION_INFO);
 		user.setCreateAccount(loginUser.getUserName());
 		userService.addUser(user);
 		mav.setViewName("redirect:/user/showListPage.do");
@@ -178,7 +178,7 @@ public class UserController {
 	 *检查账号是否已经被注册
 	 */
 	@RequestMapping("/checkUsername")
-	public  void  checkUserName(User user ,HttpServletResponse response){
+	public  void  checkUserName(User user){
 		boolean bl =  userService.checkUserName(user);
 		response.setCharacterEncoding("utf-8");
 		PrintWriter write = null;
