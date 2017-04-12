@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.core.SmsApiCode;
 import com.meiduimall.exception.ServiceException;
-import com.meiduimall.service.sms.SmsServiceErrorInfoEnum;
 import com.meiduimall.service.sms.model.message.CommonShortMessageModel;
 import com.meiduimall.service.sms.service.SmsService;
 
@@ -60,7 +60,7 @@ public class SmsController {
     try {
       smsService.sendSmsMessage(model);
     } catch (Exception e) {
-      throw new ServiceException(SmsServiceErrorInfoEnum.NOT_FOUND);
+      throw new ServiceException(SmsApiCode.NOT_FOUND,BaseApiCode.getZhMsg(SmsApiCode.NOT_FOUND));
     }
     logger.info("结束发普通短信程序");
 
@@ -106,11 +106,11 @@ public class SmsController {
         logger.info("结束校验短信验证码程序");
         return result;
       case -2:
-        throw new ServiceException(SmsServiceErrorInfoEnum.SMS_VALID_CODE_EXPIRED);
+        throw new ServiceException(SmsApiCode.SMS_VALID_CODE_EXPIRED,BaseApiCode.getZhMsg(SmsApiCode.SMS_VALID_CODE_EXPIRED));
       case -1:
-        throw new ServiceException(SmsServiceErrorInfoEnum.SMS_VALID_CODE_UNMATCHED);
+        throw new ServiceException(SmsApiCode.SMS_VALID_CODE_UNMATCHED,BaseApiCode.getZhMsg(SmsApiCode.SMS_VALID_CODE_UNMATCHED));
       default:
-        throw new ServiceException(SmsServiceErrorInfoEnum.UNKNOWN);
+        throw new ServiceException(SmsApiCode.UNKNOWN,BaseApiCode.getZhMsg(SmsApiCode.UNKNOWN));
     }
   }
 

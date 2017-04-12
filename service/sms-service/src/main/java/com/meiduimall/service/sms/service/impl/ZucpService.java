@@ -11,11 +11,13 @@
 package com.meiduimall.service.sms.service.impl;
 
 import java.util.HashMap;
+
 import java.util.Map;
 
+import com.meiduimall.core.BaseApiCode;
+import com.meiduimall.core.SmsApiCode;
 import com.meiduimall.core.util.HttpUtils;
 import com.meiduimall.exception.ServiceException;
-import com.meiduimall.service.sms.SmsServiceErrorInfoEnum;
 import com.meiduimall.service.sms.util.MD5Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -108,7 +110,7 @@ public class ZucpService {
 			return array2[0];
 		} catch (Exception e) {
 			logger.error("ZucpService error.", e);
-			throw new ServiceException(SmsServiceErrorInfoEnum.SMS_SEND_FAILUER);
+			throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER,BaseApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
 		}
 		
 	}

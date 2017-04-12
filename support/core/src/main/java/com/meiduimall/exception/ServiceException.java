@@ -9,9 +9,6 @@
  */
 
 package com.meiduimall.exception;
-
-import com.meiduimall.core.ErrorInfo;
-
 /**
  * 统一错误码异常
  *
@@ -19,17 +16,26 @@ import com.meiduimall.core.ErrorInfo;
  */
 public class ServiceException extends RuntimeException {
 
-  private ErrorInfo errorInfo;
+    private Integer code;
+	public ServiceException(Integer code,String e) {
+		super(e);
+	}
+	
+	public ServiceException(Integer code,Throwable cause) {
+        super(cause);
+    }
+	
+	public ServiceException(Integer code,String message, Throwable cause) {
+		super(message, cause);
+	}
 
-  public ServiceException(ErrorInfo errorInfo) {
-    this.errorInfo = errorInfo;
-  }
+	public Integer getCode() {
+		return code;
+	}
 
-  public ErrorInfo getErrorInfo() {
-    return errorInfo;
-  }
-
-  public void setErrorInfo(ErrorInfo errorInfo) {
-    this.errorInfo = errorInfo;
-  }
+	public void setCode(Integer code) {
+		this.code = code;
+	}
+	
+	
 }

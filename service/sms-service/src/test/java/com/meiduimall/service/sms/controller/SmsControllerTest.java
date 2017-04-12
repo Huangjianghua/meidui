@@ -9,10 +9,6 @@
  */
 
 package com.meiduimall.service.sms.controller;
-import com.meiduimall.core.ResBodyData;
-import com.meiduimall.exception.ServiceException;
-import com.meiduimall.service.sms.SmsServiceErrorInfoEnum;
-import com.meiduimall.service.sms.model.message.CommonShortMessageModel;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,6 +17,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+
+import com.meiduimall.core.BaseApiCode;
+import com.meiduimall.core.ResBodyData;
+import com.meiduimall.core.SmsApiCode;
+import com.meiduimall.exception.ServiceException;
+import com.meiduimall.service.sms.model.message.CommonShortMessageModel;
 
 /**
  * Created by hadoop on 2017/4/10.
@@ -44,7 +46,7 @@ public class SmsControllerTest {
     model.setTemplateId("O2O_1004");
     model.setParams("2012年01月01日 12:22:32,333");
     ResBodyData result = smsController.sendSmsMessage(model);
-    Assert.assertEquals(SmsServiceErrorInfoEnum.SUCCESS.getCode(),result.getStatus()+"");
+    Assert.assertEquals(BaseApiCode.SUCCESS,result.getStatus());
   }
 
   //阿里大于模板注册，通过阿里大于发送短信
@@ -54,7 +56,7 @@ public class SmsControllerTest {
     model.setTemplateId("O2O_1001");
     model.setParams("2012年01月01日 12:22:32,333");
     ResBodyData result = smsController.sendSmsMessage(model);
-    Assert.assertEquals(SmsServiceErrorInfoEnum.SUCCESS.getCode(),result.getStatus()+"");
+    Assert.assertEquals(BaseApiCode.SUCCESS,result.getStatus()+"");
   }
 
   //阿里大于模板注册，通过漫道发送验证码
@@ -63,7 +65,7 @@ public class SmsControllerTest {
     model.setPhones("18621580756");
     model.setTemplateId("MEM_1002");
     ResBodyData result = smsController.sendSmsVerificationCode(model);
-    Assert.assertEquals(SmsServiceErrorInfoEnum.SUCCESS.getCode(),result.getStatus()+"");
+    Assert.assertEquals(BaseApiCode.SUCCESS,result.getStatus()+"");
   }
 
   //阿里大于模板注册，通过阿里大于发送验证码
@@ -72,7 +74,7 @@ public class SmsControllerTest {
     model.setPhones("18621580756");
     model.setTemplateId("O2O_1002");
     ResBodyData result = smsController.sendSmsVerificationCode(model);
-    Assert.assertEquals(SmsServiceErrorInfoEnum.SUCCESS.getCode(), result.getStatus()+"");
+    Assert.assertEquals(BaseApiCode.SUCCESS, result.getStatus()+"");
   }
 
   //重复发送验证码
@@ -83,7 +85,7 @@ public class SmsControllerTest {
     try {
       smsController.sendSmsVerificationCode(model);
     } catch (ServiceException e) {
-      Assert.assertEquals(SmsServiceErrorInfoEnum.REPEATING.getCode(), e.getErrorInfo().getCode());
+      Assert.assertEquals(SmsApiCode.REPEATING, e.getCode());
     }
   }
 
@@ -98,7 +100,7 @@ public class SmsControllerTest {
       Assert.assertEquals(true, result);
     } catch (ServiceException e) {
       Assert.assertEquals(false, result);
-      Assert.assertEquals(SmsServiceErrorInfoEnum.REPEATING.getCode(), e.getErrorInfo().getCode());
+      Assert.assertEquals(SmsApiCode.REPEATING, e.getCode());
     }
   }
 

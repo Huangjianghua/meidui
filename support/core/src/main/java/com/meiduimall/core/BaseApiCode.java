@@ -96,8 +96,8 @@ public class BaseApiCode {
 	}
 
 	static {
+		SmsApiCode.initResponseCode();
 		zhMsgMap.put(SUCCESS, "系统正常");
-		// zhMsgMap.put(FAIL, "系统异常");
 		zhMsgMap.put(NOT_EXISTS_CLIENTID, "clientID请求参数不存在");
 		zhMsgMap.put(NOT_EXISTS_TIMESTAMP, "timestamp请求参数不存在或者非数字");
 		zhMsgMap.put(NOT_EXISTS_SIGN, "sign请求参数不存在");

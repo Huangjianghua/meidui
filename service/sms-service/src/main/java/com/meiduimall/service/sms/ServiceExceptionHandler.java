@@ -9,18 +9,13 @@
  */
 
 package com.meiduimall.service.sms;
-
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import com.meiduimall.core.ErrorInfo;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ServiceException;
 
@@ -37,8 +32,7 @@ public class ServiceExceptionHandler {
   @ExceptionHandler(value = ServiceException.class)
   public ResBodyData serviceExceptionHandler(HttpServletRequest request, ServiceException exception) {
     logger.error(request.getContextPath()+request.getRequestURI()+" "+exception.getLocalizedMessage());
-    ErrorInfo errorInfo = exception.getErrorInfo();
-    ResBodyData result = new ResBodyData(Integer.valueOf(errorInfo.getCode()),errorInfo.getMessage());
+    ResBodyData result = new ResBodyData(exception.getCode(),exception.getLocalizedMessage());
     return result;
   }
 

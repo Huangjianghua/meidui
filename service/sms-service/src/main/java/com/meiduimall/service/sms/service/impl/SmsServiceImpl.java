@@ -9,10 +9,12 @@
  */
 
 package com.meiduimall.service.sms.service.impl;
+import com.meiduimall.core.BaseApiCode;
+
+import com.meiduimall.core.SmsApiCode;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.redis.util.RedisUtils;
-import com.meiduimall.service.sms.SmsServiceErrorInfoEnum;
 import com.meiduimall.service.sms.SysConstant;
 import com.meiduimall.service.sms.entity.SendSmsHistory;
 import com.meiduimall.service.sms.entity.TemplateInfo;
@@ -89,7 +91,7 @@ public class SmsServiceImpl implements SmsService {
       int count = StringUtils.countMatches(content, "{");
       if (replaces.length < count) {
         logger.info("替换短信模板内容异常：%s", "替换内容与替换参数不匹配，replaces=" + replaces + ",count=" + count);
-        throw new ServiceException(SmsServiceErrorInfoEnum.PARAM_ERROR);
+        throw new ServiceException(SmsApiCode.PARAM_ERROR,BaseApiCode.getZhMsg(SmsApiCode.PARAM_ERROR));
 //        return result;
       }
       for (int index = 0; index < replaces.length; index++) {
@@ -131,19 +133,19 @@ public class SmsServiceImpl implements SmsService {
 
     String tempMsg = RedisUtils.get(phone + templateId + params);
     if (StringUtils.isNotEmpty(tempMsg)) {
-      throw new ServiceException(SmsServiceErrorInfoEnum.REPEATING);
+      throw new ServiceException(SmsApiCode.REPEATING,BaseApiCode.getZhMsg(SmsApiCode.REPEATING));
     }
 
     //获取消息模板
     String templateListJsonStr = messageChannelService.getTemplateList(SysConstant.MESSAGE_TEMPLATE_KEY);
     if (StringUtils.isEmpty(templateListJsonStr)) {
-      throw new ServiceException(SmsServiceErrorInfoEnum.NOT_FOUND_TEMPLATES);
+      throw new ServiceException(SmsApiCode.NOT_FOUND_TEMPLATES,BaseApiCode.getZhMsg(SmsApiCode.NOT_FOUND_TEMPLATES));
     }
 
     TemplateInfo ti = getTemplateByKey(templateId, templateListJsonStr);
 
     if (StringUtils.isEmpty(ti.getTemplateKey()) || StringUtils.isEmpty(ti.getTemplateContent())) {
-      throw new ServiceException(SmsServiceErrorInfoEnum.NOT_FOUND_TEMPLATES);
+      throw new ServiceException(SmsApiCode.NOT_FOUND_TEMPLATES,BaseApiCode.getZhMsg(SmsApiCode.NOT_FOUND_TEMPLATES));
     }
 
     String content = ti.getTemplateContent();
@@ -168,21 +170,21 @@ public class SmsServiceImpl implements SmsService {
 //    String tempMsg = redisService.get(model.getPhones() + model.getTemplateId() + model.getParams()) == null ? "" : redisService.get(model.getPhones() + model.getTemplateId() + model.getParams()).toString();
     String tempMsg = RedisUtils.get(model.getPhones() + model.getTemplateId() + model.getParams());
     if (StringUtils.isNotEmpty(tempMsg)) {
-      throw new ServiceException(SmsServiceErrorInfoEnum.REPEATING);
+      throw new ServiceException(SmsApiCode.REPEATING,BaseApiCode.getZhMsg(SmsApiCode.REPEATING));
 //      return result;
     }
 
     //获取消息模板
     String templateListJsonStr = messageChannelService.getTemplateList(SysConstant.MESSAGE_TEMPLATE_KEY);
     if (StringUtils.isEmpty(templateListJsonStr)) {
-      throw new ServiceException(SmsServiceErrorInfoEnum.NOT_FOUND_TEMPLATES);
+      throw new ServiceException(SmsApiCode.NOT_FOUND_TEMPLATES,BaseApiCode.getZhMsg(SmsApiCode.NOT_FOUND_TEMPLATES));
 //      return result;
     }
 
     TemplateInfo ti = getTemplateByKey(model.getTemplateId(), templateListJsonStr);
 
     if (StringUtils.isEmpty(ti.getTemplateKey()) || StringUtils.isEmpty(ti.getTemplateContent())) {
-      throw new ServiceException(SmsServiceErrorInfoEnum.NOT_FOUND_TEMPLATES);
+      throw new ServiceException(SmsApiCode.NOT_FOUND_TEMPLATES,BaseApiCode.getZhMsg(SmsApiCode.NOT_FOUND_TEMPLATES));
 //      return result;
     }
 
@@ -212,7 +214,7 @@ public class SmsServiceImpl implements SmsService {
           res = zucpService.send(model.getPhones(), content);
           logger.info("漫道发送短信结果（res）：", res);
           if (Long.parseLong(res) < 0) {
-            throw new ServiceException(SmsServiceErrorInfoEnum.SMS_SEND_FAILUER);
+            throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER,BaseApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
 //            return result;
           }
         }
@@ -364,7 +366,7 @@ public class SmsServiceImpl implements SmsService {
     String tempMsg = RedisUtils.get(model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId());
 
     if (StringUtils.isNotEmpty(tempMsg)) {
-      throw new ServiceException(SmsServiceErrorInfoEnum.REPEATING);
+      throw new ServiceException(SmsApiCode.REPEATING,BaseApiCode.getZhMsg(SmsApiCode.REPEATING));
 //      return result;
     }
     //生成6位随机数
@@ -381,7 +383,7 @@ public class SmsServiceImpl implements SmsService {
     //获取消息模板
     String templateListJsonStr = messageChannelService.getTemplateList(SysConstant.MESSAGE_TEMPLATE_KEY);
     if (StringUtils.isEmpty(templateListJsonStr)) {
-      throw new ServiceException(SmsServiceErrorInfoEnum.NOT_FOUND_TEMPLATES);
+      throw new ServiceException(SmsApiCode.NOT_FOUND_TEMPLATES,BaseApiCode.getZhMsg(SmsApiCode.NOT_FOUND_TEMPLATES));
 //      return result;
     }
 
@@ -389,7 +391,7 @@ public class SmsServiceImpl implements SmsService {
     TemplateInfo ti = getTemplateByKey(model.getTemplateId(), templateListJsonStr);
 
     if (StringUtils.isEmpty(ti.getTemplateKey()) || StringUtils.isEmpty(ti.getTemplateContent())) {
-      throw new ServiceException(SmsServiceErrorInfoEnum.NOT_FOUND_TEMPLATES);
+      throw new ServiceException(SmsApiCode.NOT_FOUND_TEMPLATES,BaseApiCode.getZhMsg(SmsApiCode.NOT_FOUND_TEMPLATES));
 //      return result;
     }
 
@@ -424,7 +426,7 @@ public class SmsServiceImpl implements SmsService {
           res = zucpService.send(model.getPhones(), content);
           logger.info("漫道发送短信结果（res）：%s", String.valueOf(res));
           if (Long.parseLong(res) < 0) {
-            throw new ServiceException(SmsServiceErrorInfoEnum.SMS_SEND_FAILUER);
+            throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER,BaseApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
 //            return result;
           }
         }
