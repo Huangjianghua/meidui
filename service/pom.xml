@@ -21,7 +21,7 @@
         <module>notification</module>
         <module>settlement-service</module>
 		<module>catalog-service</module>
-		<module>financial-system-service</module>
+		<module>financial-service</module>
     </modules>
 
     <dependencyManagement>

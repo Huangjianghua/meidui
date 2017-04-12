@@ -11,11 +11,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.meiduimall</groupId>
-	<artifactId>financial-system-service</artifactId>
+	<artifactId>financial-service</artifactId>
 	<version>1.0.0</version>
 	<packaging>jar</packaging>
-	<name>financial-system-service</name>
-	<description>financial-system-service</description>
+	<name>financial-service</name>
+	<description>financial-service</description>
 
 	<!-- <parent>
 		<groupId>org.springframework.boot</groupId>
