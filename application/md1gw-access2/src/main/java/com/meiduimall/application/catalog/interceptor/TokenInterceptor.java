@@ -79,7 +79,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 			return true;
 		}
 		// } catch (Exception e) {
-		// logger.info("验证token，拦截器出现异常：" + e);
+		// logger.info("验证token，拦截器出现异常：" + e); 
 		// return outPut(response, BaseApiCode.TOKEN_VALIDATE_ERROR);
 		// }
 	}
