@@ -29,30 +29,29 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(value = MethodArgumentNotValidException.class)
 	public Object MethodJsonArgumentNotValidHandler(HttpServletRequest request,
-			MethodArgumentNotValidException exception) throws Exception {
+			MethodArgumentNotValidException exception) {
 		return new ResBodyData(HttpStatus.SC_BAD_REQUEST, "请求参数错误", JsonUtils.getInstance().createObjectNode());
 	}
 
 	@ExceptionHandler(value = BindException.class)
-	public Object MethodFromArgumentNotValidHandler(HttpServletRequest request, BindException exception)
-			throws Exception {
+	public Object MethodFromArgumentNotValidHandler(HttpServletRequest request, BindException exception) {
 		return new ResBodyData(HttpStatus.SC_BAD_REQUEST, "请求参数错误", JsonUtils.getInstance().createObjectNode());
 	}
 
 	@ExceptionHandler(value = ApiException.class)
-	public Object ControllerExceptionHandler(HttpServletRequest request, ApiException exception) throws Exception {
+	public Object ControllerExceptionHandler(HttpServletRequest request, ApiException exception) {
 		return new ResBodyData(exception.getCode(), BaseApiCode.getZhMsg(exception.getCode()),
 				JsonUtils.getInstance().createObjectNode());
 	}
 
 	@ExceptionHandler(value = ServiceException.class)
-	public Object ServiceExceptionHandler(HttpServletRequest request, ServiceException exception) throws Exception {
+	public Object ServiceExceptionHandler(HttpServletRequest request, ServiceException exception) {
 		return new ResBodyData(exception.getCode(), BaseApiCode.getZhMsg(exception.getCode()),
 				JsonUtils.getInstance().createObjectNode());
 	}
 
 	@ExceptionHandler(value = DaoException.class)
-	public Object DaoExceptionHandler(HttpServletRequest request, DaoException exception) throws Exception {
+	public Object DaoExceptionHandler(HttpServletRequest request, DaoException exception) {
 		return new ResBodyData(exception.getCode(), BaseApiCode.getZhMsg(exception.getCode()),
 				JsonUtils.getInstance().createObjectNode());
 	}

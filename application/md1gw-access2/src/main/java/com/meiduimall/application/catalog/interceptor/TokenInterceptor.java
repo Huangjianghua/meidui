@@ -42,46 +42,46 @@ public class TokenInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-//		try {
-			request.setCharacterEncoding("utf-8");
-			response.setCharacterEncoding("utf-8");
-			response.setContentType("text/html;charset=utf-8");
+		// try {
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html;charset=utf-8");
 
-			HandlerMethod handlerMethod = (HandlerMethod) handler;
-			Method method = handlerMethod.getMethod();
+		HandlerMethod handlerMethod = (HandlerMethod) handler;
+		Method method = handlerMethod.getMethod();
 
-			String token = request.getParameter("token");
+		String token = request.getParameter("token");
 
-			if (method.getAnnotation(HasToken.class) != null) {
-				/** token为必传参数时 */
-				logger.info("验证token：" + token);
+		if (method.getAnnotation(HasToken.class) != null) {
+			/** token为必传参数时 */
+			logger.info("验证token：" + token);
 
-				if (StringUtils.isBlank(token)) {
-					// token为空，不通过
-					return outPut(response, BaseApiCode.NO_LOGIN);
-				}
-
-				// 调用会员系统，验证token
-				if (checkToken(request, response, token)) {
-					// 验证通过，放行
-					return true;
-				} else {
-					// 验证不通过，不放行
-					return outPut(response, BaseApiCode.NO_LOGIN);
-				}
-
-			} else {
-				/** token不是必须传递的参数时，先验证token，获取mem_id；不管验证是否通过，都放行 */
-				if (!StringUtils.isBlank(token)) {
-					// 如果token不为空，需要调用会员系统根据token获取mem_id
-					checkToken(request, response, token);
-				}
-				return true;
+			if (StringUtils.isBlank(token)) {
+				// token为空，不通过
+				return outPut(response, BaseApiCode.NO_LOGIN);
 			}
-//		} catch (Exception e) {
-//			logger.info("验证token，拦截器出现异常：" + e);
-//			return outPut(response, BaseApiCode.TOKEN_VALIDATE_ERROR);
-//		}
+
+			// 调用会员系统，验证token
+			if (checkToken(request, response, token)) {
+				// 验证通过，放行
+				return true;
+			} else {
+				// 验证不通过，不放行
+				return outPut(response, BaseApiCode.NO_LOGIN);
+			}
+
+		} else {
+			/** token不是必须传递的参数时，先验证token，获取mem_id；不管验证是否通过，都放行 */
+			if (!StringUtils.isBlank(token)) {
+				// 如果token不为空，需要调用会员系统根据token获取mem_id
+				checkToken(request, response, token);
+			}
+			return true;
+		}
+		// } catch (Exception e) {
+		// logger.info("验证token，拦截器出现异常：" + e);
+		// return outPut(response, BaseApiCode.TOKEN_VALIDATE_ERROR);
+		// }
 	}
 
 	/**
@@ -127,9 +127,9 @@ public class TokenInterceptor implements HandlerInterceptor {
 	 * @param response
 	 * @param status
 	 * @return
-	 * @throws Exception
+	 * @throws IOException
 	 */
-	private boolean outPut(HttpServletResponse response, Integer status) throws Exception {
+	private boolean outPut(HttpServletResponse response, Integer status) throws IOException {
 		ResBodyData result = new ResBodyData(status, BaseApiCode.getZhMsg(status),
 				JsonUtils.getInstance().createObjectNode());
 		response.getWriter().write(JsonUtils.beanToJson(result));

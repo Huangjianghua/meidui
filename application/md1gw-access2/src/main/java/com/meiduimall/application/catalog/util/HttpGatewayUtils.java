@@ -1,5 +1,6 @@
 package com.meiduimall.application.catalog.util;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,11 +32,11 @@ public class HttpGatewayUtils {
 	 * @throws Exception
 	 */
 	public static String sendGet(String url, String clientID, String signKey, Map<String, String> params)
-			throws Exception {
+			throws IOException {
 		String params_content = getParamsContent(clientID, signKey, params);
-		url = url + "?" + params_content;
-		logger.info("请求地址：" + url);
-		String result = HttpUtils.get(url);
+		String url_param = url + "?" + params_content;
+		logger.info("请求地址：" + url_param);
+		String result = HttpUtils.get(url_param);
 		logger.info("请求结果：" + result);
 		return result;
 	}
@@ -51,11 +52,15 @@ public class HttpGatewayUtils {
 	 * @throws Exception
 	 */
 	public static String sendPost(String url, String clientID, String signKey, Map<String, String> params)
-			throws Exception {
+			throws IOException {
 		String params_content = getParamsContent(clientID, signKey, params);
 		logger.info("请求地址：" + url);
 		logger.info("POST实体内容：" + params_content);
-		String result = HttpUtils.post(url, params_content, null);
+		
+		Map<String, String> headers = new HashMap<String, String>();
+		headers.put("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+		
+		String result = HttpUtils.post(url, params_content, headers);
 		logger.info("请求结果：" + result);
 		return result;
 	}
@@ -73,7 +78,7 @@ public class HttpGatewayUtils {
 		Map<String, String> req_params = new HashMap<String, String>();
 
 		long timestamp = System.currentTimeMillis();
-		req_params.put("timestamp", timestamp + "");
+		req_params.put("timestamp", String.valueOf(timestamp));
 		sb.append("timestamp=" + timestamp + "&");
 
 		req_params.put("clientID", clientID);

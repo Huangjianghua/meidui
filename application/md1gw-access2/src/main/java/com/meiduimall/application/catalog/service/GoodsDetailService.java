@@ -23,7 +23,7 @@ import com.meiduimall.exception.ServiceException;
 public class GoodsDetailService {
 
 	private static Logger logger = LoggerFactory.getLogger(GoodsDetailService.class);
-	
+
 	@Autowired
 	private Environment env;
 
@@ -45,7 +45,7 @@ public class GoodsDetailService {
 		String url = host + uri;
 
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("item_id", "" + item_id);
+		params.put("item_id", String.valueOf(item_id));
 		params.put("mem_id", "" + mem_id);
 
 		try {

@@ -21,7 +21,7 @@ import com.meiduimall.exception.ServiceException;
  */
 @Service
 public class GoodsRecommendService {
-	
+
 	private static Logger logger = LoggerFactory.getLogger(GoodsRecommendService.class);
 
 	@Autowired
@@ -45,8 +45,8 @@ public class GoodsRecommendService {
 		String url = host + uri;
 
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("type", "" + type);
-		params.put("req_id", "" + req_id);
+		params.put("type", String.valueOf(type));
+		params.put("req_id", String.valueOf(req_id));
 
 		try {
 			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);

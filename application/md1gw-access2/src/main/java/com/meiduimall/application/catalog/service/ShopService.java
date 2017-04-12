@@ -45,7 +45,7 @@ public class ShopService {
 		String url = host + uri;
 
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("shop_id", "" + shop_id);
+		params.put("shop_id", String.valueOf(shop_id));
 		params.put("mem_id", "" + mem_id);
 		try {
 			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
@@ -75,9 +75,9 @@ public class ShopService {
 		String url = host + uri;
 
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("shop_id", "" + shop_id);
+		params.put("shop_id", String.valueOf(shop_id));
 		params.put("mem_id", "" + mem_id);
-		params.put("is_collect", "" + is_collect);
+		params.put("is_collect", String.valueOf(is_collect));
 		try {
 			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
 		} catch (Exception e) {
@@ -101,7 +101,7 @@ public class ShopService {
 		String url = host + uri;
 
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("shop_id", "" + shop_id);
+		params.put("shop_id", String.valueOf(shop_id));
 		try {
 			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
 		} catch (Exception e) {
