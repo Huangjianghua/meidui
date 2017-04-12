@@ -10,18 +10,20 @@
 
 package com.meiduimall.service.sms.controller;
 
-import com.meiduimall.core.ResultBody;
-import com.meiduimall.exception.ServiceException;
-import com.meiduimall.service.sms.SmsServiceErrorInfoEnum;
-import com.meiduimall.service.sms.model.message.CommonShortMessageModel;
-import com.meiduimall.service.sms.service.SmsService;
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
+import com.meiduimall.core.BaseApiCode;
+import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.ServiceException;
+import com.meiduimall.service.sms.SmsServiceErrorInfoEnum;
+import com.meiduimall.service.sms.model.message.CommonShortMessageModel;
+import com.meiduimall.service.sms.service.SmsService;
 
 
 /**
@@ -47,10 +49,10 @@ public class SmsController {
    * @return
    */
   @RequestMapping("send_common_sms_message")
-  public ResultBody sendSmsMessage(CommonShortMessageModel model) {
+  public ResBodyData sendSmsMessage(CommonShortMessageModel model) {
 
     logger.info("进入发短信程序,parama参数值为：" + model.getParams());
-    ResultBody result = new ResultBody();
+    ResBodyData result = new ResBodyData();
     if (null == model) {
       return result;
     }
@@ -72,16 +74,15 @@ public class SmsController {
    * @return
    */
   @RequestMapping("send_sms_verification_code")
-  public ResultBody sendSmsVerificationCode(CommonShortMessageModel model) {
-    ResultBody result = new ResultBody();
+  public ResBodyData sendSmsVerificationCode(CommonShortMessageModel model) {
+	  ResBodyData result = new ResBodyData();
 
     if (null == model) {
       return result;
     }
 
     String code = smsService.sendSmsVerificationCode(model);
-    result.setResult(code);
-
+    result.setStatus(Integer.valueOf(code));
     return result;
   }
 
@@ -92,7 +93,7 @@ public class SmsController {
    * @return
    */
   @RequestMapping("check_sms_verification_code")
-  public ResultBody checkSmsVerificationCode(@Valid CommonShortMessageModel model) {
+  public ResBodyData checkSmsVerificationCode(@Valid CommonShortMessageModel model) {
 
 //    if (null == model) {
 //      return new ResultBody(SmsServiceErrorInfoEnum.PARAM_ERROR, null);
@@ -100,8 +101,8 @@ public class SmsController {
 
     switch  (smsService.checkSmsVerificationCode(model)) {
       case 0:
-        ResultBody result = new ResultBody();
-        result.setResult(true);
+    	ResBodyData result = new ResBodyData();
+    	result.setData(true);
         logger.info("结束校验短信验证码程序");
         return result;
       case -2:

@@ -9,8 +9,7 @@
  */
 
 package com.meiduimall.service.sms.controller;
-
-import com.meiduimall.core.ResultBody;
+import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.sms.SmsServiceErrorInfoEnum;
 import com.meiduimall.service.sms.model.message.CommonShortMessageModel;
@@ -44,8 +43,8 @@ public class SmsControllerTest {
     model.setPhones("18621580756");
     model.setTemplateId("O2O_1004");
     model.setParams("2012年01月01日 12:22:32,333");
-    ResultBody result = smsController.sendSmsMessage(model);
-    Assert.assertEquals(SmsServiceErrorInfoEnum.SUCCESS.getCode(), result.getCode());
+    ResBodyData result = smsController.sendSmsMessage(model);
+    Assert.assertEquals(SmsServiceErrorInfoEnum.SUCCESS.getCode(),result.getStatus()+"");
   }
 
   //阿里大于模板注册，通过阿里大于发送短信
@@ -54,8 +53,8 @@ public class SmsControllerTest {
     model.setPhones("18621580756");
     model.setTemplateId("O2O_1001");
     model.setParams("2012年01月01日 12:22:32,333");
-    ResultBody result = smsController.sendSmsMessage(model);
-    Assert.assertEquals(SmsServiceErrorInfoEnum.SUCCESS.getCode(), result.getCode());
+    ResBodyData result = smsController.sendSmsMessage(model);
+    Assert.assertEquals(SmsServiceErrorInfoEnum.SUCCESS.getCode(),result.getStatus()+"");
   }
 
   //阿里大于模板注册，通过漫道发送验证码
@@ -63,8 +62,8 @@ public class SmsControllerTest {
   public void sendSmsVerificationCode_01() throws Exception {
     model.setPhones("18621580756");
     model.setTemplateId("MEM_1002");
-    ResultBody result = smsController.sendSmsVerificationCode(model);
-    Assert.assertEquals(SmsServiceErrorInfoEnum.SUCCESS.getCode(), result.getCode());
+    ResBodyData result = smsController.sendSmsVerificationCode(model);
+    Assert.assertEquals(SmsServiceErrorInfoEnum.SUCCESS.getCode(),result.getStatus()+"");
   }
 
   //阿里大于模板注册，通过阿里大于发送验证码
@@ -72,9 +71,8 @@ public class SmsControllerTest {
   public void sendSmsVerificationCode_02() throws Exception {
     model.setPhones("18621580756");
     model.setTemplateId("O2O_1002");
-    ResultBody result = smsController.sendSmsVerificationCode(model);
-    code = result.getResult().toString();
-    Assert.assertEquals(SmsServiceErrorInfoEnum.SUCCESS.getCode(), result.getCode());
+    ResBodyData result = smsController.sendSmsVerificationCode(model);
+    Assert.assertEquals(SmsServiceErrorInfoEnum.SUCCESS.getCode(), result.getStatus()+"");
   }
 
   //重复发送验证码

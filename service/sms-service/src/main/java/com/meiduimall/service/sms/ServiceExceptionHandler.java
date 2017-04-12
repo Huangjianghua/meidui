@@ -11,18 +11,18 @@
 package com.meiduimall.service.sms;
 
 
-import com.meiduimall.core.ErrorInfo;
-import com.meiduimall.core.ErrorInfoEnum;
-import com.meiduimall.core.ResultBody;
-import com.meiduimall.exception.ServiceException;
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.ValidationException;
+import com.meiduimall.core.ErrorInfo;
+import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.ServiceException;
 
 /**
  * 统一错误码异常处理
@@ -35,17 +35,19 @@ public class ServiceExceptionHandler {
   private static Logger logger = LoggerFactory.getLogger(ServiceExceptionHandler.class);
 
   @ExceptionHandler(value = ServiceException.class)
-  public ResultBody serviceExceptionHandler(HttpServletRequest request, ServiceException exception) {
+  public ResBodyData serviceExceptionHandler(HttpServletRequest request, ServiceException exception) {
     logger.error(request.getContextPath()+request.getRequestURI()+" "+exception.getLocalizedMessage());
     ErrorInfo errorInfo = exception.getErrorInfo();
-    ResultBody result = new ResultBody(errorInfo,null);
+    ResBodyData result = new ResBodyData(Integer.valueOf(errorInfo.getCode()),errorInfo.getMessage());
     return result;
   }
 
   @ExceptionHandler(value = BindException.class)
-  public ResultBody errorHandlerOverJson(HttpServletRequest request, BindException exception) {
-    logger.error(request.getContextPath()+request.getRequestURI()+" "+exception.getLocalizedMessage());
-    ResultBody result = new ResultBody(ErrorInfoEnum.VALID_ERROR,exception.getLocalizedMessage());
-    return result;
+  public ResBodyData errorHandlerOverJson(HttpServletRequest request, BindException exception) {
+	  StringBuffer sb=new StringBuffer();
+      exception.getBindingResult().getFieldErrors().forEach((error)->{
+      	sb.append(error.getDefaultMessage()).append(";");
+      });
+      return new ResBodyData(HttpStatus.SC_BAD_REQUEST, sb.toString());  
   }
 }
