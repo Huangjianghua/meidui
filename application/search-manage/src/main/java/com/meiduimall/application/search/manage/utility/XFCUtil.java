@@ -1,10 +1,9 @@
 package com.meiduimall.application.search.manage.utility;
 
 import java.sql.Timestamp;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
@@ -18,32 +17,22 @@ import com.meiduimall.application.search.manage.oauth.signature.OAuthSignatureMe
 
 public class XFCUtil {
 
-	//初始化配置文件
-	private static Map<String,String> propertiesList = null;
 	
 	private static Logger log = Logger.getLogger(XFCUtil.class);
 	
-	static {
-		try {
-			propertiesList = LoadPropertyUtil.getPropertyValues("config.properties");
-		} catch (Exception e) {
-			log.error("读取配置文件异常", e);
-			e.printStackTrace();
-		}
-	}
 
 	public static double getxfc() {
 		try {
 			JSONObject json = new JSONObject();
 			// 传参
-    		json.put("oauth_accessor_secret", propertiesList.get("first_xfc_secret"));
-    		json.put("oauth_consumer_key", propertiesList.get("first_xfc_key"));
+    		json.put("oauth_accessor_secret", Constant.first_xfc_secret );
+    		json.put("oauth_consumer_key",  Constant.first_xfc_key );
     		json.put("oauth_signature_method", Constant.OAUTH_SIGNATURE_METHOD);
     		json.put("oauth_version", Constant.OAUTH_VERSION);
     		json.put("oauth_timestamp", getCurrentTimestamp());
     		json.put("oauth_nonce", randOauthNonce());
     		
-    		String url = propertiesList.get("first_xfc_price_url");
+    		String url = Constant.first_xfc_price_url;
     		List<Parameter> list = buildingBasicParameters(json);
     		OAuthMessage requestMessage = new OAuthMessage("GET",url, list);
 	    	String oauthSingnature = OAuthSignatureMethod.getBaseString(requestMessage);
@@ -117,8 +106,8 @@ public class XFCUtil {
     private static String getParams(JSONObject json) {
     	StringBuffer buff = new StringBuffer();
     	buff.append("oauth_signature_method=" + Constant.OAUTH_SIGNATURE_METHOD)
-    	.append("&oauth_accessor_secret=" + propertiesList.get("first_xfc_secret"))
-    	.append("&oauth_consumer_key=" + propertiesList.get("first_xfc_key"))
+    	.append("&oauth_accessor_secret=" + Constant.first_xfc_secret)
+    	.append("&oauth_consumer_key=" +Constant.first_xfc_key)
     	.append("&oauth_signature=" + json.get("oauth_signature"))
     	.append("&oauth_timestamp=" + json.get("oauth_timestamp"))
     	.append("&oauth_nonce=" + json.get("oauth_nonce"))
@@ -142,8 +131,8 @@ public class XFCUtil {
 	private static List<OAuth.Parameter> buildingBasicParameters(JSONObject json) {
 		List<OAuth.Parameter> list = new ArrayList<OAuth.Parameter>();
 		list.add(new Parameter("oauth_signature_method", Constant.OAUTH_SIGNATURE_METHOD));
-		list.add(new Parameter("oauth_accessor_secret", propertiesList.get("first_xfc_secret")));
-		list.add(new Parameter("oauth_consumer_key", propertiesList.get("first_xfc_key")));
+		list.add(new Parameter("oauth_accessor_secret",Constant.first_xfc_secret));
+		list.add(new Parameter("oauth_consumer_key",Constant.first_xfc_key));
 		list.add(new Parameter("oauth_timestamp", json.getString("oauth_timestamp")));
 		list.add(new Parameter("oauth_nonce", json.getString("oauth_nonce")));
 		list.add(new Parameter("oauth_version", Constant.OAUTH_VERSION));

@@ -33,8 +33,3 @@ datasource2:
     pool-name: harika-cp2    
            
 search_server_url: http://127.0.0.1:8081/solr    
-API_KEY_NAME: ^%\#$\#$fdlkjf908564fdafdafsdaf&^%&%\#$@
-first_xfc_price_url: http://192.168.4.181:80/Authorized/GetXFCPrice
-first_xfc_rate: 85
-first_xfc_secret: 25164dbe226e1d26c109b64c7e6d14e8
-first_xfc_key:  7aee283f0dd2a877d8cb2f7464b3a9da  
