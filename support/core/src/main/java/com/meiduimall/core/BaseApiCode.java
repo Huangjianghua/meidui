@@ -90,6 +90,8 @@ public class BaseApiCode {
 	public static final Integer CANCEL_COLLECT_FAIL = 4010;
 	/** token验证异常 */
 	public static final Integer TOKEN_VALIDATE_ERROR = 4011;
+	/** 请求微服务出错 */
+	public static final Integer REQUEST_SERVICE_ERROR = 4012;
 
 	public static String getZhMsg(Integer errorCode) {
 		return zhMsgMap.get(errorCode);
@@ -131,6 +133,7 @@ public class BaseApiCode {
 		zhMsgMap.put(CANCEL_COLLECT_SUCCESS, "取消收藏成功");
 		zhMsgMap.put(CANCEL_COLLECT_FAIL, "取消收藏失败");
 		zhMsgMap.put(TOKEN_VALIDATE_ERROR, "token验证异常");
+		zhMsgMap.put(REQUEST_SERVICE_ERROR, "请求微服务出错");
 	}
 
 }

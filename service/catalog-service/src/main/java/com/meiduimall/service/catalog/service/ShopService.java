@@ -41,10 +41,8 @@ public interface ShopService {
 	/**
 	 * 查询店铺商品列表
 	 * 
-	 * @param shopId
-	 * @param orderBy 排序字段：store按销量，updateTime按修改时间，price按价格，point按积分；默认store按销量
-	 * @param column 排序规则：desc降序，asc升序；默认desc降序
+	 * @param param
 	 * @return
 	 */
-	ResBodyData getShopProductList(ShopProductRequest params);
+	ResBodyData getShopProductList(ShopProductRequest param);
 }

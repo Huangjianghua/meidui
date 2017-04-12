@@ -17,17 +17,17 @@ import com.meiduimall.application.catalog.test.BaseTest;
  * Author:   yangchangfu
  * Description: 商品信息查询测试类单元测试
  */
-public class MDGoodsDetailControllerTest extends BaseTest {
+public class GoodsDetailControllerTest extends BaseTest {
 	
 	/**
-	 * 根据商品item_id，查询商品详情
+	 * getItemDetail方法---token错误测试
 	 * @throws Exception
 	 */
 	@Test
-	public void testGetItemDetail1() throws Exception {
+	public void getItemDetail_test_01() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/md1gwmall/md1gw_access/v1/goodsDetail/getItem")
-				.param("token", "adfsadfsafsadafdsa05")
+				.param("token", "xxxx")
 				.param("item_id", "300"))
 				.andExpect(status().isOk());
 		
@@ -40,15 +40,35 @@ public class MDGoodsDetailControllerTest extends BaseTest {
 	}
 	
 	/**
-	 * 根据商品item_id，查询商品详情
+	 * getItemDetail方法---item_id错误测试
 	 * @throws Exception
 	 */
 	@Test
-	public void testGetItemDetail2() throws Exception {
+	public void getItemDetail_test_02() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/md1gwmall/md1gw_access/v1/goodsDetail/getItem")
-				.param("token", "adfsadfsafsadafdsa05")
+				.param("token", "dd047ecb3b962449494e299ba2eef1fd")
 				.param("item_id", "adsf"))
+				.andExpect(status().isOk());
+		
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+	
+	/**
+	 * getItemDetail方法---正常测试
+	 * @throws Exception
+	 */
+	@Test
+	public void getItemDetail_test_03() throws Exception {
+		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
+				.post("/md1gwmall/md1gw_access/v1/goodsDetail/getItem")
+				.param("token", "dd047ecb3b962449494e299ba2eef1fd")
+				.param("item_id", "33310"))
 				.andExpect(status().isOk());
 		
 		results.andDo(new ResultHandler() {

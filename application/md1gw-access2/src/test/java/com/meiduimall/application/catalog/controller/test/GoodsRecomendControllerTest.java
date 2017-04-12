@@ -10,19 +10,24 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.meiduimall.application.catalog.test.BaseTest;
 
-public class MDShopControllerTest extends BaseTest {
 
+/**
+ * Copyright (C), 2002-2017, 美兑壹购物
+ * FileName: GoodsDetailControllerTest.java
+ * Author:   yangchangfu
+ * Description: 商品推荐测试类单元测试
+ */
+public class GoodsRecomendControllerTest extends BaseTest {
+	
 	/**
-	 * 根据店铺shop_id，获取店铺详情
+	 * getFirstRecommendGoods方法---正常测试
 	 * @throws Exception
 	 */
 	@Test
-	public void testgetShopDetail1() throws Exception {
+	public void getRecommend_test_01() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
-				.post("/md1gwmall/md1gw_access/v1/shopInfo/getShopDetail")
-				.param("shop_id", "611")
-				.param("token", "aaa")
-				)
+				.post("/md1gwmall/md1gw_access/v1/goodsRecommend/getRecommend")
+				.param("type", "1"))
 				.andExpect(status().isOk());
 		
 		results.andDo(new ResultHandler() {
@@ -34,37 +39,14 @@ public class MDShopControllerTest extends BaseTest {
 	}
 	
 	/**
-	 * 店铺收藏或者取消收藏
+	 * getFirstRecommendGoods方法---没有参数测试
 	 * @throws Exception
 	 */
 	@Test
-	public void testcollectOrCancelShop1() throws Exception {
+	public void getRecommend_test_02() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
-				.post("/md1gwmall/md1gw_access/v1/shopInfo/collectShop")
-				.param("shop_id", "611")
-				.param("is_collect", "1")
-				.param("token", "aaa")
-				)
-				.andExpect(status().isOk());
-		
-		results.andDo(new ResultHandler() {
-			@Override
-			public void handle(MvcResult result) throws Exception {
-				System.out.println("*********" + result.getResponse().getContentAsString());
-			}
-		});
-	}
-	
-	/**
-	 * 获取店铺自定义商品分类
-	 * @throws Exception
-	 */
-	@Test
-	public void testgetShopProductCatalog1() throws Exception {
-		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
-				.post("/md1gwmall/md1gw_access/v1/shopInfo/getShopCatalog")
-				.param("shop_id", "611")
-				)
+				.post("/md1gwmall/md1gw_access/v1/goodsRecommend/getRecommend")
+				.param("type", ""))
 				.andExpect(status().isOk());
 		
 		results.andDo(new ResultHandler() {

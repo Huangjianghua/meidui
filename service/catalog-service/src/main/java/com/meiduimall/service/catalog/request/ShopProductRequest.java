@@ -2,12 +2,20 @@ package com.meiduimall.service.catalog.request;
 
 public class ShopProductRequest {
 
+	// 店铺ID
 	private Integer shop_id;
+
+	// 店铺自定义分类ID
 	private Integer shop_cat_id;
+
+	// 排序字段：store 按销量，updateTime 按修改时间，price 按价格，point 按积分；默认 store 按销量
 	private String order_by;
+
+	// 排序规则：desc 降序，asc 升序；默认 desc 降序
 	private String column;
-	private Integer page_num;
-	private Integer page_size;
+
+	private Integer pageNo;
+	private Integer pageSize;
 
 	public Integer getShop_cat_id() {
 		return shop_cat_id;
@@ -41,19 +49,19 @@ public class ShopProductRequest {
 		this.column = column;
 	}
 
-	public Integer getPage_num() {
-		return page_num;
+	public Integer getPageNo() {
+		return pageNo;
 	}
 
-	public void setPage_num(Integer page_num) {
-		this.page_num = page_num;
+	public void setPageNo(Integer pageNo) {
+		this.pageNo = pageNo;
 	}
 
-	public Integer getPage_size() {
-		return page_size;
+	public Integer getPageSize() {
+		return pageSize;
 	}
 
-	public void setPage_size(Integer page_size) {
-		this.page_size = page_size;
+	public void setPageSize(Integer pageSize) {
+		this.pageSize = pageSize;
 	}
 }

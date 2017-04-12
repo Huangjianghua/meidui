@@ -10,23 +10,46 @@
 
 package com.meiduimall.exception;
 
-
-
 public class ApiException extends RuntimeException {
 
-	private static final long serialVersionUID = -1972925542520532318L;
-	
+	private Integer code;
+
+	public ApiException(Integer code) {
+		this.code = code;
+	}
+
 	public ApiException(String e) {
 		super(e);
 	}
 
-	public ApiException(Exception e) {
-		super(e);
+	public ApiException(Throwable cause) {
+		super(cause);
 	}
-	
+
+	public ApiException(Integer code, String e) {
+		super(e);
+		this.code = code;
+	}
+
+	public ApiException(Integer code, Throwable cause) {
+		super(cause);
+		this.code = code;
+	}
 
 	public ApiException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
+	public ApiException(Integer code, String message, Throwable cause) {
+		super(message, cause);
+		this.code = code;
+	}
+
+	public Integer getCode() {
+		return code;
+	}
+
+	public void setCode(Integer code) {
+		this.code = code;
+	}
 }
