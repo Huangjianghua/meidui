@@ -25,7 +25,7 @@ public interface MemberService {
 	 * return  boolean
 	 * throws Exception
 	 */
-    Boolean addConsumePoints(String phone,String credit,String source,String order_id) throws ServiceException;
+    public Boolean addConsumePoints(String phone,String credit,String source,String order_id) throws ServiceException;
 
 	/**
 	 * 功能描述:  给会员系统送积分

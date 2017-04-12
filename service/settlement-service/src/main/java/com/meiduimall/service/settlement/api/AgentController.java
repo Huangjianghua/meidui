@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.exception.ApiException;
+import com.meiduimall.core.SettlementApiCode;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.settlement.common.SettlementUtil;
+import com.meiduimall.service.settlement.common.ShareProfitConstants;
 import com.meiduimall.service.settlement.model.EcmAgent;
 import com.meiduimall.service.settlement.model.EcmMzfAccount;
 import com.meiduimall.service.settlement.model.EcmMzfAgentWater;
@@ -52,33 +54,31 @@ public class AgentController {
 	 */
 	@PostMapping("/sharedeposit")
 	public ResBodyData shareDeposit(@Validated EcmAgent ecmAgent) {
-		try {
-			
-			long start = System.currentTimeMillis();
-			logger.info("share profit for agent start:{}", start);
-			
-			//判断当前个代是否已分润过
-			List<EcmMzfAgentWater> shareResults = agentService.getShareProfitResult(ecmAgent.getId(), ecmAgent.getRecNo());
-			if(CollectionUtils.isNotEmpty(shareResults)){
-				return SettlementUtil.failure("", "新个代"+ecmAgent.getAgentNo()+"已分润，不可重复分润");
-			}
-			
-			//调用分润方法
-			List<Map<String, Object>> resultList = depositService.shareDeposit(ecmAgent);
-			
-			long end = System.currentTimeMillis();
-			logger.info("share profit for agent end:{}", end);
-			logger.info("total time(second) for shareprofit:{}", (end - start) / 1000);
-			
-			if(CollectionUtils.isNotEmpty(resultList)){
-				return SettlementUtil.success(resultList, "保证金分润成功");
-			}
-			return SettlementUtil.failure("", "保证金分润失败");
-
-		} catch (ApiException e) {
-			logger.error("保证金分润异常：{}", e);
-			return SettlementUtil.failure("", "操作失败");
+		
+		ResBodyData result = new ResBodyData();
+		
+		long start = System.currentTimeMillis();
+		logger.info("share profit for agent start:{}", start);
+		
+		//判断当前个代是否已分润过
+		List<EcmMzfAgentWater> shareResults = agentService.getShareProfitResult(ecmAgent.getId(), ecmAgent.getRecNo());
+		if(CollectionUtils.isNotEmpty(shareResults)){
+			throw new ServiceException(SettlementApiCode.ALREADY_SHAREPROIFT, BaseApiCode.getZhMsg(SettlementApiCode.ALREADY_SHAREPROIFT));
 		}
+		
+		//调用分润方法
+		List<Map<String, Object>> resultList = depositService.shareDeposit(ecmAgent);
+		
+		long end = System.currentTimeMillis();
+		logger.info("share profit for agent end:{}", end);
+		logger.info("total time(second) for shareprofit:{}", (end - start) / 1000);
+		
+		if(CollectionUtils.isNotEmpty(resultList)){
+			result.setStatus(ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS);
+			result.setData(resultList);
+		}
+		
+		return result;
 
 	}
 	
@@ -115,8 +115,13 @@ public class AgentController {
 	 */
 	@PostMapping("/createaccoutbalance")
 	public ResBodyData createAccoutBalance(@Validated EcmMzfAccount ecmMzfAccount) throws ServiceException {
-		depositService.createAccount(ecmMzfAccount);
-		return SettlementUtil.success("", "创建账户成功");
+		ResBodyData result = new ResBodyData();
+		
+		int flag = depositService.createAccount(ecmMzfAccount);
+		if(flag > 0){
+			result.setStatus(ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS);
+		}
+		return result;
 	}
 	
 	

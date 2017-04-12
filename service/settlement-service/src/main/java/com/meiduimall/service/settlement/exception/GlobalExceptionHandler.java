@@ -32,7 +32,6 @@ public class GlobalExceptionHandler {
 	 * @param request
 	 * @param exception
 	 * @return
-	 * @throws Exception
 	 */
 	@ExceptionHandler(value = BindException.class)
 	public Object methodArgumentNotValidHandler(HttpServletRequest request, BindException exception) {
@@ -49,13 +48,11 @@ public class GlobalExceptionHandler {
 	 * @param exception
 	 * @return
 	 */
-//	@ExceptionHandler(value = ServiceException.class)
-//	public Object serviceExceptionHandler(HttpServletRequest request, ServiceException exception) {
-//		logger.error(request.getContextPath() + request.getRequestURI() + " " + exception.getLocalizedMessage());
-//		ErrorInfo errorInfo = exception.getErrorInfo();
-//		ResultBody result = new ResultBody(errorInfo, null);
-//		System.out.println("===========抛异常吧============");
-//		return result;
-//	}
+	@ExceptionHandler(value = ServiceException.class)
+	public ResBodyData serviceExceptionHandler(HttpServletRequest request, ServiceException exception) {
+		logger.error(request.getContextPath() + request.getRequestURI() + " " + exception.getLocalizedMessage());
+		ResBodyData result = new ResBodyData(ShareProfitConstants.RESPONSE_STATUS_CODE_FAILURE, exception.getLocalizedMessage());
+		return result;
+	}
 
 }
