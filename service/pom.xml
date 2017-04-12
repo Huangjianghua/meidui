@@ -18,7 +18,7 @@
     <modules>
         <module>route-service</module>
         <module>payment-service</module>
-        <module>notification</module>
+        <module>sms-service</module>
         <module>settlement-service</module>
 		<module>catalog-service</module>
 		<module>financial-service</module>
