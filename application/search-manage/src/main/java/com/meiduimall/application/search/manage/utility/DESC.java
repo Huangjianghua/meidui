@@ -1,6 +1,7 @@
 package com.meiduimall.application.search.manage.utility;
 
 import java.io.ByteArrayOutputStream;
+
 import java.security.Key;
 import java.security.SecureRandom;
 
@@ -11,7 +12,7 @@ import javax.crypto.spec.DESKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
 
-import com.meiduimall.application.search.manage.constant.SystemConfig;
+import com.meiduimall.application.search.manage.constant.Constant;
 
 /**
  * 加密解密类
@@ -135,7 +136,7 @@ public class DESC {
 				return null;
 			}else{
 				if(IS_OPEN){
-					return encrypt(str,SystemConfig.configMap.get("API_KEY_NAME"));
+					return encrypt(str,Constant.API_KEY_NAME);
 				}else{
 					return str;
 				}
@@ -161,7 +162,7 @@ public class DESC {
 			}else{
 				if(IS_OPEN){
 					
-				return decrypt(str,SystemConfig.configMap.get("API_KEY_NAME"));
+				return decrypt(str,Constant.API_KEY_NAME);
 				}else{
 				return str;
 				}

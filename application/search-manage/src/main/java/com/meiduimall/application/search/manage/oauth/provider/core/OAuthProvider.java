@@ -17,24 +17,17 @@
 package com.meiduimall.application.search.manage.oauth.provider.core;
 
 import java.io.IOException;
-
-import java.io.InputStream;
-import java.net.URL;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
-
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.codec.digest.DigestUtils;
-
 import com.meiduimall.application.search.manage.oauth.OAuth;
 import com.meiduimall.application.search.manage.oauth.OAuthAccessor;
 import com.meiduimall.application.search.manage.oauth.OAuthConsumer;
@@ -61,7 +54,7 @@ public class OAuthProvider {
 
 	public static final Collection<OAuthAccessor> ALL_TOKENS = new HashSet<OAuthAccessor>();
 
-	private static Properties consumerProperties = null;
+
 
 	public static synchronized void loadConsumers(ServletConfig config)
 			throws IOException {

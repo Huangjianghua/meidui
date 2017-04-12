@@ -1,15 +1,12 @@
 package com.meiduimall.application.search.manage.utility;
-
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 

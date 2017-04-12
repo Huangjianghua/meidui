@@ -1,12 +1,8 @@
 package com.meiduimall.application.search.manage.dao.impl;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.stereotype.Repository;
-
-import com.meiduimall.application.search.manage.constant.SystemConfig;
 import com.meiduimall.application.search.manage.dao.RunningAccountDao;
 import com.meiduimall.application.search.manage.domain.RunningAccount;
 import com.meiduimall.application.search.manage.utility.MD5Tool;
@@ -32,9 +28,8 @@ public class RunningAccountDaoImpl extends BaseDaoImpl<RunningAccount> implement
 			Map<String, String> paramMap) throws Exception {
 		
 		StringBuffer dataUrl = new StringBuffer();
-//		dataUrl.append(LoadPropertyUtil.getPropertyValues("order_data_url"));
-		dataUrl.append(SystemConfig.getInstance().configMap.get("order_data_url"));
-		String pwd = SystemConfig.getInstance().configMap.get("firstprj_auth");
+		//dataUrl.append(SystemConfig.getInstance().configMap.get("order_data_url"));
+		String pwd = "";//SystemConfig.getInstance().configMap.get("firstprj_auth");
 		String timeStamp = new Date().getTime() + "";
 		String token = MD5Tool.MD5Encrypt(pwd + timeStamp);
 		dataUrl.append("?token=").append(token)
