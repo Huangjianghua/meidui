@@ -120,7 +120,7 @@ public class OrderServiceImpl implements OrderService {
 		// 判断返回是否成功,如果不成功则不理会
 		Map<String, String> belongMap = null;
 		
-		if ("0".equals(resultJson.getStatus())) {
+		if (resultJson.getStatus() == 0) {
 			
 //			List<Map<String,String>> map=(List<Map<String, String>>) resultJson.get("RESULTS");
 			List<Map<String,String>> map=(List<Map<String, String>>) resultJson.getData();

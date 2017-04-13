@@ -39,7 +39,7 @@ public class SmsServiceImpl implements SmsService {
 		String result = restTemplate.postForEntity(api, smsReqDTO, String.class).getBody();
 		ResBodyData resBodyData = JsonUtils.jsonToBean(result, ResBodyData.class);
 
-		if ("0".equals(resBodyData.getStatus())) {
+		if (resBodyData.getStatus() == 0) {
 			flag = true;
 		} else {
 			logger.error(resBodyData.getMsg());
@@ -67,7 +67,7 @@ public class SmsServiceImpl implements SmsService {
 		String resultObjStr = ConnectionUrlUtil.httpRequest(buildSendMsgUrl(smsReqDTO), ShareProfitUtil.REQUEST_METHOD_POST, null);
 		ResBodyData resBodyData = JsonUtils.jsonToBean(resultObjStr, ResBodyData.class);
 
-		if ("0".equals(resBodyData.getStatus())) {
+		if (resBodyData.getStatus() == 0) {
 			flag = true;
 		} else {
 			logger.error(resBodyData.getMsg());

@@ -466,9 +466,10 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 	
 	@Override
 	public int createAccount(EcmMzfAccount ecmMzfAccount) throws DaoException {
-		int flag = 0;
+		
 		//判断当前个代账户是否存在，如果不存在，则创建账户
 		EcmMzfAccount mzfAccount = agentService.findAccountByCode(ecmMzfAccount.getCode());
+		int flag = 0;
 		if(mzfAccount == null){
 			//插入被推荐个代的账户信息
 			logger.info("===============创建个代账户start===============");
