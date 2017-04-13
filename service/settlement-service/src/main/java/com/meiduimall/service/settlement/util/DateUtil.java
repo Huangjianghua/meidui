@@ -741,9 +741,9 @@ public class DateUtil {
 	 * 时间格式转换 <li>yyyy-MM-dd 转 yyyy年MM月dd日</li> <li>yyyy年MM月dd日 转 yyyy-MM-dd</li>
 	 * @param date Old Date
 	 * @return New Date To String
-	 * @throws Exception
+	 * @
 	 */
-	public static String replaceFormat(String date) throws Exception {
+	public static String replaceFormat(String date)  {
 		String str = date.trim().replace("/", "-");
 		// 判断是否符合一般时间格式长度：2007-12-29 or 2007年12月29日
 		if (str.length() >= 6) {
@@ -752,8 +752,6 @@ public class DateUtil {
 				String[] sqlit = str.split("-");
 				if (sqlit.length >= 3) {
 					return (sqlit[0] + "年" + sqlit[1] + "月" + sqlit[2] + "日");
-				} else {
-					throw new Exception("‘" + date + "’ 时间格式错误.");
 				}
 			} else {
 				// yyyy年MM月dd日 转 yyyy-MM-dd
@@ -762,9 +760,8 @@ public class DateUtil {
 				str = str.replace("日", "");
 				return str;
 			}
-		} else {
-			return str;
-		}
+		} 
+		return str;
 	}
 
 	/**
@@ -772,63 +769,51 @@ public class DateUtil {
 	 * 二00八年一月七日 转 2008-01-07</li>
 	 * @param date Old Date String
 	 * @return New Date To String
-	 * @throws Exception <b>Date Format is Error Throws Exception.</b>
+	 * @ <b>Date Format is Error .</b>
 	 */
-	public static String replaceDate(String date) throws Exception {
-		try {
-			// 过滤时间里的/, 年, 月, 日,
-			String str = date.trim().replace("/", "-").replace("年", "-")
-					.replace("月", "-").replace("日", "-");
-			StringBuilder buf = new StringBuilder();
-			String[] sqlit = str.split("-");
-			if (sqlit.length >= 3) {
-				// 年份格式判断，并且转换
-				char[] year = sqlit[0].toCharArray();
-				if (year.length == 4 || year.length == 2) {
-					for (int i = 0; i < year.length; i++) {
-						if (map.isEmpty()) {
-							new DateUtil();
-						}
-						buf.append(map.get(String.valueOf(year[i])));
+	public static String replaceDate(String date){
+		// 过滤时间里的/, 年, 月, 日,
+		String str = date.trim().replace("/", "-").replace("年", "-")
+				.replace("月", "-").replace("日", "-");
+		StringBuilder buf = new StringBuilder();
+		String[] sqlit = str.split("-");
+		if (sqlit.length >= 3) {
+			// 年份格式判断，并且转换
+			char[] year = sqlit[0].toCharArray();
+			if (year.length == 4 || year.length == 2) {
+				for (int i = 0; i < year.length; i++) {
+					if (map.isEmpty()) {
+						new DateUtil();
 					}
-					buf.append("年");
-				} else {
-					throw new Exception("‘" + date + "’ 时间格式错误.");
+					buf.append(map.get(String.valueOf(year[i])));
 				}
+				buf.append("年");
+			} 
 
-				// 月份格式判断，并且转换
-				char[] month = sqlit[1].toCharArray();
-				if (month.length <= 2) {
-					if (month[0] == '0') {
-						buf.append(map.get(String.valueOf(month[1])));
-					} else {
-						buf.append(map.get(sqlit[1]));
-					}
-					buf.append("月");
+			// 月份格式判断，并且转换
+			char[] month = sqlit[1].toCharArray();
+			if (month.length <= 2) {
+				if (month[0] == '0') {
+					buf.append(map.get(String.valueOf(month[1])));
 				} else {
-					throw new Exception("‘" + date + "’ 时间格式错误.");
+					buf.append(map.get(sqlit[1]));
 				}
+				buf.append("月");
+			} 
 
-				// 日格式判断，并且转换
-				char[] day = sqlit[2].toCharArray();
-				if (day.length <= 3) {
-					if (day[0] == '0') {
-						buf.append(map.get(String.valueOf(day[1])));
-					} else {
-						buf.append(map.get(sqlit[2]));
-					}
-					buf.append("日");
+			// 日格式判断，并且转换
+			char[] day = sqlit[2].toCharArray();
+			if (day.length <= 3) {
+				if (day[0] == '0') {
+					buf.append(map.get(String.valueOf(day[1])));
 				} else {
-					throw new Exception("‘" + date + "’ 时间格式错误.");
+					buf.append(map.get(sqlit[2]));
 				}
-				// 返回时间格式
-				return buf.toString();
-			} else {
-				throw new Exception("‘" + date + "’ 时间格式错误.");
-			}
-		} catch (Exception e) {
-			throw new Exception("‘" + date + "’ 时间格式错误.", e);
-		}
+				buf.append("日");
+			} 
+		} 
+		// 返回时间格式
+		return buf.toString();
 	}
 
 	/**
@@ -1126,19 +1111,19 @@ public class DateUtil {
 	 * @return
 	 */
 	public static String getFirstDateNow(){
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd"); 
-		 	Calendar c = Calendar.getInstance();    
-	        c.add(Calendar.MONTH, 0);
-	        c.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天 
-	        String first = format.format(c.getTime());
-	        System.out.println("===============first:"+first);
-	        
-	        //获取当前月最后一天
-	        Calendar ca = Calendar.getInstance();    
-	        ca.set(Calendar.DAY_OF_MONTH, ca.getActualMaximum(Calendar.DAY_OF_MONTH));  
-	        String last = format.format(ca.getTime());
-	        System.out.println("===============last:"+last);
-			return first;
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd"); 
+	 	Calendar c = Calendar.getInstance();    
+        c.add(Calendar.MONTH, 0);
+        c.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天 
+        String first = format.format(c.getTime());
+        System.out.println("===============first:"+first);
+        
+        //获取当前月最后一天
+        Calendar ca = Calendar.getInstance();    
+        ca.set(Calendar.DAY_OF_MONTH, ca.getActualMaximum(Calendar.DAY_OF_MONTH));  
+        String last = format.format(ca.getTime());
+        System.out.println("===============last:"+last);
+		return first;
 	}
 	
 	/**
@@ -1229,6 +1214,21 @@ public class DateUtil {
 		Calendar c = Calendar.getInstance();
 		c.add(Calendar.DAY_OF_MONTH, -1);
 		return dateFormat.format(c.getTime());
+	}
+	
+	/**
+	 * 将字符串日期转换为Date类型
+	 * @param date
+	 * @return
+	 */
+	public static Date getParseDate(String date){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			return sdf.parse(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	/**

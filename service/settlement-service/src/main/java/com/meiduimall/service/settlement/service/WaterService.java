@@ -23,7 +23,7 @@ public interface WaterService {
 	 * param   waterId、waterType
 	 * return  
 	 */
-	public Map<String,Object> getWaterType1Detail(String waterId, String waterType) throws Exception;
+	public Map<String,Object> getWaterType1Detail(String waterId, String waterType) ;
 	
 	
 	/**
@@ -33,7 +33,7 @@ public interface WaterService {
 	 * param   waterId、waterType
 	 * return  
 	 */
-	public Map<String,Object> getWaterDetail(String waterId, String waterType) throws Exception;
+	public Map<String,Object> getWaterDetail(String waterId, String waterType) ;
 	
 	
 	/**
@@ -42,7 +42,7 @@ public interface WaterService {
 	 * Date:   2017年3月24日 下午14:14:28
 	 * return  
 	 */
-	public List<BilledWaterVO2Merge> getBilledWatersToMerge() throws Exception;
+	public List<BilledWaterVO2Merge> getBilledWatersToMerge() ;
 	
 	
 }

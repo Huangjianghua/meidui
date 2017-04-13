@@ -25,10 +25,10 @@ public interface ShareProfitLogService {
 	 * param retryType
 	 * param retryStatus
 	 * return  
-	 * throws Exception
+	 * 
 	 */
 	
-	public void logShareProfitOrder(ShareProfitOrderLog orderLog,String retryType,Integer retryStatus) throws Exception;
+	public void logShareProfitOrder(ShareProfitOrderLog orderLog,String retryType,Integer retryStatus) ;
 	
 	/**
 	 * 功能描述:  账单生成相关日志
@@ -36,9 +36,9 @@ public interface ShareProfitLogService {
 	 * Date:   2017年2月28日 下午3:38:26   
 	 * param createBillLog
 	 * return  boolean
-	 * throws Exception
+	 * 
 	 */
-	public boolean logCreateBillLog(CreateBillLog createBillLog) throws Exception;
+	public boolean logCreateBillLog(CreateBillLog createBillLog) ;
 	
 	/**
 	 * 功能描述:  移除重试标识
@@ -46,9 +46,9 @@ public interface ShareProfitLogService {
 	 * Date:   2017年2月28日 下午3:38:26   
 	 * param orderSn
 	 * return  boolean
-	 * throws Exception
+	 * 
 	 */
-	public boolean removeRetryFlag(String orderSn)throws Exception;
+	public boolean removeRetryFlag(String orderSn);
 	
 
 

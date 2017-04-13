@@ -21,7 +21,7 @@ public class PropertyConfigurerDev implements IPropertyConfigurer {
 	private static final Logger log = LoggerFactory.getLogger(PropertyConfigurerDev.class);
 
 	@Override
-	public void loadProperty() throws Exception {
+	public void loadProperty()  {
 		ShareProfitUtil.AUTHORIZED_MAP = ShareProfitUtil.loadProperty("config/authorized-dev.properties");
 
 	}

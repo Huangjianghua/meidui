@@ -24,9 +24,9 @@ public interface OrderService {
 	 * param ecmOrder
 	 * param errors
 	 * return  EcmMzfShareProfit
-	 * throws Exception
+	 * 
 	 */
-	public EcmMzfShareProfit buildShareProfit(EcmOrder ecmOrder,Collection<String> errors) throws Exception;
+	public EcmMzfShareProfit buildShareProfit(EcmOrder ecmOrder,Collection<String> errors) ;
 
 	/**
 	 * 功能描述:  根据订单号列表查询订单状态
@@ -34,9 +34,9 @@ public interface OrderService {
 	 * Date:   2017年3月14日 下午3:38:26   
 	 * param orderSns
 	 * return  List<EcmMzfOrderStatus>
-	 * throws Exception
+	 * 
 	 */
-	public List<EcmMzfOrderStatus> queryOrderStatus(List<String> orderSns) throws Exception;
+	public List<EcmMzfOrderStatus> queryOrderStatus(List<String> orderSns) ;
 
 	/**
 	 * 功能描述:  保存分润数据(为了解决 Spring声明式事务 同一类内该方法被saveShareProfit方法调用事务失效,需要抽出为接口)
@@ -44,9 +44,9 @@ public interface OrderService {
 	 * Date:   2017年3月14日 下午3:38:26   
 	 * param shareProfit
 	 * return 
-	 * throws Exception
+	 * 
 	 */
-	public void saveShareProfit(EcmMzfShareProfit shareProfit) throws Exception;
+	public void saveShareProfit(EcmMzfShareProfit shareProfit) ;
 	
 	/**
 	 * 功能描述:  同步订单审核状态接口
@@ -54,9 +54,9 @@ public interface OrderService {
 	 * Date:   2017年3月14日 下午3:38:26   
 	 * param orderStatus
 	 * return  Boolean
-	 * throws Exception
+	 * 
 	 */
-	public Boolean syncVerifyStatus(EcmMzfOrderStatus orderStatus) throws Exception;
+	public Boolean syncVerifyStatus(EcmMzfOrderStatus orderStatus) ;
 	
 
 	/**
@@ -65,9 +65,9 @@ public interface OrderService {
 	 * Date:   2017年3月14日 下午3:38:26   
 	 * param orderSns
 	 * return  List<EcmMzfShareProfit>
-	 * throws Exception
+	 * 
 	 */
-	public List<EcmMzfShareProfit> queryShareProfit(Collection<String> orderSns) throws Exception;
+	public List<EcmMzfShareProfit> queryShareProfit(Collection<String> orderSns) ;
 	
 	/**
 	 * 功能描述:  按登陆的个代或区代查询今日佣金金额和待结算金额
@@ -76,9 +76,9 @@ public interface OrderService {
 	 * param code
 	 * param accountRoleType
 	 * return  ShareProfitVO
-	 * throws Exception
+	 * 
 	 */
-	public ShareProfitVO queryProfitByRole(String code, Integer accountRoleType) throws Exception;
+	public ShareProfitVO queryProfitByRole(String code, Integer accountRoleType) ;
 
 	/**
 	 * 功能描述:  按登陆的个代或区代以及流水编号查询分润数据
@@ -90,9 +90,9 @@ public interface OrderService {
 	 * param pageNumber
 	 * param pageSize
 	 * return  List<EcmMzfShareProfit>
-	 * throws Exception
+	 * 
 	 */
-	public List<EcmMzfShareProfit> queryProfitByWaterByType(String waterId, Integer loginType, String code,Integer pageNumber,Integer pageSize)throws Exception;
+	public List<EcmMzfShareProfit> queryProfitByWaterByType(String waterId, Integer loginType, String code,Integer pageNumber,Integer pageSize);
 	
 	/**
 	 * 功能描述:  按流水编号查询分润数据记录数
@@ -100,9 +100,9 @@ public interface OrderService {
 	 * Date:   2017年3月14日 下午3:38:26   
 	 * param waterId
 	 * return  int
-	 * throws Exception
+	 * 
 	 */
-	public int queryProfitCountByWaterId(String waterId)throws Exception;
+	public int queryProfitCountByWaterId(String waterId);
 
 	/**
 	 * 功能描述:  根据订单号查询分润数据是否存在
@@ -110,9 +110,9 @@ public interface OrderService {
 	 * Date:   2017年3月14日 下午3:38:26   
 	 * param orderSn
 	 * return  boolean
-	 * throws Exception
+	 * 
 	 */
-	public boolean checkShareProfitExisted(String orderSn)throws Exception;
+	public boolean checkShareProfitExisted(String orderSn);
 
 	/**
 	 * 功能描述:  根据代理或商家编号查询分润数据接口
@@ -122,9 +122,9 @@ public interface OrderService {
 	 * param billStartDate
 	 * param billEndDate
 	 * return  ResBodyData
-	 * throws Exception
+	 * 
 	 */
-	public List<ShareProfitVO> queryTotalProfit(Collection<String> codes, Integer billStartDate, Integer billEndDate) throws Exception;
+	public List<ShareProfitVO> queryTotalProfit(Collection<String> codes, Integer billStartDate, Integer billEndDate) ;
 
 
 }

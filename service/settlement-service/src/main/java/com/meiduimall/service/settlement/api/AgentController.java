@@ -14,9 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.core.SettlementApiCode;
 import com.meiduimall.exception.ServiceException;
-import com.meiduimall.service.settlement.common.SettlementUtil;
+import com.meiduimall.service.SettlementApiCode;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 import com.meiduimall.service.settlement.model.EcmAgent;
 import com.meiduimall.service.settlement.model.EcmMzfAccount;
@@ -53,7 +52,7 @@ public class AgentController {
 	 * return  ResBodyData
 	 */
 	@PostMapping("/sharedeposit")
-	public ResBodyData shareDeposit(@Validated EcmAgent ecmAgent) throws ServiceException {
+	public ResBodyData shareDeposit(@Validated EcmAgent ecmAgent) {
 		
 		ResBodyData result = new ResBodyData();
 		
@@ -92,17 +91,14 @@ public class AgentController {
 	 */
 	@PostMapping("/sendscore")
 	public ResBodyData sendScore(@Validated EcmStore ecmStore){
-		try {
-			List<Map<String,Object>> resultList = depositService.updateStoreScore(ecmStore);
-			if(CollectionUtils.isNotEmpty(resultList)){
-				return SettlementUtil.success(resultList, "新商家送积分成功");
-			}
-			return SettlementUtil.failure("", "新商家送积分失败");
-			
-		} catch (Exception e) {
-			logger.error("新商家送积分异常：{}", e);
-			return SettlementUtil.failure("", "操作失败");
+		ResBodyData result = new ResBodyData();
+		List<Map<String,Object>> resultList = depositService.updateStoreScore(ecmStore);
+		if(CollectionUtils.isNotEmpty(resultList)){
+			result.setStatus(ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS);
+			result.setData(resultList);
 		}
+		return result;
+			
 	}
 	
 	
@@ -114,13 +110,11 @@ public class AgentController {
 	 * return  ResBodyData
 	 */
 	@PostMapping("/createaccoutbalance")
-	public ResBodyData createAccoutBalance(@Validated EcmMzfAccount ecmMzfAccount) throws ServiceException {
+	public ResBodyData createAccoutBalance(@Validated EcmMzfAccount ecmMzfAccount) {
 		ResBodyData result = new ResBodyData();
 		
-		int flag = depositService.createAccount(ecmMzfAccount);
-		if(flag > 0){
-			result.setStatus(ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS);
-		}
+		depositService.createAccount(ecmMzfAccount);
+		result.setStatus(ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS);
 		return result;
 	}
 	

@@ -24,9 +24,9 @@ public interface BillService {
 	 * Author: 许彦 雄
 	 * Date:   2017年3月14日 下午3:38:26   
 	 * return  Collection<String>
-	 * throws Exception
+	 * 
 	 */
-	public Collection<String> createBills() throws Exception;
+	public Collection<String> createBills() ;
 	
 	/**
 	 * 功能描述:  生成账单流水
@@ -36,9 +36,9 @@ public interface BillService {
 	 * param billCreatedtime
 	 * param billtime
 	 * return  
-	 * throws Exception
+	 * 
 	 */
-	public void handleBill(EcmMzfBillWater bill,Date billCreatedtime,Date billtime,Timestamp opTime) throws Exception;
+	public void handleBill(EcmMzfBillWater bill,Date billCreatedtime,Date billtime,Timestamp opTime) ;
 	
 
 	/**
@@ -48,9 +48,9 @@ public interface BillService {
 	 * param bill
 	 * param orderToBilledList
 	 * return  
-	 * throws Exception
+	 * 
 	 */
-	public void createBillAndOrderMapping(EcmMzfBillWater bill,List<OrderToBilledVO> orderToBilledList) throws Exception;
+	public void createBillAndOrderMapping(EcmMzfBillWater bill,List<OrderToBilledVO> orderToBilledList) ;
 	
 	/**
 	 * 功能描述:  更新订单结算状态
@@ -58,9 +58,9 @@ public interface BillService {
 	 * Date:   2017年3月14日 下午3:38:26
 	 * param orderSnList
 	 * return  
-	 * throws Exception
+	 * 
 	 */
-	public void updateOrderBillStatus(Collection<String> orderSnList) throws Exception;
+	public void updateOrderBillStatus(Collection<String> orderSnList) ;
 	
 	/**
 	 * 功能描述:  合并账单流水
@@ -68,7 +68,7 @@ public interface BillService {
 	 * Date:   2017年3月14日 下午3:38:26
 	 * param waterVOList
 	 * return  
-	 * throws Exception
+	 * 
 	 */
-	public void mergeBilledWaters(List<BilledWaterVO2Merge> waterVOList) throws Exception;
+	public void mergeBilledWaters(List<BilledWaterVO2Merge> waterVOList) ;
 }

@@ -54,10 +54,10 @@ public class OrderController {
 	 * Date:   2017年3月14日 下午3:38:26   
 	 * param ecmOrder
 	 * return  ResBodyData
-	 * throws Exception
+	 * 
 	 */
 	@RequestMapping(value="/shareprofit",method=RequestMethod.POST)
-	public ResBodyData shareProfit(@Validated EcmOrder ecmOrder)throws Exception{
+	public ResBodyData shareProfit(@Validated EcmOrder ecmOrder){
 		
 		long start=System.currentTimeMillis();
 		log.info("share profit for order start:{}",start);
@@ -130,10 +130,10 @@ public class OrderController {
 	 * Date:   2017年3月14日 下午3:38:26   
 	 * param orderSns
 	 * return  ResBodyData
-	 * throws Exception
+	 * 
 	 */
 	@PostMapping(value="/queryorderstatus")
-	public ResBodyData queryOrderStatus(String[] orderSns) throws Exception{
+	public ResBodyData queryOrderStatus(String[] orderSns) {
 		
 		List<EcmMzfOrderStatus> queryorderstatus=new ArrayList<EcmMzfOrderStatus>();
 		
@@ -151,10 +151,10 @@ public class OrderController {
 	 * Date:   2017年3月14日 下午3:38:26   
 	 * param input
 	 * return ResBodyData
-	 * throws Exception
+	 * 
 	 */
 	@PostMapping(value="/syncverifystatus")
-	public ResBodyData syncVerifyStatus(@Validated EcmMzfOrderStatus orderStatus) throws Exception{
+	public ResBodyData syncVerifyStatus(@Validated EcmMzfOrderStatus orderStatus) {
 		log.info("syncVerifyStatus() in the OrderController start--");
 		
 		int statusCode=ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS;
@@ -185,11 +185,11 @@ public class OrderController {
 	 * Date:   2017年3月14日 下午3:38:26   
 	 * param orderSns
 	 * return  ResBodyData
-	 * throws Exception
+	 * 
 	 */
 	@RequestMapping(value="/queryshareprofit",method=RequestMethod.POST)
 	@ResponseBody
-	public ResBodyData queryShareProfit(String[] orderSns) throws Exception{
+	public ResBodyData queryShareProfit(String[] orderSns) {
 		
 		List<EcmMzfShareProfit> shareProfits=new ArrayList<EcmMzfShareProfit>();
 		
@@ -209,11 +209,11 @@ public class OrderController {
 	 * param code
 	 * param accountRoleType
 	 * return ResBodyData
-	 * throws Exception
+	 * 
 	 */
 	@RequestMapping(value="/queryprofitbyrole",method=RequestMethod.POST)
 	@ResponseBody
-	public ResBodyData queryProfitByRole(String code,Integer accountRoleType) throws Exception{
+	public ResBodyData queryProfitByRole(String code,Integer accountRoleType) {
 		
 		ShareProfitVO shareProfitVO=orderService.queryProfitByRole(code,accountRoleType);
 	
@@ -230,11 +230,11 @@ public class OrderController {
 	 * param pageNumber
 	 * param pageSize
 	 * return ResBodyData
-	 * throws Exception
+	 * 
 	 */
 	@RequestMapping(value="/queryprofitbywaterbytype",method=RequestMethod.POST)
 	@ResponseBody
-	public ResBodyData queryProfitByWaterByType(String waterId,Integer loginType,String code,Integer pageNumber,Integer pageSize) throws Exception{
+	public ResBodyData queryProfitByWaterByType(String waterId,Integer loginType,String code,Integer pageNumber,Integer pageSize) {
 		
 		Integer count = orderService.queryProfitCountByWaterId(waterId);
 		
@@ -256,10 +256,10 @@ public class OrderController {
 	 * param billStartDate
 	 * param billEndDate
 	 * return  ResBodyData
-	 * throws Exception
+	 * 
 	 */
 	@RequestMapping(value="/querytotalprofit",method=RequestMethod.POST)
-	public ResBodyData queryTotalProfit(String[] codes,Integer billStartDate,Integer billEndDate) throws Exception{
+	public ResBodyData queryTotalProfit(String[] codes,Integer billStartDate,Integer billEndDate) {
 		
 		List<ShareProfitVO> shareProfitVOs=new ArrayList<ShareProfitVO>();
 		if(codes!=null && codes.length>0){

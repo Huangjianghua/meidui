@@ -20,8 +20,12 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.StringUtil;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
+import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
+import com.meiduimall.exception.DaoException;
+import com.meiduimall.exception.ServiceException;
+import com.meiduimall.service.SettlementApiCode;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 import com.meiduimall.service.settlement.common.ShareProfitUtil;
 import com.meiduimall.service.settlement.context.ShareProfitContext;
@@ -44,35 +48,29 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	private BaseMapper baseMapper;
 	
-	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = ServiceException.class)
 	@Override
-	public void saveShareProfit(EcmMzfShareProfit shareProfit) throws Exception {
-		if(shareProfit!=null){
-				
-			Integer flag = baseMapper.insert(shareProfit, "ShareProfitMapper.shareProfit");
+	public void saveShareProfit(EcmMzfShareProfit shareProfit){
+		if (shareProfit == null) {
+			log.error("订单分润数据为空(shareProfit)");
+			throw new ServiceException(SettlementApiCode.ORDER_SHARE_DATA_EMPTY, BaseApiCode.getZhMsg(SettlementApiCode.ORDER_SHARE_DATA_EMPTY));
+		}
+		
+		try{
+			baseMapper.insert(shareProfit, "ShareProfitMapper.shareProfit");
+			log.info("OrderServiceImpl-->doShareProfit-->ShareProfitMapper.shareProfit-->分润数据插入成功!");
+			
+			baseMapper.insert(ShareProfitUtil.buildOrderStatusObj(shareProfit), "EcmMzfOrderStatusMapper.createOrderStatus");
+			log.info("OrderServiceImpl-->doShareProfit-->EcmMzfOrderStatusMapper.createOrderStatus-->创建订单状态数据成功!");
 
-			if (flag <= 0) {
-				log.error("OrderServiceImpl-->doShareProfit-->ShareProfitMapper.shareProfit-->分润数据插入失败!");
-				throw new Exception("OrderServiceImpl-->insertShareProfit-->ShareProfitMapper.shareProfit-->分润数据插入失败!");
-			} else {
-				log.info("OrderServiceImpl-->doShareProfit-->ShareProfitMapper.shareProfit-->分润数据插入成功!");
-				
-				EcmMzfOrderStatus orderStatus=ShareProfitUtil.buildOrderStatusObj(shareProfit);
-				Integer orderStatusCreated = baseMapper.insert(orderStatus, "EcmMzfOrderStatusMapper.createOrderStatus");
-				
-				if (orderStatusCreated <= 0) {
-					log.error("OrderServiceImpl-->doShareProfit-->EcmMzfOrderStatusMapper.createOrderStatus-->创建订单状态数据失败!");
-					throw new Exception("OrderServiceImpl-->doShareProfit-->EcmMzfOrderStatusMapper.createOrderStatus-->创建订单状态数据失败!");
-				} else {
-					log.info("OrderServiceImpl-->doShareProfit-->EcmMzfOrderStatusMapper.createOrderStatus-->创建订单状态数据成功!");
-				}
-			}
+		}catch(DaoException e){
+			log.error("分润数据插入失败，创建订单状态数据失败{}", e);
 		}
 	}
 	
 	
 	@Override
-	public EcmMzfShareProfit buildShareProfit(EcmOrder ecmOrder,Collection<String> errors) throws Exception{
+	public EcmMzfShareProfit buildShareProfit(EcmOrder ecmOrder,Collection<String> errors) {
 
 		log.info("buildShareProfit start:Current Date:" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 		// 查询基本分润配置
@@ -263,14 +261,14 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<EcmMzfOrderStatus> queryOrderStatus(List<String> orderSns) throws Exception {
+	public List<EcmMzfOrderStatus> queryOrderStatus(List<String> orderSns)  {
 		
 		return baseMapper.selectList(ImmutableMap.of("orderSns", orderSns), "EcmMzfOrderStatusMapper.queryorderstatus");
 
 	}
 
 	
-	public EcmMzfShareProfit buildShareProfitModel(EcmOrder ecmOrder,ShareProfitContext ctx,List<String> meiduiCompanyAgentNos) throws Exception{
+	public EcmMzfShareProfit buildShareProfitModel(EcmOrder ecmOrder,ShareProfitContext ctx,List<String> meiduiCompanyAgentNos) {
 		
 		BigDecimal merchantRevenue=ctx.getMerchantRevenue();
 		BigDecimal sellerRevenue=ctx.getSellerRevenue();
@@ -385,7 +383,7 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
-	public Boolean syncVerifyStatus(EcmMzfOrderStatus input) throws Exception {
+	public Boolean syncVerifyStatus(EcmMzfOrderStatus input)  {
 		input.setBillStatus(1);
 		input.setStatusDesc("待结算");
 		Integer update = baseMapper.update(input, "EcmMzfOrderStatusMapper.syncverifystatus");
@@ -395,7 +393,7 @@ public class OrderServiceImpl implements OrderService {
 
 	
 	@Override
-	public List<EcmMzfShareProfit> queryShareProfit(Collection<String> orderSns) throws Exception {
+	public List<EcmMzfShareProfit> queryShareProfit(Collection<String> orderSns)  {
 		
 		List<EcmMzfShareProfit> shareProfits= baseMapper.selectList(ImmutableMap.of("orderSns", orderSns), "ShareProfitMapper.getShareProfitByOrderSns");
 		List<EcmMzfBillWaterVO> billWaterVOs= baseMapper.selectList(ImmutableMap.of("orderSns", orderSns), "ShareProfitMapper.getBillDateByOrderSns");
@@ -407,7 +405,7 @@ public class OrderServiceImpl implements OrderService {
 	
 
 	@Override
-	public ShareProfitVO queryProfitByRole(String code, Integer accountRoleType) throws Exception {
+	public ShareProfitVO queryProfitByRole(String code, Integer accountRoleType)  {
 		
 		ShareProfitVO spVO=null;
 		Integer todayStart=DateUtil.getDayBeginBySecond(0).intValue();
@@ -454,7 +452,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<EcmMzfShareProfit> queryProfitByWaterByType(String waterId, Integer loginType, String code,Integer pageNumber,Integer pageSize) throws Exception {
+	public List<EcmMzfShareProfit> queryProfitByWaterByType(String waterId, Integer loginType, String code,Integer pageNumber,Integer pageSize)  {
 		
 		if(pageNumber!=null && pageNumber>0){
 			if(pageSize==null || pageSize==0){
@@ -485,12 +483,12 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public int queryProfitCountByWaterId(String waterId) throws Exception {
+	public int queryProfitCountByWaterId(String waterId)  {
 		return baseMapper.selectOne(waterId, "EcmMzfWaterMapper.getShareProfitCountByWaterId");
 	}
 
 	@Override
-	public boolean checkShareProfitExisted(String orderSn) throws Exception {
+	public boolean checkShareProfitExisted(String orderSn)  {
 		
 		int count= baseMapper.selectOne(orderSn, "ShareProfitMapper.checkShareProfitExisted");
 		return count>0?true:false;
@@ -498,7 +496,7 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Override
 	public List<ShareProfitVO> queryTotalProfit(Collection<String> codes, Integer billStartDate, Integer billEndDate)
-			throws Exception {
+			 {
 		final Map<String,Object> params=new HashMap<String,Object>();
 		params.put("codes", codes);
 		params.put("billStartDate", billStartDate);

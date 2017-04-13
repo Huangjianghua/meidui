@@ -76,7 +76,7 @@ public class AsyncTaskService {
 	 * param shareProfitSource
 	 * param retryType
 	 * return  
-	 * throws Exception
+	 * 
 	 */
 	@Async
 	public void updateScore2MemberSystem(EcmMzfShareProfit shareProfit, String shareProfitSource,String retryType) {
@@ -210,10 +210,10 @@ public class AsyncTaskService {
 	 * param dataSource 数据来源:o2o,Cache
 	 * param retryType
 	 * return  
-	 * throws Exception
+	 * 
 	 */
 	@Async
-	public void updateScore(EcmAgent ecmAgent, int score, String dataSource, String retryType) throws ServiceException {
+	public void updateScore(EcmAgent ecmAgent, int score, String dataSource, String retryType) {
 		
 		log.info("更新积分开始时间:" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 		
@@ -299,7 +299,7 @@ public class AsyncTaskService {
 				}
 			}
 		} catch (ServiceException e) {
-			log.error("更新积分："+e.toString());
+			log.error("更新积分：{}", e);
 			throw e;
 		}
 	}

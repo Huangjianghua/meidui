@@ -55,7 +55,6 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 	
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	
-
 	/**
 	 * spring声明式事务 同一类内方法调用事务失效
 	 * //http://blog.csdn.net/jiesa/article/details/53438342
@@ -72,7 +71,7 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
-	public Collection<String> createBills() throws Exception {
+	public Collection<String> createBills()  {
 		
 		Collection<String> orderSns=new ArrayList<String>();
 		
@@ -81,11 +80,10 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 		List<EcmMzfBillWater> billList = baseMapper.selectList(verifyTime, "EcmBillMapper.queryReviewedShareOrder");
 		List<OrderToBilledVO> orderToBilledList = baseMapper.selectList(verifyTime, "EcmBillMapper.queryOrderToBilled");
 		
-		Date billCreatedtime=sdf.parse(DateUtil.getCurrentDay()); //账单创建日期
-		Date billtime=sdf.parse(DateUtil.getUpDAY()); //账单日期
+		Date billCreatedtime = DateUtil.getParseDate(DateUtil.getCurrentDay()); // 账单创建日期
+		Date billtime = DateUtil.getParseDate(DateUtil.getUpDAY()); // 账单日期
 		log.info("账单生成时间:" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())+" 账单日期："+billtime+" 需要插入到账单流水的条数："+billList.size());
-		if(billList.size()>0)
-		{
+		if(billList.size()>0){
 			
 			Timestamp waterOpTime=new Timestamp(System.currentTimeMillis());
 			//boolean billedSuccess=true;
@@ -115,8 +113,7 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
-	public void handleBill(EcmMzfBillWater bill,Date billCreatedtime,Date billtime,Timestamp opTime) throws Exception
-	{
+	public void handleBill(EcmMzfBillWater bill,Date billCreatedtime,Date billtime,Timestamp opTime){
 		bill.setBillAddTime(billCreatedtime); //设置账单创建日期
 		bill.setBillTime(billtime);//设置账单日期
 		double amount=bill.getAmount(); //账单金额
@@ -126,8 +123,7 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 		String billid=CodeRuleUtil.getBillid(bill.getType(),bill.getCode());
 		bill.setBillId(billid);
 		//开始生成账单流水数据
-		if(!Strings.isNullOrEmpty(code))
-		{
+		if(!Strings.isNullOrEmpty(code)){
 			int i=baseMapper.insert(bill,"EcmBillMapper.createBillWater");
 			log.info("生成编号为"+code+"的账单数据："+i+"条 金额:"+amount+" 角色类型:"+type);
 			
@@ -166,7 +162,7 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
-	public void createBillAndOrderMapping(EcmMzfBillWater bill, List<OrderToBilledVO> orderToBilledList) throws Exception {
+	public void createBillAndOrderMapping(EcmMzfBillWater bill, List<OrderToBilledVO> orderToBilledList)  {
 		if(bill!=null && !Strings.isNullOrEmpty(bill.getCode())){
 			final String code=bill.getCode();
 			Collection<OrderToBilledVO> orderToBilledVos=Collections2.filter(orderToBilledList, new Predicate<OrderToBilledVO>(){
@@ -181,7 +177,6 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 				for(OrderToBilledVO ob:orderToBilledVos){
 					try {
 						ob.setBillId(bill.getBillId());
-						//baseMapper.update(ob, "EcmBillMapper.updateOrderBillIdByType");
 						
 						baseMapper.insert(ob, "EcmBillMapper.createBillAndOrderMapping");
 						
@@ -199,7 +194,7 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
-	public void updateOrderBillStatus(Collection<String> orderSnList) throws Exception {
+	public void updateOrderBillStatus(Collection<String> orderSnList)  {
 		if(orderSnList!=null && !orderSnList.isEmpty()){
 			for(String orderSn:orderSnList){	
 				try {
@@ -217,7 +212,7 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 	
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	@Override
-	public void mergeBilledWaters(List<BilledWaterVO2Merge> mergeWaterVOList) throws Exception{
+	public void mergeBilledWaters(List<BilledWaterVO2Merge> mergeWaterVOList) {
 		
 		if(mergeWaterVOList!=null && !mergeWaterVOList.isEmpty()){
 			final List<Integer> ids2Del=new ArrayList<Integer>();
@@ -251,11 +246,7 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 			}
 			//删除流水
 			baseMapper.delete(ImmutableMap.of("ids",ids2Del), "EcmMzfWaterMapper.delWatersByIds");
-			
 		}
-		
 	}
-
-	
 
 }

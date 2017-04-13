@@ -77,7 +77,7 @@ public class ShareProfitRetryTask {
 
 	}
 	
-	private Map<String, String> getOrders2Retry() throws Exception {
+	private Map<String, String> getOrders2Retry()  {
 		Integer currentTimestampSec=DateUtil.getCurrentTimeSec();
 		log.info("current timestamp sec:{},Date:{}",currentTimestampSec,DateUtil.getCurrentTime());
 		List<ShareProfitOrderLog> shareProfit5MinOrder2Retry =baseMapper.selectList(ImmutableMap.of("currentTimestamp",currentTimestampSec), "ShareProfitOrderLogMapper.get5MinOrders2Retry");

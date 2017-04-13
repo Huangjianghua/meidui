@@ -20,14 +20,14 @@ public class SettingServiceImpl implements SettingService {
 
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
-	public EcmSystemSetting updatesystemsetting(EcmSystemSetting input) throws DaoException {
+	public EcmSystemSetting updatesystemsetting(EcmSystemSetting input)  {
 		baseMapper.update(input, "EcmSystemSettingMapper.updatesystemsetting");
 		EcmSystemSetting ecmSystemSetting = baseMapper.selectOne(input.getScode(), "EcmSystemSettingMapper.querysystemsetting");
 		return ecmSystemSetting;
 	}
 
 	@Override
-	public List<EcmSystemSetting> listsystemsetting(EcmSystemSetting input) throws DaoException {
+	public List<EcmSystemSetting> listsystemsetting(EcmSystemSetting input)  {
 		return baseMapper.selectList(input, "EcmSystemSettingMapper.listsystemsetting");
 	}
 	

@@ -21,7 +21,7 @@ public interface O2oCallbackService {
 	 * @param orderSns
 	 * @param statusCode
 	 * return  boolean
-	 * throws Exception
+	 * 
 	 */
 	public boolean informSettlementStatus(Collection<String> orderSns,Integer statusCode);
 	
@@ -32,7 +32,7 @@ public interface O2oCallbackService {
 	 * @param areaAgent
 	 * @param amount
 	 * return  boolean
-	 * throws Exception
+	 * 
 	 */
 	public String addProxyFee(EcmAgent areaAgent, double amount) throws ServiceException;
 

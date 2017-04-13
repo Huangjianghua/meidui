@@ -23,7 +23,7 @@ public class ShareProfitLogServiceImpl implements ShareProfitLogService {
 	
 	@Transactional(propagation=Propagation.REQUIRES_NEW, rollbackFor=Exception.class)
 	@Override
-	public void logShareProfitOrder(ShareProfitOrderLog orderLog,String retryType,Integer retryStatus) throws Exception{
+	public void logShareProfitOrder(ShareProfitOrderLog orderLog,String retryType,Integer retryStatus) {
 		retryStatus=retryStatus==null?0:retryStatus;
 		Integer flag = baseMapper.insert(orderLog, "ShareProfitOrderLogMapper.saveShareProfitOrderLog");
 		if(flag<=0){
@@ -43,7 +43,7 @@ public class ShareProfitLogServiceImpl implements ShareProfitLogService {
 	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRES_NEW, rollbackFor=Exception.class)
-	public boolean removeRetryFlag(String orderSn) throws Exception {
+	public boolean removeRetryFlag(String orderSn)  {
 		Integer cnt = baseMapper.update(orderSn, "ShareProfitOrderLogMapper.removeRetryFlag");
 		if(cnt<=0){
 			log.error("ShareProfitOrderLogMapper.removeRetryFlag failed for orderSn:{}",orderSn);
@@ -53,7 +53,7 @@ public class ShareProfitLogServiceImpl implements ShareProfitLogService {
 
 	@Override
 	@Transactional(propagation=Propagation.REQUIRES_NEW, rollbackFor=Exception.class)
-	public boolean logCreateBillLog(CreateBillLog createBillLog) throws Exception {
+	public boolean logCreateBillLog(CreateBillLog createBillLog)  {
 		
 		Integer flag = baseMapper.insert(createBillLog, "CreateBillLogMapper.saveCreateBillLog");
 		if(flag<=0){

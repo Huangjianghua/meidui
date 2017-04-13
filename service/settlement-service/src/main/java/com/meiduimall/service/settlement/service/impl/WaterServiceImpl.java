@@ -28,7 +28,7 @@ public class WaterServiceImpl implements WaterService {
 
 	
 	@Override
-	public Map<String, Object> getWaterType1Detail(String waterId, String waterType) throws Exception {
+	public Map<String, Object> getWaterType1Detail(String waterId, String waterType){
 		//获取提现流水详情
 		EcmMzfWater ecmMzfWater = agentService.getWaterDetailByWaterId(waterId, waterType);
 		if(ecmMzfWater != null && !Strings.isNullOrEmpty(ecmMzfWater.getExtId())){
@@ -53,7 +53,7 @@ public class WaterServiceImpl implements WaterService {
 
 	
 	@Override
-	public Map<String, Object> getWaterDetail(String waterId, String waterType) throws Exception {
+	public Map<String, Object> getWaterDetail(String waterId, String waterType){
 		//获取代理费或保证金流水详情
 		EcmMzfWater ecmMzfWater = agentService.getWaterDetailByWaterId(waterId, waterType);
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -63,7 +63,7 @@ public class WaterServiceImpl implements WaterService {
 
 	
 	@Override
-	public List<BilledWaterVO2Merge> getBilledWatersToMerge() throws Exception {
+	public List<BilledWaterVO2Merge> getBilledWatersToMerge(){
 		return  baseMapper.selectList(null, "EcmMzfWaterMapper.getBilledWatersToMerge");
 	}
 
