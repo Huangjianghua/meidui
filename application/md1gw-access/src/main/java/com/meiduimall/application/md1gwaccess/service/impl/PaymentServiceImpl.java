@@ -564,7 +564,7 @@ public class PaymentServiceImpl implements PaymentService {
 				
 				// 同步到支付服务系统
 				JSONObject json = new JSONObject();
-				json.put("orderNo", ectoolsPaymentsSucc.getTradeNo()); // 订单号
+				json.put("orderNo", paymentBill.get("platformId").toString()); // 平台订单号
 				json.put("payTime", DateUtil.timeStamp(Long.valueOf(ectoolsPaymentsSucc.getPayedTime()), "yyyy-MM-dd HH:mm:ss")); // 支付时间
 				json.put("paymentNo", ectoolsPaymentsSucc.getPaymentId()); // 支付单号
 				json.put("payStatus", "1"); // 支付状态
