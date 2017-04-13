@@ -3,12 +3,14 @@ package com.meiduimall.application.catalog.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
+import com.meiduimall.application.catalog.request.ShopProductRequest;
 import com.meiduimall.application.catalog.util.HttpGatewayUtils;
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.exception.ServiceException;
@@ -102,6 +104,44 @@ public class ShopService {
 
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("shop_id", String.valueOf(shop_id));
+		try {
+			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
+		} catch (Exception e) {
+			logger.error("请求微服务异常： " + e);
+			throw new ServiceException(BaseApiCode.REQUEST_SERVICE_ERROR);
+		}
+	}
+
+	/**
+	 * 获取店铺的商品列表
+	 * @param param
+	 * @return
+	 */
+	public String getShopProductList(ShopProductRequest param) {
+		String uri = "/mall/catalog-service/v1/shopInfo/getProductList";
+		String host = env.getProperty("service.host");
+		String clientID = env.getProperty("service.sign-clientID");
+		String signKey = env.getProperty("service.sign-key");
+		String url = host + uri;
+		
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("shop_id", String.valueOf(param.getShop_id()));
+		if (param.getShop_cat_id() != null) {
+			params.put("shop_cat_id", String.valueOf(param.getShop_cat_id()));
+		}
+		if (param.getPageNo() != null) {
+			params.put("pageNo", String.valueOf(param.getPageNo()));
+		}
+		if (param.getPageSize() != null) {
+			params.put("pageSize", String.valueOf(param.getPageSize()));
+		}
+		if (!StringUtils.isBlank(param.getOrder_by())) {
+			params.put("order_by", param.getOrder_by());
+		}
+		if (!StringUtils.isBlank(param.getColumn())) {
+			params.put("column", param.getColumn());
+		}
+
 		try {
 			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
 		} catch (Exception e) {

@@ -5,10 +5,12 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.application.catalog.annotation.HasToken;
+import com.meiduimall.application.catalog.request.ShopProductRequest;
 import com.meiduimall.application.catalog.service.ShopService;
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.exception.ApiException;
@@ -86,5 +88,15 @@ public class ShopController {
 			throw new ApiException(BaseApiCode.REQUEST_PARAMS_ERROR);
 		}
 		return shopService.getShopProductCatalogHttp(shopId);
+	}
+
+	/**
+	 * 获取店铺的商品列表
+	 * @param param
+	 * @return
+	 */
+	@RequestMapping(value = "/getProductList")
+	public String getShopProductList(@Validated ShopProductRequest param) {
+		return shopService.getShopProductList(param);
 	}
 }
