@@ -202,4 +202,36 @@ public class ShopControllerTest extends BaseTest {
 			}
 		});
 	}
+	
+	@Test
+	public void getShopProductList_test_01() throws Exception {
+		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
+				.post("/md1gwmall/md1gw_access/v1/shopInfo/getProductList")
+				.param("shop_id", "")
+				)
+				.andExpect(status().isOk());
+		
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+	
+	@Test
+	public void getShopProductList_test_02() throws Exception {
+		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
+				.post("/md1gwmall/md1gw_access/v1/shopInfo/getProductList")
+				.param("shop_id", "14")
+				)
+				.andExpect(status().isOk());
+		
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
 }

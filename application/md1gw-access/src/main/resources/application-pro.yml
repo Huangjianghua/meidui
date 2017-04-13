@@ -10,7 +10,7 @@ spring :
     
     
   application:
-    name: md1gw-access  
+    name: md1gw-access    
 
 # HikariConfig
   datasource :

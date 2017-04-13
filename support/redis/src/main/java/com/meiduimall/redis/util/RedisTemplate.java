@@ -251,7 +251,7 @@ public class RedisTemplate {
 		return execJedisOperate(new RedisCallback<Boolean>() {
 			@Override
 			public Boolean invoke(ShardedJedis jedis) {
-				return jedis.del(cacheKey) == Constants.CONSTANT_ZERO_INT ? false : true;
+				return jedis.del(cacheKey) == Constants.CONSTANT_INT_ZERO ? false : true;
 			}
 		});
 	}
@@ -371,7 +371,7 @@ public class RedisTemplate {
 		return execJedisOperate(new RedisCallback<Set<String>>() {
 			@Override
 			public Set<String> invoke(ShardedJedis jedis) {
-				return jedis.getShard(Constants.CONSTANT_ONE_STR).keys(cacheKey);
+				return jedis.getShard(Constants.CONSTANT_STR_ONE).keys(cacheKey);
 			}
 		});
 	}
