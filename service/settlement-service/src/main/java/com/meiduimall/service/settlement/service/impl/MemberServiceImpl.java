@@ -74,7 +74,7 @@ public class MemberServiceImpl implements MemberService {
 		String resultJsonStr = ConnectionUrlUtil.httpRequest(ShareProfitUtil.belongInfoUrl(hashMap), ShareProfitUtil.REQUEST_METHOD_POST, null);
 		ResBodyData resultJson = JsonUtils.jsonToBean(resultJsonStr, ResBodyData.class);
 		// 判断返回是否成功,如果不成功则不理会
-		if ("0".equals(resultJson.getStatus())) {
+		if (resultJson.getStatus() == 0) {
 			 return true;
 		} else {
 			log.error("errcode:" + resultJson.getStatus() + ";errmsg:" + resultJson.getMsg()+ ";userId:"+phone);

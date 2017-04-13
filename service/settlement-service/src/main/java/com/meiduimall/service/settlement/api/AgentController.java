@@ -53,7 +53,7 @@ public class AgentController {
 	 * return  ResBodyData
 	 */
 	@PostMapping("/sharedeposit")
-	public ResBodyData shareDeposit(@Validated EcmAgent ecmAgent) {
+	public ResBodyData shareDeposit(@Validated EcmAgent ecmAgent) throws ServiceException {
 		
 		ResBodyData result = new ResBodyData();
 		

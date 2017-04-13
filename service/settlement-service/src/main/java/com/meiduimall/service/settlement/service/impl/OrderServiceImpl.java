@@ -108,28 +108,23 @@ public class OrderServiceImpl implements OrderService {
 		
 		// 获取推荐人信息		
 		String resultStr = ConnectionUrlUtil.httpRequest(ShareProfitUtil.getBelongInfoUrl(ecmOrder.getBuyerName()), ShareProfitUtil.REQUEST_METHOD_POST, null);
-	
-//		Map<String,Object> resultJson= JsonUtils.jsonToMap(resultStr, Object.class);
 		ResBodyData resultJson= JsonUtils.jsonToBean(resultStr, ResBodyData.class);
 		
-		
-		if (null == resultJson) { // || resultJson.isEmpty()
-			log.info("会员系统连接失败!略过该条数据");
-			errors.add("从会员系统获取推荐人信息失败!");
-		}
-		// 判断返回是否成功,如果不成功则不理会
 		Map<String, String> belongMap = null;
 		
-		if ("0".equals(resultJson.getStatus())) {
-			
-//			List<Map<String,String>> map=(List<Map<String, String>>) resultJson.get("RESULTS");
-			List<Map<String,String>> map=(List<Map<String, String>>) resultJson.getData();
-
-			belongMap = ShareProfitUtil.getlvlAndPhone(map);
-//			log.info("推荐人信息:" + resultJson.get("RESULTS"));
-			log.info("推荐人信息:" + resultJson.getData());
-		} else {
-			log.error("errcode:" + resultJson.getStatus() + ";errmsg:" + resultJson.getMsg());
+		if (null == resultJson) { 
+			log.info("会员系统连接失败!略过该条数据");
+			errors.add("从会员系统获取推荐人信息失败!");
+		}else{
+			// 判断返回是否成功,如果不成功则不理会
+			if (resultJson.getStatus() == 0) {
+				List<Map<String,String>> map=(List<Map<String, String>>) resultJson.getData();
+				belongMap = ShareProfitUtil.getlvlAndPhone(map);
+				
+				log.info("推荐人信息:" + resultJson.getData());
+			} else {
+				log.error("errcode:" + resultJson.getStatus() + ";errmsg:" + resultJson.getMsg());
+			}
 		}
 		
 		// 平台分账(即服务费) = 参与让利金额 * 店铺服务费率
