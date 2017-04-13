@@ -8,7 +8,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 import com.meiduimall.application.catalog.interceptor.TokenInterceptor;
 
-
 /**
  * 注册拦截器到上下文
  * 
@@ -23,9 +22,9 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(getTokenInterceptor()).addPathPatterns("/**");
 	}
-	
+
 	@Bean
-    public HandlerInterceptor getTokenInterceptor(){
-        return new TokenInterceptor();
-    }
+	public HandlerInterceptor getTokenInterceptor() {
+		return new TokenInterceptor();
+	}
 }

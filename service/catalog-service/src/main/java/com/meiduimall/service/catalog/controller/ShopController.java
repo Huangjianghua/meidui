@@ -148,26 +148,26 @@ public class ShopController {
 	 *            排序字段：store 按销量，updateTime 按修改时间，price 按价格，point 按积分；默认 store 按销量
 	 * @param column
 	 *            排序规则：desc 降序，asc 升序；默认 desc 降序
-	 * @param page_num
+	 * @param pageNo
 	 *            页数
-	 * @param page_size
+	 * @param pageSize
 	 *            每页数量
 	 * @return
 	 */
 	@RequestMapping(value = "/getProductList")
-	public ResBodyData getShopProductList(@Validated ShopProductRequest params) {
+	public ResBodyData getShopProductList(@Validated ShopProductRequest param) {
 		try {
-			logger.info("获取店铺商品列表，店铺ID：" + params.getShop_id());
+			logger.info("获取店铺商品列表，店铺ID：" + param.getShop_id());
 
-			if (StringUtil.isEmptyByString(params.getOrder_by())) {
-				params.setOrder_by("store");
+			if (StringUtil.isEmptyByString(param.getOrder_by())) {
+				param.setOrder_by("store");
 			}
 
-			if (StringUtil.isEmptyByString(params.getColumn())) {
-				params.setColumn("desc");
+			if (StringUtil.isEmptyByString(param.getColumn())) {
+				param.setColumn("desc");
 			}
 
-			return shopService.getShopProductList(params);
+			return shopService.getShopProductList(param);
 		} catch (Exception e) {
 			logger.error("获取店铺商品列表，服务器异常：" + e);
 			ResBodyData result = new ResBodyData();

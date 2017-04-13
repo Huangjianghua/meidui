@@ -1,6 +1,7 @@
 package com.meiduimall.application.search.manage.filter;
 
 import java.io.IOException;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Map;
@@ -17,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.meiduimall.application.search.manage.utility.LoadPropertyUtil;
 
 public class ServletFilter implements Filter {
 	public static final String AXIS_SERVICE_URI = "/ValidCode";
@@ -73,18 +73,6 @@ public class ServletFilter implements Filter {
 		return ipAddress;
 	}
 
-	public Map<String, String> GetConfig() {
-		Map<String, String> map = null;
-
-		try {
-			map = LoadPropertyUtil.getPropertyValues("config.properties");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return map;
-
-	}
 
 
 	public void init(FilterConfig filterConfig) throws ServletException {

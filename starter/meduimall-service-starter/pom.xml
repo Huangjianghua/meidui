@@ -36,7 +36,7 @@
         <mysql.version>5.1.26</mysql.version>
         <pagehelper.version>4.1.6</pagehelper.version>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <security.version>0.0.1-SNAPSHOT</security.version>
+        <security.version>1.0.0</security.version>
         <!--<spring.version>4.3.3.RELEASE</spring.version>-->
         <spring-cloud-bom.version>Camden.SR2</spring-cloud-bom.version>
         <zipkin.version>1.0.10.RELEASE</zipkin.version>

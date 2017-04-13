@@ -1,0 +1,38 @@
+server:
+  port: ${PORT:10092}
+
+---
+spring:
+  profiles: dev
+# 配置微服务网关
+service : 
+  host : http://192.168.4.240:9050
+  sign-clientID : mall_java
+  sign-key : Test123 
+# 会员系统地址
+member : 
+  host : http://192.168.4.240:8097
+
+---
+spring:
+  profiles: pro
+# 配置微服务网关
+service : 
+  host : http://192.168.4.240:9050
+  sign-clientID : mall_java
+  sign-key :     
+# 会员系统地址
+member : 
+  host : vip.api.meiduimall.com
+
+---
+spring:
+  profiles: test
+# 配置微服务网关
+service : 
+  host : http://10.45.178.235:9050
+  sign-clientID : mall_java
+  sign-key : Test123  
+# 会员系统地址
+member : 
+  host : vipt.api.meiduimall.com

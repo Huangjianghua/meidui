@@ -196,7 +196,7 @@ public class ShopServiceImpl implements ShopService {
 					}
 				}
 				shopCatResult.setResults(results);
-				
+
 				result.setData(shopCatResult);
 				result.setStatus(BaseApiCode.SUCCESS);
 				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.SUCCESS));
@@ -215,9 +215,17 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
-	public ResBodyData getShopProductList(ShopProductRequest params) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResBodyData getShopProductList(ShopProductRequest param) {
+		ResBodyData result = new ResBodyData();// 最终返回的数据对象
+		try {
+			
+		} catch (Exception e) {
+			logger.error("获取店铺商品列表，service报异常：" + e);
+			result.setStatus(BaseApiCode.OPERAT_FAIL);
+			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
+			result.setData(new JSONObject());
+		}
+		return result;
 	}
 
 }
