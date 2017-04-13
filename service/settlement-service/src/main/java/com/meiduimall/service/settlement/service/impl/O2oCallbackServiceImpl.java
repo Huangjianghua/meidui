@@ -95,20 +95,18 @@ public class O2oCallbackServiceImpl implements O2oCallbackService{
 
 	@Override
 	public String addProxyFee(EcmAgent areaAgent, double amount) throws ServiceException {
-		String payinId = null;
 		String resultObjStr = ConnectionUrlUtil.httpRequest(buildUrl4AddProxyFee(areaAgent, amount), ShareProfitUtil.REQUEST_METHOD_POST, null);
 
 		ResBodyData resultObj = JsonUtils.jsonToBean(resultObjStr, ResBodyData.class);
 
 		if (resultObj.getStatus() == 0) {
 			log.info("回调o2o，更新余款，抵扣保证金插入缴费记录成功");
-			payinId = (String) resultObj.getData();
+			return (String) resultObj.getData();
 		} else {
 			log.error("回调o2o更新余款、抵扣保证金插入缴费记录失败,agentNo:{}", areaAgent.getAddAgentNo());
 			throw new ServiceException(SettlementApiCode.CALLBACK_O2O_UPD_BALANCE_FAILD, BaseApiCode.getZhMsg(SettlementApiCode.CALLBACK_O2O_UPD_BALANCE_FAILD));
 		}
 
-		return payinId;
 	}
 	
 	

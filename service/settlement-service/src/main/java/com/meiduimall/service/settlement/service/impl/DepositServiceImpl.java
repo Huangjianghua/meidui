@@ -469,19 +469,17 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 		
 		//判断当前个代账户是否存在，如果不存在，则创建账户
 		EcmMzfAccount mzfAccount = agentService.findAccountByCode(ecmMzfAccount.getCode());
-		int flag = 0;
 		if(mzfAccount == null){
 			//插入被推荐个代的账户信息
 			logger.info("===============创建个代账户start===============");
 			EcmMzfAccount account = new EcmMzfAccount();
 			account.setCode(ecmMzfAccount.getCode());
 			account.setAccountRoleType(ecmMzfAccount.getAccountRoleType());
-			flag = agentService.insertAccount(account);
+			return agentService.insertAccount(account);
 		}else{
 			logger.error("新个代{}账户已存在，不可重复创建账户", ecmMzfAccount.getCode());
 			throw new ServiceException(SettlementApiCode.ALREADY_EXIST_ACCOUNT, BaseApiCode.getZhMsg(SettlementApiCode.ALREADY_EXIST_ACCOUNT));
 		}
-		return flag;
 	}
 
 	
