@@ -112,7 +112,7 @@ public class OrderServiceImpl implements OrderService {
 		
 		Map<String, String> belongMap = null;
 		
-		if (null == resultJson || "".equals(resultJson)) { 
+		if (null == resultJson) { 
 			log.info("会员系统连接失败!略过该条数据");
 			errors.add("从会员系统获取推荐人信息失败!");
 		}else{
