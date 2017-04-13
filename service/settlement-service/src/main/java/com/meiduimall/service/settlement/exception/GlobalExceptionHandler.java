@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-//import com.meiduimall.core.ErrorInfo;
 import com.meiduimall.core.ResBodyData;
-//import com.meiduimall.core.ResultBody;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 

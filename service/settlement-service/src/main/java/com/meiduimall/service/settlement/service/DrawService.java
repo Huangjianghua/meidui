@@ -3,7 +3,6 @@ package com.meiduimall.service.settlement.service;
 import java.util.List;
 import java.util.Map;
 
-import com.meiduimall.exception.DaoException;
 import com.meiduimall.service.settlement.model.EcmMzfDraw;
 import com.meiduimall.service.settlement.model.EcmMzfDrawWater;
 
@@ -24,7 +23,7 @@ public interface DrawService {
 	 * param   code
 	 * return  
 	 */
-	public Map<String, Object> queryAccoutBalance(String code) ;
+	public Map<String, Object> queryAccoutBalance(String code);
 
 	
 	/**
@@ -34,7 +33,7 @@ public interface DrawService {
 	 * param   params
 	 * return  
 	 */
-	public List<EcmMzfDraw> queryDrawCash(Map<String, Object> params) ;
+	public List<EcmMzfDraw> queryDrawCash(Map<String, Object> params);
 	
 
 	/**
@@ -44,7 +43,7 @@ public interface DrawService {
 	 * param   params
 	 * return  
 	 */
-	public int getDrawCount(Map<String,Object> params) ;
+	public int getDrawCount(Map<String,Object> params);
 
 
 	/**
@@ -94,7 +93,7 @@ public interface DrawService {
 	 * param   ecmMzfDraw
 	 * return  
 	 */
-	public boolean insertDrawInfo(EcmMzfDraw ecmMzfDraw) ;
+	public boolean insertDrawInfo(EcmMzfDraw ecmMzfDraw);
 	
 	
 	/**
@@ -104,7 +103,7 @@ public interface DrawService {
 	 * param   ecmMzfDraw
 	 * return  
 	 */
-	public int insertDraw(EcmMzfDraw ecmMzfDraw) ;
+	public int insertDraw(EcmMzfDraw ecmMzfDraw);
  
 	
 	/**
@@ -114,7 +113,7 @@ public interface DrawService {
 	 * param   ecmMzfDrawWater
 	 * return  
 	 */
-	public int insertDrawWater(EcmMzfDrawWater ecmMzfDrawWater) ;
+	public int insertDrawWater(EcmMzfDrawWater ecmMzfDrawWater);
 	
 	
 	/**
@@ -124,7 +123,7 @@ public interface DrawService {
 	 * param   params
 	 * return  
 	 */
-	public int getDrawWaterCount(Map<String, Object> params) ;
+	public int getDrawWaterCount(Map<String, Object> params);
 	
 
 	/**
@@ -134,7 +133,7 @@ public interface DrawService {
 	 * param   params
 	 * return  
 	 */
-	public int getCountByCode(Map<String,Object> params) ;
+	public int getCountByCode(Map<String,Object> params);
 	
 	
 }

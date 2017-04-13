@@ -77,7 +77,7 @@ public class DrawController {
 	 * return  ResBodyData
 	 */
 	@PostMapping(value = "/drawcash")
-	public ResBodyData drawCash(@Validated EcmMzfDraw ecmMzfDraw)  {
+	public ResBodyData drawCash(@Validated EcmMzfDraw ecmMzfDraw) {
 		try {
 			
 			//提现手续费从配置表获取
