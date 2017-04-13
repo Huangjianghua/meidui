@@ -59,7 +59,7 @@ public class MemberServiceImpl implements MemberService {
 
 	
 	@Override
-	public Boolean addConsumePoints(String phone, String credit,String source,String order_id) throws ServiceException{
+	public Boolean addConsumePoints(String phone, String credit,String source,String order_id){
 		
 		if("0".equals(credit)){
 			log.info("积分为0,userId:{},忽略该积分的发送。",phone);
@@ -180,7 +180,7 @@ public class MemberServiceImpl implements MemberService {
 
 	@Async
 	@Override
-	public void updateReferrerCash() throws ServiceException {
+	public void updateReferrerCash() {
 		
 		final List<String> orderSnList=new ArrayList<String>();
 		final List<String> orderSnList4Err=new ArrayList<String>();

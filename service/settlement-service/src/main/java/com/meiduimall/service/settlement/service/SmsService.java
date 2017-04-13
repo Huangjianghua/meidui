@@ -1,6 +1,5 @@
 package com.meiduimall.service.settlement.service;
 
-import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.settlement.model.SmsReqDTO;
 
 public interface SmsService {
@@ -11,13 +10,13 @@ public interface SmsService {
 	 * @return
 	 * @
 	 */
-	public boolean sendMsm(SmsReqDTO smsReqDTO) throws ServiceException;
+	public boolean sendMsm(SmsReqDTO smsReqDTO);
 	
 	/**
 	 * 发送短信 采用httpClient请求http
 	 * @return
 	 * @
 	 */
-	public boolean sendMessage(SmsReqDTO smsReqDTO) throws ServiceException;
+	public boolean sendMessage(SmsReqDTO smsReqDTO);
 
 }

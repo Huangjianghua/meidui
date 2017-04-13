@@ -240,7 +240,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 	 * Date:   2017年3月24日 上午11:25:02
 	 * param   personToPersonAreaDeposit-30%推荐费、areaAgent-区代信息
 	 */
-	private void offsetDeposit(double personToPersonAreaDeposit, EcmAgent areaAgent) throws ServiceException {
+	private void offsetDeposit(double personToPersonAreaDeposit, EcmAgent areaAgent) {
 		
 		if(areaAgent.getAddDepositLeftAmount() != 0){
 			//如果区代保证金余款>30%
@@ -372,7 +372,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
 	@Override
-	public void shareProfitAgentLog(ShareProfitAgentLog agentLog, String retryType) throws ServiceException {
+	public void shareProfitAgentLog(ShareProfitAgentLog agentLog, String retryType) {
 		int flag = agentService.insertShareProfitAgentLog(agentLog);
 		if(flag <= 0){
 			logger.error("更新积分失败时，插入异常日志记录失败");
