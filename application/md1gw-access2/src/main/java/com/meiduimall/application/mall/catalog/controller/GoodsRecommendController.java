@@ -46,7 +46,7 @@ public class GoodsRecommendController {
 
 			String result = goodsRecommendService.getFirstRecommendGoodsHttp(reco_type, reco_req_id);
 			// 增加头部--解决JS跨域问题
-			response.setHeader("Access-Control-Allow-Origin", "*");
+//			response.setHeader("Access-Control-Allow-Origin", "*");
 
 			return result;
 		} catch (NumberFormatException e) {
