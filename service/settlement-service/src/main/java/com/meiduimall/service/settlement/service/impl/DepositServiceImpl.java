@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.SettlementApiCode;
@@ -408,7 +409,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 			int scoreStatus = 0; //积分是否同步到会员系统  0-否，1-是
 			if(result){
 				scoreStatus = 1;
-				Map<String, Object> map = new HashMap<String, Object>();
+				Map<String, Object> map = Maps.newHashMap();
 				map.put("storeNo", ecmStore.getStoreNo());
 				map.put("username", ecmStore.getUsername());
 				map.put("pointStatus", "1");

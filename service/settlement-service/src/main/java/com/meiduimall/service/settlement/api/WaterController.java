@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.StringUtil;
 import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.service.settlement.common.SettlementUtil;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
@@ -75,11 +76,11 @@ public class WaterController {
 			List<EcmMzfWater> waterList = agentService.getWaterList(params);
 			int total = agentService.getWaterCount(params);
 
-			Map<String, Object> map = new HashMap<String, Object>();
+			Map<String, Object> map = Maps.newHashMap();
 			map.put("waterList", waterList);
 			map.put("total", total);
 
-			return SettlementUtil.success(map, "获取流水列表成功");
+			return SettlementUtil.success(map);
 
 		} catch (Exception e) {
 			logger.error("获取流水列表异常：{}", e);
@@ -117,7 +118,7 @@ public class WaterController {
 			if(ShareProfitConstants.WATER_TYPE_DRAW_CASH.equals(waterType)){//提现流水详情
 				
 				Map<String, Object> result = waterService.getWaterType1Detail(waterId, waterType);
-				return SettlementUtil.success(result, "获取流水详情成功");
+				return SettlementUtil.success(result);
 				
 			}else if(ShareProfitConstants.WATER_TYPE_BILL.equals(waterType)){//账单流水详情
 				
@@ -125,7 +126,7 @@ public class WaterController {
 				
 				List<EcmMzfShareProfit> shareProfitList=orderService.queryProfitByWaterByType(waterId,loginType,code,pageNumber,pageSize);
 				
-				Map<String, Object> map = new HashMap<String, Object>();
+				Map<String, Object> map = Maps.newHashMap();
 				map.put("shareProfitList", shareProfitList);
 				map.put("total", count);
 				
@@ -134,7 +135,7 @@ public class WaterController {
 			}else if(ShareProfitConstants.WATER_TYPE_AGENT_PROFIT.equals(waterType) || ShareProfitConstants.WATER_TYPE_DEPOSIT.equals(waterType)){//代理费流水详情,保证金流水详情
 				
 				Map<String, Object> result = waterService.getWaterDetail(waterId, waterType);
-				return SettlementUtil.success(result, "获取流水详情成功");
+				return SettlementUtil.success(result);
 			}
 		} catch (Exception e) {
 			logger.error("获取流水详情异常：{}", e);
@@ -156,7 +157,7 @@ public class WaterController {
 		try {
 			String money = agentService.getRecommenderMoney(params);
 			if(!money.isEmpty()){
-				return SettlementUtil.success(money, "获取成功");
+				return SettlementUtil.success(money);
 			}
 			return SettlementUtil.failure("", "无数据");
 		} catch (Exception e) {

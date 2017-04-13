@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.common.collect.Maps;
 import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.settlement.dao.BaseMapper;
@@ -70,7 +71,7 @@ public class AgentServiceImpl implements AgentService {
 	@Override
 	public int updateScoreStatusByCode(int id, String code, int score) {
 		try {
-			Map<String,Object> params = new HashMap<String,Object>();
+			Map<String,Object> params = Maps.newHashMap();
 			params.put("id", id);
 			params.put("code", code);
 			params.put("score", score);
@@ -174,7 +175,7 @@ public class AgentServiceImpl implements AgentService {
 	@Override
 	public EcmMzfWater getWaterDetailByWaterId(String waterId, String waterType) {
 		try {
-			Map<String, Object> params = new HashMap<String, Object>();
+			Map<String, Object> params = Maps.newHashMap();
 			params.put("waterId", waterId);
 			params.put("waterType", waterType);
 			return baseMapper.selectOne(params, "EcmMzfWaterMapper.getWaterDetailByWaterId");

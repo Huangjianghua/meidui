@@ -1,8 +1,6 @@
 package com.meiduimall.service.settlement.api;
 
 import java.math.BigDecimal;
-
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.StringUtil;
+import com.google.common.collect.Maps;
+import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.ServiceException;
+import com.meiduimall.service.SettlementApiCode;
 import com.meiduimall.service.settlement.common.DrawCashConstants;
 import com.meiduimall.service.settlement.common.SettlementUtil;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
@@ -59,13 +61,8 @@ public class DrawController {
 	 */
 	@PostMapping(value="/queryaccoutbalance")
 	public ResBodyData queryAccoutBalance(String code) {
-		try {
-			Map<String, Object> accountResult = drawService.queryAccoutBalance(code);
-			return SettlementUtil.success(accountResult, "获取可提现金额成功");
-		} catch (Exception e) {
-			log.error("获取可提现金额异常：{}", e);
-			return SettlementUtil.failure("", "获取可提现金额失败");
-		}
+		Map<String, Object> accountResult = drawService.queryAccoutBalance(code);
+		return SettlementUtil.success(accountResult);
 	}
 	
 
@@ -78,54 +75,47 @@ public class DrawController {
 	 */
 	@PostMapping(value = "/drawcash")
 	public ResBodyData drawCash(@Validated EcmMzfDraw ecmMzfDraw) {
-		try {
-			
-			//提现手续费从配置表获取
-			List<EcmSystemSetting> settingList = agentService.quertSharefit();
-			Map<String, String> systemSetting = ShareProfitUtil.queryShareProfit(settingList);
-			BigDecimal cashWithdrawalFee = new BigDecimal(systemSetting.get(ShareProfitConstants.CASH_WITHDRAWAL_FEE));
-			
-			//查询当天是否有提现记录
-			Map<String, Object> params = new HashMap<String, Object>();
-			params.put("code", ecmMzfDraw.getCode());
-			params.put("drawType", ecmMzfDraw.getDrawType());
-			params.put("nowTime", DateUtil.formatDate(new Date()));
-			int drawCount = drawService.getCountByCode(params);
-			
-			//如果当天是第一次提现无需收取手续费，否则要收取手续费
-			if(drawCount > 0){
-				ecmMzfDraw.setCashWithdrawalFee(cashWithdrawalFee);
-				ecmMzfDraw.setTotalMoney(ecmMzfDraw.getMoney().add(cashWithdrawalFee));
-				ecmMzfDraw.setRemark("手续费"+cashWithdrawalFee+"元");
-			}else{
-				ecmMzfDraw.setCashWithdrawalFee(new BigDecimal("0.00"));
-				ecmMzfDraw.setTotalMoney(ecmMzfDraw.getMoney());
-				ecmMzfDraw.setRemark("提现");
-			}
-			
-			//根据code查询账户余额
-			BigDecimal balance = new BigDecimal("0");
-			Map<String, Object> account = drawService.queryAccoutBalance(ecmMzfDraw.getCode());
-			if(account.get("balance") != null && !"".equals(account.get("balance"))){
-				balance = new BigDecimal(account.get("balance").toString());
-				ecmMzfDraw.setBalance(balance);
-			}
-			
-			//如果提现总金额=提现金额+手续费 > 账户总金额时，返回提现金额不能大于账号可提现金额，请重新输入
-			if(balance.compareTo(ecmMzfDraw.getTotalMoney()) < 0){//balance>totalMoney时返回1,-1是小于,0是等于
-				return SettlementUtil.failure("", "提现金额不能大于账号可提现金额，请重新输入");
-			}
-
-			boolean result = drawService.insertDrawInfo(ecmMzfDraw);
-			if(result){
-				return SettlementUtil.success("", "申请提现成功");
-			}
-			return SettlementUtil.failure("", "申请提现失败");
-			
-		} catch (Exception e) {
-			log.error("申请提现异常：{}", e);
-			return SettlementUtil.failure("", "申请提现失败");
+		//提现手续费从配置表获取
+		List<EcmSystemSetting> settingList = agentService.quertSharefit();
+		Map<String, String> systemSetting = ShareProfitUtil.queryShareProfit(settingList);
+		BigDecimal cashWithdrawalFee = new BigDecimal(systemSetting.get(ShareProfitConstants.CASH_WITHDRAWAL_FEE));
+		
+		//查询当天是否有提现记录
+		Map<String, Object> params = Maps.newHashMap();
+		params.put("code", ecmMzfDraw.getCode());
+		params.put("drawType", ecmMzfDraw.getDrawType());
+		params.put("nowTime", DateUtil.formatDate(new Date()));
+		int drawCount = drawService.getCountByCode(params);
+		
+		//如果当天是第一次提现无需收取手续费，否则要收取手续费
+		if(drawCount > 0){
+			ecmMzfDraw.setCashWithdrawalFee(cashWithdrawalFee);
+			ecmMzfDraw.setTotalMoney(ecmMzfDraw.getMoney().add(cashWithdrawalFee));
+			ecmMzfDraw.setRemark("手续费"+cashWithdrawalFee+"元");
+		}else{
+			ecmMzfDraw.setCashWithdrawalFee(new BigDecimal("0.00"));
+			ecmMzfDraw.setTotalMoney(ecmMzfDraw.getMoney());
+			ecmMzfDraw.setRemark("提现");
 		}
+		
+		//根据code查询账户余额
+		BigDecimal balance = new BigDecimal("0");
+		Map<String, Object> account = drawService.queryAccoutBalance(ecmMzfDraw.getCode());
+		if(account.get("balance") != null && !"".equals(account.get("balance"))){
+			balance = new BigDecimal(account.get("balance").toString());
+			ecmMzfDraw.setBalance(balance);
+		}
+		
+		//如果提现总金额=提现金额+手续费 > 账户总金额时，返回提现金额不能大于账号可提现金额，请重新输入
+		if(balance.compareTo(ecmMzfDraw.getTotalMoney()) < 0){//balance>totalMoney时返回1,-1是小于,0是等于
+			throw new ServiceException(SettlementApiCode.BALANCE_NOT_ENOUGH, BaseApiCode.getZhMsg(SettlementApiCode.BALANCE_NOT_ENOUGH));
+		}
+
+		boolean result = drawService.insertDrawInfo(ecmMzfDraw);
+		if(result){
+			return SettlementUtil.success("");
+		}
+		return null;
 	}
 	
 	
@@ -143,22 +133,17 @@ public class DrawController {
 			@RequestParam(value = "pageSize", defaultValue = "20") int pageSize,
 			@RequestParam(value = "type", defaultValue = "list") String type,
 			@RequestParam HashMap<String, Object> params) {
-		try {
-			if("list".equals(type)){
-				PageHelper.startPage(pageNumber, pageSize);
-			}
-			List<EcmMzfDraw> ecmMzfDrawList = drawService.queryDrawCash(params);
-			int total = drawService.getDrawCount(params);
-			
-			Map<String,Object> result = new HashMap<String,Object>();
-			result.put("list", ecmMzfDrawList);
-			result.put("total", total);
-			return SettlementUtil.success(result, "获取提现列表成功");
-			
-		} catch (Exception e) {
-			log.error("获取提现列表异常：{}", e);
-			return SettlementUtil.failure("", "获取提现列表失败");
+		
+		if("list".equals(type)){
+			PageHelper.startPage(pageNumber, pageSize);
 		}
+		List<EcmMzfDraw> ecmMzfDrawList = drawService.queryDrawCash(params);
+		int total = drawService.getDrawCount(params);
+		
+		Map<String,Object> result = new HashMap<String,Object>();
+		result.put("list", ecmMzfDrawList);
+		result.put("total", total);
+		return SettlementUtil.success(result);
 	}
 	
 	
@@ -171,13 +156,8 @@ public class DrawController {
 	 */
 	@PostMapping(value="/querydrawcashbyid")
 	public ResBodyData queryDrawCashById(String drawCode) {
-		try {
-			EcmMzfDraw drawDetail = drawService.queryDrawCashById(drawCode);
-			return SettlementUtil.success(drawDetail, "获取提现详情成功");
-		} catch (Exception e) {
-			log.error("获取提现详情异常：{}", e);
-			return SettlementUtil.failure("", "获取提现详情失败");
-		}
+		EcmMzfDraw drawDetail = drawService.queryDrawCashById(drawCode);
+		return SettlementUtil.success(drawDetail);
 	}
 	
 	
@@ -204,7 +184,7 @@ public class DrawController {
 		
 		try {
 			hashMap = drawService.verifyDrawCashById(ecmmzfdraw);
-		} catch (Exception e) {
+		} catch (ServiceException e) {
 			msg="审核提现申请操作失败!";
 			log.error("verifyDrawCashById() for drawCode:{} got error:{}",ecmmzfdraw.getDrawCode(),e.getMessage());
 		}
