@@ -16,7 +16,6 @@ import com.meiduimall.application.md1gwaccess.constant.ResponseBodyData;
 import com.meiduimall.application.md1gwaccess.constant.SysParaNameConst;
 import com.meiduimall.application.md1gwaccess.model.EctoolsPaymentsSucc;
 import com.meiduimall.application.md1gwaccess.service.PaymentService;
-import com.meiduimall.application.md1gwaccess.util.DateUtil;
 import com.meiduimall.application.md1gwaccess.util.Logger;
 
 @RestController
@@ -114,7 +113,7 @@ public class AlipayController {
 				    ectoolsPaymentsSucc.setStatus(SysParaNameConst.SUCC);
 				    ectoolsPaymentsSucc.setMoney(new BigDecimal(total_fee));
 				    if(!gmt_payment.equals("")){
-				    	ectoolsPaymentsSucc.setPayedTime(Integer.valueOf(DateUtil.date2TimeStamp(gmt_payment, "yyyy-MM-dd HH:mm:ss")));
+				    	ectoolsPaymentsSucc.setPayedTime(Integer.valueOf(gmt_payment));
 				    }
 				    ectoolsPaymentsSucc.setBank("支付宝");
 				    ectoolsPaymentsSucc.setPayName("支付宝");
