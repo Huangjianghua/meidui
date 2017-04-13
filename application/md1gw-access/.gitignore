@@ -1,2 +1,14 @@
-/.apt_generated/
-/target/
+*~
+#*
+*#
+.#*
+.classpath
+.project
+.settings/
+.springBeans
+target/
+bin/
+_site/
+.idea
+*.iml
+.factorypath
