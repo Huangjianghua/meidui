@@ -229,16 +229,16 @@ public class ShopServiceImpl implements ShopService {
 			}
 			switch (param.getOrder_by()) {
 			case "updateTime":// 按修改时间排序
-				param.setOrder_by("modified_time");
+				param.setOrder_by("sysitem_item_status.list_time");
 				break;
 			case "price":// 按价格排序
-				param.setOrder_by("price");
+				param.setOrder_by("sysitem_item.price");
 				break;
 			case "point":// 按积分排序
-				param.setOrder_by("point");
+				param.setOrder_by("sysitem_item.point");
 				break;
 			default:// 默认：按销量排序
-				param.setOrder_by("sold_quantity");
+				param.setOrder_by("sysitem_item_count.sold_quantity");
 				break;
 			}
 
