@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="SystradePromotionDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.meiduimall.application.md1gwaccess.model.SystradePromotionDetail" >
+    <result column="tid" property="tid" jdbcType="BIGINT" />
+    <result column="oid" property="oid" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="promotion_id" property="promotionId" jdbcType="INTEGER" />
+    <result column="item_id" property="itemId" jdbcType="INTEGER" />
+    <result column="sku_id" property="skuId" jdbcType="INTEGER" />
+    <result column="promotion_type" property="promotionType" jdbcType="VARCHAR" />
+    <result column="promotion_tag" property="promotionTag" jdbcType="VARCHAR" />
+    <result column="promotion_name" property="promotionName" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.meiduimall.application.md1gwaccess.model.SystradePromotionDetail" extends="BaseResultMap" >
+    <result column="promotion_desc" property="promotionDesc" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Blob_Column_List" >
+    promotion_desc
+  </sql>
+   
+   <!-- 获取商品参加促销活动信息  -->
+   <select id="getpromotionActivityData" parameterType="java.lang.Long" resultType="SystradePromotionDetail">
+     SELECT promotion_tag,oid FROM systrade_promotion_detail 
+     WHERE  promotion_type = 'activity' 
+     AND  oid = #{oid}
+   </select>
+   
+</mapper>

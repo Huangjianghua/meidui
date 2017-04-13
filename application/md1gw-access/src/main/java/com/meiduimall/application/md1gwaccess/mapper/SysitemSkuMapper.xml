@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="SysitemSkuMapper" >
+  <resultMap id="BaseResultMap" type="com.meiduimall.application.md1gwaccess.model.SysitemSku" >
+    <id column="sku_id" property="skuId" jdbcType="INTEGER" />
+    <result column="item_id" property="itemId" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="bn" property="bn" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="cost_price" property="costPrice" jdbcType="DECIMAL" />
+    <result column="mkt_price" property="mktPrice" jdbcType="DECIMAL" />
+    <result column="barcode" property="barcode" jdbcType="VARCHAR" />
+    <result column="weight" property="weight" jdbcType="DECIMAL" />
+    <result column="created_time" property="createdTime" jdbcType="INTEGER" />
+    <result column="modified_time" property="modifiedTime" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="outer_id" property="outerId" jdbcType="VARCHAR" />
+    <result column="direct_prices" property="directPrices" jdbcType="DECIMAL" />
+    <result column="isdirect" property="isdirect" jdbcType="BIT" />
+    <result column="point" property="point" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.meiduimall.application.md1gwaccess.model.SysitemSku" extends="BaseResultMap" >
+    <result column="properties" property="properties" jdbcType="LONGVARCHAR" />
+    <result column="spec_info" property="specInfo" jdbcType="LONGVARCHAR" />
+    <result column="spec_desc" property="specDesc" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    sku_id skuId, item_id itemId, title, bn, price, cost_price costPrice, mkt_price mktPrice, barcode, weight, created_time createdTime, 
+    modified_time modifiedTime, status, outer_id outerId, direct_prices directPrices, isdirect, point
+  </sql>
+  <sql id="Blob_Column_List" >
+    properties, spec_info specInfo, spec_desc specDesc
+  </sql>
+  <!-- 根据sku_id获取item_id or 获取单个SKU的基本信息 -->
+  <select id="getSysitemSkuByskuId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+     SELECT 
+     <include refid="Base_Column_List"/>,
+     <include refid="Blob_Column_List"/>
+     FROM sysitem_sku WHERE  sku_id = #{skuId}
+  </select>
+   
+</mapper>

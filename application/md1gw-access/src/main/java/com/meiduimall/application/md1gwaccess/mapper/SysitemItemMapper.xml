@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="SysitemItemMapper" >
+  <resultMap id="BaseResultMap" type="com.meiduimall.application.md1gwaccess.model.SysitemItem" >
+    <id column="item_id" property="itemId" jdbcType="INTEGER" />
+    <result column="shop_id" property="shopId" jdbcType="INTEGER" />
+    <result column="cat_id" property="catId" jdbcType="INTEGER" />
+    <result column="brand_id" property="brandId" jdbcType="INTEGER" />
+    <result column="shop_cat_id" property="shopCatId" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="sub_title" property="subTitle" jdbcType="VARCHAR" />
+    <result column="bn" property="bn" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="cost_price" property="costPrice" jdbcType="DECIMAL" />
+    <result column="mkt_price" property="mktPrice" jdbcType="DECIMAL" />
+    <result column="weight" property="weight" jdbcType="DECIMAL" />
+    <result column="image_default_id" property="imageDefaultId" jdbcType="VARCHAR" />
+    <result column="store" property="store" jdbcType="INTEGER" />
+    <result column="freez" property="freez" jdbcType="INTEGER" />
+    <result column="order_sort" property="orderSort" jdbcType="INTEGER" />
+    <result column="modified_time" property="modifiedTime" jdbcType="INTEGER" />
+    <result column="has_discount" property="hasDiscount" jdbcType="BIT" />
+    <result column="is_virtual" property="isVirtual" jdbcType="BIT" />
+    <result column="is_timing" property="isTiming" jdbcType="BIT" />
+    <result column="violation" property="violation" jdbcType="BIT" />
+    <result column="is_selfshop" property="isSelfshop" jdbcType="BIT" />
+    <result column="nospec" property="nospec" jdbcType="BIT" />
+    <result column="sub_stock" property="subStock" jdbcType="BIT" />
+    <result column="outer_id" property="outerId" jdbcType="VARCHAR" />
+    <result column="is_offline" property="isOffline" jdbcType="BIT" />
+    <result column="barcode" property="barcode" jdbcType="VARCHAR" />
+    <result column="disabled" property="disabled" jdbcType="BIT" />
+    <result column="use_platform" property="usePlatform" jdbcType="VARCHAR" />
+    <result column="is_score" property="isScore" jdbcType="BIT" />
+    <result column="score" property="score" jdbcType="DECIMAL" />
+    <result column="reward_score" property="rewardScore" jdbcType="DECIMAL" />
+    <result column="check_status" property="checkStatus" jdbcType="VARCHAR" />
+    <result column="supply_type" property="supplyType" jdbcType="VARCHAR" />
+    <result column="isbreak" property="isbreak" jdbcType="BIT" />
+    <result column="isdirect" property="isdirect" jdbcType="BIT" />
+    <result column="through_reason" property="throughReason" jdbcType="VARCHAR" />
+    <result column="point" property="point" jdbcType="INTEGER" />
+    <result column="is_show_weight" property="isShowWeight" jdbcType="BIT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.meiduimall.application.md1gwaccess.model.SysitemItem" extends="BaseResultMap" >
+    <result column="list_image" property="listImage" jdbcType="LONGVARCHAR" />
+    <result column="spec_desc" property="specDesc" jdbcType="LONGVARCHAR" />
+    <result column="props_name" property="propsName" jdbcType="LONGVARCHAR" />
+    <result column="params" property="params" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    item_id, shop_id, cat_id, brand_id, shop_cat_id, title, sub_title, bn, price, cost_price, 
+    mkt_price, weight, image_default_id, store, freez, order_sort, modified_time, has_discount, 
+    is_virtual, is_timing, violation, is_selfshop, nospec, sub_stock, outer_id, is_offline, 
+    barcode, disabled, use_platform, is_score, score, reward_score, check_status, supply_type, 
+    isbreak, isdirect, through_reason, point, is_show_weight
+  </sql>
+  <sql id="Blob_Column_List" >
+    list_image, spec_desc, props_name, params
+  </sql>
+  
+  <!-- 根据itemId获取subStock -->
+  <select id="getSysitemItemBysubStock" parameterType="java.util.Map" resultMap="ResultMapWithBLOBs">
+  	SELECT sub_stock subStock FROM sysitem_item `sysitem_item` 
+	LEFT JOIN sysitem_item_status `sysitem_item_status` ON `sysitem_item`.item_id=`sysitem_item_status`.item_id 
+	LEFT JOIN sysitem_item_count `sysitem_item_count` ON `sysitem_item`.item_id=`sysitem_item_count`.item_id 
+	WHERE (1) AND (`sysitem_item`.item_id = #{itemId}) ORDER BY sysitem_item.modified_time DESC, sysitem_item.item_id DESC LIMIT 1
+  </select>
+   
+    
+   
+  
+  
+</mapper>

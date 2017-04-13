@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="EctoolsTradePaybillMapper" >
+  <resultMap id="BaseResultMap" type="com.meiduimall.application.md1gwaccess.model.EctoolsTradePaybill" >
+    <id column="paybill_id" property="paybillId" jdbcType="INTEGER" />
+    <result column="payment_id" property="paymentId" jdbcType="VARCHAR" />
+    <result column="tid" property="tid" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="payment" property="payment" jdbcType="DECIMAL" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="payed_time" property="payedTime" jdbcType="INTEGER" />
+    <result column="created_time" property="createdTime" jdbcType="INTEGER" />
+    <result column="modified_time" property="modifiedTime" jdbcType="INTEGER" />
+    <result column="platform_id" property="platformId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    paybill_id paybillId, payment_id paymentId, tid, status, payment, user_id userId, payed_time payedTime, created_time createdTime, 
+    modified_time modifiedTime, platform_id platformId
+  </sql>
+  
+  <!--  子订单获取所有商家订单号tid  -->
+  <select id="listEctoolsTradePaybill" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select <include refid="Base_Column_List"/>
+     from ectools_trade_paybill
+    where payment_id = #{paymentId,jdbcType=VARCHAR} 
+    ORDER BY paybill_id DESC
+  </select>
+  
+  <!-- 更新子支付状态  -->
+  <update id="updateEctoolsTradePaybill" parameterType="java.util.List" >
+    <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+	   update ectools_trade_paybill e set
+	   e.status = #{item.status,jdbcType=VARCHAR},
+	   e.payment = ${item.payment},
+	   e.modified_time = UNIX_TIMESTAMP()
+	   where e.tid = ${item.tid} and e.payment_id = ${item.paymentId}
+   </foreach>
+  </update>
+  
+  <!-- 清除ectools_trade_paybill表过期数据  -->
+  <delete id="deleteEctoolsTradePaybill" parameterType="java.util.List">
+   <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+	    DELETE FROM `ectools_trade_paybill` 
+	    WHERE tid = ${item.tid} and payment_id = ${item.paymentId}
+   </foreach>     
+  </delete>
+  
+  <!-- 更新子支付单表  -->
+  <update id="updateETPStatus" parameterType="EctoolsTradePaybill">
+     update ectools_trade_paybill e set 
+     <if test="status != null" >
+        e.status = #{status,jdbcType=VARCHAR},
+     </if>
+    	e.payed_time = UNIX_TIMESTAMP()
+     where e.payment_id = #{paymentId}
+  </update>
+  
+</mapper>

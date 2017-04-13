@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="EctoolsPaymentsMapper" >
+  <resultMap id="BaseResultMap" type="com.meiduimall.application.md1gwaccess.model.EctoolsPayments" >
+    <id column="payment_id" property="paymentId" jdbcType="VARCHAR" />
+    <result column="money" property="money" jdbcType="DECIMAL" />
+    <result column="cur_money" property="curMoney" jdbcType="DECIMAL" />
+    <result column="cart_xfc" property="cartXfc" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="pay_type" property="payType" jdbcType="VARCHAR" />
+    <result column="pay_app_id" property="payAppId" jdbcType="VARCHAR" />
+    <result column="pay_name" property="payName" jdbcType="VARCHAR" />
+    <result column="payed_time" property="payedTime" jdbcType="INTEGER" />
+    <result column="op_name" property="opName" jdbcType="VARCHAR" />
+    <result column="op_id" property="opId" jdbcType="INTEGER" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="bank" property="bank" jdbcType="VARCHAR" />
+    <result column="pay_account" property="payAccount" jdbcType="VARCHAR" />
+    <result column="currency" property="currency" jdbcType="VARCHAR" />
+    <result column="paycost" property="paycost" jdbcType="DECIMAL" />
+    <result column="pay_ver" property="payVer" jdbcType="VARCHAR" />
+    <result column="ip" property="ip" jdbcType="VARCHAR" />
+    <result column="created_time" property="createdTime" jdbcType="INTEGER" />
+    <result column="modified_time" property="modifiedTime" jdbcType="INTEGER" />
+    <result column="memo" property="memo" jdbcType="VARCHAR" />
+    <result column="disabled" property="disabled" jdbcType="BIT" />
+    <result column="trade_no" property="tradeNo" jdbcType="VARCHAR" />
+    <result column="thirdparty_account" property="thirdpartyAccount" jdbcType="VARCHAR" />
+    <result column="wallet_pay" property="walletPay" jdbcType="DECIMAL" />
+    <result column="coup_pay" property="coupPay" jdbcType="DECIMAL" />
+    <result column="shoping_pay" property="shopingPay" jdbcType="DECIMAL" />
+    <result column="platform_id" property="platformId" jdbcType="VARCHAR" />
+    <result column="error_num" property="errorNum" jdbcType="BIT" />
+    <result column="error_money" property="errorMoney" jdbcType="DECIMAL" />
+    <result column="point_pay" property="pointPay" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.meiduimall.application.md1gwaccess.model.EctoolsPayments" extends="BaseResultMap" >
+    <result column="return_url" property="returnUrl" jdbcType="LONGVARCHAR" />
+    <result column="tids" property="tids" jdbcType="LONGVARCHAR" />
+    <result column="trade_own_money" property="tradeOwnMoney" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ep.payment_id paymentId, ep.money, ep.cur_money curMoney, ep.cart_xfc cartXfc, ep.status, ep.user_id userId, ep.user_name userName, 
+    ep.pay_type payType, ep.pay_app_id payAppId, 
+    ep.pay_name payName, ep.payed_time payedTime, ep.op_name opName, ep.op_id opId, ep.account, ep.bank, ep.pay_account payAccount, ep.currency, ep.paycost, 
+    ep.pay_ver payVer, ep.ip, ep.created_time createdTime, ep.modified_time modifiedTime, ep.memo, ep.disabled, ep.trade_no tradeNo, 
+    ep.thirdparty_account thirdpartyAccount, 
+    ep.wallet_pay walletPay, ep.coup_pay coupPay, ep.shoping_pay shopingPay, ep.platform_id platformId, ep.error_num errorNum, ep.error_money errorMoney,
+    ep.point_pay pointPay
+  </sql>
+  
+  <!-- 获取支付单信息  -->
+   <select id="getPaymentBill" resultType="java.util.Map" parameterType="java.lang.String" >
+       SELECT <include refid="Base_Column_List"/> FROM ectools_payments ep 
+  		  WHERE ep.payment_id = #{paymentId} 
+  </select>
+  
+  <!-- 更新支付单信息  -->
+   <update id="updateEctoolsPayments" parameterType="EctoolsPayments" >
+     UPDATE ectools_payments
+    <set >
+      <if test="curMoney != null" >
+        cur_money = #{curMoney},
+      </if>
+      <if test="walletPay != null" >
+        wallet_pay = #{walletPay},
+      </if>
+      <if test="shopingPay != null" >
+        shoping_pay = #{shopingPay},
+      </if>
+      <if test="coupPay != null" >
+        coup_pay = #{coupPay},
+      </if>
+      <if test="pointPay != null" >
+        point_pay = #{pointPay},
+      </if>
+      <if test="cartXfc != null" >
+        cart_xfc = #{cartXfc},
+      </if>
+      <if test="status != null" >
+        status = #{status},
+      </if>
+      <if test="payAppId != null" >
+        pay_app_id = #{payAppId},
+      </if>
+      <if test="payName != null" >
+        pay_name = #{payName},
+      </if>
+      <if test="payedTime != null" >
+        payed_time = #{payedTime},
+      </if>
+      <if test="account != null" >
+        account = #{account},
+      </if>
+      <if test="bank != null" >
+        bank = #{bank},
+      </if>
+      <if test="payAccount != null" >
+        pay_account = #{payAccount},
+      </if>
+      <if test="currency != null" >
+        currency = #{currency},
+      </if>
+      <if test="paycost != null" >
+        paycost = #{paycost},
+      </if>
+      <if test="payVer != null" >
+        pay_ver = #{payVer},
+      </if>
+      <if test="ip != null" >
+        ip = #{ip},
+      </if>
+      <if test="tradeNo != null" >
+        trade_no = #{tradeNo},
+      </if>
+      <if test="returnUrl != null" >
+        return_url = #{returnUrl}
+      </if>
+    </set>
+    where payment_id = #{paymentId}
+  </update>
+  
+  <!-- 更新支付单表  -->
+  <update id="updateEPStatus" parameterType="EctoolsPayments">
+    UPDATE `ectools_payments` 
+    SET `status` = #{status}, 
+    `payed_time` =  UNIX_TIMESTAMP()
+     WHERE  payment_id = #{paymentId}
+  </update>
+ 
+  <!-- is_pay_succ -->
+  <select id="getIsPaySucc" parameterType="EctoolsPayments" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from ectools_payments ep
+    where ep.platform_id = #{platformId} 
+    and ep.payment_id = #{paymentId} 
+    and ep.status = #{status}
+  </select>
+  
+  <!-- 更新支付单错误金额  -->
+  <update id="updateErrorMoney" parameterType="EctoolsPayments" >
+     UPDATE ectools_payments
+     SET error_money = #{errorMoney} 
+     WHERE  payment_id = #{paymentId}
+  </update>
+  
+  <!-- 推送次数加1 -->
+  <update id="updateErrorNum" parameterType="java.lang.String">
+     UPDATE `ectools_payments` SET `error_num` = `error_num`+1 
+     WHERE  payment_id = #{paymentId}
+  </update>
+  
+</mapper>

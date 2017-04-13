@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="SysitemSkuStoreMapper" >
+  <resultMap id="BaseResultMap" type="com.meiduimall.application.md1gwaccess.model.SysitemSkuStore" >
+    <id column="item_id" property="itemId" jdbcType="INTEGER" />
+    <id column="sku_id" property="skuId" jdbcType="INTEGER" />
+    <result column="store" property="store" jdbcType="INTEGER" />
+    <result column="freez" property="freez" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    item_id, sku_id, store, freez
+  </sql>
+  
+  <!-- 更新货品库存  -->
+  <update id="updateSysitemSkuStore" parameterType="java.util.Map">
+      UPDATE sysitem_sku_store 
+      SET 
+      store = store - #{quantity}
+      WHERE sku_id = #{sku_id} AND store - #{quantity} >= 0
+  </update>
+  
+  <!-- 修改sku_store表的冻结库存  -->
+  <update id="updateSkuStoreFreez" parameterType="java.util.Map">
+       UPDATE sysitem_sku_store 
+       SET freez = ifnull(freez,0) + #{quantity} 
+       WHERE sku_id = #{sku_id} 
+       AND item_id = #{item_id} 
+       AND store >= #{quantity} + ifnull(freez,0)
+  </update>
+  
+  <!-- 获取sku库存表信息  -->
+  <select id="getSysitemSkuStore" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT item_id,store,freez 
+    FROM sysitem_sku_store WHERE (1) AND (`sysitem_sku_store`.sku_id = #{skuId}) LIMIT 1 
+  </select>
+  
+  <!-- 更新sku库存表ByfreezANDstore  -->
+  <update id="updateSysitemSkuStoreByfreezANDstore" parameterType="SysitemSkuStore">
+      UPDATE sysitem_sku_store 
+      SET freez= #{freez},
+         store= #{store} 
+         WHERE  sku_id=#{skuId}
+  </update>
+</mapper>

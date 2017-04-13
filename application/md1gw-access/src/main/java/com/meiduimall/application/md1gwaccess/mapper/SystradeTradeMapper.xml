@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="SystradeTradeMapper" >
+  <resultMap id="BaseResultMap" type="com.meiduimall.application.md1gwaccess.model.SystradeTrade" >
+    <id column="tid" property="tid" jdbcType="BIGINT" />
+    <result column="shop_id" property="shopId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="dlytmpl_id" property="dlytmplId" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="pay_type" property="payType" jdbcType="VARCHAR" />
+    <result column="payment" property="payment" jdbcType="DECIMAL" />
+    <result column="order_xfc" property="orderXfc" jdbcType="DECIMAL" />
+    <result column="total_fee" property="totalFee" jdbcType="DECIMAL" />
+    <result column="post_fee" property="postFee" jdbcType="DECIMAL" />
+    <result column="payed_fee" property="payedFee" jdbcType="DECIMAL" />
+    <result column="seller_rate" property="sellerRate" jdbcType="BIT" />
+    <result column="receiver_name" property="receiverName" jdbcType="VARCHAR" />
+    <result column="created_time" property="createdTime" jdbcType="INTEGER" />
+    <result column="pay_time" property="payTime" jdbcType="INTEGER" />
+    <result column="consign_time" property="consignTime" jdbcType="INTEGER" />
+    <result column="end_time" property="endTime" jdbcType="INTEGER" />
+    <result column="modified_time" property="modifiedTime" jdbcType="INTEGER" />
+    <result column="timeout_action_time" property="timeoutActionTime" jdbcType="INTEGER" />
+    <result column="send_time" property="sendTime" jdbcType="INTEGER" />
+    <result column="receiver_state" property="receiverState" jdbcType="VARCHAR" />
+    <result column="receiver_city" property="receiverCity" jdbcType="VARCHAR" />
+    <result column="receiver_district" property="receiverDistrict" jdbcType="VARCHAR" />
+    <result column="receiver_address" property="receiverAddress" jdbcType="VARCHAR" />
+    <result column="receiver_zip" property="receiverZip" jdbcType="VARCHAR" />
+    <result column="receiver_mobile" property="receiverMobile" jdbcType="VARCHAR" />
+    <result column="receiver_phone" property="receiverPhone" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="discount_fee" property="discountFee" jdbcType="DECIMAL" />
+    <result column="consume_point_fee" property="consumePointFee" jdbcType="INTEGER" />
+    <result column="buyer_message" property="buyerMessage" jdbcType="VARCHAR" />
+    <result column="need_invoice" property="needInvoice" jdbcType="BIT" />
+    <result column="invoice_name" property="invoiceName" jdbcType="VARCHAR" />
+    <result column="invoice_type" property="invoiceType" jdbcType="VARCHAR" />
+    <result column="invoice_main" property="invoiceMain" jdbcType="VARCHAR" />
+    <result column="adjust_fee" property="adjustFee" jdbcType="DECIMAL" />
+    <result column="trade_from" property="tradeFrom" jdbcType="VARCHAR" />
+    <result column="itemnum" property="itemnum" jdbcType="INTEGER" />
+    <result column="shop_flag" property="shopFlag" jdbcType="VARCHAR" />
+    <result column="buyer_area" property="buyerArea" jdbcType="VARCHAR" />
+    <result column="area_id" property="areaId" jdbcType="INTEGER" />
+    <result column="step_trade_status" property="stepTradeStatus" jdbcType="VARCHAR" />
+    <result column="step_paid_fee" property="stepPaidFee" jdbcType="DECIMAL" />
+    <result column="shipping_type" property="shippingType" jdbcType="VARCHAR" />
+    <result column="obtain_point_fee" property="obtainPointFee" jdbcType="BIGINT" />
+    <result column="buyer_rate" property="buyerRate" jdbcType="BIT" />
+    <result column="is_part_consign" property="isPartConsign" jdbcType="BIT" />
+    <result column="real_point_fee" property="realPointFee" jdbcType="INTEGER" />
+    <result column="ip" property="ip" jdbcType="VARCHAR" />
+    <result column="anony" property="anony" jdbcType="BIT" />
+    <result column="is_clearing" property="isClearing" jdbcType="BIT" />
+    <result column="disabled" property="disabled" jdbcType="BIT" />
+    <result column="ziti_addr" property="zitiAddr" jdbcType="VARCHAR" />
+    <result column="ziti_memo" property="zitiMemo" jdbcType="VARCHAR" />
+    <result column="pay_order_id" property="payOrderId" jdbcType="VARCHAR" />
+    <result column="order_type" property="orderType" jdbcType="BIT" />
+    <result column="mpid" property="mpid" jdbcType="VARCHAR" />
+    <result column="chargeNumber" property="chargenumber" jdbcType="BIGINT" />
+    <result column="chargeStatus" property="chargestatus" jdbcType="BIGINT" />
+    <result column="submitChargeTimes" property="submitchargetimes" jdbcType="BIGINT" />
+    <result column="platform_id" property="platformId" jdbcType="BIGINT" />
+    <result column="is_recharge" property="isRecharge" jdbcType="BIT" />
+    <result column="last_unrefunds" property="lastUnrefunds" jdbcType="DECIMAL" />
+    <result column="sku_price" property="skuPrice" jdbcType="DECIMAL" />
+    <result column="receiver_street" property="receiverStreet" jdbcType="VARCHAR" />
+    <result column="meidui_point" property="meiduiPoint" jdbcType="INTEGER" />
+    <result column="is_update" property="isUpdate" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.meiduimall.application.md1gwaccess.model.SystradeTrade" extends="BaseResultMap" >
+    <result column="cancel_reason" property="cancelReason" jdbcType="LONGVARCHAR" />
+    <result column="shop_memo" property="shopMemo" jdbcType="LONGVARCHAR" />
+    <result column="trade_memo" property="tradeMemo" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    tid, shop_id, user_id, dlytmpl_id, status, pay_type, payment, order_xfc, total_fee, 
+    post_fee, payed_fee, seller_rate, receiver_name, created_time, pay_time, consign_time, 
+    end_time, modified_time, timeout_action_time, send_time, receiver_state, receiver_city, 
+    receiver_district, receiver_address, receiver_zip, receiver_mobile, receiver_phone, 
+    title, discount_fee, consume_point_fee, buyer_message, need_invoice, invoice_name, 
+    invoice_type, invoice_main, adjust_fee, trade_from, itemnum, shop_flag, buyer_area, 
+    area_id, step_trade_status, step_paid_fee, shipping_type, obtain_point_fee, buyer_rate, 
+    is_part_consign, real_point_fee, ip, anony, is_clearing, disabled, ziti_addr, ziti_memo, 
+    pay_order_id, order_type, mpid, chargeNumber, chargeStatus, submitChargeTimes, platform_id, 
+    is_recharge, last_unrefunds, sku_price, receiver_street, meidui_point, is_update
+  </sql>
+  <sql id="Blob_Column_List" >
+    cancel_reason, shop_memo, trade_memo
+  </sql>
+  
+  <!-- 获取订单金额  -->
+  <select id="getTradeMoney"  resultType="java.util.Map">
+   	 SELECT tid,payment,post_fee postFee,STATUS,platform_id platformId,order_xfc orderXfc FROM systrade_trade WHERE tid IN
+   	  <foreach item="id" index="index" collection="tid" open="(" separator="," close=")">  
+			  #{id}  
+	  </foreach>
+	   ORDER BY `created_time` DESC
+  </select>
+  
+   <!-- 获取支付单号对应的所有商家订单信息  -->
+   <select id="listSystradeTrade" parameterType="java.math.BigInteger" resultType="SystradeTrade">
+     SELECT tid,payment,order_type orderType FROM 
+     systrade_trade WHERE  platform_id = #{platformId}  
+      ORDER BY `created_time` DESC LIMIT 100000
+   </select>
+   
+   <!--  获取指定订单信息  -->
+   <select id="getTradeInfo" parameterType="java.math.BigInteger" resultType="SystradeTrade">
+      SELECT payment,status,tid 
+      FROM systrade_trade WHERE tid = #{tid}
+   </select>
+   
+   <!--  更新商家订单信息  -->
+   <update id="updateSystradeTradeBytid" parameterType="SystradeTrade" >
+    UPDATE `systrade_trade` SET 
+    `status` = #{status}, 
+    `payed_fee` = #{payedFee}, 
+    `pay_time` = UNIX_TIMESTAMP(), 
+    `modified_time` = UNIX_TIMESTAMP() 
+    WHERE `systrade_trade`.tid = #{tid}
+   </update>
+   
+   <!-- 获取商家手机号  -->
+   <select id="getShopMobile" resultType="java.util.Map" parameterType="java.math.BigInteger">
+	SELECT ss.`mobile` FROM systrade_trade st
+	LEFT JOIN sysshop_shop ss
+	ON
+	st.`shop_id` = ss.`shop_id`
+	WHERE st.tid = #{tid}
+	 
+   </select>
+</mapper>

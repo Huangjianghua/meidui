@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="SystradeLogMapper" >
+  <resultMap id="BaseResultMap" type="com.meiduimall.application.md1gwaccess.model.SystradeLog" >
+    <id column="log_id" property="logId" jdbcType="INTEGER" />
+    <result column="rel_id" property="relId" jdbcType="BIGINT" />
+    <result column="op_id" property="opId" jdbcType="INTEGER" />
+    <result column="op_name" property="opName" jdbcType="VARCHAR" />
+    <result column="op_role" property="opRole" jdbcType="VARCHAR" />
+    <result column="behavior" property="behavior" jdbcType="VARCHAR" />
+    <result column="log_time" property="logTime" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.meiduimall.application.md1gwaccess.model.SystradeLog" extends="BaseResultMap" >
+    <result column="log_text" property="logText" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    log_id, rel_id, op_id, op_name, op_role, behavior, log_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    log_text
+  </sql>
+  
+  <!-- 记录订单操作日志  -->
+  <insert id="insertSystradeLog" parameterType="SystradeLog">
+   INSERT INTO `systrade_log` 
+   (`rel_id`, `op_id`, `op_name`, `op_role`, `behavior`, `log_text`, `log_time`) 
+   VALUES(#{relId}, #{opId}, #{opName}, #{opRole}, #{behavior}, #{logText}, UNIX_TIMESTAMP())
+  </insert>
+  
+  
+</mapper>

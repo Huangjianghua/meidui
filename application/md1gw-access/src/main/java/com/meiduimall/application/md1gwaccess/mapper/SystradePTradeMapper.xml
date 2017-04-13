@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="SystradePTradeMapper" >
+  <resultMap id="BaseResultMap" type="com.meiduimall.application.md1gwaccess.model.SystradePTrade" >
+    <id column="platform_id" property="platformId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="total_money" property="totalMoney" jdbcType="DECIMAL" />
+    <result column="xfc" property="xfc" jdbcType="DECIMAL" />
+    <result column="wallet_pay" property="walletPay" jdbcType="DECIMAL" />
+    <result column="coup_pay" property="coupPay" jdbcType="DECIMAL" />
+    <result column="shoping_pay" property="shopingPay" jdbcType="DECIMAL" />
+    <result column="cash_pay" property="cashPay" jdbcType="DECIMAL" />
+    <result column="t_wallet_pay" property="tWalletPay" jdbcType="DECIMAL" />
+    <result column="t_cash_pay" property="tCashPay" jdbcType="DECIMAL" />
+    <result column="t_coup_pay" property="tCoupPay" jdbcType="DECIMAL" />
+    <result column="t_shoping_pay" property="tShopingPay" jdbcType="DECIMAL" />
+    <result column="created_time" property="createdTime" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="INTEGER" />
+    <result column="is_sync" property="isSync" jdbcType="BIT" />
+    <result column="pay_type" property="payType" jdbcType="BIT" />
+    <result column="t_xfc" property="tXfc" jdbcType="DECIMAL" />
+    <result column="error_num" property="errorNum" jdbcType="BIT" />
+    <result column="is_paying" property="isPaying" jdbcType="BIT" />
+    <result column="trade_from" property="tradeFrom" jdbcType="VARCHAR" />
+    <result column="is_update" property="isUpdate" jdbcType="BIT" />
+    <result column="total_point" property="totalPoint" jdbcType="INTEGER" />
+    <result column="point_pay" property="pointPay" jdbcType="INTEGER" />
+    <result column="t_point_pay" property="tPointPay" jdbcType="INTEGER" />
+    <result column="t_total_point" property="tTotalPoint" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    platform_id platformId, user_id userId, status, total_money totalMoney, xfc, wallet_pay walletPay, coup_pay coupPay, shoping_pay shopingPay, 
+    cash_pay cashPay, t_wallet_pay tWalletPay, t_cash_pay tCashPay, t_coup_pay tCoupPay, t_shoping_pay tShopingPay, created_time createdTime,
+    update_time updateTime, 
+    is_sync isSync, pay_type payType, t_xfc tXfc, error_num errorNum, is_paying isPaying, trade_from tradeFrom, is_update isUpdate, 
+    total_point totalPoint, 
+    point_pay pointPay, t_point_pay tPointPay, t_total_point tTotalPoint
+  </sql>
+  
+  <!--  获取平台订单表信息  -->
+  <select id="getSystradePTrade" resultMap="BaseResultMap" parameterType="java.math.BigInteger" >
+    select 
+    <include refid="Base_Column_List" />
+    from systrade_p_trade
+    where platform_id = #{platformId}
+  </select>
+  
+  <!-- 更新平台订单表第三方支付的款和状态  -->
+  <update id="updateSystradePTrade" parameterType="SystradePTrade">
+     UPDATE `systrade_p_trade` 
+     SET 
+     <if test="cashPay != null">
+     `cash_pay` = #{cashPay}, 
+     </if>
+     <if test="payType != null">
+     `pay_type` = #{payType}, 
+     </if>
+     <if test="isPaying != null">
+     `is_paying` = #{isPaying}
+     </if>
+      WHERE platform_id = #{platformId}
+  </update>
+  
+  <!-- 冻结余额更新到平台表  -->
+  <update id="updateWalletPay" parameterType="SystradePTrade">
+     UPDATE `systrade_p_trade` 
+     SET 
+     <if test="walletPay != null">
+     `wallet_pay` = #{walletPay} 
+     </if>
+     WHERE  platform_id = #{platformId}
+  </update>
+  
+  <!--  把冻结的金额更新到平台订单表(systrade_p_trade)  -->
+  <update id="updateCSP" parameterType="SystradePTrade">
+    UPDATE `systrade_p_trade` 
+ 		SET 
+ 		<if test="coupPay != null" >
+ 		`coup_pay` = #{coupPay}, 
+ 		</if>
+ 		<if test="shopingPay != null">
+  		`shoping_pay` = #{shopingPay}, 
+ 		</if>
+ 		<if test="pointPay != null">
+  		`point_pay` = #{pointPay}
+ 		</if>
+  	WHERE platform_id = #{platformId}
+  </update>
+  
+  <!-- 更新平台订单表  -->
+  <update id="updateSPTStatus" parameterType="SystradePTrade">
+     UPDATE `systrade_p_trade` 
+     SET 
+     `status` = #{status}, 
+     `update_time` =  UNIX_TIMESTAMP()
+     WHERE   platform_id = #{platformId} 
+  </update>
+  
+  <!-- 更新平台订单信息,标识已同步订单到会员系统  -->
+  <update id="updateIsSyncByplatformId" parameterType="SystradePTrade">
+   UPDATE `systrade_p_trade` 
+   SET `is_sync` = #{isSync}
+   WHERE platform_id = #{platformId}
+  </update>
+   
+</mapper>

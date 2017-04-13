@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="EctoolsPaymentsSuccMapper" >
+  <resultMap id="BaseResultMap" type="com.meiduimall.application.md1gwaccess.model.EctoolsPaymentsSucc" >
+    <id column="payment_id" property="paymentId" jdbcType="VARCHAR" />
+    <result column="money" property="money" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="pay_app_id" property="payAppId" jdbcType="VARCHAR" />
+    <result column="pay_name" property="payName" jdbcType="VARCHAR" />
+    <result column="payed_time" property="payedTime" jdbcType="INTEGER" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="bank" property="bank" jdbcType="VARCHAR" />
+    <result column="pay_account" property="payAccount" jdbcType="VARCHAR" />
+    <result column="paycost" property="paycost" jdbcType="DECIMAL" />
+    <result column="pay_ver" property="payVer" jdbcType="VARCHAR" />
+    <result column="ip" property="ip" jdbcType="VARCHAR" />
+    <result column="trade_no" property="tradeNo" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    payment_id, money, status, pay_app_id, pay_name, payed_time, account, bank, pay_account, 
+    paycost, pay_ver, ip, trade_no
+  </sql>
+  
+  <!--  查询第三方支付成功记录表   -->
+  <select id="getEctoolsPaymentsSucc" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from ectools_payments_succ
+    where payment_id = #{paymentId,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 记录支付成功记录  -->
+  <insert id="insertEctoolsPaymentsSucc" parameterType="EctoolsPaymentsSucc" >
+    insert into ectools_payments_succ
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="paymentId != null" >
+        payment_id,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="payAppId != null" >
+        pay_app_id,
+      </if>
+      <if test="payName != null" >
+        pay_name,
+      </if>
+      <if test="payedTime != null" >
+        payed_time,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="bank != null" >
+        bank,
+      </if>
+      <if test="payAccount != null" >
+        pay_account,
+      </if>
+      <if test="paycost != null" >
+        paycost,
+      </if>
+      <if test="payVer != null" >
+        pay_ver,
+      </if>
+      <if test="ip != null" >
+        ip,
+      </if>
+      <if test="tradeNo != null" >
+        trade_no,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="paymentId != null" >
+        #{paymentId,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="payAppId != null" >
+        #{payAppId,jdbcType=VARCHAR},
+      </if>
+      <if test="payName != null" >
+        #{payName,jdbcType=VARCHAR},
+      </if>
+      <if test="payedTime != null" >
+        #{payedTime,jdbcType=INTEGER},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="bank != null" >
+        #{bank,jdbcType=VARCHAR},
+      </if>
+      <if test="payAccount != null" >
+        #{payAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="paycost != null" >
+        #{paycost,jdbcType=DECIMAL},
+      </if>
+      <if test="payVer != null" >
+        #{payVer,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeNo != null" >
+        #{tradeNo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+   
+</mapper>

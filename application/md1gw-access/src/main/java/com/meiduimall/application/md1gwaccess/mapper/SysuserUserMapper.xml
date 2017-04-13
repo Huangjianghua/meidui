@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="SysuserUserMapper" >
+  <resultMap id="BaseResultMap" type="com.meiduimall.application.md1gwaccess.model.SysuserUser" >
+    <id column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="grade_id" property="gradeId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="point" property="point" jdbcType="INTEGER" />
+    <result column="money" property="money" jdbcType="DECIMAL" />
+    <result column="coupon" property="coupon" jdbcType="VARCHAR" />
+    <result column="pay_percent" property="payPercent" jdbcType="VARCHAR" />
+    <result column="refer_id" property="referId" jdbcType="VARCHAR" />
+    <result column="refer_url" property="referUrl" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="INTEGER" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="wedlock" property="wedlock" jdbcType="BIT" />
+    <result column="education" property="education" jdbcType="VARCHAR" />
+    <result column="vocation" property="vocation" jdbcType="VARCHAR" />
+    <result column="reg_ip" property="regIp" jdbcType="VARCHAR" />
+    <result column="regtime" property="regtime" jdbcType="INTEGER" />
+    <result column="cur" property="cur" jdbcType="VARCHAR" />
+    <result column="lang" property="lang" jdbcType="VARCHAR" />
+    <result column="disabled" property="disabled" jdbcType="BIT" />
+    <result column="experience" property="experience" jdbcType="INTEGER" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+    <result column="area" property="area" jdbcType="VARCHAR" />
+    <result column="addr" property="addr" jdbcType="VARCHAR" />
+    <result column="email_verify" property="emailVerify" jdbcType="BIT" />
+    <result column="frozen_money" property="frozenMoney" jdbcType="DECIMAL" />
+    <result column="m_point" property="mPoint" jdbcType="DECIMAL" />
+    <result column="m_frozen_point" property="mFrozenPoint" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+	   su.user_id userId,su.grade_id gradeId,su.name,su.username,su.point,su.money,su.coupon,su.pay_percent,
+	   su.refer_id referId,su.refer_url referUrl,su.birthday,
+	   su.sex,su.wedlock,su.education,su.vocation,su.reg_ip,su.regtime,su.cur,su.lang,su.disabled,su.experience,su.source,
+	   su.area,su.addr,su.email_verify emailVerify,su.frozen_money frozenMoney,su.m_point mPoint,su.m_frozen_point mFrozenPoint
+	</sql>
+ 
+
+  <!-- 获取用户详细信息  -->
+  <select id="getUserInfo" resultType="java.util.Map" parameterType="SysuserUser" >
+       SELECT <include refid="Base_Column_List"/>,
+  		sa.login_account loginAccount,sa.email,sa.mobile,sa.login_token loginToken,sa.login_type loginType,sa.pay_password payPassword,
+  		sup.`point_count` pointCount,
+  		sug.`grade_name` gradeName,sug.`grade_id` gradeId
+  		FROM sysuser_user su 
+  		LEFT JOIN sysuser_account sa ON su.`user_id` = sa.`user_id`
+  		LEFT JOIN sysuser_user_points sup ON su.`user_id` = sup.`user_id`  
+  		LEFT JOIN sysuser_user_grade sug ON su.`grade_id` = sug.`grade_id`
+   		WHERE su.user_id=#{userId}
+  </select>
+  
+  <!-- 获取用户余额和已冻结金额  -->
+  <select id="getUserMoney" resultType="SysuserUser" parameterType="java.lang.Integer" >
+      SELECT money,frozen_money frozenMoney 
+      FROM sysuser_user WHERE user_id = #{userId} 
+  </select>
+  
+  <!-- 更新冻结金额  -->
+  <update id="updateMF" parameterType="SysuserUser" >
+      UPDATE `sysuser_user` 
+      SET
+      <if test="money != null">
+       `money` = #{money}, 
+      </if>
+      <if test="frozenMoney != null">
+       `frozen_money` = #{frozenMoney} 
+      </if>
+      WHERE user_id = #{userId}
+  </update>
+  
+</mapper>

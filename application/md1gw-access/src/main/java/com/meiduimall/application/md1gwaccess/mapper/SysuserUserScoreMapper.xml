@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="SysuserUserScoreMapper" >
+  <resultMap id="BaseResultMap" type="com.meiduimall.application.md1gwaccess.model.SysuserUserScore" >
+    <id column="Scid" property="scid" jdbcType="INTEGER" />
+    <result column="Scno" property="scno" jdbcType="VARCHAR" />
+    <result column="Uid" property="uid" jdbcType="INTEGER" />
+    <result column="login_name" property="loginName" jdbcType="VARCHAR" />
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="vor_money" property="vorMoney" jdbcType="DECIMAL" />
+    <result column="money" property="money" jdbcType="DECIMAL" />
+    <result column="af_money" property="afMoney" jdbcType="DECIMAL" />
+    <result column="utime" property="utime" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Scid, Scno, Uid, login_name, order_no, vor_money, money, af_money, utime, status, 
+    remark
+  </sql>
+   
+  
+  <!-- 写入积分消费记录  -->
+  <insert id="insertSysuserUserScore" parameterType="SysuserUserScore" >
+    insert into sysuser_user_score
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="scid != null" >
+        Scid,
+      </if>
+      <if test="scno != null" >
+        Scno,
+      </if>
+      <if test="uid != null" >
+        Uid,
+      </if>
+      <if test="loginName != null" >
+        login_name,
+      </if>
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+      <if test="vorMoney != null" >
+        vor_money,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="afMoney != null" >
+        af_money,
+      </if>
+      <if test="utime != null" >
+        utime,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="scid != null" >
+        #{scid,jdbcType=INTEGER},
+      </if>
+      <if test="scno != null" >
+        #{scno,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="loginName != null" >
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="vorMoney != null" >
+        #{vorMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="afMoney != null" >
+        #{afMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="utime != null" >
+        #{utime,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+   
+</mapper>
