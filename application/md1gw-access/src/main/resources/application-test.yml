@@ -8,7 +8,7 @@ spring :
     auto : true
     proxy-target-class : true
     
-    
+
   application:
     name: md1gw-access  
 
