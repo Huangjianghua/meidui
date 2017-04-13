@@ -47,4 +47,14 @@ public class DateUtil {
     	return "";  
     }  
     
+    public static String formatTiemStr(String date_str){  
+    	try {  
+        	String reg = "(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})";
+        	return date_str.replaceAll(reg, "$1-$2-$3 $4:$5:$6");
+    	} catch (Exception e) {  
+    		e.printStackTrace();  
+    	}  
+    	return "";  
+    }  
+     
 }
