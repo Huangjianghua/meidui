@@ -203,6 +203,10 @@ public class ShopControllerTest extends BaseTest {
 		});
 	}
 	
+	/**
+	 * getShopProductList方法---参数错误测试
+	 * @throws Exception
+	 */
 	@Test
 	public void getShopProductList_test_01() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -219,6 +223,10 @@ public class ShopControllerTest extends BaseTest {
 		});
 	}
 	
+	/**
+	 * getShopProductList方法---正常测试
+	 * @throws Exception
+	 */
 	@Test
 	public void getShopProductList_test_02() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
