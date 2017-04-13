@@ -21,7 +21,6 @@ import com.github.pagehelper.StringUtil;
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
-import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 import com.meiduimall.service.settlement.common.ShareProfitUtil;
 import com.meiduimall.service.settlement.context.MemberSystemDataContext;

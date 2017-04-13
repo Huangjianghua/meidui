@@ -1,6 +1,5 @@
 package com.meiduimall.service.settlement.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -228,7 +227,7 @@ public class AgentServiceImpl implements AgentService {
 	@Override
 	public List<ShareProfitAgentLog> getAgentsRetry(int currentTimestamp, String key) {
 		try {
-			Map<String,Object> params = new HashMap<String,Object>();
+			Map<String,Object> params = Maps.newHashMap();
 			params.put("currentTimestamp", currentTimestamp);
 			params.put("key", key);
 			return baseMapper.selectList(params, "ShareProfitAgentLogMapper.getAgentsRetry");
@@ -251,7 +250,7 @@ public class AgentServiceImpl implements AgentService {
 	@Override
 	public List<EcmMzfAgentWater> getShareProfitResult(int id, String recNo) {
 		try {
-			Map<String,Object> params = new HashMap<String,Object>();
+			Map<String,Object> params = Maps.newHashMap();
 			params.put("id", id);
 			params.put("recNo", recNo);
 			return baseMapper.selectList(params, "EcmMzfAgentWaterMapper.getShareProfitResult");

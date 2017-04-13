@@ -140,7 +140,7 @@ public class DrawController {
 		List<EcmMzfDraw> ecmMzfDrawList = drawService.queryDrawCash(params);
 		int total = drawService.getDrawCount(params);
 		
-		Map<String,Object> result = new HashMap<String,Object>();
+		Map<String,Object> result = Maps.newHashMap();
 		result.put("list", ecmMzfDrawList);
 		result.put("total", total);
 		return SettlementUtil.success(result);
@@ -171,7 +171,7 @@ public class DrawController {
 	@PostMapping(value="/verifydrawcashbyid")
 	public ResBodyData verifyDrawCashById(EcmMzfDraw ecmmzfdraw) {
 		
-		Map<String, Object> hashMap=new HashMap<String,Object>();
+		Map<String, Object> hashMap=Maps.newHashMap();
 		if(StringUtil.isEmpty(ecmmzfdraw.getDrawCode())){
 			return SettlementUtil.buildReponseData("", 0, "接口参数drawCode为空!");
 		}
@@ -209,7 +209,7 @@ public class DrawController {
 	@PostMapping(value="/rejectdrawcashbyid")
 	public ResBodyData rejectDrawCashById(EcmMzfDraw ecmmzfdraw) {
 		
-		Map<String, Object> hashMap=new HashMap<String,Object>();
+		Map<String, Object> hashMap=Maps.newHashMap();
 		if(StringUtil.isEmpty(ecmmzfdraw.getDrawCode()) || StringUtil.isEmpty(ecmmzfdraw.getRemark())){
 			return SettlementUtil.buildReponseData("", 1, "接口参数drawCode或remark为空!");
 		}
@@ -263,7 +263,7 @@ public class DrawController {
 		ecmmzfdraw.setFinanceTime(DateUtil.getCurrentTimeSec());
 		ecmmzfdraw.setFinanceName(StringUtil.isEmpty(ecmmzfdraw.getFinanceName())?"admin":ecmmzfdraw.getFinanceName());
 		
-		Map<String, Object> hashMap=new HashMap<String,Object>();
+		Map<String, Object> hashMap=Maps.newHashMap();
 		try {
 			hashMap = drawService.confirmDrawCashByIdByType(ecmmzfdraw);
 			msg+="操作成功!";
