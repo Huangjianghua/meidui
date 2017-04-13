@@ -9,20 +9,8 @@ spring :
     proxy-target-class : true
   application:
     name: md1gw-access  
+    
 # HikariConfig
-#  datasource :
-#    type : com.zaxxer.hikari.HikariDataSource
-#    driver-class-name : com.mysql.jdbc.Driver
-#    url : jdbc:mysql://192.168.4.236:3306/meiduishop?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
-#    username : meidui
-#    password : meiduishop
-#    connectionTimeout : 30000
-#    idleTimeout : 600000
-#    maxLifetime : 1800000
-#    maximumPoolSize : 300
-#    minimumIdle : 10
-#    autoCommit : true;
-#    connectionTestQuery : SELECT 1
   datasource:
     type : com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.zaxxer.hikari.HikariDataSource
