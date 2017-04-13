@@ -3,8 +3,6 @@ package com.meiduimall.service.settlement.service;
 import java.util.List;
 import java.util.Map;
 
-import com.meiduimall.exception.DaoException;
-import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.settlement.model.EcmAgent;
 import com.meiduimall.service.settlement.model.EcmMzfAccount;
 import com.meiduimall.service.settlement.model.EcmStore;
@@ -27,7 +25,7 @@ public interface DepositService {
 	 * param   ecmAgent
 	 * return  
 	 */
-	public List<Map<String, Object>> shareDeposit(EcmAgent ecmAgent) throws ServiceException;
+	public List<Map<String, Object>> shareDeposit(EcmAgent ecmAgent);
 	
 	
 	/**
@@ -47,7 +45,7 @@ public interface DepositService {
 	 * param   ecmMzfAccount
 	 * return  
 	 */
-	public int createAccount(EcmMzfAccount ecmMzfAccount) throws DaoException;
+	public int createAccount(EcmMzfAccount ecmMzfAccount);
 	
 	
 	/**
@@ -56,7 +54,7 @@ public interface DepositService {
 	 * Date:   2017年3月24日 上午11:25:02
 	 * param   ecmAgent、systemSetting
 	 */
-	public void shareDepositMain(EcmAgent ecmAgent, Map<String, String> systemSetting) throws ServiceException;
+	public void shareDepositMain(EcmAgent ecmAgent, Map<String, String> systemSetting);
 	
 	
 	/**
@@ -65,7 +63,7 @@ public interface DepositService {
 	 * Date:   2017年3月24日 上午11:25:02
 	 * param   agentLog、retryType
 	 */
-	public void shareProfitAgentLog(ShareProfitAgentLog agentLog, String retryType) throws ServiceException;
+	public void shareProfitAgentLog(ShareProfitAgentLog agentLog, String retryType);
 	
 	
 }

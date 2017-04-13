@@ -21,7 +21,7 @@ public interface OrderStatusService {
 	 * Date:   2017年3月14日 下午3:38:26
 	 * param orderSn
 	 * return  boolean
-	 * throws Exception
+	 * 
 	 */
 	public boolean updateShareStatus(String orderSn)throws ServiceException;
 	
@@ -29,7 +29,7 @@ public interface OrderStatusService {
 	 * 更新订单积分是否成功送出
 	 * @param orderSn
 	 * @return
-	 * @throws Exception
+	 * @
 	 */
 	public boolean updateScoreStatus(String orderSn)throws ServiceException;
 	
@@ -39,7 +39,7 @@ public interface OrderStatusService {
 	 * Date:   2017年3月14日 下午3:38:26
 	 * param orderStatus
 	 * return  boolean
-	 * throws Exception
+	 * 
 	 */
 	public boolean updateBillStatus(EcmMzfOrderStatus orderStatus)throws ServiceException;
 	
@@ -49,7 +49,7 @@ public interface OrderStatusService {
 	 * Date:   2017年3月14日 下午3:38:26
 	 * param orderSn
 	 * return  boolean
-	 * throws Exception
+	 * 
 	 */
 	public boolean updateCashStatus(String orderSn)throws ServiceException;
 	
@@ -60,7 +60,7 @@ public interface OrderStatusService {
 	 * Date:   2017年3月14日 下午3:38:26
 	 * param orderSns
 	 * return  boolean
-	 * throws Exception
+	 * 
 	 */
 	//注意：好像如果orderSns.size()>5000, in update 语句好像或报错。将来最好把orderSns进行分割，使每次orderSns小于5000
 	public boolean batchUpdCashStatus(Collection<String> orderSns)throws ServiceException;

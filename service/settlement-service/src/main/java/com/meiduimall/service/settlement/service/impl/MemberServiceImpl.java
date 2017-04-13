@@ -83,7 +83,7 @@ public class MemberServiceImpl implements MemberService {
 		
 	}
 	
-	public Boolean updateAmout2MemberSystem(MemberSystemDataContext ctx) throws Exception{
+	public Boolean updateAmout2MemberSystem(MemberSystemDataContext ctx) {
 		
 		String userId=ctx.getUserId();
 		Boolean isUpdated=Boolean.FALSE;

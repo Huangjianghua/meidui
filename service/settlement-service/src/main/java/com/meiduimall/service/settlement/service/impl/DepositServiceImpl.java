@@ -19,9 +19,8 @@ import org.springframework.util.CollectionUtils;
 
 import com.google.common.base.Strings;
 import com.meiduimall.core.BaseApiCode;
-import com.meiduimall.core.SettlementApiCode;
-import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.ServiceException;
+import com.meiduimall.service.SettlementApiCode;
 import com.meiduimall.service.settlement.common.CodeRuleUtil;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 import com.meiduimall.service.settlement.common.ShareProfitUtil;
@@ -78,7 +77,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 
 	
 	@Override
-	public List<Map<String, Object>> shareDeposit(EcmAgent ecmAgent) throws ServiceException {
+	public List<Map<String, Object>> shareDeposit(EcmAgent ecmAgent) {
 
 		logger.info("分账开始时间:"+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 
@@ -100,16 +99,16 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 			resultList.add(map);
 			
 		} catch (ServiceException e) {
-			logger.error("个代保证金分润：{}", e.toString());
+			logger.error("个代保证金分润：{}", e);
 		}
 		
 		return resultList;
 	}
 	
 
-	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = ServiceException.class)
 	@Override
-	public void shareDepositMain(EcmAgent ecmAgent, Map<String, String> systemSetting) throws ServiceException {
+	public void shareDepositMain(EcmAgent ecmAgent, Map<String, String> systemSetting) {
 		
 		int score = Integer.parseInt(systemSetting.get(ShareProfitConstants.NEWBIE_PERSON_POINT));//新加盟个代获得积分 6500
 		double areaToPersonRate = Double.parseDouble(systemSetting.get(ShareProfitConstants.AREA_TO_PERSON_RATE));//区代直推个代代理费分成  50%
@@ -298,7 +297,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 	 * Date:   2017年3月24日 上午11:25:02
 	 * param   code-代理编码、remark-备注、type-流水类型 1：提现、2：账单、3：代理费
 	 */
-	private boolean updateAccountBalance(EcmAgent ecmAgent, String remark, String type) throws ServiceException {
+	private boolean updateAccountBalance(EcmAgent ecmAgent, String remark, String type) {
 		
 		boolean flag = false;
 			
@@ -386,55 +385,51 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 	}
 	
 	
-	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = ServiceException.class)
 	@Override
 	public List<Map<String,Object>> updateStoreScore(EcmStore ecmStore) {
 		
 		logger.info("更新商家积分开始时间:" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 		
 		List<Map<String,Object>> resultList = new ArrayList<Map<String,Object>>();
+			
+		//查询基本分润配置
+		List<EcmSystemSetting> settingList = agentService.quertSharefit();
+		Map<String, String> systemSetting = ShareProfitUtil.queryShareProfit(settingList);
+		//获取商家初始积分
+		String score = systemSetting.get(ShareProfitConstants.STORE_INIT_POINT);
 		
-		try {
+		if(!Strings.isNullOrEmpty(ecmStore.getUsername()) && !Strings.isNullOrEmpty(ecmStore.getStoreNo())){
+			//商家积分流水号
+			String scoreFlow = "EGW" + ecmStore.getStoreNo() + System.currentTimeMillis();
+			//调用积分接口 更新积分 
+			Boolean result = scoreService.addConsumePoints(ecmStore.getUsername(), score, ShareProfitConstants.DATA_SOURCE_O2O,scoreFlow);
 			
-			//查询基本分润配置
-			List<EcmSystemSetting> settingList = agentService.quertSharefit();
-			Map<String, String> systemSetting = ShareProfitUtil.queryShareProfit(settingList);
-			//获取商家初始积分
-			String score = systemSetting.get(ShareProfitConstants.STORE_INIT_POINT);
-			
-			if(!Strings.isNullOrEmpty(ecmStore.getUsername()) && !Strings.isNullOrEmpty(ecmStore.getStoreNo())){
-				//商家积分流水号
-				String scoreFlow = "EGW" + ecmStore.getStoreNo() + System.currentTimeMillis();
-				//调用积分接口 更新积分 
-				Boolean result = scoreService.addConsumePoints(ecmStore.getUsername(), score, ShareProfitConstants.DATA_SOURCE_O2O,scoreFlow);
-				
-				int scoreStatus = 0; //积分是否同步到会员系统  0-否，1-是
-				if(result){
-					scoreStatus = 1;
-					Map<String, Object> map = new HashMap<String, Object>();
-					map.put("storeNo", ecmStore.getStoreNo());
-					map.put("username", ecmStore.getUsername());
-					map.put("pointStatus", "1");
-					resultList.add(map);
-					logger.info("商家为:{}更新积分成功", ecmStore.getUsername());
-				}else{
-					logger.error("商家为:{}更新积分失败", ecmStore.getUsername());
-				}
-				
-				//插入商家送积分记录
-				EcmMzfStoreRecord ecmMzfStoreRecord = new EcmMzfStoreRecord();
-				Timestamp date = new Timestamp(System.currentTimeMillis());
-				ecmMzfStoreRecord.setStoreNo(ecmStore.getStoreNo());
-				ecmMzfStoreRecord.setPhone(ecmStore.getUsername());
-				ecmMzfStoreRecord.setScore(Integer.parseInt(score));
-				ecmMzfStoreRecord.setScoreStatus(scoreStatus);
-				ecmMzfStoreRecord.setCreatedDate(date);
-				ecmMzfStoreRecord.setUpdatedDate(date);
-				agentService.insertStoreRecord(ecmMzfStoreRecord);
-				
+			int scoreStatus = 0; //积分是否同步到会员系统  0-否，1-是
+			if(result){
+				scoreStatus = 1;
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("storeNo", ecmStore.getStoreNo());
+				map.put("username", ecmStore.getUsername());
+				map.put("pointStatus", "1");
+				resultList.add(map);
+				logger.info("商家为:{}更新积分成功", ecmStore.getUsername());
+			}else{
+				logger.error("商家为:{}更新积分失败", ecmStore.getUsername());
+				throw new ServiceException(SettlementApiCode.SEND_STORE_SCORE_FAILE, BaseApiCode.getZhMsg(SettlementApiCode.SEND_STORE_SCORE_FAILE));
 			}
-		} catch (Exception e) {
-			logger.error("更新商家积分：{}", e.toString());
+			
+			//插入商家送积分记录
+			EcmMzfStoreRecord ecmMzfStoreRecord = new EcmMzfStoreRecord();
+			Timestamp date = new Timestamp(System.currentTimeMillis());
+			ecmMzfStoreRecord.setStoreNo(ecmStore.getStoreNo());
+			ecmMzfStoreRecord.setPhone(ecmStore.getUsername());
+			ecmMzfStoreRecord.setScore(Integer.parseInt(score));
+			ecmMzfStoreRecord.setScoreStatus(scoreStatus);
+			ecmMzfStoreRecord.setCreatedDate(date);
+			ecmMzfStoreRecord.setUpdatedDate(date);
+			agentService.insertStoreRecord(ecmMzfStoreRecord);
+			
 		}
 		return resultList;
 	}
@@ -447,7 +442,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 	 * param   flowCode-流水编号、agentCode-代理编号、agentDeposit-代理获得保证金、score-返还给个代积分、phone-手机号码、type-角色类型 1：区代、2：个代、agentRate-代理费比例
 	 */
 	private void addWater(int agentId, String flowCode, String agentCode, double agentDeposit, int score, String phone,
-			int type, int agentRate, String recNo, Timestamp opTime) throws DaoException {
+			int type, int agentRate, String recNo, Timestamp opTime)  {
 		EcmMzfAgentWater agentWater = new EcmMzfAgentWater();
 		agentWater.setAgentId(agentId);
 		agentWater.setAgentWaterId(flowCode);//流水编号
@@ -465,7 +460,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 
 	
 	@Override
-	public int createAccount(EcmMzfAccount ecmMzfAccount) throws DaoException {
+	public int createAccount(EcmMzfAccount ecmMzfAccount)  {
 		
 		//判断当前个代账户是否存在，如果不存在，则创建账户
 		EcmMzfAccount mzfAccount = agentService.findAccountByCode(ecmMzfAccount.getCode());

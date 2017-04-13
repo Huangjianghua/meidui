@@ -58,7 +58,7 @@ public class DrawController {
 	 * return  ResBodyData
 	 */
 	@PostMapping(value="/queryaccoutbalance")
-	public ResBodyData queryAccoutBalance(String code) throws Exception{
+	public ResBodyData queryAccoutBalance(String code) {
 		try {
 			Map<String, Object> accountResult = drawService.queryAccoutBalance(code);
 			return SettlementUtil.success(accountResult, "获取可提现金额成功");
@@ -77,7 +77,7 @@ public class DrawController {
 	 * return  ResBodyData
 	 */
 	@PostMapping(value = "/drawcash")
-	public ResBodyData drawCash(@Validated EcmMzfDraw ecmMzfDraw) throws Exception {
+	public ResBodyData drawCash(@Validated EcmMzfDraw ecmMzfDraw)  {
 		try {
 			
 			//提现手续费从配置表获取
@@ -170,7 +170,7 @@ public class DrawController {
 	 * return  ResBodyData
 	 */
 	@PostMapping(value="/querydrawcashbyid")
-	public ResBodyData queryDrawCashById(String drawCode) throws Exception{
+	public ResBodyData queryDrawCashById(String drawCode) {
 		try {
 			EcmMzfDraw drawDetail = drawService.queryDrawCashById(drawCode);
 			return SettlementUtil.success(drawDetail, "获取提现详情成功");
@@ -189,7 +189,7 @@ public class DrawController {
 	 * return  ResBodyData
 	 */
 	@PostMapping(value="/verifydrawcashbyid")
-	public ResBodyData verifyDrawCashById(EcmMzfDraw ecmmzfdraw) throws Exception{
+	public ResBodyData verifyDrawCashById(EcmMzfDraw ecmmzfdraw) {
 		
 		Map<String, Object> hashMap=new HashMap<String,Object>();
 		if(StringUtil.isEmpty(ecmmzfdraw.getDrawCode())){
@@ -227,7 +227,7 @@ public class DrawController {
 	 * return  ResBodyData
 	 */
 	@PostMapping(value="/rejectdrawcashbyid")
-	public ResBodyData rejectDrawCashById(EcmMzfDraw ecmmzfdraw) throws Exception{
+	public ResBodyData rejectDrawCashById(EcmMzfDraw ecmmzfdraw) {
 		
 		Map<String, Object> hashMap=new HashMap<String,Object>();
 		if(StringUtil.isEmpty(ecmmzfdraw.getDrawCode()) || StringUtil.isEmpty(ecmmzfdraw.getRemark())){
@@ -264,7 +264,7 @@ public class DrawController {
 	 * return  ResBodyData
 	 */
 	@PostMapping(value="/confirmdrawcashbyidbytype")
-	public ResBodyData confirmDrawCashByIdByType(EcmMzfDraw ecmmzfdraw) throws Exception{
+	public ResBodyData confirmDrawCashByIdByType(EcmMzfDraw ecmmzfdraw) {
 		
 		String msg="提现确认转账成功";
 		

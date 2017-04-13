@@ -24,7 +24,7 @@ public interface DrawService {
 	 * param   code
 	 * return  
 	 */
-	public Map<String, Object> queryAccoutBalance(String code) throws DaoException;
+	public Map<String, Object> queryAccoutBalance(String code) ;
 
 	
 	/**
@@ -34,7 +34,7 @@ public interface DrawService {
 	 * param   params
 	 * return  
 	 */
-	public List<EcmMzfDraw> queryDrawCash(Map<String, Object> params) throws DaoException;
+	public List<EcmMzfDraw> queryDrawCash(Map<String, Object> params) ;
 	
 
 	/**
@@ -44,7 +44,7 @@ public interface DrawService {
 	 * param   params
 	 * return  
 	 */
-	public int getDrawCount(Map<String,Object> params) throws DaoException;
+	public int getDrawCount(Map<String,Object> params) ;
 
 
 	/**
@@ -54,7 +54,7 @@ public interface DrawService {
 	 * param   drawCode
 	 * return  
 	 */
-	public EcmMzfDraw queryDrawCashById(String drawCode)throws DaoException;
+	public EcmMzfDraw queryDrawCashById(String drawCode);
 
 	
 	/**
@@ -64,7 +64,7 @@ public interface DrawService {
 	 * param   ecmmzfdraw
 	 * return  
 	 */
-	public Map<String, Object> verifyDrawCashById(EcmMzfDraw ecmmzfdraw)throws DaoException;
+	public Map<String, Object> verifyDrawCashById(EcmMzfDraw ecmmzfdraw);
 
 	
 	/**
@@ -74,7 +74,7 @@ public interface DrawService {
 	 * param   ecmmzfdraw
 	 * return  
 	 */
-	public Map<String, Object> rejectDrawCashById(EcmMzfDraw ecmmzfdrawinput)throws DaoException;
+	public Map<String, Object> rejectDrawCashById(EcmMzfDraw ecmmzfdrawinput);
 
 	
 	/**
@@ -84,7 +84,7 @@ public interface DrawService {
 	 * param   ecmmzfdrawinput
 	 * return  
 	 */
-	public Map<String, Object> confirmDrawCashByIdByType(EcmMzfDraw ecmmzfdrawinput)throws DaoException;
+	public Map<String, Object> confirmDrawCashByIdByType(EcmMzfDraw ecmmzfdrawinput);
 	
 
 	/**
@@ -94,7 +94,7 @@ public interface DrawService {
 	 * param   ecmMzfDraw
 	 * return  
 	 */
-	public boolean insertDrawInfo(EcmMzfDraw ecmMzfDraw) throws DaoException;
+	public boolean insertDrawInfo(EcmMzfDraw ecmMzfDraw) ;
 	
 	
 	/**
@@ -104,7 +104,7 @@ public interface DrawService {
 	 * param   ecmMzfDraw
 	 * return  
 	 */
-	public int insertDraw(EcmMzfDraw ecmMzfDraw) throws DaoException;
+	public int insertDraw(EcmMzfDraw ecmMzfDraw) ;
  
 	
 	/**
@@ -114,7 +114,7 @@ public interface DrawService {
 	 * param   ecmMzfDrawWater
 	 * return  
 	 */
-	public int insertDrawWater(EcmMzfDrawWater ecmMzfDrawWater) throws DaoException;
+	public int insertDrawWater(EcmMzfDrawWater ecmMzfDrawWater) ;
 	
 	
 	/**
@@ -124,7 +124,7 @@ public interface DrawService {
 	 * param   params
 	 * return  
 	 */
-	public int getDrawWaterCount(Map<String, Object> params) throws DaoException;
+	public int getDrawWaterCount(Map<String, Object> params) ;
 	
 
 	/**
@@ -134,7 +134,7 @@ public interface DrawService {
 	 * param   params
 	 * return  
 	 */
-	public int getCountByCode(Map<String,Object> params) throws DaoException;
+	public int getCountByCode(Map<String,Object> params) ;
 	
 	
 }

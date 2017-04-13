@@ -23,7 +23,7 @@ public interface MemberService {
 	 * param source 数据来源：1gw-壹购物，o2o-线下O2O，app-手机APP，md-美兑系统,md1gw-美兑壹购物
 	 * param order_id 流水号: 系统简称+代理编号+当前时间秒值，比如：DL+b001+1478260021
 	 * return  boolean
-	 * throws Exception
+	 * 
 	 */
     public Boolean addConsumePoints(String phone,String credit,String source,String order_id) throws ServiceException;
 
@@ -41,7 +41,7 @@ public interface MemberService {
 	 * Author: 许彦雄
 	 * Date:   2017年2月20日 下午3:38:26
 	 * return  
-	 * throws Exception
+	 * 
 	 */
     public void updateReferrerCash() throws ServiceException;
 }

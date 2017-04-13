@@ -2,7 +2,6 @@ package com.meiduimall.service.settlement.task;
 
 import java.text.SimpleDateFormat;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -11,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.settlement.common.CronExpression;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 import com.meiduimall.service.settlement.model.CreateBillLog;
@@ -57,15 +57,14 @@ public class BillTask {
 	 * Author: 许彦 雄
 	 * Date:   2017年3月14日 下午3:38:26   
 	 * return  
-	 * throws Exception
+	 * 
 	 */
 	//@Scheduled(cron = CronExpression.EVERY_5_MINUTE)
 	@Scheduled(cron = CronExpression.TIME_ZERO_HOUR_FIVE_MIN)
-	public void CreateBill() throws Exception {
+	public void CreateBill()  {
 		
 		Collection<String> orderSns=null;
 		try {
-			
 			orderSns=billService.createBills();
 		} catch (Exception e) {
 			log.error("billService.createBills()生成账单出错:" + e.toString());
@@ -86,13 +85,9 @@ public class BillTask {
 					log.error("shareProfitLogService.logCreateBillLog() 通知O2O结算状态STATUS_CODE_BILL errorLog!error:{}",e.getMessage());
 				}
 			}
-
-			
 			// 异步送一级推荐人1%现金余额奖励到会员系统。。。。
 			memberService.updateReferrerCash();
-
 		}
-
 	}
 
 	/**
@@ -106,13 +101,11 @@ public class BillTask {
 	 * Author: 许彦 雄
 	 * Date:   2017年3月14日 下午3:38:26   
 	 * return  
-	 * throws Exception
+	 * 
 	 */
 	//@Scheduled(cron = CronExpression.EVERY_5_MINUTE)
 	@Scheduled(cron = CronExpression.TIME_ZERO_HOUR_THIRTY_MIN)
-	public void mergeBilledWaters() throws Exception {
-		
-		Date billtime=sdf.parse(DateUtil.getUpDAY()); //账单日期
+	public void mergeBilledWaters(){
 		
 		//对生成账单当天的ecm_mzf_water表相同的 code,op_time,water_type记录进行分组，合并金额，删掉重复记录。主要用于修复：同一个用户既是区代又是跨区代分账后生成流水记录表时一个用户在同一时间点产生两天流水记录。
 		//String remark=sdf.format(billtime)+"账单";
@@ -121,11 +114,12 @@ public class BillTask {
 		
 		if(mergeWaterVOList!=null && !mergeWaterVOList.isEmpty()){
 			//mergeBilledWaters
+			String billTime = DateUtil.getUpDAY();//账单日期
 			try{
 				billService.mergeBilledWaters(mergeWaterVOList);
-				log.info("合并流水表中同一用户重复流水金额成功,账单日期:"+billtime);
-			}catch(Exception e){
-				log.error("合并流水表中同一用户重复流水金额失败,账单日期:"+billtime+" |"+e.toString());
+				log.info("合并流水表中同一用户重复流水金额成功,账单日期:" + billTime);
+			}catch(ServiceException e){
+				log.error("合并流水表中同一用户重复流水金额失败,账单日期:" + billTime + "|" + e.getMessage());
 			}
 		}
 

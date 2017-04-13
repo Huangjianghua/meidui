@@ -82,9 +82,9 @@ public class DepositRetryTask {
 	/**
 	 * 获取新个代送积分失败日志记录
 	 * @return
-	 * @throws Exception
+	 * @
 	 */
-	private Map<String, Object> getAgentRetry() throws Exception {
+	private Map<String, Object> getAgentRetry()  {
 		
 		int currentTimestamp = DateUtil.getCurrentTimeSec();
 		

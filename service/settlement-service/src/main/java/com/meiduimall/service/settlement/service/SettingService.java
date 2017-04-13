@@ -20,9 +20,9 @@ public interface SettingService {
 	 * Date:   2017年3月14日 下午3:38:26   
 	 * param systemSetting
 	 * return  EcmSystemSetting
-	 * throws Exception
+	 * 
 	 */
-	public EcmSystemSetting updatesystemsetting(EcmSystemSetting systemSetting) throws DaoException;
+	public EcmSystemSetting updatesystemsetting(EcmSystemSetting systemSetting) ;
 
 	/**
 	 * 功能描述:  查询分润比例配置列表接口
@@ -30,8 +30,8 @@ public interface SettingService {
 	 * Date:   2017年3月14日 下午3:38:26   
 	 * param systemSetting
 	 * return  List<EcmSystemSetting>
-	 * throws Exception
+	 * 
 	 */
-	public List<EcmSystemSetting> listsystemsetting(EcmSystemSetting input) throws DaoException;
+	public List<EcmSystemSetting> listsystemsetting(EcmSystemSetting input) ;
 	
 }

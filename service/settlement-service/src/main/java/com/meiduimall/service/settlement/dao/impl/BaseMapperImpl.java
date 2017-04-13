@@ -19,9 +19,8 @@ public class BaseMapperImpl extends SqlSessionDaoSupport implements BaseMapper {
         super.setSqlSessionFactory(sqlSessionFactory);  
     }
     
-    
     @Override
-	public <T, P> T selectOne(P params, String sqlTag) throws DaoException {
+	public <T, P> T selectOne(P params, String sqlTag) {
 		T rt = null;
 		try {
 			rt = getSqlSession().selectOne(sqlTag, params);
@@ -32,7 +31,7 @@ public class BaseMapperImpl extends SqlSessionDaoSupport implements BaseMapper {
 	}
 
 	@Override
-	public <T, P> List<T> selectList(P params, String sqlTag) throws DaoException {
+	public <T, P> List<T> selectList(P params, String sqlTag) {
 		List<T> rt = null;
 		try {
 			rt = getSqlSession().selectList(sqlTag, params);
@@ -43,7 +42,7 @@ public class BaseMapperImpl extends SqlSessionDaoSupport implements BaseMapper {
 	}
 	
 	@Override
-	public <T> Integer insert(T t, String sqlTag) throws DaoException {
+	public <T> Integer insert(T t, String sqlTag) {
 		Integer rt = null;
 		try {
 			rt = getSqlSession().insert(sqlTag, t);
@@ -54,7 +53,7 @@ public class BaseMapperImpl extends SqlSessionDaoSupport implements BaseMapper {
 	}
 
 	@Override
-	public <T> Integer insertBatch(List<T> ts, String sqlTag) throws DaoException {
+	public <T> Integer insertBatch(List<T> ts, String sqlTag) {
 		Integer rt = null;
 		try {
 			rt = getSqlSession().insert(sqlTag + "." + sqlTag, ts);
@@ -65,7 +64,7 @@ public class BaseMapperImpl extends SqlSessionDaoSupport implements BaseMapper {
 	}
 
 	@Override
-	public <P> Integer update(P params, String sqlTag) throws DaoException {
+	public <P> Integer update(P params, String sqlTag) {
 		Integer rt = null;
 		try {
 			rt = getSqlSession().update(sqlTag, params);
@@ -76,7 +75,7 @@ public class BaseMapperImpl extends SqlSessionDaoSupport implements BaseMapper {
 	}
 
 	@Override
-	public <P> Integer delete(P params, String sqlTag) throws DaoException {
+	public <P> Integer delete(P params, String sqlTag) {
 		Integer rt = null;
 		try {
 			rt = getSqlSession().delete(sqlTag, params);
@@ -87,7 +86,7 @@ public class BaseMapperImpl extends SqlSessionDaoSupport implements BaseMapper {
 	}
 
 	@Override
-	public <P> Integer deleteBatch(List<P> params, String sqlTag) throws DaoException {
+	public <P> Integer deleteBatch(List<P> params, String sqlTag) {
 		Integer rt = null;
 		try {
 			rt = getSqlSession().delete(sqlTag, params);
