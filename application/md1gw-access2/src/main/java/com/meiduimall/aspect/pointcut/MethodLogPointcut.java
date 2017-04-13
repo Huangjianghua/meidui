@@ -11,7 +11,7 @@ import org.aspectj.lang.annotation.Pointcut;
 @Aspect
 public class MethodLogPointcut {
 	
-	@Pointcut("execution(* com.meiduimall.application.catalog.controller.*.*(..))")
+	@Pointcut("execution(* com.meiduimall.application.mall.catalog.controller.*.*(..))")
 	public void pointcutLog() {
 		
 	}
