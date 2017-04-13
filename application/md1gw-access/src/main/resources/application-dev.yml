@@ -3,7 +3,7 @@ server :
   port : 20110
   
 # AOP
-spring :
+spring :  
   aop :
     auto : true
     proxy-target-class : true
