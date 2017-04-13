@@ -38,7 +38,7 @@ public class GoodsRecommendController {
 	 * @return
 	 */
 	@RequestMapping("/getRecommend")
-	public String getFirstRecommendGoods(HttpServletResponse response, String type,
+	public String getFirstRecommendGoods(String type,
 			@RequestParam(value = "req_id", required = false, defaultValue = "1") String req_id) {
 		try {
 			int reco_type = Integer.parseInt(type);
