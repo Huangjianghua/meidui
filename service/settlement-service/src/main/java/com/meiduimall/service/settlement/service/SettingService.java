@@ -2,7 +2,6 @@ package com.meiduimall.service.settlement.service;
 
 import java.util.List;
 
-import com.meiduimall.exception.DaoException;
 import com.meiduimall.service.settlement.model.EcmSystemSetting;
 
 /**
@@ -22,7 +21,7 @@ public interface SettingService {
 	 * return  EcmSystemSetting
 	 * 
 	 */
-	public EcmSystemSetting updatesystemsetting(EcmSystemSetting systemSetting) ;
+	public EcmSystemSetting updatesystemsetting(EcmSystemSetting systemSetting);
 
 	/**
 	 * 功能描述:  查询分润比例配置列表接口
@@ -32,6 +31,6 @@ public interface SettingService {
 	 * return  List<EcmSystemSetting>
 	 * 
 	 */
-	public List<EcmSystemSetting> listsystemsetting(EcmSystemSetting input) ;
+	public List<EcmSystemSetting> listsystemsetting(EcmSystemSetting input);
 	
 }
