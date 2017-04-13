@@ -15,7 +15,6 @@ import com.meiduimall.service.catalog.annotation.HasMemId;
 import com.meiduimall.service.catalog.entity.SysuserAccount;
 import com.meiduimall.service.catalog.request.ShopProductRequest;
 import com.meiduimall.service.catalog.service.ShopService;
-import com.meiduimall.service.catalog.util.StringUtil;
 
 @RestController
 @RequestMapping("/mall/catalog-service/v1/shopInfo")
@@ -34,7 +33,7 @@ public class ShopController {
 	 * 
 	 * @param shop_id
 	 * @param mem_id
-	 *            会员系统ID 
+	 *            会员系统ID
 	 * @return
 	 */
 	@RequestMapping(value = "/getShopDetail")
@@ -145,7 +144,8 @@ public class ShopController {
 	 * 
 	 * @param shop_id
 	 * @param order_by
-	 *            排序字段：store 按销量，updateTime 按修改时间，price 按价格，point 按积分；默认 store 按销量
+	 *            排序字段：store 按销量，updateTime 按修改时间，price 按价格，point 按积分；默认 store
+	 *            按销量
 	 * @param column
 	 *            排序规则：desc 降序，asc 升序；默认 desc 降序
 	 * @param pageNo
@@ -157,16 +157,6 @@ public class ShopController {
 	@RequestMapping(value = "/getProductList")
 	public ResBodyData getShopProductList(@Validated ShopProductRequest param) {
 		try {
-			logger.info("获取店铺商品列表，店铺ID：" + param.getShop_id());
-
-			if (StringUtil.isEmptyByString(param.getOrder_by())) {
-				param.setOrder_by("store");
-			}
-
-			if (StringUtil.isEmptyByString(param.getColumn())) {
-				param.setColumn("desc");
-			}
-
 			return shopService.getShopProductList(param);
 		} catch (Exception e) {
 			logger.error("获取店铺商品列表，服务器异常：" + e);

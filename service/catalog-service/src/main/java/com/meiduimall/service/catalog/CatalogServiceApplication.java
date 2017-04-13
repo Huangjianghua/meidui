@@ -15,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 @EnableTransactionManagement
 @EnableAsync
-@ComponentScan({ "com.meiduimall" })
+@ComponentScan({ "com.meiduimall.service.catalog" })
 @EnableEurekaClient
 public class CatalogServiceApplication extends SpringBootServletInitializer {
 

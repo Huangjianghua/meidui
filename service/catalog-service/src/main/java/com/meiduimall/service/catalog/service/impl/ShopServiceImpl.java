@@ -20,11 +20,14 @@ import com.meiduimall.service.catalog.entity.SysuserShopFav;
 import com.meiduimall.service.catalog.entity.SysuserShopFavExample;
 import com.meiduimall.service.catalog.request.ShopProductRequest;
 import com.meiduimall.service.catalog.result.ChildShopCat;
+import com.meiduimall.service.catalog.result.GoodsDetailResult;
 import com.meiduimall.service.catalog.result.JsonItemDetailResult_ShopData;
 import com.meiduimall.service.catalog.result.ParentShopCat;
 import com.meiduimall.service.catalog.result.ShopCatResult;
+import com.meiduimall.service.catalog.result.ShopProductList;
 import com.meiduimall.service.catalog.service.ShopService;
 import com.meiduimall.service.catalog.service.common.ShopCommonService;
+import com.meiduimall.service.catalog.util.StringUtil;
 
 @Service
 public class ShopServiceImpl implements ShopService {
@@ -218,7 +221,65 @@ public class ShopServiceImpl implements ShopService {
 	public ResBodyData getShopProductList(ShopProductRequest param) {
 		ResBodyData result = new ResBodyData();// 最终返回的数据对象
 		try {
-			
+			ShopProductList data = new ShopProductList();
+
+			// 设置排序字段
+			if (StringUtil.isEmptyByString(param.getOrder_by())) {
+				param.setOrder_by("store");
+			}
+			switch (param.getOrder_by()) {
+			case "updateTime":// 按修改时间排序
+				param.setOrder_by("modified_time");
+				break;
+			case "price":// 按价格排序
+				param.setOrder_by("price");
+				break;
+			case "point":// 按积分排序
+				param.setOrder_by("point");
+				break;
+			default:// 默认：按销量排序
+				param.setOrder_by("sold_quantity");
+				break;
+			}
+
+			// 设置排序规则--升序或者降序
+			if (StringUtil.isEmptyByString(param.getColumn())) {
+				param.setColumn("desc");
+			}
+			switch (param.getColumn()) {
+			case "asc":// 升序
+				param.setColumn("asc");
+				break;
+			default:// 默认：降序
+				param.setColumn("desc");
+				break;
+			}
+
+			// 处理分页
+			if (param.getPageNo() == null || param.getPageNo().intValue() == 0) {
+				param.setPageNo(1);
+			}
+			if (param.getPageSize() == null || param.getPageSize().intValue() == 0) {
+				param.setPageSize(20);
+			}
+			param.setLimitBegin((param.getPageNo().intValue() - 1) * param.getPageSize().intValue());
+
+			// 查询商品总数量
+			int itemTotal = baseDao.selectOne(param, "SysitemItemMapper.selectItemCountByShopInfo");
+			int totalPage = (itemTotal + param.getPageSize() - 1) / param.getPageSize();
+
+			// 查询商品列表
+			List<GoodsDetailResult> productList = baseDao.selectList(param, "SysitemItemMapper.selectItemByShopInfo");
+
+			data.setPageNo(param.getPageNo());
+			data.setPageSize(param.getPageSize());
+			data.setTotalPage(totalPage);
+			data.setProductList(productList);
+
+			result.setData(data);
+			result.setStatus(BaseApiCode.SUCCESS);
+			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.SUCCESS));
+
 		} catch (Exception e) {
 			logger.error("获取店铺商品列表，service报异常：" + e);
 			result.setStatus(BaseApiCode.OPERAT_FAIL);
