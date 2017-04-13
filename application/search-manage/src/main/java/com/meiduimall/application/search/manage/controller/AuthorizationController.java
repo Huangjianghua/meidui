@@ -562,7 +562,6 @@ public class AuthorizationController extends BaseController {
 	 */
 	private List<OAuth.Parameter> buildingBasicParameters(JSONObject json) {
 		List<OAuth.Parameter> list = new ArrayList<OAuth.Parameter>();
-
 		list.add(new Parameter("oauth_signature_method", json.getString("oauth_signature_method")));
 		list.add(new Parameter("oauth_accessor_secret", json.getString("oauth_accessor_secret")));
 		list.add(new Parameter("oauth_consumer_key", json.getString("oauth_consumer_key")));

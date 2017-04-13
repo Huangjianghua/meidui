@@ -1,14 +1,9 @@
 package com.meiduimall.application.search.manage.utility;
-
 import java.sql.Timestamp;
-
 import java.util.ArrayList;
 import java.util.List;
 import net.sf.json.JSONObject;
-
 import org.apache.log4j.Logger;
-
-import com.meiduimall.application.search.manage.cache.XFCSessionManager;
 import com.meiduimall.application.search.manage.constant.Constant;
 import com.meiduimall.application.search.manage.oauth.OAuth;
 import com.meiduimall.application.search.manage.oauth.OAuthMessage;
@@ -17,9 +12,7 @@ import com.meiduimall.application.search.manage.oauth.signature.OAuthSignatureMe
 
 public class XFCUtil {
 
-	
 	private static Logger log = Logger.getLogger(XFCUtil.class);
-	
 
 	public static double getxfc() {
 		try {
@@ -54,54 +47,8 @@ public class XFCUtil {
 		return -1;
 	}
 	
-	public static double getXfcPrice() {
-		try {
-			double xfc = XFCUtil.getxfc();
-			if (xfc > 0) {
-				XFCSessionManager.put("xfc", xfc);
-				return xfc;
-			} else {
-				int time = 30*1000;
-				for (int i = 1;; i++) {
-					// 5次以内30秒重新请求
-					if (i <= 5) {
-						
-					} else if (i > 5 && i <= 10) {
-						// 大于5次小于10次间隔1分钟
-						time = 60*1000;
-					} else if(i > 10 && i <= 20) {
-						time = 2*60*1000;
-					} else {
-						time = 5*60*1000;
-					}
-					Thread.sleep(time);
-					log.info("第" + i + "次重新获取xfc价格");
-					xfc = XFCUtil.getxfc();
-					if (xfc > 0) {
-						XFCSessionManager.put("xfc", xfc);
-						return xfc;
-					}
-				}
-			}
-		} catch (Exception e) {
-			log.error("获取XFC价格异常", e);
-		}
-		return -1;
-	}
-    
-	/**
-	 * Description : 
-	 * Created By : pjl 
-	 * Creation Time : 2016年8月11日 下午12:12:25 
-	 * 
-	 * @param price		销售价
-	 * @param costPrice 成本价
-	 * @param rate		返利比率
-	 * @return 
-	 */
-	public static double getItemXFC(double price, double costPrice, int rate) {
-		return (price - costPrice) * (rate / 100.0) / new Double(XFCSessionManager.get("xfc").toString());
-	}
+
+
 	
     private static String getParams(JSONObject json) {
     	StringBuffer buff = new StringBuffer();
