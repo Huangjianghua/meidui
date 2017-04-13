@@ -31,7 +31,7 @@ public class SearchLogTask {
 		int count = 0;
 		try {
 			String path = LoadPropertyUtil.getProperty("log4j.properties", "log4j.appender.search.File");
-			String charset = LoadPropertyUtil.getProperty("config.properties", "log_char_set");
+			String charset = "utf-8";
 			path = new File(path).getCanonicalPath();
 			List<String> logs = LogReaderUtil.readLog(path, charset);
 			List<SearchLog> searchLogs = new ArrayList<SearchLog>();

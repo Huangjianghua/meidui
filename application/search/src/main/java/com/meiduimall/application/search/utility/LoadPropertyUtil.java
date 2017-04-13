@@ -9,9 +9,8 @@ public class LoadPropertyUtil {
 
 	/**
 	 * Properties 读取公共方法
-	 * 
 	 * @param fileName
-	 *            properties文件名称
+	 * properties文件名称
 	 * @return Map<String, String>
 	 * @throws Exception
 	 */

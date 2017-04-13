@@ -21,7 +21,7 @@ import com.meiduimall.application.search.manage.constant.SysConstant;
  * Date:     2017年4月11日 下午3:41:29
  * Description: 全局参数验证不通过的处理
  */
-@ControllerAdvice(basePackages = "com.meiduimall.application.search.manage.controller")
+@ControllerAdvice
 @ResponseBody
 public class GlobalExceptionHandler {
 	
