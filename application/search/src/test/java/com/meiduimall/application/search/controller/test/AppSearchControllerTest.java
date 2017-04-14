@@ -35,6 +35,7 @@ public class AppSearchControllerTest {
 	 * @Description: 測試search方法
 	 * @Author: jianhua.huang
 	 * @Date: 2017年4月14日 下午4:46:38
+	 * 
 	 */
 	@Test
 	public void testSearch() throws Exception {
