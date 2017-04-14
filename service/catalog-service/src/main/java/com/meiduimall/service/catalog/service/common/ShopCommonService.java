@@ -10,7 +10,7 @@ import com.meiduimall.service.catalog.dao.BaseDao;
 import com.meiduimall.service.catalog.entity.IdAndMemId;
 import com.meiduimall.service.catalog.entity.SysrateDsrWithBLOBs;
 import com.meiduimall.service.catalog.entity.SysshopShopWithBLOBs;
-import com.meiduimall.service.catalog.result.JsonItemDetailResult_ShopData;
+import com.meiduimall.service.catalog.result.JsonItemDetailResultShopData;
 import com.meiduimall.service.catalog.util.ParseSysRateDsrInfo;
 
 /**
@@ -30,7 +30,7 @@ public class ShopCommonService {
 	 * @return
 	 * @throws Exception
 	 */
-	public static JsonItemDetailResult_ShopData getJsonItemDetailResult_ShopData(BaseDao baseDao, Integer shopId,
+	public static JsonItemDetailResultShopData getJsonItemDetailResult_ShopData(BaseDao baseDao, Integer shopId,
 			String memId) {
 		
 		// 查询店铺信息
@@ -40,7 +40,7 @@ public class ShopCommonService {
 			return null;
 		}
 		
-		JsonItemDetailResult_ShopData shopData = new JsonItemDetailResult_ShopData();
+		JsonItemDetailResultShopData shopData = new JsonItemDetailResultShopData();
 
 		SysrateDsrWithBLOBs rateDsrWithBLOBs = baseDao.selectOne(new Long(shopId.longValue()),
 				"SysrateDsrMapper.selectByPrimaryKey");
@@ -99,7 +99,7 @@ public class ShopCommonService {
 			// 处理token
 			IdAndMemId idAndMemId = new IdAndMemId();
 			idAndMemId.setId(shopId.intValue());
-			idAndMemId.setMem_id(memId);
+			idAndMemId.setMemId(memId);
 			int count = baseDao.selectOne(idAndMemId, "SysuserShopFavMapper.selectCountByItemIdAndMemId");
 			if (count > 0) {
 				shopData.setIs_collect("1");

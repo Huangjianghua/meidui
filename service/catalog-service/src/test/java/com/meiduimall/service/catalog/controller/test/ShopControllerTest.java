@@ -13,11 +13,11 @@ import com.meiduimall.service.catalog.test.BaseTest;
 public class ShopControllerTest extends BaseTest {
 	
 	/**
-	 * 根据店铺shop_id，获取店铺信息
+	 * 测试getShopDetail---正常测试
 	 * @throws Exception
 	 */
 	@Test
-	public void testGetShopDetail1() throws Exception {
+	public void getShopDetail_test_01() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/mall/catalog-service/v1/shopInfo/getShopDetail")
 				.param("shop_id", "600")
@@ -33,11 +33,11 @@ public class ShopControllerTest extends BaseTest {
 	}
 	
 	/**
-	 * 根据店铺shop_id，获取店铺信息
+	 * 测试getShopDetail---没有mem_id测试
 	 * @throws Exception
 	 */
 	@Test
-	public void testGetShopDetail2() throws Exception {
+	public void getShopDetail_test_02() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/mall/catalog-service/v1/shopInfo/getShopDetail")
 				.param("shop_id", "600"))
@@ -52,11 +52,11 @@ public class ShopControllerTest extends BaseTest {
 	}
 	
 	/**
-	 * 根据店铺shop_id，获取店铺信息
+	 * 测试getShopDetail---没有shop_id测试
 	 * @throws Exception
 	 */
 	@Test
-	public void testGetShopDetail3() throws Exception {
+	public void getShopDetail_test_03() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/mall/catalog-service/v1/shopInfo/getShopDetail")
 				.param("shop_id", ""))
@@ -71,11 +71,11 @@ public class ShopControllerTest extends BaseTest {
 	}
 	
 	/**
-	 * 店铺收藏或者取消收藏
+	 * 测试collectOrCancelShop---店铺不存在测试
 	 * @throws Exception
 	 */
 	@Test
-	public void testCollectOrCancelShop1() throws Exception {
+	public void collectOrCancelShop_test_01() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/mall/catalog-service/v1/shopInfo/collectShop")
 				.param("shop_id", "60001")
@@ -92,11 +92,11 @@ public class ShopControllerTest extends BaseTest {
 	}
 	
 	/**
-	 * 店铺收藏或者取消收藏
+	 * 测试collectOrCancelShop---收藏测试
 	 * @throws Exception
 	 */
 	@Test
-	public void testCollectOrCancelShop2() throws Exception {
+	public void collectOrCancelShop_test_02() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/mall/catalog-service/v1/shopInfo/collectShop")
 				.param("shop_id", "611")
@@ -113,11 +113,11 @@ public class ShopControllerTest extends BaseTest {
 	}
 	
 	/**
-	 * 店铺收藏或者取消收藏
+	 * 测试collectOrCancelShop---取消收藏
 	 * @throws Exception
 	 */
 	@Test
-	public void testCollectOrCancelShop3() throws Exception {
+	public void collectOrCancelShop_test_03() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/mall/catalog-service/v1/shopInfo/collectShop")
 				.param("shop_id", "600")
@@ -134,11 +134,11 @@ public class ShopControllerTest extends BaseTest {
 	}
 	
 	/**
-	 * 店铺收藏或者取消收藏
+	 * 测试collectOrCancelShop---没有mem_id测试
 	 * @throws Exception
 	 */
 	@Test
-	public void testCollectOrCancelShop4() throws Exception {
+	public void collectOrCancelShop_test_04() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/mall/catalog-service/v1/shopInfo/collectShop")
 				.param("shop_id", "600")
@@ -155,11 +155,11 @@ public class ShopControllerTest extends BaseTest {
 	}
 	
 	/**
-	 * 获取店铺自定义商品分类
+	 * 测试getShopProductCatalog---正常测试
 	 * @throws Exception
 	 */
 	@Test
-	public void testgetShopProductCatalog1() throws Exception {
+	public void getShopProductCatalog_test_01() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/mall/catalog-service/v1/shopInfo/getShopCatalog")
 				.param("shop_id", "600"))
@@ -174,11 +174,11 @@ public class ShopControllerTest extends BaseTest {
 	}
 	
 	/**
-	 * 获取店铺自定义商品分类
+	 * 测试getShopProductCatalog---店铺不存在
 	 * @throws Exception
 	 */
 	@Test
-	public void testgetShopProductCatalog2() throws Exception {
+	public void getShopProductCatalog_test_02() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/mall/catalog-service/v1/shopInfo/getShopCatalog")
 				.param("shop_id", "60011"))
@@ -193,14 +193,95 @@ public class ShopControllerTest extends BaseTest {
 	}
 	
 	/**
-	 * 获取店铺自定义商品分类
+	 * 测试getShopProductCatalog---没有shop_id测试
 	 * @throws Exception
 	 */
 	@Test
-	public void testgetShopProductCatalog3() throws Exception {
+	public void getShopProductCatalog_test_03() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/mall/catalog-service/v1/shopInfo/getShopCatalog")
 				.param("shop_id", ""))
+				.andExpect(status().isOk());
+		
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+	
+	/**
+	 * 测试getShopProductList---没有shop_id测试
+	 * @throws Exception
+	 */
+	@Test
+	public void getShopProductList_test_01() throws Exception {
+		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
+				.post("/mall/catalog-service/v1/shopInfo/getProductList")
+				.param("shop_id", ""))
+				.andExpect(status().isOk());
+		
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+	
+	/**
+	 * 测试getShopProductList---正常测试
+	 * @throws Exception
+	 */
+	@Test
+	public void getShopProductList_test_02() throws Exception {
+		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
+				.post("/mall/catalog-service/v1/shopInfo/getProductList")
+				.param("shop_id", "14"))
+				.andExpect(status().isOk());
+		
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+	
+	/**
+	 * 测试getShopProductList---增加shop_cat_id
+	 * @throws Exception
+	 */
+	@Test
+	public void getShopProductList_test_03() throws Exception {
+		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
+				.post("/mall/catalog-service/v1/shopInfo/getProductList")
+				.param("shop_id", "14")
+				.param("shop_cat_id", "2432")
+				)
+				.andExpect(status().isOk());
+		
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+	
+	/**
+	 * 测试getShopProductList---增加shop_cat_id，增加排序方式
+	 * @throws Exception
+	 */
+	@Test
+	public void getShopProductList_test_04() throws Exception {
+		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
+				.post("/mall/catalog-service/v1/shopInfo/getProductList")
+				.param("shop_id", "14")
+				.param("order_by", "updateTime")
+				.param("column", "asc")
+				)
 				.andExpect(status().isOk());
 		
 		results.andDo(new ResultHandler() {

@@ -74,11 +74,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public JSONObject getMemberBasicInfo(String memId) throws Exception {
+	public JSONObject getMemberBasicInfo(String token) throws Exception {
 		String url = myProps.getUserCenterUrl() + "/member/front_user_center/v1/get_member_basic_info";
-		url = url + "?memId={memId}&clientID={clientID}&timestamp={timestamp}&sign={sign}";
+		url = url + "?token={token}&clientID={clientID}&timestamp={timestamp}&sign={sign}";
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("memId", memId);
+		map.put("token", token);
 		Map<String, String> commonMap = CommonUtil.CommonMap(map);
 		Logger.info("组装发送数据 :%s", commonMap);
 		JSONObject postForObject = restTemplate.getForObject(url, JSONObject.class, commonMap);
@@ -88,17 +88,15 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public JSONObject validePayPwd(String memId, String payPwd) throws Exception {
+		Logger.info("解密之后:%s", payPwd);
 		String url = myProps.getRouteServiceUrl() + "/member/account_service/v1/valide_pay_pwd";
-		HttpHeaders headers = new HttpHeaders();
-		MediaType type = MediaType.parseMediaType(HttpRConst.MEDIATYPE_JSON_FOR_APP);
-		headers.setContentType(type);
-		JSONObject json = new JSONObject();
-		json.put("memId", memId);
-		json.put("pay_pwd", payPwd);
-		JSONObject commonJSON = CommonUtil.CommonJSON(json);
-		HttpEntity<JSONObject> formEntity = new HttpEntity<JSONObject>(commonJSON, headers);
-		Logger.info("验证支付密码组装发送数据 :%s", commonJSON);
-		JSONObject postForObject = restTemplate.postForObject(url, formEntity, JSONObject.class);
+		url = url + "?memId={memId}&pay_pwd={pay_pwd}&clientID={clientID}&timestamp={timestamp}&sign={sign}";
+		Map<String, String> hashMap = new HashMap<String,String>();
+		hashMap.put("memId", memId);
+		hashMap.put("pay_pwd", payPwd);
+		Map<String, String> commonMap = CommonUtil.CommonMap(hashMap);
+		Logger.info("验证支付密码组装发送数据 :%s", commonMap);
+		JSONObject postForObject = restTemplate.getForObject(url, JSONObject.class, commonMap);
 		Logger.info("验证支付密码请求结果 :%s", postForObject);
 		return postForObject;
 
