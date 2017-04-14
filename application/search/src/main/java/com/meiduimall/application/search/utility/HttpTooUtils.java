@@ -10,7 +10,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 public class HttpTooUtils {
-	
+	 
 	public static String sendGet(String url){
 		StringBuffer bufferRes = new StringBuffer();
 		try {
