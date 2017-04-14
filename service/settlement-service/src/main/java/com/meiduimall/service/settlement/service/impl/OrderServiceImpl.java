@@ -80,7 +80,7 @@ public class OrderServiceImpl implements OrderService {
 			throw new ServiceException(SettlementApiCode.SELLER_NAME_ISNULL, BaseApiCode.getZhMsg(SettlementApiCode.SELLER_NAME_ISNULL));
 		}
 		// 商家让利折扣
-		BigDecimal serviceRate =new BigDecimal(ecmOrder.getServiceFee());
+		BigDecimal serviceRate = new BigDecimal(ecmOrder.getServiceFee());
 		if (null == serviceRate || serviceRate.compareTo(new BigDecimal(0)) <= 0) {
 			log.error("商家收益比例为空!略过该条数据");
 			throw new ServiceException(SettlementApiCode.SERVICE_RATE_ISNULL, BaseApiCode.getZhMsg(SettlementApiCode.SERVICE_RATE_ISNULL));
