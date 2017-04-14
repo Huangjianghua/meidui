@@ -39,7 +39,6 @@ public class AppSearchControllerTest {
 	@Test
 	public void testSearch() throws Exception {
 		appSearchParam.setKeyword("服装");
-		
 		ResBodyData resBodyData = appSearchController.search(appSearchParam);
 		Assert.assertEquals(BaseApiCode.SUCCESS, resBodyData.getStatus());
 	}
