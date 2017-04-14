@@ -163,102 +163,47 @@ public class SmsServiceImpl implements SmsService {
    * @throws Exception
    */
   public void sendSmsMessage(CommonShortMessageModel model)  {
-//    ResultBody result = new ResultBody(ResultBody.SUCCESS, "success");
-
-//    String tempMsg = redisService.get(model.getPhones() + model.getTemplateId() + model.getParams()) == null ? "" : redisService.get(model.getPhones() + model.getTemplateId() + model.getParams()).toString();
     String tempMsg = RedisUtils.get(model.getPhones() + model.getTemplateId() + model.getParams());
+    
     if (StringUtils.isNotEmpty(tempMsg)) {
       throw new ServiceException(SmsApiCode.REPEATING,BaseApiCode.getZhMsg(SmsApiCode.REPEATING));
-//      return result;
     }
-
+    
     //获取消息模板
     String templateListJsonStr = messageChannelService.getTemplateList(SysConstant.MESSAGE_TEMPLATE_KEY);
     if (StringUtils.isEmpty(templateListJsonStr)) {
       throw new ServiceException(SmsApiCode.NOT_FOUND_TEMPLATES,SmsApiCode.getZhMsg(SmsApiCode.NOT_FOUND_TEMPLATES));
-//      return result;
     }
-
     TemplateInfo ti = getTemplateByKey(model.getTemplateId(), templateListJsonStr);
-
     if (StringUtils.isEmpty(ti.getTemplateKey()) || StringUtils.isEmpty(ti.getTemplateContent())) {
       throw new ServiceException(SmsApiCode.NOT_FOUND_TEMPLATES,SmsApiCode.getZhMsg(SmsApiCode.NOT_FOUND_TEMPLATES));
-//      return result;
     }
-
     String content = ti.getTemplateContent();
     content = replacesContent(model.getParams(), content);
-
-
     String params = "";
     if (StringUtils.isNotEmpty(model.getParams())) {
       params = aliDaYuParamsToJson(false, model.getParams());
     }
     //设置发送历史记录值
     SendSmsHistory ssh = setHistory(model);
-        /**
-         * 首先阿里云发送发送短信，如果发送失败则调用漫道发送 </br>
-         * 全部失败则返回失败信息
-         */
-        boolean flag = aliyunService.Send(model.getPhones(), ti.getExternalTemplateNo(), params);
-        logger.info("阿里大于发送短信结果（flag）：", flag);
-        String res = "";
-        if (!flag) {
-          res = zucpService.send(model.getPhones(), content);
-          logger.info("漫道发送短信结果（res）：", res);
-          if (Long.parseLong(res) < 0) {
-            throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER,BaseApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
-//            return result;
-          }
-        }
-        RedisUtils.setex(model.getPhones() + model.getTemplateId() + model.getParams(), DateUtils.parseDuration(ti.getEffectiveTime()) , content);
-
-        ssh.setRequestParams(model.getPhones() + "ali send param:" + ti.getExternalTemplateNo() + params + ";mandao send param:" + content);
-        ssh.setResultMsg("ali result, flag:" + String.valueOf(flag) + ";mandao result, res:" + String.valueOf(res));
-//    try {
-        sendSmsHistoryMapper.insert(ssh);
-
-//        return result;
-//      } else {
-//
-//        ssh.setChannelId(model.getSupplierId());
-//        boolean flag = false;
-//        String res = "-1";
-//        if (SysConstant.MESSAGE_TEMPLATE_ALI_KEY.equals(model.getSupplierId())) {
-//          flag = aliyunService.Send(model.getPhones(), ti.getExternalTemplateNo(), params);
-//          Logger.info("阿里大于发送短信结果（flag）：%s", String.valueOf(flag));
-//          if (!flag) {
-//            result = new ResultBody(ResultBody.FAILED, "发送短信失败！");
-//            return result;
-//          }
-//        } else if (SysConstant.MESSAGE_TEMPLATE_MANDAO_KEY.equals(model.getSupplierId())) {
-//          res = zucpService.send(model.getPhones(), content);
-//          Logger.info("漫道发送短信结果（res）：%s", String.valueOf(res));
-//          if (Long.parseLong(res) < 0) {
-//            result = new ResultBody(ResultBody.FAILED, "发送短信失败！");
-//            return result;
-//          }
-//        } else {
-//          result = new ResultBody(ResultBody.FAILED, "短信渠道错误！");
-//          return result;
-//        }
-//        redisService.set(model.getPhones() + model.getTemplateId() + model.getParams(), content, ti.getEffectiveTime());
-//
-//        ssh.setRequestParams(model.getPhones() + "ali send param:" + ti.getExternalTemplateNo() + params + ";mandao send param:" + content);
-//        ssh.setResultMsg("ali result, flag:" + String.valueOf(flag) + ";mandao result, res:" + String.valueOf(res));
-//        sendSmsHistoryMapper.insert(ssh);
-//
-//      }
-
-//    } catch (Exception e) {
-//      logger.error("发送普通短信时服务发生异常", e);
-//
-//      ssh.setRequestParams(model.getPhones() + "ali send param:" + ti.getExternalTemplateNo() + params + ";mandao send param:" + content);
-//      ssh.setResultMsg("发送普通短信时服务发生异常：" + e.toString());
-//      sendSmsHistoryMapper.insert(ssh);
-//    }
-//    return result;
-
+    /**
+     * 首先阿里云发送发送短信，如果发送失败则调用漫道发送 </br>
+     * 全部失败则返回失败信息
+     */
+    boolean flag = aliyunService.Send(model.getPhones(), ti.getExternalTemplateNo(), params);
+    logger.info("阿里大于发送短信结果（flag）：", flag);
+    String res = "";
+    if (!flag) {
+      res = zucpService.send(model.getPhones(), content);
+      logger.info("漫道发送短信结果（res）：", res);
+      if (Long.parseLong(res) < 0) {
+        throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER,BaseApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
+      }
+    }
+    RedisUtils.setex(model.getPhones() + model.getTemplateId() + model.getParams(), DateUtils.parseDuration(ti.getEffectiveTime()) , content);
+    ssh.setRequestParams(model.getPhones() + "ali send param:" + ti.getExternalTemplateNo() + params + ";mandao send param:" + content);
+    ssh.setResultMsg("ali result, flag:" + String.valueOf(flag) + ";mandao result, res:" + String.valueOf(res));
+    sendSmsHistoryMapper.insert(ssh);
   }
 
 
@@ -289,7 +234,6 @@ public class SmsServiceImpl implements SmsService {
     if (StringUtils.isNotEmpty(model.getParams())) {
       content = replacesContent(model.getParams(), content);
     }
-
     String params = "";
     if (StringUtils.isNotEmpty(model.getParams())) {
       params = aliDaYuParamsToJson(true, result + "," + model.getParams());
