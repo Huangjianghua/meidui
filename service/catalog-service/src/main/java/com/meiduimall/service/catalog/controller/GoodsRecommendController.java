@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.core.util.HttpHeaderTools;
 import com.meiduimall.service.catalog.constant.ServiceCatalogApiCode;
 import com.meiduimall.service.catalog.service.GoodsRecommendService;
+import com.meiduimall.service.catalog.util.HttpHeaderTools;
 
 /**
  * 商品推荐相关操作

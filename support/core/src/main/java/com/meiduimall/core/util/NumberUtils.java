@@ -7,7 +7,7 @@ import java.text.DecimalFormat;
  * @创建时间：2016/3/21
  * @描述：数字小数点操作工具类
  */
-public class NumberFormatUtil {
+public class NumberUtils {
 
     /**
      * 保留两位小数点，自动四舍五入

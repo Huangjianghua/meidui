@@ -3,7 +3,7 @@ package com.meiduimall.service.catalog.service.common;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
-import com.meiduimall.core.util.NumberFormatUtil;
+import com.meiduimall.core.util.NumberUtils;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.catalog.constant.ServiceCatalogApiCode;
 import com.meiduimall.service.catalog.dao.BaseDao;
@@ -51,9 +51,9 @@ public class ShopCommonService {
 				float fDeliverySpeedDsr = ParseSysRateDsrInfo.getValue(rateDsrWithBLOBs.getDeliverySpeedDsr());
 				float fAttitudeDsr = ParseSysRateDsrInfo.getValue(rateDsrWithBLOBs.getAttitudeDsr());
 
-				shopData.setTally_dsr(NumberFormatUtil.formatString(fTallyDsr, 1));
-				shopData.setDelivery_speed_dsr(NumberFormatUtil.formatString(fDeliverySpeedDsr, 1));
-				shopData.setAttitude_dsr(NumberFormatUtil.formatString(fAttitudeDsr, 1));
+				shopData.setTally_dsr(NumberUtils.formatString(fTallyDsr, 1));
+				shopData.setDelivery_speed_dsr(NumberUtils.formatString(fDeliverySpeedDsr, 1));
+				shopData.setAttitude_dsr(NumberUtils.formatString(fAttitudeDsr, 1));
 			} catch (Exception e) {
 				throw new ServiceException(ServiceCatalogApiCode.SHOP_DATA_EXCEPTION);
 			}

@@ -16,7 +16,7 @@ import com.meiduimall.core.ResBodyData;
 import com.meiduimall.service.financial.constant.ServiceFinancialApiCode;
 import com.meiduimall.service.financial.entity.DownloadStatistics;
 import com.meiduimall.service.financial.service.DownloadStatisticsService;
-import com.meiduimall.service.financial.util.HttpTools;
+import com.meiduimall.service.financial.util.HttpHeaderTools;
 
 @RestController
 @RequestMapping("/financial/financial-system-service/v1/statistics")
@@ -53,7 +53,7 @@ public class DownloadStatisticsController {
 			DownloadStatistics bean = new DownloadStatistics();
 			bean.setPortal(Integer.parseInt(portal.trim()));
 
-			String ip = HttpTools.getIpAddr(request);
+			String ip = HttpHeaderTools.getIpAddr(request);
 			bean.setIp(ip);
 
 			String userAgent = request.getHeader("User-Agent");

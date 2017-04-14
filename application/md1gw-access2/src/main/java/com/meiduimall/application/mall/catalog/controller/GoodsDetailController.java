@@ -27,7 +27,7 @@ public class GoodsDetailController {
 	private GoodsDetailServiceImpl goodsDetailService;
 
 	/**
-	 * 根据商品item_id获取商品详情
+	 * 根据商品item_id获取商品详情 
 	 * 
 	 * @param request
 	 * @param item_id

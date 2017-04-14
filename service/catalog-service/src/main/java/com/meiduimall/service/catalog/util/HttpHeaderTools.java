@@ -1,4 +1,4 @@
-package com.meiduimall.core.util;
+package com.meiduimall.service.catalog.util;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
