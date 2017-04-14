@@ -90,10 +90,10 @@ public class UserServiceImpl implements UserService {
 	
 	
 	@Override
-	public JSONObject validePayPwd(String memId,String payPwd)throws Exception{
+	public JSONObject validePayPwd(String token,String payPwd)throws Exception{
 		String url = myProps.getRouteServiceUrl()+"/member/account_service/v1/valide_pay_pwd";
 		HashMap<String, String> pwdMap = new HashMap<String,String>();
-		pwdMap.put("memId", memId);
+		pwdMap.put("token", token);
 		pwdMap.put("pay_pwd", payPwd);
 		ResponseEntity<String> validepwd = restTemplate.postForEntity(
 				url,
