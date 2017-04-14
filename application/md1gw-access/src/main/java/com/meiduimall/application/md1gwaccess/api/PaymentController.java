@@ -99,7 +99,7 @@ public class PaymentController {
 			JSONObject object = (JSONObject) tokenTOmemId.get("data");
 			paymentTrade.setMemId(object.getString("memId"));
 			//验证支付密码
-			JSONObject validePayPwd = userService.validePayPwd(paymentTrade.getMemId(), paymentTrade.getPay_password());
+			JSONObject validePayPwd = userService.validePayPwd(paymentTrade.getMemId(), Des.decrypt(paymentTrade.getPay_password(), SysParaNameConst.appencryptkey) );
 			if(validePayPwd.getInt("status") != 0){
 				Logger.info("验证支付密码 失败! %s", validePayPwd.getString("msg"));
 				json.put("status", 11);
