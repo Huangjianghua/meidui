@@ -8,7 +8,9 @@ spring :
     auto : true
     proxy-target-class : true
   application:
-    name: md1gw-access  
+    name: md1gw-access 
+  profiles :
+     active : dev     
     
 # HikariConfig  
   datasource:
@@ -65,3 +67,10 @@ config :
     maxWaitMillis : 2000 
     testOnBorrow: true
     testOnReturn: true
+    
+   
+
+#自定义的属性和值  
+myProps :
+  serviceUrl : http://192.168.2.240:20110
+         
