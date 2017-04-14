@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Maps;
 import com.meiduimall.core.BaseApiCode;
+import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.SettlementApiCode;
 import com.meiduimall.service.settlement.common.CodeRuleUtil;
@@ -42,31 +43,44 @@ public class DrawServiceImpl implements DrawService {
 	
 	@Override
 	public Map<String, Object> queryAccoutBalance(String code) {
-		Map<String, Object> ecmmzfaccount = baseMapper.selectOne(code, "EcmMzfAccountMapper.queryaccoutbalance");
-		return ecmmzfaccount;
+		try {
+			return baseMapper.selectOne(code, "EcmMzfAccountMapper.queryaccoutbalance");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
 	}
 
 	
 	@Override
 	public List<EcmMzfDraw> queryDrawCash(Map<String, Object> params) {
-		return baseMapper.selectList(params, "EcmMzfDrawMapper.querydrawcash");
+		try {
+			return baseMapper.selectList(params, "EcmMzfDrawMapper.querydrawcash");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
 	}
 	
 	
 	@Override
 	public int getDrawCount(Map<String,Object> params) {
-		return baseMapper.selectOne(params, "EcmMzfDrawMapper.getDrawCount");
+		try {
+			return baseMapper.selectOne(params, "EcmMzfDrawMapper.getDrawCount");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
 	}
 	
 
 	@Override
 	public EcmMzfDraw queryDrawCashById(String drawCode)  {
-		EcmMzfDraw ecmmzfdraw = baseMapper.selectOne(drawCode, "EcmMzfDrawMapper.querydrawcashbyid");
-		return ecmmzfdraw;
+		try {
+			return baseMapper.selectOne(drawCode, "EcmMzfDrawMapper.querydrawcashbyid");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
 	}
 
 	
-	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	@Override
 	public Map<String, Object> verifyDrawCashById(EcmMzfDraw ecmmzfdraw) {
 		Map<String, Object> hashMap = Maps.newHashMap();
@@ -82,7 +96,7 @@ public class DrawServiceImpl implements DrawService {
 	}
 
 	
-	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = ServiceException.class)
 	@Override
 	public Map<String, Object> rejectDrawCashById(EcmMzfDraw ecmmzfdraw) {
 		
@@ -174,7 +188,7 @@ public class DrawServiceImpl implements DrawService {
 	}
 
 	
-	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = ServiceException.class)
 	@Override
 	public Map<String, Object> confirmDrawCashByIdByType(EcmMzfDraw ecmmzfdraw) {
 		
@@ -288,7 +302,7 @@ public class DrawServiceImpl implements DrawService {
 	}
 	
 	
-	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = ServiceException.class)
 	@Override
 	public boolean insertDrawInfo(EcmMzfDraw ecmMzfDraw) {
 		
@@ -365,6 +379,9 @@ public class DrawServiceImpl implements DrawService {
 		boolean result = false;
 		if(flag > 0 && flak > 0 && flaz > 0 && updateBalance > 0){
 			result = true;
+		} else {
+			log.error("提现申请异常：提现编号{}", ecmMzfDraw.getDrawCode());
+			throw new ServiceException(SettlementApiCode.DRAWCASH_FAILURE, BaseApiCode.getZhMsg(SettlementApiCode.DRAWCASH_FAILURE));
 		}
 		return result;
 	}
@@ -372,25 +389,41 @@ public class DrawServiceImpl implements DrawService {
 	
 	@Override
 	public int insertDraw(EcmMzfDraw ecmMzfDraw) {
-		return baseMapper.insert(ecmMzfDraw, "EcmMzfDrawMapper.insertDraw");
+		try {
+			return baseMapper.insert(ecmMzfDraw, "EcmMzfDrawMapper.insertDraw");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
 	}
 
 	
 	@Override
 	public int insertDrawWater(EcmMzfDrawWater ecmMzfDrawWater) {
-		return baseMapper.insert(ecmMzfDrawWater, "EcmMzfDrawMapper.insertDrawWater");
+		try {
+			return baseMapper.insert(ecmMzfDrawWater, "EcmMzfDrawMapper.insertDrawWater");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
 	}
 	
 	
 	@Override
 	public int getDrawWaterCount(Map<String, Object> params) {
-		return baseMapper.selectOne(params, "EcmMzfDrawMapper.getDrawWaterCount");
+		try {
+			return baseMapper.selectOne(params, "EcmMzfDrawMapper.getDrawWaterCount");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
 	}
 
 	
 	@Override
 	public int getCountByCode(Map<String, Object> params) {
-		return baseMapper.selectOne(params, "EcmMzfDrawMapper.getCountByCode");
+		try {
+			return baseMapper.selectOne(params, "EcmMzfDrawMapper.getCountByCode");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
 	}
 
 	

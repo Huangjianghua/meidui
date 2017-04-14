@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.StringUtil;
 import com.google.common.base.Strings;
+import com.meiduimall.exception.DaoException;
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.settlement.dao.BaseMapper;
 import com.meiduimall.service.settlement.model.EcmMzfDrawWater;
 import com.meiduimall.service.settlement.model.EcmMzfWater;
@@ -64,7 +66,11 @@ public class WaterServiceImpl implements WaterService {
 	
 	@Override
 	public List<BilledWaterVO2Merge> getBilledWatersToMerge(){
-		return  baseMapper.selectList(null, "EcmMzfWaterMapper.getBilledWatersToMerge");
+		try {
+			return baseMapper.selectList(null, "EcmMzfWaterMapper.getBilledWatersToMerge");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
 	}
 
 	

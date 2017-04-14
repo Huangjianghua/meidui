@@ -24,6 +24,7 @@ public class SettlementApiCode extends BaseApiCode {
 	public static final Integer REJECT_DRAWCASH_FAILURE = 7015;
 	public static final Integer VERIFY_DRAWCASH_FAILURE = 7016;
 	public static final Integer CONFIRM_DRAWCASH_FAILURE = 7017;
+	public static final Integer DRAWCASH_FAILURE = 7018;
 	
 	static {
 		Map<Integer, String> zhMsgMap = BaseApiCode.zhMsgMap;
