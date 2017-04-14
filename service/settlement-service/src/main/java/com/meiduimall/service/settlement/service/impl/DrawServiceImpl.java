@@ -171,7 +171,6 @@ public class DrawServiceImpl implements DrawService {
 		//提现转账成功或失败都需要更新提现申请记录状态
 		int drawCfm = baseMapper.update(ecmmzfdraw, "EcmMzfDrawMapper.confirmdrawcashbyidbytype");
 		
-		
 		//转账成功    需要更新提现流水状态
 		if (ecmmzfdraw.getStatus().equals(DrawCashConstants.STATUS_TRANSFER_SUCCESS)
 				&& ecmmzfdraw.getFinanceStatus().equals(DrawCashConstants.STATUS_TRANSFER_SUCCESS)) {

@@ -21,6 +21,9 @@ public class SettlementApiCode extends BaseApiCode {
 	public static final Integer VERIFY_DRAWCODE_ISNULL = 7013;
 	public static final Integer REJECT_DRAWCODE_REMARK_ISNULL = 7013;
 	public static final Integer FAILURE_REASON = 7014;
+	public static final Integer REJECT_DRAWCASH_FAILURE = 7015;
+	public static final Integer VERIFY_DRAWCASH_FAILURE = 7016;
+	public static final Integer CONFIRM_DRAWCASH_FAILURE = 7017;
 	
 	static {
 		Map<Integer, String> zhMsgMap = BaseApiCode.zhMsgMap;
@@ -39,6 +42,9 @@ public class SettlementApiCode extends BaseApiCode {
 		zhMsgMap.put(VERIFY_DRAWCODE_ISNULL, "审核提现申请时，提现编号不能为空");
 		zhMsgMap.put(REJECT_DRAWCODE_REMARK_ISNULL, "驳回提现申请时，提现编号和驳回原因不能为空");
 		zhMsgMap.put(FAILURE_REASON, "确认转账失败时，必须提供原因");
+		zhMsgMap.put(REJECT_DRAWCASH_FAILURE, "驳回提现申请失败");
+		zhMsgMap.put(VERIFY_DRAWCASH_FAILURE, "审核提现申请失败");
+		zhMsgMap.put(CONFIRM_DRAWCASH_FAILURE, "确认转账成功或失败异常");
 
 	}
 

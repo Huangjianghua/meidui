@@ -182,13 +182,11 @@ public class DrawController {
 		
 		try {
 			Map<String, Object> hashMap = drawService.verifyDrawCashById(ecmmzfdraw);
-			if (hashMap == null || hashMap.isEmpty()) {
-				return SettlementUtil.success(hashMap);
-			}
+			return SettlementUtil.success(hashMap);
 		} catch (ServiceException e) {
 			log.error("verifyDrawCashById() for drawCode:{} got error:{}", ecmmzfdraw.getDrawCode(), e.getMessage());
+			throw new ServiceException(SettlementApiCode.VERIFY_DRAWCASH_FAILURE, BaseApiCode.getZhMsg(SettlementApiCode.VERIFY_DRAWCASH_FAILURE));
 		}
-		return null;
 	}
 	
 	
@@ -212,14 +210,11 @@ public class DrawController {
 		ecmmzfdraw.setVerifyTime(DateUtil.getCurrentTimeSec());
 		try {
 			Map<String, Object> hashMap = drawService.rejectDrawCashById(ecmmzfdraw);
-			if (hashMap == null || hashMap.isEmpty()) {
-				return SettlementUtil.success(hashMap);
-			}
-
+			return SettlementUtil.success(hashMap);
 		} catch (ServiceException e) {
 			log.error("rejectDrawCashById() for drawCode:{} got error:{}", ecmmzfdraw.getDrawCode(), e.getMessage());
+			throw new ServiceException(SettlementApiCode.REJECT_DRAWCASH_FAILURE, BaseApiCode.getZhMsg(SettlementApiCode.REJECT_DRAWCASH_FAILURE));
 		}
-		return null;
 	}
 	
 	
@@ -249,14 +244,11 @@ public class DrawController {
 		
 		try {
 			Map<String, Object> hashMap = drawService.confirmDrawCashByIdByType(ecmmzfdraw);
-			if (hashMap == null || hashMap.isEmpty()) {
-				return SettlementUtil.success(hashMap);
-			}
-
+			return SettlementUtil.success(hashMap);
 		} catch (ServiceException e) {
 			log.error("drawService.confirmDrawCashByIdByTyp() drawCode:{},got error:{}", ecmmzfdraw.getDrawCode(), e.getMessage());
+			throw new ServiceException(SettlementApiCode.CONFIRM_DRAWCASH_FAILURE, BaseApiCode.getZhMsg(SettlementApiCode.CONFIRM_DRAWCASH_FAILURE));
 		}
-		return null;
 	}
 
 	
