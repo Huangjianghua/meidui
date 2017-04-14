@@ -19,11 +19,11 @@ import com.meiduimall.service.catalog.test.BaseTest;
 public class GoodsDetailControllerTest extends BaseTest {
 
 	/**
-	 * 检查商品是否存在，item_id为int
+	 * 测试checkItemIsExist---正常测试
 	 * @throws Exception
 	 */
 	@Test
-	public void testCheckItemIsExist1() throws Exception {
+	public void checkItemIsExist_test_01() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/mall/catalog-service/v1/goodsDetail/isExist")
 				.param("item_id", "300"))
@@ -38,11 +38,11 @@ public class GoodsDetailControllerTest extends BaseTest {
 	}
 	
 	/**
-	 * 检查商品是否存在，item_id不是int
+	 * 测试checkItemIsExist---参数错误测试
 	 * @throws Exception
 	 */
 	@Test
-	public void testCheckItemIsExist2() throws Exception {
+	public void checkItemIsExist_test_02() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/mall/catalog-service/v1/goodsDetail/isExist")
 				.param("item_id", "ada"))
@@ -57,14 +57,14 @@ public class GoodsDetailControllerTest extends BaseTest {
 	}
 	
 	/**
-	 * 根据商品item_id，查询商品详情
+	 * getItemDetail----正常测试
 	 * @throws Exception
 	 */
 	@Test
-	public void testGetItemDetail1() throws Exception {
+	public void getItemDetail_test_01() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/mall/catalog-service/v1/goodsDetail/getItem")
-				.param("token", "adfsadfsafsadafdsa05")
+				.param("mem_id", "bbdb1b5b-a5ec-4db7-9c69-929c100b2587")
 				.param("item_id", "300"))
 				.andExpect(status().isOk());
 		
@@ -77,14 +77,14 @@ public class GoodsDetailControllerTest extends BaseTest {
 	}
 	
 	/**
-	 * 根据商品item_id，查询商品详情
+	 * getItemDetail----参数错误测试
 	 * @throws Exception
 	 */
 	@Test
-	public void testGetItemDetail2() throws Exception {
+	public void getItemDetail_test_02() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/mall/catalog-service/v1/goodsDetail/getItem")
-				.param("token", "adfsadfsafsadafdsa05")
+				.param("mem_id", "bbdb1b5b-a5ec-4db7-9c69-929c100b2587")
 				.param("item_id", "adsf"))
 				.andExpect(status().isOk());
 		

@@ -6,7 +6,7 @@ package com.meiduimall.service.catalog.result;
  * @author yangchang
  *
  */
-public class JsonItemDetailResult_Prop_Values {
+public class JsonItemDetailResultPropValues {
 	
 	private String prop_value_id;//规格属性ID
 	private String prop_value;//规格属性名称，比如：颜色规格--红色、蓝色，服装尺码--XXL、XXXL
