@@ -21,7 +21,9 @@ import org.springframework.stereotype.Service;
 
 import com.meiduimall.core.util.DateUtils;
 import com.meiduimall.core.util.JsonUtils;
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.redis.util.RedisUtils;
+import com.meiduimall.service.sms.SmsApiCode;
 import com.meiduimall.service.sms.entity.MessageChannel;
 import com.meiduimall.service.sms.entity.TemplateInfo;
 import com.meiduimall.service.sms.mapper.MessageChannelMapper;
@@ -37,32 +39,6 @@ public class MessageChannelService{
 	
 	@Autowired
 	private TemplateInfoMapper templateInfoMapper;
-	
-//	RedisTemplate<String, MessageChannel> redisTemplate;
-	
-//	@Autowired
-//	private RedisService redisService;
-//
-//	public RedisTemplate<String, MessageChannel> getRedisTemplate() {
-//	        return redisTemplate;
-//	}
-	  
-//    public void setRedisTemplate(RedisTemplate<String, MessageChannel> redisTemplate) {
-//        this.redisTemplate = redisTemplate;
-//    }
-
-/*	public void put(MessageChannel channel) {
-		redisTemplate.opsForHash().put(channel.getObjectKey(), channel.getKey(), channel);  
-		
-	}
-
-	public void delete(MessageChannel channel) {
-		 redisTemplate.opsForHash().delete(channel.getObjectKey(), channel.getKey());  
-	}
-
-	public MessageChannel get(MessageChannel channel) {
-		return (MessageChannel) redisTemplate.opsForHash().get(channel.getObjectKey(), channel.getKey());  
-	}  */
 	
 	/**
 	 * 获取短信渠道并转成json字符串
@@ -81,12 +57,13 @@ public class MessageChannelService{
 				
 			} catch (Exception e) {
 				logger.error("获取渠道异常：%s", e.toString());
-				e.printStackTrace();
+				throw new ServiceException(SmsApiCode.EXCEPTION_ACCESS_CHANNEL,SmsApiCode.getZhMsg(SmsApiCode.EXCEPTION_ACCESS_CHANNEL));
 			}
 		}
 		return channelListJsonStr;
-		
 	}
+	
+	
 	/**
 	 * 获取短信模板并转成json字符串
 	 * @param key
@@ -104,7 +81,7 @@ public class MessageChannelService{
 				
 			} catch (Exception e) {
 				logger.error("获取模板异常：%s", e.toString());
-				e.printStackTrace();
+				throw new ServiceException(SmsApiCode.EXCEPTION_ACCESS_TEMPLATE,SmsApiCode.getZhMsg(SmsApiCode.EXCEPTION_ACCESS_TEMPLATE));
 			}
 		}
 		return templateListJsonStr;

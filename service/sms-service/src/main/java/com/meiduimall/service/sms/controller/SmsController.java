@@ -50,13 +50,8 @@ public class SmsController {
    */
   @RequestMapping("send_common_sms_message")
   public ResBodyData sendSmsMessage(CommonShortMessageModel model) {
-
     logger.info("进入发短信程序,parama参数值为：" + model.getParams());
     ResBodyData result = new ResBodyData();
-    if (null == model) {
-      return result;
-    }
-
     try {
       smsService.sendSmsMessage(model);
     } catch (Exception e) {
@@ -94,11 +89,6 @@ public class SmsController {
    */
   @RequestMapping("check_sms_verification_code")
   public ResBodyData checkSmsVerificationCode(@Valid CommonShortMessageModel model) {
-
-//    if (null == model) {
-//      return new ResultBody(SmsServiceErrorInfoEnum.PARAM_ERROR, null);
-//    }
-
     switch  (smsService.checkSmsVerificationCode(model)) {
       case 0:
     	ResBodyData result = new ResBodyData();

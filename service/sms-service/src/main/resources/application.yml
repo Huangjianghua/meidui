@@ -1,0 +1,121 @@
+zucpUrl: http://sdk.entinfo.cn:8060/webservice.asmx
+zucpUser: SDK-WSS-010-09798
+zucpPasswd: "a-9[60-["
+
+---
+spring:
+  profiles: dev
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.4.195:3306/sms_service?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
+    username: test
+    password: 111
+    hikari:
+      connectionTimeout: 30000
+      idleTimeout: 600000
+      maxLifetime: 1800000
+      maximumPoolSize: 300
+      minimumIdle: 10
+      autoCommit: true
+      connectionTestQuery: SELECT 1
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://192.168.4.240:9001/eureka/
+  instance:
+    hostname: 192.168.4.240  
+config:
+  jedis:
+    jedisShardInfo:
+      host: 192.168.4.236
+      port: 6379
+      password: meiduiredis2016
+      database: 15
+    maxTotal: 1024
+    maxIdle: 250
+    maxWaitMillis: 2000
+    testOnBorrow: true
+    testOnReturn: true
+
+mybatis: 
+  mapper-locations: classpath:com/meiduimall/service/sms/mapper/*Mapper.xml
+
+---
+
+spring:
+  profiles: pro
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.4.195:3306/sms_service?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
+    username: test
+    password: 111
+    hikari:
+      connectionTimeout: 30000
+      idleTimeout: 600000
+      maxLifetime: 1800000
+      maximumPoolSize: 300
+      minimumIdle: 10
+      autoCommit: true
+      connectionTestQuery: SELECT 1
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://10.45.178.235:9001/eureka/
+  instance:
+     hostname: 10.45.178.235
+
+config:
+  jedis:
+    jedisShardInfo:
+      host: 192.168.4.236
+      port: 6379
+      password: meiduiredis2016
+      database: 15
+    maxTotal: 1024
+    maxIdle: 250
+    maxWaitMillis: 2000
+    testOnBorrow: true
+    testOnReturn: true
+mybatis: 
+  mapper-locations: classpath:com/meiduimall/service/sms/mapper/*Mapper.xml
+  
+---  
+spring:
+  profiles: test
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://10.45.178.235:3306/sms_service?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
+    username: sms_service
+    password: sms_service@meidui.?!
+    hikari:
+      connectionTimeout: 30000
+      idleTimeout: 600000
+      maxLifetime: 1800000
+      maximumPoolSize: 300
+      minimumIdle: 10
+      autoCommit: true
+      connectionTestQuery: SELECT 1
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://10.45.178.235:9001/eureka/
+  instance:
+     hostname: 10.45.178.235  
+config:
+  jedis:
+    jedisShardInfo:
+      host: 10.45.178.235
+      port: 6379
+      password: meiduiredis2016
+      database: 15
+    maxTotal: 1024
+    maxIdle: 250
+    maxWaitMillis: 2000
+    testOnBorrow: true
+    testOnReturn: true
+mybatis: 
+  mapper-locations: classpath:com/meiduimall/service/sms/mapper/*Mapper.xml    
+  

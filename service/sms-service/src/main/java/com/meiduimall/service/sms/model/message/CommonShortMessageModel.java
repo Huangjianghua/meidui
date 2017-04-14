@@ -32,12 +32,8 @@ public class CommonShortMessageModel implements Serializable{
 	//发动验证码短信，验证码过期时间
 	/*验证码过期时间，即timeout缓存保存时长：格式:3h, 2mn, 7s or combination 2d4h10s, 1w2d3h10s */
 	private String timeout; 
-	
 	/*校验短信*/
 	private String verificationCode; //验证码，用户输入验证码校验时使用
-	
-//	private String clientID;
-	
 	
 	public String getPhones() {
 		return phones;
@@ -76,11 +72,4 @@ public class CommonShortMessageModel implements Serializable{
 	public void setVerificationCode(String verificationCode) {
 		this.verificationCode = verificationCode;
 	}
-//	public String getClientID() {
-//		return clientID;
-//	}
-//	public void setClientID(String clientID) {
-//		this.clientID = clientID;
-//	}
- 
 }
