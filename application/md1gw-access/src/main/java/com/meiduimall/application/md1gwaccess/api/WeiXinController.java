@@ -24,6 +24,7 @@ import com.meiduimall.application.md1gwaccess.constant.ResponseBodyData;
 import com.meiduimall.application.md1gwaccess.constant.SysParaNameConst;
 import com.meiduimall.application.md1gwaccess.model.EctoolsPaymentsSucc;
 import com.meiduimall.application.md1gwaccess.service.PaymentService;
+import com.meiduimall.application.md1gwaccess.util.DateUtil;
 import com.meiduimall.application.md1gwaccess.util.Logger;
 import com.meiduimall.application.md1gwaccess.util.MD5Util;
 import com.meiduimall.application.md1gwaccess.util.XMLUtil;
@@ -118,7 +119,7 @@ public class WeiXinController {
 					ectoolsPaymentsSucc.setPayName("微信支付");
 					ectoolsPaymentsSucc.setPayAccount("微信支付"); 
 					ectoolsPaymentsSucc.setAccount(mch_id);
-					ectoolsPaymentsSucc.setPayedTime(Integer.valueOf(time_end));
+					ectoolsPaymentsSucc.setPayedTime(Integer.valueOf(DateUtil.date2TimeStamp(time_end, "yyyyMMddHHmmss")));
 					
 					ResponseBodyData payCallBack = paymentService.PayCallBack(ectoolsPaymentsSucc,xmlString);
 					Logger.info("微信支付回调处理的结果:%s", payCallBack.toString());
