@@ -24,7 +24,7 @@ import com.meiduimall.service.catalog.entity.SysuserShopFavExample;
 import com.meiduimall.service.catalog.request.ShopProductRequest;
 import com.meiduimall.service.catalog.result.ChildShopCat;
 import com.meiduimall.service.catalog.result.GoodsDetailResult;
-import com.meiduimall.service.catalog.result.JsonItemDetailResult_ShopData;
+import com.meiduimall.service.catalog.result.JsonItemDetailResultShopData;
 import com.meiduimall.service.catalog.result.ParentShopCat;
 import com.meiduimall.service.catalog.result.ShopCatResult;
 import com.meiduimall.service.catalog.result.ShopProductList;
@@ -43,7 +43,7 @@ public class ShopServiceImpl implements ShopService {
 	public ResBodyData getShopDetail(Integer shopId, String mem_id) {
 		logger.info("根据商品编号，获取店铺详情，ID=" + shopId);
 
-		JsonItemDetailResult_ShopData shopData = ShopCommonService.getJsonItemDetailResult_ShopData(baseDao, shopId,
+		JsonItemDetailResultShopData shopData = ShopCommonService.getJsonItemDetailResult_ShopData(baseDao, shopId,
 				mem_id);
 
 		if (shopData == null) {

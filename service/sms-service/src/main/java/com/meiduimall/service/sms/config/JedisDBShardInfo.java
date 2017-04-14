@@ -9,9 +9,9 @@
  */
 
 package com.meiduimall.service.sms.config;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.meiduimall.exception.RedisClientException;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisShardInfo;
 
@@ -53,6 +53,7 @@ public class JedisDBShardInfo extends JedisShardInfo {
         this.database=database;  
     }  
   
+    @Override
     public Jedis createResource() {  
         Jedis jedis=new Jedis(this);  
             try {  

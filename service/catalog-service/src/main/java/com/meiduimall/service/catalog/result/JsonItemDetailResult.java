@@ -10,33 +10,33 @@ import java.util.List;
  */
 public class JsonItemDetailResult {
 
-	private JsonItemDetailResult_ShopData shopData;//店铺相关
-	private JsonItemDetailResult_ItemData itemData;//商品相关
-	private List<JsonItemDetailResult_Sku> skuList;//SKU相关
-	private List<JsonItemDetailResult_Props> itemPropsList;//规格相关
+	private JsonItemDetailResultShopData shopData;//店铺相关
+	private JsonItemDetailResultItemData itemData;//商品相关
+	private List<JsonItemDetailResultSku> skuList;//SKU相关
+	private List<JsonItemDetailResultProps> itemPropsList;//规格相关
 	
-	public JsonItemDetailResult_ShopData getShopData() {
+	public JsonItemDetailResultShopData getShopData() {
 		return shopData;
 	}
-	public void setShopData(JsonItemDetailResult_ShopData shopData) {
+	public void setShopData(JsonItemDetailResultShopData shopData) {
 		this.shopData = shopData;
 	}
-	public JsonItemDetailResult_ItemData getItemData() {
+	public JsonItemDetailResultItemData getItemData() {
 		return itemData;
 	}
-	public void setItemData(JsonItemDetailResult_ItemData itemData) {
+	public void setItemData(JsonItemDetailResultItemData itemData) {
 		this.itemData = itemData;
 	}
-	public List<JsonItemDetailResult_Sku> getSkuList() {
+	public List<JsonItemDetailResultSku> getSkuList() {
 		return skuList;
 	}
-	public void setSkuList(List<JsonItemDetailResult_Sku> skuList) {
+	public void setSkuList(List<JsonItemDetailResultSku> skuList) {
 		this.skuList = skuList;
 	}
-	public List<JsonItemDetailResult_Props> getItemPropsList() {
+	public List<JsonItemDetailResultProps> getItemPropsList() {
 		return itemPropsList;
 	}
-	public void setItemPropsList(List<JsonItemDetailResult_Props> itemPropsList) {
+	public void setItemPropsList(List<JsonItemDetailResultProps> itemPropsList) {
 		this.itemPropsList = itemPropsList;
 	}
 }

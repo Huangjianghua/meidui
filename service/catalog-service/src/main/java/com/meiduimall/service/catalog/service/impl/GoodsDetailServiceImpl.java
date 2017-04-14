@@ -28,11 +28,11 @@ import com.meiduimall.service.catalog.entity.SysitemSkuStore;
 import com.meiduimall.service.catalog.entity.SysitemSkuWithBLOBs;
 import com.meiduimall.service.catalog.result.CheckGoodsResult;
 import com.meiduimall.service.catalog.result.JsonItemDetailResult;
-import com.meiduimall.service.catalog.result.JsonItemDetailResult_ItemData;
-import com.meiduimall.service.catalog.result.JsonItemDetailResult_Prop_Values;
-import com.meiduimall.service.catalog.result.JsonItemDetailResult_Props;
-import com.meiduimall.service.catalog.result.JsonItemDetailResult_ShopData;
-import com.meiduimall.service.catalog.result.JsonItemDetailResult_Sku;
+import com.meiduimall.service.catalog.result.JsonItemDetailResultItemData;
+import com.meiduimall.service.catalog.result.JsonItemDetailResultPropValues;
+import com.meiduimall.service.catalog.result.JsonItemDetailResultProps;
+import com.meiduimall.service.catalog.result.JsonItemDetailResultShopData;
+import com.meiduimall.service.catalog.result.JsonItemDetailResultSku;
 import com.meiduimall.service.catalog.service.GoodsDetailService;
 import com.meiduimall.service.catalog.service.common.ShopCommonService;
 import com.meiduimall.service.catalog.util.ParseItemSpecDesUtil;
@@ -129,7 +129,7 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 
 		JsonItemDetailResult jsonResult = new JsonItemDetailResult();
 		// ----------1、开始拼接商品规格数据-----------
-		List<JsonItemDetailResult_Props> itemPropsList = new ArrayList<JsonItemDetailResult_Props>();
+		List<JsonItemDetailResultProps> itemPropsList = new ArrayList<JsonItemDetailResultProps>();
 
 		// 反序列化数据---解析商品的规格参数---读取sysitem_item表的spec_desc字段
 		// 最终得到每一个规格，以及规格对应的规格属性。比如：[{4颜色：43黑色，44咖啡色，51军绿色},{},{}]
@@ -141,7 +141,7 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 			throw new ServiceException(ServiceCatalogApiCode.SPEC_DESC_DATA_EXCEPTION);
 		}
 		if (parseList != null && parseList.size() > 0) {
-			JsonItemDetailResult_Props itemProps = null;
+			JsonItemDetailResultProps itemProps = null;
 			for (int i = 0; i < parseList.size(); i++) {
 
 				// 获取每一组规格。比如：[{4颜色：43黑色，44咖啡色，51军绿色},{},{}]
@@ -149,7 +149,7 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 
 				if (parserItemSpecDescBean != null) {
 					// 规格
-					itemProps = new JsonItemDetailResult_Props();
+					itemProps = new JsonItemDetailResultProps();
 
 					// 根据规格ID查找规格名称。查找表syscategory_props
 					// 比如上面只得到了编号4，并没有得到4对应的名称颜色
@@ -164,12 +164,12 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 					// 获取规格编号4颜色，对应的属性值：43黑色，44咖啡色，51军绿色，整理数据
 					List<PropBean> propBeanList = parserItemSpecDescBean.getPropBeanList();
 					if (propBeanList != null && propBeanList.size() > 0) {
-						List<JsonItemDetailResult_Prop_Values> prop_list = new ArrayList<JsonItemDetailResult_Prop_Values>();
-						JsonItemDetailResult_Prop_Values propValues = null;
+						List<JsonItemDetailResultPropValues> prop_list = new ArrayList<JsonItemDetailResultPropValues>();
+						JsonItemDetailResultPropValues propValues = null;
 						for (int j = 0; j < propBeanList.size(); j++) {
 							PropBean propBean = propBeanList.get(j);
 							if (propBean != null) {
-								propValues = new JsonItemDetailResult_Prop_Values();
+								propValues = new JsonItemDetailResultPropValues();
 								Integer spec_value_id = propBean.getPropValueBean().getSpec_value_id();
 								String spec_value = propBean.getPropValueBean().getSpec_value();
 								if (spec_value_id != null) {
@@ -202,7 +202,7 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 		jsonResult.setItemPropsList(itemPropsList);
 
 		// --------2、开始拼接商品信息数据-----------
-		JsonItemDetailResult_ItemData itemData = new JsonItemDetailResult_ItemData();
+		JsonItemDetailResultItemData itemData = new JsonItemDetailResultItemData();
 
 		// 获取商品详情的HTML页面地址，查找sysitem_item_desc表
 		SysitemItemDesc itemDesc = baseDao.selectOne(item_id, "SysitemItemDescMapper.selectByPrimaryKey");
@@ -309,7 +309,7 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 			// 处理token
 			IdAndMemId idAndMemId = new IdAndMemId();
 			idAndMemId.setId(item_id.intValue());
-			idAndMemId.setMem_id(mem_id);
+			idAndMemId.setMemId(mem_id);
 			int count = baseDao.selectOne(idAndMemId, "SysuserUserFavMapper.selectCountByItemIdAndMemId");
 			if (count > 0) {
 				itemData.setIs_collect("1");
@@ -320,7 +320,7 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 		jsonResult.setItemData(itemData);
 
 		// -------------3、开始拼接商品SKU数据-----------
-		List<JsonItemDetailResult_Sku> skuList = new ArrayList<JsonItemDetailResult_Sku>();
+		List<JsonItemDetailResultSku> skuList = new ArrayList<JsonItemDetailResultSku>();
 
 		// 查sysitem_sku表，根据item_id查找该商品对应的SKU列表
 		SysitemSkuExample skuExample = new SysitemSkuExample();
@@ -330,13 +330,13 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 				"SysitemSkuMapper.selectByExampleWithBLOBs");
 
 		if (itemSkuWithBLOBsList != null && itemSkuWithBLOBsList.size() > 0) {
-			JsonItemDetailResult_Sku result_sku = null;
+			JsonItemDetailResultSku result_sku = null;
 			for (int i = 0; i < itemSkuWithBLOBsList.size(); i++) {
 				SysitemSkuWithBLOBs sysitemSkuWithBLOBs = itemSkuWithBLOBsList.get(i);
 				if (sysitemSkuWithBLOBs == null) {
 					continue;// can not reach
 				}
-				result_sku = new JsonItemDetailResult_Sku();
+				result_sku = new JsonItemDetailResultSku();
 
 				result_sku.setPoint(sysitemSkuWithBLOBs.getPoint().toString());
 				result_sku.setPrice(sysitemSkuWithBLOBs.getPrice().toString());
@@ -398,7 +398,7 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 
 		// -------------4、开始拼接商家数据-----------
 		Integer shopId = itemWithBLOBs.getShopId();
-		JsonItemDetailResult_ShopData shopData = ShopCommonService.getJsonItemDetailResult_ShopData(baseDao, shopId,
+		JsonItemDetailResultShopData shopData = ShopCommonService.getJsonItemDetailResult_ShopData(baseDao, shopId,
 				mem_id);
 
 		jsonResult.setShopData(shopData);

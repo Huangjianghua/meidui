@@ -30,7 +30,7 @@ public class GoodsRecommendController {
 
 	@Autowired
 	private HttpServletRequest request;
-	
+
 	@Autowired
 	private GoodsRecommendService goodsRecommendService;
 
@@ -60,11 +60,18 @@ public class GoodsRecommendController {
 		try {
 			reco_type = Integer.parseInt(type);
 			reco_level = Integer.parseInt(level);
+
+			if (reco_type != 1 || reco_type != 2) {
+				throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
+			}
+
 		} catch (NumberFormatException e) {
+			logger.error("批量插入，或者单个插入推荐商品: " + e);
 			throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
 		}
 
 		if (StringUtils.isBlank(item_ids)) {
+			logger.error("批量插入，或者单个插入推荐商品: " + item_ids);
 			throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
 		} else {
 			String[] str_ids = item_ids.split(",");
@@ -75,6 +82,7 @@ public class GoodsRecommendController {
 				}
 				return goodsRecommendService.insertBatchItems(ids, reco_type, opt_user, ip, reco_level);
 			} else {
+				logger.error("批量插入，或者单个插入推荐商品: " + item_ids);
 				throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
 			}
 		}
@@ -104,6 +112,7 @@ public class GoodsRecommendController {
 			reco_count = Integer.parseInt(count);
 			reco_req_id = Integer.parseInt(req_id);
 		} catch (NumberFormatException e) {
+			logger.error("获取推荐商品: " + e);
 			throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
 		}
 

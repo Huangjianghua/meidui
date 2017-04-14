@@ -1,5 +1,7 @@
 package com.meiduimall.service.catalog.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +20,8 @@ import com.meiduimall.service.catalog.service.GoodsDetailService;
 @RestController
 @RequestMapping("/mall/catalog-service/v1/goodsDetail")
 public class GoodsDetailController {
+	
+	private static Logger logger = LoggerFactory.getLogger(GoodsDetailController.class);
 
 	@Autowired
 	private GoodsDetailService goodsDetailService;
@@ -35,6 +39,7 @@ public class GoodsDetailController {
 		try {
 			id = Integer.parseInt(item_id);
 		} catch (NumberFormatException e) {
+			logger.error("根据商品编号，查询商品是否存在: " + e);
 			throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
 		}
 		return goodsDetailService.checkItemIsExistById(id);
@@ -55,6 +60,7 @@ public class GoodsDetailController {
 		try {
 			id = Integer.parseInt(item_id);
 		} catch (NumberFormatException e) {
+			logger.error("根据商品编号，查询商品详情: " + e);
 			throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
 		}
 		return goodsDetailService.getItemDetailById(mem_id, id);
