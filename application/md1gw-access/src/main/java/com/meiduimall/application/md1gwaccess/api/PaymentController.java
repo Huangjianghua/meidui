@@ -17,7 +17,6 @@ import com.meiduimall.application.md1gwaccess.model.EctoolsTradePaybill;
 import com.meiduimall.application.md1gwaccess.model.PaymentTrade;
 import com.meiduimall.application.md1gwaccess.model.SystradePTrade;
 import com.meiduimall.application.md1gwaccess.service.PaymentService;
-import com.meiduimall.application.md1gwaccess.service.TPPaymentService;
 import com.meiduimall.application.md1gwaccess.service.TradeService;
 import com.meiduimall.application.md1gwaccess.service.UserService;
 import com.meiduimall.application.md1gwaccess.util.Des;
@@ -39,9 +38,6 @@ public class PaymentController {
 	private UserService userService;
 	
 	
-	@Autowired
-	private TPPaymentService paymentsService;  
-	  
 	/**
 	 * 支付之前判断
 	 * @param paymentId
@@ -268,11 +264,9 @@ public class PaymentController {
 			ResponseBodyData paymentTradePays = paymentService.PaymentTrade(paymentTrade,obj_p_trade_info,list,memberBasicInfo);
 		    
 			//有第三方支付  调用微信支付/支付宝支付
-			if (paymentTradePays.getStatus() == 0 && paymentTradePays.getData().equals(paymentTrade.getPayment_id())) {
-				Logger.info("进入第三方支付!");
-				String encrypt = Des.appencrypt(
-						paymentsService.Payment(paymentTrade, obj_p_trade_info).getData().toString(),
-						SysParaNameConst.appencryptkey);
+			if (paymentTradePays.getStatus() == 3) {
+				Logger.info("第三方支付成功!");
+				String encrypt = Des.appencrypt(paymentTradePays.getData().toString(),SysParaNameConst.appencryptkey);
 				json.put("status", 0);
 				json.put("data", encrypt);
 				json.put("msg", "success");
@@ -281,7 +275,7 @@ public class PaymentController {
 					json.put("type", 1);
 				}
 				return json;
-			} else {
+			} else if(paymentTradePays.getStatus() == 0) {
 				// 没有第三方 调用【支付完成】方法,退出程序
 				ResponseBodyData payFinish = paymentService.PayFinish(paymentTrade.getPayment_id());
 				if (payFinish.getStatus() == 0) {
@@ -301,6 +295,11 @@ public class PaymentController {
 					json.put("msg", payFinish.getMsg());
 					return json;
 				}
+			}else{
+				Logger.info("支付失败! ==> %s",paymentTradePays.getMsg());
+				json.put("status", 11);
+				json.put("msg", paymentTradePays.getMsg());
+				return json;
 			}
 	   
 		} catch (Exception e) {

@@ -34,6 +34,7 @@ import com.meiduimall.application.md1gwaccess.model.SystradePTrade;
 import com.meiduimall.application.md1gwaccess.model.SystradeTrade;
 import com.meiduimall.application.md1gwaccess.model.SysuserWalletPaylog;
 import com.meiduimall.application.md1gwaccess.service.PaymentService;
+import com.meiduimall.application.md1gwaccess.service.TPPaymentService;
 import com.meiduimall.application.md1gwaccess.service.TradeService;
 import com.meiduimall.application.md1gwaccess.service.UserService;
 import com.meiduimall.application.md1gwaccess.util.CommonUtil;
@@ -60,6 +61,9 @@ public class PaymentServiceImpl implements PaymentService {
 	
 	@Autowired
 	private MyProps myProps;
+	
+	@Autowired
+	private TPPaymentService tPPaymentService;
 
 	@Override
 	public Map<String, Object> getPaymentBill(String paymentId) throws Exception {
@@ -282,7 +286,14 @@ public class PaymentServiceImpl implements PaymentService {
 				// ---- 没有第三方支付判断开始结束 ----
 			} else {
 				// 有第三方支付
-				return new ResponseBodyData(paymentTrade.getPayment_id());
+				Logger.info("进入第三方支付!");
+				ResponseBodyData payment = tPPaymentService.Payment(paymentTrade, obj_p_trade_info);
+				if(payment.getStatus() == 0){
+					return new ResponseBodyData(payment.getData(),3,"success");
+				}else{
+					return new ResponseBodyData(11,payment.getMsg());
+				} 
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

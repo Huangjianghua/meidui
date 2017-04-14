@@ -7,6 +7,9 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.client.RestTemplate;
 
 import com.meiduimall.application.md1gwaccess.config.MyProps;
@@ -37,6 +40,7 @@ public class TPPaymentServiceImpl implements TPPaymentService {
 	/**
 	 * 混合支付
 	 */
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	@Override
 	public ResponseBodyData Payment(PaymentTrade paymentTrade, SystradePTrade obj_p_trade_info) throws Exception {
 		try {
@@ -108,6 +112,7 @@ public class TPPaymentServiceImpl implements TPPaymentService {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 			return new ResponseBodyData(11, "系统错误!");
 		}
 
