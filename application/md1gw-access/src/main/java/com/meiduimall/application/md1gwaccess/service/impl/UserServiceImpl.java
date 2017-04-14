@@ -90,16 +90,13 @@ public class UserServiceImpl implements UserService {
 	public JSONObject validePayPwd(String memId, String payPwd) throws Exception {
 		Logger.info("解密之后:%s", payPwd);
 		String url = myProps.getRouteServiceUrl() + "/member/account_service/v1/valide_pay_pwd";
-		HttpHeaders headers = new HttpHeaders();
-		MediaType type = MediaType.parseMediaType(HttpRConst.MEDIATYPE_KEYVALUE);
-		headers.setContentType(type);
-		HashMap<String, String> hashMap = new HashMap<String,String>();
+		url = url + "?memId={memId}&pay_pwd={pay_pwd}&clientID={clientID}&timestamp={timestamp}&sign={sign}";
+		Map<String, String> hashMap = new HashMap<String,String>();
 		hashMap.put("memId", memId);
 		hashMap.put("pay_pwd", payPwd);
 		Map<String, String> commonMap = CommonUtil.CommonMap(hashMap);
-		HttpEntity<Map<String, String>> formEntity = new HttpEntity<Map<String, String>>(commonMap, headers);
 		Logger.info("验证支付密码组装发送数据 :%s", commonMap);
-		JSONObject postForObject = restTemplate.postForObject(url, formEntity, JSONObject.class);
+		JSONObject postForObject = restTemplate.getForObject(url, JSONObject.class, commonMap);
 		Logger.info("验证支付密码请求结果 :%s", postForObject);
 		return postForObject;
 
