@@ -1,6 +1,6 @@
 package com.meiduimall.service.sms;
 
-
+import com.meiduimall.core.Constants;
 
 /**
  * system constant
@@ -8,7 +8,7 @@ package com.meiduimall.service.sms;
  * @author pc
  *
  */
-public class SysConstant {
+public class SysConstant extends Constants{
 
   /** 短信渠道key*/
   public static final String MESSAGE_CHANNEL_KEY = "message_channel_key";

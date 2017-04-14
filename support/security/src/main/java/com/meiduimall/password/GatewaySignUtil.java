@@ -26,7 +26,6 @@ public class GatewaySignUtil {
 	 * @param appKey
 	 * @param param
 	 * @return String   
-	 * @throws
 	 */
 	public static String  sign(String appKey,Map<String,String> param) {
 		Map<String, String> map = new TreeMap<String, String>();
@@ -52,6 +51,9 @@ public class GatewaySignUtil {
         buffer.append(appKey);
         return MD5.MD5Encode(buffer.toString()).toUpperCase();
 	}
+	
+	
+	
 	
 
 }

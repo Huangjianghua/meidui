@@ -162,7 +162,7 @@ public class PaymentController {
 			} 
 			List<Object> list = new ArrayList<Object>();
 			tradePaybill.forEach(tids->{
-				if(!"".equals(tids)) //过滤掉tid为空的
+				if(!"".equals(tids.getTid())) //过滤掉tid为空的
 					list.add(tids.getTid());
 			});
 			//【获取订单金额接口】获取systrade_trade表信息
@@ -230,9 +230,9 @@ public class PaymentController {
 					json.put("msg", "支付的积分跟冻结的积分不相等!");
 					return json;
 				}  
-				
+				Logger.info("平台订单表里面的第三方支付金额:%s ;; 计算出来的第三方支付金额:%s", obj_p_trade_info.getCashPay(),paymentTrade.getMoney());
 				//obj_p_trade_info['cash_pay'] != 用户提交的money //第三方支付金额不相等，报错
-				if(obj_p_trade_info.getCashPay().equals(paymentTrade.getMoney())){
+				if(obj_p_trade_info.getCashPay().compareTo(new BigDecimal(paymentTrade.getMoney())) != 0){
 					Logger.info("第三方支付金额不相等!");
 					json.put("status", 11);
 					json.put("msg", "第三方支付金额不相等!");

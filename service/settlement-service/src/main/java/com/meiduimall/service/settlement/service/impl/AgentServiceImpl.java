@@ -1,12 +1,12 @@
 package com.meiduimall.service.settlement.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.common.collect.Maps;
 import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.settlement.dao.BaseMapper;
@@ -70,7 +70,7 @@ public class AgentServiceImpl implements AgentService {
 	@Override
 	public int updateScoreStatusByCode(int id, String code, int score) {
 		try {
-			Map<String,Object> params = new HashMap<String,Object>();
+			Map<String,Object> params = Maps.newHashMap();
 			params.put("id", id);
 			params.put("code", code);
 			params.put("score", score);
@@ -174,7 +174,7 @@ public class AgentServiceImpl implements AgentService {
 	@Override
 	public EcmMzfWater getWaterDetailByWaterId(String waterId, String waterType) {
 		try {
-			Map<String, Object> params = new HashMap<String, Object>();
+			Map<String, Object> params = Maps.newHashMap();
 			params.put("waterId", waterId);
 			params.put("waterType", waterType);
 			return baseMapper.selectOne(params, "EcmMzfWaterMapper.getWaterDetailByWaterId");
@@ -227,7 +227,7 @@ public class AgentServiceImpl implements AgentService {
 	@Override
 	public List<ShareProfitAgentLog> getAgentsRetry(int currentTimestamp, String key) {
 		try {
-			Map<String,Object> params = new HashMap<String,Object>();
+			Map<String,Object> params = Maps.newHashMap();
 			params.put("currentTimestamp", currentTimestamp);
 			params.put("key", key);
 			return baseMapper.selectList(params, "ShareProfitAgentLogMapper.getAgentsRetry");
@@ -250,7 +250,7 @@ public class AgentServiceImpl implements AgentService {
 	@Override
 	public List<EcmMzfAgentWater> getShareProfitResult(int id, String recNo) {
 		try {
-			Map<String,Object> params = new HashMap<String,Object>();
+			Map<String,Object> params = Maps.newHashMap();
 			params.put("id", id);
 			params.put("recNo", recNo);
 			return baseMapper.selectList(params, "EcmMzfAgentWaterMapper.getShareProfitResult");

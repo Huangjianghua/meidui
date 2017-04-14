@@ -4,15 +4,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.meiduimall.application.search.SearchApiCode;
 import com.meiduimall.application.search.constant.SolrConstant;
 import com.meiduimall.application.search.pojo.AppSearchParam;
 import com.meiduimall.application.search.pojo.QueryIndexResult;
 import com.meiduimall.application.search.services.AppProductIndexService;
 import com.meiduimall.application.search.utility.StringUtil;
-import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.core.SearchApiCode;
 
 /**
  * 搜索
@@ -62,7 +60,7 @@ public class AppSearchController extends BaseController {
 		}catch (Exception e) {
 			log.error("数据查询异常：{}",e);
 			res.setStatus(SearchApiCode.EXCEPTION_DATA_QUERY);
-			res.setMsg(BaseApiCode.getZhMsg(SearchApiCode.EXCEPTION_DATA_QUERY));
+			res.setMsg(SearchApiCode.getZhMsg(SearchApiCode.EXCEPTION_DATA_QUERY));
 		}
 		res.setData(qir);
 		return res;

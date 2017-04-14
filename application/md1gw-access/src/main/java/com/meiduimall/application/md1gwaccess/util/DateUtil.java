@@ -30,8 +30,8 @@ public class DateUtil {
         try {  
             SimpleDateFormat sdf = new SimpleDateFormat(format);  
             return String.valueOf(sdf.parse(date_str).getTime()/1000);  
-        } catch (Exception e) {  
-            e.printStackTrace();  
+        } catch (Exception e) { 
+        	Logger.info("系统错误:s%", e.getMessage());
         }  
         return "";  
     }  
@@ -52,7 +52,7 @@ public class DateUtil {
         	String reg = "(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})";
         	return date_str.replaceAll(reg, "$1-$2-$3 $4:$5:$6");
     	} catch (Exception e) {  
-    		e.printStackTrace();  
+    		Logger.info("系统错误:s%", e.getMessage());
     	}  
     	return "";  
     }  

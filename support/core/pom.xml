@@ -13,12 +13,6 @@
 	<packaging>jar</packaging>
 	<dependencies>
 
-	    <!--<dependency>-->
-			<!--<groupId>ch.qos.logback</groupId>-->
-			<!--<artifactId>logback-classic</artifactId>-->
-			<!--<version>${logback.version}</version>-->
-		<!--</dependency>-->
-		
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-core</artifactId>
@@ -60,14 +54,6 @@
 			<version>${httpclient.version}</version>
 		</dependency>
 
-
-
-		<!--&lt;!&ndash; test &ndash;&gt;-->
-		<!--<dependency>-->
-			<!--<groupId>org.springframework.boot</groupId>-->
-			<!--<artifactId>spring-boot-starter-test</artifactId>-->
-			<!--<scope>test</scope>-->
-		<!--</dependency>-->
         <dependency>
             <groupId>org.mock-server</groupId>
             <artifactId>mockserver-netty</artifactId>
@@ -86,6 +72,15 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
+        </dependency>
+         <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.meiduimall</groupId>
+            <artifactId>meiduimall-support-security</artifactId>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 

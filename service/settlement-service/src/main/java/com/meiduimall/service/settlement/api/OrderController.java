@@ -2,10 +2,8 @@ package com.meiduimall.service.settlement.api;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.service.settlement.common.SettlementUtil;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
@@ -240,7 +239,7 @@ public class OrderController {
 		
 		List<EcmMzfShareProfit> shareProfitList=orderService.queryProfitByWaterByType(waterId,loginType,code,pageNumber,pageSize);
 		
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = Maps.newHashMap();
 		map.put("shareProfitList", shareProfitList);
 		map.put("total", count);
 		
