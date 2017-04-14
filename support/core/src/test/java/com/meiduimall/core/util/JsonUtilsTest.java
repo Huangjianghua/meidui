@@ -1,16 +1,18 @@
 package com.meiduimall.core.util;
-import org.junit.Assert;
-
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import org.junit.Assert;
 import org.junit.Test;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 public class JsonUtilsTest {
 	
 	
-	private String jsonStr="{\"name\":\"张三\",\"age\":22,\"list\":[1,2,3,4],\"map\":{}}";
+	private String jsonStr="{\"name\":\"张三\",\"age\":22,\"list\":[1,2,3,4],\"map\":{},\"date\":\"2001-07-04T12:08:56.235-07:00\"}";
 	private String listStr="[1,2,34,5]";
 	private String mapStr="{\"age\":13}";
 	
@@ -31,7 +33,9 @@ public class JsonUtilsTest {
 		json.setAge(22);
 		json.setMap(map);
 		json.setList(list);
-		Assert.assertEquals(jsonStr,JsonUtils.beanToJson(json));
+		json.setDate(new Date());
+		//Assert.assertEquals(jsonStr,JsonUtils.beanToJson(json));
+		System.out.println(JsonUtils.beanToJson(json));
 	}
 	
 	
@@ -50,6 +54,14 @@ public class JsonUtilsTest {
 		private List<Integer> list;
 		private Map<String,Integer> map;
 		
+		private Date date;
+		
+		public Date getDate() {
+			return date;
+		}
+		public void setDate(Date date) {
+			this.date = date;
+		}
 		public String getName() {
 			return name;
 		}
