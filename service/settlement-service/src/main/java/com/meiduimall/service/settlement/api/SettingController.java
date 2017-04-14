@@ -37,9 +37,9 @@ public class SettingController {
 	 * 
 	 */
 	@PostMapping(value="/updatesystemsetting")
-	public ResBodyData updatesystemsetting(@Validated EcmSystemSetting systemSetting){
+	public ResBodyData updatesystemsetting(@Validated EcmSystemSetting systemSetting) {
 		EcmSystemSetting ecmSystemSetting = settingService.updatesystemsetting(systemSetting);
-		return SettlementUtil.buildReponseData(ecmSystemSetting, ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS, "成功");
+		return SettlementUtil.success(ecmSystemSetting);
 	}
 	
 
@@ -54,7 +54,7 @@ public class SettingController {
 	@PostMapping(value="/listsystemsetting")
 	public ResBodyData listsystemsetting(EcmSystemSetting systemSetting){
 		List<EcmSystemSetting> systemSettingList = settingService.listsystemsetting(systemSetting);
-		return SettlementUtil.buildReponseData(systemSettingList, ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS, "成功");	
+		return SettlementUtil.success(systemSettingList);
 	 }
 	
 }

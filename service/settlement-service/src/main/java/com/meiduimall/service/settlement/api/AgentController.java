@@ -16,7 +16,7 @@ import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.SettlementApiCode;
-import com.meiduimall.service.settlement.common.ShareProfitConstants;
+import com.meiduimall.service.settlement.common.SettlementUtil;
 import com.meiduimall.service.settlement.model.EcmAgent;
 import com.meiduimall.service.settlement.model.EcmMzfAccount;
 import com.meiduimall.service.settlement.model.EcmMzfAgentWater;
@@ -54,8 +54,6 @@ public class AgentController {
 	@PostMapping("/sharedeposit")
 	public ResBodyData shareDeposit(@Validated EcmAgent ecmAgent) {
 		
-		ResBodyData result = new ResBodyData();
-		
 		long start = System.currentTimeMillis();
 		logger.info("share profit for agent start:{}", start);
 		
@@ -73,11 +71,10 @@ public class AgentController {
 		logger.info("total time(second) for shareprofit:{}", (end - start) / 1000);
 		
 		if(CollectionUtils.isNotEmpty(resultList)){
-			result.setStatus(ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS);
-			result.setData(resultList);
+			return SettlementUtil.success(resultList);
 		}
+		return null;
 		
-		return result;
 
 	}
 	
@@ -90,15 +87,12 @@ public class AgentController {
 	 * return  ResBodyData
 	 */
 	@PostMapping("/sendscore")
-	public ResBodyData sendScore(@Validated EcmStore ecmStore){
-		ResBodyData result = new ResBodyData();
+	public ResBodyData sendScore(@Validated EcmStore ecmStore) {
 		List<Map<String,Object>> resultList = depositService.updateStoreScore(ecmStore);
 		if(CollectionUtils.isNotEmpty(resultList)){
-			result.setStatus(ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS);
-			result.setData(resultList);
+			return SettlementUtil.success(resultList);
 		}
-		return result;
-			
+		return null;	
 	}
 	
 	
@@ -111,11 +105,8 @@ public class AgentController {
 	 */
 	@PostMapping("/createaccoutbalance")
 	public ResBodyData createAccoutBalance(@Validated EcmMzfAccount ecmMzfAccount) {
-		ResBodyData result = new ResBodyData();
-		
 		depositService.createAccount(ecmMzfAccount);
-		result.setStatus(ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS);
-		return result;
+		return SettlementUtil.success(null);
 	}
 	
 	

@@ -171,31 +171,24 @@ public class DrawController {
 	@PostMapping(value="/verifydrawcashbyid")
 	public ResBodyData verifyDrawCashById(EcmMzfDraw ecmmzfdraw) {
 		
-		Map<String, Object> hashMap=Maps.newHashMap();
 		if(StringUtil.isEmpty(ecmmzfdraw.getDrawCode())){
-			return SettlementUtil.buildReponseData("", 0, "接口参数drawCode为空!");
+			throw new ServiceException(SettlementApiCode.VERIFY_DRAWCODE_ISNULL, BaseApiCode.getZhMsg(SettlementApiCode.VERIFY_DRAWCODE_ISNULL));
 		}
 
-		String msg="审核提现申请成功";
 		ecmmzfdraw.setStatus(DrawCashConstants.STATUS_VERIFIED_SUCDESS);
 		ecmmzfdraw.setVerifyName(StringUtil.isEmpty(ecmmzfdraw.getVerifyName())?"admin":ecmmzfdraw.getVerifyName());
 		ecmmzfdraw.setVerifyStatus(DrawCashConstants.STATUS_VERIFIED_SUCDESS);
 		ecmmzfdraw.setVerifyTime(DateUtil.getCurrentTimeSec());
 		
 		try {
-			hashMap = drawService.verifyDrawCashById(ecmmzfdraw);
+			Map<String, Object> hashMap = drawService.verifyDrawCashById(ecmmzfdraw);
+			if (hashMap == null || hashMap.isEmpty()) {
+				return SettlementUtil.success(hashMap);
+			}
 		} catch (ServiceException e) {
-			msg="审核提现申请操作失败!";
-			log.error("verifyDrawCashById() for drawCode:{} got error:{}",ecmmzfdraw.getDrawCode(),e.getMessage());
+			log.error("verifyDrawCashById() for drawCode:{} got error:{}", ecmmzfdraw.getDrawCode(), e.getMessage());
 		}
-		
-		int statusCode=ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS;
-		if(hashMap==null || hashMap.isEmpty()){
-			statusCode=ShareProfitConstants.RESPONSE_STATUS_CODE_FAILURE;
-		}
-		
-		return SettlementUtil.buildReponseData(hashMap, statusCode, msg);
-
+		return null;
 	}
 	
 	
@@ -209,30 +202,24 @@ public class DrawController {
 	@PostMapping(value="/rejectdrawcashbyid")
 	public ResBodyData rejectDrawCashById(EcmMzfDraw ecmmzfdraw) {
 		
-		Map<String, Object> hashMap=Maps.newHashMap();
 		if(StringUtil.isEmpty(ecmmzfdraw.getDrawCode()) || StringUtil.isEmpty(ecmmzfdraw.getRemark())){
-			return SettlementUtil.buildReponseData("", 1, "接口参数drawCode或remark为空!");
+			throw new ServiceException(SettlementApiCode.REJECT_DRAWCODE_REMARK_ISNULL, BaseApiCode.getZhMsg(SettlementApiCode.REJECT_DRAWCODE_REMARK_ISNULL));
 		}
 		
-		String msg="驳回提现申请成功";
 		ecmmzfdraw.setStatus(DrawCashConstants.STATUS_VERIFIED_REJECTED);
 		ecmmzfdraw.setVerifyName(StringUtil.isEmpty(ecmmzfdraw.getVerifyName())?"admin":ecmmzfdraw.getVerifyName());
 		ecmmzfdraw.setVerifyStatus(DrawCashConstants.STATUS_VERIFIED_REJECTED);
 		ecmmzfdraw.setVerifyTime(DateUtil.getCurrentTimeSec());
 		try {
-			hashMap = drawService.rejectDrawCashById(ecmmzfdraw);
-		} catch (Exception e) {
-			msg="驳回提现申请操作失败!";
-			log.error("rejectDrawCashById() for drawCode:{} got error:{}",ecmmzfdraw.getDrawCode(),e.getMessage());
-		}
-		
-		int statusCode=ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS;
-		if(hashMap==null || hashMap.isEmpty()){
-			statusCode=ShareProfitConstants.RESPONSE_STATUS_CODE_FAILURE;
-		}
-		
-		return SettlementUtil.buildReponseData(hashMap, statusCode, msg);
+			Map<String, Object> hashMap = drawService.rejectDrawCashById(ecmmzfdraw);
+			if (hashMap == null || hashMap.isEmpty()) {
+				return SettlementUtil.success(hashMap);
+			}
 
+		} catch (ServiceException e) {
+			log.error("rejectDrawCashById() for drawCode:{} got error:{}", ecmmzfdraw.getDrawCode(), e.getMessage());
+		}
+		return null;
 	}
 	
 	
@@ -246,16 +233,13 @@ public class DrawController {
 	@PostMapping(value="/confirmdrawcashbyidbytype")
 	public ResBodyData confirmDrawCashByIdByType(EcmMzfDraw ecmmzfdraw) {
 		
-		String msg="提现确认转账成功";
-		
 		if(ecmmzfdraw.getType()!=null && ecmmzfdraw.getType()==1){  //1:转账成功；0：转账失败
 			ecmmzfdraw.setStatus(DrawCashConstants.STATUS_TRANSFER_SUCCESS);
 			ecmmzfdraw.setFinanceStatus(DrawCashConstants.STATUS_TRANSFER_SUCCESS);
 		}else{
 			if(StringUtil.isEmpty(ecmmzfdraw.getRemark())){
-				return SettlementUtil.buildReponseData("", 1, "确认转账失败时，必须提供原因");
+				throw new ServiceException(SettlementApiCode.FAILURE_REASON, BaseApiCode.getZhMsg(SettlementApiCode.FAILURE_REASON));
 			}
-			msg="提现确认转账失败";
 			ecmmzfdraw.setStatus(DrawCashConstants.STATUS_TRANSFER_FAIL);
 			ecmmzfdraw.setFinanceStatus(DrawCashConstants.STATUS_TRANSFER_FAIL);
 
@@ -263,22 +247,17 @@ public class DrawController {
 		ecmmzfdraw.setFinanceTime(DateUtil.getCurrentTimeSec());
 		ecmmzfdraw.setFinanceName(StringUtil.isEmpty(ecmmzfdraw.getFinanceName())?"admin":ecmmzfdraw.getFinanceName());
 		
-		Map<String, Object> hashMap=Maps.newHashMap();
 		try {
-			hashMap = drawService.confirmDrawCashByIdByType(ecmmzfdraw);
-			msg+="操作成功!";
-		} catch (Exception e) {
-			msg+="操作失败!";
-			log.error("drawService.confirmDrawCashByIdByTyp() drawCode:{},got error:{}",ecmmzfdraw.getDrawCode(),e.getMessage());
+			Map<String, Object> hashMap = drawService.confirmDrawCashByIdByType(ecmmzfdraw);
+			if (hashMap == null || hashMap.isEmpty()) {
+				return SettlementUtil.success(hashMap);
+			}
+
+		} catch (ServiceException e) {
+			log.error("drawService.confirmDrawCashByIdByTyp() drawCode:{},got error:{}", ecmmzfdraw.getDrawCode(), e.getMessage());
 		}
-		
-		int statusCode=ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS;
-		if(hashMap==null || hashMap.isEmpty()){
-			statusCode=ShareProfitConstants.RESPONSE_STATUS_CODE_FAILURE;
-		}
-		
-		return SettlementUtil.buildReponseData(hashMap, statusCode, msg);
+		return null;
 	}
-	
+
 	
 }
