@@ -184,7 +184,7 @@ public class DrawController {
 			Map<String, Object> hashMap = drawService.verifyDrawCashById(ecmmzfdraw);
 			return SettlementUtil.success(hashMap);
 		} catch (ServiceException e) {
-			log.error("verifyDrawCashById() for drawCode:{} got error:{}", ecmmzfdraw.getDrawCode(), e.getMessage());
+			log.error("审核提现申请异常：提现编号{}异常信息{}", ecmmzfdraw.getDrawCode(), e.getMessage());
 			throw new ServiceException(SettlementApiCode.VERIFY_DRAWCASH_FAILURE, BaseApiCode.getZhMsg(SettlementApiCode.VERIFY_DRAWCASH_FAILURE));
 		}
 	}
@@ -212,7 +212,7 @@ public class DrawController {
 			Map<String, Object> hashMap = drawService.rejectDrawCashById(ecmmzfdraw);
 			return SettlementUtil.success(hashMap);
 		} catch (ServiceException e) {
-			log.error("rejectDrawCashById() for drawCode:{} got error:{}", ecmmzfdraw.getDrawCode(), e.getMessage());
+			log.error("驳回提现申请异常：提现编号{}异常信息{}", ecmmzfdraw.getDrawCode(), e.getMessage());
 			throw new ServiceException(SettlementApiCode.REJECT_DRAWCASH_FAILURE, BaseApiCode.getZhMsg(SettlementApiCode.REJECT_DRAWCASH_FAILURE));
 		}
 	}
@@ -246,7 +246,7 @@ public class DrawController {
 			Map<String, Object> hashMap = drawService.confirmDrawCashByIdByType(ecmmzfdraw);
 			return SettlementUtil.success(hashMap);
 		} catch (ServiceException e) {
-			log.error("drawService.confirmDrawCashByIdByTyp() drawCode:{},got error:{}", ecmmzfdraw.getDrawCode(), e.getMessage());
+			log.error("确认转账成功或失败操作异常：提现编号{}异常信息{}", ecmmzfdraw.getDrawCode(), e.getMessage());
 			throw new ServiceException(SettlementApiCode.CONFIRM_DRAWCASH_FAILURE, BaseApiCode.getZhMsg(SettlementApiCode.CONFIRM_DRAWCASH_FAILURE));
 		}
 	}
