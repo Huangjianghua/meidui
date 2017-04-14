@@ -1,11 +1,7 @@
 package com.meiduimall.service.settlement.model;
 
 import javax.validation.constraints.NotNull;
-
 import org.hibernate.validator.constraints.NotBlank;
-
-import com.meiduimall.service.settlement.common.PagerHelper;
-import com.meiduimall.service.settlement.validation.ValidGroup1;
 
 /**
  * Title : EcmSystemSetting 

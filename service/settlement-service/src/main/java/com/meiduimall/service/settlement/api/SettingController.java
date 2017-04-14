@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.service.settlement.common.SettlementUtil;
-import com.meiduimall.service.settlement.common.ShareProfitConstants;
 import com.meiduimall.service.settlement.model.EcmSystemSetting;
 import com.meiduimall.service.settlement.service.SettingService;
 
