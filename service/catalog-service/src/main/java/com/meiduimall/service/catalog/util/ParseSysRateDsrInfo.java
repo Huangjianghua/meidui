@@ -1,5 +1,6 @@
 package com.meiduimall.service.catalog.util;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -8,7 +9,7 @@ import java.util.TreeMap;
  * @author yangchang
  *
  */
-public class ParserSysRateDsrInfo {
+public class ParseSysRateDsrInfo {
 
 	public static float getValue(String content) throws Exception {
 
@@ -16,7 +17,7 @@ public class ParserSysRateDsrInfo {
 			return 5.0f;
 		}
 
-		Map<Integer, Integer> map = parser(content);
+		Map<Integer, Integer> map = parse(content);
 
 		if (map == null || map.size() == 0) {
 			return 5.0f;
@@ -46,9 +47,10 @@ public class ParserSysRateDsrInfo {
 	 * 
 	 * @param content
 	 * @return
-	 * @throws Exception
+	 * @throws UnsupportedEncodingException
+	 * @throws IllegalAccessException
 	 */
-	public static Map<Integer, Integer> parser(String content) throws Exception {
+	private static Map<Integer, Integer> parse(String content) throws Exception {
 		if (content == null || content.length() < 1) {
 			return null;
 		}

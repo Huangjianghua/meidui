@@ -50,6 +50,9 @@ public class Constants {
 	public static final String ENCODE_GB2312 = "GB2312";
 	public static final String ENCODE_ISO8859_1 = "ISO-8859-1";
 	
+	/**常用的Content-Type**/
+	public static final String CONTENT_TYPE_TEXT_UTF8 = "text/html;charset=UTF-8";
+	
 	public static final String SEPARATOR_COMMA=",";
 
 

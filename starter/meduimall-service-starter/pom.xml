@@ -42,6 +42,7 @@
         <zipkin.version>1.0.10.RELEASE</zipkin.version>
 		<log4jdbc.version>1.2</log4jdbc.version>  
         <slf4j.version>1.7.6</slf4j.version>
+        <jacoco.version>0.7.9</jacoco.version>
 
     </properties>
 
@@ -157,11 +158,11 @@
                 <artifactId>jul-to-slf4j</artifactId>
                 <version>${slf4j.version}</version>
             </dependency>
-	         <dependency>  
-	            <groupId>com.googlecode.log4jdbc</groupId>  
-	            <artifactId>log4jdbc</artifactId> 
-	            <version>${log4jdbc.version}</version> 
-	        </dependency> 
+	         <dependency>
+	            <groupId>com.googlecode.log4jdbc</groupId>
+	            <artifactId>log4jdbc</artifactId>
+	            <version>${log4jdbc.version}</version>
+	        </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -206,11 +207,56 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>
-        <dependency>  
-            <groupId>com.googlecode.log4jdbc</groupId>  
-            <artifactId>log4jdbc</artifactId>  
-        </dependency>  
+        <dependency>
+            <groupId>com.googlecode.log4jdbc</groupId>
+            <artifactId>log4jdbc</artifactId>
+        </dependency>
+
+        <!-- Java Code Coverage -->
+        <dependency>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>${jacoco.version}</version>
+        </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <!-- JaCoCo configuration -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <id>default-prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>default-report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <includes>
+                        <include>**/*Test.java</include>
+                    </includes>
+                    <excludes>
+                        <exclude>**/Abstract*.java</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <profiles>
         <profile>
@@ -238,7 +284,7 @@
             <url>http://maven.meiduimall.com/repository/maven-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
-	
+
     <repositories>
         <repository>
             <id>maven-public</id>
@@ -252,7 +298,7 @@
             </snapshots>
         </repository>
     </repositories>
-	
+
     <pluginRepositories>
         <pluginRepository>
             <id>maven-public</id>

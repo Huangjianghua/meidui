@@ -9,19 +9,13 @@
  */
 
 package com.meiduimall.service.sms.service.impl;
-import com.meiduimall.core.BaseApiCode;
+import java.util.Date;
 
-import com.meiduimall.core.SmsApiCode;
-import com.meiduimall.core.util.JsonUtils;
-import com.meiduimall.exception.ServiceException;
-import com.meiduimall.redis.util.RedisUtils;
-import com.meiduimall.service.sms.SysConstant;
-import com.meiduimall.service.sms.entity.SendSmsHistory;
-import com.meiduimall.service.sms.entity.TemplateInfo;
-import com.meiduimall.service.sms.mapper.SendSmsHistoryMapper;
-import com.meiduimall.service.sms.model.message.CommonShortMessageModel;
-import com.meiduimall.service.sms.service.SmsService;
-import com.meiduimall.service.sms.util.Time;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +23,18 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import com.meiduimall.core.BaseApiCode;
+import com.meiduimall.core.util.JsonUtils;
+import com.meiduimall.exception.ServiceException;
+import com.meiduimall.redis.util.RedisUtils;
+import com.meiduimall.service.sms.SmsApiCode;
+import com.meiduimall.service.sms.SysConstant;
+import com.meiduimall.service.sms.entity.SendSmsHistory;
+import com.meiduimall.service.sms.entity.TemplateInfo;
+import com.meiduimall.service.sms.mapper.SendSmsHistoryMapper;
+import com.meiduimall.service.sms.model.message.CommonShortMessageModel;
+import com.meiduimall.service.sms.service.SmsService;
+import com.meiduimall.service.sms.util.Time;
 
 
 /**
@@ -91,7 +96,7 @@ public class SmsServiceImpl implements SmsService {
       int count = StringUtils.countMatches(content, "{");
       if (replaces.length < count) {
         logger.info("替换短信模板内容异常：%s", "替换内容与替换参数不匹配，replaces=" + replaces + ",count=" + count);
-        throw new ServiceException(SmsApiCode.PARAM_ERROR,BaseApiCode.getZhMsg(SmsApiCode.PARAM_ERROR));
+        throw new ServiceException(SmsApiCode.PARAM_ERROR,SmsApiCode.getZhMsg(SmsApiCode.PARAM_ERROR));
 //        return result;
       }
       for (int index = 0; index < replaces.length; index++) {
@@ -133,19 +138,19 @@ public class SmsServiceImpl implements SmsService {
 
     String tempMsg = RedisUtils.get(phone + templateId + params);
     if (StringUtils.isNotEmpty(tempMsg)) {
-      throw new ServiceException(SmsApiCode.REPEATING,BaseApiCode.getZhMsg(SmsApiCode.REPEATING));
+      throw new ServiceException(SmsApiCode.REPEATING,SmsApiCode.getZhMsg(SmsApiCode.REPEATING));
     }
 
     //获取消息模板
     String templateListJsonStr = messageChannelService.getTemplateList(SysConstant.MESSAGE_TEMPLATE_KEY);
     if (StringUtils.isEmpty(templateListJsonStr)) {
-      throw new ServiceException(SmsApiCode.NOT_FOUND_TEMPLATES,BaseApiCode.getZhMsg(SmsApiCode.NOT_FOUND_TEMPLATES));
+      throw new ServiceException(SmsApiCode.NOT_FOUND_TEMPLATES,SmsApiCode.getZhMsg(SmsApiCode.NOT_FOUND_TEMPLATES));
     }
 
     TemplateInfo ti = getTemplateByKey(templateId, templateListJsonStr);
 
     if (StringUtils.isEmpty(ti.getTemplateKey()) || StringUtils.isEmpty(ti.getTemplateContent())) {
-      throw new ServiceException(SmsApiCode.NOT_FOUND_TEMPLATES,BaseApiCode.getZhMsg(SmsApiCode.NOT_FOUND_TEMPLATES));
+      throw new ServiceException(SmsApiCode.NOT_FOUND_TEMPLATES,SmsApiCode.getZhMsg(SmsApiCode.NOT_FOUND_TEMPLATES));
     }
 
     String content = ti.getTemplateContent();
@@ -177,14 +182,14 @@ public class SmsServiceImpl implements SmsService {
     //获取消息模板
     String templateListJsonStr = messageChannelService.getTemplateList(SysConstant.MESSAGE_TEMPLATE_KEY);
     if (StringUtils.isEmpty(templateListJsonStr)) {
-      throw new ServiceException(SmsApiCode.NOT_FOUND_TEMPLATES,BaseApiCode.getZhMsg(SmsApiCode.NOT_FOUND_TEMPLATES));
+      throw new ServiceException(SmsApiCode.NOT_FOUND_TEMPLATES,SmsApiCode.getZhMsg(SmsApiCode.NOT_FOUND_TEMPLATES));
 //      return result;
     }
 
     TemplateInfo ti = getTemplateByKey(model.getTemplateId(), templateListJsonStr);
 
     if (StringUtils.isEmpty(ti.getTemplateKey()) || StringUtils.isEmpty(ti.getTemplateContent())) {
-      throw new ServiceException(SmsApiCode.NOT_FOUND_TEMPLATES,BaseApiCode.getZhMsg(SmsApiCode.NOT_FOUND_TEMPLATES));
+      throw new ServiceException(SmsApiCode.NOT_FOUND_TEMPLATES,SmsApiCode.getZhMsg(SmsApiCode.NOT_FOUND_TEMPLATES));
 //      return result;
     }
 

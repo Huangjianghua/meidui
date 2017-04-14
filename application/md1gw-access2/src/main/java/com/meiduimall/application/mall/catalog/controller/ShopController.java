@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.application.mall.catalog.annotation.HasToken;
+import com.meiduimall.application.mall.catalog.constant.ApplicationMallApiCode;
 import com.meiduimall.application.mall.catalog.request.ShopProductRequest;
 import com.meiduimall.application.mall.catalog.service.impl.ShopServiceImpl;
-import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.exception.ApiException;
 
 @RestController
@@ -40,7 +40,7 @@ public class ShopController {
 			return shopService.getShopDetailHttp(shopId, mem_id);
 		} catch (NumberFormatException e) {
 			logger.error("根据店铺shop_id，获取店铺详情，服务器异常：" + e);
-			throw new ApiException(BaseApiCode.REQUEST_PARAMS_ERROR);
+			throw new ApiException(ApplicationMallApiCode.REQUEST_PARAMS_ERROR);
 		}
 	}
 
@@ -64,7 +64,7 @@ public class ShopController {
 			return shopService.collectOrCancelShopHttp(shopId, isCollect, mem_id);
 		} catch (NumberFormatException e) {
 			logger.error("收藏店铺或者取消收藏，服务器异常：" + e);
-			throw new ApiException(BaseApiCode.REQUEST_PARAMS_ERROR);
+			throw new ApiException(ApplicationMallApiCode.REQUEST_PARAMS_ERROR);
 		}
 	}
 
@@ -82,7 +82,7 @@ public class ShopController {
 			return shopService.getShopProductCatalogHttp(shopId);
 		} catch (NumberFormatException e) {
 			logger.error("获取商家自定义商品分类列表，服务器异常：" + e);
-			throw new ApiException(BaseApiCode.REQUEST_PARAMS_ERROR);
+			throw new ApiException(ApplicationMallApiCode.REQUEST_PARAMS_ERROR);
 		}
 	}
 

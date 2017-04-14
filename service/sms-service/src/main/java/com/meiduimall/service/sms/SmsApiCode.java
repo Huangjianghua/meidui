@@ -1,10 +1,7 @@
-package com.meiduimall.core;
-
-import java.util.Map;
-
+package com.meiduimall.service.sms;
 import com.meiduimall.core.BaseApiCode;
 
-public class SmsApiCode {
+public class SmsApiCode extends BaseApiCode{
 	public static final Integer NOT_FOUND=-1;
 	public static final Integer UNKNOWN=-9;
 	public static final Integer REPEATING=-2;
@@ -15,8 +12,7 @@ public class SmsApiCode {
 	public static final Integer NOT_FOUND_TEMPLATE=-5;
 	public static final Integer SMS_SEND_FAILUER=-6;
 	
-	public static void initResponseCode(){
-		Map<Integer,String> zhMsgMap = BaseApiCode.zhMsgMap;
+	static {
 		zhMsgMap.put(NOT_FOUND, "service not found");
 		zhMsgMap.put(UNKNOWN, "service not found");
 		zhMsgMap.put(REPEATING, "请勿频繁重复发送短信");

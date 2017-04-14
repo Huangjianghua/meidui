@@ -2,7 +2,7 @@ package com.meiduimall.service.catalog.util;
 
 import java.util.List;
 
-public class ParserItemSpecDescBean {
+public class ParseItemSpecDescBean {
 
 	private Integer prop_id;// 规格ID -- 对应syscategory_props表的prop_id字段
 	private List<PropBean> propBeanList;

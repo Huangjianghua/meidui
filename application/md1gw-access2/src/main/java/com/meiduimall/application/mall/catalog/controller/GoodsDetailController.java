@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.meiduimall.application.mall.catalog.constant.ApplicationMallApiCode;
 import com.meiduimall.application.mall.catalog.service.impl.GoodsDetailServiceImpl;
-import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.exception.ApiException;
 
 /**
@@ -42,7 +42,7 @@ public class GoodsDetailController {
 			return goodsDetailService.getItemDetailHttp(itemId, mem_id);
 		} catch (NumberFormatException e) {
 			logger.error("根据商品item_id获取商品详情，服务器异常：" + e);
-			throw new ApiException(BaseApiCode.REQUEST_PARAMS_ERROR);
+			throw new ApiException(ApplicationMallApiCode.REQUEST_PARAMS_ERROR);
 		}
 	}
 }

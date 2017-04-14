@@ -11,7 +11,7 @@ import com.meiduimall.service.catalog.interceptor.MemIdInterceptor;
 /**
  * 注册拦截器到上下文
  * 
- * @author 杨长福
+ * @author changchangfu
  *
  */
 @Configuration

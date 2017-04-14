@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
-import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.service.financial.constant.ServiceFinancialApiCode;
 import com.meiduimall.service.financial.entity.DownloadStatistics;
 import com.meiduimall.service.financial.service.DownloadStatisticsService;
 import com.meiduimall.service.financial.util.HttpTools;
@@ -44,8 +44,8 @@ public class DownloadStatisticsController {
 
 			if (StringUtils.isEmpty(portal)) {
 				ResBodyData result = new ResBodyData();
-				result.setStatus(BaseApiCode.REQUEST_PARAMS_ERROR);
-				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.REQUEST_PARAMS_ERROR));
+				result.setStatus(ServiceFinancialApiCode.REQUEST_PARAMS_ERROR);
+				result.setMsg(ServiceFinancialApiCode.getZhMsg(ServiceFinancialApiCode.REQUEST_PARAMS_ERROR));
 				result.setData(new JSONObject());
 				return result;
 			}
@@ -65,8 +65,8 @@ public class DownloadStatisticsController {
 		} catch (Exception e) {
 			logger.error("插入下载渠道，报异常：" + e);
 			ResBodyData result = new ResBodyData();
-			result.setStatus(BaseApiCode.OPERAT_FAIL);
-			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
+			result.setStatus(ServiceFinancialApiCode.OPERAT_FAIL);
+			result.setMsg(ServiceFinancialApiCode.getZhMsg(ServiceFinancialApiCode.OPERAT_FAIL));
 			result.setData(new JSONObject());
 			return result;
 		}
@@ -102,8 +102,8 @@ public class DownloadStatisticsController {
 		} catch (Exception e) {
 			logger.error("查询下载渠道信息，报异常：" + e);
 			ResBodyData result = new ResBodyData();
-			result.setStatus(BaseApiCode.OPERAT_FAIL);
-			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
+			result.setStatus(ServiceFinancialApiCode.OPERAT_FAIL);
+			result.setMsg(ServiceFinancialApiCode.getZhMsg(ServiceFinancialApiCode.OPERAT_FAIL));
 			result.setData(new JSONObject());
 			return result;
 		}

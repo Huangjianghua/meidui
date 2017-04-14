@@ -1,15 +1,16 @@
-package com.meiduimall.service.catalog.util;
+package com.meiduimall.core.util;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class HttpTools {
+public class HttpHeaderTools {
 	
-	private static org.slf4j.Logger logger = LoggerFactory.getLogger(HttpTools.class);
+	private static Logger logger = LoggerFactory.getLogger(HttpHeaderTools.class);
 
 	/**
 	 * 获取当前请求的IP地址

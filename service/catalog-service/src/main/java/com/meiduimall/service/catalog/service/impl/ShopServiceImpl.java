@@ -3,13 +3,14 @@ package com.meiduimall.service.catalog.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.service.catalog.constant.ServiceCatalogApiCode;
 import com.meiduimall.service.catalog.dao.BaseDao;
 import com.meiduimall.service.catalog.entity.SysshopShop;
 import com.meiduimall.service.catalog.entity.SysshopShopCat;
@@ -27,7 +28,6 @@ import com.meiduimall.service.catalog.result.ShopCatResult;
 import com.meiduimall.service.catalog.result.ShopProductList;
 import com.meiduimall.service.catalog.service.ShopService;
 import com.meiduimall.service.catalog.service.common.ShopCommonService;
-import com.meiduimall.service.catalog.util.StringUtil;
 
 @Service
 public class ShopServiceImpl implements ShopService {
@@ -46,19 +46,19 @@ public class ShopServiceImpl implements ShopService {
 
 			if (shopData == null) {
 				/** 没有这个店铺 */
-				result.setStatus(BaseApiCode.NO_THIS_SHOP);
-				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.NO_THIS_SHOP));
+				result.setStatus(ServiceCatalogApiCode.NO_THIS_SHOP);
+				result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.NO_THIS_SHOP));
 				result.setData(new JSONObject());
 				return result;
 			}
 
 			result.setData(shopData);
-			result.setStatus(BaseApiCode.SUCCESS);
-			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.SUCCESS));
+			result.setStatus(ServiceCatalogApiCode.SUCCESS);
+			result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.SUCCESS));
 		} catch (Exception e) {
 			logger.error("根据商品编号，获取商品详情，service报异常：" + e);
-			result.setStatus(BaseApiCode.OPERAT_FAIL);
-			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
+			result.setStatus(ServiceCatalogApiCode.OPERAT_FAIL);
+			result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.OPERAT_FAIL));
 			result.setData(new JSONObject());
 		}
 		return result;
@@ -70,8 +70,8 @@ public class ShopServiceImpl implements ShopService {
 		try {
 			// 获取user_id
 			if (sysuserAccount == null) {
-				result.setStatus(BaseApiCode.NO_LOGIN);
-				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.NO_LOGIN));
+				result.setStatus(ServiceCatalogApiCode.NO_LOGIN);
+				result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.NO_LOGIN));
 				result.setData(new JSONObject());
 				return result;
 			}
@@ -86,8 +86,8 @@ public class ShopServiceImpl implements ShopService {
 				criteria.andUserIdEqualTo(userId);
 				int collectCount = baseDao.selectOne(shopFavExample, "SysuserShopFavMapper.countByExample");
 				if (collectCount > 0) {
-					result.setStatus(BaseApiCode.SUCCESS);
-					result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.COLLECT_SUCCESS));
+					result.setStatus(ServiceCatalogApiCode.SUCCESS);
+					result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.COLLECT_SUCCESS));
 					result.setData(new JSONObject());
 					return result;
 				}
@@ -100,8 +100,8 @@ public class ShopServiceImpl implements ShopService {
 
 				if (shopList == null || shopList.size() == 0) {
 					// 没有这个店铺
-					result.setStatus(BaseApiCode.NO_THIS_SHOP);
-					result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.NO_THIS_SHOP));
+					result.setStatus(ServiceCatalogApiCode.NO_THIS_SHOP);
+					result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.NO_THIS_SHOP));
 					result.setData(new JSONObject());
 					return result;
 				}
@@ -118,12 +118,12 @@ public class ShopServiceImpl implements ShopService {
 				shopFav.setUserId(userId);
 				Integer insertCount = baseDao.insert(shopFav, "SysuserShopFavMapper.insertSelective");
 				if (insertCount > 0) {
-					result.setStatus(BaseApiCode.SUCCESS);
-					result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.COLLECT_SUCCESS));
+					result.setStatus(ServiceCatalogApiCode.SUCCESS);
+					result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.COLLECT_SUCCESS));
 					result.setData(new JSONObject());
 				} else {
-					result.setStatus(BaseApiCode.COLLECT_FAIL);
-					result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.COLLECT_FAIL));
+					result.setStatus(ServiceCatalogApiCode.COLLECT_FAIL);
+					result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.COLLECT_FAIL));
 					result.setData(new JSONObject());
 				}
 			} else {
@@ -134,12 +134,12 @@ public class ShopServiceImpl implements ShopService {
 				shopFavCriteria.andShopIdEqualTo(shopId);
 				Integer deleteCount = baseDao.delete(shopFavExample, "SysuserShopFavMapper.deleteByExample");
 				if (deleteCount > 0) {
-					result.setStatus(BaseApiCode.SUCCESS);
-					result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.CANCEL_COLLECT_SUCCESS));
+					result.setStatus(ServiceCatalogApiCode.SUCCESS);
+					result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.CANCEL_COLLECT_SUCCESS));
 					result.setData(new JSONObject());
 				} else {
-					result.setStatus(BaseApiCode.CANCEL_COLLECT_FAIL);
-					result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.CANCEL_COLLECT_FAIL));
+					result.setStatus(ServiceCatalogApiCode.CANCEL_COLLECT_FAIL);
+					result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.CANCEL_COLLECT_FAIL));
 					result.setData(new JSONObject());
 				}
 			}
@@ -149,8 +149,8 @@ public class ShopServiceImpl implements ShopService {
 			} else {
 				logger.error("取消收藏店铺，service报异常：" + e);
 			}
-			result.setStatus(BaseApiCode.OPERAT_FAIL);
-			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
+			result.setStatus(ServiceCatalogApiCode.OPERAT_FAIL);
+			result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.OPERAT_FAIL));
 			result.setData(new JSONObject());
 		}
 		return result;
@@ -201,17 +201,17 @@ public class ShopServiceImpl implements ShopService {
 				shopCatResult.setResults(results);
 
 				result.setData(shopCatResult);
-				result.setStatus(BaseApiCode.SUCCESS);
-				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.SUCCESS));
+				result.setStatus(ServiceCatalogApiCode.SUCCESS);
+				result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.SUCCESS));
 			} else {
-				result.setStatus(BaseApiCode.NONE_DATA);
-				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.NONE_DATA));
+				result.setStatus(ServiceCatalogApiCode.NONE_DATA);
+				result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.NONE_DATA));
 				result.setData(new JSONObject());
 			}
 		} catch (Exception e) {
 			logger.error("获取店铺分类商品，service报异常：" + e);
-			result.setStatus(BaseApiCode.OPERAT_FAIL);
-			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
+			result.setStatus(ServiceCatalogApiCode.OPERAT_FAIL);
+			result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.OPERAT_FAIL));
 			result.setData(new JSONObject());
 		}
 		return result;
@@ -224,7 +224,7 @@ public class ShopServiceImpl implements ShopService {
 			ShopProductList data = new ShopProductList();
 
 			// 设置排序字段
-			if (StringUtil.isEmptyByString(param.getOrder_by())) {
+			if (StringUtils.isBlank(param.getOrder_by())) {
 				param.setOrder_by("store");
 			}
 			switch (param.getOrder_by()) {
@@ -243,7 +243,7 @@ public class ShopServiceImpl implements ShopService {
 			}
 
 			// 设置排序规则--升序或者降序
-			if (StringUtil.isEmptyByString(param.getColumn())) {
+			if (StringUtils.isBlank(param.getColumn())) {
 				param.setColumn("desc");
 			}
 			switch (param.getColumn()) {
@@ -277,13 +277,13 @@ public class ShopServiceImpl implements ShopService {
 			data.setProductList(productList);
 
 			result.setData(data);
-			result.setStatus(BaseApiCode.SUCCESS);
-			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.SUCCESS));
+			result.setStatus(ServiceCatalogApiCode.SUCCESS);
+			result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.SUCCESS));
 
 		} catch (Exception e) {
 			logger.error("获取店铺商品列表，service报异常：" + e);
-			result.setStatus(BaseApiCode.OPERAT_FAIL);
-			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
+			result.setStatus(ServiceCatalogApiCode.OPERAT_FAIL);
+			result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.OPERAT_FAIL));
 			result.setData(new JSONObject());
 		}
 		return result;

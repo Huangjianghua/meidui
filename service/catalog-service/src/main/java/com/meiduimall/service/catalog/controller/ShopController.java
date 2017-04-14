@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
-import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.service.catalog.annotation.HasMemId;
+import com.meiduimall.service.catalog.constant.ServiceCatalogApiCode;
 import com.meiduimall.service.catalog.entity.SysuserAccount;
 import com.meiduimall.service.catalog.request.ShopProductRequest;
 import com.meiduimall.service.catalog.service.ShopService;
@@ -47,8 +47,8 @@ public class ShopController {
 			} catch (Exception e) {
 				logger.error("根据店铺ID，查询店铺详细信息，店铺ID错误：" + e);
 				ResBodyData result = new ResBodyData();
-				result.setStatus(BaseApiCode.REQUEST_PARAMS_ERROR);
-				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.REQUEST_PARAMS_ERROR));
+				result.setStatus(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
+				result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR));
 				result.setData(new JSONObject());
 				return result;
 			}
@@ -56,8 +56,8 @@ public class ShopController {
 		} catch (Exception e) {
 			logger.error("根据店铺ID，查询店铺详细信息，服务器异常：" + e);
 			ResBodyData result = new ResBodyData();
-			result.setStatus(BaseApiCode.OPERAT_FAIL);
-			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
+			result.setStatus(ServiceCatalogApiCode.OPERAT_FAIL);
+			result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.OPERAT_FAIL));
 			result.setData(new JSONObject());
 			return result;
 		}
@@ -90,8 +90,8 @@ public class ShopController {
 			} catch (Exception e) {
 				logger.error("收藏店铺，服务器异常：" + e);
 				ResBodyData result = new ResBodyData();
-				result.setStatus(BaseApiCode.REQUEST_PARAMS_ERROR);
-				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.REQUEST_PARAMS_ERROR));
+				result.setStatus(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
+				result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR));
 				result.setData(new JSONObject());
 				return result;
 			}
@@ -100,8 +100,8 @@ public class ShopController {
 		} catch (Exception e) {
 			logger.error("收藏店铺，服务器异常：" + e);
 			ResBodyData result = new ResBodyData();
-			result.setStatus(BaseApiCode.OPERAT_FAIL);
-			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
+			result.setStatus(ServiceCatalogApiCode.OPERAT_FAIL);
+			result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.OPERAT_FAIL));
 			result.setData(new JSONObject());
 			return result;
 		}
@@ -123,8 +123,8 @@ public class ShopController {
 			} catch (Exception e) {
 				logger.error("获取店铺商品分类，店铺ID错误：" + e);
 				ResBodyData result = new ResBodyData();
-				result.setStatus(BaseApiCode.REQUEST_PARAMS_ERROR);
-				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.REQUEST_PARAMS_ERROR));
+				result.setStatus(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
+				result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR));
 				result.setData(new JSONObject());
 				return result;
 			}
@@ -132,8 +132,8 @@ public class ShopController {
 		} catch (Exception e) {
 			logger.error("获取店铺商品分类，服务器异常：" + e);
 			ResBodyData result = new ResBodyData();
-			result.setStatus(BaseApiCode.OPERAT_FAIL);
-			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
+			result.setStatus(ServiceCatalogApiCode.OPERAT_FAIL);
+			result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.OPERAT_FAIL));
 			result.setData(new JSONObject());
 			return result;
 		}
@@ -161,8 +161,8 @@ public class ShopController {
 		} catch (Exception e) {
 			logger.error("获取店铺商品列表，服务器异常：" + e);
 			ResBodyData result = new ResBodyData();
-			result.setStatus(BaseApiCode.OPERAT_FAIL);
-			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
+			result.setStatus(ServiceCatalogApiCode.OPERAT_FAIL);
+			result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.OPERAT_FAIL));
 			result.setData(new JSONObject());
 			return result;
 		}
