@@ -3,7 +3,6 @@ package com.meiduimall.service.settlement.service.impl;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -64,7 +63,7 @@ public class DrawServiceImpl implements DrawService {
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	@Override
 	public Map<String, Object> verifyDrawCashById(EcmMzfDraw ecmmzfdraw) {
-		Map<String, Object> hashMap = new HashMap<>();
+		Map<String, Object> hashMap = Maps.newHashMap();
 		Integer update = baseMapper.update(ecmmzfdraw, "EcmMzfDrawMapper.verifydrawcashbyid");
 		if(update>0){
 			hashMap.put("drawCode", ecmmzfdraw.getDrawCode());

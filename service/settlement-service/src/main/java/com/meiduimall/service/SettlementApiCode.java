@@ -15,6 +15,9 @@ public class SettlementApiCode extends BaseApiCode {
 	public static final Integer SEND_STORE_SCORE_FAILE = 7006;
 	public static final Integer ORDER_SHARE_DATA_EMPTY = 7008;
 	public static final Integer BALANCE_NOT_ENOUGH = 7009;
+	public static final Integer WATERID_OR_WATERTYPE_ISNULL = 7010;
+	public static final Integer LOGIN_TYPE_ISNULL = 7011;
+	public static final Integer LOGIN_TYPE_AGENTCODE_ISNULL = 7012;
 	
 	static {
 		Map<Integer, String> zhMsgMap = BaseApiCode.zhMsgMap;
@@ -27,6 +30,9 @@ public class SettlementApiCode extends BaseApiCode {
 		zhMsgMap.put(SEND_STORE_SCORE_FAILE, "新商家送积分失败");
 		zhMsgMap.put(ORDER_SHARE_DATA_EMPTY, "订单分润数据为空");
 		zhMsgMap.put(BALANCE_NOT_ENOUGH, "提现金额不能大于账号可提现金额，请重新输入");
+		zhMsgMap.put(WATERID_OR_WATERTYPE_ISNULL, "流水编号或流水类型不能为空");
+		zhMsgMap.put(LOGIN_TYPE_ISNULL, "查询账单流水详情，登陆类型不能为空");
+		zhMsgMap.put(LOGIN_TYPE_AGENTCODE_ISNULL, "查询账单流水详情，登陆类型为代理，代理编号不能为空");
 
 	}
 
