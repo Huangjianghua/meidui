@@ -65,7 +65,7 @@ public class DrawServiceImpl implements DrawService {
 	public Map<String, Object> verifyDrawCashById(EcmMzfDraw ecmmzfdraw) {
 		Map<String, Object> hashMap = Maps.newHashMap();
 		Integer update = baseMapper.update(ecmmzfdraw, "EcmMzfDrawMapper.verifydrawcashbyid");
-		if(update>0){
+		if (update > 0) {
 			hashMap.put("drawCode", ecmmzfdraw.getDrawCode());
 			hashMap.put("status", DrawCashConstants.STATUS_VERIFIED_SUCDESS);
 		}

@@ -18,6 +18,9 @@ public class SettlementApiCode extends BaseApiCode {
 	public static final Integer WATERID_OR_WATERTYPE_ISNULL = 7010;
 	public static final Integer LOGIN_TYPE_ISNULL = 7011;
 	public static final Integer LOGIN_TYPE_AGENTCODE_ISNULL = 7012;
+	public static final Integer VERIFY_DRAWCODE_ISNULL = 7013;
+	public static final Integer REJECT_DRAWCODE_REMARK_ISNULL = 7013;
+	public static final Integer FAILURE_REASON = 7014;
 	
 	static {
 		Map<Integer, String> zhMsgMap = BaseApiCode.zhMsgMap;
@@ -33,6 +36,9 @@ public class SettlementApiCode extends BaseApiCode {
 		zhMsgMap.put(WATERID_OR_WATERTYPE_ISNULL, "流水编号或流水类型不能为空");
 		zhMsgMap.put(LOGIN_TYPE_ISNULL, "查询账单流水详情，登陆类型不能为空");
 		zhMsgMap.put(LOGIN_TYPE_AGENTCODE_ISNULL, "查询账单流水详情，登陆类型为代理，代理编号不能为空");
+		zhMsgMap.put(VERIFY_DRAWCODE_ISNULL, "审核提现申请时，提现编号不能为空");
+		zhMsgMap.put(REJECT_DRAWCODE_REMARK_ISNULL, "驳回提现申请时，提现编号和驳回原因不能为空");
+		zhMsgMap.put(FAILURE_REASON, "确认转账失败时，必须提供原因");
 
 	}
 

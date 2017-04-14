@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.collect.ImmutableMap;
@@ -55,7 +53,7 @@ public class OrderController {
 	 * return  ResBodyData
 	 * 
 	 */
-	@RequestMapping(value="/shareprofit",method=RequestMethod.POST)
+	@PostMapping("/shareprofit")
 	public ResBodyData shareProfit(@Validated EcmOrder ecmOrder){
 		
 		long start=System.currentTimeMillis();
@@ -134,13 +132,12 @@ public class OrderController {
 	@PostMapping(value="/queryorderstatus")
 	public ResBodyData queryOrderStatus(String[] orderSns) {
 		
-		List<EcmMzfOrderStatus> queryorderstatus=new ArrayList<EcmMzfOrderStatus>();
+		List<EcmMzfOrderStatus> queryorderstatus = new ArrayList<EcmMzfOrderStatus>();
 		
-		if(orderSns!=null && orderSns.length>0){
+		if (orderSns != null && orderSns.length > 0) {
 			queryorderstatus = orderService.queryOrderStatus(Arrays.asList(orderSns));
 		}
-		
-		return SettlementUtil.buildReponseData(queryorderstatus, ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS, "查询订单状态成功!");
+		return SettlementUtil.success(queryorderstatus);
 		
 	}
 	
@@ -186,18 +183,14 @@ public class OrderController {
 	 * return  ResBodyData
 	 * 
 	 */
-	@RequestMapping(value="/queryshareprofit",method=RequestMethod.POST)
-	@ResponseBody
+	@PostMapping("/queryshareprofit")
 	public ResBodyData queryShareProfit(String[] orderSns) {
+		List<EcmMzfShareProfit> shareProfits = new ArrayList<EcmMzfShareProfit>();
 		
-		List<EcmMzfShareProfit> shareProfits=new ArrayList<EcmMzfShareProfit>();
-		
-		if(orderSns!=null && orderSns.length>0){
+		if (orderSns != null && orderSns.length > 0) {
 			shareProfits = orderService.queryShareProfit(Arrays.asList(orderSns));
 		}
-
-		return SettlementUtil.buildReponseData(shareProfits, ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS, "成功!");
-
+		return SettlementUtil.success(shareProfits);
 	}
 	
 	
@@ -210,14 +203,10 @@ public class OrderController {
 	 * return ResBodyData
 	 * 
 	 */
-	@RequestMapping(value="/queryprofitbyrole",method=RequestMethod.POST)
-	@ResponseBody
+	@PostMapping("/queryprofitbyrole")
 	public ResBodyData queryProfitByRole(String code,Integer accountRoleType) {
-		
-		ShareProfitVO shareProfitVO=orderService.queryProfitByRole(code,accountRoleType);
-	
-		return SettlementUtil.buildReponseData(shareProfitVO, ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS, "成功!");
-
+		ShareProfitVO shareProfitVO = orderService.queryProfitByRole(code, accountRoleType);
+		return SettlementUtil.success(shareProfitVO);
 	}
 	
 	/**
@@ -231,20 +220,17 @@ public class OrderController {
 	 * return ResBodyData
 	 * 
 	 */
-	@RequestMapping(value="/queryprofitbywaterbytype",method=RequestMethod.POST)
-	@ResponseBody
-	public ResBodyData queryProfitByWaterByType(String waterId,Integer loginType,String code,Integer pageNumber,Integer pageSize) {
-		
+	@PostMapping("/queryprofitbywaterbytype")
+	public ResBodyData queryProfitByWaterByType(String waterId, Integer loginType, String code, Integer pageNumber, Integer pageSize) {
 		Integer count = orderService.queryProfitCountByWaterId(waterId);
 		
-		List<EcmMzfShareProfit> shareProfitList=orderService.queryProfitByWaterByType(waterId,loginType,code,pageNumber,pageSize);
+		List<EcmMzfShareProfit> shareProfitList = orderService.queryProfitByWaterByType(waterId, loginType, code, pageNumber, pageSize);
 		
 		Map<String, Object> map = Maps.newHashMap();
 		map.put("shareProfitList", shareProfitList);
 		map.put("total", count);
 		
-		return SettlementUtil.buildReponseData(map, ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS, "查询账单流水详情数据成功!");
-
+		return SettlementUtil.success(map);
 	}
 	
 	/**
@@ -257,16 +243,14 @@ public class OrderController {
 	 * return  ResBodyData
 	 * 
 	 */
-	@RequestMapping(value="/querytotalprofit",method=RequestMethod.POST)
+	@PostMapping("/querytotalprofit")
 	public ResBodyData queryTotalProfit(String[] codes,Integer billStartDate,Integer billEndDate) {
 		
 		List<ShareProfitVO> shareProfitVOs=new ArrayList<ShareProfitVO>();
 		if(codes!=null && codes.length>0){
-			shareProfitVOs= orderService.queryTotalProfit(Arrays.asList(codes),billStartDate,billEndDate);
+			shareProfitVOs = orderService.queryTotalProfit(Arrays.asList(codes), billStartDate, billEndDate);
 		}
-
-		return SettlementUtil.buildReponseData(shareProfitVOs, ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS, "查询汇总分润数据成功!");
-
+		return SettlementUtil.success(shareProfitVOs);
 	}
 
 
