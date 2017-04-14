@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.core.SmsApiCode;
 import com.meiduimall.exception.ServiceException;
+import com.meiduimall.service.sms.SmsApiCode;
 import com.meiduimall.service.sms.model.message.CommonShortMessageModel;
 import com.meiduimall.service.sms.service.SmsService;
 
@@ -60,7 +60,7 @@ public class SmsController {
     try {
       smsService.sendSmsMessage(model);
     } catch (Exception e) {
-      throw new ServiceException(SmsApiCode.NOT_FOUND,BaseApiCode.getZhMsg(SmsApiCode.NOT_FOUND));
+      throw new ServiceException(SmsApiCode.NOT_FOUND,SmsApiCode.getZhMsg(SmsApiCode.NOT_FOUND));
     }
     logger.info("结束发普通短信程序");
 

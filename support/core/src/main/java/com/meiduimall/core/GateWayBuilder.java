@@ -1,7 +1,7 @@
 package com.meiduimall.core;
 
 
-public class GateWayBuilder {
+public final class GateWayBuilder {
 	
 	private GateWayComponent component;
 

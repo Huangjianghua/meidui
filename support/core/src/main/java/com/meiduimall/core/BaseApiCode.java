@@ -98,8 +98,6 @@ public class BaseApiCode {
 	}
 
 	static {
-		SmsApiCode.initResponseCode();
-		SearchApiCode.initResponseCode();
 		zhMsgMap.put(SUCCESS, "系统正常");
 		zhMsgMap.put(NOT_EXISTS_CLIENTID, "clientID请求参数不存在");
 		zhMsgMap.put(NOT_EXISTS_TIMESTAMP, "timestamp请求参数不存在或者非数字");
