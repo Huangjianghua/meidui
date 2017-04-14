@@ -93,12 +93,12 @@ public class UserServiceImpl implements UserService {
 		HttpHeaders headers = new HttpHeaders();
 		MediaType type = MediaType.parseMediaType(HttpRConst.MEDIATYPE_KEYVALUE);
 		headers.setContentType(type);
-		JSONObject json = new JSONObject();
-		json.put("memId", memId);
-		json.put("pay_pwd", payPwd);
-		JSONObject commonJSON = CommonUtil.CommonJSON(json);
-		HttpEntity<JSONObject> formEntity = new HttpEntity<JSONObject>(commonJSON, headers);
-		Logger.info("验证支付密码组装发送数据 :%s", commonJSON);
+		HashMap<String, String> hashMap = new HashMap<String,String>();
+		hashMap.put("memId", memId);
+		hashMap.put("pay_pwd", payPwd);
+		Map<String, String> commonMap = CommonUtil.CommonMap(hashMap);
+		HttpEntity<Map<String, String>> formEntity = new HttpEntity<Map<String, String>>(commonMap, headers);
+		Logger.info("验证支付密码组装发送数据 :%s", commonMap);
 		JSONObject postForObject = restTemplate.postForObject(url, formEntity, JSONObject.class);
 		Logger.info("验证支付密码请求结果 :%s", postForObject);
 		return postForObject;
