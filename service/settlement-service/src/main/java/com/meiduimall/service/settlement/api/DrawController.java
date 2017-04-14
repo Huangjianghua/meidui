@@ -113,10 +113,7 @@ public class DrawController {
 		}
 
 		boolean result = drawService.insertDrawInfo(ecmMzfDraw);
-		if(result){
-			return SettlementUtil.success(result);
-		}
-		return null;
+		return SettlementUtil.success(result);
 	}
 	
 	

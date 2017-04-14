@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.ServiceException;
+import com.meiduimall.service.SettlementApiCode;
 import com.meiduimall.service.settlement.common.SettlementUtil;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 import com.meiduimall.service.settlement.model.EcmMzfOrderStatus;
@@ -56,68 +59,36 @@ public class OrderController {
 	@PostMapping("/shareprofit")
 	public ResBodyData shareProfit(@Validated EcmOrder ecmOrder){
 		
-		long start=System.currentTimeMillis();
-		log.info("share profit for order start:{}",start);
+		long start = System.currentTimeMillis();
+		log.info("share profit for order start:{}", start);
 		
-		Integer statusCode=ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS;
-		boolean isSuccess=true;
 		//shareStatus:0:未分润;1已分润
 		Integer shareStatus=1;
-		String resultMsg="订单分润成功!";
-		final List<String> errors=new ArrayList<String>();
 		
-		EcmMzfShareProfit shareProfit=null;
-		try {
-			boolean isExisted=orderService.checkShareProfitExisted(ecmOrder.getOrderSn());
-			if(isExisted){
-				resultMsg="该订单已经分润过啦！不能再重复分润!";
-				statusCode=ShareProfitConstants.RESPONSE_STATUS_CODE_FAILURE;
-				return SettlementUtil.buildReponseData(ImmutableMap.of("orderSn", ecmOrder.getOrderSn(),"shareStatus",shareStatus), statusCode, resultMsg);
-			}
-			
-			shareProfit=orderService.buildShareProfit(ecmOrder,errors);
-		} catch (Exception e) {
-			resultMsg="订单分润失败!";
-			shareStatus=0;
-			statusCode=ShareProfitConstants.RESPONSE_STATUS_CODE_FAILURE;
-			log.error("buildShareProfit() for orderSn:{} in OrderController got error:{}",ecmOrder.getOrderSn(),e.getMessage());
-			log.info("buildShareProfit() got exception:"+errors.toString());
-			return SettlementUtil.buildReponseData(ImmutableMap.of("orderSn", ecmOrder.getOrderSn(),"shareStatus",shareStatus), statusCode, resultMsg);
+		//判断该订单号是否为重复分润
+		boolean isExisted = orderService.checkShareProfitExisted(ecmOrder.getOrderSn());
+		if(isExisted){
+			throw new ServiceException(SettlementApiCode.ORDER_ALREADY_SHAREPROFIT, BaseApiCode.getZhMsg(SettlementApiCode.ORDER_ALREADY_SHAREPROFIT));
 		}
 		
-		if(errors!=null && !errors.isEmpty()){
-			log.info("orderSn:{},分润数据有错误:{}",ecmOrder.getOrderSn(),errors.toString());
-			resultMsg=errors.toString();
-			statusCode=ShareProfitConstants.RESPONSE_STATUS_CODE_FAILURE;
-			shareStatus=0;
-			return SettlementUtil.buildReponseData(ImmutableMap.of("orderSn", ecmOrder.getOrderSn(),"shareStatus",shareStatus), statusCode, resultMsg);
+		EcmMzfShareProfit shareProfit = orderService.buildShareProfit(ecmOrder);
+		
+		//保存分润数据到DB
+		if (shareProfit == null) {
+			log.error("订单分润数据为空(shareProfit)");
+			throw new ServiceException(SettlementApiCode.ORDER_SHARE_DATA_EMPTY, BaseApiCode.getZhMsg(SettlementApiCode.ORDER_SHARE_DATA_EMPTY));
 		}
 		
-		//2.保存分润数据到DB
-		if(shareProfit!=null){
-			try{
-				orderService.saveShareProfit(shareProfit);
-			}catch(Exception e){
-				isSuccess=false;
-				log.error("saveShareProfit() for orderSn:{} got Exception:{}",shareProfit.getOrderSn(),e.getMessage(),e);
-			}
-		}else{
-			isSuccess=false;
-		}
-
-		if(!isSuccess){
-			statusCode=ShareProfitConstants.RESPONSE_STATUS_CODE_FAILURE;
-			resultMsg="订单分润失败!";
-			shareStatus=0;
-		}else{
-			//异步同步积分到会员系统
-			asyncTaskService.updateScore2MemberSystem(shareProfit,ShareProfitConstants.SHARE_PROFIT_SOURCE_O2O,null);
-		}
+		orderService.saveShareProfit(shareProfit);
 		
-		long end=System.currentTimeMillis();
+		//异步同步积分到会员系统
+		asyncTaskService.updateScore2MemberSystem(shareProfit, ShareProfitConstants.SHARE_PROFIT_SOURCE_O2O, null);
+		
+		long end = System.currentTimeMillis();
 		log.info("share profit for order end:{}",end);
 		log.info("total time(second) for shareprofit:{}", (end-start)/1000);
-		return SettlementUtil.buildReponseData(ImmutableMap.of("orderSn", ecmOrder.getOrderSn(),"shareStatus",shareStatus), statusCode, resultMsg);
+		
+		return SettlementUtil.success(ImmutableMap.of("orderSn", ecmOrder.getOrderSn(),"shareStatus",shareStatus));
 	}
 
 
