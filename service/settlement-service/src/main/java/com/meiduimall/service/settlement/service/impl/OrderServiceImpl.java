@@ -258,7 +258,11 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public List<EcmMzfOrderStatus> queryOrderStatus(List<String> orderSns) {
-		return baseMapper.selectList(ImmutableMap.of("orderSns", orderSns), "EcmMzfOrderStatusMapper.queryorderstatus");
+		try {
+			return baseMapper.selectList(ImmutableMap.of("orderSns", orderSns), "EcmMzfOrderStatusMapper.queryorderstatus");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
 	}
 
 	
