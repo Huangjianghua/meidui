@@ -32,16 +32,16 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private BaseMapper baseMapper;
-	
+
 	@Autowired
 	private RestTemplate restTemplate;
-	
+
 	@Autowired
 	private MyProps myProps;
 
 	@Override
-	public Map<String,Object> getUserInfo(SysuserUser sysuserUser) throws Exception {
-		Map<String,Object> selectOne = baseMapper.selectOne(sysuserUser, "SysuserUserMapper.getUserInfo");
+	public Map<String, Object> getUserInfo(SysuserUser sysuserUser) throws Exception {
+		Map<String, Object> selectOne = baseMapper.selectOne(sysuserUser, "SysuserUserMapper.getUserInfo");
 		return selectOne;
 	}
 
@@ -53,13 +53,13 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Integer updateMF(SysuserUser sysuserUser) throws Exception {
 		return baseMapper.update(sysuserUser, "SysuserUserMapper.updateMF");
-		
+
 	}
 
 	@Override
 	public Integer updateUsersWalletPay(SysuserWalletPaylog sysuserWalletPaylog) throws Exception {
 		return baseMapper.update(sysuserWalletPaylog, "SysuserWalletPaylogMapper.updateUsersWalletPay");
-		
+
 	}
 
 	@Override
@@ -70,15 +70,15 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Integer insertSysuserUserScore(SysuserUserScore sysuserUserScore) throws Exception {
-		 
+
 		return baseMapper.insert(sysuserUserScore, "SysuserUserScoreMapper.insertSysuserUserScore");
 	}
 
 	@Override
 	public JSONObject getMemberBasicInfo(String memId) throws Exception {
-		String url = myProps.getUserCenterUrl()+"/member/front_user_center/v1/get_member_basic_info";
+		String url = myProps.getUserCenterUrl() + "/member/front_user_center/v1/get_member_basic_info";
 		url = url + "?memId={memId}&clientID={clientID}&timestamp={timestamp}&sign={sign}";
-		Map<String, String> map = new HashMap<String,String>();
+		Map<String, String> map = new HashMap<String, String>();
 		map.put("memId", memId);
 		Map<String, String> commonMap = CommonUtil.CommonMap(map);
 		Logger.info("组装发送数据 :%s", commonMap);
@@ -86,29 +86,30 @@ public class UserServiceImpl implements UserService {
 		Logger.info("获取用户信息结果 :%s", postForObject);
 		return postForObject;
 	}
-	
-	
-	
+
 	@Override
-	public JSONObject validePayPwd(String token,String payPwd)throws Exception{
-		String url = myProps.getRouteServiceUrl()+"/member/account_service/v1/valide_pay_pwd";
-		HashMap<String, String> pwdMap = new HashMap<String,String>();
-		pwdMap.put("token", token);
-		pwdMap.put("pay_pwd", payPwd);
-		ResponseEntity<String> validepwd = restTemplate.postForEntity(
-				url,
-				CommonUtil.CommonMap(pwdMap), String.class);
-		Logger.info("验证支付密码请求结果 :%s", validepwd.getBody());
-		JSONObject validepwdObj = JSONObject.fromObject(validepwd.getBody());
-		return validepwdObj;
-		
+	public JSONObject validePayPwd(String token, String payPwd) throws Exception {
+		String url = myProps.getRouteServiceUrl() + "/member/account_service/v1/valide_pay_pwd";
+		HttpHeaders headers = new HttpHeaders();
+		MediaType type = MediaType.parseMediaType(HttpRConst.MEDIATYPE_JSON_FOR_APP);
+		headers.setContentType(type);
+		JSONObject json = new JSONObject();
+		json.put("token", token);
+		json.put("pay_pwd", payPwd);
+		JSONObject commonJSON = CommonUtil.CommonJSON(json);
+		HttpEntity<JSONObject> formEntity = new HttpEntity<JSONObject>(commonJSON, headers);
+		Logger.info("验证支付密码组装发送数据 :%s", commonJSON);
+		JSONObject postForObject = restTemplate.postForObject(url, formEntity, JSONObject.class);
+		Logger.info("验证支付密码请求结果 :%s", postForObject);
+		return postForObject;
+
 	}
 
 	@Override
 	public JSONObject tokenTOmemId(String token) throws Exception {
-		String url = myProps.getUserCenterUrl()+"/member/front_user_center/v1/get_memid_by_token";
+		String url = myProps.getUserCenterUrl() + "/member/front_user_center/v1/get_memid_by_token";
 		url = url + "?token={token}&clientID={clientID}&timestamp={timestamp}&sign={sign}";
-		Map<String, String> map = new HashMap<String,String>();
+		Map<String, String> map = new HashMap<String, String>();
 		map.put(OauthConst.TOKEN, token);
 		Map<String, String> commonMap = CommonUtil.CommonMap(map);
 		Logger.info("tokenTOmemId组装发送数据:%s", commonMap);
@@ -120,7 +121,7 @@ public class UserServiceImpl implements UserService {
 	@SuppressWarnings("static-access")
 	@Override
 	public JSONObject freezeUnfreeze(PaymentTrade paymentTrade, Map<String, Object> paymentBill) throws Exception {
-		String url = myProps.getRouteServiceUrl()+"/member/account_service/v1/freeze_unfreeze";
+		String url = myProps.getRouteServiceUrl() + "/member/account_service/v1/freeze_unfreeze";
 		HttpHeaders headers = new HttpHeaders();
 		MediaType type = MediaType.parseMediaType(HttpRConst.MEDIATYPE_JSON_FOR_APP);
 		headers.setContentType(type);
@@ -129,8 +130,8 @@ public class UserServiceImpl implements UserService {
 		json.put("order_source", "1gw");
 		if (new BigDecimal(paymentBill.get("curMoney").toString()).compareTo(new BigDecimal(0)) != 1) {
 			json.put("pay_type", 2);
-			//没有第三方支付
-		}else{
+			// 没有第三方支付
+		} else {
 			json.put("pay_type", 3);
 		}
 		json.put("status", 3);
@@ -143,10 +144,9 @@ public class UserServiceImpl implements UserService {
 		return new JSONObject().fromObject(string);
 	}
 
-	
 	@Override
-	public JSONObject getMemIdByUserId(Integer userId)  throws Exception{
-		String url = myProps.getPayUrl()+"openapi/user/getMemIdByUserId?user_id=";
+	public JSONObject getMemIdByUserId(Integer userId) throws Exception {
+		String url = myProps.getPayUrl() + "openapi/user/getMemIdByUserId?user_id=";
 		url = url + userId;
 		Logger.info("getMemIdByUserId组装发送数据:%s", url);
 		JSONObject forObject = restTemplate.getForObject(url, JSONObject.class);
@@ -157,7 +157,7 @@ public class UserServiceImpl implements UserService {
 	@SuppressWarnings("static-access")
 	@Override
 	public JSONObject unfreezeDeduct(Map<String, Object> paymentBill, String memId) throws Exception {
-		String url = myProps.getRouteServiceUrl()+"/member/account_service/v1/freeze_unfreeze";
+		String url = myProps.getRouteServiceUrl() + "/member/account_service/v1/freeze_unfreeze";
 		HttpHeaders headers = new HttpHeaders();
 		MediaType type = MediaType.parseMediaType(HttpRConst.MEDIATYPE_JSON_FOR_APP);
 		headers.setContentType(type);
@@ -166,8 +166,8 @@ public class UserServiceImpl implements UserService {
 		json.put("order_source", "1gw");
 		if (new BigDecimal(paymentBill.get("curMoney").toString()).compareTo(new BigDecimal(0)) != 1) {
 			json.put("pay_type", 2);
-			//没有第三方支付
-		}else{
+			// 没有第三方支付
+		} else {
 			json.put("pay_type", 3);
 		}
 		json.put("status", 3);
@@ -182,7 +182,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public JSONObject sendSmsMessage(String mobile, String tid) throws Exception {
-		String url = myProps.getSendSmsUrl()+"/notify/short_msg_service/v1/send_common_sms_message";
+		String url = myProps.getSendSmsUrl() + "/notify/short_msg_service/v1/send_common_sms_message";
 		HttpHeaders headers = new HttpHeaders();
 		MediaType type = MediaType.parseMediaType(HttpRConst.MEDIATYPE_KEYVALUE);
 		headers.setContentType(type);
