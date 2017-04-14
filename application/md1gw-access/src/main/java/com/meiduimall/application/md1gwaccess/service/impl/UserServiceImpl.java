@@ -88,6 +88,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public JSONObject validePayPwd(String memId, String payPwd) throws Exception {
+		Logger.info("解密之后:%s", payPwd);
 		String url = myProps.getRouteServiceUrl() + "/member/account_service/v1/valide_pay_pwd";
 		HttpHeaders headers = new HttpHeaders();
 		MediaType type = MediaType.parseMediaType(HttpRConst.MEDIATYPE_JSON_FOR_APP);

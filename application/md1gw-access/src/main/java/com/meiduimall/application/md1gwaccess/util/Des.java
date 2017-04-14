@@ -1,6 +1,7 @@
 package com.meiduimall.application.md1gwaccess.util;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.security.SecureRandom;
 
 import javax.crypto.Cipher;
@@ -8,8 +9,8 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 
-import sun.misc.BASE64Encoder;
 import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
 
 @SuppressWarnings("restriction")
 public class Des {
@@ -27,6 +28,7 @@ public class Des {
 	public static String appdecrypt(String data, String key) throws IOException, Exception {
 		if (data == null)
 			return null;
+		data = URLDecoder.decode(URLDecoder.decode(data, "utf-8"),"utf-8");
 		BASE64Decoder decoder = new BASE64Decoder();
 		byte[] buf = decoder.decodeBuffer(data);
 		byte[] bt = decrypt(buf, key.getBytes());
@@ -89,4 +91,5 @@ public class Des {
 
 		return cipher.doFinal(data);
 	}
+	
 }
