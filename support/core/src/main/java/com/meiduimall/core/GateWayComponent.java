@@ -11,7 +11,7 @@ import com.meiduimall.password.util.MD5;
 /**
  * Copyright (C), 2002-2017, 美兑壹购物
  * FileName: Component.java
- * Author:   Administrator
+ * Author:   陈建宇
  * Date:     2017年4月13日 下午6:40:05
  * Description: 访问微服务
  */
