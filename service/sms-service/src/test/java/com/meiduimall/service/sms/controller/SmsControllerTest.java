@@ -20,8 +20,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.core.SmsApiCode;
 import com.meiduimall.exception.ServiceException;
+import com.meiduimall.service.sms.SmsApiCode;
 import com.meiduimall.service.sms.model.message.CommonShortMessageModel;
 
 /**
