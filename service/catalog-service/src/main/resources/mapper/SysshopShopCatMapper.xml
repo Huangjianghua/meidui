@@ -85,7 +85,6 @@
       distinct
     </if>
     * 
-    <!-- <include refid="Base_Column_List" /> -->
     from sysshop_shop_cat
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -98,7 +97,6 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     * 
-    <!-- <include refid="Base_Column_List" /> -->
     from sysshop_shop_cat
     where cat_id = #{catId,jdbcType=INTEGER}
   </select>

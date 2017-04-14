@@ -84,9 +84,6 @@
     <if test="distinct" >
       distinct
     </if>
-    <!-- <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" /> -->
     * 
     from sysitem_item_desc
     <if test="_parameter != null" >
@@ -102,7 +99,6 @@
     <if test="distinct" >
       distinct
     </if>
-    <!-- <include refid="Base_Column_List" /> -->
     item_id 
     from sysitem_item_desc
     <if test="_parameter != null" >
@@ -115,9 +111,6 @@
   
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 
-    <!-- <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" /> -->
     * 
     from sysitem_item_desc
     where item_id = #{itemId,jdbcType=INTEGER}

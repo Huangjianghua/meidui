@@ -78,7 +78,6 @@
       distinct
     </if>
     * 
-    <!-- <include refid="Base_Column_List" /> -->
     from sysitem_sku_store
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -91,7 +90,6 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     * 
-    <!-- <include refid="Base_Column_List" /> -->
     from sysitem_sku_store
     where sku_id = #{skuId,jdbcType=INTEGER}
   </select>

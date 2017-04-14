@@ -84,7 +84,6 @@
       distinct
     </if>
     * 
-    <!-- <include refid="Base_Column_List" /> -->
     from sysitem_item_count
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -97,7 +96,6 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     * 
-    <!-- <include refid="Base_Column_List" /> -->
     from sysitem_item_count
     where item_id = #{itemId,jdbcType=INTEGER}
   </select>

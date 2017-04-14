@@ -213,8 +213,6 @@
 			distinct
 		</if>
 		*
-		<!-- <include refid="Base_Column_List" /> , <include refid="Blob_Column_List" 
-			/> -->
 		from sysitem_item
 		<if test="_parameter != null">
 			<include refid="Example_Where_Clause" />
@@ -243,7 +241,6 @@
 		supply_type,
 		isbreak, isdirect, through_reason, point,
 		is_show_weight
-		<!-- <include refid="Base_Column_List" /> -->
 		from sysitem_item
 		<if test="_parameter != null">
 			<include refid="Example_Where_Clause" />
@@ -257,8 +254,6 @@
 		parameterType="java.lang.Integer">
 		select
 		*
-		<!-- <include refid="Base_Column_List" /> , <include refid="Blob_Column_List" 
-			/> -->
 		from sysitem_item
 		where item_id = #{itemId,jdbcType=INTEGER}
 	</select>

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.catalog.constant.ServiceCatalogApiCode;
 import com.meiduimall.service.catalog.dao.BaseDao;
 import com.meiduimall.service.catalog.entity.IdAndMemId;
@@ -54,52 +55,41 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 
 	@Override
 	public ResBodyData checkItemIsExistById(int item_id) {
+
+		/** TODO --------查询这个商品ID是否存在-------- */
+		int count = baseDao.selectOne(item_id, "SysitemItemMapper.getItemCountByItemId");
 		
-		ResBodyData result = new ResBodyData();
-		try {
+		if (count > 0) {
+			// 返回访问这个商品的详情页的地址
+			ResBodyData result = new ResBodyData();
+			CheckGoodsResult bean = new CheckGoodsResult();
+			String base_url = env.getProperty("estore.base-url");
+			String url = base_url + "/item.html?item_id=" + item_id;
+			bean.setUrl(url);
 
-			/** TODO --------查询这个商品ID是否存在-------- */
-			int count = baseDao.selectOne(item_id, "SysitemItemMapper.getItemCountByItemId");
-			if (count > 0) {
-				// 返回访问这个商品的详情页的地址
-				CheckGoodsResult bean = new CheckGoodsResult();
-				String base_url = env.getProperty("estore.base-url");
-				String url = base_url + "/item.html?item_id=" + item_id;
-				bean.setUrl(url);
-
-				result.setData(bean);
-				result.setStatus(ServiceCatalogApiCode.SUCCESS);
-				result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.SUCCESS));
-			} else {
-				result.setData(JsonUtils.getInstance().createObjectNode());
-				result.setStatus(ServiceCatalogApiCode.NONE_DATA);
-				result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.NONE_DATA));
-			}
-
-			/** TODO ----------查询该商品状态------- */
-			/*
-			 * SysitemItemStatus itemStatus = baseDao.selectOne(item_id,
-			 * "SysitemItemStatusMapper.selectByPrimaryKey"); String
-			 * approveStatus = itemStatus.getApproveStatus(); if
-			 * ("onsale".equals(approveStatus)) { // 返回访问这个商品的详情页的地址
-			 * CheckGoodsResult bean = new CheckGoodsResult(); String base_url =
-			 * env.getProperty("estore.base-url"); String url = base_url +
-			 * "/item.html?item_id=" + item_id; bean.setUrl(url);
-			 * 
-			 * result.setData(bean); result.setStatus(BaseApiCode.SUCCESS);
-			 * result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.SUCCESS)); } else
-			 * { result.setData(new JSONObject());
-			 * result.setStatus(BaseApiCode.NONE_DATA);
-			 * result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.NONE_DATA)); }
-			 */
-
-		} catch (Exception e) {
-			result.setData(JsonUtils.getInstance().createObjectNode());
-			result.setStatus(ServiceCatalogApiCode.OPERAT_FAIL);
-			result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.OPERAT_FAIL));
-			logger.error("查询商品信息，service报异常：" + e);
+			result.setData(bean);
+			result.setStatus(ServiceCatalogApiCode.SUCCESS);
+			result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.SUCCESS));
+			return result;
+		} else {
+			throw new ServiceException(ServiceCatalogApiCode.NONE_DATA);
 		}
-		return result;
+
+		/** TODO ----------查询该商品状态------- */
+		/*
+		 * SysitemItemStatus itemStatus = baseDao.selectOne(item_id,
+		 * "SysitemItemStatusMapper.selectByPrimaryKey"); String approveStatus =
+		 * itemStatus.getApproveStatus(); if ("onsale".equals(approveStatus)) {
+		 * // 返回访问这个商品的详情页的地址 CheckGoodsResult bean = new CheckGoodsResult();
+		 * String base_url = env.getProperty("estore.base-url"); String url =
+		 * base_url + "/item.html?item_id=" + item_id; bean.setUrl(url);
+		 * 
+		 * result.setData(bean); result.setStatus(BaseApiCode.SUCCESS);
+		 * result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.SUCCESS)); } else {
+		 * result.setData(new JSONObject());
+		 * result.setStatus(BaseApiCode.NONE_DATA);
+		 * result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.NONE_DATA)); }
+		 */
 	}
 
 	@Override

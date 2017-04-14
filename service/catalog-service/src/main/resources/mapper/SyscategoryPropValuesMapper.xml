@@ -79,7 +79,6 @@
       distinct
     </if>
     * 
-    <!-- <include refid="Base_Column_List" /> -->
     from syscategory_prop_values
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -92,7 +91,6 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     * 
-    <!-- <include refid="Base_Column_List" /> -->
     from syscategory_prop_values
     where prop_value_id = #{propValueId,jdbcType=INTEGER}
   </select>
