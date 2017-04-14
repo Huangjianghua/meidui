@@ -21,6 +21,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
+import org.springframework.web.client.RestTemplate;
 
 import com.github.pagehelper.PageHelper;
 import com.meiduimall.aspect.pointcut.MethodLogAdvice;
@@ -122,4 +123,11 @@ public class MyBatisConfig implements TransactionManagementConfigurer{
         return new MethodLogAdvice();
     }
 
+    
+    
+	@Bean
+	RestTemplate restTemplate()    
+	{
+		return new RestTemplate();
+	}
 }
