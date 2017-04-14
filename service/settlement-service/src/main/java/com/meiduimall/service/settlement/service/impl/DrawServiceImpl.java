@@ -6,12 +6,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Maps;
+import com.meiduimall.core.BaseApiCode;
+import com.meiduimall.exception.ServiceException;
+import com.meiduimall.service.SettlementApiCode;
 import com.meiduimall.service.settlement.common.CodeRuleUtil;
 import com.meiduimall.service.settlement.common.DrawCashConstants;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
@@ -33,6 +38,7 @@ public class DrawServiceImpl implements DrawService {
 	@Autowired
 	private AgentService agentService;
 
+	private static final Logger log = LoggerFactory.getLogger(DrawServiceImpl.class);
 	
 	@Override
 	public Map<String, Object> queryAccoutBalance(String code) {
@@ -60,7 +66,7 @@ public class DrawServiceImpl implements DrawService {
 	}
 
 	
-	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	@Override
 	public Map<String, Object> verifyDrawCashById(EcmMzfDraw ecmmzfdraw) {
 		Map<String, Object> hashMap = Maps.newHashMap();
@@ -68,12 +74,15 @@ public class DrawServiceImpl implements DrawService {
 		if (update > 0) {
 			hashMap.put("drawCode", ecmmzfdraw.getDrawCode());
 			hashMap.put("status", DrawCashConstants.STATUS_VERIFIED_SUCDESS);
+		} else {
+			log.error("审核提现申请异常：提现编号{}", ecmmzfdraw.getDrawCode());
+			throw new ServiceException(SettlementApiCode.VERIFY_DRAWCASH_FAILURE, BaseApiCode.getZhMsg(SettlementApiCode.VERIFY_DRAWCASH_FAILURE));
 		}
 		return hashMap;
 	}
 
 	
-	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	@Override
 	public Map<String, Object> rejectDrawCashById(EcmMzfDraw ecmmzfdraw) {
 		
@@ -157,12 +166,15 @@ public class DrawServiceImpl implements DrawService {
 		if (drawUpdated > 0 && flak > 0 && flaz > 0 && updateBalance > 0) {
 			hashMap.put("drawCode", ecmmzfdraw.getDrawCode());
 			hashMap.put("status", DrawCashConstants.STATUS_VERIFIED_REJECTED);
+		} else {
+			log.error("驳回提现申请异常：提现编号{}", ecmmzfdraw.getDrawCode());
+			throw new ServiceException(SettlementApiCode.REJECT_DRAWCASH_FAILURE, BaseApiCode.getZhMsg(SettlementApiCode.REJECT_DRAWCASH_FAILURE));
 		}
 		return hashMap;
 	}
 
 	
-	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	@Override
 	public Map<String, Object> confirmDrawCashByIdByType(EcmMzfDraw ecmmzfdraw) {
 		
@@ -266,6 +278,9 @@ public class DrawServiceImpl implements DrawService {
 			if (drawCfm > 0 && flak > 0 && flaz > 0 && updateBalance > 0) {
 				hashMap.put("drawCode", ecmmzfdraw.getDrawCode());
 				hashMap.put("status", ecmmzfdraw.getStatus());
+			} else {
+				log.error("确认转账成功或失败操作异常：提现编号{}", ecmmzfdraw.getDrawCode());
+				throw new ServiceException(SettlementApiCode.CONFIRM_DRAWCASH_FAILURE, BaseApiCode.getZhMsg(SettlementApiCode.CONFIRM_DRAWCASH_FAILURE));
 			}
 		}
 		
