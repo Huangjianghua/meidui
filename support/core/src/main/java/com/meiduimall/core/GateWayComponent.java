@@ -13,11 +13,11 @@ import com.meiduimall.password.util.MD5;
  * FileName: Component.java
  * Author:   Administrator
  * Date:     2017年4月13日 下午6:40:05
- * Description: 访问微服务抽象类
+ * Description: 访问微服务
  */
 public final class GateWayComponent {
 	
-	public GateWayRequest req;
+	private GateWayRequest req;
 	
 	public GateWayComponent(GateWayRequest req){
         this.req = req;
