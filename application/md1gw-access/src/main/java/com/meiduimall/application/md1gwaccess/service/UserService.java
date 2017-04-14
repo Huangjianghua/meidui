@@ -62,7 +62,7 @@ public interface UserService {
 	 * @return
 	 * @throws Exception
 	 */
-    JSONObject getMemberBasicInfo(String memId)throws Exception;
+    JSONObject getMemberBasicInfo(String token)throws Exception;
     
     /**
      * token2memId
