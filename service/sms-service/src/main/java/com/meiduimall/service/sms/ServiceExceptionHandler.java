@@ -10,7 +10,6 @@
 
 package com.meiduimall.service.sms;
 import javax.servlet.http.HttpServletRequest;
-
 import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +38,7 @@ public class ServiceExceptionHandler {
 
   @ExceptionHandler(value = BindException.class)
   public ResBodyData errorHandlerOverJson(HttpServletRequest request, BindException exception) {
-	  StringBuffer sb=new StringBuffer();
+	  StringBuilder sb=new StringBuilder();
       exception.getBindingResult().getFieldErrors().forEach((error)->{
       	sb.append(error.getDefaultMessage()).append(";");
       });
