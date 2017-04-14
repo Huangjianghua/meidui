@@ -15,6 +15,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.meiduimall.core.util.HttpUtils;
@@ -33,10 +34,13 @@ import com.meiduimall.service.sms.SmsApiCode;
 public class ZucpService {
 
 	private static Logger logger = LoggerFactory.getLogger(ZucpService.class);
-
-	String zucpUrl = "http://sdk.entinfo.cn:8060/webservice.asmx";
-	String zucpUser = "SDK-WSS-010-09798";
-	String zucpPasswd = "a-9[60-[";
+	
+	@Value("${zucpUrl}")
+	private String zucpUrl; 
+	@Value("${zucpUser}")
+	private String zucpUser; 
+	@Value("${zucpPasswd}")
+	private String zucpPasswd; 
 
 	/**
 	 * 生成请求体
@@ -49,8 +53,8 @@ public class ZucpService {
 	 * @return
 	 * @throws Exception
 	 */
-	String buildBody(String mobile, String content, String ext, String stime, String rrid) throws Exception {
-		StringBuffer sb = new StringBuffer();
+	String buildBody(String mobile, String content, String ext, String stime, String rrid){
+		StringBuilder sb = new StringBuilder();
 		sb.append("<soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
 				+ "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">");
 		sb.append("<soap:Body>");
@@ -92,7 +96,6 @@ public class ZucpService {
 	 * @param rrid
 	 * @throws ApiException
 	 */
-	@Deprecated
 	public String send(String mobile, String content, String ext, String stime, String rrid)  {
 
 		Map<String, String> headers = new HashMap<String, String>();

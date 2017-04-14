@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.client.RestTemplate;
 
+import com.meiduimall.application.md1gwaccess.config.MyProps;
 import com.meiduimall.application.md1gwaccess.constant.HttpRConst;
 import com.meiduimall.application.md1gwaccess.constant.OauthConst;
 import com.meiduimall.application.md1gwaccess.constant.ResponseBodyData;
@@ -39,7 +40,6 @@ import com.meiduimall.application.md1gwaccess.util.CommonUtil;
 import com.meiduimall.application.md1gwaccess.util.DateUtil;
 import com.meiduimall.application.md1gwaccess.util.GatewaySignUtil;
 import com.meiduimall.application.md1gwaccess.util.Logger;
-import com.meiduimall.application.md1gwaccess.util.SystemConfig;
 
 import net.sf.json.JSONObject;
 
@@ -57,6 +57,9 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Autowired
 	private RestTemplate restTemplate;
+	
+	@Autowired
+	private MyProps myProps;
 
 	@Override
 	public Map<String, Object> getPaymentBill(String paymentId) throws Exception {
@@ -660,7 +663,7 @@ public class PaymentServiceImpl implements PaymentService {
 	 */
 	@Override
 	public void NoticePaymentService(JSONObject json) throws Exception {
-		String url = SystemConfig.configMap.get("NoticePaymentService_URL");
+		String url = myProps.getRouteServiceUrl()+"/pay/payment-service/v1/paynotify";
 		HttpHeaders headers = new HttpHeaders();
 		MediaType type = MediaType.parseMediaType(HttpRConst.MEDIATYPE_JSON_FOR_APP);
 		headers.setContentType(type);

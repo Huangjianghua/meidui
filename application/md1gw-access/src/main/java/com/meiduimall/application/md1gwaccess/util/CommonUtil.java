@@ -47,6 +47,11 @@ public class CommonUtil {
 		
 	}
 	
+	public static String onlySignJSON(JSONObject json) throws Exception{
+		return GatewaySignUtil.buildsign(OauthConst.SECRETKEY_VALUE, json);
+		
+	}
+	
 	/**
 	 * 组装更新 EctoolsPayments
 	 * @param paymentTradePay

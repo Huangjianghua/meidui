@@ -108,12 +108,13 @@ public class DrawController {
 		
 		//如果提现总金额=提现金额+手续费 > 账户总金额时，返回提现金额不能大于账号可提现金额，请重新输入
 		if(balance.compareTo(ecmMzfDraw.getTotalMoney()) < 0){//balance>totalMoney时返回1,-1是小于,0是等于
+			log.error("提现金额不能大于账号可提现金额，请重新输入");
 			throw new ServiceException(SettlementApiCode.BALANCE_NOT_ENOUGH, BaseApiCode.getZhMsg(SettlementApiCode.BALANCE_NOT_ENOUGH));
 		}
 
 		boolean result = drawService.insertDrawInfo(ecmMzfDraw);
 		if(result){
-			return SettlementUtil.success("");
+			return SettlementUtil.success(result);
 		}
 		return null;
 	}
@@ -180,15 +181,8 @@ public class DrawController {
 		ecmmzfdraw.setVerifyStatus(DrawCashConstants.STATUS_VERIFIED_SUCDESS);
 		ecmmzfdraw.setVerifyTime(DateUtil.getCurrentTimeSec());
 		
-		try {
-			Map<String, Object> hashMap = drawService.verifyDrawCashById(ecmmzfdraw);
-			if (hashMap == null || hashMap.isEmpty()) {
-				return SettlementUtil.success(hashMap);
-			}
-		} catch (ServiceException e) {
-			log.error("verifyDrawCashById() for drawCode:{} got error:{}", ecmmzfdraw.getDrawCode(), e.getMessage());
-		}
-		return null;
+		Map<String, Object> hashMap = drawService.verifyDrawCashById(ecmmzfdraw);
+		return SettlementUtil.success(hashMap);
 	}
 	
 	
@@ -210,16 +204,10 @@ public class DrawController {
 		ecmmzfdraw.setVerifyName(StringUtil.isEmpty(ecmmzfdraw.getVerifyName())?"admin":ecmmzfdraw.getVerifyName());
 		ecmmzfdraw.setVerifyStatus(DrawCashConstants.STATUS_VERIFIED_REJECTED);
 		ecmmzfdraw.setVerifyTime(DateUtil.getCurrentTimeSec());
-		try {
-			Map<String, Object> hashMap = drawService.rejectDrawCashById(ecmmzfdraw);
-			if (hashMap == null || hashMap.isEmpty()) {
-				return SettlementUtil.success(hashMap);
-			}
-
-		} catch (ServiceException e) {
-			log.error("rejectDrawCashById() for drawCode:{} got error:{}", ecmmzfdraw.getDrawCode(), e.getMessage());
-		}
-		return null;
+		
+		Map<String, Object> hashMap = drawService.rejectDrawCashById(ecmmzfdraw);
+		return SettlementUtil.success(hashMap);
+		
 	}
 	
 	
@@ -247,16 +235,8 @@ public class DrawController {
 		ecmmzfdraw.setFinanceTime(DateUtil.getCurrentTimeSec());
 		ecmmzfdraw.setFinanceName(StringUtil.isEmpty(ecmmzfdraw.getFinanceName())?"admin":ecmmzfdraw.getFinanceName());
 		
-		try {
-			Map<String, Object> hashMap = drawService.confirmDrawCashByIdByType(ecmmzfdraw);
-			if (hashMap == null || hashMap.isEmpty()) {
-				return SettlementUtil.success(hashMap);
-			}
-
-		} catch (ServiceException e) {
-			log.error("drawService.confirmDrawCashByIdByTyp() drawCode:{},got error:{}", ecmmzfdraw.getDrawCode(), e.getMessage());
-		}
-		return null;
+		Map<String, Object> hashMap = drawService.confirmDrawCashByIdByType(ecmmzfdraw);
+		return SettlementUtil.success(hashMap);
 	}
 
 	
