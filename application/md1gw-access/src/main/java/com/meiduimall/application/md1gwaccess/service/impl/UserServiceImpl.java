@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import com.alibaba.fastjson.JSON;
 import com.meiduimall.application.md1gwaccess.config.MyProps;
 import com.meiduimall.application.md1gwaccess.constant.HttpRConst;
 import com.meiduimall.application.md1gwaccess.constant.OauthConst;
@@ -77,12 +78,15 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public JSONObject getMemberBasicInfo(String memId) throws Exception {
 		String url = myProps.getUserCenterUrl()+"/member/front_user_center/v1/get_member_basic_info";
-		HashMap<String, String> memberMap = new HashMap<String,String>();
-		memberMap.put("memId", memId);
-		ResponseEntity<String> member = restTemplate.getForEntity(url, String.class, CommonUtil.CommonMap(memberMap));
-		Logger.info("获取用户信息结果 :%s", member.getBody());
-		JSONObject memberObj = JSONObject.fromObject(member.getBody());
-		return memberObj;
+		HttpHeaders headers = new HttpHeaders();
+		MediaType type = MediaType.parseMediaType(HttpRConst.MEDIATYPE_JSON_FOR_APP);
+		headers.setContentType(type);
+		JSONObject json = new JSONObject();
+		json.put("memId", memId);
+		HttpEntity<JSONObject> formEntity = new HttpEntity<JSONObject>(json, headers);
+		JSONObject postForObject = restTemplate.postForObject(url, formEntity, JSONObject.class);
+		Logger.info("获取用户信息结果 :%s", postForObject);
+		return postForObject;
 	}
 	
 	
@@ -105,11 +109,15 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public JSONObject tokenTOmemId(String token) throws Exception {
 		String url = myProps.getUserCenterUrl()+"/member/front_user_center/v1/get_memid_by_token";
-		HashMap<String, String> hashMap = new HashMap<String,String>();
-		hashMap.put(OauthConst.TOKEN, token);
-		Map<String, String> commonMap = CommonUtil.CommonMap(hashMap);
-		Logger.info("tokenTOmemId组装发送数据:%s", commonMap);
-		JSONObject getMemid = restTemplate.getForObject(url, JSONObject.class, commonMap);
+		HttpHeaders headers = new HttpHeaders();
+		MediaType type = MediaType.parseMediaType(HttpRConst.MEDIATYPE_JSON_FOR_APP);
+		headers.setContentType(type);
+		JSONObject json = new JSONObject();
+		json.put(OauthConst.TOKEN, token);
+		JSONObject commonJSON = CommonUtil.CommonJSON(json);
+		Logger.info("tokenTOmemId组装发送数据:%s", commonJSON);
+		HttpEntity<JSONObject> formEntity = new HttpEntity<JSONObject>(commonJSON, headers);
+		JSONObject getMemid = restTemplate.postForObject(url, formEntity, JSONObject.class);
 		Logger.info("tokenTOmemId请求结果 :%s", getMemid);
 		return getMemid;
 	}
