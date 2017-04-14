@@ -77,8 +77,8 @@ public class SettlementUtil {
 		return false;
 	}
 	
-	public static ResBodyData success(Object data, String resultMsg) {
-		return buildReponseData(data, ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS, resultMsg);
+	public static ResBodyData success(Object data) {
+		return buildReponseData(data, ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS, ShareProfitConstants.RESPONSE_SUCCESS);
 	}
 	
 	public static ResBodyData failure(Object data, String resultMsg) {

@@ -1,7 +1,6 @@
 package com.meiduimall.service.settlement.task;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +11,9 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import com.google.common.collect.Maps;
 import com.meiduimall.core.util.JsonUtils;
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.redis.util.RedisUtils;
 import com.meiduimall.service.settlement.common.CronExpression;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
@@ -73,8 +74,8 @@ public class DepositRetryTask {
 					asyncTaskService.updateScore(ecmAgent, score, ShareProfitConstants.SHARE_PROFIT_SOURCE_CACHE, retryType);
 				}
 			}
-		} catch (Exception e) {
-			logger.error("新个代送积分失败：" + e.toString());
+		} catch (ServiceException e) {
+			logger.error("新个代送积分失败：{}", e);
 		}
 		
 	}
@@ -84,7 +85,7 @@ public class DepositRetryTask {
 	 * @return
 	 * @
 	 */
-	private Map<String, Object> getAgentRetry()  {
+	private Map<String, Object> getAgentRetry() {
 		
 		int currentTimestamp = DateUtil.getCurrentTimeSec();
 		
@@ -97,7 +98,7 @@ public class DepositRetryTask {
 		List<ShareProfitAgentLog> share30MinRetry = new ArrayList<ShareProfitAgentLog>();//获取30分钟后重新送积分的个代
 		List<ShareProfitAgentLog> share12HoursRetry = new ArrayList<ShareProfitAgentLog>();//获取12小时后重新送积分的个代
 		
-		final Map<String, Object> retryAgents = new HashMap<String, Object>();
+		final Map<String, Object> retryAgents = Maps.newHashMap();
 		
 		
 		for (int i = 0; i < list.size(); i++) {

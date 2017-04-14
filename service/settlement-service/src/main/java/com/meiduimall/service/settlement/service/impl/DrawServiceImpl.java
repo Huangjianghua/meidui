@@ -3,7 +3,6 @@ package com.meiduimall.service.settlement.service.impl;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.collect.Maps;
 import com.meiduimall.service.settlement.common.CodeRuleUtil;
 import com.meiduimall.service.settlement.common.DrawCashConstants;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
@@ -62,8 +62,8 @@ public class DrawServiceImpl implements DrawService {
 	
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	@Override
-	public Map<String, Object> verifyDrawCashById(EcmMzfDraw ecmmzfdraw)  {
-		Map<String, Object> hashMap = new HashMap<>();
+	public Map<String, Object> verifyDrawCashById(EcmMzfDraw ecmmzfdraw) {
+		Map<String, Object> hashMap = Maps.newHashMap();
 		Integer update = baseMapper.update(ecmmzfdraw, "EcmMzfDrawMapper.verifydrawcashbyid");
 		if(update>0){
 			hashMap.put("drawCode", ecmmzfdraw.getDrawCode());
@@ -75,13 +75,13 @@ public class DrawServiceImpl implements DrawService {
 	
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	@Override
-	public Map<String, Object> rejectDrawCashById(EcmMzfDraw ecmmzfdraw)  {
+	public Map<String, Object> rejectDrawCashById(EcmMzfDraw ecmmzfdraw) {
 		
 		//根据提现编号获取提现信息，目的是将查询出来的数据重新生成提现流水和总流水记录
 		EcmMzfDraw ecmMzfDraw = queryDrawCashById(ecmmzfdraw.getDrawCode());
 
 		//查询当天是否有提现记录，此段代码目的是生成提现编号的后两位 总数+1
-		Map<String, Object> params = new HashMap<String, Object>();
+		Map<String, Object> params = Maps.newHashMap();
 		params.put("code", ecmMzfDraw.getCode());
 		params.put("waterType", ShareProfitConstants.WATER_TYPE_DRAW_CASH);
 		params.put("nowTime", DateUtil.formatDate(new Date()));
@@ -153,7 +153,7 @@ public class DrawServiceImpl implements DrawService {
 		account.setBalance(ecmMzfDraw.getTotalMoney());
 		int updateBalance = agentService.updateAccount(account);
 		
-		Map<String, Object> hashMap = new HashMap<String, Object>();
+		Map<String, Object> hashMap = Maps.newHashMap();
 		if (drawUpdated > 0 && flak > 0 && flaz > 0 && updateBalance > 0) {
 			hashMap.put("drawCode", ecmmzfdraw.getDrawCode());
 			hashMap.put("status", DrawCashConstants.STATUS_VERIFIED_REJECTED);
@@ -166,7 +166,7 @@ public class DrawServiceImpl implements DrawService {
 	@Override
 	public Map<String, Object> confirmDrawCashByIdByType(EcmMzfDraw ecmmzfdraw) {
 		
-		Map<String, Object> hashMap = new HashMap<String, Object>();
+		Map<String, Object> hashMap = Maps.newHashMap();
 		
 		//提现转账成功或失败都需要更新提现申请记录状态
 		int drawCfm = baseMapper.update(ecmmzfdraw, "EcmMzfDrawMapper.confirmdrawcashbyidbytype");
@@ -194,7 +194,7 @@ public class DrawServiceImpl implements DrawService {
 			EcmMzfDraw ecmMzfDraw = queryDrawCashById(ecmmzfdraw.getDrawCode());
 			
 			//查询当天是否有提现记录，此段代码目的是生成提现编号的后两位 总数+1
-			Map<String, Object> params = new HashMap<String, Object>();
+			Map<String, Object> params = Maps.newHashMap();
 			params.put("code", ecmMzfDraw.getCode());
 			params.put("waterType", ShareProfitConstants.WATER_TYPE_DRAW_CASH);
 			params.put("nowTime", DateUtil.formatDate(new Date()));
@@ -286,7 +286,7 @@ public class DrawServiceImpl implements DrawService {
 		
 		BigDecimal init = new BigDecimal("0");
 		
-		Map<String, Object> params = new HashMap<String, Object>();
+		Map<String, Object> params = Maps.newHashMap();
 		params.put("code", ecmMzfDraw.getCode());
 		params.put("waterType", ShareProfitConstants.WATER_TYPE_DRAW_CASH);
 		params.put("nowTime", DateUtil.formatDate(new Date()));
