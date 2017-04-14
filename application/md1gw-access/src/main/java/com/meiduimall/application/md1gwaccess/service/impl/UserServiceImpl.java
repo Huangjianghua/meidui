@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
 		Logger.info("解密之后:%s", payPwd);
 		String url = myProps.getRouteServiceUrl() + "/member/account_service/v1/valide_pay_pwd";
 		HttpHeaders headers = new HttpHeaders();
-		MediaType type = MediaType.parseMediaType(HttpRConst.MEDIATYPE_JSON_FOR_APP);
+		MediaType type = MediaType.parseMediaType(HttpRConst.MEDIATYPE_KEYVALUE);
 		headers.setContentType(type);
 		JSONObject json = new JSONObject();
 		json.put("memId", memId);
