@@ -72,7 +72,7 @@ public class BillTask {
 		
 		if(orderSns!=null && !orderSns.isEmpty()){  //账单创建成功
 			
-			//通知O2O结算状态:账单创建成功。。。。
+			//通知O2O结算状态:账单创建成功
 			boolean isBillStatusInformedToO2o=o2oCallbackService.informSettlementStatus(orderSns, ShareProfitConstants.O2O_SETTLEMENT_STATUS_CODE_BILL);
 			
 			//2.记录错误信息 到ecm_mzf_log_createbill
@@ -85,7 +85,7 @@ public class BillTask {
 					log.error("shareProfitLogService.logCreateBillLog() 通知O2O结算状态STATUS_CODE_BILL errorLog!error:{}",e.getMessage());
 				}
 			}
-			// 异步送一级推荐人1%现金余额奖励到会员系统。。。。
+			// 异步送一级推荐人1%现金余额奖励到会员系统
 			memberService.updateReferrerCash();
 		}
 	}
