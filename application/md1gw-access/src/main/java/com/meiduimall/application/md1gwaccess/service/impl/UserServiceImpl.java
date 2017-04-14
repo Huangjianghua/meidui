@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import com.meiduimall.application.md1gwaccess.config.MyProps;
 import com.meiduimall.application.md1gwaccess.constant.HttpRConst;
 import com.meiduimall.application.md1gwaccess.constant.OauthConst;
 import com.meiduimall.application.md1gwaccess.dao.BaseMapper;
@@ -23,7 +24,6 @@ import com.meiduimall.application.md1gwaccess.model.SysuserWalletPaylog;
 import com.meiduimall.application.md1gwaccess.service.UserService;
 import com.meiduimall.application.md1gwaccess.util.CommonUtil;
 import com.meiduimall.application.md1gwaccess.util.Logger;
-import com.meiduimall.application.md1gwaccess.util.SystemConfig;
 
 import net.sf.json.JSONObject;
 
@@ -35,6 +35,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private RestTemplate restTemplate;
+	
+	@Autowired
+	private MyProps myProps;
 
 	@Override
 	public Map<String,Object> getUserInfo(SysuserUser sysuserUser) throws Exception {
@@ -71,10 +74,9 @@ public class UserServiceImpl implements UserService {
 		return baseMapper.insert(sysuserUserScore, "SysuserUserScoreMapper.insertSysuserUserScore");
 	}
 
-	@SuppressWarnings("static-access")
 	@Override
 	public JSONObject getMemberBasicInfo(String memId) throws Exception {
-		String url = SystemConfig.getInstance().configMap.get("get_member_basic_info");
+		String url = myProps.getUserCenterUrl()+"/member/front_user_center/v1/get_member_basic_info";
 		HashMap<String, String> memberMap = new HashMap<String,String>();
 		memberMap.put("memId", memId);
 		ResponseEntity<String> member = restTemplate.getForEntity(url, String.class, CommonUtil.CommonMap(memberMap));
@@ -85,15 +87,14 @@ public class UserServiceImpl implements UserService {
 	
 	
 	
-	@SuppressWarnings("static-access")
 	@Override
 	public JSONObject validePayPwd(String memId,String payPwd)throws Exception{
-		String valide_pay_pwd_url = SystemConfig.getInstance().configMap.get("valide_pay_pwd_url");
+		String url = myProps.getRouteServiceUrl()+"/member/account_service/v1/valide_pay_pwd";
 		HashMap<String, String> pwdMap = new HashMap<String,String>();
 		pwdMap.put("memId", memId);
 		pwdMap.put("pay_pwd", payPwd);
 		ResponseEntity<String> validepwd = restTemplate.postForEntity(
-				valide_pay_pwd_url,
+				url,
 				CommonUtil.CommonMap(pwdMap), String.class);
 		Logger.info("验证支付密码请求结果 :%s", validepwd.getBody());
 		JSONObject validepwdObj = JSONObject.fromObject(validepwd.getBody());
@@ -101,24 +102,22 @@ public class UserServiceImpl implements UserService {
 		
 	}
 
-	@SuppressWarnings("static-access")
 	@Override
 	public JSONObject tokenTOmemId(String token) throws Exception {
-		String url = SystemConfig.getInstance().configMap.get("get_memid_by_token_url");
+		String url = myProps.getUserCenterUrl()+"/member/front_user_center/v1/get_memid_by_token";
 		HashMap<String, String> hashMap = new HashMap<String,String>();
 		hashMap.put(OauthConst.TOKEN, token);
 		Map<String, String> commonMap = CommonUtil.CommonMap(hashMap);
 		Logger.info("tokenTOmemId组装发送数据:%s", commonMap);
-		ResponseEntity<String> getMemid = restTemplate.postForEntity(url, commonMap, String.class);
-		Logger.info("tokenTOmemId请求结果 :%s", getMemid.getBody());
-		JSONObject getMemidObj = JSONObject.fromObject(getMemid.getBody());
-		return getMemidObj;
+		JSONObject getMemid = restTemplate.getForObject(url, JSONObject.class, commonMap);
+		Logger.info("tokenTOmemId请求结果 :%s", getMemid);
+		return getMemid;
 	}
 
 	@SuppressWarnings("static-access")
 	@Override
 	public JSONObject freezeUnfreeze(PaymentTrade paymentTrade, Map<String, Object> paymentBill) throws Exception {
-		String url = SystemConfig.getInstance().configMap.get("freeze_unfreeze");
+		String url = myProps.getRouteServiceUrl()+"/member/account_service/v1/freeze_unfreeze";
 		HttpHeaders headers = new HttpHeaders();
 		MediaType type = MediaType.parseMediaType(HttpRConst.MEDIATYPE_JSON_FOR_APP);
 		headers.setContentType(type);
@@ -142,21 +141,20 @@ public class UserServiceImpl implements UserService {
 	}
 
 	
-	@SuppressWarnings("static-access")
 	@Override
 	public JSONObject getMemIdByUserId(Integer userId)  throws Exception{
-		String url = SystemConfig.getInstance().configMap.get("getMemIdByUserId");
+		String url = myProps.getPayUrl()+"openapi/user/getMemIdByUserId?user_id=";
 		url = url + userId;
 		Logger.info("getMemIdByUserId组装发送数据:%s", url);
-		String forObject = restTemplate.getForObject(url, String.class);
-		
-		return new JSONObject().fromObject(forObject);
+		JSONObject forObject = restTemplate.getForObject(url, JSONObject.class);
+		Logger.info("getMemIdByUserId数据:%s", forObject);
+		return forObject;
 	}
 
 	@SuppressWarnings("static-access")
 	@Override
 	public JSONObject unfreezeDeduct(Map<String, Object> paymentBill, String memId) throws Exception {
-		String url = SystemConfig.getInstance().configMap.get("unfreeze_deduct");
+		String url = myProps.getRouteServiceUrl()+"/member/account_service/v1/freeze_unfreeze";
 		HttpHeaders headers = new HttpHeaders();
 		MediaType type = MediaType.parseMediaType(HttpRConst.MEDIATYPE_JSON_FOR_APP);
 		headers.setContentType(type);
@@ -179,10 +177,9 @@ public class UserServiceImpl implements UserService {
 		return new JSONObject().fromObject(string);
 	}
 
-	@SuppressWarnings("static-access")
 	@Override
 	public JSONObject sendSmsMessage(String mobile, String tid) throws Exception {
-		String url = SystemConfig.getInstance().configMap.get("send_common_sms_message");
+		String url = myProps.getSendSmsUrl()+"/notify/short_msg_service/v1/send_common_sms_message";
 		HttpHeaders headers = new HttpHeaders();
 		MediaType type = MediaType.parseMediaType(HttpRConst.MEDIATYPE_KEYVALUE);
 		headers.setContentType(type);

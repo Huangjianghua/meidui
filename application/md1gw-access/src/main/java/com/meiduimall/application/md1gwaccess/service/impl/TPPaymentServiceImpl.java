@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import com.meiduimall.application.md1gwaccess.config.MyProps;
 import com.meiduimall.application.md1gwaccess.constant.HttpRConst;
 import com.meiduimall.application.md1gwaccess.constant.OauthConst;
 import com.meiduimall.application.md1gwaccess.constant.PayConfig;
@@ -19,7 +20,6 @@ import com.meiduimall.application.md1gwaccess.service.TPPaymentService;
 import com.meiduimall.application.md1gwaccess.util.DateUtil;
 import com.meiduimall.application.md1gwaccess.util.GatewaySignUtil;
 import com.meiduimall.application.md1gwaccess.util.Logger;
-import com.meiduimall.application.md1gwaccess.util.SystemConfig;
 
 import net.sf.json.JSONObject;
 
@@ -30,15 +30,18 @@ public class TPPaymentServiceImpl implements TPPaymentService {
 
 	@Autowired
 	private RestTemplate restTemplate;
+	
+	@Autowired
+	private MyProps myProps; 
+	
 	/**
 	 * 混合支付
 	 */
-	@SuppressWarnings({ "static-access" })
 	@Override
 	public ResponseBodyData Payment(PaymentTrade paymentTrade, SystradePTrade obj_p_trade_info) throws Exception {
 		try {
 			JSONObject bigJson = new JSONObject();
-			String paymentPay_url = SystemConfig.getInstance().configMap.get("paymentPay_url");
+			String url = myProps.getRouteServiceUrl()+"/pay/payment-service/v1/payment";
 
 			bigJson.put("memId", paymentTrade.getMemId());
 			// app提交 wechatpay:微信  其他:支付宝
@@ -54,11 +57,11 @@ public class TPPaymentServiceImpl implements TPPaymentService {
 				int Use_money = new BigDecimal(paymentTrade.getUse_money()).multiply(new BigDecimal(100)).intValue();
 				bigJson.put("cashAmount", String.valueOf(Use_money)); // 余额
 				
-				bigJson.put("notifyUrl", SystemConfig.getInstance().configMap.get("WXNotiftUrl"));// 回调地址
+				bigJson.put("notifyUrl", myProps.getPaydUrl()+"/md1gwmall/md1gw_access/v1/getWXPayNotify");// 回调地址
 				if(null != paymentTrade.getWechat_pay_account_type()){
 					if(paymentTrade.getWechat_pay_account_type().equals("1")){
 						bigJson.put("merchantId", PayConfig.YGWAPP_Mchid); // 商家标识
-						bigJson.put("notifyUrl", SystemConfig.getInstance().configMap.get("YgwWXNotiftUrl"));// 回调地址
+						bigJson.put("notifyUrl", myProps.getPaydUrl()+"/md1gwmall/md1gw_access/v1/getYgwWXPayNotify");// 回调地址
 						bigJson.put("accountType", "1");// 1gw微信标识
 					}
 				}
@@ -71,7 +74,7 @@ public class TPPaymentServiceImpl implements TPPaymentService {
 				bigJson.put("orderAmount", String.valueOf(obj_p_trade_info.getTotalMoney())); // 订单金额
 				bigJson.put("payAmount", paymentTrade.getMoney());// 支付金额
 				bigJson.put("cashAmount", String.valueOf(paymentTrade.getUse_money())); // 余额
-				bigJson.put("notifyUrl", SystemConfig.getInstance().configMap.get("aliNotiftUrl"));// 回调地址
+				bigJson.put("notifyUrl", myProps.getPaydUrl()+"/md1gwmall/md1gw_access/v1/getAliPayNotify");// 回调地址
 
 			}
 
@@ -94,7 +97,7 @@ public class TPPaymentServiceImpl implements TPPaymentService {
 			Logger.info("组装发送数据:%s", bigJson);
 			
 			HttpEntity<JSONObject> formEntity = new HttpEntity<JSONObject>(bigJson, headers);
-			JSONObject postForObject = restTemplate.postForObject(paymentPay_url, formEntity, JSONObject.class);
+			JSONObject postForObject = restTemplate.postForObject(url, formEntity, JSONObject.class);
 			
 			Logger.info("请求第三方支付结果:%s", postForObject);
 
