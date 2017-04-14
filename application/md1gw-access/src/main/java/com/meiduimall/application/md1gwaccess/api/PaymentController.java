@@ -135,7 +135,7 @@ public class PaymentController {
 					
 			
 			//请求会员中心【getMemberBasicInfo】获取用户信息积分等等
-			JSONObject memberBasicInfo = userService.getMemberBasicInfo(paymentTrade.getMemId());
+			JSONObject memberBasicInfo = userService.getMemberBasicInfo(paymentTrade.getToken());
 			if(memberBasicInfo.getInt("status") != 0) {
 				Logger.info("获取用户信息 失败! %s", memberBasicInfo.getString("msg"));
 				json.put("status", 11);

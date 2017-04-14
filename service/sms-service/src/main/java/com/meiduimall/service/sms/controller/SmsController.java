@@ -58,7 +58,6 @@ public class SmsController {
       throw new ServiceException(SmsApiCode.NOT_FOUND,SmsApiCode.getZhMsg(SmsApiCode.NOT_FOUND));
     }
     logger.info("结束发普通短信程序");
-
     return result;
   }
 
@@ -70,8 +69,7 @@ public class SmsController {
    */
   @RequestMapping("send_sms_verification_code")
   public ResBodyData sendSmsVerificationCode(CommonShortMessageModel model) {
-	  ResBodyData result = new ResBodyData();
-
+	ResBodyData result = new ResBodyData();
     if (null == model) {
       return result;
     }

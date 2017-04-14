@@ -6,7 +6,7 @@ package com.meiduimall.service.catalog.result;
  * @author yangchang
  *
  */
-public class JsonItemDetailResult_ItemData {
+public class JsonItemDetailResultItemData {
 
 	private String itme_id;
 	private String price;// 商品价格

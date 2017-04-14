@@ -74,11 +74,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public JSONObject getMemberBasicInfo(String memId) throws Exception {
+	public JSONObject getMemberBasicInfo(String token) throws Exception {
 		String url = myProps.getUserCenterUrl() + "/member/front_user_center/v1/get_member_basic_info";
-		url = url + "?memId={memId}&clientID={clientID}&timestamp={timestamp}&sign={sign}";
+		url = url + "?token={token}&clientID={clientID}&timestamp={timestamp}&sign={sign}";
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("memId", memId);
+		map.put("token", token);
 		Map<String, String> commonMap = CommonUtil.CommonMap(map);
 		Logger.info("组装发送数据 :%s", commonMap);
 		JSONObject postForObject = restTemplate.getForObject(url, JSONObject.class, commonMap);
