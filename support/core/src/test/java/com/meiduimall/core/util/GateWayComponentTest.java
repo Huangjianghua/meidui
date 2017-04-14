@@ -2,12 +2,9 @@ package com.meiduimall.core.util;
 import static org.junit.Assert.assertEquals;
 import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
-
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
 import org.apache.http.HttpHeaders;
 import org.apache.http.client.ClientProtocolException;
 import org.junit.Before;
@@ -15,7 +12,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.mockserver.client.server.MockServerClient;
 import org.mockserver.junit.MockServerRule;
-
 import com.google.common.collect.Maps;
 import com.meiduimall.core.GateWayBuilder;
 import com.meiduimall.core.GateWayComponent;
@@ -101,7 +97,14 @@ public class GateWayComponentTest {
 	    
 	  }
 	
-	
+	/**
+	 * 功能描述:  测试get方式请求
+	 * Author: 陈建宇
+	 * Date:   2017年4月14日 上午11:48:59 
+	 * param   @throws ClientProtocolException
+	 * param   @throws IOException   
+	 * return  void
+	 */
 	@Test
 	public void testDoGet() throws ClientProtocolException, IOException{
 		TreeMap<String, String> treeMap=new TreeMap<>();
@@ -114,6 +117,15 @@ public class GateWayComponentTest {
 	}
 	
 	
+	
+	/**
+	 * 功能描述:  测试delete方式请求
+	 * Author: 陈建宇
+	 * Date:   2017年4月14日 上午11:49:18 
+	 * param   @throws ClientProtocolException
+	 * param   @throws IOException   
+	 * return  void
+	 */
 	@Test
 	public void testDoDelete() throws ClientProtocolException, IOException{
 		TreeMap<String, String> treeMap=new TreeMap<>();
@@ -126,7 +138,14 @@ public class GateWayComponentTest {
 	}
 	
 	
-	
+	/**
+	 * 功能描述:  测试post json方式请求
+	 * Author: 陈建宇
+	 * Date:   2017年4月14日 上午11:50:04 
+	 * param   @throws ClientProtocolException
+	 * param   @throws IOException   
+	 * return  void
+	 */
 	@Test
 	public void testDoPost() throws ClientProtocolException, IOException{
 		TreeMap<String, String> treeMap=new TreeMap<>();
@@ -143,6 +162,15 @@ public class GateWayComponentTest {
 	}
 	
 	
+	
+	/**
+	 * 功能描述: 测试put json方式请求
+	 * Author: 陈建宇
+	 * Date:   2017年4月14日 上午11:50:23 
+	 * param   @throws ClientProtocolException
+	 * param   @throws IOException   
+	 * return  void
+	 */
 	@Test
 	public void testDoPut() throws ClientProtocolException, IOException{
 		TreeMap<String, String> treeMap=new TreeMap<>();
@@ -159,7 +187,13 @@ public class GateWayComponentTest {
 	}
 	
 
-	
+	/**
+	 * 功能描述:  测试表单方式请求
+	 * Author: 陈建宇
+	 * Date:   2017年4月14日 上午11:50:38 
+	 * param   @throws Exception   
+	 * return  void
+	 */
 	  @Test
 	  public void testForm() throws Exception {
 		  TreeMap<String, String> treeMap=new TreeMap<>();
@@ -173,19 +207,19 @@ public class GateWayComponentTest {
 	  
 	  
 	  
-		public static class RequestJson{
-			
-			private String clientID;
+	public static class RequestJson{
+		
+		private String clientID;
 
-			public String getClientID() {
-				return clientID;
-			}
-
-			public void setClientID(String clientID) {
-				this.clientID = clientID;
-			}
-			
+		public String getClientID() {
+			return clientID;
 		}
+
+		public void setClientID(String clientID) {
+			this.clientID = clientID;
+		}
+		
+	}
 	
 
 }
