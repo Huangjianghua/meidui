@@ -376,14 +376,12 @@ public class DrawServiceImpl implements DrawService {
 		account.setBalance(init.subtract(ecmMzfDraw.getTotalMoney()));
 		int updateBalance = agentService.updateAccount(account);
 		
-		boolean result = false;
 		if(flag > 0 && flak > 0 && flaz > 0 && updateBalance > 0){
-			result = true;
+			return true;
 		} else {
 			log.error("提现申请异常：提现编号{}", ecmMzfDraw.getDrawCode());
 			throw new ServiceException(SettlementApiCode.DRAWCASH_FAILURE, BaseApiCode.getZhMsg(SettlementApiCode.DRAWCASH_FAILURE));
 		}
-		return result;
 	}
 	
 	

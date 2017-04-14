@@ -26,7 +26,7 @@ public interface OrderService {
 	 * return  EcmMzfShareProfit
 	 * 
 	 */
-	public EcmMzfShareProfit buildShareProfit(EcmOrder ecmOrder,Collection<String> errors) ;
+	public EcmMzfShareProfit buildShareProfit(EcmOrder ecmOrder);
 
 	/**
 	 * 功能描述:  根据订单号列表查询订单状态
@@ -36,7 +36,7 @@ public interface OrderService {
 	 * return  List<EcmMzfOrderStatus>
 	 * 
 	 */
-	public List<EcmMzfOrderStatus> queryOrderStatus(List<String> orderSns) ;
+	public List<EcmMzfOrderStatus> queryOrderStatus(List<String> orderSns);
 
 	/**
 	 * 功能描述:  保存分润数据(为了解决 Spring声明式事务 同一类内该方法被saveShareProfit方法调用事务失效,需要抽出为接口)
@@ -46,7 +46,7 @@ public interface OrderService {
 	 * return 
 	 * 
 	 */
-	public void saveShareProfit(EcmMzfShareProfit shareProfit) ;
+	public void saveShareProfit(EcmMzfShareProfit shareProfit);
 	
 	/**
 	 * 功能描述:  同步订单审核状态接口
@@ -56,7 +56,7 @@ public interface OrderService {
 	 * return  Boolean
 	 * 
 	 */
-	public Boolean syncVerifyStatus(EcmMzfOrderStatus orderStatus) ;
+	public Boolean syncVerifyStatus(EcmMzfOrderStatus orderStatus);
 	
 
 	/**
@@ -67,7 +67,7 @@ public interface OrderService {
 	 * return  List<EcmMzfShareProfit>
 	 * 
 	 */
-	public List<EcmMzfShareProfit> queryShareProfit(Collection<String> orderSns) ;
+	public List<EcmMzfShareProfit> queryShareProfit(Collection<String> orderSns);
 	
 	/**
 	 * 功能描述:  按登陆的个代或区代查询今日佣金金额和待结算金额
@@ -78,7 +78,7 @@ public interface OrderService {
 	 * return  ShareProfitVO
 	 * 
 	 */
-	public ShareProfitVO queryProfitByRole(String code, Integer accountRoleType) ;
+	public ShareProfitVO queryProfitByRole(String code, Integer accountRoleType);
 
 	/**
 	 * 功能描述:  按登陆的个代或区代以及流水编号查询分润数据
@@ -124,7 +124,7 @@ public interface OrderService {
 	 * return  ResBodyData
 	 * 
 	 */
-	public List<ShareProfitVO> queryTotalProfit(Collection<String> codes, Integer billStartDate, Integer billEndDate) ;
+	public List<ShareProfitVO> queryTotalProfit(Collection<String> codes, Integer billStartDate, Integer billEndDate);
 
 
 }

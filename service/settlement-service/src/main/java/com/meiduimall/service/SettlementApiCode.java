@@ -25,6 +25,14 @@ public class SettlementApiCode extends BaseApiCode {
 	public static final Integer VERIFY_DRAWCASH_FAILURE = 7016;
 	public static final Integer CONFIRM_DRAWCASH_FAILURE = 7017;
 	public static final Integer DRAWCASH_FAILURE = 7018;
+	public static final Integer ORDER_ALREADY_SHAREPROFIT = 7019;
+	public static final Integer ORDER_SHAREDATA_INSERT_FAILURE = 7020;
+	public static final Integer SELLER_NAME_ISNULL = 7021;
+	public static final Integer SERVICE_RATE_ISNULL = 7022;
+	public static final Integer ORDER_AMOUNT_ISNULL = 7023;
+	public static final Integer AGENT_NO_REGION_ISNULL = 7024;
+	public static final Integer GET_RECOMMENDER_INFO_FAILURE = 7025;
+	public static final Integer IS_TWO_HUNDRED_AGENT_ISNULL = 7026;
 	
 	static {
 		Map<Integer, String> zhMsgMap = BaseApiCode.zhMsgMap;
@@ -46,6 +54,14 @@ public class SettlementApiCode extends BaseApiCode {
 		zhMsgMap.put(REJECT_DRAWCASH_FAILURE, "驳回提现申请失败");
 		zhMsgMap.put(VERIFY_DRAWCASH_FAILURE, "审核提现申请失败");
 		zhMsgMap.put(CONFIRM_DRAWCASH_FAILURE, "确认转账成功或失败异常");
+		zhMsgMap.put(ORDER_ALREADY_SHAREPROFIT, "该订单已经分润过啦！不能再重复分润");
+		zhMsgMap.put(ORDER_SHAREDATA_INSERT_FAILURE, "分润数据插入失败，创建订单状态数据失败");
+		zhMsgMap.put(SELLER_NAME_ISNULL, "商家编号为空");
+		zhMsgMap.put(SERVICE_RATE_ISNULL, "商家收益比例不能为空");
+		zhMsgMap.put(ORDER_AMOUNT_ISNULL, "支付金额不能为空或为0");
+		zhMsgMap.put(AGENT_NO_REGION_ISNULL, "该订单区代不能为空");
+		zhMsgMap.put(GET_RECOMMENDER_INFO_FAILURE, "从会员系统获取推荐人信息失败");
+		zhMsgMap.put(IS_TWO_HUNDRED_AGENT_ISNULL, "前二百区代标识不能为空");
 
 	}
 
