@@ -13,7 +13,6 @@ import org.apache.commons.logging.LogFactory;
 import com.meiduimall.application.search.constant.SysConstant;
 
 public class DateUtils {
-	
 	private static final Log log = LogFactory.getLog(DateUtils.class);
 
 	private static SimpleDateFormat yyyy = new SimpleDateFormat("yyyy");
