@@ -20,8 +20,8 @@ import org.springframework.stereotype.Service;
 import com.meiduimall.core.util.HttpUtils;
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.ServiceException;
+import com.meiduimall.password.util.MD5;
 import com.meiduimall.service.sms.SmsApiCode;
-import com.meiduimall.service.sms.util.MD5Util;
 
 
 /**
@@ -59,7 +59,7 @@ public class ZucpService {
 		sb.append(zucpUser);
 		sb.append("</sn>");
 		sb.append("<pwd>");
-		sb.append(MD5Util.md5Digest(zucpUser + zucpPasswd));
+		sb.append(MD5.getMD5EncodeUTF8(zucpUser + zucpPasswd));
 		sb.append("</pwd>");
 		sb.append("<mobile>");
 		sb.append(mobile);

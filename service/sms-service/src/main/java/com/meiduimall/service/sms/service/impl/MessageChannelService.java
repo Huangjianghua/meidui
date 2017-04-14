@@ -12,19 +12,20 @@ package com.meiduimall.service.sms.service.impl;
 
 import java.util.List;
 
+
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.meiduimall.core.util.DateUtils;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.redis.util.RedisUtils;
 import com.meiduimall.service.sms.entity.MessageChannel;
 import com.meiduimall.service.sms.entity.TemplateInfo;
 import com.meiduimall.service.sms.mapper.MessageChannelMapper;
 import com.meiduimall.service.sms.mapper.TemplateInfoMapper;
-import com.meiduimall.service.sms.util.Time;
 
 @Service
 public class MessageChannelService{
@@ -75,7 +76,7 @@ public class MessageChannelService{
 				List<MessageChannel> channelList = messageChannelMapper.getChannelList();
 				if(null != channelList && channelList.size() > 0){
 					channelListJsonStr = JsonUtils.beanToJsonAndFmDate(channelList);
-					RedisUtils.setex(key, Time.parseDuration("1mn"),channelListJsonStr);
+					RedisUtils.setex(key, DateUtils.parseDuration("1mn"),channelListJsonStr);
 				}
 				
 			} catch (Exception e) {
@@ -98,7 +99,7 @@ public class MessageChannelService{
 				List<TemplateInfo> templateInfo = templateInfoMapper.getTemplateInfoList();
 				if(null != templateInfo && templateInfo.size() > 0){
 					templateListJsonStr = JsonUtils.beanToJsonAndFmDate(templateInfo);
-					RedisUtils.setex(key, Time.parseDuration("10mn"),templateListJsonStr);
+					RedisUtils.setex(key, DateUtils.parseDuration("10mn"),templateListJsonStr);
 				}
 				
 			} catch (Exception e) {
