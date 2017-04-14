@@ -79,7 +79,7 @@ public interface UserService {
      * @return
      * @throws Exception
      */
-    JSONObject validePayPwd(String token,String payPwd)throws Exception;
+    JSONObject validePayPwd(String memId,String payPwd)throws Exception;
 
     /**冻结余额和积分
      * @param paymentTrade

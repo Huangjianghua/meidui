@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -88,13 +87,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public JSONObject validePayPwd(String token, String payPwd) throws Exception {
+	public JSONObject validePayPwd(String memId, String payPwd) throws Exception {
 		String url = myProps.getRouteServiceUrl() + "/member/account_service/v1/valide_pay_pwd";
 		HttpHeaders headers = new HttpHeaders();
 		MediaType type = MediaType.parseMediaType(HttpRConst.MEDIATYPE_JSON_FOR_APP);
 		headers.setContentType(type);
 		JSONObject json = new JSONObject();
-		json.put("token", token);
+		json.put("memId", memId);
 		json.put("pay_pwd", payPwd);
 		JSONObject commonJSON = CommonUtil.CommonJSON(json);
 		HttpEntity<JSONObject> formEntity = new HttpEntity<JSONObject>(commonJSON, headers);
