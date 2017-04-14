@@ -23,6 +23,7 @@ import com.github.pagehelper.StringUtil;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import com.meiduimall.core.Constants;
 import com.meiduimall.service.settlement.context.MemberSystemDataContext;
 import com.meiduimall.service.settlement.model.EcmMzfOrderStatus;
@@ -85,8 +86,7 @@ public class ShareProfitUtil {
 	public final static String REQUEST_METHOD_POST = "POST";
 	
 	//加载鉴权配置文件
-	//public final static Map<String, String> AUTHORIZED_MAP = ToolUtils.loadProperty("config/authorized.properties");
-	public static Map<String, String> AUTHORIZED_MAP =null;
+	public static Map<String, String> AUTHORIZED_MAP = null;
 
 	
 	//直营前缀编码
@@ -154,7 +154,7 @@ public class ShareProfitUtil {
 	 * @return
 	 */
 	public static Map<String, String> queryShareProfit(List<EcmSystemSetting> systemSettings) {
-		Map<String, String> ShareProfit = new HashMap<String, String>();
+		Map<String, String> ShareProfit = Maps.newHashMap();
 		try {
 			for (EcmSystemSetting systemSetting : systemSettings) {
 				ShareProfit.put(systemSetting.getScode(), systemSetting.getValue());

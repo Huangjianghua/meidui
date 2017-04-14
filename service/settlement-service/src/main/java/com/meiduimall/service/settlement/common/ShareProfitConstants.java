@@ -50,6 +50,8 @@ public abstract class ShareProfitConstants {
 	public static final int RESPONSE_STATUS_CODE_SUCCESS=0;
 	public static final int RESPONSE_STATUS_CODE_FAILURE=1;
 	
+	public static final String RESPONSE_SUCCESS = "成功";
+	
 	public static final int SHARE_PROFIT_RETRY_STATUS_CODE_SUCCESS=1;
 	public static final int SHARE_PROFIT_RETRY_STATUS_CODE_FAIL=0;
 	

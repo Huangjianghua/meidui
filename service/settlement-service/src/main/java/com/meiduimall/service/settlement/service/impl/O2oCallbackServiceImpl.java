@@ -94,7 +94,7 @@ public class O2oCallbackServiceImpl implements O2oCallbackService{
 
 
 	@Override
-	public String addProxyFee(EcmAgent areaAgent, double amount) throws ServiceException {
+	public String addProxyFee(EcmAgent areaAgent, double amount) {
 		String resultObjStr = ConnectionUrlUtil.httpRequest(buildUrl4AddProxyFee(areaAgent, amount), ShareProfitUtil.REQUEST_METHOD_POST, null);
 
 		ResBodyData resultObj = JsonUtils.jsonToBean(resultObjStr, ResBodyData.class);

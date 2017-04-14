@@ -2,7 +2,6 @@ package com.meiduimall.service.settlement.service;
 
 import java.util.List;
 
-import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.settlement.model.EcmMzfShareProfit;
 
 /**
@@ -25,7 +24,7 @@ public interface MemberService {
 	 * return  boolean
 	 * 
 	 */
-    public Boolean addConsumePoints(String phone,String credit,String source,String order_id) throws ServiceException;
+    public Boolean addConsumePoints(String phone,String credit,String source,String order_id);
 
 	/**
 	 * 功能描述:  给会员系统送积分
@@ -43,5 +42,5 @@ public interface MemberService {
 	 * return  
 	 * 
 	 */
-    public void updateReferrerCash() throws ServiceException;
+    public void updateReferrerCash();
 }

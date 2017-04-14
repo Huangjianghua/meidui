@@ -33,6 +33,8 @@ import com.meiduimall.service.sms.model.message.CommonShortMessageModel;
 @ActiveProfiles(value = "dev")
 public class SmsControllerTest {
 
+  private final String phone="18600000000";
+
   @Autowired
   private SmsController smsController;
 
@@ -42,7 +44,7 @@ public class SmsControllerTest {
   //阿里大于模板未注册，通过漫道发送短信
   @Test
   public void sendSmsMessage_01() throws Exception {
-    model.setPhones("18621580756");
+    model.setPhones(phone);
     model.setTemplateId("O2O_1004");
     model.setParams("2012年01月01日 12:22:32,333");
     ResBodyData result = smsController.sendSmsMessage(model);
@@ -52,7 +54,7 @@ public class SmsControllerTest {
   //阿里大于模板注册，通过阿里大于发送短信
   @Test
   public void sendSmsMessage_02() throws Exception {
-    model.setPhones("18621580756");
+    model.setPhones(phone);
     model.setTemplateId("O2O_1001");
     model.setParams("2012年01月01日 12:22:32,333");
     ResBodyData result = smsController.sendSmsMessage(model);
@@ -62,7 +64,7 @@ public class SmsControllerTest {
   //阿里大于模板注册，通过漫道发送验证码
   @Test
   public void sendSmsVerificationCode_01() throws Exception {
-    model.setPhones("18621580756");
+    model.setPhones(phone);
     model.setTemplateId("MEM_1002");
     ResBodyData result = smsController.sendSmsVerificationCode(model);
     Assert.assertEquals(BaseApiCode.SUCCESS,result.getStatus()+"");
@@ -71,7 +73,7 @@ public class SmsControllerTest {
   //阿里大于模板注册，通过阿里大于发送验证码
   @Test
   public void sendSmsVerificationCode_02() throws Exception {
-    model.setPhones("18621580756");
+    model.setPhones(phone);
     model.setTemplateId("O2O_1002");
     ResBodyData result = smsController.sendSmsVerificationCode(model);
     Assert.assertEquals(BaseApiCode.SUCCESS, result.getStatus()+"");
@@ -80,7 +82,7 @@ public class SmsControllerTest {
   //重复发送验证码
   @Test
   public void sendSmsVerificationCode_03() throws Exception {
-    model.setPhones("18621580756");
+    model.setPhones(phone);
     model.setTemplateId("O2O_1002");
     try {
       smsController.sendSmsVerificationCode(model);
@@ -91,7 +93,7 @@ public class SmsControllerTest {
 
   @Test
   public void checkSmsVerificationCode_01() throws Exception {
-    model.setPhones("18621580756");
+    model.setPhones(phone);
     model.setTemplateId("O2O_1002");
     model.setVerificationCode(code);
     boolean result = false;

@@ -3,14 +3,10 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
@@ -108,67 +104,6 @@ public class JsonUtils {
     }
 
 
-/*
-    *//**
-     * 功能描述:  list转string
-     * Author: 陈建宇
-     * Date:   2017年3月15日 下午6:10:14
-     * return  String
-     *//*
-    public static String listToJson(List<?> list){
-        try {
-            return getInstance().writeValueAsString(list);
-        } catch (JsonGenerationException e) {
-            logger.error(e.getMessage());
-        } catch (JsonMappingException e) {
-            logger.error(e.getMessage());
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-        }
-        return null;
-    }
-
-    *//**
-     * 功能描述:  map转json
-     * Author: 陈建宇
-     * Date:   2017年3月16日 上午9:44:44
-     * return  String
-     *//*
-    public static String mapToJson(Map<String,?> map){
-        try {
-            return getInstance().writeValueAsString(map);
-        } catch (JsonGenerationException e) {
-            logger.error(e.getMessage());
-        } catch (JsonMappingException e) {
-            logger.error(e.getMessage());
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-        }
-        return null;
-    }
-
-    *//**
-     * 功能描述:  json转map
-     * Author: 陈建宇
-     * Date:   2017年3月16日 上午9:44:49
-     * return  Map<String,T>
-     *//*
-    public static <T> Map<String,T> jsonToMap(String json,Class<T> valueType){
-    	if(!Strings.isNullOrEmpty(json)){
-            try {
-            	JavaType javaType = getInstance().getTypeFactory().constructParametricType(Map.class,String.class, valueType);
-    			return getInstance().readValue(json, javaType);
-    		} catch (JsonParseException e) {
-    			 logger.error(e.getMessage());
-    		} catch (JsonMappingException e) {
-    			 logger.error(e.getMessage());
-    		} catch (IOException e) {
-    			 logger.error(e.getMessage());
-    		}
-    	}
-        return null;
-    }
-   **/
 
   public static String beanToJsonAndFmDate(Object channelList) {
     return beanToJson(channelList);

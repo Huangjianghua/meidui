@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.core.util.JsonUtils;
+import com.meiduimall.exception.ServiceException;
 
 /**
  * Copyright (C), 2002-2017, 美兑壹购物
@@ -24,24 +27,17 @@ public class GlobalExceptionHandler {
 	
     @ExceptionHandler(value=MethodArgumentNotValidException.class)  
     public Object MethodJsonArgumentNotValidHandler(HttpServletRequest request,MethodArgumentNotValidException exception) throws Exception {  
-        /*StringBuffer sb=new StringBuffer();
-        exception.getBindingResult().getFieldErrors().forEach((error)->{
-        	sb.append(error.getDefaultMessage()).append(";");
-        });
-        return new ResBodyData(HttpStatus.SC_BAD_REQUEST, sb.toString(), new JSONObject());*/  
         return new ResBodyData(HttpStatus.SC_BAD_REQUEST, "请求参数错误", new JSONObject());  
     }  
-    
     
     @ExceptionHandler(value=BindException.class)  
     public Object MethodFromArgumentNotValidHandler(HttpServletRequest request,BindException exception) throws Exception {  
-        /*StringBuffer sb=new StringBuffer();
-        exception.getBindingResult().getFieldErrors().forEach((error)->{
-        	sb.append(error.getDefaultMessage()).append(";");
-        });
-        return new ResBodyData(HttpStatus.SC_BAD_REQUEST, sb.toString(), new JSONObject());*/  
         return new ResBodyData(HttpStatus.SC_BAD_REQUEST, "请求参数错误", new JSONObject());  
     }  
-
-
+    
+    @ExceptionHandler(value = ServiceException.class)
+	public Object ServiceExceptionHandler(HttpServletRequest request, ServiceException exception) {
+		return new ResBodyData(exception.getCode(), BaseApiCode.getZhMsg(exception.getCode()),
+				JsonUtils.getInstance().createObjectNode());
+	}
 }
