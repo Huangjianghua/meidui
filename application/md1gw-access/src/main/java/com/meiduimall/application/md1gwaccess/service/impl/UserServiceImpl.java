@@ -107,7 +107,9 @@ public class UserServiceImpl implements UserService {
 		String url = SystemConfig.getInstance().configMap.get("get_memid_by_token_url");
 		HashMap<String, String> hashMap = new HashMap<String,String>();
 		hashMap.put(OauthConst.TOKEN, token);
-		ResponseEntity<String> getMemid = restTemplate.postForEntity(url, CommonUtil.CommonMap(hashMap), String.class);
+		Map<String, String> commonMap = CommonUtil.CommonMap(hashMap);
+		Logger.info("tokenTOmemId组装发送数据:%s", commonMap);
+		ResponseEntity<String> getMemid = restTemplate.postForEntity(url, commonMap, String.class);
 		Logger.info("tokenTOmemId请求结果 :%s", getMemid.getBody());
 		JSONObject getMemidObj = JSONObject.fromObject(getMemid.getBody());
 		return getMemidObj;
@@ -132,7 +134,9 @@ public class UserServiceImpl implements UserService {
 		json.put("status", 3);
 		json.put("consume_money", new BigDecimal(paymentBill.get("walletPay").toString()));
 		json.put("consume_points", Integer.valueOf(paymentBill.get("pointPay").toString()));
-		HttpEntity<JSONObject> formEntity = new HttpEntity<JSONObject>(CommonUtil.CommonJSON(json), headers);
+		JSONObject commonJSON = CommonUtil.CommonJSON(json);
+		Logger.info("freezeUnfreeze组装发送数据:%s", commonJSON);
+		HttpEntity<JSONObject> formEntity = new HttpEntity<JSONObject>(commonJSON, headers);
 		String string = restTemplate.postForObject(url, formEntity, String.class);
 		return new JSONObject().fromObject(string);
 	}
@@ -143,6 +147,7 @@ public class UserServiceImpl implements UserService {
 	public JSONObject getMemIdByUserId(Integer userId)  throws Exception{
 		String url = SystemConfig.getInstance().configMap.get("getMemIdByUserId");
 		url = url + userId;
+		Logger.info("getMemIdByUserId组装发送数据:%s", url);
 		String forObject = restTemplate.getForObject(url, String.class);
 		
 		return new JSONObject().fromObject(forObject);
@@ -167,7 +172,9 @@ public class UserServiceImpl implements UserService {
 		json.put("status", 3);
 		json.put("consume_money", new BigDecimal(paymentBill.get("walletPay").toString()));
 		json.put("consume_points", Integer.valueOf(paymentBill.get("pointPay").toString()));
-		HttpEntity<JSONObject> formEntity = new HttpEntity<JSONObject>(CommonUtil.CommonJSON(json), headers);
+		JSONObject commonJSON = CommonUtil.CommonJSON(json);
+		Logger.info("unfreezeDeduct组装发送数据:%s", commonJSON);
+		HttpEntity<JSONObject> formEntity = new HttpEntity<JSONObject>(commonJSON, headers);
 		String string = restTemplate.postForObject(url, formEntity, String.class);
 		return new JSONObject().fromObject(string);
 	}
@@ -183,6 +190,7 @@ public class UserServiceImpl implements UserService {
 		json.put("templateId", "1GW_1003");
 		json.put("params", tid);
 		json.put("phones", mobile);
+		Logger.info("sendSmsMessage组装发送数据:%s", json);
 		HttpEntity<JSONObject> formEntity = new HttpEntity<JSONObject>(json, headers);
 		JSONObject postForObject = restTemplate.postForObject(url, formEntity, JSONObject.class);
 		return postForObject;
