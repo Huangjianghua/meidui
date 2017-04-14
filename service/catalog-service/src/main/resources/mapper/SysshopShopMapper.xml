@@ -104,9 +104,6 @@
       distinct
     </if>
     * 
-    <!-- <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" /> -->
     from sysshop_shop
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -124,7 +121,6 @@
     shop_id, shop_name, shop_type, seller_id, status, open_time, close_time, close_reason, 
     shop_logo, shopuser_name, qq, wangwang, email, mobile, shopuser_identity, shopuser_identity_img, 
     shop_area, bulletin, check_goods 
-    <!-- <include refid="Base_Column_List" /> -->
     from sysshop_shop
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -137,9 +133,6 @@
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 
     * 
-    <!-- <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" /> -->
     from sysshop_shop
     where shop_id = #{shopId,jdbcType=INTEGER}
   </select>

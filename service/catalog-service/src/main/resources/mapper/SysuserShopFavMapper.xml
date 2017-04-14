@@ -89,7 +89,6 @@
       distinct
     </if>
     * 
-    <!-- <include refid="Base_Column_List" /> -->
     from sysuser_shop_fav
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -102,7 +101,6 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     * 
-    <!-- <include refid="Base_Column_List" /> -->
     from sysuser_shop_fav
     where snotify_id = #{snotifyId,jdbcType=INTEGER}
   </select>

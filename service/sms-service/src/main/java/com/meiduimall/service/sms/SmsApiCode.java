@@ -11,7 +11,8 @@ public class SmsApiCode extends BaseApiCode{
 	public static final Integer SMS_VALID_CODE_UNMATCHED=-8;
 	public static final Integer NOT_FOUND_TEMPLATE=-5;
 	public static final Integer SMS_SEND_FAILUER=-6;
-	
+	public static final Integer EXCEPTION_ACCESS_CHANNEL=7001;
+	public static final Integer EXCEPTION_ACCESS_TEMPLATE=7002;
 	static {
 		zhMsgMap.put(NOT_FOUND, "service not found");
 		zhMsgMap.put(UNKNOWN, "service not found");
@@ -22,5 +23,7 @@ public class SmsApiCode extends BaseApiCode{
 		zhMsgMap.put(SMS_VALID_CODE_UNMATCHED, "验证码不匹配");
 		zhMsgMap.put(NOT_FOUND_TEMPLATE, "获取不到模板id对应短信模板记录");
 		zhMsgMap.put(SMS_SEND_FAILUER, "发送短信失败！");
+		zhMsgMap.put(EXCEPTION_ACCESS_CHANNEL, "获取短信渠道异常！");
+		zhMsgMap.put(EXCEPTION_ACCESS_TEMPLATE, "获取短信模板异常！");
 	}
 }

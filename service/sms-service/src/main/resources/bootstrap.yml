@@ -1,29 +1,12 @@
-# Spring Properties
+server:
+  port: ${PORT:8080}
 spring:
   application:
      name: service-sms
-  cloud:
-    config:
-      failFast: true
-      label: master
-      profile: dev
-      discovery:
-        enabled: true
-        serviceId: service-sms
 
-#Discovery Server Access
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://192.168.4.240:9001/eureka/
-      #defaultZone: http://10.45.178.235:9001/eureka/
-  instance:
-    #hostname: 10.45.178.235
-    hostname: 192.168.4.240
+
+
     
-# HTTP Server 
-server:
-  port: 8080   # HTTP (Tomcat) port
 
   
   

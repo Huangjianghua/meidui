@@ -100,9 +100,7 @@
     <if test="distinct" >
       distinct
     </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
+    * 
     from sysitem_sku
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -117,7 +115,8 @@
     <if test="distinct" >
       distinct
     </if>
-    <include refid="Base_Column_List" />
+    sku_id, item_id, title, bn, price, cost_price, mkt_price, barcode, weight, created_time, 
+    modified_time, status, outer_id, direct_prices, isdirect, point 
     from sysitem_sku
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -129,9 +128,7 @@
   
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
+    * 
     from sysitem_sku
     where sku_id = #{skuId,jdbcType=INTEGER}
   </select>

@@ -94,9 +94,7 @@
     <if test="distinct" >
       distinct
     </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
+    * 
     from sysitem_item_recommend
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -110,7 +108,7 @@
     <if test="distinct" >
       distinct
     </if>
-    <include refid="Base_Column_List" />
+    id, item_id, reco_time, reco_level, reco_type, opt_user, ip, curr_time 
     from sysitem_item_recommend
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -121,9 +119,7 @@
   </select>
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
+    * 
     from sysitem_item_recommend
     where id = #{id,jdbcType=INTEGER}
   </select>
