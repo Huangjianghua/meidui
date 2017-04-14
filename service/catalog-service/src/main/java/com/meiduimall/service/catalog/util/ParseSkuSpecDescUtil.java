@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class ParserSkuSpecDescUtil {
+public class ParseSkuSpecDescUtil {
 
 	/**
 	 * 解析如下格式字符串
@@ -17,7 +17,7 @@ public class ParserSkuSpecDescUtil {
 	 * @return
 	 * @throws Exception
 	 */
-	public static List<ParserSkuSpecDescBean> parser(String content) throws Exception {
+	public static List<ParseSkuSpecDescBean> parse(String content) throws Exception {
 
 		if (content == null || content.length() < 1) {
 			return null;
@@ -146,13 +146,13 @@ public class ParserSkuSpecDescUtil {
 			}
 		}
 
-		List<ParserSkuSpecDescBean> list = new ArrayList<ParserSkuSpecDescBean>();
-		ParserSkuSpecDescBean bean = null;
+		List<ParseSkuSpecDescBean> list = new ArrayList<ParseSkuSpecDescBean>();
+		ParseSkuSpecDescBean bean = null;
 		// 遍历map2 -- 给对象赋值
 		for (Map.Entry<Integer, Integer> entry : map2.entrySet()) {
 			Integer prop_id = entry.getKey();
 			Integer prop_value_id = entry.getValue();
-			bean = new ParserSkuSpecDescBean();
+			bean = new ParseSkuSpecDescBean();
 			bean.setProp_id(prop_id);
 			bean.setProp_value_id(prop_value_id);
 			list.add(bean);

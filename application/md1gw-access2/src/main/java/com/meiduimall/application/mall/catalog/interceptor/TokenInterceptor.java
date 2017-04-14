@@ -16,8 +16,9 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.meiduimall.application.mall.catalog.annotation.HasToken;
+import com.meiduimall.application.mall.catalog.constant.ApplicationMallApiCode;
 import com.meiduimall.application.mall.catalog.entity.MemIdResult;
-import com.meiduimall.core.BaseApiCode;
+import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.HttpUtils;
 import com.meiduimall.core.util.JsonUtils;
@@ -43,9 +44,9 @@ public class TokenInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		// try {
-		request.setCharacterEncoding("utf-8");
-		response.setCharacterEncoding("utf-8");
-		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding(Constants.ENCODE_UTF8);
+		response.setCharacterEncoding(Constants.ENCODE_UTF8);
+		response.setContentType(Constants.CONTENT_TYPE_TEXT_UTF8);
 
 		HandlerMethod handlerMethod = (HandlerMethod) handler;
 		Method method = handlerMethod.getMethod();
@@ -58,7 +59,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 
 			if (StringUtils.isBlank(token)) {
 				// token为空，不通过
-				return outPut(response, BaseApiCode.NO_LOGIN);
+				return outPut(response, ApplicationMallApiCode.NO_LOGIN);
 			}
 
 			// 调用会员系统，验证token
@@ -67,7 +68,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 				return true;
 			} else {
 				// 验证不通过，不放行
-				return outPut(response, BaseApiCode.NO_LOGIN);
+				return outPut(response, ApplicationMallApiCode.NO_LOGIN);
 			}
 
 		} else {
@@ -79,7 +80,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 			return true;
 		}
 		// } catch (Exception e) {
-		// logger.info("验证token，拦截器出现异常：" + e); 
+		// logger.info("验证token，拦截器出现异常：" + e);
 		// return outPut(response, BaseApiCode.TOKEN_VALIDATE_ERROR);
 		// }
 	}
@@ -130,7 +131,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 	 * @throws IOException
 	 */
 	private boolean outPut(HttpServletResponse response, Integer status) throws IOException {
-		ResBodyData result = new ResBodyData(status, BaseApiCode.getZhMsg(status),
+		ResBodyData result = new ResBodyData(status, ApplicationMallApiCode.getZhMsg(status),
 				JsonUtils.getInstance().createObjectNode());
 		response.getWriter().write(JsonUtils.beanToJson(result));
 		return false;

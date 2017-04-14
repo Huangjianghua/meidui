@@ -1,4 +1,4 @@
-package com.meiduimall.service.catalog.util;
+package com.meiduimall.core.util;
 
 import java.text.DecimalFormat;
 

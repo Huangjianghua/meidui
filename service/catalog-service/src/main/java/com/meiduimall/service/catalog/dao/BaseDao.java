@@ -4,6 +4,7 @@ import java.util.List;
 
 /**
  * 通用数据访问接口
+ * 
  * @author chencong
  *
  */
@@ -16,7 +17,7 @@ public interface BaseDao {
 	 * @return 根据primaryKey查询T
 	 * @throws Exception
 	 */
-	public <T, P> T selectOne(P params, String sqlTag) throws Exception;
+	public <T, P> T selectOne(P params, String sqlTag);
 
 	/**
 	 * @param params
@@ -26,7 +27,7 @@ public interface BaseDao {
 	 * @return 根据params查询T,List.size>=0
 	 * @throws Exception
 	 */
-	public <T, P> List<T> selectList(P params, String sqlTag) throws Exception;
+	public <T, P> List<T> selectList(P params, String sqlTag);
 
 	/**
 	 * @param t
@@ -36,7 +37,7 @@ public interface BaseDao {
 	 * @return 操作结果
 	 * @throws Exception
 	 */
-	public <T> Integer insert(T t, String sqlTag) throws Exception;
+	public <T> Integer insert(T t, String sqlTag);
 
 	/**
 	 * @param ts
@@ -46,7 +47,7 @@ public interface BaseDao {
 	 * @return 操作结果
 	 * @throws Exception
 	 */
-	public <T> Integer insertBatch(List<T> ts, String sqlTag) throws Exception;
+	public <T> Integer insertBatch(List<T> ts, String sqlTag);
 
 	/**
 	 * @param params
@@ -56,7 +57,7 @@ public interface BaseDao {
 	 * @return 操作结果
 	 * @throws Exception
 	 */
-	public <P> Integer update(P params, String sqlTag) throws Exception;
+	public <P> Integer update(P params, String sqlTag);
 
 	/**
 	 * @param params
@@ -66,7 +67,7 @@ public interface BaseDao {
 	 * @return 删除结果
 	 * @throws Exception
 	 */
-	public <P> Integer delete(P params, String sqlTag) throws Exception;
+	public <P> Integer delete(P params, String sqlTag);
 
 	/**
 	 * @param params
@@ -76,6 +77,5 @@ public interface BaseDao {
 	 * @return 删除结果
 	 * @throws Exception
 	 */
-	public <P> Integer deleteBatch(List<P> params, String sqlTag)
-			throws Exception;
+	public <P> Integer deleteBatch(List<P> params, String sqlTag);
 }

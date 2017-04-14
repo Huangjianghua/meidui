@@ -2,14 +2,13 @@ package com.meiduimall.application.mall.catalog;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.meiduimall.core.BaseApiCode;
+import com.meiduimall.application.mall.catalog.constant.ApplicationMallApiCode;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.ApiException;
@@ -28,17 +27,21 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(value = MethodArgumentNotValidException.class)
 	public Object MethodJsonArgumentNotValidHandler(HttpServletRequest request,
 			MethodArgumentNotValidException exception) {
-		return new ResBodyData(HttpStatus.SC_BAD_REQUEST, "请求参数错误", JsonUtils.getInstance().createObjectNode());
+		return new ResBodyData(ApplicationMallApiCode.REQUEST_PARAMS_ERROR,
+				ApplicationMallApiCode.getZhMsg(ApplicationMallApiCode.REQUEST_PARAMS_ERROR),
+				JsonUtils.getInstance().createObjectNode());
 	}
 
 	@ExceptionHandler(value = BindException.class)
 	public Object MethodFromArgumentNotValidHandler(HttpServletRequest request, BindException exception) {
-		return new ResBodyData(HttpStatus.SC_BAD_REQUEST, "请求参数错误", JsonUtils.getInstance().createObjectNode());
+		return new ResBodyData(ApplicationMallApiCode.REQUEST_PARAMS_ERROR,
+				ApplicationMallApiCode.getZhMsg(ApplicationMallApiCode.REQUEST_PARAMS_ERROR),
+				JsonUtils.getInstance().createObjectNode());
 	}
 
 	@ExceptionHandler(value = ApiException.class)
 	public Object ControllerExceptionHandler(HttpServletRequest request, ApiException exception) {
-		return new ResBodyData(exception.getCode(), BaseApiCode.getZhMsg(exception.getCode()),
+		return new ResBodyData(exception.getCode(), ApplicationMallApiCode.getZhMsg(exception.getCode()),
 				JsonUtils.getInstance().createObjectNode());
 	}
 

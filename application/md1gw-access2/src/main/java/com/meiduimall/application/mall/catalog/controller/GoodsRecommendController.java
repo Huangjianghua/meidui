@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.meiduimall.application.mall.catalog.constant.ApplicationMallApiCode;
 import com.meiduimall.application.mall.catalog.service.impl.GoodsRecommendServiceImpl;
-import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.exception.ApiException;
 
 /**
@@ -23,7 +23,7 @@ import com.meiduimall.exception.ApiException;
 public class GoodsRecommendController {
 
 	private static Logger logger = LoggerFactory.getLogger(GoodsRecommendController.class);
-	
+
 	@Autowired
 	private HttpServletResponse response;
 
@@ -54,7 +54,7 @@ public class GoodsRecommendController {
 			return result;
 		} catch (NumberFormatException e) {
 			logger.error("根据推荐类型，获取推荐商品，服务器异常：" + e);
-			throw new ApiException(BaseApiCode.REQUEST_PARAMS_ERROR);
+			throw new ApiException(ApplicationMallApiCode.REQUEST_PARAMS_ERROR);
 		}
 	}
 }

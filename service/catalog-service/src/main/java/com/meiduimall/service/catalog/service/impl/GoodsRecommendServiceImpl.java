@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONObject;
-import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.service.catalog.constant.ServiceCatalogApiCode;
 import com.meiduimall.service.catalog.dao.BaseDao;
 import com.meiduimall.service.catalog.entity.SysitemItemRecommend;
 import com.meiduimall.service.catalog.result.CheckGoodsResult;
@@ -74,23 +74,23 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 				// "SysitemItemRecommendMapper.deleteByExample");
 
 				Integer rows = baseDao.insertBatch(list, "SysitemItemRecommendMapper.insertBatch");
-				
+
 				if (rows > 0 && rows == list.size()) {
-					result.setStatus(BaseApiCode.SUCCESS);
-					result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.SUCCESS));
+					result.setStatus(ServiceCatalogApiCode.SUCCESS);
+					result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.SUCCESS));
 				} else {
-					result.setStatus(BaseApiCode.OPERAT_FAIL);
-					result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
+					result.setStatus(ServiceCatalogApiCode.OPERAT_FAIL);
+					result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.OPERAT_FAIL));
 				}
 			} else {
 				// 传入的item_id都是无效的
-				result.setStatus(BaseApiCode.REQUEST_PARAMS_ERROR);
-				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.REQUEST_PARAMS_ERROR));
+				result.setStatus(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
+				result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR));
 			}
 
 		} catch (Exception e) {
-			result.setStatus(BaseApiCode.OPERAT_FAIL);
-			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
+			result.setStatus(ServiceCatalogApiCode.OPERAT_FAIL);
+			result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.OPERAT_FAIL));
 			logger.error("批量插入推荐商品，service报异常：" + e);
 		}
 		result.setData(new JSONObject());
@@ -144,22 +144,22 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 					ListGoodsDetailResult data = new ListGoodsDetailResult();
 					data.setResults(results);
 					result.setData(data);
-					result.setStatus(BaseApiCode.SUCCESS);
-					result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.SUCCESS));
+					result.setStatus(ServiceCatalogApiCode.SUCCESS);
+					result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.SUCCESS));
 				} else {
-					result.setStatus(BaseApiCode.NONE_DATA);
-					result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.NONE_DATA));
+					result.setStatus(ServiceCatalogApiCode.NONE_DATA);
+					result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.NONE_DATA));
 					result.setData(new JSONObject());
 				}
 			} else {
-				result.setStatus(BaseApiCode.NONE_DATA);
-				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.NONE_DATA));
+				result.setStatus(ServiceCatalogApiCode.NONE_DATA);
+				result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.NONE_DATA));
 				result.setData(new JSONObject());
 			}
 
 		} catch (Exception e) {
-			result.setStatus(BaseApiCode.OPERAT_FAIL);
-			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
+			result.setStatus(ServiceCatalogApiCode.OPERAT_FAIL);
+			result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.OPERAT_FAIL));
 			result.setData(new JSONObject());
 			logger.error("获取推荐商品，service报异常：" + e);
 		}
@@ -204,11 +204,11 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 			data.setResults2(results2);
 			result.setData(data);
 
-			result.setStatus(BaseApiCode.SUCCESS);
-			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.SUCCESS));
+			result.setStatus(ServiceCatalogApiCode.SUCCESS);
+			result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.SUCCESS));
 		} catch (Exception e) {
-			result.setStatus(BaseApiCode.OPERAT_FAIL);
-			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
+			result.setStatus(ServiceCatalogApiCode.OPERAT_FAIL);
+			result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.OPERAT_FAIL));
 			result.setData(new JSONObject());
 			logger.error("获取推荐商品，service报异常：" + e);
 		}

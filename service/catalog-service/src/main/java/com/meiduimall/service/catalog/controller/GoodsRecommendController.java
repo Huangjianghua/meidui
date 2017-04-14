@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
-import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.core.util.HttpHeaderTools;
+import com.meiduimall.service.catalog.constant.ServiceCatalogApiCode;
 import com.meiduimall.service.catalog.service.GoodsRecommendService;
-import com.meiduimall.service.catalog.util.HttpTools;
 
 /**
  * 商品推荐相关操作
@@ -50,7 +50,7 @@ public class GoodsRecommendController {
 	public ResBodyData insertBatchItems(String item_ids, String type, String opt_user,
 			@RequestParam(value = "level", required = false, defaultValue = "0") String level) {
 		try {
-			String ip = HttpTools.getIpAddr(request);
+			String ip = HttpHeaderTools.getIpAddr(request);
 			logger.info("请求IP：" + ip);
 			logger.info("批量插入推荐商品，商品编号：" + item_ids);
 
@@ -63,16 +63,16 @@ public class GoodsRecommendController {
 			} catch (NumberFormatException e) {
 				logger.error("批量插入推荐商品，商品编号：" + e);
 				ResBodyData result = new ResBodyData();
-				result.setStatus(BaseApiCode.REQUEST_PARAMS_ERROR);
-				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.REQUEST_PARAMS_ERROR));
+				result.setStatus(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
+				result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR));
 				result.setData(new JSONObject());
 				return result;
 			}
 
 			if (StringUtils.isEmpty(item_ids)) {
 				ResBodyData result = new ResBodyData();
-				result.setStatus(BaseApiCode.REQUEST_PARAMS_ERROR);
-				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.REQUEST_PARAMS_ERROR));
+				result.setStatus(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
+				result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR));
 				result.setData(new JSONObject());
 				return result;
 			} else {
@@ -85,8 +85,8 @@ public class GoodsRecommendController {
 					return goodsRecommendService.insertBatchItems(ids, reco_type, opt_user, ip, reco_level);
 				} else {
 					ResBodyData result = new ResBodyData();
-					result.setStatus(BaseApiCode.REQUEST_PARAMS_ERROR);
-					result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.REQUEST_PARAMS_ERROR));
+					result.setStatus(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
+					result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR));
 					result.setData(new JSONObject());
 					return result;
 				}
@@ -95,8 +95,8 @@ public class GoodsRecommendController {
 		} catch (Exception e) {
 			logger.error("批量插入推荐商品，服务器异常：" + e);
 			ResBodyData result = new ResBodyData();
-			result.setStatus(BaseApiCode.OPERAT_FAIL);
-			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
+			result.setStatus(ServiceCatalogApiCode.OPERAT_FAIL);
+			result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.OPERAT_FAIL));
 			result.setData(new JSONObject());
 			return result;
 		}
@@ -118,7 +118,7 @@ public class GoodsRecommendController {
 			@RequestParam(value = "count", required = false, defaultValue = "4") String count,
 			@RequestParam(value = "req_id", required = false, defaultValue = "1") String req_id) {
 		try {
-			String ip = HttpTools.getIpAddr(request);
+			String ip = HttpHeaderTools.getIpAddr(request);
 			logger.info("请求IP：" + ip);
 			logger.info("获取推荐商品，推荐类型：" + type);
 
@@ -133,8 +133,8 @@ public class GoodsRecommendController {
 			} catch (NumberFormatException e) {
 				logger.error("获取推荐商品，推荐类型：" + e);
 				ResBodyData result = new ResBodyData();
-				result.setStatus(BaseApiCode.REQUEST_PARAMS_ERROR);
-				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.REQUEST_PARAMS_ERROR));
+				result.setStatus(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
+				result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR));
 				result.setData(new JSONObject());
 				return result;
 			}
@@ -144,8 +144,8 @@ public class GoodsRecommendController {
 		} catch (Exception e) {
 			logger.error("获取推荐商品，服务器异常：" + e);
 			ResBodyData result = new ResBodyData();
-			result.setStatus(BaseApiCode.OPERAT_FAIL);
-			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
+			result.setStatus(ServiceCatalogApiCode.OPERAT_FAIL);
+			result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.OPERAT_FAIL));
 			result.setData(new JSONObject());
 			return result;
 		}
@@ -164,8 +164,8 @@ public class GoodsRecommendController {
 		} catch (Exception e) {
 			logger.error("获取推荐商品，服务器异常：" + e);
 			ResBodyData result = new ResBodyData();
-			result.setStatus(BaseApiCode.OPERAT_FAIL);
-			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
+			result.setStatus(ServiceCatalogApiCode.OPERAT_FAIL);
+			result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.OPERAT_FAIL));
 			result.setData(new JSONObject());
 			return result;
 		}

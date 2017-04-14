@@ -6,14 +6,15 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSONObject;
-import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.core.util.JsonUtils;
+import com.meiduimall.service.catalog.constant.ServiceCatalogApiCode;
 import com.meiduimall.service.catalog.dao.BaseDao;
 import com.meiduimall.service.catalog.entity.IdAndMemId;
 import com.meiduimall.service.catalog.entity.SyscategoryProps;
@@ -34,16 +35,16 @@ import com.meiduimall.service.catalog.result.JsonItemDetailResult_ShopData;
 import com.meiduimall.service.catalog.result.JsonItemDetailResult_Sku;
 import com.meiduimall.service.catalog.service.GoodsDetailService;
 import com.meiduimall.service.catalog.service.common.ShopCommonService;
-import com.meiduimall.service.catalog.util.ParserItemSpecDescBean;
-import com.meiduimall.service.catalog.util.ParserItemSpecDescBean.PropBean;
-import com.meiduimall.service.catalog.util.ParserItemSpecDescUtil;
-import com.meiduimall.service.catalog.util.ParserSkuSpecDescBean;
-import com.meiduimall.service.catalog.util.ParserSkuSpecDescUtil;
+import com.meiduimall.service.catalog.util.ParseItemSpecDesUtil;
+import com.meiduimall.service.catalog.util.ParseItemSpecDescBean;
+import com.meiduimall.service.catalog.util.ParseItemSpecDescBean.PropBean;
+import com.meiduimall.service.catalog.util.ParseSkuSpecDescBean;
+import com.meiduimall.service.catalog.util.ParseSkuSpecDescUtil;
 
 @Service
 public class GoodsDetailServiceImpl implements GoodsDetailService {
 
-	private static org.slf4j.Logger logger = LoggerFactory.getLogger(GoodsDetailServiceImpl.class);
+	private static Logger logger = LoggerFactory.getLogger(GoodsDetailServiceImpl.class);
 
 	@Autowired
 	private Environment env;
@@ -53,6 +54,7 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 
 	@Override
 	public ResBodyData checkItemIsExistById(int item_id) {
+		
 		ResBodyData result = new ResBodyData();
 		try {
 
@@ -66,12 +68,12 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 				bean.setUrl(url);
 
 				result.setData(bean);
-				result.setStatus(BaseApiCode.SUCCESS);
-				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.SUCCESS));
+				result.setStatus(ServiceCatalogApiCode.SUCCESS);
+				result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.SUCCESS));
 			} else {
-				result.setData(new JSONObject());
-				result.setStatus(BaseApiCode.NONE_DATA);
-				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.NONE_DATA));
+				result.setData(JsonUtils.getInstance().createObjectNode());
+				result.setStatus(ServiceCatalogApiCode.NONE_DATA);
+				result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.NONE_DATA));
 			}
 
 			/** TODO ----------查询该商品状态------- */
@@ -92,9 +94,9 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 			 */
 
 		} catch (Exception e) {
-			result.setData(new JSONObject());
-			result.setStatus(BaseApiCode.OPERAT_FAIL);
-			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
+			result.setData(JsonUtils.getInstance().createObjectNode());
+			result.setStatus(ServiceCatalogApiCode.OPERAT_FAIL);
+			result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.OPERAT_FAIL));
 			logger.error("查询商品信息，service报异常：" + e);
 		}
 		return result;
@@ -127,9 +129,9 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 			// 根据item_id查找sysitem_item表中对应的商品记录信息
 			SysitemItemWithBLOBs itemWithBLOBs = baseDao.selectOne(item_id, "SysitemItemMapper.selectByPrimaryKey");
 			if (itemWithBLOBs == null) {// 查询不到该商品
-				result.setStatus(BaseApiCode.NONE_DATA);
-				result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.NONE_DATA));
-				result.setData(new JSONObject());
+				result.setStatus(ServiceCatalogApiCode.NONE_DATA);
+				result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.NONE_DATA));
+				result.setData(JsonUtils.getInstance().createObjectNode());
 				return result;
 			}
 
@@ -139,13 +141,13 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 
 			// 反序列化数据---解析商品的规格参数---读取sysitem_item表的spec_desc字段
 			// 最终得到每一个规格，以及规格对应的规格属性。比如：[{4颜色：43黑色，44咖啡色，51军绿色},{},{}]
-			List<ParserItemSpecDescBean> parseList = ParserItemSpecDescUtil.parser(itemWithBLOBs.getSpecDesc());
+			List<ParseItemSpecDescBean> parseList = ParseItemSpecDesUtil.parse(itemWithBLOBs.getSpecDesc());
 			if (parseList != null && parseList.size() > 0) {
 				JsonItemDetailResult_Props itemProps = null;
 				for (int i = 0; i < parseList.size(); i++) {
 
 					// 获取每一组规格。比如：[{4颜色：43黑色，44咖啡色，51军绿色},{},{}]
-					ParserItemSpecDescBean parserItemSpecDescBean = parseList.get(i);
+					ParseItemSpecDescBean parserItemSpecDescBean = parseList.get(i);
 
 					if (parserItemSpecDescBean != null) {
 						// 规格
@@ -365,8 +367,8 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 					result_sku.setSku_store(sku_store + "");
 
 					// 反序列化数据---解析每一个商品对应的SKU数据
-					List<ParserSkuSpecDescBean> skuSpecDescBeanList = ParserSkuSpecDescUtil
-							.parser(sysitemSkuWithBLOBs.getSpecDesc());
+					List<ParseSkuSpecDescBean> skuSpecDescBeanList = ParseSkuSpecDescUtil
+							.parse(sysitemSkuWithBLOBs.getSpecDesc());
 
 					if (skuSpecDescBeanList != null && skuSpecDescBeanList.size() > 0) {
 						StringBuilder sb = new StringBuilder();
@@ -395,18 +397,18 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 			Integer shopId = itemWithBLOBs.getShopId();
 			JsonItemDetailResult_ShopData shopData = ShopCommonService.getJsonItemDetailResult_ShopData(baseDao, shopId,
 					mem_id);
-			
+
 			jsonResult.setShopData(shopData);
 
 			result.setData(jsonResult);
-			result.setStatus(BaseApiCode.SUCCESS);
-			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.SUCCESS));
+			result.setStatus(ServiceCatalogApiCode.SUCCESS);
+			result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.SUCCESS));
 
 		} catch (Exception e) {
 			logger.error("根据商品编号，获取商品详情，service报异常：" + e);
-			result.setStatus(BaseApiCode.OPERAT_FAIL);
-			result.setMsg(BaseApiCode.getZhMsg(BaseApiCode.OPERAT_FAIL));
-			result.setData(new JSONObject());
+			result.setStatus(ServiceCatalogApiCode.OPERAT_FAIL);
+			result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.OPERAT_FAIL));
+			result.setData(JsonUtils.getInstance().createObjectNode());
 		}
 		return result;
 	}

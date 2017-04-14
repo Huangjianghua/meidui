@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
+import com.meiduimall.application.mall.catalog.constant.ApplicationMallApiCode;
 import com.meiduimall.application.mall.catalog.service.GoodsDetailService;
 import com.meiduimall.application.mall.catalog.util.HttpGatewayUtils;
-import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.exception.ApiException;
 
 /**
@@ -45,7 +45,7 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
 		} catch (Exception e) {
 			logger.error("请求微服务异常： " + e);
-			throw new ApiException(BaseApiCode.REQUEST_SERVICE_ERROR);
+			throw new ApiException(ApplicationMallApiCode.REQUEST_SERVICE_ERROR);
 		}
 	}
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class ParserItemSpecDescUtil {
+public class ParseItemSpecDesUtil {
 
 	/**
 	 * 解析如下格式字符串
@@ -20,7 +20,7 @@ public class ParserItemSpecDescUtil {
 	 * @return
 	 * @throws Exception
 	 */
-	public static List<ParserItemSpecDescBean> parser(String content) throws Exception {
+	public static List<ParseItemSpecDescBean> parse(String content) throws Exception {
 		if (content == null || content.length() < 1) {
 			return null;
 		}
@@ -83,7 +83,7 @@ public class ParserItemSpecDescUtil {
 			return null;
 		}
 
-		List<ParserItemSpecDescBean> list = new ArrayList<ParserItemSpecDescBean>();
+		List<ParseItemSpecDescBean> list = new ArrayList<ParseItemSpecDescBean>();
 
 		// 遍历map1,并对map1的value进行第二次切割
 		for (Map.Entry<Integer, String> entry : map1.entrySet()) {
@@ -98,11 +98,11 @@ public class ParserItemSpecDescUtil {
 					} else {
 
 						// 创建ParseItemSpecDescBean对象
-						ParserItemSpecDescBean itemSpecDescBean = new ParserItemSpecDescBean();
+						ParseItemSpecDescBean itemSpecDescBean = new ParseItemSpecDescBean();
 						itemSpecDescBean.setProp_id(key2);
 
 						// 创建集合，用于存储PropBean
-						List<ParserItemSpecDescBean.PropBean> propBeanList = new ArrayList<ParserItemSpecDescBean.PropBean>();
+						List<ParseItemSpecDescBean.PropBean> propBeanList = new ArrayList<ParseItemSpecDescBean.PropBean>();
 						// 第二次切割
 						Map<Integer, String> map2 = new TreeMap<Integer, String>();
 						int aa = 0;
@@ -137,7 +137,7 @@ public class ParserItemSpecDescUtil {
 							String value5 = entry2.getValue();
 
 							// 创建二级对象
-							ParserItemSpecDescBean.PropBean propBean = new ParserItemSpecDescBean().new PropBean();
+							ParseItemSpecDescBean.PropBean propBean = new ParseItemSpecDescBean().new PropBean();
 							propBean.setProp_value_id(key5);
 
 							if (value5 != null && value5.length() > 0) {
@@ -151,7 +151,7 @@ public class ParserItemSpecDescUtil {
 										if (propValues != null && propValues.length > 0) {
 
 											// 创建三级对象
-											ParserItemSpecDescBean.PropValueBean bean = new ParserItemSpecDescBean().new PropValueBean();
+											ParseItemSpecDescBean.PropValueBean bean = new ParseItemSpecDescBean().new PropValueBean();
 											for (int j = 0; j < propValues.length; j++) {
 												String propValue = propValues[j];
 												if (propValue != null && propValue.length() > 0) {

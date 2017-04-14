@@ -1,7 +1,7 @@
 package com.meiduimall.service.catalog.util;
 
 
-public class ParserSkuSpecDescBean {
+public class ParseSkuSpecDescBean {
 
 	private Integer prop_id;// 规格ID -- 对应syscategory_props表的prop_id字段
 	private Integer prop_value_id;// 规格属性ID -- 对应syscategory_prop_values表的prop_value_id字段
