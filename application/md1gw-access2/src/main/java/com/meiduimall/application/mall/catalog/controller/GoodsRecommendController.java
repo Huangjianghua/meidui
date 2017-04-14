@@ -23,6 +23,9 @@ import com.meiduimall.exception.ApiException;
 public class GoodsRecommendController {
 
 	private static Logger logger = LoggerFactory.getLogger(GoodsRecommendController.class);
+	
+	@Autowired
+	private HttpServletResponse response;
 
 	@Autowired
 	private GoodsRecommendServiceImpl goodsRecommendService;
@@ -38,7 +41,7 @@ public class GoodsRecommendController {
 	 * @return
 	 */
 	@RequestMapping("/getRecommend")
-	public String getFirstRecommendGoods(HttpServletResponse response, String type,
+	public String getFirstRecommendGoods(String type,
 			@RequestParam(value = "req_id", required = false, defaultValue = "1") String req_id) {
 		try {
 			int reco_type = Integer.parseInt(type);
