@@ -36,13 +36,14 @@ public class GoodsDetailController {
 	 */
 	@RequestMapping("/getItem")
 	public String getItemDetail(HttpServletRequest request, String item_id) {
+		int itemId = 0;
+		String mem_id = (String) request.getAttribute("mem_id");
 		try {
-			int itemId = Integer.parseInt(item_id);
-			String mem_id = (String) request.getAttribute("mem_id");
-			return goodsDetailService.getItemDetailHttp(itemId, mem_id);
+			itemId = Integer.parseInt(item_id);
 		} catch (NumberFormatException e) {
 			logger.error("根据商品item_id获取商品详情，服务器异常：" + e);
 			throw new ApiException(ApplicationMallApiCode.REQUEST_PARAMS_ERROR);
 		}
+		return goodsDetailService.getItemDetailHttp(itemId, mem_id);
 	}
 }

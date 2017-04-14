@@ -2,14 +2,13 @@ package com.meiduimall.service.catalog.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.catalog.annotation.HasMemId;
 import com.meiduimall.service.catalog.constant.ServiceCatalogApiCode;
 import com.meiduimall.service.catalog.entity.SysuserAccount;
@@ -19,8 +18,6 @@ import com.meiduimall.service.catalog.service.ShopService;
 @RestController
 @RequestMapping("/mall/catalog-service/v1/shopInfo")
 public class ShopController {
-
-	private static org.slf4j.Logger logger = LoggerFactory.getLogger(ShopController.class);
 
 	@Autowired
 	private ShopService shopService;
@@ -38,37 +35,24 @@ public class ShopController {
 	 */
 	@RequestMapping(value = "/getShopDetail")
 	public ResBodyData getShopDetail(String shop_id, String mem_id) {
-		try {
-			logger.info("根据店铺ID，查询店铺详细信息，店铺ID：" + shop_id);
 
-			int shopId = 0;
-			try {
-				shopId = Integer.parseInt(shop_id);
-			} catch (Exception e) {
-				logger.error("根据店铺ID，查询店铺详细信息，店铺ID错误：" + e);
-				ResBodyData result = new ResBodyData();
-				result.setStatus(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
-				result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR));
-				result.setData(new JSONObject());
-				return result;
-			}
-			return shopService.getShopDetail(shopId, mem_id);
-		} catch (Exception e) {
-			logger.error("根据店铺ID，查询店铺详细信息，服务器异常：" + e);
-			ResBodyData result = new ResBodyData();
-			result.setStatus(ServiceCatalogApiCode.OPERAT_FAIL);
-			result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.OPERAT_FAIL));
-			result.setData(new JSONObject());
-			return result;
+		int shopId = 0;
+		try {
+			shopId = Integer.parseInt(shop_id);
+		} catch (NumberFormatException e) {
+			throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
 		}
+		return shopService.getShopDetail(shopId, mem_id);
+
 	}
 
 	/**
 	 * 收藏或者取消收藏店铺
 	 * 
-	 * @HasToken 验证token是否有效，并通过request传递SysuserAccount对象
+	 * @HasMemId 验证memId是否有效，并通过request传递SysuserAccount对象
 	 * 
 	 * @param shop_id
+	 *            店铺ID
 	 * @param is_collect
 	 *            1代表收藏，0代表取消收藏
 	 * @return
@@ -76,35 +60,17 @@ public class ShopController {
 	@HasMemId
 	@RequestMapping(value = "/collectShop")
 	public ResBodyData collectOrCancelShop(String shop_id, String is_collect) {
+
+		int shopId = 0;
+		int isCollect = 0;
 		try {
-			if ("1".equals(is_collect)) {
-				logger.info("收藏店铺：" + shop_id);
-			} else {
-				logger.info("取消shouc收藏店铺：" + shop_id);
-			}
-			int shopId = 0;
-			int isCollect = 0;
-			try {
-				shopId = Integer.parseInt(shop_id);
-				isCollect = Integer.parseInt(is_collect);
-			} catch (Exception e) {
-				logger.error("收藏店铺，服务器异常：" + e);
-				ResBodyData result = new ResBodyData();
-				result.setStatus(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
-				result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR));
-				result.setData(new JSONObject());
-				return result;
-			}
-			SysuserAccount sysuserAccount = (SysuserAccount) request.getAttribute("sysuserAccount");
-			return shopService.collectOrCancelShop(shopId, sysuserAccount, isCollect);
-		} catch (Exception e) {
-			logger.error("收藏店铺，服务器异常：" + e);
-			ResBodyData result = new ResBodyData();
-			result.setStatus(ServiceCatalogApiCode.OPERAT_FAIL);
-			result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.OPERAT_FAIL));
-			result.setData(new JSONObject());
-			return result;
+			shopId = Integer.parseInt(shop_id);
+			isCollect = Integer.parseInt(is_collect);
+		} catch (NumberFormatException e) {
+			throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
 		}
+		SysuserAccount sysuserAccount = (SysuserAccount) request.getAttribute("sysuserAccount");
+		return shopService.collectOrCancelShop(shopId, sysuserAccount, isCollect);
 	}
 
 	/**
@@ -115,56 +81,25 @@ public class ShopController {
 	 */
 	@RequestMapping(value = "/getShopCatalog")
 	public ResBodyData getShopProductCatalog(String shop_id) {
+
+		int shopId = 0;
 		try {
-			logger.info("获取店铺商品分类，店铺ID：" + shop_id);
-			int shopId = 0;
-			try {
-				shopId = Integer.parseInt(shop_id);
-			} catch (Exception e) {
-				logger.error("获取店铺商品分类，店铺ID错误：" + e);
-				ResBodyData result = new ResBodyData();
-				result.setStatus(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
-				result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR));
-				result.setData(new JSONObject());
-				return result;
-			}
-			return shopService.getShopProductCatalog(shopId);
-		} catch (Exception e) {
-			logger.error("获取店铺商品分类，服务器异常：" + e);
-			ResBodyData result = new ResBodyData();
-			result.setStatus(ServiceCatalogApiCode.OPERAT_FAIL);
-			result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.OPERAT_FAIL));
-			result.setData(new JSONObject());
-			return result;
+			shopId = Integer.parseInt(shop_id);
+		} catch (NumberFormatException e) {
+			throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
 		}
+		return shopService.getShopProductCatalog(shopId);
 	}
 
 	/**
-	 * 获取店铺列表
+	 * 获取店铺的商品列表
 	 * 
-	 * @param shop_id
-	 * @param order_by
-	 *            排序字段：store 按销量，updateTime 按修改时间，price 按价格，point 按积分；默认 store
-	 *            按销量
-	 * @param column
-	 *            排序规则：desc 降序，asc 升序；默认 desc 降序
-	 * @param pageNo
-	 *            页数
-	 * @param pageSize
-	 *            每页数量
+	 * @param param
+	 *            请求参数封装对象
 	 * @return
 	 */
 	@RequestMapping(value = "/getProductList")
 	public ResBodyData getShopProductList(@Validated ShopProductRequest param) {
-		try {
-			return shopService.getShopProductList(param);
-		} catch (Exception e) {
-			logger.error("获取店铺商品列表，服务器异常：" + e);
-			ResBodyData result = new ResBodyData();
-			result.setStatus(ServiceCatalogApiCode.OPERAT_FAIL);
-			result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.OPERAT_FAIL));
-			result.setData(new JSONObject());
-			return result;
-		}
+		return shopService.getShopProductList(param);
 	}
 }

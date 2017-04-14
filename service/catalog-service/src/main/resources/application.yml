@@ -40,7 +40,7 @@ eureka:
 
 # 商城地址配置
 estore : 
-  base-url : http://pay.meiduimall.com
+  base-url : http://shopdev.meiduimall.com/
 
 ---
 spring:

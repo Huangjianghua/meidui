@@ -3,14 +3,15 @@ package com.meiduimall.service.catalog.controller;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.catalog.constant.ServiceCatalogApiCode;
 import com.meiduimall.service.catalog.service.GoodsRecommendService;
 import com.meiduimall.service.catalog.util.HttpHeaderTools;
@@ -25,11 +26,11 @@ import com.meiduimall.service.catalog.util.HttpHeaderTools;
 @RequestMapping("/mall/catalog-service/v1/goodsRecommend")
 public class GoodsRecommendController {
 
-	private static org.slf4j.Logger logger = LoggerFactory.getLogger(GoodsRecommendController.class);
+	private static Logger logger = LoggerFactory.getLogger(GoodsRecommendController.class);
 
 	@Autowired
 	private HttpServletRequest request;
-
+	
 	@Autowired
 	private GoodsRecommendService goodsRecommendService;
 
@@ -49,56 +50,33 @@ public class GoodsRecommendController {
 	@RequestMapping(value = "/insertBatch")
 	public ResBodyData insertBatchItems(String item_ids, String type, String opt_user,
 			@RequestParam(value = "level", required = false, defaultValue = "0") String level) {
+
+		String ip = HttpHeaderTools.getIpAddr(request);
+		logger.info("请求IP：" + ip);
+
+		int reco_type = 0;
+		int reco_level = 0;
+
 		try {
-			String ip = HttpHeaderTools.getIpAddr(request);
-			logger.info("请求IP：" + ip);
-			logger.info("批量插入推荐商品，商品编号：" + item_ids);
+			reco_type = Integer.parseInt(type);
+			reco_level = Integer.parseInt(level);
+		} catch (NumberFormatException e) {
+			throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
+		}
 
-			int reco_type = 0;
-			int reco_level = 0;
-
-			try {
-				reco_type = Integer.parseInt(type);
-				reco_level = Integer.parseInt(level);
-			} catch (NumberFormatException e) {
-				logger.error("批量插入推荐商品，商品编号：" + e);
-				ResBodyData result = new ResBodyData();
-				result.setStatus(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
-				result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR));
-				result.setData(new JSONObject());
-				return result;
-			}
-
-			if (StringUtils.isEmpty(item_ids)) {
-				ResBodyData result = new ResBodyData();
-				result.setStatus(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
-				result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR));
-				result.setData(new JSONObject());
-				return result;
-			} else {
-				String[] str_ids = item_ids.split(",");
-				if (str_ids != null && str_ids.length > 0) {
-					int[] ids = new int[str_ids.length];
-					for (int i = 0; i < str_ids.length; i++) {
-						ids[i] = Integer.parseInt(str_ids[i]);
-					}
-					return goodsRecommendService.insertBatchItems(ids, reco_type, opt_user, ip, reco_level);
-				} else {
-					ResBodyData result = new ResBodyData();
-					result.setStatus(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
-					result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR));
-					result.setData(new JSONObject());
-					return result;
+		if (StringUtils.isBlank(item_ids)) {
+			throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
+		} else {
+			String[] str_ids = item_ids.split(",");
+			if (str_ids != null && str_ids.length > 0) {
+				int[] ids = new int[str_ids.length];
+				for (int i = 0; i < str_ids.length; i++) {
+					ids[i] = Integer.parseInt(str_ids[i]);
 				}
+				return goodsRecommendService.insertBatchItems(ids, reco_type, opt_user, ip, reco_level);
+			} else {
+				throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
 			}
-
-		} catch (Exception e) {
-			logger.error("批量插入推荐商品，服务器异常：" + e);
-			ResBodyData result = new ResBodyData();
-			result.setStatus(ServiceCatalogApiCode.OPERAT_FAIL);
-			result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.OPERAT_FAIL));
-			result.setData(new JSONObject());
-			return result;
 		}
 	}
 
@@ -117,38 +95,19 @@ public class GoodsRecommendController {
 	public ResBodyData getFirstRecommendItems(String type,
 			@RequestParam(value = "count", required = false, defaultValue = "4") String count,
 			@RequestParam(value = "req_id", required = false, defaultValue = "1") String req_id) {
+
+		int reco_type = 0;
+		int reco_count = 0;
+		int reco_req_id = 0;
 		try {
-			String ip = HttpHeaderTools.getIpAddr(request);
-			logger.info("请求IP：" + ip);
-			logger.info("获取推荐商品，推荐类型：" + type);
-
-			int reco_type = 0;
-			int reco_count = 0;
-			int reco_req_id = 0;
-
-			try {
-				reco_type = Integer.parseInt(type);
-				reco_count = Integer.parseInt(count);
-				reco_req_id = Integer.parseInt(req_id);
-			} catch (NumberFormatException e) {
-				logger.error("获取推荐商品，推荐类型：" + e);
-				ResBodyData result = new ResBodyData();
-				result.setStatus(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
-				result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR));
-				result.setData(new JSONObject());
-				return result;
-			}
-
-			return goodsRecommendService.getFirstRecommendItems(reco_type, reco_count, reco_req_id);
-
-		} catch (Exception e) {
-			logger.error("获取推荐商品，服务器异常：" + e);
-			ResBodyData result = new ResBodyData();
-			result.setStatus(ServiceCatalogApiCode.OPERAT_FAIL);
-			result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.OPERAT_FAIL));
-			result.setData(new JSONObject());
-			return result;
+			reco_type = Integer.parseInt(type);
+			reco_count = Integer.parseInt(count);
+			reco_req_id = Integer.parseInt(req_id);
+		} catch (NumberFormatException e) {
+			throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
 		}
+
+		return goodsRecommendService.getFirstRecommendItems(reco_type, reco_count, reco_req_id);
 	}
 
 	/**
@@ -158,16 +117,6 @@ public class GoodsRecommendController {
 	 */
 	@RequestMapping(value = "/getFirstRecommendItemId")
 	public ResBodyData getFirstRecommendItemsAllType() {
-		try {
-			logger.info("获取当前正在显示的推荐商品，不分类型推荐类型：" + 4);
-			return goodsRecommendService.getFirstRecommendItemsAllType(4);
-		} catch (Exception e) {
-			logger.error("获取推荐商品，服务器异常：" + e);
-			ResBodyData result = new ResBodyData();
-			result.setStatus(ServiceCatalogApiCode.OPERAT_FAIL);
-			result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.OPERAT_FAIL));
-			result.setData(new JSONObject());
-			return result;
-		}
+		return goodsRecommendService.getFirstRecommendItemsAllType(4);
 	}
 }

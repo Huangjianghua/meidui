@@ -34,14 +34,15 @@ public class ShopController {
 	 */
 	@RequestMapping(value = "/getShopDetail")
 	public String getShopDetail(HttpServletRequest request, String shop_id) {
+		int shopId = 0;
+		String mem_id = (String) request.getAttribute("mem_id");
 		try {
-			int shopId = Integer.parseInt(shop_id);
-			String mem_id = (String) request.getAttribute("mem_id");
-			return shopService.getShopDetailHttp(shopId, mem_id);
+			shopId = Integer.parseInt(shop_id);
 		} catch (NumberFormatException e) {
 			logger.error("根据店铺shop_id，获取店铺详情，服务器异常：" + e);
 			throw new ApiException(ApplicationMallApiCode.REQUEST_PARAMS_ERROR);
 		}
+		return shopService.getShopDetailHttp(shopId, mem_id);
 	}
 
 	/**
@@ -57,15 +58,17 @@ public class ShopController {
 	@HasToken
 	@RequestMapping(value = "/collectShop")
 	public String collectOrCancelShop(HttpServletRequest request, String shop_id, String is_collect) {
+		int shopId = 0;
+		int isCollect = 0;
+		String mem_id = (String) request.getAttribute("mem_id");
 		try {
-			int shopId = Integer.parseInt(shop_id);
-			int isCollect = Integer.parseInt(is_collect);
-			String mem_id = (String) request.getAttribute("mem_id");
-			return shopService.collectOrCancelShopHttp(shopId, isCollect, mem_id);
+			shopId = Integer.parseInt(shop_id);
+			isCollect = Integer.parseInt(is_collect);
 		} catch (NumberFormatException e) {
 			logger.error("收藏店铺或者取消收藏，服务器异常：" + e);
 			throw new ApiException(ApplicationMallApiCode.REQUEST_PARAMS_ERROR);
 		}
+		return shopService.collectOrCancelShopHttp(shopId, isCollect, mem_id);
 	}
 
 	/**
@@ -77,13 +80,14 @@ public class ShopController {
 	 */
 	@RequestMapping(value = "/getShopCatalog")
 	public String getShopProductCatalog(String shop_id) {
+		int shopId = 0;
 		try {
-			int shopId = Integer.parseInt(shop_id);
-			return shopService.getShopProductCatalogHttp(shopId);
+			shopId = Integer.parseInt(shop_id);
 		} catch (NumberFormatException e) {
 			logger.error("获取商家自定义商品分类列表，服务器异常：" + e);
 			throw new ApiException(ApplicationMallApiCode.REQUEST_PARAMS_ERROR);
 		}
+		return shopService.getShopProductCatalogHttp(shopId);
 	}
 
 	/**

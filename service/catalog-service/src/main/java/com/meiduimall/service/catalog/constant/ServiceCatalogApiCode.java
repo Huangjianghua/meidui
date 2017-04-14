@@ -6,7 +6,6 @@ public class ServiceCatalogApiCode extends BaseApiCode {
 	
 	/** 请求成功 */
 	public static final Integer REQUEST_SUCCESS = 7000;
-
 	/** 操作成功 */
 	public static final Integer OPERAT_SUCCESS = 4000;
 	/** 操作失败 */
@@ -35,9 +34,16 @@ public class ServiceCatalogApiCode extends BaseApiCode {
 	public static final Integer REQUEST_SERVICE_ERROR = 4012;
 	/** 店铺数据异常 */
 	public static final Integer SHOP_DATA_EXCEPTION = 4013;
-
+	/** 商品SKU数据异常 */
+	public static final Integer SKU_DATA_EXCEPTION = 4014;
+	/** 商品规格数据异常 */
+	public static final Integer SPEC_DESC_DATA_EXCEPTION = 4014;
+	/** 没有这个商品*/
+	public static final Integer NO_THIS_PRODUCT = 4015;
+	
 	static {
 		zhMsgMap.put(REQUEST_SUCCESS, "请求成功");
+		
 		zhMsgMap.put(OPERAT_SUCCESS, "操作成功");
 		zhMsgMap.put(OPERAT_FAIL, "操作失败");
 		zhMsgMap.put(REQUEST_PARAMS_ERROR, "请求参数错误");
@@ -52,5 +58,8 @@ public class ServiceCatalogApiCode extends BaseApiCode {
 		zhMsgMap.put(TOKEN_VALIDATE_ERROR, "token验证异常");
 		zhMsgMap.put(REQUEST_SERVICE_ERROR, "请求微服务出错");
 		zhMsgMap.put(SHOP_DATA_EXCEPTION, "店铺数据异常");
+		zhMsgMap.put(SKU_DATA_EXCEPTION, "商品SKU数据异常");
+		zhMsgMap.put(SPEC_DESC_DATA_EXCEPTION, "商品规格数据异常");
+		zhMsgMap.put(NO_THIS_PRODUCT, "没有这个商品");
 	}
 }

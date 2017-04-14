@@ -14,9 +14,11 @@ import java.util.Iterator;
 
 /**
  * 实现PHP的序列化和反序列化
- * @author yangchang
+ * 
+ * @author yangchangfu
  *
  */
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class PHPSerializer {
 
 	private static Package[] __packages = Package.getPackages();
@@ -50,7 +52,6 @@ public class PHPSerializer {
 		return serialize(obj, "UTF-8");
 	}
 
-	@SuppressWarnings("rawtypes")
 	public static byte[] serialize(Object obj, String charset) {
 		HashMap ht = new HashMap();
 		int hv = 1;
@@ -66,7 +67,6 @@ public class PHPSerializer {
 		return result;
 	}
 
-	@SuppressWarnings("rawtypes")
 	public static int serialize(ByteArrayOutputStream stream, Object obj, HashMap ht, int hv, String charset) {
 		if (obj == null) {
 			hv++;
@@ -292,7 +292,6 @@ public class PHPSerializer {
 				} catch (Exception e) {
 					__sleep = null;
 				}
-				int fl = 0;
 				Field[] f;
 
 				if (__sleep != null) {
