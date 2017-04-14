@@ -1,7 +1,7 @@
 package com.meiduimall.core;
 
 public class GateWayRequest {
-
+	
 	private String clientID;
 	
 	private String signKey;

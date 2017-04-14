@@ -10,7 +10,6 @@
 
 package com.meiduimall.service.sms.service.impl;
 import java.util.Date;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.meiduimall.core.BaseApiCode;
+import com.meiduimall.core.util.DateUtils;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.redis.util.RedisUtils;
@@ -34,7 +34,6 @@ import com.meiduimall.service.sms.entity.TemplateInfo;
 import com.meiduimall.service.sms.mapper.SendSmsHistoryMapper;
 import com.meiduimall.service.sms.model.message.CommonShortMessageModel;
 import com.meiduimall.service.sms.service.SmsService;
-import com.meiduimall.service.sms.util.Time;
 
 
 /**
@@ -223,7 +222,7 @@ public class SmsServiceImpl implements SmsService {
 //            return result;
           }
         }
-        RedisUtils.setex(model.getPhones() + model.getTemplateId() + model.getParams(), Time.parseDuration(ti.getEffectiveTime()) , content);
+        RedisUtils.setex(model.getPhones() + model.getTemplateId() + model.getParams(), DateUtils.parseDuration(ti.getEffectiveTime()) , content);
 
         ssh.setRequestParams(model.getPhones() + "ali send param:" + ti.getExternalTemplateNo() + params + ";mandao send param:" + content);
         ssh.setResultMsg("ali result, flag:" + String.valueOf(flag) + ";mandao result, res:" + String.valueOf(res));
@@ -435,7 +434,7 @@ public class SmsServiceImpl implements SmsService {
 //            return result;
           }
         }
-        int expire = Time.parseDuration(model.getTimeout() == null ? ti.getEffectiveTime() : model.getTimeout());
+        int expire = DateUtils.parseDuration(model.getTimeout() == null ? ti.getEffectiveTime() : model.getTimeout());
         RedisUtils.setex(model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId(), expire, result);
 
 
