@@ -62,8 +62,8 @@ public class OrderController {
 		long start = System.currentTimeMillis();
 		log.info("share profit for order start:{}", start);
 		
-		//shareStatus:0:未分润;1已分润
-		Integer shareStatus=1;
+		//shareStatus:0-未分润,1-已分润
+		Integer shareStatus = 1;
 		
 		//判断该订单号是否为重复分润
 		boolean isExisted = orderService.checkShareProfitExisted(ecmOrder.getOrderSn());
@@ -88,7 +88,7 @@ public class OrderController {
 		log.info("share profit for order end:{}",end);
 		log.info("total time(second) for shareprofit:{}", (end-start)/1000);
 		
-		return SettlementUtil.success(ImmutableMap.of("orderSn", ecmOrder.getOrderSn(),"shareStatus",shareStatus));
+		return SettlementUtil.success(ImmutableMap.of("orderSn", ecmOrder.getOrderSn(), "shareStatus", shareStatus));
 	}
 
 
