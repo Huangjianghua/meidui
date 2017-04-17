@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.collect.ImmutableMap;
@@ -192,9 +193,11 @@ public class OrderController {
 	 * 
 	 */
 	@PostMapping("/queryprofitbywaterbytype")
-	public ResBodyData queryProfitByWaterByType(String waterId, Integer loginType, String code, Integer pageNumber, Integer pageSize) {
-		Integer count = orderService.queryProfitCountByWaterId(waterId);
+	public ResBodyData queryProfitByWaterByType(String waterId, Integer loginType, String code,
+			@RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = "20") int pageSize) {
 		
+		Integer count = orderService.queryProfitCountByWaterId(waterId);
 		List<EcmMzfShareProfit> shareProfitList = orderService.queryProfitByWaterByType(waterId, loginType, code, pageNumber, pageSize);
 		
 		Map<String, Object> map = Maps.newHashMap();

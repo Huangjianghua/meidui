@@ -29,7 +29,7 @@ import com.meiduimall.service.settlement.common.ResultData;
 @Service
 public class O2oCallbackServiceImpl implements O2oCallbackService{
 	
-	private static final Logger log=LoggerFactory.getLogger(O2oCallbackServiceImpl.class);
+	private static final Logger log = LoggerFactory.getLogger(O2oCallbackServiceImpl.class);
 	
 	@Autowired
 	private SmsService smsService;
@@ -39,23 +39,17 @@ public class O2oCallbackServiceImpl implements O2oCallbackService{
 		
 		boolean isSuccess=true;
 		String statusCodeMsg=ShareProfitUtil.O2O_SETTLEMENT_STATUS_CODE_MAP.get(statusCode)==null?"":ShareProfitUtil.O2O_SETTLEMENT_STATUS_CODE_MAP.get(statusCode);
-		try{
-			String resultObjStr = ConnectionUrlUtil.httpRequest(buildUrl4InformSettlementStatus(orderSns,statusCode), ShareProfitUtil.REQUEST_METHOD_POST, null);
 			
-			ResultData resultObj = JsonUtils.jsonToBean(resultObjStr, ResultData.class);
+		String resultObjStr = ConnectionUrlUtil.httpRequest(buildUrl4InformSettlementStatus(orderSns,statusCode), ShareProfitUtil.REQUEST_METHOD_POST, null);
 			
-			if("0".equals(resultObj.getStatus_code())){
-				log.info("通知订单结算状态给O2O成功!orderSns:{},statusCode:{}",Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSns),statusCodeMsg);
-			}else{
-				isSuccess=false;
-				log.error("通知订单结算状态给O2O失败!orderSns:{},statusCode:{}",Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSns),statusCodeMsg);
-				log.error("通知订单结算状态给O2O失败!orderSns:{},失败信息:{}",Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSns),resultObj.getResult_msg());
-			}
-
-		}catch(Exception e){
-			log.error("informSettlementStatus(),通知结算状态给O2O出现异常:orderSn:{},statusCode:{}",Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSns),statusCodeMsg);
-			log.error("informSettlementStatus(),通知结算状态给O2O出现异常:orderSn:{},异常信息:{}",Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSns),e.getMessage());
+		ResultData resultObj = JsonUtils.jsonToBean(resultObjStr, ResultData.class);
+		
+		if("0".equals(resultObj.getStatus_code())){
+			log.info("通知订单结算状态给O2O成功!orderSns:{},statusCode:{}",Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSns),statusCodeMsg);
+		}else{
 			isSuccess=false;
+			log.error("通知订单结算状态给O2O失败!orderSns:{},statusCode:{}",Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSns),statusCodeMsg);
+			log.error("通知订单结算状态给O2O失败!orderSns:{},失败信息:{}",Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSns),resultObj.getResult_msg());
 		}
 		
 		//1.发送邮件或短信,修复后需要O2O手动更新订单状态
