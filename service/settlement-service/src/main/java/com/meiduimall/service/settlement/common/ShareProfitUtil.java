@@ -419,9 +419,8 @@ public class ShareProfitUtil {
 					Object key = localIterator.next();
 					map.put(key.toString(), pro.get(key).toString());
 				}
-			} catch (Exception ex) {
-				log.error("配置文件:{},加载出错!error:{}",config,ex.getMessage());
-				throw new RuntimeException("配置文件加载出错");
+			} catch (Exception e) {
+				log.error("配置文件:{},加载出错!error:{}",config,e.getMessage());
 			} finally {
 				try {
 					if (is != null)
@@ -452,7 +451,7 @@ public class ShareProfitUtil {
 					encodestr = URLEncoder.encode(str, defaultCharSet);
 				}
 			} catch (UnsupportedEncodingException e) {
-				throw new RuntimeException("Unsupported encoding type");
+				log.error("Unsupported encoding type");
 			}
 			return encodestr;
 		}
