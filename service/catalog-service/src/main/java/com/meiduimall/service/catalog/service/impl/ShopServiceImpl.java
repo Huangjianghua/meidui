@@ -171,8 +171,8 @@ public class ShopServiceImpl implements ShopService {
 						Integer cat_id = parent.getCat_id();
 						if (cat_id != null && cat_id.intValue() == parentId.intValue()) {
 							ChildShopCat childShopCat = new ChildShopCat();
-							childShopCat.setCat_id(cat.getCatId());
-							childShopCat.setCat_name(cat.getCatName());
+							childShopCat.setCatId(cat.getCatId());
+							childShopCat.setCatName(cat.getCatName());
 							parent.getChildShopCat().add(childShopCat);
 							continue out;
 						}

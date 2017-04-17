@@ -8,85 +8,85 @@ package com.meiduimall.service.catalog.result;
  */
 public class JsonItemDetailResultShopData {
 	
-	private String shop_id;
-	private String shop_name;// 店铺名称
-	private String shop_descript;// 店铺描述
+	private String shopId;
+	private String shopName;// 店铺名称
+	private String shopDescript;// 店铺描述
 	
 	// 店铺状态：self 运营商自营店铺， brand 品牌专卖店， cat 类目专营店， flag 品牌旗舰店
-	private String shop_type;
+	private String shopType;
 	
-	private String shop_logo;// 店铺默认图片
-	private String tally_dsr;// 店铺评分--描述相符
-	private String attitude_dsr;// 店铺评分--描述相符
-	private String delivery_speed_dsr;// 店铺评分--描述相符
-	private String shop_area;//店铺所在地
-	private String open_time;//开店时间
-	private String is_collect;//是否收藏了该店铺：0没有收藏，1收藏了
-
-	public String getShop_area() {
-		return shop_area;
+	private String shopLogo;// 店铺默认图片
+	private String tallyDsr;// 店铺评分--描述相符
+	private String attitudeDsr;// 店铺评分--描述相符
+	private String deliverySpeedDsr;// 店铺评分--描述相符
+	private String shopArea;//店铺所在地
+	private String openTime;//开店时间
+	private String isCollect;//是否收藏了该店铺：0没有收藏，1收藏了
+	
+	public String getShopId() {
+		return shopId;
 	}
-	public void setShop_area(String shop_area) {
-		this.shop_area = shop_area;
+	public void setShopId(String shopId) {
+		this.shopId = shopId;
 	}
-	public String getOpen_time() {
-		return open_time;
+	public String getShopName() {
+		return shopName;
 	}
-	public void setOpen_time(String open_time) {
-		this.open_time = open_time;
+	public void setShopName(String shopName) {
+		this.shopName = shopName;
 	}
-	public String getIs_collect() {
-		return is_collect;
+	public String getShopDescript() {
+		return shopDescript;
 	}
-	public void setIs_collect(String is_collect) {
-		this.is_collect = is_collect;
+	public void setShopDescript(String shopDescript) {
+		this.shopDescript = shopDescript;
 	}
-	public String getShop_id() {
-		return shop_id;
+	public String getShopType() {
+		return shopType;
 	}
-	public void setShop_id(String shop_id) {
-		this.shop_id = shop_id;
+	public void setShopType(String shopType) {
+		this.shopType = shopType;
 	}
-	public String getShop_name() {
-		return shop_name;
+	public String getShopLogo() {
+		return shopLogo;
 	}
-	public void setShop_name(String shop_name) {
-		this.shop_name = shop_name;
+	public void setShopLogo(String shopLogo) {
+		this.shopLogo = shopLogo;
 	}
-	public String getShop_descript() {
-		return shop_descript;
+	public String getTallyDsr() {
+		return tallyDsr;
 	}
-	public void setShop_descript(String shop_descript) {
-		this.shop_descript = shop_descript;
+	public void setTallyDsr(String tallyDsr) {
+		this.tallyDsr = tallyDsr;
 	}
-	public String getShop_type() {
-		return shop_type;
+	public String getAttitudeDsr() {
+		return attitudeDsr;
 	}
-	public void setShop_type(String shop_type) {
-		this.shop_type = shop_type;
+	public void setAttitudeDsr(String attitudeDsr) {
+		this.attitudeDsr = attitudeDsr;
 	}
-	public String getShop_logo() {
-		return shop_logo;
+	public String getDeliverySpeedDsr() {
+		return deliverySpeedDsr;
 	}
-	public void setShop_logo(String shop_logo) {
-		this.shop_logo = shop_logo;
+	public void setDeliverySpeedDsr(String deliverySpeedDsr) {
+		this.deliverySpeedDsr = deliverySpeedDsr;
 	}
-	public String getTally_dsr() {
-		return tally_dsr;
+	public String getShopArea() {
+		return shopArea;
 	}
-	public void setTally_dsr(String tally_dsr) {
-		this.tally_dsr = tally_dsr;
+	public void setShopArea(String shopArea) {
+		this.shopArea = shopArea;
 	}
-	public String getAttitude_dsr() {
-		return attitude_dsr;
+	public String getOpenTime() {
+		return openTime;
 	}
-	public void setAttitude_dsr(String attitude_dsr) {
-		this.attitude_dsr = attitude_dsr;
+	public void setOpenTime(String openTime) {
+		this.openTime = openTime;
 	}
-	public String getDelivery_speed_dsr() {
-		return delivery_speed_dsr;
+	public String getIsCollect() {
+		return isCollect;
 	}
-	public void setDelivery_speed_dsr(String delivery_speed_dsr) {
-		this.delivery_speed_dsr = delivery_speed_dsr;
+	public void setIsCollect(String isCollect) {
+		this.isCollect = isCollect;
 	}
 }

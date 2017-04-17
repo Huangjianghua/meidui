@@ -51,34 +51,34 @@ public class ShopCommonService {
 				float fDeliverySpeedDsr = ParseSysRateDsrInfo.getValue(rateDsrWithBLOBs.getDeliverySpeedDsr());
 				float fAttitudeDsr = ParseSysRateDsrInfo.getValue(rateDsrWithBLOBs.getAttitudeDsr());
 
-				shopData.setTally_dsr(NumberUtils.formatString(fTallyDsr, 1));
-				shopData.setDelivery_speed_dsr(NumberUtils.formatString(fDeliverySpeedDsr, 1));
-				shopData.setAttitude_dsr(NumberUtils.formatString(fAttitudeDsr, 1));
+				shopData.setTallyDsr(NumberUtils.formatString(fTallyDsr, 1));
+				shopData.setDeliverySpeedDsr(NumberUtils.formatString(fDeliverySpeedDsr, 1));
+				shopData.setAttitudeDsr(NumberUtils.formatString(fAttitudeDsr, 1));
 			} catch (Exception e) {
 				throw new ServiceException(ServiceCatalogApiCode.SHOP_DATA_EXCEPTION);
 			}
 		} else {
-			shopData.setAttitude_dsr("5.0");
-			shopData.setDelivery_speed_dsr("5.0");
-			shopData.setTally_dsr("5.0");
+			shopData.setTallyDsr("5.0");
+			shopData.setDeliverySpeedDsr("5.0");
+			shopData.setAttitudeDsr("5.0");
 		}
 
-		shopData.setShop_descript(shopWithBLOBs.getShopDescript());
-		shopData.setShop_id(shopId.toString());
-		shopData.setShop_logo(shopWithBLOBs.getShopLogo());
-		shopData.setShop_name(shopWithBLOBs.getShopName());
-		shopData.setShop_area(shopWithBLOBs.getShopArea());
+		shopData.setShopDescript(shopWithBLOBs.getShopDescript());
+		shopData.setShopId(shopId.toString());
+		shopData.setShopLogo(shopWithBLOBs.getShopLogo());
+		shopData.setShopName(shopWithBLOBs.getShopName());
+		shopData.setShopArea(shopWithBLOBs.getShopArea());
 
 		// 开店时间
 		Integer openTime = shopWithBLOBs.getOpenTime();
 		if (openTime != null) {
-			shopData.setOpen_time(DateFormatUtils.format(openTime.intValue() * 1000l, "yyyy年MM月dd日"));
+			shopData.setOpenTime(DateFormatUtils.format(openTime.intValue() * 1000l, "yyyy年MM月dd日"));
 		} else {
-			shopData.setOpen_time("");
+			shopData.setOpenTime("");
 		}
 
 		String shopType = shopWithBLOBs.getShopType();
-		shopData.setShop_type(shopType);
+		shopData.setShopType(shopType);
 		// if ("brand".equals(shopType)) {
 		// shopData.setShop_type("品牌专卖店");
 		// } else if ("cat".equals(shopType)) {
@@ -94,7 +94,7 @@ public class ShopCommonService {
 		// 查询用户是否收藏了该店铺，查 表sysuser_shop_fav
 		if (StringUtils.isEmpty(memId)) {
 			// 没有token，不需要处理
-			shopData.setIs_collect("0");
+			shopData.setIsCollect("0");
 		} else {
 			// 处理token
 			IdAndMemId idAndMemId = new IdAndMemId();
@@ -102,9 +102,9 @@ public class ShopCommonService {
 			idAndMemId.setMemId(memId);
 			int count = baseDao.selectOne(idAndMemId, "SysuserShopFavMapper.selectCountByItemIdAndMemId");
 			if (count > 0) {
-				shopData.setIs_collect("1");
+				shopData.setIsCollect("1");
 			} else {
-				shopData.setIs_collect("0");
+				shopData.setIsCollect("0");
 			}
 		}
 

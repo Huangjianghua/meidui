@@ -10,26 +10,31 @@ import java.util.List;
  */
 public class JsonItemDetailResultProps {
 	
-	private String prop_id;//规格ID。比如：4,5
-	private String prop_name;//规格名称。比如：颜色、服装尺码
-	private List<JsonItemDetailResultPropValues> prop_list;
-	
-	public String getProp_id() {
-		return prop_id;
+	private String propId;//规格ID。比如：4,5
+	private String propName;//规格名称。比如：颜色、服装尺码
+	private List<JsonItemDetailResultPropValues> propList;
+
+	public String getPropId() {
+		return propId;
 	}
-	public void setProp_id(String prop_id) {
-		this.prop_id = prop_id;
+
+	public void setPropId(String propId) {
+		this.propId = propId;
 	}
-	public String getProp_name() {
-		return prop_name;
+
+	public String getPropName() {
+		return propName;
 	}
-	public void setProp_name(String prop_name) {
-		this.prop_name = prop_name;
+
+	public void setPropName(String propName) {
+		this.propName = propName;
 	}
-	public List<JsonItemDetailResultPropValues> getProp_list() {
-		return prop_list;
+
+	public List<JsonItemDetailResultPropValues> getPropList() {
+		return propList;
 	}
-	public void setProp_list(List<JsonItemDetailResultPropValues> prop_list) {
-		this.prop_list = prop_list;
+
+	public void setPropList(List<JsonItemDetailResultPropValues> propList) {
+		this.propList = propList;
 	}
 }
