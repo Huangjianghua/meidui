@@ -219,7 +219,7 @@ public class ShopControllerTest extends BaseTest {
 	public void getShopProductList_test_01() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/mall/catalog-service/v1/shopInfo/getProductList")
-				.param("shop_id", ""))
+				.param("shopId", ""))
 				.andExpect(status().isOk());
 		
 		results.andDo(new ResultHandler() {
@@ -238,7 +238,7 @@ public class ShopControllerTest extends BaseTest {
 	public void getShopProductList_test_02() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/mall/catalog-service/v1/shopInfo/getProductList")
-				.param("shop_id", "14"))
+				.param("shopId", "14"))
 				.andExpect(status().isOk());
 		
 		results.andDo(new ResultHandler() {
@@ -257,8 +257,8 @@ public class ShopControllerTest extends BaseTest {
 	public void getShopProductList_test_03() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/mall/catalog-service/v1/shopInfo/getProductList")
-				.param("shop_id", "14")
-				.param("shop_cat_id", "2432")
+				.param("shopId", "14")
+				.param("shopCatId", "2432")
 				)
 				.andExpect(status().isOk());
 		
@@ -278,10 +278,29 @@ public class ShopControllerTest extends BaseTest {
 	public void getShopProductList_test_04() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/mall/catalog-service/v1/shopInfo/getProductList")
-				.param("shop_id", "14")
-				.param("order_by", "updateTime")
+				.param("shopId", "14")
+				.param("orderBy", "updateTime")
 				.param("column", "asc")
 				)
+				.andExpect(status().isOk());
+		
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+	
+	/**
+	 * 测试getShopProductList---shop_id错误测试
+	 * @throws Exception
+	 */
+	@Test
+	public void getShopProductList_test_05() throws Exception {
+		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
+				.post("/mall/catalog-service/v1/shopInfo/getProductList")
+				.param("shopId", "adsf"))
 				.andExpect(status().isOk());
 		
 		results.andDo(new ResultHandler() {

@@ -193,25 +193,25 @@ public class ShopServiceImpl implements ShopService {
 
 	@Override
 	public ResBodyData getShopProductList(ShopProductRequest param) {
-		logger.info("获取店铺下的所有商品，shop_id： " + param.getShop_id());
+		logger.info("获取店铺下的所有商品，shop_id： " + param.getShopId());
 
 		ShopProductList data = new ShopProductList();
 		// 设置排序字段
-		if (StringUtils.isBlank(param.getOrder_by())) {
-			param.setOrder_by("store");
+		if (StringUtils.isBlank(param.getOrderBy())) {
+			param.setOrderBy("store");
 		}
-		switch (param.getOrder_by()) {
+		switch (param.getOrderBy()) {
 		case "updateTime":// 按修改时间排序
-			param.setOrder_by("sysitem_item_status.list_time");
+			param.setOrderBy("sysitem_item_status.list_time");
 			break;
 		case "price":// 按价格排序
-			param.setOrder_by("sysitem_item.price");
+			param.setOrderBy("sysitem_item.price");
 			break;
 		case "point":// 按积分排序
-			param.setOrder_by("sysitem_item.point");
+			param.setOrderBy("sysitem_item.point");
 			break;
 		default:// 默认：按销量排序
-			param.setOrder_by("sysitem_item_count.sold_quantity");
+			param.setOrderBy("sysitem_item_count.sold_quantity");
 			break;
 		}
 

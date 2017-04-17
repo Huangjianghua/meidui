@@ -151,11 +151,11 @@
 			sysitem_item_count.item_id=sysitem_item.item_id
 			AND sysitem_item_status.item_id=sysitem_item.item_id
 			AND sysitem_item_status.approve_status='onsale'
-			<if test="shop_id != null">
-				and sysitem_item.shop_id=#{shop_id}
+			<if test="shopId != null">
+				and sysitem_item.shop_id=#{shopId}
 			</if>
-			<if test="shop_cat_id != null">
-				and sysitem_item.shop_cat_id=#{shop_cat_id}
+			<if test="shopCatId != null">
+				and sysitem_item.shop_cat_id=#{shopCatId}
 			</if>
 		</where>
 	</sql>
@@ -186,7 +186,7 @@
 		FROM
 		sysitem_item,sysitem_item_count,sysitem_item_status
 		<include refid="Sql_Shop_Info" />
-		order by ${order_by} ${column} limit #{limitBegin},#{pageSize}
+		order by ${orderBy} ${column} limit #{limitBegin},#{pageSize}
 	</select>
 
 	<!-- 根据商品多个ID查询多个商品信息 -->
