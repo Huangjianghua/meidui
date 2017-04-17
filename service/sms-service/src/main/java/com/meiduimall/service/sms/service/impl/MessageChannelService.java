@@ -50,13 +50,12 @@ public class MessageChannelService{
 		if(StringUtils.isEmpty(channelListJsonStr)){
 			try{
 				List<MessageChannel> channelList = messageChannelMapper.getChannelList();
-				if(null != channelList && channelList.size() > 0){
+				if(null != channelList && (!channelList.isEmpty())){
 					channelListJsonStr = JsonUtils.beanToJsonAndFmDate(channelList);
 					RedisUtils.setex(key, DateUtils.parseDuration("1mn"),channelListJsonStr);
 				}
-				
 			} catch (Exception e) {
-				logger.error("获取渠道异常：%s", e.toString());
+				logger.error("获取渠道异常：{}", e);
 				throw new ServiceException(SmsApiCode.EXCEPTION_ACCESS_CHANNEL,SmsApiCode.getZhMsg(SmsApiCode.EXCEPTION_ACCESS_CHANNEL));
 			}
 		}
@@ -74,13 +73,12 @@ public class MessageChannelService{
 		if(StringUtils.isEmpty(templateListJsonStr)){
 			try {
 				List<TemplateInfo> templateInfo = templateInfoMapper.getTemplateInfoList();
-				if(null != templateInfo && templateInfo.size() > 0){
+				if(null != templateInfo && (!templateInfo.isEmpty())){
 					templateListJsonStr = JsonUtils.beanToJsonAndFmDate(templateInfo);
 					RedisUtils.setex(key, DateUtils.parseDuration("10mn"),templateListJsonStr);
 				}
-				
 			} catch (Exception e) {
-				logger.error("获取模板异常：%s", e.toString());
+				logger.error("获取模板异常：{}", e);
 				throw new ServiceException(SmsApiCode.EXCEPTION_ACCESS_TEMPLATE,SmsApiCode.getZhMsg(SmsApiCode.EXCEPTION_ACCESS_TEMPLATE));
 			}
 		}

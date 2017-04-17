@@ -9,11 +9,8 @@
  */
 
 package com.meiduimall.service.sms.config;
-
 import java.util.Properties;
-
 import javax.sql.DataSource;
-
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -28,7 +25,6 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
-
 import com.github.pagehelper.PageHelper;
 
 /**
@@ -53,7 +49,7 @@ public class MyBatisConfig implements TransactionManagementConfigurer{
 	private Environment env;
     
     @Bean
-    public SqlSessionFactory sqlSessionFactory() {
+    public SqlSessionFactory sqlSessionFactory() throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
         bean.setTypeAliasesPackage("com.meiduimall.service.sms.mapper");
@@ -69,13 +65,9 @@ public class MyBatisConfig implements TransactionManagementConfigurer{
         bean.setPlugins(new Interceptor[]{pageHelper});
         //添加XML目录
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        try {
             //设置xml扫描路径
-            bean.setMapperLocations(resolver.getResources(env.getProperty("mybatis.mapper-locations")));
-            return bean.getObject();
-        } catch (Exception e) {
-            throw new RuntimeException("sqlSessionFactory init fail",e);
-        }
+        bean.setMapperLocations(resolver.getResources(env.getProperty("mybatis.mapper-locations")));
+        return bean.getObject();
     }
     
     @Bean
