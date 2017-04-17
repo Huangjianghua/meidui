@@ -11,7 +11,6 @@
 package com.meiduimall.service.sms.config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.meiduimall.exception.RedisClientException;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisShardInfo;
 
@@ -62,7 +61,7 @@ public class JedisDBShardInfo extends JedisShardInfo {
                 return jedis;  
             }  
         } catch (Exception e) {  
-            log.error("连接异常=>"+getHost()+":"+getPort()+":"+getDatabase() + ";error msg:{}",e.getMessage()); 
+            log.error("连接异常=>"+getHost()+":"+getPort()+":"+getDatabase() + ";error msg:{}",e); 
         }  
         return null;  
     }  

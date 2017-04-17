@@ -71,10 +71,10 @@ public class AliyunService implements IAliyunService {
 		try {
 			rsp = client.execute(req);
 		} catch (com.taobao.api.ApiException e) {
-		    logger.error("阿里云平台短信发送异常:{}",e.getMessage());
+		    logger.error("阿里云平台短信发送异常:{}",e);
 		}
-		if (rsp.getBody().indexOf("\"success\":true") != -1
-				|| rsp.getBody().indexOf("isv.BUSINESS_LIMIT_CONTROL") != -1) {
+		if (rsp!=null&&(rsp.getBody().indexOf("\"success\":true") != -1
+				|| rsp.getBody().indexOf("isv.BUSINESS_LIMIT_CONTROL") != -1)) {
 			return true;
 		}
 		return false;

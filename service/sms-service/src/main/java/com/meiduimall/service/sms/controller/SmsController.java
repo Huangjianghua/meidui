@@ -55,6 +55,7 @@ public class SmsController {
     try {
       smsService.sendSmsMessage(model);
     } catch (Exception e) {
+      logger.info("发送短信异常:{}",e);	
       throw new ServiceException(SmsApiCode.NOT_FOUND,SmsApiCode.getZhMsg(SmsApiCode.NOT_FOUND));
     }
     logger.info("结束发普通短信程序");
