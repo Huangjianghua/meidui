@@ -108,8 +108,8 @@ public class ShopServiceImpl implements ShopService {
 		if (param.getPageSize() != null) {
 			params.put("pageSize", String.valueOf(param.getPageSize()));
 		}
-		if (!StringUtils.isBlank(param.getOrderBy())) {
-			params.put("orderBy", param.getOrderBy());
+		if (!StringUtils.isBlank(param.getSortBy())) {
+			params.put("sortBy", param.getSortBy());
 		}
 		if (!StringUtils.isBlank(param.getColumn())) {
 			params.put("column", param.getColumn());

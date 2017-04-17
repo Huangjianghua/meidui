@@ -186,7 +186,7 @@
 		FROM
 		sysitem_item,sysitem_item_count,sysitem_item_status
 		<include refid="Sql_Shop_Info" />
-		order by ${orderBy} ${column} limit #{limitBegin},#{pageSize}
+		order by ${sortBy} ${column} limit #{limitBegin},#{pageSize}
 	</select>
 
 	<!-- 根据商品多个ID查询多个商品信息 -->

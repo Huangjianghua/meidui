@@ -12,7 +12,7 @@ public class ShopProductRequest {
 	private Integer shopCatId;
 
 	// 排序字段：store 按销量，updateTime 按修改时间，price 按价格，point 按积分；默认 store 按销量
-	private String orderBy;
+	private String sortBy;
 
 	// 排序规则：desc 降序，asc 升序；默认 desc 降序
 	private String column;
@@ -42,12 +42,12 @@ public class ShopProductRequest {
 		this.shopCatId = shopCatId;
 	}
 
-	public String getOrderBy() {
-		return orderBy;
+	public String getSortBy() {
+		return sortBy;
 	}
 
-	public void setOrderBy(String orderBy) {
-		this.orderBy = orderBy;
+	public void setSortBy(String sortBy) {
+		this.sortBy = sortBy;
 	}
 
 	public String getColumn() {

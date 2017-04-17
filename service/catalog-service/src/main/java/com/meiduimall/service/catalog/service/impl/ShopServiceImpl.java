@@ -193,25 +193,25 @@ public class ShopServiceImpl implements ShopService {
 
 	@Override
 	public ResBodyData getShopProductList(ShopProductRequest param) {
-		logger.info("获取店铺下的所有商品，shop_id： " + param.getShopId());
+		logger.info("获取店铺下的所有商品，shopId： " + param.getShopId());
 
 		ShopProductList data = new ShopProductList();
 		// 设置排序字段
-		if (StringUtils.isBlank(param.getOrderBy())) {
-			param.setOrderBy("store");
+		if (StringUtils.isBlank(param.getSortBy())) {
+			param.setSortBy("store");
 		}
-		switch (param.getOrderBy()) {
+		switch (param.getSortBy()) {
 		case "updateTime":// 按修改时间排序
-			param.setOrderBy("sysitem_item_status.list_time");
+			param.setSortBy("sysitem_item_status.list_time");
 			break;
 		case "price":// 按价格排序
-			param.setOrderBy("sysitem_item.price");
+			param.setSortBy("sysitem_item.price");
 			break;
 		case "point":// 按积分排序
-			param.setOrderBy("sysitem_item.point");
+			param.setSortBy("sysitem_item.point");
 			break;
 		default:// 默认：按销量排序
-			param.setOrderBy("sysitem_item_count.sold_quantity");
+			param.setSortBy("sysitem_item_count.sold_quantity");
 			break;
 		}
 
@@ -239,6 +239,7 @@ public class ShopServiceImpl implements ShopService {
 
 		// 查询商品总数量
 		int itemTotal = baseDao.selectOne(param, "SysitemItemMapper.selectItemCountByShopInfo");
+		System.out.println("itemTotal---------" + itemTotal);
 		int totalPage = (itemTotal + param.getPageSize() - 1) / param.getPageSize();
 
 		// 查询商品列表
