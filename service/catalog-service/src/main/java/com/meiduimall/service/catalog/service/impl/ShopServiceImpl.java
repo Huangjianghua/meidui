@@ -23,10 +23,10 @@ import com.meiduimall.service.catalog.entity.SysuserShopFav;
 import com.meiduimall.service.catalog.entity.SysuserShopFavExample;
 import com.meiduimall.service.catalog.request.ShopProductRequest;
 import com.meiduimall.service.catalog.result.ChildShopCat;
-import com.meiduimall.service.catalog.result.GoodsDetailResult;
 import com.meiduimall.service.catalog.result.JsonItemDetailResultShopData;
 import com.meiduimall.service.catalog.result.ParentShopCat;
 import com.meiduimall.service.catalog.result.ShopCatResult;
+import com.meiduimall.service.catalog.result.ShopGoodsDetailResult;
 import com.meiduimall.service.catalog.result.ShopProductList;
 import com.meiduimall.service.catalog.service.ShopService;
 import com.meiduimall.service.catalog.service.common.ShopCommonService;
@@ -239,11 +239,10 @@ public class ShopServiceImpl implements ShopService {
 
 		// 查询商品总数量
 		int itemTotal = baseDao.selectOne(param, "SysitemItemMapper.selectItemCountByShopInfo");
-		System.out.println("itemTotal---------" + itemTotal);
 		int totalPage = (itemTotal + param.getPageSize() - 1) / param.getPageSize();
 
 		// 查询商品列表
-		List<GoodsDetailResult> productList = baseDao.selectList(param, "SysitemItemMapper.selectItemByShopInfo");
+		List<ShopGoodsDetailResult> productList = baseDao.selectList(param, "SysitemItemMapper.selectItemByShopInfo");
 
 		data.setPageNo(param.getPageNo());
 		data.setPageSize(param.getPageSize());

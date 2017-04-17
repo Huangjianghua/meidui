@@ -8,7 +8,7 @@ public class ShopProductList {
 	private int pageNo;
 	private int totalPage;
 	
-	private List<GoodsDetailResult> productList;
+	private List<ShopGoodsDetailResult> productList;
 
 	public int getPageSize() {
 		return pageSize;
@@ -34,11 +34,11 @@ public class ShopProductList {
 		this.totalPage = totalPage;
 	}
 
-	public List<GoodsDetailResult> getProductList() {
+	public List<ShopGoodsDetailResult> getProductList() {
 		return productList;
 	}
 
-	public void setProductList(List<GoodsDetailResult> productList) {
+	public void setProductList(List<ShopGoodsDetailResult> productList) {
 		this.productList = productList;
 	}
 }

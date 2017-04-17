@@ -57,6 +57,15 @@
 		<result column="props_name" property="propsName" jdbcType="LONGVARCHAR" />
 		<result column="params" property="params" jdbcType="LONGVARCHAR" />
 	</resultMap>
+	
+	<resultMap type="com.meiduimall.service.catalog.result.ShopGoodsDetailResult" id="ShopGoodsDetailResultMap">
+		<result column="item_id" property="itemId" jdbcType="INTEGER"/>
+		<result column="title" property="title" jdbcType="VARCHAR"/>
+		<result column="sub_title" property="subTitle" jdbcType="VARCHAR"/>
+		<result column="price" property="price" jdbcType="DECIMAL"/>
+		<result column="point" property="point" jdbcType="INTEGER"/>
+		<result column="image_default_id" property="imageDefaultId" jdbcType="VARCHAR"/>
+	</resultMap>
 
 	<sql id="Example_Where_Clause">
 		<where>
@@ -177,7 +186,7 @@
 
 	<select id="selectItemByShopInfo"
 		parameterType="com.meiduimall.service.catalog.request.ShopProductRequest"
-		resultType="com.meiduimall.service.catalog.result.GoodsDetailResult">
+		resultMap="ShopGoodsDetailResultMap" >
 		SELECT
 		sysitem_item.item_id,sysitem_item.title,
 		sysitem_item.sub_title,sysitem_item.price,
