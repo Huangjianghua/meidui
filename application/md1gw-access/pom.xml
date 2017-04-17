@@ -15,10 +15,6 @@
 	<name>md1gw-access</name>
 	<description>md1gw-access project for Spring Boot</description>
 
-	<properties>
-		<sonar.projectKey>${artifactId}</sonar.projectKey>
-	</properties>
-
 	<dependencyManagement>
 		<dependencies>
 			<dependency>

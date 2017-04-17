@@ -17,10 +17,6 @@
 	<name>catalog-service</name>
 	<description>catalog-service</description>
 
-	<properties>
-		<sonar.projectKey>${artifactId}</sonar.projectKey>
-	</properties>
-
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
