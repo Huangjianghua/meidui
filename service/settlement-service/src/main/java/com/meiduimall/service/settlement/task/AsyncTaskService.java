@@ -103,7 +103,7 @@ public class AsyncTaskService {
 				//移除redis 缓存的分润数据 
 				if(ShareProfitConstants.SHARE_PROFIT_RETRY_TYPE_FINAL_ROUND.equals(retryType)){
 					RedisUtils.del(ShareProfitConstants.REDIS_KEY_PREFIX_ORDER+shareProfit.getOrderSn());
-					//三次重试仍然失败，发邮件或短信通知,重试机制终止,需要手动触发重试机制  。。todo..
+					//三次重试仍然失败，发邮件或短信通知,重试机制终止,需要手动触发重试机制 
 					//select sf.* from ecm_mzf_shareprofit sf inner join `ecm_mzf_order_status` os where sf.`order_sn`=os.`order_sn` and os.`score_status`=0;
 					String params="经过三次重试后;更新积分到会员系统仍然失败;重试机制终止;需要手动触发重试机制或手动更新积分到会员系统;orderSn:"+shareProfit.getOrderSn();
 					SmsReqDTO smsReqDTO = new SmsReqDTO(ShareProfitUtil.AUTHORIZED_MAP.get(ShareProfitUtil.SMS_PHONES),
@@ -154,7 +154,7 @@ public class AsyncTaskService {
 
 			}
 			
-			//如果是重试且重试成功。。
+			//如果是重试且重试成功
 			if(ShareProfitConstants.SHARE_PROFIT_SOURCE_CACHE.equals(shareProfitSource)){
 				//记录到Log表 
 				ShareProfitOrderLog orderLog=new ShareProfitOrderLog(shareProfit.getOrderSn(),String.valueOf(errors),DateUtil.getCurrentTimeSec(),"重试机制中更新积分到会员系统成功!");
@@ -174,7 +174,7 @@ public class AsyncTaskService {
 			}
 
 			try {
-				//回调O2O接口，通知积分更新成功。。 todo..informSettlementStatus()
+				//回调O2O接口，通知积分更新成功
 				boolean isSuccess=o2oCallbackService.informSettlementStatus(ImmutableList.of(shareProfit.getOrderSn()), ShareProfitConstants.O2O_SETTLEMENT_STATUS_CODE_SCORE);
 				
 				if(!isSuccess){
