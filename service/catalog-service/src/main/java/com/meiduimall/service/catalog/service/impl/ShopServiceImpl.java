@@ -23,10 +23,10 @@ import com.meiduimall.service.catalog.entity.SysuserShopFav;
 import com.meiduimall.service.catalog.entity.SysuserShopFavExample;
 import com.meiduimall.service.catalog.request.ShopProductRequest;
 import com.meiduimall.service.catalog.result.ChildShopCat;
-import com.meiduimall.service.catalog.result.GoodsDetailResult;
 import com.meiduimall.service.catalog.result.JsonItemDetailResultShopData;
 import com.meiduimall.service.catalog.result.ParentShopCat;
 import com.meiduimall.service.catalog.result.ShopCatResult;
+import com.meiduimall.service.catalog.result.ShopGoodsDetailResult;
 import com.meiduimall.service.catalog.result.ShopProductList;
 import com.meiduimall.service.catalog.service.ShopService;
 import com.meiduimall.service.catalog.service.common.ShopCommonService;
@@ -156,8 +156,8 @@ public class ShopServiceImpl implements ShopService {
 				Integer parentId = cat.getParentId();
 				if (parentId != null && parentId.intValue() == 0) {
 					ParentShopCat parentShopCat = new ParentShopCat();
-					parentShopCat.setCat_id(cat.getCatId());
-					parentShopCat.setCat_name(cat.getCatName());
+					parentShopCat.setCatId(cat.getCatId());
+					parentShopCat.setCatName(cat.getCatName());
 					parentShopCat.setChildShopCat(new ArrayList<ChildShopCat>());
 					results.add(parentShopCat);
 				}
@@ -168,11 +168,11 @@ public class ShopServiceImpl implements ShopService {
 				Integer parentId = cat.getParentId();
 				if (parentId != null && parentId.intValue() != 0) {
 					for (ParentShopCat parent : results) {
-						Integer cat_id = parent.getCat_id();
+						Integer cat_id = parent.getCatId();
 						if (cat_id != null && cat_id.intValue() == parentId.intValue()) {
 							ChildShopCat childShopCat = new ChildShopCat();
-							childShopCat.setCat_id(cat.getCatId());
-							childShopCat.setCat_name(cat.getCatName());
+							childShopCat.setCatId(cat.getCatId());
+							childShopCat.setCatName(cat.getCatName());
 							parent.getChildShopCat().add(childShopCat);
 							continue out;
 						}
@@ -193,25 +193,25 @@ public class ShopServiceImpl implements ShopService {
 
 	@Override
 	public ResBodyData getShopProductList(ShopProductRequest param) {
-		logger.info("获取店铺下的所有商品，shop_id： " + param.getShop_id());
+		logger.info("获取店铺下的所有商品，shopId： " + param.getShopId());
 
 		ShopProductList data = new ShopProductList();
 		// 设置排序字段
-		if (StringUtils.isBlank(param.getOrder_by())) {
-			param.setOrder_by("store");
+		if (StringUtils.isBlank(param.getSortBy())) {
+			param.setSortBy("store");
 		}
-		switch (param.getOrder_by()) {
+		switch (param.getSortBy()) {
 		case "updateTime":// 按修改时间排序
-			param.setOrder_by("sysitem_item_status.list_time");
+			param.setSortBy("sysitem_item_status.list_time");
 			break;
 		case "price":// 按价格排序
-			param.setOrder_by("sysitem_item.price");
+			param.setSortBy("sysitem_item.price");
 			break;
 		case "point":// 按积分排序
-			param.setOrder_by("sysitem_item.point");
+			param.setSortBy("sysitem_item.point");
 			break;
 		default:// 默认：按销量排序
-			param.setOrder_by("sysitem_item_count.sold_quantity");
+			param.setSortBy("sysitem_item_count.sold_quantity");
 			break;
 		}
 
@@ -242,7 +242,7 @@ public class ShopServiceImpl implements ShopService {
 		int totalPage = (itemTotal + param.getPageSize() - 1) / param.getPageSize();
 
 		// 查询商品列表
-		List<GoodsDetailResult> productList = baseDao.selectList(param, "SysitemItemMapper.selectItemByShopInfo");
+		List<ShopGoodsDetailResult> productList = baseDao.selectList(param, "SysitemItemMapper.selectItemByShopInfo");
 
 		data.setPageNo(param.getPageNo());
 		data.setPageSize(param.getPageSize());

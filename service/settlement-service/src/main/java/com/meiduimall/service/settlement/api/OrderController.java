@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.collect.ImmutableMap;
@@ -62,8 +63,8 @@ public class OrderController {
 		long start = System.currentTimeMillis();
 		log.info("share profit for order start:{}", start);
 		
-		//shareStatus:0:未分润;1已分润
-		Integer shareStatus=1;
+		//shareStatus:0-未分润,1-已分润
+		Integer shareStatus = 1;
 		
 		//判断该订单号是否为重复分润
 		boolean isExisted = orderService.checkShareProfitExisted(ecmOrder.getOrderSn());
@@ -88,7 +89,7 @@ public class OrderController {
 		log.info("share profit for order end:{}",end);
 		log.info("total time(second) for shareprofit:{}", (end-start)/1000);
 		
-		return SettlementUtil.success(ImmutableMap.of("orderSn", ecmOrder.getOrderSn(),"shareStatus",shareStatus));
+		return SettlementUtil.success(ImmutableMap.of("orderSn", ecmOrder.getOrderSn(), "shareStatus", shareStatus));
 	}
 
 
@@ -192,9 +193,11 @@ public class OrderController {
 	 * 
 	 */
 	@PostMapping("/queryprofitbywaterbytype")
-	public ResBodyData queryProfitByWaterByType(String waterId, Integer loginType, String code, Integer pageNumber, Integer pageSize) {
-		Integer count = orderService.queryProfitCountByWaterId(waterId);
+	public ResBodyData queryProfitByWaterByType(String waterId, Integer loginType, String code,
+			@RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = "20") int pageSize) {
 		
+		Integer count = orderService.queryProfitCountByWaterId(waterId);
 		List<EcmMzfShareProfit> shareProfitList = orderService.queryProfitByWaterByType(waterId, loginType, code, pageNumber, pageSize);
 		
 		Map<String, Object> map = Maps.newHashMap();

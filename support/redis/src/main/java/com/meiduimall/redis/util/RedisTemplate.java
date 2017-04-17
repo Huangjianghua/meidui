@@ -12,7 +12,6 @@ import redis.clients.jedis.exceptions.JedisConnectionException;
 
 public class RedisTemplate {
 
-	private static int RETRY_NUM = 5;
 
 	private static RedisTemplate redisTemplate = new RedisTemplate();
 
@@ -67,11 +66,11 @@ public class RedisTemplate {
 	 * @throws
 	 */
 	public void execJedisPipelineOperate(PipelineCallback callback) {
-		for (int index = 1; index <= RETRY_NUM; index++) {
+		for (int index = 1; index <= Constants.CONSTANT_INT_FIVE; index++) {
 			try {
 				invokePipeline(callback);
 			} catch (RedisClientException ex) {
-				if (index < RETRY_NUM) {
+				if (index < Constants.CONSTANT_INT_FIVE) {
 					continue;
 				}
 				throw ex;
@@ -90,11 +89,11 @@ public class RedisTemplate {
 	 */
 	public <T> T execJedisOperate(RedisCallback<T> callback) {
 		T result = null;
-		for (int index = 1; index <= RETRY_NUM; index++) {
+		for (int index = 1; index <= Constants.CONSTANT_INT_FIVE; index++) {
 			try {
 				result = invokeJedis(callback);
 			} catch (RedisClientException ex) {
-				if (index < RETRY_NUM) {
+				if (index < Constants.CONSTANT_INT_FIVE) {
 					continue;
 				}
 				throw ex;

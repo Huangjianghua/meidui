@@ -9,7 +9,6 @@
  */
 
 package com.meiduimall.service.sms.entity;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -20,8 +19,6 @@ public class SendSmsHistory implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private String id;
-
-//    private String clientId;
 
     private String channelId;
 
@@ -46,14 +43,6 @@ public class SendSmsHistory implements Serializable{
     public void setId(String id) {
         this.id = id == null ? null : id.trim();
     }
-
-//    public String getClientId() {
-//        return clientId;
-//    }
-//
-//    public void setClientId(String clientId) {
-//        this.clientId = clientId == null ? null : clientId.trim();
-//    }
 
     public String getChannelId() {
         return channelId;

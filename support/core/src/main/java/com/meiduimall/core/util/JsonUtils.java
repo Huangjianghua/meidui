@@ -68,11 +68,11 @@ public class JsonUtils {
 		try {
 			return getInstance().writeValueAsString(bean);
 		} catch (JsonGenerationException e) {
-			 logger.error(e.getMessage());
+			 logger.error(e.getMessage(),e);
 		} catch (JsonMappingException e) {
-			 logger.error(e.getMessage());
+			 logger.error(e.getMessage(),e);
 		} catch (IOException e) {
-			 logger.error(e.getMessage());
+			 logger.error(e.getMessage(),e);
 		}
     	return null;
     }
@@ -93,11 +93,11 @@ public class JsonUtils {
                 List<T> list = (List<T>) Arrays.asList(t);
                 return list;
             } catch (JsonGenerationException e) {
-                logger.error(e.getMessage());
+                logger.error(e.getMessage(),e);
             } catch (JsonMappingException e) {
-                logger.error(e.getMessage());
+                logger.error(e.getMessage(),e);
             } catch (IOException e) {
-                logger.error(e.getMessage());
+                logger.error(e.getMessage(),e);
             }
     	}
         return null;

@@ -6,6 +6,7 @@ public class JsonCheckGoodsResult {
 
 	private List<CheckGoodsResult> results1;
 	private List<CheckGoodsResult> results2;
+	
 	public List<CheckGoodsResult> getResults1() {
 		return results1;
 	}

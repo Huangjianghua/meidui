@@ -8,7 +8,7 @@ package com.meiduimall.service.catalog.result;
  */
 public class JsonItemDetailResultSku {
 	
-	private String sku_id;
+	private String skuId;
 	private String price;// 该规格商品价格
 	private String weight;// 该规格商品重量
 	//private String spec_info;// 该规格描述信息
@@ -16,56 +16,63 @@ public class JsonItemDetailResultSku {
 	private String point;// 该规格商品可用美兑积分
 	
 	// 由syscategory_prop_values表中的prop_value_id组成的字符串，格式如下： 51_4_76
-	private String prop_value_ids;
+	private String propValueIds;
 	
-	private String sku_store;//每一个SKU对应的库存
-	
-	public String getSku_store() {
-		return sku_store;
+	private String skuStore;//每一个SKU对应的库存
+
+	public String getSkuId() {
+		return skuId;
 	}
-	public void setSku_store(String sku_store) {
-		this.sku_store = sku_store;
+
+	public void setSkuId(String skuId) {
+		this.skuId = skuId;
 	}
-	public String getSku_id() {
-		return sku_id;
-	}
-	public void setSku_id(String sku_id) {
-		this.sku_id = sku_id;
-	}
+
 	public String getPrice() {
 		return price;
 	}
+
 	public void setPrice(String price) {
 		this.price = price;
 	}
+
 	public String getWeight() {
 		return weight;
 	}
+
 	public void setWeight(String weight) {
 		this.weight = weight;
 	}
-//	public String getSpec_info() {
-//		return spec_info;
-//	}
-//	public void setSpec_info(String spec_info) {
-//		this.spec_info = spec_info;
-//	}
+
 	public String getStatus() {
 		return status;
 	}
+
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
 	public String getPoint() {
 		return point;
 	}
+
 	public void setPoint(String point) {
 		this.point = point;
 	}
-	public String getProp_value_ids() {
-		return prop_value_ids;
+
+	public String getPropValueIds() {
+		return propValueIds;
 	}
-	public void setProp_value_ids(String prop_value_ids) {
-		this.prop_value_ids = prop_value_ids;
+
+	public void setPropValueIds(String propValueIds) {
+		this.propValueIds = propValueIds;
+	}
+
+	public String getSkuStore() {
+		return skuStore;
+	}
+
+	public void setSkuStore(String skuStore) {
+		this.skuStore = skuStore;
 	}
 }

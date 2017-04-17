@@ -72,7 +72,7 @@ public class MemIdInterceptor implements HandlerInterceptor {
 			}
 		} catch (Exception e) {
 			logger.error("验证mem_id，拦截器报异常： " + e);
-			return outPut(response, ServiceCatalogApiCode.TOKEN_VALIDATE_ERROR);
+			return outPut(response, ServiceCatalogApiCode.MEMID_VALIDATE_ERROR);
 		}
 	}
 

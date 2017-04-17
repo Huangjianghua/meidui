@@ -9,10 +9,10 @@
  */
 
 package com.meiduimall.service.sms.entity;
-
 import java.util.Date;
 
 public class TemplateInfo {
+	
     private String id;
 
     private String channelId;

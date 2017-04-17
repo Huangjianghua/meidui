@@ -104,7 +104,7 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 			for (int i = 0; i < list.size(); i++) {
 				int item_id = list.get(i);
 				inner: for (int k = 0; k < queryResults.size(); k++) {
-					String temp_id = queryResults.get(k).getItem_id();
+					String temp_id = queryResults.get(k).getItemId();
 					if (item_id == Integer.parseInt(temp_id)) {
 						results.add(queryResults.get(k));
 						break inner;
@@ -115,12 +115,12 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 				// 分别给每一个商品详情查询结果添加访问地址
 				for (GoodsDetailResult detail : results) {
 					if (req_id == 1) {
-						detail.setUrl(base_url + "/wap/item.html?item_id=" + detail.getItem_id());
+						detail.setUrl(base_url + "/wap/item.html?item_id=" + detail.getItemId());
 					} else if (req_id == 2) {
-						detail.setUrl(base_url + "/item.html?item_id=" + detail.getItem_id());
+						detail.setUrl(base_url + "/item.html?item_id=" + detail.getItemId());
 					} else {
 						// can not reach
-						detail.setUrl(base_url + "/wap/item.html?item_id=" + detail.getItem_id());
+						detail.setUrl(base_url + "/wap/item.html?item_id=" + detail.getItemId());
 					}
 				}
 				ListGoodsDetailResult data = new ListGoodsDetailResult();
@@ -154,7 +154,7 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 			CheckGoodsResult detail = null;
 			for (Integer item_id : list1) {
 				detail = new CheckGoodsResult();
-				detail.setItem_id(item_id.intValue() + "");
+				detail.setItemId(item_id.toString());
 				detail.setUrl(base_url + "/item.html?item_id=" + item_id.intValue());
 				results1.add(detail);
 				detail = null;
@@ -165,7 +165,7 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 			CheckGoodsResult detail = null;
 			for (Integer item_id : list2) {
 				detail = new CheckGoodsResult();
-				detail.setItem_id(item_id.intValue() + "");
+				detail.setItemId(item_id.toString());
 				detail.setUrl(base_url + "/item.html?item_id=" + item_id.intValue());
 				results2.add(detail);
 				detail = null;

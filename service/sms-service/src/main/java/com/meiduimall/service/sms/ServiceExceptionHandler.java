@@ -32,8 +32,7 @@ public class ServiceExceptionHandler {
   @ExceptionHandler(value = ServiceException.class)
   public ResBodyData serviceExceptionHandler(HttpServletRequest request, ServiceException exception) {
     logger.error(request.getContextPath()+request.getRequestURI()+" "+exception.getLocalizedMessage());
-    ResBodyData result = new ResBodyData(exception.getCode(),exception.getLocalizedMessage());
-    return result;
+    return new ResBodyData(exception.getCode(),exception.getLocalizedMessage());
   }
 
   @ExceptionHandler(value = BindException.class)

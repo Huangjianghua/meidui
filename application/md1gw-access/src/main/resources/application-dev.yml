@@ -72,11 +72,12 @@ config :
 
 #自定义的属性和值  
 myProps :
-  routeServiceUrl : http://192.168.4.240:9050
-  userCenterUrl : http://192.168.4.240:8097
-  sendSmsUrl : http://192.168.4.240:20000
-  paydUrl : http://payd.meiduimall.com
-  payUrl : http://pay.meiduimall.com
+  routeServiceUrl : http://192.168.4.240:9050    #路由
+  userCenterUrl : http://192.168.4.240:8097      #会员中心
+  sendSmsUrl : http://192.168.4.240:20000        #发送短信
+  payUrl : http://payd.meiduimall.com            #支付接入开发环境
+  meiduimallUrl : http://shopdev.meiduimall.com  #商城开发环境
+
     
     
          

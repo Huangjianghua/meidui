@@ -124,47 +124,22 @@ public class SmsServiceImpl implements SmsService {
         }
       }
     }
-    params = JsonUtils.beanToJson(map);
-
-    return params;
+    return JsonUtils.beanToJson(map);
   }
 
-  private void send(String channel, String phone, String templateId, String params){
-
-    String tempMsg = RedisUtils.get(phone + templateId + params);
-    if (StringUtils.isNotEmpty(tempMsg)) {
-      throw new ServiceException(SmsApiCode.REPEATING,SmsApiCode.getZhMsg(SmsApiCode.REPEATING));
-    }
-
-    //获取消息模板
-    String templateListJsonStr = messageChannelService.getTemplateList(SysConstant.MESSAGE_TEMPLATE_KEY);
-    if (StringUtils.isEmpty(templateListJsonStr)) {
-      throw new ServiceException(SmsApiCode.NOT_FOUND_TEMPLATES,SmsApiCode.getZhMsg(SmsApiCode.NOT_FOUND_TEMPLATES));
-    }
-
-    TemplateInfo ti = getTemplateByKey(templateId, templateListJsonStr);
-
-    if (StringUtils.isEmpty(ti.getTemplateKey()) || StringUtils.isEmpty(ti.getTemplateContent())) {
-      throw new ServiceException(SmsApiCode.NOT_FOUND_TEMPLATES,SmsApiCode.getZhMsg(SmsApiCode.NOT_FOUND_TEMPLATES));
-    }
-
-    String content = ti.getTemplateContent();
-    content = replacesContent(params, content);
-
-    if (StringUtils.isNotEmpty(params)) {
-      String aliParams = aliDaYuParamsToJson(false, params);
-    }
-
-  }
+  
+  
+  
+  
   /**
    * 发送短信
    *
    * @param model
    * @throws Exception
    */
+  @Override
   public void sendSmsMessage(CommonShortMessageModel model)  {
     String tempMsg = RedisUtils.get(model.getPhones() + model.getTemplateId() + model.getParams());
-    
     if (StringUtils.isNotEmpty(tempMsg)) {
       throw new ServiceException(SmsApiCode.REPEATING,BaseApiCode.getZhMsg(SmsApiCode.REPEATING));
     }
@@ -202,20 +177,19 @@ public class SmsServiceImpl implements SmsService {
     }
     RedisUtils.setex(model.getPhones() + model.getTemplateId() + model.getParams(), DateUtils.parseDuration(ti.getEffectiveTime()) , content);
     ssh.setRequestParams(model.getPhones() + "ali send param:" + ti.getExternalTemplateNo() + params + ";mandao send param:" + content);
-    ssh.setResultMsg("ali result, flag:" + String.valueOf(flag) + ";mandao result, res:" + String.valueOf(res));
+    ssh.setResultMsg("ali result, flag:" + String.valueOf(flag) + ";mandao result, res:" +res);
     sendSmsHistoryMapper.insert(ssh);
   }
 
 
   @Override
   public String sendSmsVerificationCode(CommonShortMessageModel model)  {
-    String result = "";
     String tempMsg = RedisUtils.get(model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId());
     if (StringUtils.isNotEmpty(tempMsg)) {
       throw new ServiceException(SmsApiCode.REPEATING,BaseApiCode.getZhMsg(SmsApiCode.REPEATING));
     }
     //生成6位随机数
-    result = String.valueOf(((Math.random() * 9 + 1) * 100000)).substring(0, 6);
+    String result = String.valueOf(((Math.random() * 9 + 1) * 100000)).substring(0, 6);
     logger.info("发送短信生成的验证码为：", result);
     //获取消息模板
     String templateListJsonStr = messageChannelService.getTemplateList(SysConstant.MESSAGE_TEMPLATE_KEY);
@@ -238,13 +212,12 @@ public class SmsServiceImpl implements SmsService {
     if (StringUtils.isNotEmpty(model.getParams())) {
       params = aliDaYuParamsToJson(true, result + "," + model.getParams());
     }
-    boolean flag = false;
     String res = "-1";
     /**
      * 首先阿里云发送发送短信，如果发送失败则调用漫道发送 </br>
      * 全部失败则返回失败信息
      */
-    flag = aliyunService.Send(model.getPhones(), ti.getExternalTemplateNo(), params);
+    boolean flag = aliyunService.Send(model.getPhones(), ti.getExternalTemplateNo(), params);
     logger.info("阿里大于发送短信结果（flag）：%s", String.valueOf(flag));
 
     if (!flag) {
@@ -259,12 +232,12 @@ public class SmsServiceImpl implements SmsService {
     ssh.setRequestParams(model.getPhones() + "ali send param:" + ti.getExternalTemplateNo() + params + ";mandao send param:" + content);
     ssh.setResultMsg("ali result, flag:" + String.valueOf(flag) + ";mandao result, res:" + String.valueOf(res));
     sendSmsHistoryMapper.insert(ssh);
-
     return result;
   }
 
   @Override
   public int checkSmsVerificationCode(CommonShortMessageModel model)  {
+	  
     String tempVerificationCode = RedisUtils.get(model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId());
     if (StringUtils.isEmpty(tempVerificationCode)) {
       return -2;
@@ -277,7 +250,7 @@ public class SmsServiceImpl implements SmsService {
     //验证通过
     return  0;
   }
-
+  
   private SendSmsHistory setHistory(CommonShortMessageModel model) {
     SendSmsHistory ssh = new SendSmsHistory();
     ssh.setId(UUID.randomUUID().toString());

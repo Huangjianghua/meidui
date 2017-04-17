@@ -9,16 +9,6 @@ import com.meiduimall.password.util.MD5;
 public class GatewaySignUtil {
 	
 	
-	/** &符号**/
-	public final static String URLCONNCTION = "&";
-	/** =符号**/
-	public final static String URLEQUALS = "=";
-	/**
-	 * 编码类型
-	 */
-	public final static String INPUT_CHARSET_DEFAULT = "utf-8"; // 默认utf-8
-	
-	
 	/**
 	 * 功能描述:  产生签名
 	 * Author: 陈建宇
@@ -31,7 +21,7 @@ public class GatewaySignUtil {
 		Map<String, String> map = new TreeMap<String, String>();
 		map.putAll(param);
 		Set<String> keySet = map.keySet();
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
         Iterator<String> iter = keySet.iterator();
         while (iter.hasNext()) {
             String key = iter.next();
@@ -43,9 +33,9 @@ public class GatewaySignUtil {
             	continue;
             }
             buffer.append(key);
-            buffer.append(URLEQUALS);
+            buffer.append("&");
             buffer.append(value);
-            buffer.append(URLCONNCTION);
+            buffer.append("=");
         }
         buffer.append("key=");
         buffer.append(appKey);

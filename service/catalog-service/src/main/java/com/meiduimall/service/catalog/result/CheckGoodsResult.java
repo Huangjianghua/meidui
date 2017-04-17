@@ -1,5 +1,7 @@
 package com.meiduimall.service.catalog.result;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * json数据构造对象--返回商品详情页访问地址
  * 
@@ -12,7 +14,8 @@ public class CheckGoodsResult {
 	private String url;
 
 	// 商品ID
-	private String item_id;
+	@JsonProperty("item_id")
+	private String itemId;
 
 	public String getUrl() {
 		return url;
@@ -22,11 +25,11 @@ public class CheckGoodsResult {
 		this.url = url;
 	}
 
-	public String getItem_id() {
-		return item_id;
+	public String getItemId() {
+		return itemId;
 	}
 
-	public void setItem_id(String item_id) {
-		this.item_id = item_id;
+	public void setItemId(String itemId) {
+		this.itemId = itemId;
 	}
 }

@@ -8,46 +8,30 @@ package com.meiduimall.service.catalog.result;
  */
 public class JsonItemDetailResultItemData {
 
-	private String itme_id;
+	private String itmeId;
 	private String price;// 商品价格
 	private String point;// 可用美兑积分
 	private String title;// 商品标题、商品名称
-	private String sub_title;// 子标题
-	private String list_image;// 商品图片集合
-	private String image_default_id;// 商品默认图片
-	private String is_collect;// 用户是否收藏了该商品--根据token判断:1表示收藏，0表示没有收藏
-	private String sales_volume;// 商品销量
-	private String rate_count;// 被评论数量
-	private String html_detail_url;// HTML商品详情页
+	private String subTitle;// 子标题
+	private String listImage;// 商品图片集合
+	private String imageDefaultId;// 商品默认图片
+	private String isCollect;// 用户是否收藏了该商品--根据token判断:1表示收藏，0表示没有收藏
+	private String salesVolume;// 商品销量
+	private String rateCount;// 被评论数量
+	private String htmlDetailUrl;// HTML商品详情页
 	private String bn;// 商品编号
 	private String weight;// 商品重量(毛重)
-	private String approve_status;// 商品状态：onsale 出售中，instock 库中
-	private String list_time;// 商品上架时间
-	private String item_store;// 商品库存
-	private String is_show_weight;//是否显示重量
-	
-	public String getIs_show_weight() {
-		return is_show_weight;
+	private String approveStatus;// 商品状态：onsale 出售中，instock 库中
+	private String listTime;// 商品上架时间
+	private String itemStore;// 商品库存
+	private String isShowWeight;//是否显示重量
+
+	public String getItmeId() {
+		return itmeId;
 	}
 
-	public void setIs_show_weight(String is_show_weight) {
-		this.is_show_weight = is_show_weight;
-	}
-
-	public String getItem_store() {
-		return item_store;
-	}
-
-	public void setItem_store(String item_store) {
-		this.item_store = item_store;
-	}
-
-	public String getItme_id() {
-		return itme_id;
-	}
-
-	public void setItme_id(String itme_id) {
-		this.itme_id = itme_id;
+	public void setItmeId(String itmeId) {
+		this.itmeId = itmeId;
 	}
 
 	public String getPrice() {
@@ -74,60 +58,60 @@ public class JsonItemDetailResultItemData {
 		this.title = title;
 	}
 
-	public String getSub_title() {
-		return sub_title;
+	public String getSubTitle() {
+		return subTitle;
 	}
 
-	public void setSub_title(String sub_title) {
-		this.sub_title = sub_title;
+	public void setSubTitle(String subTitle) {
+		this.subTitle = subTitle;
 	}
 
-	public String getList_image() {
-		return list_image;
+	public String getListImage() {
+		return listImage;
 	}
 
-	public void setList_image(String list_image) {
-		this.list_image = list_image;
+	public void setListImage(String listImage) {
+		this.listImage = listImage;
 	}
 
-	public String getImage_default_id() {
-		return image_default_id;
+	public String getImageDefaultId() {
+		return imageDefaultId;
 	}
 
-	public void setImage_default_id(String image_default_id) {
-		this.image_default_id = image_default_id;
+	public void setImageDefaultId(String imageDefaultId) {
+		this.imageDefaultId = imageDefaultId;
 	}
 
-	public String getIs_collect() {
-		return is_collect;
+	public String getIsCollect() {
+		return isCollect;
 	}
 
-	public void setIs_collect(String is_collect) {
-		this.is_collect = is_collect;
+	public void setIsCollect(String isCollect) {
+		this.isCollect = isCollect;
 	}
 
-	public String getSales_volume() {
-		return sales_volume;
+	public String getSalesVolume() {
+		return salesVolume;
 	}
 
-	public void setSales_volume(String sales_volume) {
-		this.sales_volume = sales_volume;
+	public void setSalesVolume(String salesVolume) {
+		this.salesVolume = salesVolume;
 	}
 
-	public String getRate_count() {
-		return rate_count;
+	public String getRateCount() {
+		return rateCount;
 	}
 
-	public void setRate_count(String rate_count) {
-		this.rate_count = rate_count;
+	public void setRateCount(String rateCount) {
+		this.rateCount = rateCount;
 	}
 
-	public String getHtml_detail_url() {
-		return html_detail_url;
+	public String getHtmlDetailUrl() {
+		return htmlDetailUrl;
 	}
 
-	public void setHtml_detail_url(String html_detail_url) {
-		this.html_detail_url = html_detail_url;
+	public void setHtmlDetailUrl(String htmlDetailUrl) {
+		this.htmlDetailUrl = htmlDetailUrl;
 	}
 
 	public String getBn() {
@@ -146,19 +130,35 @@ public class JsonItemDetailResultItemData {
 		this.weight = weight;
 	}
 
-	public String getApprove_status() {
-		return approve_status;
+	public String getApproveStatus() {
+		return approveStatus;
 	}
 
-	public void setApprove_status(String approve_status) {
-		this.approve_status = approve_status;
+	public void setApproveStatus(String approveStatus) {
+		this.approveStatus = approveStatus;
 	}
 
-	public String getList_time() {
-		return list_time;
+	public String getListTime() {
+		return listTime;
 	}
 
-	public void setList_time(String list_time) {
-		this.list_time = list_time;
+	public void setListTime(String listTime) {
+		this.listTime = listTime;
+	}
+
+	public String getItemStore() {
+		return itemStore;
+	}
+
+	public void setItemStore(String itemStore) {
+		this.itemStore = itemStore;
+	}
+
+	public String getIsShowWeight() {
+		return isShowWeight;
+	}
+
+	public void setIsShowWeight(String isShowWeight) {
+		this.isShowWeight = isShowWeight;
 	}
 }

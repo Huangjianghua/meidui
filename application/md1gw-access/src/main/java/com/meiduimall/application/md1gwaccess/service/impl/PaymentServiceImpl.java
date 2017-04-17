@@ -366,10 +366,8 @@ public class PaymentServiceImpl implements PaymentService {
 									 if(isPhone){
 										 // 请求会员中心短信接口，给商家发送短信
 										 JSONObject sendSmsMessage = userService.sendSmsMessage(mobile.get("mobile"), ectoolsTradePaybill.getTid());
-										 if(sendSmsMessage.getInt("status") != 0){
-											 Logger.info("短信发送失败: %s ; 商家tid: %s ; 商家手机号: %s", sendSmsMessage.getString("msg"), 
+										 Logger.info("短信发送: %s ; 商家tid: %s ; 商家手机号: %s", sendSmsMessage.getString("msg"), 
 													 ectoolsTradePaybill.getTid(), mobile.get("mobile"));
-										 }
 									 }
 								 }
 							

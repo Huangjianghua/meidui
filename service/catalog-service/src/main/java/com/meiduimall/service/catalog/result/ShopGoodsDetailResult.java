@@ -4,27 +4,26 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * 查询结果--商品详情对象
+ * 
  * @author yangchang
  *
  */
-public class GoodsDetailResult {
-	
+public class ShopGoodsDetailResult {
+
 	@JsonProperty("item_id")
 	private String itemId;
-	
+
 	private String title;
-	
+
 	@JsonProperty("sub_title")
 	private String subTitle;
-	
+
 	private String price;
-	
+
 	private String point;
-	
+
 	@JsonProperty("image_default_id")
 	private String imageDefaultId;
-	
-	private String url;
 
 	public String getItemId() {
 		return itemId;
@@ -72,13 +71,5 @@ public class GoodsDetailResult {
 
 	public void setImageDefaultId(String imageDefaultId) {
 		this.imageDefaultId = imageDefaultId;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
 	}
 }

@@ -75,7 +75,7 @@ public class DepositRetryTask {
 				}
 			}
 		} catch (ServiceException e) {
-			logger.error("新个代送积分失败：{}", e);
+			logger.error("新个代重试送积分失败：{}", e);
 		}
 		
 	}

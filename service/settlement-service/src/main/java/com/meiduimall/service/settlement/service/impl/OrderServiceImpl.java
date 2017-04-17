@@ -21,11 +21,11 @@ import com.github.pagehelper.StringUtil;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.meiduimall.core.BaseApiCode;
-import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.SettlementApiCode;
+import com.meiduimall.service.settlement.common.ResultData;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 import com.meiduimall.service.settlement.common.ShareProfitUtil;
 import com.meiduimall.service.settlement.context.ShareProfitContext;
@@ -81,7 +81,7 @@ public class OrderServiceImpl implements OrderService {
 		}
 		// 商家让利折扣
 		BigDecimal serviceRate = new BigDecimal(ecmOrder.getServiceFee());
-		if (null == serviceRate || serviceRate.compareTo(new BigDecimal(0)) <= 0) {
+		if (serviceRate.compareTo(new BigDecimal(0)) <= 0) {
 			log.error("商家收益比例为空!略过该条数据");
 			throw new ServiceException(SettlementApiCode.SERVICE_RATE_ISNULL, BaseApiCode.getZhMsg(SettlementApiCode.SERVICE_RATE_ISNULL));
 		}
@@ -102,7 +102,7 @@ public class OrderServiceImpl implements OrderService {
 		
 		// 获取推荐人信息		
 		String resultStr = ConnectionUrlUtil.httpRequest(ShareProfitUtil.getBelongInfoUrl(ecmOrder.getBuyerName()), ShareProfitUtil.REQUEST_METHOD_POST, null);
-		ResBodyData resultJson= JsonUtils.jsonToBean(resultStr, ResBodyData.class);
+		ResultData resultJson= JsonUtils.jsonToBean(resultStr, ResultData.class);
 		
 		Map<String, String> belongMap = null;
 		
@@ -111,13 +111,13 @@ public class OrderServiceImpl implements OrderService {
 			throw new ServiceException(SettlementApiCode.GET_RECOMMENDER_INFO_FAILURE, BaseApiCode.getZhMsg(SettlementApiCode.GET_RECOMMENDER_INFO_FAILURE));
 		}else{
 			// 判断返回是否成功,如果不成功则不理会
-			if (resultJson.getStatus() == 0) {
-				List<Map<String,String>> map=(List<Map<String, String>>) resultJson.getData();
+			if ("0".equals(resultJson.getStatus_code())) {
+				List<Map<String, String>> map = resultJson.getRESULT();
 				belongMap = ShareProfitUtil.getlvlAndPhone(map);
 				
 				log.info("推荐人信息:" + resultJson.getData());
 			} else {
-				log.error("errcode:" + resultJson.getStatus() + ";errmsg:" + resultJson.getMsg());
+				log.error("errcode:" + resultJson.getStatus_code() + ";errmsg:" + resultJson.getResult_msg());
 			}
 		}
 		
@@ -204,11 +204,11 @@ public class OrderServiceImpl implements OrderService {
 				}
 			
 			} else {
-				log.info("本区区代,将判断是否为前两百名区代。");
+				log.info("本区区代,将判断是否为前两百名区代");
 				personAgentRevenue = memberRevenue.multiply(new BigDecimal(systemSetting.get(ShareProfitUtil.PERSONAL_SCALE)).divide(new BigDecimal(100)));
 				
-				Integer isTwoHundredAgent =ecmOrder.getIsTwoHundredArea();
-				if (null == isTwoHundredAgent || "".equals(isTwoHundredAgent)) {
+				Integer isTwoHundredAgent = ecmOrder.getIsTwoHundredArea();
+				if (null == isTwoHundredAgent || "".equals(String.valueOf(isTwoHundredAgent))) {
 					log.info("前二百区代标识为空!略过该条数据");
 					throw new ServiceException(SettlementApiCode.IS_TWO_HUNDRED_AGENT_ISNULL, BaseApiCode.getZhMsg(SettlementApiCode.IS_TWO_HUNDRED_AGENT_ISNULL));
 				}else{
@@ -452,13 +452,7 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public List<EcmMzfShareProfit> queryProfitByWaterByType(String waterId, Integer loginType, String code,Integer pageNumber,Integer pageSize)  {
 		
-		if(pageNumber!=null && pageNumber>0){
-			if(pageSize==null || pageSize==0){
-				pageSize=10;
-			}
-			PageHelper.startPage(pageNumber, pageSize);
-		}
-
+		PageHelper.startPage(pageNumber, pageSize);
 		
 		List<EcmMzfShareProfit> shareProfitList=baseMapper.selectList(waterId, "EcmMzfWaterMapper.getShareProfitByWaterId");
 		//loginType:1代理 2商家 3 其他
@@ -493,8 +487,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 	
 	@Override
-	public List<ShareProfitVO> queryTotalProfit(Collection<String> codes, Integer billStartDate, Integer billEndDate)
-			 {
+	public List<ShareProfitVO> queryTotalProfit(Collection<String> codes, Integer billStartDate, Integer billEndDate){
 		final Map<String,Object> params=new HashMap<String,Object>();
 		params.put("codes", codes);
 		params.put("billStartDate", billStartDate);

@@ -57,6 +57,26 @@
 		<result column="props_name" property="propsName" jdbcType="LONGVARCHAR" />
 		<result column="params" property="params" jdbcType="LONGVARCHAR" />
 	</resultMap>
+	
+	<resultMap id="GoodsDetailResultMap" 
+		type="com.meiduimall.service.catalog.result.GoodsDetailResult">
+		<result column="item_id" property="itemId" jdbcType="INTEGER"/>
+		<result column="title" property="title" jdbcType="VARCHAR"/>
+		<result column="sub_title" property="subTitle" jdbcType="VARCHAR"/>
+		<result column="price" property="price" jdbcType="DECIMAL"/>
+		<result column="point" property="point" jdbcType="INTEGER"/>
+		<result column="image_default_id" property="imageDefaultId" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<resultMap id="ShopGoodsDetailResultMap"
+		type="com.meiduimall.service.catalog.result.ShopGoodsDetailResult">
+		<result column="item_id" property="itemId" jdbcType="INTEGER"/>
+		<result column="title" property="title" jdbcType="VARCHAR"/>
+		<result column="sub_title" property="subTitle" jdbcType="VARCHAR"/>
+		<result column="price" property="price" jdbcType="DECIMAL"/>
+		<result column="point" property="point" jdbcType="INTEGER"/>
+		<result column="image_default_id" property="imageDefaultId" jdbcType="VARCHAR"/>
+	</resultMap>
 
 	<sql id="Example_Where_Clause">
 		<where>
@@ -151,11 +171,11 @@
 			sysitem_item_count.item_id=sysitem_item.item_id
 			AND sysitem_item_status.item_id=sysitem_item.item_id
 			AND sysitem_item_status.approve_status='onsale'
-			<if test="shop_id != null">
-				and sysitem_item.shop_id=#{shop_id}
+			<if test="shopId != null">
+				and sysitem_item.shop_id=#{shopId}
 			</if>
-			<if test="shop_cat_id != null">
-				and sysitem_item.shop_cat_id=#{shop_cat_id}
+			<if test="shopCatId != null">
+				and sysitem_item.shop_cat_id=#{shopCatId}
 			</if>
 		</where>
 	</sql>
@@ -177,7 +197,7 @@
 
 	<select id="selectItemByShopInfo"
 		parameterType="com.meiduimall.service.catalog.request.ShopProductRequest"
-		resultType="com.meiduimall.service.catalog.result.GoodsDetailResult">
+		resultMap="ShopGoodsDetailResultMap" >
 		SELECT
 		sysitem_item.item_id,sysitem_item.title,
 		sysitem_item.sub_title,sysitem_item.price,
@@ -186,12 +206,12 @@
 		FROM
 		sysitem_item,sysitem_item_count,sysitem_item_status
 		<include refid="Sql_Shop_Info" />
-		order by ${order_by} ${column} limit #{limitBegin},#{pageSize}
+		order by ${sortBy} ${column} limit #{limitBegin},#{pageSize}
 	</select>
 
 	<!-- 根据商品多个ID查询多个商品信息 -->
 	<select id="getItemsInItemId" parameterType="java.util.List"
-		resultType="com.meiduimall.service.catalog.result.GoodsDetailResult">
+		resultMap="GoodsDetailResultMap">
 		SELECT
 		item_id,title,sub_title,price,point,image_default_id
 		FROM

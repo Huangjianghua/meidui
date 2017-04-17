@@ -151,9 +151,10 @@ public class EcmMzfDraw implements Serializable{
 		super();
 	}
 
-	public EcmMzfDraw(String drawCode) {
+	public EcmMzfDraw(String drawCode, Integer drawType) {
 		super();
 		this.drawCode = drawCode;
+		this.drawType = drawType;
 	}
 
 	public Integer getId() {

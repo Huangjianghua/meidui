@@ -43,46 +43,46 @@ public class TokenInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		// try {
-		request.setCharacterEncoding(Constants.ENCODE_UTF8);
-		response.setCharacterEncoding(Constants.ENCODE_UTF8);
-		response.setContentType(Constants.CONTENT_TYPE_TEXT_UTF8);
+		try {
+			request.setCharacterEncoding(Constants.ENCODE_UTF8);
+			response.setCharacterEncoding(Constants.ENCODE_UTF8);
+			response.setContentType(Constants.CONTENT_TYPE_TEXT_UTF8);
 
-		HandlerMethod handlerMethod = (HandlerMethod) handler;
-		Method method = handlerMethod.getMethod();
+			HandlerMethod handlerMethod = (HandlerMethod) handler;
+			Method method = handlerMethod.getMethod();
 
-		String token = request.getParameter("token");
+			String token = request.getParameter("token");
 
-		if (method.getAnnotation(HasToken.class) != null) {
-			/** token为必传参数时 */
-			logger.info("验证token：" + token);
+			if (method.getAnnotation(HasToken.class) != null) {
+				/** token为必传参数时 */
+				logger.info("验证token：" + token);
 
-			if (StringUtils.isBlank(token)) {
-				// token为空，不通过
-				return outPut(response, ApplicationMallApiCode.NO_LOGIN);
-			}
+				if (StringUtils.isBlank(token)) {
+					// token为空，不通过
+					return outPut(response, ApplicationMallApiCode.NO_LOGIN);
+				}
 
-			// 调用会员系统，验证token
-			if (checkToken(request, response, token)) {
-				// 验证通过，放行
-				return true;
+				// 调用会员系统，验证token
+				if (checkToken(request, response, token)) {
+					// 验证通过，放行
+					return true;
+				} else {
+					// 验证不通过，不放行
+					return outPut(response, ApplicationMallApiCode.NO_LOGIN);
+				}
+
 			} else {
-				// 验证不通过，不放行
-				return outPut(response, ApplicationMallApiCode.NO_LOGIN);
+				/** token不是必须传递的参数时，先验证token，获取mem_id；不管验证是否通过，都放行 */
+				if (!StringUtils.isBlank(token)) {
+					// 如果token不为空，需要调用会员系统根据token获取mem_id
+					checkToken(request, response, token);
+				}
+				return true;
 			}
-
-		} else {
-			/** token不是必须传递的参数时，先验证token，获取mem_id；不管验证是否通过，都放行 */
-			if (!StringUtils.isBlank(token)) {
-				// 如果token不为空，需要调用会员系统根据token获取mem_id
-				checkToken(request, response, token);
-			}
-			return true;
+		} catch (Exception e) {
+			logger.info("验证token，拦截器出现异常：" + e);
+			return outPut(response, ApplicationMallApiCode.TOKEN_VALIDATE_ERROR);
 		}
-		// } catch (Exception e) {
-		// logger.info("验证token，拦截器出现异常：" + e);
-		// return outPut(response, BaseApiCode.TOKEN_VALIDATE_ERROR);
-		// }
 	}
 
 	/**

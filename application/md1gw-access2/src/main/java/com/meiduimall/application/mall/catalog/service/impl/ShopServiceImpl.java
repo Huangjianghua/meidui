@@ -98,9 +98,9 @@ public class ShopServiceImpl implements ShopService {
 		String url = host + uri;
 
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("shop_id", String.valueOf(param.getShop_id()));
-		if (param.getShop_cat_id() != null) {
-			params.put("shop_cat_id", String.valueOf(param.getShop_cat_id()));
+		params.put("shopId", String.valueOf(param.getShopId()));
+		if (param.getShopCatId() != null) {
+			params.put("shopCatId", String.valueOf(param.getShopCatId()));
 		}
 		if (param.getPageNo() != null) {
 			params.put("pageNo", String.valueOf(param.getPageNo()));
@@ -108,8 +108,8 @@ public class ShopServiceImpl implements ShopService {
 		if (param.getPageSize() != null) {
 			params.put("pageSize", String.valueOf(param.getPageSize()));
 		}
-		if (!StringUtils.isBlank(param.getOrder_by())) {
-			params.put("order_by", param.getOrder_by());
+		if (!StringUtils.isBlank(param.getSortBy())) {
+			params.put("sortBy", param.getSortBy());
 		}
 		if (!StringUtils.isBlank(param.getColumn())) {
 			params.put("column", param.getColumn());

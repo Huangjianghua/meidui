@@ -7,9 +7,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.client.RestTemplate;
 
 import com.meiduimall.application.md1gwaccess.config.MyProps;
@@ -40,7 +37,6 @@ public class TPPaymentServiceImpl implements TPPaymentService {
 	/**
 	 * 混合支付
 	 */
-	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	@Override
 	public ResponseBodyData Payment(PaymentTrade paymentTrade, SystradePTrade obj_p_trade_info) throws Exception {
 		try {
@@ -61,11 +57,11 @@ public class TPPaymentServiceImpl implements TPPaymentService {
 				int Use_money = new BigDecimal(paymentTrade.getUse_money()).multiply(new BigDecimal(100)).intValue();
 				bigJson.put("cashAmount", String.valueOf(Use_money)); // 余额
 				
-				bigJson.put("notifyUrl", myProps.getPaydUrl()+"/md1gwmall/md1gw_access/v1/getWXPayNotify");// 回调地址
+				bigJson.put("notifyUrl", myProps.getPayUrl()+"/md1gwmall/md1gw_access/v1/getWXPayNotify");// 回调地址
 				if(null != paymentTrade.getWechat_pay_account_type()){
 					if(paymentTrade.getWechat_pay_account_type().equals("1")){
 						bigJson.put("merchantId", PayConfig.YGWAPP_Mchid); // 商家标识
-						bigJson.put("notifyUrl", myProps.getPaydUrl()+"/md1gwmall/md1gw_access/v1/getYgwWXPayNotify");// 回调地址
+						bigJson.put("notifyUrl", myProps.getPayUrl()+"/md1gwmall/md1gw_access/v1/getYgwWXPayNotify");// 回调地址
 						bigJson.put("accountType", "1");// 1gw微信标识
 					}
 				}
@@ -78,7 +74,7 @@ public class TPPaymentServiceImpl implements TPPaymentService {
 				bigJson.put("orderAmount", String.valueOf(obj_p_trade_info.getTotalMoney())); // 订单金额
 				bigJson.put("payAmount", paymentTrade.getMoney());// 支付金额
 				bigJson.put("cashAmount", String.valueOf(paymentTrade.getUse_money())); // 余额
-				bigJson.put("notifyUrl", myProps.getPaydUrl()+"/md1gwmall/md1gw_access/v1/getAliPayNotify");// 回调地址
+				bigJson.put("notifyUrl", myProps.getPayUrl()+"/md1gwmall/md1gw_access/v1/getAliPayNotify");// 回调地址
 
 			}
 
@@ -106,14 +102,14 @@ public class TPPaymentServiceImpl implements TPPaymentService {
 			Logger.info("请求第三方支付结果:%s", postForObject);
 
 			if (postForObject.getInt("status") == 0) {
-				 return new ResponseBodyData(postForObject.get("data"));
+				return new ResponseBodyData(postForObject.get("data"));
 			} else {
 				return new ResponseBodyData(11, postForObject.getString("msg"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-			return new ResponseBodyData(11, "系统错误!");
+		    Logger.info("第三方支付系统错误:%s", e.getMessage());
+		    throw new RuntimeException("第三方支付系统错误!"); 
 		}
 
 	}
