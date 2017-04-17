@@ -278,9 +278,7 @@ public class PaymentController {
 			} else if(paymentTradePays.getStatus() == 0) {
 				// 没有第三方 调用【支付完成】方法,退出程序
 				ResponseBodyData payFinish = paymentService.PayFinish(paymentTrade.getPayment_id());
-				if (payFinish.getStatus() == 0) {
 					Logger.info("没有第三方支付完成! ==> %s", payFinish.getData());
-					
 					json.put("status", 0);
 					json.put("data", payFinish.getData());
 					json.put("msg", "success");
@@ -289,12 +287,7 @@ public class PaymentController {
 						json.put("type", 1);
 					}
 					return json;
-				} else {
-					Logger.info("没有第三方支付失败! ==> %s", payFinish.getData());
-					json.put("status", 11);
-					json.put("msg", payFinish.getMsg());
-					return json;
-				}
+				 
 			}else{
 				Logger.info("支付失败! ==> %s",paymentTradePays.getMsg());
 				json.put("status", 11);

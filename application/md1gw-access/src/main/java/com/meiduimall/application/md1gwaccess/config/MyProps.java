@@ -10,8 +10,8 @@ public class MyProps {
 	private String routeServiceUrl;
 	private String userCenterUrl;
 	private String sendSmsUrl;
-	private String paydUrl;
 	private String payUrl;
+	private String meiduimallUrl;
 	
 	
 	
@@ -41,14 +41,6 @@ public class MyProps {
 		this.sendSmsUrl = sendSmsUrl;
 	}
 
-	public String getPaydUrl() {
-		return paydUrl;
-	}
-
-	public void setPaydUrl(String paydUrl) {
-		this.paydUrl = paydUrl;
-	}
-
 	public String getPayUrl() {
 		return payUrl;
 	}
@@ -56,6 +48,18 @@ public class MyProps {
 	public void setPayUrl(String payUrl) {
 		this.payUrl = payUrl;
 	}
+
+	public String getMeiduimallUrl() {
+		return meiduimallUrl;
+	}
+
+	public void setMeiduimallUrl(String meiduimallUrl) {
+		this.meiduimallUrl = meiduimallUrl;
+	}
+
+	 
+
+	
 
 
 }
