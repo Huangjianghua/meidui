@@ -684,7 +684,7 @@ public class PaymentServiceImpl implements PaymentService {
 		json.put(OauthConst.SIGN, GatewaySignUtil.buildsign(OauthConst.SECRETKEY_VALUE, json));
         Logger.info("通知支付服务参数:%s", json);
 		HttpEntity<JSONObject> formEntity = new HttpEntity<JSONObject>(json, headers);
-	    String postForObject = restTemplate.postForObject(url, formEntity, String.class);
+		JSONObject postForObject = restTemplate.postForObject(url, formEntity, JSONObject.class);
 		Logger.info("通知支付服务==>:%s", postForObject);
 
 	}
