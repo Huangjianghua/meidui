@@ -12,7 +12,7 @@ spring:
   datasource :
     type : com.zaxxer.hikari.HikariDataSource
     driver-class-name : com.mysql.jdbc.Driver
-    url : jdbc:mysql://192.168.4.236:3306/meiduishop0302?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
+    url : jdbc:mysql://192.168.4.236:3306/financial_management?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
     username : root
     password : meidui@2016.?!
     connectionTimeout : 30000
@@ -36,10 +36,6 @@ eureka:
     lease-renewal-interval-in-seconds: 15      # 心跳时间，即服务续约间隔时间（缺省为30s）
     lease-expiration-duration-in-seconds: 30  # 发呆时间，即服务续约到期时间（缺省为90s）  
 
-# 商城地址配置
-estore : 
-  base-url : http://shopdev.meiduimall.com/
-
 
 ---
 spring:
@@ -49,9 +45,9 @@ spring:
   datasource :
     type : com.zaxxer.hikari.HikariDataSource
     driver-class-name : com.mysql.jdbc.Driver
-    url : jdbc:mysql://127.0.0.1:3306/meiduishop0302?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
+    url : jdbc:mysql://127.0.0.1:3306/financial_management?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
     username : root
-    password : 123456
+    password : rootGcjt
     connectionTimeout : 30000
     idleTimeout : 600000
     maxLifetime : 1800000
@@ -73,10 +69,6 @@ eureka:
     lease-renewal-interval-in-seconds: 15      # 心跳时间，即服务续约间隔时间（缺省为30s）
     lease-expiration-duration-in-seconds: 30  # 发呆时间，即服务续约到期时间（缺省为90s）  
 
-# 商城地址配置
-estore : 
-  base-url : http://www.meiduimall.com
-
 
 ---
 spring:
@@ -86,7 +78,7 @@ spring:
   datasource :
     type : com.zaxxer.hikari.HikariDataSource
     driver-class-name : com.mysql.jdbc.Driver
-    url : jdbc:mysql://10.45.178.235:3306/meiduishop0302?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
+    url : jdbc:mysql://10.45.178.235:3306/financial_management?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
     username : meidui
     password : meiduishop
     connectionTimeout : 30000
@@ -109,7 +101,3 @@ eureka:
     hostname: 10.45.178.235
     lease-renewal-interval-in-seconds: 15      # 心跳时间，即服务续约间隔时间（缺省为30s）
     lease-expiration-duration-in-seconds: 30  # 发呆时间，即服务续约到期时间（缺省为90s）  
-
-# 商城地址配置
-estore : 
-  base-url : http://md.meiduimall.com

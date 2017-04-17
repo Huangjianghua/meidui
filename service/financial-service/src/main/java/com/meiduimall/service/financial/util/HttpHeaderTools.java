@@ -5,11 +5,12 @@ import java.net.UnknownHostException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class HttpHeaderTools {
 	
-	private static org.slf4j.Logger logger = LoggerFactory.getLogger(HttpHeaderTools.class);
+	private static Logger logger = LoggerFactory.getLogger(HttpHeaderTools.class);
 
 	/**
 	 * 获取当前请求的IP地址
@@ -36,7 +37,7 @@ public class HttpHeaderTools {
 					try {
 						inet = InetAddress.getLocalHost();
 					} catch (UnknownHostException e) {
-						e.printStackTrace();
+						logger.error("获取IP失败：" + e);
 					}
 					ipAddress = inet.getHostAddress();
 				}
