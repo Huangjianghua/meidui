@@ -15,6 +15,11 @@
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
+
+    <properties>
+        <sonar.projectKey>${artifactId}</sonar.projectKey>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
