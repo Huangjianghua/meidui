@@ -143,7 +143,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public JSONObject getMemIdByUserId(Integer userId) throws Exception {
-		String url = myProps.getPayUrl() + "/openapi/user/getMemIdByUserId?user_id=";
+		String url = myProps.getMeiduimallUrl() + "/openapi/user/getMemIdByUserId?user_id=";
 		url = url + userId;
 		Logger.info("getMemIdByUserId组装发送数据:%s", url);
 		JSONObject forObject = restTemplate.getForObject(url, JSONObject.class);
