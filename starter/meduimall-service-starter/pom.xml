@@ -42,7 +42,6 @@
 		<log4jdbc.version>1.2</log4jdbc.version>  
         <slf4j.version>1.7.6</slf4j.version>
         <jacoco.version>0.7.9</jacoco.version>
-        <sonar.skip>false</sonar.skip>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -269,6 +268,8 @@
             </activation>
             <properties>
                 <!-- Optional URL to server. Default value is http://localhost:9000 -->
+                <sonar.skip>false</sonar.skip>
+                <sonar.login>585d3c279f2c4d629f4cf9e4e577a626bd3a3993</sonar.login>
                 <sonar.host.url>http://139.224.55.133:9000</sonar.host.url>
             </properties>
         </profile>
