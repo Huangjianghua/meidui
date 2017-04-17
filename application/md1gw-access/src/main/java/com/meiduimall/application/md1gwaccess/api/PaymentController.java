@@ -299,7 +299,7 @@ public class PaymentController {
 			e.printStackTrace();
 			Logger.error("系统错误:%s", e.getMessage());
 			json.put("status", 11);
-			json.put("msg", "系统错误!");
+			json.put("msg", "系统错误!" + e.getMessage());
 			return json;
 		}
 	}

@@ -326,7 +326,7 @@ public class PaymentServiceImpl implements PaymentService {
 			Logger.info("进入解冻并扣减");
 			//解冻并扣减
 			unfreezeDeduct = userService.unfreezeDeduct(paymentBill,fromObject.getString("memId"));
-			if(!unfreezeDeduct.get("status").equals("0")){
+			if(unfreezeDeduct.getInt("status") != 0){
 				Logger.info("获取memId失败", unfreezeDeduct.getString("msg"));
 				return new ResponseBodyData(11, unfreezeDeduct.getString("msg"));
 			}
