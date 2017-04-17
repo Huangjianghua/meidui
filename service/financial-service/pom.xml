@@ -17,9 +17,6 @@
 	<name>financial-service</name>
 	<description>financial-service</description>
 
-	<properties>
-		<sonar.projectKey>${artifactId}</sonar.projectKey>
-	</properties>
 	<!-- <parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>

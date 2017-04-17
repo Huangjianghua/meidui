@@ -14,7 +14,4 @@
     <name>service::payment-service</name>
 	<version>1.0.1</version>
 
-    <properties>
-        <sonar.projectKey>${artifactId}</sonar.projectKey>
-    </properties>
 </project>

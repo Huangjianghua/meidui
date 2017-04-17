@@ -15,10 +15,6 @@
 	<name>service::sms-service</name>
     <version>1.0.0</version>
 
-    <properties>
-        <sonar.projectKey>${artifactId}</sonar.projectKey>
-    </properties>
-	
 	<dependencies>
 
 		<dependency>
