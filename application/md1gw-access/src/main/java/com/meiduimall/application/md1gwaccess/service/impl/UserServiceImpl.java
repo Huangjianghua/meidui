@@ -141,14 +141,15 @@ public class UserServiceImpl implements UserService {
 		return new JSONObject().fromObject(string);
 	}
 
+	@SuppressWarnings("static-access")
 	@Override
 	public JSONObject getMemIdByUserId(Integer userId) throws Exception {
 		String url = myProps.getMeiduimallUrl() + "/openapi/user/getMemIdByUserId?user_id=";
 		url = url + userId;
 		Logger.info("getMemIdByUserId组装发送数据:%s", url);
-		JSONObject forObject = restTemplate.getForObject(url, JSONObject.class);
+		String forObject = restTemplate.getForObject(url, String.class);
 		Logger.info("getMemIdByUserId数据:%s", forObject);
-		return forObject;
+		return new JSONObject().fromObject(forObject);
 	}
 
 	@SuppressWarnings("static-access")
