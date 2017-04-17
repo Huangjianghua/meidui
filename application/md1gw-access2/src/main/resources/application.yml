@@ -13,17 +13,19 @@ service :
 member : 
   host : http://192.168.4.240:8097
 
+
 ---
 spring:
   profiles: pro
 # 配置微服务网关
 service : 
-  host : http://192.168.4.240:9050
+  host : http://10.116.21.93:9050
   sign-clientID : mall_java
-  sign-key :     
+  sign-key : 
 # 会员系统地址
 member : 
   host : vip.api.meiduimall.com
+
 
 ---
 spring:

@@ -23,11 +23,11 @@ spring :
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://127.0.0.1:9001/eureka/
+      defaultZone: http://10.116.21.93:9001/eureka/
     registry-fetch-interval-seconds: 10  
   healthcheck:
       enabled: true  
   instance:
-    hostname: 127.0.0.1
+    hostname: 10.116.21.93
     lease-renewal-interval-in-seconds: 15      # 心跳时间，即服务续约间隔时间（缺省为30s）
     lease-expiration-duration-in-seconds: 30  # 发呆时间，即服务续约到期时间（缺省为90s）  

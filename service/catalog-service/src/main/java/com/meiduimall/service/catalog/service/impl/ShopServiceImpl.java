@@ -156,8 +156,8 @@ public class ShopServiceImpl implements ShopService {
 				Integer parentId = cat.getParentId();
 				if (parentId != null && parentId.intValue() == 0) {
 					ParentShopCat parentShopCat = new ParentShopCat();
-					parentShopCat.setCat_id(cat.getCatId());
-					parentShopCat.setCat_name(cat.getCatName());
+					parentShopCat.setCatId(cat.getCatId());
+					parentShopCat.setCatName(cat.getCatName());
 					parentShopCat.setChildShopCat(new ArrayList<ChildShopCat>());
 					results.add(parentShopCat);
 				}
@@ -168,7 +168,7 @@ public class ShopServiceImpl implements ShopService {
 				Integer parentId = cat.getParentId();
 				if (parentId != null && parentId.intValue() != 0) {
 					for (ParentShopCat parent : results) {
-						Integer cat_id = parent.getCat_id();
+						Integer cat_id = parent.getCatId();
 						if (cat_id != null && cat_id.intValue() == parentId.intValue()) {
 							ChildShopCat childShopCat = new ChildShopCat();
 							childShopCat.setCatId(cat.getCatId());
