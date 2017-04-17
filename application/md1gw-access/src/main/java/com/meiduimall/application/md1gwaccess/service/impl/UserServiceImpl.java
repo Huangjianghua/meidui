@@ -9,8 +9,9 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-
 import com.meiduimall.application.md1gwaccess.config.MyProps;
 import com.meiduimall.application.md1gwaccess.constant.HttpRConst;
 import com.meiduimall.application.md1gwaccess.constant.OauthConst;
@@ -189,7 +190,7 @@ public class UserServiceImpl implements UserService {
 	public JSONObject unfreezeDeduct(Map<String, Object> paymentBill, String memId) throws Exception {
 		String string = "";
 		try {
-			String url = myProps.getRouteServiceUrl() + "/member/account_service/v1/freeze_unfreeze";
+			String url = myProps.getRouteServiceUrl() + "/member/account_service/v1/unfreeze_deduct";
 			HttpHeaders headers = new HttpHeaders();
 			MediaType type = MediaType.parseMediaType(HttpRConst.MEDIATYPE_JSON_FOR_APP);
 			headers.setContentType(type);
@@ -202,13 +203,13 @@ public class UserServiceImpl implements UserService {
 			} else {
 				json.put("pay_type", 3);
 			}
-			json.put("status", 3);
 			json.put("consume_money", new BigDecimal(paymentBill.get("walletPay").toString()));
 			json.put("consume_points", Integer.valueOf(paymentBill.get("pointPay").toString()));
 			JSONObject commonJSON = CommonUtil.CommonJSON(json);
 			Logger.info("unfreezeDeduct组装发送数据:%s", commonJSON);
 			HttpEntity<JSONObject> formEntity = new HttpEntity<JSONObject>(commonJSON, headers);
 			string = restTemplate.postForObject(url, formEntity, String.class);
+			Logger.info("unfreezeDeduct结果：%s", string);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException("解冻异常!");
@@ -216,27 +217,17 @@ public class UserServiceImpl implements UserService {
 		return new JSONObject().fromObject(string);
 	}
 
-	@SuppressWarnings("static-access")
 	@Override
 	public JSONObject sendSmsMessage(String mobile, String tid) throws Exception {
-		String postForObject = "";
-		try {
 			String url = myProps.getSendSmsUrl() + "/notify/short_msg_service/v1/send_common_sms_message";
-			HttpHeaders headers = new HttpHeaders();
-			MediaType type = MediaType.parseMediaType(HttpRConst.MEDIATYPE_KEYVALUE);
-			headers.setContentType(type);
-			JSONObject json = new JSONObject();
-			json.put("templateId", "1GW_1003");
-			json.put("params", tid);
-			json.put("phones", mobile);
-			Logger.info("sendSmsMessage组装发送数据:%s", json);
-			HttpEntity<JSONObject> formEntity = new HttpEntity<JSONObject>(json, headers);
-			postForObject = restTemplate.postForObject(url, formEntity, String.class);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new RuntimeException("发送短信异常!");
-		}
-		return new JSONObject().fromObject(postForObject);
+			MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>();
+			paramMap.add("templateId", "1GW_1003");
+			paramMap.add("params", tid);
+			paramMap.add("phones", mobile);
+			Logger.info("sendSmsMessage组装发送数据:%s", paramMap);
+			JSONObject postForObject = restTemplate.postForObject(url, paramMap, JSONObject.class);
+			Logger.info("sendSmsMessage结果:%s", postForObject);
+		    return postForObject;
 	}
 
 }
