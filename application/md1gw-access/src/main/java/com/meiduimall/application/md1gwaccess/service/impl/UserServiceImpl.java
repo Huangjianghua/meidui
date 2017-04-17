@@ -216,9 +216,10 @@ public class UserServiceImpl implements UserService {
 		return new JSONObject().fromObject(string);
 	}
 
+	@SuppressWarnings("static-access")
 	@Override
 	public JSONObject sendSmsMessage(String mobile, String tid) throws Exception {
-		JSONObject postForObject = new JSONObject();
+		String postForObject = "";
 		try {
 			String url = myProps.getSendSmsUrl() + "/notify/short_msg_service/v1/send_common_sms_message";
 			HttpHeaders headers = new HttpHeaders();
@@ -230,12 +231,12 @@ public class UserServiceImpl implements UserService {
 			json.put("phones", mobile);
 			Logger.info("sendSmsMessage组装发送数据:%s", json);
 			HttpEntity<JSONObject> formEntity = new HttpEntity<JSONObject>(json, headers);
-			postForObject = restTemplate.postForObject(url, formEntity, JSONObject.class);
+			postForObject = restTemplate.postForObject(url, formEntity, String.class);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException("发送短信异常!");
 		}
-		return postForObject;
+		return new JSONObject().fromObject(postForObject);
 	}
 
 }
