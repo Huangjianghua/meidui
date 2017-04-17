@@ -14,7 +14,7 @@ public class ResultData implements Serializable {
 	
 	private Object data;
 	
-	List<Map<String,String>> RESULT;
+	private List<Map<String,String>> RESULT;
 	
 	public ResultData(){
 		

@@ -83,7 +83,7 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 		Date billCreatedtime = DateUtil.getParseDate(DateUtil.getCurrentDay()); // 账单创建日期
 		Date billtime = DateUtil.getParseDate(DateUtil.getUpDAY()); // 账单日期
 		log.info("账单生成时间:" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())+" 账单日期："+billtime+" 需要插入到账单流水的条数："+billList.size());
-		if(billList.size()>0){
+		if(!billList.isEmpty()){
 			
 			Timestamp waterOpTime=new Timestamp(System.currentTimeMillis());
 			//boolean billedSuccess=true;

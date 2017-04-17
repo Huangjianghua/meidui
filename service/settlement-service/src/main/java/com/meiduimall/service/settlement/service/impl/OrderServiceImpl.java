@@ -81,7 +81,7 @@ public class OrderServiceImpl implements OrderService {
 		}
 		// 商家让利折扣
 		BigDecimal serviceRate = new BigDecimal(ecmOrder.getServiceFee());
-		if (null == serviceRate || serviceRate.compareTo(new BigDecimal(0)) <= 0) {
+		if (serviceRate.compareTo(new BigDecimal(0)) <= 0) {
 			log.error("商家收益比例为空!略过该条数据");
 			throw new ServiceException(SettlementApiCode.SERVICE_RATE_ISNULL, BaseApiCode.getZhMsg(SettlementApiCode.SERVICE_RATE_ISNULL));
 		}
@@ -204,11 +204,11 @@ public class OrderServiceImpl implements OrderService {
 				}
 			
 			} else {
-				log.info("本区区代,将判断是否为前两百名区代。");
+				log.info("本区区代,将判断是否为前两百名区代");
 				personAgentRevenue = memberRevenue.multiply(new BigDecimal(systemSetting.get(ShareProfitUtil.PERSONAL_SCALE)).divide(new BigDecimal(100)));
 				
-				Integer isTwoHundredAgent =ecmOrder.getIsTwoHundredArea();
-				if (null == isTwoHundredAgent || "".equals(isTwoHundredAgent)) {
+				Integer isTwoHundredAgent = ecmOrder.getIsTwoHundredArea();
+				if (null == isTwoHundredAgent || "".equals(String.valueOf(isTwoHundredAgent))) {
 					log.info("前二百区代标识为空!略过该条数据");
 					throw new ServiceException(SettlementApiCode.IS_TWO_HUNDRED_AGENT_ISNULL, BaseApiCode.getZhMsg(SettlementApiCode.IS_TWO_HUNDRED_AGENT_ISNULL));
 				}else{
@@ -452,13 +452,7 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public List<EcmMzfShareProfit> queryProfitByWaterByType(String waterId, Integer loginType, String code,Integer pageNumber,Integer pageSize)  {
 		
-		if(pageNumber!=null && pageNumber>0){
-			if(pageSize==null || pageSize==0){
-				pageSize=10;
-			}
-			PageHelper.startPage(pageNumber, pageSize);
-		}
-
+		PageHelper.startPage(pageNumber, pageSize);
 		
 		List<EcmMzfShareProfit> shareProfitList=baseMapper.selectList(waterId, "EcmMzfWaterMapper.getShareProfitByWaterId");
 		//loginType:1代理 2商家 3 其他

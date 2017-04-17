@@ -406,9 +406,13 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 			//调用积分接口 更新积分 
 			Boolean result = scoreService.addConsumePoints(ecmStore.getUsername(), score, ShareProfitConstants.DATA_SOURCE_O2O,scoreFlow);
 			
-			int scoreStatus = 0; //积分是否同步到会员系统  0-否，1-是
+			//插入商家送积分记录
+			EcmMzfStoreRecord ecmMzfStoreRecord = new EcmMzfStoreRecord();
+			
 			if(result){
-				scoreStatus = 1;
+				
+				ecmMzfStoreRecord.setScoreStatus(1);//积分是否同步到会员系统  0-否，1-是
+				
 				Map<String, Object> map = Maps.newHashMap();
 				map.put("storeNo", ecmStore.getStoreNo());
 				map.put("username", ecmStore.getUsername());
@@ -416,17 +420,17 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 				resultList.add(map);
 				logger.info("商家为:{}更新积分成功", ecmStore.getUsername());
 			}else{
+				
+				ecmMzfStoreRecord.setScoreStatus(0);//积分是否同步到会员系统  0-否，1-是
+				
 				logger.error("商家为:{}更新积分失败", ecmStore.getUsername());
 				throw new ServiceException(SettlementApiCode.SEND_STORE_SCORE_FAILE, BaseApiCode.getZhMsg(SettlementApiCode.SEND_STORE_SCORE_FAILE));
 			}
 			
-			//插入商家送积分记录
-			EcmMzfStoreRecord ecmMzfStoreRecord = new EcmMzfStoreRecord();
 			Timestamp date = new Timestamp(System.currentTimeMillis());
 			ecmMzfStoreRecord.setStoreNo(ecmStore.getStoreNo());
 			ecmMzfStoreRecord.setPhone(ecmStore.getUsername());
 			ecmMzfStoreRecord.setScore(Integer.parseInt(score));
-			ecmMzfStoreRecord.setScoreStatus(scoreStatus);
 			ecmMzfStoreRecord.setCreatedDate(date);
 			ecmMzfStoreRecord.setUpdatedDate(date);
 			agentService.insertStoreRecord(ecmMzfStoreRecord);
