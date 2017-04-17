@@ -209,6 +209,7 @@ public class UserServiceImpl implements UserService {
 			Logger.info("unfreezeDeduct组装发送数据:%s", commonJSON);
 			HttpEntity<JSONObject> formEntity = new HttpEntity<JSONObject>(commonJSON, headers);
 			string = restTemplate.postForObject(url, formEntity, String.class);
+			Logger.info("unfreezeDeduct结果：%s", string);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException("解冻异常!");
