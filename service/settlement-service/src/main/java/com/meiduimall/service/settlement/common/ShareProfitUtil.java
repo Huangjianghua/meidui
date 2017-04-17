@@ -292,7 +292,7 @@ public class ShareProfitUtil {
 					}});
 				
 				if(col!=null){
-					final List<ShareProfitVO> list=new ArrayList(col);
+					final List<ShareProfitVO> list = new ArrayList<ShareProfitVO>(col);
 					ShareProfitVO spVO=list.get(0);
 					if(spVO!=null){
 						if("Today".equals(profitType)){
@@ -421,6 +421,7 @@ public class ShareProfitUtil {
 				}
 			} catch (Exception ex) {
 				log.error("配置文件:{},加载出错!error:{}",config,ex.getMessage());
+				throw new RuntimeException("配置文件加载出错");
 			} finally {
 				try {
 					if (is != null)
@@ -451,7 +452,7 @@ public class ShareProfitUtil {
 					encodestr = URLEncoder.encode(str, defaultCharSet);
 				}
 			} catch (UnsupportedEncodingException e) {
-				log.error("{}",e.getMessage());
+				throw new RuntimeException("Unsupported encoding type");
 			}
 			return encodestr;
 		}

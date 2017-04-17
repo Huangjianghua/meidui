@@ -112,7 +112,7 @@ public class OrderServiceImpl implements OrderService {
 		}else{
 			// 判断返回是否成功,如果不成功则不理会
 			if ("0".equals(resultJson.getStatus_code())) {
-				List<Map<String,String>> map=(List<Map<String, String>>) resultJson.getRESULT();
+				List<Map<String, String>> map = resultJson.getRESULT();
 				belongMap = ShareProfitUtil.getlvlAndPhone(map);
 				
 				log.info("推荐人信息:" + resultJson.getData());
