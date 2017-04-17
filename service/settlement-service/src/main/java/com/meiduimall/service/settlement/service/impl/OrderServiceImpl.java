@@ -81,7 +81,7 @@ public class OrderServiceImpl implements OrderService {
 		}
 		// 商家让利折扣
 		BigDecimal serviceRate = new BigDecimal(ecmOrder.getServiceFee());
-		if (null == serviceRate || serviceRate.compareTo(new BigDecimal(0)) <= 0) {
+		if (serviceRate.compareTo(new BigDecimal(0)) <= 0) {
 			log.error("商家收益比例为空!略过该条数据");
 			throw new ServiceException(SettlementApiCode.SERVICE_RATE_ISNULL, BaseApiCode.getZhMsg(SettlementApiCode.SERVICE_RATE_ISNULL));
 		}
