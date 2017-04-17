@@ -154,7 +154,7 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 			CheckGoodsResult detail = null;
 			for (Integer item_id : list1) {
 				detail = new CheckGoodsResult();
-				detail.setItem_id(item_id.intValue() + "");
+				detail.setItemId(item_id.toString());
 				detail.setUrl(base_url + "/item.html?item_id=" + item_id.intValue());
 				results1.add(detail);
 				detail = null;
@@ -165,7 +165,7 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 			CheckGoodsResult detail = null;
 			for (Integer item_id : list2) {
 				detail = new CheckGoodsResult();
-				detail.setItem_id(item_id.intValue() + "");
+				detail.setItemId(item_id.toString());
 				detail.setUrl(base_url + "/item.html?item_id=" + item_id.intValue());
 				results2.add(detail);
 				detail = null;

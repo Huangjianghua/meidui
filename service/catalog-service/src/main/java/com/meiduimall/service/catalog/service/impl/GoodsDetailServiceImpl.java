@@ -68,7 +68,7 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 			String base_url = env.getProperty("estore.base-url");
 			String url = base_url + "/item.html?item_id=" + item_id;
 			bean.setUrl(url);
-			bean.setItem_id(String.valueOf(item_id));
+			bean.setItemId(String.valueOf(item_id));
 
 			result.setData(bean);
 			result.setStatus(ServiceCatalogApiCode.SUCCESS);
