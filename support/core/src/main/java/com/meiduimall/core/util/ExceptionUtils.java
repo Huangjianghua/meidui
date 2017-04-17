@@ -7,7 +7,7 @@ public class ExceptionUtils {
 
   public static String getFullStackTrace(Throwable throwable) {
     StackTraceElement[] stackElements = throwable.getStackTrace();
-    StringBuffer sb = new StringBuffer("[");
+    StringBuilder sb = new StringBuilder("[");
     if (stackElements != null) {
       for (int i = 0; i < stackElements.length; i++) {
         sb.append("[");

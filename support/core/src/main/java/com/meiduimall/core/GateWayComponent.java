@@ -1,8 +1,8 @@
 package com.meiduimall.core;
 import java.io.IOException;
 import java.util.Map;
+import java.util.SortedMap;
 import java.util.TreeMap;
-import org.apache.http.client.ClientProtocolException;
 import com.google.common.base.Strings;
 import com.meiduimall.core.util.HttpUtils;
 import com.meiduimall.core.util.JsonUtils;
@@ -35,7 +35,7 @@ public final class GateWayComponent {
 	 * param   @throws IOException   
 	 * return  ResBodyData
 	 */
-	public ResBodyData doPost(String url,Map<String,String> headers,String sendData) throws ClientProtocolException, IOException{
+	public ResBodyData doPost(String url,Map<String,String> headers,String sendData) throws IOException{
     	String json=HttpUtils.post(url,sendData , headers);
     	return JsonUtils.jsonToBean(json, ResBodyData.class);
     	
@@ -54,7 +54,7 @@ public final class GateWayComponent {
 	 * param   @throws IOException   
 	 * return  ResBodyData
 	 */
-	public ResBodyData doPut(String url,Map<String,String> headers,String sendData) throws ClientProtocolException, IOException{
+	public ResBodyData doPut(String url,Map<String,String> headers,String sendData) throws IOException{
     	String json=HttpUtils.put(url,sendData, headers);
     	return JsonUtils.jsonToBean(json, ResBodyData.class);
     }
@@ -68,7 +68,7 @@ public final class GateWayComponent {
      * param   @throws IOException   
      * return  ResBodyData
      */
-	public ResBodyData doGet(String url) throws ClientProtocolException, IOException{
+	public ResBodyData doGet(String url) throws IOException{
     	String json=HttpUtils.get(url);
     	return JsonUtils.jsonToBean(json, ResBodyData.class);
     	
@@ -83,7 +83,7 @@ public final class GateWayComponent {
      * param   @throws IOException   
      * return  ResBodyData
      */
-	public ResBodyData doDelete(String url) throws ClientProtocolException, IOException{
+	public ResBodyData doDelete(String url) throws IOException{
     	String json=HttpUtils.delete(url);
     	return JsonUtils.jsonToBean(json, ResBodyData.class);
     }
@@ -99,7 +99,7 @@ public final class GateWayComponent {
 	 * param   @throws IOException   
 	 * return  ResBodyData
 	 */
-	public ResBodyData form(String url,Map<String,String> sendData) throws ClientProtocolException, IOException{
+	public ResBodyData form(String url,Map<String,String> sendData) throws IOException{
     	String json=HttpUtils.form(url, sendData);
     	return JsonUtils.jsonToBean(json, ResBodyData.class);
     }
@@ -136,7 +136,7 @@ public final class GateWayComponent {
      * param   参数(已经升序, 排出非空值和sign)
      * return  String
      */
-    private String doSign(TreeMap<String, String> params) {
+    private String doSign(SortedMap<String, String> params) {
         StringBuilder signing = new StringBuilder();
         for (Map.Entry<String, String> entry : params.entrySet()) {
             if (!Strings.isNullOrEmpty(entry.getValue())){
@@ -154,7 +154,7 @@ public final class GateWayComponent {
      * 构建clientID配置参数
      * @param params 参数
      */
-    public GateWayComponent buildConfigParams(TreeMap<String, String> params){
+    public GateWayComponent buildConfigParams(SortedMap<String, String> params){
         params.put("clientID", req.getClientID());
         return this;
     }
@@ -163,7 +163,7 @@ public final class GateWayComponent {
      * 构建签名参数
      * @param params 支付参数
      */
-    public GateWayComponent buildSignParams(TreeMap<String,String> params) {
+    public GateWayComponent buildSignParams(SortedMap<String,String> params) {
     	//生成签名
     	TreeMap<String, String> signingMap=filterSignParams(params);
     	String expectSign=doSign(signingMap);

@@ -47,7 +47,7 @@ public class HttpUtils {
 	 * param   @param url
 	 * return  String
 	 */
-	public static String get(String url) throws ClientProtocolException, IOException {
+	public static String get(String url) throws IOException {
 		return get(url, null);
 	}
 	
@@ -59,7 +59,7 @@ public class HttpUtils {
 	 * param   @param url
 	 * return  String
 	 */
-	public static String delete(String url) throws ClientProtocolException, IOException {
+	public static String delete(String url) throws IOException {
 		return delete(url, null);
 	}
 	
@@ -75,7 +75,7 @@ public class HttpUtils {
 	 * return  String
 	 */
 	public static String post(String url, String sendData,Map<String,String> headers)
-			throws ClientProtocolException, IOException {
+			throws IOException {
 		return post(url, sendData, headers,null,null);
 	}
 	
@@ -90,7 +90,7 @@ public class HttpUtils {
 	 * return  String
 	 */
 	public static String put(String url, String sendData,Map<String,String> headers)
-			throws ClientProtocolException, IOException {
+			throws IOException {
 		return put(url, sendData, headers, null,null);
 	}
 	
@@ -105,7 +105,7 @@ public class HttpUtils {
 	 * decodeCharset: 返回内容字符编码,默认utf8
 	 * return  String
 	 */
-	public static String get(String url, String decodeCharset) throws ClientProtocolException, IOException {
+	public static String get(String url, String decodeCharset) throws IOException {
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 		try {
 			HttpGet httpGet = new HttpGet(url);
@@ -125,7 +125,7 @@ public class HttpUtils {
 	 * decodeCharset: 返回内容字符编码,默认utf8
 	 * return  String
 	 */
-	public static String delete(String url, String decodeCharset) throws ClientProtocolException, IOException {
+	public static String delete(String url, String decodeCharset) throws IOException {
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 		try {
 			HttpDelete httpdelete = new HttpDelete(url);
@@ -149,7 +149,7 @@ public class HttpUtils {
 	 * return  String
 	 */
 	public static String post(String url, String sendData, Map<String,String> headers,String encodeCharset,String decodeCharset)
-			throws ClientProtocolException, IOException {
+			throws IOException {
 
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 		try {
@@ -180,7 +180,7 @@ public class HttpUtils {
 	 * return  String
 	 */
 	public static String put(String url, String sendData,Map<String,String> headers,String encodeCharset,String decodeCharset)
-			throws ClientProtocolException, IOException {
+			throws  IOException {
 
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 		try {
@@ -209,7 +209,7 @@ public class HttpUtils {
 	 * return  String
 	 */
 	public static String form(String url, Map<String,String> sendData)
-			throws ClientProtocolException, IOException {
+			throws IOException {
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 		try {
 			HttpPost httpPost = new HttpPost(url);
