@@ -1,18 +1,14 @@
 package com.meiduimall.core.util;
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.ParseException;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpDelete;
@@ -184,14 +180,14 @@ public class HttpUtils {
 
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 		try {
-			HttpPut HttpPut = new HttpPut(url);
-			config(HttpPut);
+			HttpPut httpPut = new HttpPut(url);
+			config(httpPut);
 			Set<Map.Entry<String,String>> headerSet=headers.entrySet();
 			for(Entry<String,String> entry:headerSet){
-				HttpPut.setHeader(entry.getKey(),entry.getValue());
+				httpPut.setHeader(entry.getKey(),entry.getValue());
 			}
-			HttpPut.setEntity(new StringEntity(sendData,encodeCharset== null?Consts.UTF_8.name():encodeCharset));
-			HttpResponse response = httpClient.execute(HttpPut);
+			httpPut.setEntity(new StringEntity(sendData,encodeCharset== null?Consts.UTF_8.name():encodeCharset));
+			HttpResponse response = httpClient.execute(httpPut);
 			return HttpResToString(response, decodeCharset);
 		} finally {
 			close(httpClient);
@@ -239,7 +235,7 @@ public class HttpUtils {
 	 * return  String
 	 */
 	private static String HttpResToString(HttpResponse response, String decodeCharset)
-			throws ParseException, IOException {
+			throws IOException {
 		HttpEntity entity = response.getEntity();
 		if (null != entity) {
 			return EntityUtils.toString(entity, decodeCharset == null ? Consts.UTF_8.name() : decodeCharset);
@@ -272,8 +268,7 @@ public class HttpUtils {
 		try {
 			httpClient.close();
 		} catch (IOException e) {
-			httpClient = null;
-			logger.error("httpclient资源关闭异常信息:{}", e.getMessage());
+			logger.error("httpclient资源关闭异常信息:{}", e);
 		}
 	}
 
