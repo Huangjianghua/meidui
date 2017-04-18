@@ -73,7 +73,7 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	public Collection<String> createBills()  {
 		
-		Collection<String> orderSns=new ArrayList<String>();
+		Collection<String> orderSns=new ArrayList<>();
 		
 		Long verifyTime=DateUtil.getLastDayEndBySecond();
 		//查询账单
@@ -99,7 +99,7 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 				}
 			}
 			
-			Set<String> orderNos=new HashSet<String>();
+			Set<String> orderNos=new HashSet<>();
 			for(OrderToBilledVO vo:orderToBilledList){
 				orderNos.add(vo.getOrderSn());  //get the unique orderSn collection.
 			}
@@ -198,7 +198,7 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 		if(orderSnList!=null && !orderSnList.isEmpty()){
 			for(String orderSn:orderSnList){	
 				try {
-					EcmMzfOrderStatus os=new EcmMzfOrderStatus(orderSn,3,"已结算");
+					EcmMzfOrderStatus os = new EcmMzfOrderStatus(orderSn, 3, "已结算");
 					baseMapper.update(os, "EcmMzfOrderStatusMapper.updateBillStatus");
 					log.info("EcmMzfOrderStatusMapper.updateBillStatus success: orderSn:" + orderSn);
 				} catch (Exception e) {
@@ -215,9 +215,9 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 	public void mergeBilledWaters(List<BilledWaterVO2Merge> mergeWaterVOList) {
 		
 		if(mergeWaterVOList!=null && !mergeWaterVOList.isEmpty()){
-			final List<Integer> ids2Del=new ArrayList<Integer>();
-			final List<Integer> ids2Keep=new ArrayList<Integer>();
-			final Map<Integer,Integer> idRelations=new HashMap<Integer,Integer>();
+			final List<Integer> ids2Del=new ArrayList<>();
+			final List<Integer> ids2Keep=new ArrayList<>();
+			final Map<Integer,Integer> idRelations=new HashMap<>();
 			
 			for(BilledWaterVO2Merge vo:mergeWaterVOList){
 				Integer id2Keep=vo.getIdKeep();
@@ -227,21 +227,21 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 				idRelations.put(id2Keep, id2Del);
 			}
 			
-			List<EcmMzfWater> EcmMzfWaterList2Del = baseMapper.selectList(ImmutableMap.of("ids",ids2Del), "EcmMzfWaterMapper.getWatersByIds");
+			List<EcmMzfWater> ecmMzfWaterList2Del = baseMapper.selectList(ImmutableMap.of("ids",ids2Del), "EcmMzfWaterMapper.getWatersByIds");
 			
-			List<EcmMzfWater> EcmMzfWaterList2Keep = baseMapper.selectList(ImmutableMap.of("ids",ids2Keep), "EcmMzfWaterMapper.getWatersByIds");
+			List<EcmMzfWater> ecmMzfWaterList2Keep = baseMapper.selectList(ImmutableMap.of("ids",ids2Keep), "EcmMzfWaterMapper.getWatersByIds");
 			
-			Map<Integer,EcmMzfWater> EcmMzfWaterMap2Del=SettlementUtil.convert2Map(EcmMzfWaterList2Del, "id");
+			Map<Integer,EcmMzfWater> ecmMzfWaterMap2Del=SettlementUtil.convert2Map(ecmMzfWaterList2Del, "id");
 			
 			//合并同一用户重复流水money
-			for(EcmMzfWater water:EcmMzfWaterList2Keep){
+			for(EcmMzfWater water:ecmMzfWaterList2Keep){
 				Integer id2keep=water.getId();
 				Integer id2Del=idRelations.get(id2keep);
-				EcmMzfWater water2Del=EcmMzfWaterMap2Del.get(id2Del);
+				EcmMzfWater water2Del=ecmMzfWaterMap2Del.get(id2Del);
 				water.setMoney(water.getMoney().add(water2Del.getMoney()));
 			}
 			//更新money
-			for(EcmMzfWater water:EcmMzfWaterList2Keep){
+			for(EcmMzfWater water:ecmMzfWaterList2Keep){
 				baseMapper.update(water, "EcmMzfWaterMapper.updateMoneybyId");
 			}
 			//删除流水

@@ -1,7 +1,6 @@
 package com.meiduimall.service.settlement.api;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -64,7 +63,7 @@ public class WaterController {
 	public ResBodyData queryWater(@RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = "20") int pageSize,
 			@RequestParam(value = "type", defaultValue = "list") String type,
-			@RequestParam HashMap<String, Object> params, String waterType) {
+			@RequestParam Map<String, Object> params, String waterType) {
 		
 		if ("list".equals(type)) {
 			PageHelper.startPage(pageNumber, pageSize);
@@ -144,7 +143,7 @@ public class WaterController {
 	 * return  ResBodyData
 	 */
 	@PostMapping("/getrecmoney")
-	public ResBodyData getRecMoney(@RequestParam HashMap<String, Object> params){
+	public ResBodyData getRecMoney(@RequestParam Map<String, Object> params){
 		String money = agentService.getRecommenderMoney(params);
 		return SettlementUtil.success(money);
 	}

@@ -83,7 +83,7 @@ public class ShareProfitRetryTask {
 		List<ShareProfitOrderLog> shareProfit30MinOrder2Retry = baseMapper.selectList(ImmutableMap.of("currentTimestamp",currentTimestampSec), "ShareProfitOrderLogMapper.get30MinOrders2Retry");
 		List<ShareProfitOrderLog> shareProfit12HOrder2Retry = baseMapper.selectList(ImmutableMap.of("currentTimestamp",currentTimestampSec), "ShareProfitOrderLogMapper.get12HOrders2Retry");
 		
-		final Map<String, String> retryOrders = new HashMap<String, String>();
+		final Map<String, String> retryOrders = new HashMap<>();
 		//注意retryOrders存放orderSn数据要安装这样的顺序:12H->30Min->5Min,因为要过滤掉已经重试过但失败的orderSn。
 		if (shareProfit12HOrder2Retry != null && !shareProfit12HOrder2Retry.isEmpty()) {
 			for (ShareProfitOrderLog orderLog : shareProfit12HOrder2Retry) {

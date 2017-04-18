@@ -24,7 +24,7 @@ public class EcmSystemSetting{
 	@NotBlank(message="value值不能为空")
 	private String value;
 	
-	@NotNull(message="state状态不能为空"/*,groups={ValidGroup1.class}*/)
+	@NotNull(message="state状态不能为空")
 	private Integer state;
 	
 	private String desc;

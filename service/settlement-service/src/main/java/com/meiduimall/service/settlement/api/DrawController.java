@@ -2,7 +2,6 @@ package com.meiduimall.service.settlement.api;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,6 +43,10 @@ import com.meiduimall.service.settlement.util.DateUtil;
 public class DrawController {
 	
 	private static final Logger log = LoggerFactory.getLogger(DrawController.class);
+	
+	private static final String BALANCE = "balance";
+	
+	private static final String ADMIN = "admin";
 	
 	@Autowired
 	private DrawService drawService;
@@ -101,8 +104,8 @@ public class DrawController {
 		//根据code查询账户余额
 		BigDecimal balance = new BigDecimal("0");
 		Map<String, Object> account = drawService.queryAccoutBalance(ecmMzfDraw.getCode());
-		if(account.get("balance") != null && !"".equals(account.get("balance"))){
-			balance = new BigDecimal(account.get("balance").toString());
+		if(account.get(BALANCE) != null && !"".equals(account.get("BALANCE"))){
+			balance = new BigDecimal(account.get("BALANCE").toString());
 			ecmMzfDraw.setBalance(balance);
 		}
 		
@@ -130,7 +133,7 @@ public class DrawController {
 			@RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = "20") int pageSize,
 			@RequestParam(value = "type", defaultValue = "list") String type,
-			@RequestParam HashMap<String, Object> params) {
+			@RequestParam Map<String, Object> params) {
 		
 		if("list".equals(type)){
 			PageHelper.startPage(pageNumber, pageSize);
@@ -174,7 +177,7 @@ public class DrawController {
 		}
 
 		ecmmzfdraw.setStatus(DrawCashConstants.STATUS_VERIFIED_SUCDESS);
-		ecmmzfdraw.setVerifyName(StringUtil.isEmpty(ecmmzfdraw.getVerifyName())?"admin":ecmmzfdraw.getVerifyName());
+		ecmmzfdraw.setVerifyName(StringUtil.isEmpty(ecmmzfdraw.getVerifyName())?ADMIN:ecmmzfdraw.getVerifyName());
 		ecmmzfdraw.setVerifyStatus(DrawCashConstants.STATUS_VERIFIED_SUCDESS);
 		ecmmzfdraw.setVerifyTime(DateUtil.getCurrentTimeSec());
 		
@@ -198,7 +201,7 @@ public class DrawController {
 		}
 		
 		ecmmzfdraw.setStatus(DrawCashConstants.STATUS_VERIFIED_REJECTED);
-		ecmmzfdraw.setVerifyName(StringUtil.isEmpty(ecmmzfdraw.getVerifyName())?"admin":ecmmzfdraw.getVerifyName());
+		ecmmzfdraw.setVerifyName(StringUtil.isEmpty(ecmmzfdraw.getVerifyName())?ADMIN:ecmmzfdraw.getVerifyName());
 		ecmmzfdraw.setVerifyStatus(DrawCashConstants.STATUS_VERIFIED_REJECTED);
 		ecmmzfdraw.setVerifyTime(DateUtil.getCurrentTimeSec());
 		
@@ -230,7 +233,7 @@ public class DrawController {
 
 		}
 		ecmmzfdraw.setFinanceTime(DateUtil.getCurrentTimeSec());
-		ecmmzfdraw.setFinanceName(StringUtil.isEmpty(ecmmzfdraw.getFinanceName())?"admin":ecmmzfdraw.getFinanceName());
+		ecmmzfdraw.setFinanceName(StringUtil.isEmpty(ecmmzfdraw.getFinanceName())?ADMIN:ecmmzfdraw.getFinanceName());
 		
 		Map<String, Object> hashMap = drawService.confirmDrawCashByIdByType(ecmmzfdraw);
 		return SettlementUtil.success(hashMap);

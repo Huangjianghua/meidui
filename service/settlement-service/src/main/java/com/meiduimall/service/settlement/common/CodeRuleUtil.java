@@ -111,10 +111,8 @@ public class CodeRuleUtil {
 	
 	private static String createDrawCode(String prefix,String code,String count){
 		SimpleDateFormat fmt = new SimpleDateFormat(DAY_PATTERN);
-		String random = "";
-		if(count.length() > 1){
-			random = count;
-		}else{
+		String random = count;
+		if(count.length() <= 1){
 			random = "0" + count;
 		}
 		return prefix + code + fmt.format(new Date()) + random;
@@ -176,8 +174,6 @@ public class CodeRuleUtil {
 			billid = "GZ" + code + DateUtil.getCurrentSixDay();
 			break;
 		case 3:
-			billid = "QZ" + code + DateUtil.getCurrentSixDay();
-			break;
 		case 4:
 			billid = "QZ" + code + DateUtil.getCurrentSixDay();
 			break;

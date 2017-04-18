@@ -40,15 +40,13 @@ public class EcmMzfOrderStatus implements Serializable {
 	private Integer addTime;
 	private Integer payTime;
 	private Integer createdDate;
-	private String statusDesc="已支付"; //UI order status;
+	private String statusDesc="已支付";
 	
-
-	public EcmMzfOrderStatus() {
-		super();
+	public EcmMzfOrderStatus(){
+		
 	}
-
+	
 	public EcmMzfOrderStatus(String orderSn, Integer billStatus, String statusDesc) {
-		super();
 		this.orderSn = orderSn;
 		this.billStatus = billStatus;
 		this.statusDesc = statusDesc;
@@ -141,7 +139,5 @@ public class EcmMzfOrderStatus implements Serializable {
 	public void setCashStatus(Integer cashStatus) {
 		this.cashStatus = cashStatus;
 	}
-	
-	
 
 }

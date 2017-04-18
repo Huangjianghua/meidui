@@ -53,6 +53,44 @@ public class DateUtil {
 	public static final String YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
 	public static final String YYYYMMDDHHMMSSS = "yyyyMMddHHmmssS";
 	
+	/**
+	 * 日期格式化对象
+	 */
+	private static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+	private static DateFormat dateFormat_input = new SimpleDateFormat(
+			"yyyyMMdd");
+	/**
+	 * 日期时间格式化对象
+	 */
+	private static DateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
+	private static DateFormat dateTimeFormat_input = new SimpleDateFormat("yyyyMMddHHmm");
+	
+	/**
+	 * 时间格式化对象
+	 */
+	private static DateFormat timeFormat = new SimpleDateFormat("HH:mm");
+
+	/**
+	 * 用于重点生产资料监测系统
+	 */
+	private static final int day = 1;
+	/**
+	 * 用于重点生产资料监测系统
+	 */
+	private static final int lastDay = 15;
+	
+	private static final int constDateSub = -36500;
+
+	public static int getDay() {
+		return day;
+	}
+
+	public static int getLastDay() {
+		return lastDay;
+	}
+	
 
 	public static Long getLastDayEndBySecond () {
 		
@@ -187,44 +225,6 @@ public class DateUtil {
 	
 	
 	/**
-	 * 日期格式化对象
-	 */
-	private static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-	private static DateFormat dateFormat_input = new SimpleDateFormat(
-			"yyyyMMdd");
-	/**
-	 * 日期时间格式化对象
-	 */
-	private static DateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-
-	private static DateFormat dateTimeFormat_input = new SimpleDateFormat("yyyyMMddHHmm");
-	
-	/**
-	 * 时间格式化对象
-	 */
-	private static DateFormat timeFormat = new SimpleDateFormat("HH:mm");
-
-	/**
-	 * 用于重点生产资料监测系统
-	 */
-	private static final int day = 1;
-	/**
-	 * 用于重点生产资料监测系统
-	 */
-	private static final int lastDay = 15;
-	
-	private static final int constDateSub = -36500;
-
-	public static int getDay() {
-		return day;
-	}
-
-	public static int getLastDay() {
-		return lastDay;
-	}
-
-	/**
 	 * 获取时间格式化对象 "yyyy-MM-dd"
 	 * @return
 	 */
@@ -236,7 +236,7 @@ public class DateUtil {
 	 * 日期输入格式采用"yyyyMMdd"
 	 * @return
 	 */
-	public static final DateFormat getDateFormat_input() {
+	public static final DateFormat getDateFormatInput() {
 		return dateFormat_input;
 	}
 
@@ -646,7 +646,7 @@ public class DateUtil {
 	 * @param date
 	 * @return
 	 */
-	public static String formatDate_input(Date date) {
+	public static String formatDateInput(Date date) {
 		if (date == null){
 			return "";
 		}
@@ -673,7 +673,7 @@ public class DateUtil {
 		return dateFormat.format(date);
 	}
 
-	public static String formatDateTime_input(Date date) {
+	public static String formatDateTimeInput(Date date) {
 		if (date == null){
 			return "";
 		}
@@ -728,7 +728,7 @@ public class DateUtil {
 			"26", "27", "28", "29", "30", "31", "年", "月", "日", "时", "分", "秒",
 			"零", "-", "/", };
 
-	private static Map<String, String> map = new HashMap<String, String>();
+	private static Map<String, String> map = new HashMap<>();
 
 	private DateUtil() {
 		for (int i = 0; i < oldCase.length; i++) {
@@ -1024,7 +1024,7 @@ public class DateUtil {
 	 * @param date2 结束时间
 	 * @return true开始时间少于结束时间，false开始时间大于结束时间 
 	 */
-	public static boolean compare_date(String date1, String date2) throws ParseException {
+	public static boolean compareDate(String date1, String date2) throws ParseException {
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		java.util.Date d1 = df.parse(date1);
 		java.util.Date d2 = df.parse(date2);
@@ -1037,7 +1037,7 @@ public class DateUtil {
 	 * @param date2 结束时间
 	 * @return true开始时间少于结束时间，false开始时间大于结束时间 
 	 */
-	public static boolean compare_date_time(String date1, String date2) throws ParseException {
+	public static boolean compareDateTime(String date1, String date2) throws ParseException {
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		java.util.Date d1 = df.parse(date1);
 		java.util.Date d2 = df.parse(date2);
@@ -1071,9 +1071,9 @@ public class DateUtil {
 
 		long time2 = cal.getTimeInMillis();
 
-		long between_days = (time2 - time1) / (1000 * 3600 * 24);
+		long betweenDays = (time2 - time1) / (1000 * 3600 * 24);
 
-		return Integer.parseInt(String.valueOf(between_days));
+		return Integer.parseInt(String.valueOf(betweenDays));
 	}
 	
 	/**
@@ -1085,7 +1085,7 @@ public class DateUtil {
 	 * @return list
 	 */
 	public static List<Date> findDates(Date dBegin, Date dEnd) {  
-        List<Date> lDate = new ArrayList<Date>();  
+        List<Date> lDate = new ArrayList<>();  
         lDate.add(dBegin);  
         Calendar calBegin = Calendar.getInstance();  
         // 使用给定的 Date 设置此 Calendar 的时间    
@@ -1190,7 +1190,7 @@ public class DateUtil {
 	 * @param formats
 	 * @return
 	 */
-	public static String TimeStamp2Date(String timestampString, String formats) {
+	public static String timeStamp2Date(String timestampString, String formats) {
 		Long timestamp = Long.parseLong(timestampString) * 1000;
 		return new java.text.SimpleDateFormat(formats).format(new java.util.Date(timestamp));
 	}
@@ -1226,7 +1226,7 @@ public class DateUtil {
 		try {
 			return sdf.parse(date);
 		} catch (ParseException e) {
-			e.printStackTrace();
+			log.error("method getParseDate转换异常：{}", e);
 		}
 		return null;
 	}

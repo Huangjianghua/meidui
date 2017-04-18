@@ -48,7 +48,7 @@ public class WaterServiceImpl implements WaterService {
 			
 		}
 		
-		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String,Object> map = new HashMap<>();
 		map.put("waterInfo", ecmMzfWater);
 		return map;
 	}
@@ -58,7 +58,7 @@ public class WaterServiceImpl implements WaterService {
 	public Map<String, Object> getWaterDetail(String waterId, String waterType){
 		//获取代理费或保证金流水详情
 		EcmMzfWater ecmMzfWater = agentService.getWaterDetailByWaterId(waterId, waterType);
-		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String,Object> map = new HashMap<>();
 		map.put("waterInfo", ecmMzfWater);
 		return map;
 	}

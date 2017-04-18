@@ -20,12 +20,6 @@ public class PropertyConfigurerTest implements IPropertyConfigurer {
 	
 	private static final Logger log = LoggerFactory.getLogger(PropertyConfigurerTest.class);
 	
-	@Override
-	public void loadProperty()  {
-		ShareProfitUtil.AUTHORIZED_MAP = ShareProfitUtil.loadProperty("config/authorized-test.properties");
-
-	}
-
 	public PropertyConfigurerTest() {
 		super();
 		try {
@@ -35,6 +29,10 @@ public class PropertyConfigurerTest implements IPropertyConfigurer {
 		}
 	}
 	
-	
+	@Override
+	public void loadProperty()  {
+		ShareProfitUtil.AUTHORIZED_MAP = ShareProfitUtil.loadProperty("config/authorized-test.properties");
+
+	}
 
 }

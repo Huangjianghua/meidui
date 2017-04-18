@@ -20,10 +20,6 @@ public class ShareProfitOrderLog implements Serializable{
 	private Integer retryFlag=0; 
 	private String remark;
 	
-	//private String retryType="";
-	
-	
-	
 	public ShareProfitOrderLog() {
 		super();
 	}
@@ -94,27 +90,12 @@ public class ShareProfitOrderLog implements Serializable{
 		this.remark = remark;
 	}
 	
-	
 	public Integer getRetryFlag() {
 		return retryFlag;
 	}
 
-
 	public void setRetryFlag(Integer retryFlag) {
 		this.retryFlag = retryFlag;
 	}
-
-/*
-	public String getRetryType() {
-		return retryType;
-	}
-
-
-	public void setRetryType(String retryType) {
-		this.retryType = retryType;
-	}*/
-	
-	
-
 
 }

@@ -46,44 +46,44 @@ public class ShareProfitUtil {
 	private static final Logger log = LoggerFactory.getLogger(ShareProfitUtil.class);
 	
 	//大区个代提成比例
-	public final static String PERSONAL_SCALE_FOR_BIG_REGION = "person_shareprofit_rate_for_big_region";
+	public static final String PERSONAL_SCALE_FOR_BIG_REGION = "person_shareprofit_rate_for_big_region";
 	
 	//个代提成比例
-	public final static String PERSONAL_SCALE = "person_shareprofit_rate";
+	public static final String PERSONAL_SCALE = "person_shareprofit_rate";
 	
 	//区代提成比例
-	public final static String AREA_SCALE = "area_shareprofit_rate";
+	public static final String AREA_SCALE = "area_shareprofit_rate";
 	
 	//跨区个代提成比例
-	public final static String CROSS_PERSONAL_SCALE = "outperson_shareprofit_rate";
+	public static final String CROSS_PERSONAL_SCALE = "outperson_shareprofit_rate";
 	
 	//跨区区代提成比例
-	public final static String CROSS_AREA_SCALE = "outarea_shareprofit_rate";
+	public static final String CROSS_AREA_SCALE = "outarea_shareprofit_rate";
 	
 	//前200区代提成
-	public final static String TWO_AREA_SCALE = "two_hundred_area_shareprofit_rate";
+	public static final String TWO_AREA_SCALE = "two_hundred_area_shareprofit_rate";
 	
 	//推荐人积分提成
-	public final static String BELONG_SCALE = "belong_rate";
+	public static final String BELONG_SCALE = "belong_rate";
 	
 	//一级推荐人所获现金比例
-	public final static String FIRST_REFERRER_CASH_RATE = "first_referrer_cash_rate";
+	public static final String FIRST_REFERRER_CASH_RATE = "first_referrer_cash_rate";
 	
 	//商家所获积分提成
-	public final static String SELLER_POINT_RATE = "seller_point_rate";
+	public static final String SELLER_POINT_RATE = "seller_point_rate";
 	
 	//接收短信的手机号码
-	public final static String SMS_PHONES = "sms.phones";
-	public final static String CLIENT_ID = "clientID";
+	public static final String SMS_PHONES = "sms.phones";
+	public static final String CLIENT_ID = "clientID";
 
-	public final static String TEMPLATE_ID_O2O_1009 = "O2O_1009";
-	public final static String TEMPLATE_ID_O2O_1008 = "O2O_1008";
+	public static final String TEMPLATE_ID_O2O_1009 = "O2O_1009";
+	public static final String TEMPLATE_ID_O2O_1008 = "O2O_1008";
 	
 	//请求方式_get
-	public final static String REQUEST_METHOD_GET = "GET";
+	public static final String REQUEST_METHOD_GET = "GET";
 	
 	//请求方式_post
-	public final static String REQUEST_METHOD_POST = "POST";
+	public static final String REQUEST_METHOD_POST = "POST";
 	
 	//加载鉴权配置文件
 	public static Map<String, String> AUTHORIZED_MAP = null;
@@ -103,6 +103,12 @@ public class ShareProfitUtil {
 	
 	//(普通个代类型)
 	public static final String PERSONAL_AGENT_TYPE_NORMAL = "normal";
+	
+	/** 支付方式 */
+	public static final String PAY_WECHAT = "pay_wechat";
+	public static final String PAY_ALIPAY = "pay_alipay";
+	public static final String PAY_CMB = "pay_cmb";
+	public static final String PAY_POS = "pay_pos";
 	
 	public static final Map<Integer,String> O2O_SETTLEMENT_STATUS_CODE_MAP=ImmutableMap.of(ShareProfitConstants.O2O_SETTLEMENT_STATUS_CODE_SCORE,"积分已送出",
 			ShareProfitConstants.O2O_SETTLEMENT_STATUS_CODE_BILL,"订单已结算",ShareProfitConstants.O2O_SETTLEMENT_STATUS_CODE_CASH,"一级推荐人现金奖励已送出");
@@ -139,13 +145,6 @@ public class ShareProfitUtil {
 	}
 	
 	
-	
-	/** 支付方式 */
-	public final static String PAY_WECHAT = "pay_wechat";
-	public final static String PAY_ALIPAY = "pay_alipay";
-	public final static String PAY_CMB = "pay_cmb";
-	public final static String PAY_POS = "pay_pos";
-	
 	/**
 	 * Description : 查询分润数据配置
 	 * Created By : Fkx 
@@ -154,15 +153,15 @@ public class ShareProfitUtil {
 	 * @return
 	 */
 	public static Map<String, String> queryShareProfit(List<EcmSystemSetting> systemSettings) {
-		Map<String, String> ShareProfit = Maps.newHashMap();
+		Map<String, String> shareProfit = Maps.newHashMap();
 		try {
 			for (EcmSystemSetting systemSetting : systemSettings) {
-				ShareProfit.put(systemSetting.getScode(), systemSetting.getValue());
+				shareProfit.put(systemSetting.getScode(), systemSetting.getValue());
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
 		}
-		return ShareProfit;
+		return shareProfit;
 	}
 	
 	
@@ -174,10 +173,10 @@ public class ShareProfitUtil {
 			map.put("nonce", nonce);
 			
 			String url =  map.get("url")!=null?map.get("url"):"";
-			String user_id =  map.get("user_id")!=null?map.get("user_id"):"";
-			String consume_points_count =  map.get("consume_points_count")!=null?map.get("consume_points_count"):"";
-			String order_source =  map.get("order_source")!=null?map.get("order_source"):"";
-			String order_id =  map.get("order_id")!=null?map.get("order_id"):"";
+			String userId =  map.get("user_id")!=null?map.get("user_id"):"";
+			String consumePointsCount =  map.get("consume_points_count")!=null?map.get("consume_points_count"):"";
+			String orderSource =  map.get("order_source")!=null?map.get("order_source"):"";
+			String orderId =  map.get("order_id")!=null?map.get("order_id"):"";
 			
 			String belongInfoUrl = AUTHORIZED_MAP.get("authorized.url")+url;
 			 
@@ -189,10 +188,10 @@ public class ShareProfitUtil {
 					+ "&oauth_version=" + AUTHORIZED_MAP.get("authorized.oauth_version");
 					
 			
-			String belongInfoend = "&user_id=" + user_id
-					+ "&consume_points_count=" + consume_points_count
-					+ "&order_source=" + order_source
-			        + "&order_id=" + order_id;
+			String belongInfoend = "&user_id=" + userId
+					+ "&consume_points_count=" + consumePointsCount
+					+ "&order_source=" + orderSource
+			        + "&order_id=" + orderId;
 					
 			String oauth_signature  = "&oauth_signature=" + MD5Encrypt(encodeStr("get&"+belongInfoUrl+"&"+belongInfo+belongInfoend, "UTF-8")); 
 			
@@ -271,7 +270,7 @@ public class ShareProfitUtil {
 	}
 
 	public static EcmMzfOrderStatus buildOrderStatusObj(EcmMzfShareProfit ecmMzfShareProfit) {
-		EcmMzfOrderStatus orderStatus=new EcmMzfOrderStatus();
+		EcmMzfOrderStatus orderStatus = new EcmMzfOrderStatus();
 		orderStatus.setOrderSn(ecmMzfShareProfit.getOrderSn());
 		orderStatus.setStatus(ecmMzfShareProfit.getStatus());
 		orderStatus.setAddTime(ecmMzfShareProfit.getOrderDate());
@@ -376,7 +375,7 @@ public class ShareProfitUtil {
 	 * 描述:  生成不重复随机数，生成方式：毫秒+5位随机数<br>
 	 * @return
 	 */
-	public final static String getRandomNum() {
+	public static final String getRandomNum() {
 		//当前秒数
 		String timeMillis = String.valueOf(System.currentTimeMillis()/1000L);
 		

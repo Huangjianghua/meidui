@@ -146,11 +146,9 @@ public class ConnectionUrlUtil {
 		return result;
 	}
 	
-	@SuppressWarnings("unused")
 	public static int getPostStatus(String url, String requestXml) {
 		log.debug("sendPost Url:" + url);
 		log.debug("sendPost xml:" + requestXml);
-		String result="";
 		int status=0;
 		try {
 			URL u0 = new URL(url);
@@ -181,9 +179,6 @@ public class ConnectionUrlUtil {
 			}
 
 			in.close();
-			result = new String(buffer.toString().getBytes("iso-8859-1"),
-					"UTF-8");
-			
 		} catch (Exception e) {
 			log.error("请求异常: " + e.getMessage(), e);
 		}
@@ -299,9 +294,9 @@ public class ConnectionUrlUtil {
 			}
 			return res.toString();
 		} catch (MalformedURLException e) {
-			e.printStackTrace();
+			log.error("method fetchMo{}", e);
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error("method fetchMo{}", e);
 		}
 		return null;
 	}
@@ -309,7 +304,6 @@ public class ConnectionUrlUtil {
 	public static String readContentFromPost(String url, String param)
 			throws IOException {
 		URL u0 = new URL(url);
-		// HttpURLConnection con = (HttpURLConnection) u0.openConnection();
 		URLConnection con = u0.openConnection();
 
 		con.setDoInput(true);
@@ -323,7 +317,6 @@ public class ConnectionUrlUtil {
 		OutputStreamWriter writer = new OutputStreamWriter(os, "utf-8");
 		writer.write(param);
 		writer.flush();
-		// DataInputStream dis = new DataInputStream(con.getInputStream());
 		InputStream in = con.getInputStream();
 
 		StringBuilder buffer = new StringBuilder();
@@ -382,9 +375,8 @@ public class ConnectionUrlUtil {
 	public static Map<String, String> readContentPost(String url, String param)
 			throws IOException {
 
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, String> map = new HashMap<>();
 		URL u0 = new URL(url);
-		// HttpURLConnection con = (HttpURLConnection) u0.openConnection();
 		URLConnection con = u0.openConnection();
 
 		con.setDoInput(true);
@@ -396,7 +388,6 @@ public class ConnectionUrlUtil {
 		OutputStreamWriter writer = new OutputStreamWriter(os, "utf-8");
 		writer.write(param);
 		writer.flush();
-		// DataInputStream dis = new DataInputStream(con.getInputStream());
 		InputStream in = con.getInputStream();
 
 		String sessionid = con.getHeaderField("sessionid");
@@ -435,8 +426,8 @@ public class ConnectionUrlUtil {
 		InputStreamReader reader = null;
 		StringBuilder buffer = new StringBuilder();
 		try {
-			System.out.println("请求地址:" + requestUrl);
-			System.out.println("请求方法:" + requestMethod);
+			log.info("请求地址:{}", requestUrl);
+			log.info("请求方法:{}", requestMethod);
 			
 			URL url = new URL(requestUrl);
 			//打开Http链接
@@ -466,8 +457,7 @@ public class ConnectionUrlUtil {
 				buffer.append(str);
 			}
 		} catch (Exception e) {
-			System.out.println("http请求异常!");
-			e.printStackTrace();
+			log.error("http请求异常", e);
 		} finally {
 			//释放
 			try {
@@ -482,8 +472,7 @@ public class ConnectionUrlUtil {
 				}
 				
 			} catch (IOException e) {
-				System.out.println("关闭流异常!");
-				e.printStackTrace();
+				log.error("关闭流异常", e);
 			}
 			httpConn.disconnect(); //关闭Http连接
 		}
@@ -499,8 +488,8 @@ public class ConnectionUrlUtil {
 		InputStreamReader reader = null;
 		StringBuilder buffer = new StringBuilder();
 		try {
-			System.out.println("请求地址:" + requestUrl);
-			System.out.println("请求方法:" + requestMethod);
+			log.info("请求地址:{}", requestUrl);
+			log.info("请求方法:{}", requestMethod);
 			
 			URL url = new URL(requestUrl);
 			//打开Http链接
@@ -530,8 +519,7 @@ public class ConnectionUrlUtil {
 				buffer.append(str);
 			}
 		} catch (Exception e) {
-			System.out.println("http请求异常!");
-			e.printStackTrace();
+			log.error("http请求异常", e);
 		} finally {
 			//释放
 			try {
@@ -546,8 +534,7 @@ public class ConnectionUrlUtil {
 				}
 				
 			} catch (IOException e) {
-				System.out.println("关闭流异常!");
-				e.printStackTrace();
+				log.error("关闭流异常", e);
 			}
 			httpConn.disconnect(); //关闭Http连接
 		}

@@ -87,14 +87,14 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 		Map<String, String> systemSetting = ShareProfitUtil.queryShareProfit(settingList);
 		
 		//返回结果
-		List<Map<String,Object>> resultList = new ArrayList<Map<String,Object>>();
+		List<Map<String,Object>> resultList = new ArrayList<>();
 				
 		try {
 			
 			//调用分润主方法（事务在主方法中,控制单条个代业务逻辑事务）
 			this.proxySelf.shareDepositMain(ecmAgent, systemSetting);
 			
-			Map<String,Object> map = new HashMap<String,Object>();
+			Map<String,Object> map = new HashMap<>();
 			map.put("agentNo", ecmAgent.getAgentNo());
 			map.put("billStatus", "1");
 			resultList.add(map);
@@ -390,7 +390,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 		
 		logger.info("更新商家积分开始时间:" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 		
-		List<Map<String,Object>> resultList = new ArrayList<Map<String,Object>>();
+		List<Map<String,Object>> resultList = new ArrayList<>();
 			
 		//查询基本分润配置
 		List<EcmSystemSetting> settingList = agentService.quertSharefit();

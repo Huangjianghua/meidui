@@ -147,16 +147,6 @@ public class EcmMzfDraw implements Serializable{
 		this.addTimeEnd = addTimeEnd;
 	}
 
-	public EcmMzfDraw() {
-		super();
-	}
-
-	public EcmMzfDraw(String drawCode, Integer drawType) {
-		super();
-		this.drawCode = drawCode;
-		this.drawType = drawType;
-	}
-
 	public Integer getId() {
         return id;
     }
@@ -170,7 +160,7 @@ public class EcmMzfDraw implements Serializable{
     }
 
     public void setDrawCode(String drawCode) {
-        this.drawCode = drawCode == null ? null : drawCode.trim();
+        this.drawCode = drawCode;
     }
 
      
@@ -179,7 +169,7 @@ public class EcmMzfDraw implements Serializable{
     }
 
     public void setCode(String code) {
-        this.code = code == null ? null : code.trim();
+        this.code = code;
     }
 
      
@@ -188,7 +178,7 @@ public class EcmMzfDraw implements Serializable{
     }
 
     public void setRealname(String realname) {
-        this.realname = realname == null ? null : realname.trim();
+        this.realname = realname;
     }
 
     public String getBankname() {
@@ -196,7 +186,7 @@ public class EcmMzfDraw implements Serializable{
     }
 
     public void setBankname(String bankname) {
-        this.bankname = bankname == null ? null : bankname.trim();
+        this.bankname = bankname;
     }
 
     public String getBanknum() {
@@ -204,7 +194,7 @@ public class EcmMzfDraw implements Serializable{
     }
 
     public void setBanknum(String banknum) {
-        this.banknum = banknum == null ? null : banknum.trim();
+        this.banknum = banknum;
     }
 
     public String getBankaddress() {
@@ -212,7 +202,7 @@ public class EcmMzfDraw implements Serializable{
     }
 
     public void setBankaddress(String bankaddress) {
-        this.bankaddress = bankaddress == null ? null : bankaddress.trim();
+        this.bankaddress = bankaddress;
     }
 
     public String getBankBranch() {
@@ -220,7 +210,7 @@ public class EcmMzfDraw implements Serializable{
     }
 
     public void setBankBranch(String bankBranch) {
-        this.bankBranch = bankBranch == null ? null : bankBranch.trim();
+        this.bankBranch = bankBranch;
     }
 
     public BigDecimal getMoney() {
@@ -260,7 +250,7 @@ public class EcmMzfDraw implements Serializable{
     }
 
     public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
+        this.remark = remark;
     }
 
     public Integer getDrawTime() {
@@ -284,7 +274,7 @@ public class EcmMzfDraw implements Serializable{
     }
 
     public void setVerifyName(String verifyName) {
-        this.verifyName = verifyName == null ? null : verifyName.trim();
+        this.verifyName = verifyName;
     }
 
     public Integer getVerifyTime() {
@@ -316,7 +306,7 @@ public class EcmMzfDraw implements Serializable{
     }
 
     public void setFinanceName(String financeName) {
-        this.financeName = financeName == null ? null : financeName.trim();
+        this.financeName = financeName;
     }
 
     public Integer getFinanceTime() {

@@ -34,9 +34,9 @@ public class ShareProfitContext {
 	
 	private BigDecimal discount =BigDecimal.ZERO;
 	
-	private Map<String, String> systemSetting=new HashMap<String, String>();
+	private Map<String, String> systemSetting=new HashMap<>();
 	
-	Map<String, String> belongMap=new HashMap<String, String>();
+	Map<String, String> belongMap=new HashMap<>();
 	
 	private String personalAgentType;
 	

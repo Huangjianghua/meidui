@@ -57,18 +57,18 @@ public class MemberServiceImpl implements MemberService {
 
 	
 	@Override
-	public Boolean addConsumePoints(String phone, String credit,String source,String order_id){
+	public Boolean addConsumePoints(String phone, String credit,String source,String orderId){
 		
 		if("0".equals(credit)){
 			log.info("积分为0,userId:{},忽略该积分的发送。",phone);
 			return true;
 		}
-		Map<String, String> hashMap = new HashMap<String,String>();
+		Map<String, String> hashMap = new HashMap<>();
 		hashMap.put("user_id", phone);
 		hashMap.put("consume_points_count",credit);
 		hashMap.put("order_source",source);
 		hashMap.put("url","Authorized/addConsumePoints");
-		hashMap.put("order_id",order_id);
+		hashMap.put("order_id",orderId);
 		String resultJsonStr = ConnectionUrlUtil.httpRequest(ShareProfitUtil.belongInfoUrl(hashMap), ShareProfitUtil.REQUEST_METHOD_POST, null);
 		ResultData resultJson = JsonUtils.jsonToBean(resultJsonStr, ResultData.class);
 		// 判断返回是否成功,如果不成功则不理会
@@ -107,7 +107,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public List<String> sendScore(EcmMzfShareProfit shareProfit){
 		
-		final List<String> errors = new ArrayList<String>();
+		final List<String> errors = new ArrayList<>();
 		
 		log.info("Update Score Start:Current Date:" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " for orderSn:"+shareProfit.getOrderSn());
 
@@ -175,13 +175,12 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void updateReferrerCash() {
 		
-		final List<String> orderSnList=new ArrayList<String>();
-		final List<String> orderSnList4Err=new ArrayList<String>();
+		final List<String> orderSnList=new ArrayList<>();
+		final List<String> orderSnList4Err=new ArrayList<>();
 		log.info("Update Cash Task:Current Date:" + DateUtil.getCurrentTime());
 		
 		List<EcmMzfShareProfit> spOrders = baseMapper.selectList(null, "ShareProfitMapper.getUpdateCashList");
 		for (EcmMzfShareProfit shareProfit : spOrders) {
-			boolean cashUpdated = true;
 			if (!Strings.isNullOrEmpty(shareProfit.getBelongOnePhone())) {
 
 				BigDecimal amount=shareProfit.getFirstReferrerCash();
@@ -203,11 +202,7 @@ public class MemberServiceImpl implements MemberService {
 				ctx.setTradeType("FJJL");
 				ctx.setRemark(MemberSystemDataContext.REMARK_FOR_FJJL);
 
-				try {
-					cashUpdated=this.updateAmout2MemberSystem(ctx);
-				} catch (Exception e) {
-					cashUpdated=false;
-				}
+				boolean cashUpdated = this.updateAmout2MemberSystem(ctx);
 				
 				if (cashUpdated) {
 					log.info("更新推荐人金额到会员系统成功!userId:{} for orderSn:{}",ctx.getUserId(),shareProfit.getOrderSn());

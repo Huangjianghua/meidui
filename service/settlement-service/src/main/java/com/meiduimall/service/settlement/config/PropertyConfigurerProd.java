@@ -20,11 +20,6 @@ public class PropertyConfigurerProd implements IPropertyConfigurer {
 
 	private static final Logger log = LoggerFactory.getLogger(PropertyConfigurerProd.class);
 
-	@Override
-	public void loadProperty()  {
-		ShareProfitUtil.AUTHORIZED_MAP = ShareProfitUtil.loadProperty("config/authorized-pro.properties");
-	}
-
 	public PropertyConfigurerProd() {
 		super();
 		try {
@@ -34,6 +29,9 @@ public class PropertyConfigurerProd implements IPropertyConfigurer {
 		}
 	}
 	
-	
+	@Override
+	public void loadProperty()  {
+		ShareProfitUtil.AUTHORIZED_MAP = ShareProfitUtil.loadProperty("config/authorized-pro.properties");
+	}
 
 }

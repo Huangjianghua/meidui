@@ -30,7 +30,7 @@ public class SettlementUtil {
 	
 	public static <K,V> Map<K,V> convert2Map(List<V> list,String propName){
 		
-		Map<K,V> map=new HashMap<K,V>();
+		Map<K,V> map=new HashMap<>();
 		if(Strings.isNullOrEmpty(propName)){
 			return map;
 		}
@@ -50,7 +50,7 @@ public class SettlementUtil {
 	
 	public static <K,V> List<K> convert2ListByProperty(List<V> list,String propName){
 		
-		List<K> retList=new ArrayList<K>();
+		List<K> retList=new ArrayList<>();
 		if(Strings.isNullOrEmpty(propName)){
 			return retList;
 		}
@@ -93,10 +93,8 @@ public class SettlementUtil {
 	
 	public static boolean contains(String[] src,String ele){
 		boolean result=false;
-		if(src!=null && src.length>0){
-			if(!Strings.isNullOrEmpty(ele)){
-				result=Arrays.asList(src).contains(ele);
-			}	
+		if(src!=null && src.length>0 && !Strings.isNullOrEmpty(ele)){
+			result=Arrays.asList(src).contains(ele);
 		}
 		
 		return result;

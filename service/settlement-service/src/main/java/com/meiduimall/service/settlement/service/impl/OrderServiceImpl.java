@@ -241,7 +241,7 @@ public class OrderServiceImpl implements OrderService {
 		ctx.setCrossAreaAgentRevenue(crossAreaAgentRevenue);
 		ctx.setIsTwoHundreAgentFlag(isTwoHundreAgentFlag);
 		
-		final List<String> meiduiCompanyAgentNos = new ArrayList<String>();
+		final List<String> meiduiCompanyAgentNos = new ArrayList<>();
 
 		if(!StringUtil.isEmpty(ecmOrder.getAgentNameRegion()) && ShareProfitConstants.COMPANY_NAME.equals(ecmOrder.getAgentNameRegion())){
 			meiduiCompanyAgentNos.add(ecmOrder.getAgentNoRegion());
@@ -409,7 +409,7 @@ public class OrderServiceImpl implements OrderService {
 		Integer todayStart=DateUtil.getDayBeginBySecond(0).intValue();
 		Integer todayEnd=DateUtil.getDayEndBySecond(0).intValue();
 		
-		final Map<String,Object> params=new HashMap<String,Object>();
+		final Map<String,Object> params=new HashMap<>();
 		params.put("startDate",todayStart);
 		params.put("endDate",todayEnd);
 		
@@ -488,7 +488,7 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Override
 	public List<ShareProfitVO> queryTotalProfit(Collection<String> codes, Integer billStartDate, Integer billEndDate){
-		final Map<String,Object> params=new HashMap<String,Object>();
+		final Map<String,Object> params=new HashMap<>();
 		params.put("codes", codes);
 		params.put("billStartDate", billStartDate);
 		params.put("billEndDate", billEndDate);

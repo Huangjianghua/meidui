@@ -89,14 +89,14 @@ public class DepositRetryTask {
 		
 		int currentTimestamp = DateUtil.getCurrentTimeSec();
 		
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		list.add("share5MinRetry");
 		list.add("share30MinRetry");
 		list.add("share12HoursRetry");
 		
-		List<ShareProfitAgentLog> share5MinRetry = new ArrayList<ShareProfitAgentLog>();//获取5分钟后重新送积分的个代
-		List<ShareProfitAgentLog> share30MinRetry = new ArrayList<ShareProfitAgentLog>();//获取30分钟后重新送积分的个代
-		List<ShareProfitAgentLog> share12HoursRetry = new ArrayList<ShareProfitAgentLog>();//获取12小时后重新送积分的个代
+		List<ShareProfitAgentLog> share5MinRetry = new ArrayList<>();//获取5分钟后重新送积分的个代
+		List<ShareProfitAgentLog> share30MinRetry = new ArrayList<>();//获取30分钟后重新送积分的个代
+		List<ShareProfitAgentLog> share12HoursRetry = new ArrayList<>();//获取12小时后重新送积分的个代
 		
 		final Map<String, Object> retryAgents = Maps.newHashMap();
 		

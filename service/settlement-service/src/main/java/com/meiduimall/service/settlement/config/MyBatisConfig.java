@@ -64,16 +64,6 @@ public class MyBatisConfig implements TransactionManagementConfigurer{
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
         bean.setTypeAliasesPackage("com.meiduimall.service.settlement.model");
-        //bean.setTypeHandlersPackage("com.meiduimall.settlement.typehandler");   //un-comment it if needed.
-        
-/*      remove optimistic lock ...  
- *      OptimisticLocker optLocker=new OptimisticLocker();
-        Properties optLockerprop=new Properties();
-        optLockerprop.setProperty("versionField", "version");
-        optLockerprop.setProperty("versionColumn", "version");
-        optLocker.setProperties(optLockerprop);
-        
-        */
 
         //分页插件,插件无非是设置mybatis的拦截器
         PageHelper pageHelper = new PageHelper();
@@ -86,7 +76,6 @@ public class MyBatisConfig implements TransactionManagementConfigurer{
 
         //添加插件
         bean.setPlugins(new Interceptor[]{pageHelper});
-       // bean.setPlugins(new Interceptor[]{pageHelper,optLocker});
 
         //添加XML目录
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();

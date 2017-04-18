@@ -104,7 +104,7 @@ public class OrderController {
 	@PostMapping(value="/queryorderstatus")
 	public ResBodyData queryOrderStatus(String[] orderSns) {
 		
-		List<EcmMzfOrderStatus> queryorderstatus = new ArrayList<EcmMzfOrderStatus>();
+		List<EcmMzfOrderStatus> queryorderstatus = new ArrayList<>();
 		
 		if (orderSns != null && orderSns.length > 0) {
 			queryorderstatus = orderService.queryOrderStatus(Arrays.asList(orderSns));
@@ -157,7 +157,7 @@ public class OrderController {
 	 */
 	@PostMapping("/queryshareprofit")
 	public ResBodyData queryShareProfit(String[] orderSns) {
-		List<EcmMzfShareProfit> shareProfits = new ArrayList<EcmMzfShareProfit>();
+		List<EcmMzfShareProfit> shareProfits = new ArrayList<>();
 		
 		if (orderSns != null && orderSns.length > 0) {
 			shareProfits = orderService.queryShareProfit(Arrays.asList(orderSns));
