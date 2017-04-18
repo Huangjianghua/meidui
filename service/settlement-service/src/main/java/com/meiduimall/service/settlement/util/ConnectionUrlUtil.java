@@ -470,11 +470,12 @@ public class ConnectionUrlUtil {
 				if(input!=null){
 					input.close();
 				}
-				
+				if(httpConn != null){
+					httpConn.disconnect(); //关闭Http连接
+				}
 			} catch (IOException e) {
 				log.error("关闭流异常", e);
 			}
-			httpConn.disconnect(); //关闭Http连接
 		}
 		return buffer.toString();
 	}
@@ -532,11 +533,12 @@ public class ConnectionUrlUtil {
 				if(input!=null){
 					input.close();
 				}
-				
+				if(httpConn != null){
+					httpConn.disconnect(); //关闭Http连接
+				}
 			} catch (IOException e) {
 				log.error("关闭流异常", e);
 			}
-			httpConn.disconnect(); //关闭Http连接
 		}
 		return buffer.toString();
 	}

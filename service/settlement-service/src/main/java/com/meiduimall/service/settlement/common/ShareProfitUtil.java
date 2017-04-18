@@ -141,7 +141,7 @@ public class ShareProfitUtil {
 				+ "&oauth_nonce=" + nonce 
 				+ "&oauth_version=" + AUTHORIZED_MAP.get("authorized.oauth_version") 
 				+ "&share_man=" + phone;
-		return MD5Encrypt(encodeStr(md5Str, "UTF-8"));
+		return mD5Encrypt(encodeStr(md5Str, "UTF-8"));
 	}
 	
 	
@@ -193,9 +193,9 @@ public class ShareProfitUtil {
 					+ "&order_source=" + orderSource
 			        + "&order_id=" + orderId;
 					
-			String oauth_signature  = "&oauth_signature=" + MD5Encrypt(encodeStr("get&"+belongInfoUrl+"&"+belongInfo+belongInfoend, "UTF-8")); 
+			String oauthSignature  = "&oauth_signature=" + mD5Encrypt(encodeStr("get&"+belongInfoUrl+"&"+belongInfo+belongInfoend, "UTF-8")); 
 			
-			return belongInfoUrl+"?"+belongInfo+oauth_signature+belongInfoend;
+			return belongInfoUrl+"?"+belongInfo+oauthSignature+belongInfoend;
 	}
 	
 	public static String getPersonalAgentType(String personalAgentNo){
@@ -264,7 +264,7 @@ public class ShareProfitUtil {
 		        + "&trade_time=" + tradeTime
 		        + "&remark=" + remark;
 				
-		String signature = "&oauth_signature=" + MD5Encrypt(encodeStr("get&"+api+"&"+oauthParams+dataParams4Sign, Constants.ENCODE_UTF8)); 
+		String signature = "&oauth_signature=" + mD5Encrypt(encodeStr("get&"+api+"&"+oauthParams+dataParams4Sign, Constants.ENCODE_UTF8)); 
 		
 		return api+"?"+oauthParams+signature+dataParams;  //不嫩直接将中文字符的remark字段传到请求参数，不然API服务器那边接收到时会出现乱码。
 	}
@@ -291,7 +291,7 @@ public class ShareProfitUtil {
 				}});
 			
 			if(col!=null){
-				final List<ShareProfitVO> list = new ArrayList<ShareProfitVO>(col);
+				final List<ShareProfitVO> list = new ArrayList<>(col);
 				ShareProfitVO spVO=list.get(0);
 				if(spVO!=null){
 					if("Today".equals(profitType)){
@@ -339,7 +339,7 @@ public class ShareProfitUtil {
 	 * @return
 	 */
 	public static Map<String, String> getlvlAndPhone(List<Map<String, String>> list) {
-		Map<String, String> retMap = new HashMap<String, String>();
+		Map<String, String> retMap = new HashMap<>();
 		if(list!=null && !list.isEmpty()){
 			for(Map<String,String> referrerMap:list){
 				retMap.put(referrerMap.get("level"), referrerMap.get("phone"));
@@ -349,7 +349,7 @@ public class ShareProfitUtil {
 	}
 		
 		
-	public static String MD5Encrypt(String values) {
+	public static String mD5Encrypt(String values) {
 		StringBuilder buf = new StringBuilder("");
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");
@@ -411,7 +411,7 @@ public class ShareProfitUtil {
 	 * @return
 	 */
 	public static Map<String, String> loadProperty(String config) {
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, String> map = new HashMap<>();
 		InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(config);
 		Properties pro = new Properties();
 		try {

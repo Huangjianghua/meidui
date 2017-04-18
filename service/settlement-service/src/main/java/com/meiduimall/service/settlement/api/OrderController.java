@@ -220,7 +220,7 @@ public class OrderController {
 	@PostMapping("/querytotalprofit")
 	public ResBodyData queryTotalProfit(String[] codes,Integer billStartDate,Integer billEndDate) {
 		
-		List<ShareProfitVO> shareProfitVOs=new ArrayList<ShareProfitVO>();
+		List<ShareProfitVO> shareProfitVOs=new ArrayList<>();
 		if(codes!=null && codes.length>0){
 			shareProfitVOs = orderService.queryTotalProfit(Arrays.asList(codes), billStartDate, billEndDate);
 		}

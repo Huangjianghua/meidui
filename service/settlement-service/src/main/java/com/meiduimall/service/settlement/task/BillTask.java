@@ -61,7 +61,7 @@ public class BillTask {
 	 */
 	//@Scheduled(cron = CronExpression.EVERY_5_MINUTE)
 	@Scheduled(cron = CronExpression.TIME_ZERO_HOUR_FIVE_MIN)
-	public void CreateBill()  {
+	public void createBill()  {
 		
 		Collection<String> orderSns=null;
 		try {

@@ -201,8 +201,6 @@ public class CodeRuleUtil {
 			billid = "GL" + code + DateUtil.getCurrentSixDay() + getRandomNumber(2);
 			break;
 		case 3:
-			billid = "QL" + code + DateUtil.getCurrentSixDay() + getRandomNumber(2);
-			break;
 		case 4:
 			billid = "QL" + code + DateUtil.getCurrentSixDay() + getRandomNumber(2);
 			break;
