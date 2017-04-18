@@ -70,9 +70,7 @@ public class SmsServiceImpl implements SmsService {
     List<TemplateInfo> templateInfoList = JsonUtils.jsonToList(templateListJsonStr, TemplateInfo.class);
     for (TemplateInfo info : templateInfoList) {
       if (info.getTemplateKey().equals(templateId)) {
-
         BeanUtils.copyProperties( info,ti);
-
         break;
       }
     }
@@ -95,12 +93,11 @@ public class SmsServiceImpl implements SmsService {
         throw new ServiceException(SmsApiCode.PARAM_ERROR,SmsApiCode.getZhMsg(SmsApiCode.PARAM_ERROR));
       }
       for (int index = 0; index < replaces.length; index++) {
-        //TODO 需要检查参数  add by simon
+        //需要检查参数  add by simon
         content = content.replace("{" + index + "}", replaces[index]);
       }
       return content;
     }
-
     return content;
   }
 
@@ -177,7 +174,7 @@ public class SmsServiceImpl implements SmsService {
     }
     RedisUtils.setex(model.getPhones() + model.getTemplateId() + model.getParams(), ToSecondsUtils.parseDuration(ti.getEffectiveTime()) , content);
     ssh.setRequestParams(model.getPhones() + "ali send param:" + ti.getExternalTemplateNo() + params + ";mandao send param:" + content);
-    ssh.setResultMsg("ali result, flag:" + String.valueOf(flag) + ";mandao result, res:" +res);
+    ssh.setResultMsg("ali result, flag:" + flag + ";mandao result, res:" +res);
     sendSmsHistoryMapper.insert(ssh);
   }
 
@@ -189,7 +186,8 @@ public class SmsServiceImpl implements SmsService {
       throw new ServiceException(SmsApiCode.REPEATING,BaseApiCode.getZhMsg(SmsApiCode.REPEATING));
     }
     //生成6位随机数
-    String result = String.valueOf(((Math.random() * 9 + 1) * 100000)).substring(0, 6);
+    String result = String.valueOf((Math.random() * 9 + 1) * 100000).substring(0, 6);
+    
     logger.info("发送短信生成的验证码为：", result);
     //获取消息模板
     String templateListJsonStr = messageChannelService.getTemplateList(SysConstant.MESSAGE_TEMPLATE_KEY);
@@ -218,11 +216,10 @@ public class SmsServiceImpl implements SmsService {
      * 全部失败则返回失败信息
      */
     boolean flag = aliyunService.Send(model.getPhones(), ti.getExternalTemplateNo(), params);
-    logger.info("阿里大于发送短信结果（flag）：%s", String.valueOf(flag));
-
+    logger.info("阿里大于发送短信结果(flag):{}",flag);
     if (!flag) {
       res = zucpService.send(model.getPhones(), content);
-      logger.info("漫道发送短信结果（res）：%s", String.valueOf(res));
+      logger.info("漫道发送短信结果（res）:{}", res);
       if (Long.parseLong(res) < 0) {
         throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER,BaseApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
       }
@@ -230,7 +227,7 @@ public class SmsServiceImpl implements SmsService {
     int expire = ToSecondsUtils.parseDuration(model.getTimeout() == null ? ti.getEffectiveTime() : model.getTimeout());
     RedisUtils.setex(model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId(), expire, result);
     ssh.setRequestParams(model.getPhones() + "ali send param:" + ti.getExternalTemplateNo() + params + ";mandao send param:" + content);
-    ssh.setResultMsg("ali result, flag:" + String.valueOf(flag) + ";mandao result, res:" + String.valueOf(res));
+    ssh.setResultMsg("ali result, flag:" + flag + ";mandao result, res:" + res);
     sendSmsHistoryMapper.insert(ssh);
     return result;
   }
@@ -240,15 +237,15 @@ public class SmsServiceImpl implements SmsService {
 	  
     String tempVerificationCode = RedisUtils.get(model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId());
     if (StringUtils.isEmpty(tempVerificationCode)) {
-      return -2;
+    	return -2;
     }
 
     if (!StringUtils.equalsIgnoreCase(model.getVerificationCode().trim(),tempVerificationCode)) {
-      return -1;
+    	return -1;
     }
     RedisUtils.del(model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId());
-    //验证通过
-    return  0;
+	    //验证通过
+	    return  0;
   }
   
   private SendSmsHistory setHistory(CommonShortMessageModel model) {
