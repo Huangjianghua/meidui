@@ -9,8 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class HttpHeaderTools {
-	
+
 	private static Logger logger = LoggerFactory.getLogger(HttpHeaderTools.class);
+
+	private static final String LOCAL_LOOPBACK_ADDRESS = "127.0.0.1";
+
+	private static final String ERROR_ADDRESS = "0:0:0:0:0:0:0:1";
 
 	/**
 	 * 获取当前请求的IP地址
@@ -31,15 +35,15 @@ public class HttpHeaderTools {
 			}
 			if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
 				ipAddress = request.getRemoteAddr();
-				if ("127.0.0.1".equals(ipAddress) || "0:0:0:0:0:0:0:1".equals(ipAddress)) {
+				if (LOCAL_LOOPBACK_ADDRESS.equals(ipAddress) || ERROR_ADDRESS.equals(ipAddress)) {
 					// 根据网卡取本机配置的IP
 					InetAddress inet = null;
 					try {
 						inet = InetAddress.getLocalHost();
+						ipAddress = inet.getHostAddress();
 					} catch (UnknownHostException e) {
 						logger.error("获取IP失败：" + e);
 					}
-					ipAddress = inet.getHostAddress();
 				}
 			}
 			// 对于通过多个代理的情况，第一个IP为客户端真实IP,多个IP按照','分割

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.exception.ServiceException;
+import com.meiduimall.exception.ApiException;
 import com.meiduimall.service.financial.constant.ServiceFinancialApiCode;
 import com.meiduimall.service.financial.entity.DownloadStatistics;
 import com.meiduimall.service.financial.service.DownloadStatisticsService;
@@ -43,7 +43,8 @@ public class DownloadStatisticsController {
 	public ResBodyData insertPortal(String portal) {
 
 		if (StringUtils.isBlank(portal)) {
-			throw new ServiceException(ServiceFinancialApiCode.REQUEST_PARAMS_ERROR);
+			logger.error("渠道编号错误：" + portal);
+			throw new ApiException(ServiceFinancialApiCode.REQUEST_PARAMS_ERROR);
 		}
 
 		int portalInt = 0;
@@ -51,7 +52,7 @@ public class DownloadStatisticsController {
 			portalInt = Integer.parseInt(portal.trim());
 		} catch (NumberFormatException e) {
 			logger.error("渠道编号错误：" + e);
-			throw new ServiceException(ServiceFinancialApiCode.REQUEST_PARAMS_ERROR);
+			throw new ApiException(ServiceFinancialApiCode.REQUEST_PARAMS_ERROR);
 		}
 
 		DownloadStatistics bean = new DownloadStatistics();
@@ -88,7 +89,7 @@ public class DownloadStatisticsController {
 			}
 		} catch (UnsupportedEncodingException e) {
 			logger.error("对日期进行Decoder错误：" + e);
-			throw new ServiceException(ServiceFinancialApiCode.REQUEST_PARAMS_ERROR);
+			throw new ApiException(ServiceFinancialApiCode.REQUEST_PARAMS_ERROR);
 		}
 		return downloadStatisticsService.queryByDate(beginDate, endDate);
 	}

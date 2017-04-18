@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.exception.ServiceException;
+import com.meiduimall.exception.ApiException;
 import com.meiduimall.service.catalog.constant.ServiceCatalogApiCode;
 import com.meiduimall.service.catalog.service.GoodsRecommendService;
 import com.meiduimall.service.catalog.util.HttpHeaderTools;
@@ -63,17 +63,17 @@ public class GoodsRecommendController {
 
 			if (reco_type != 1 && reco_type != 2) {
 				logger.error("批量插入，或者单个插入推荐商品，请求参数错误，type= " + reco_type);
-				throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
+				throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
 			}
 
 		} catch (NumberFormatException e) {
 			logger.error("批量插入，或者单个插入推荐商品，请求参数错误: " + e);
-			throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
+			throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
 		}
 
 		if (StringUtils.isBlank(item_ids)) {
 			logger.error("批量插入，或者单个插入推荐商品，请求参数错误，item_ids: " + item_ids);
-			throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
+			throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
 		} else {
 			String[] str_ids = item_ids.split(",");
 			if (str_ids != null && str_ids.length > 0) {
@@ -84,12 +84,12 @@ public class GoodsRecommendController {
 					}
 				} catch (NumberFormatException e) {
 					logger.error("批量插入，或者单个插入推荐商品，请求参数错误，item_ids: " + item_ids);
-					throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
+					throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
 				}
 				return goodsRecommendService.insertBatchItems(ids, reco_type, opt_user, ip, reco_level);
 			} else {
 				logger.error("批量插入，或者单个插入推荐商品，请求参数错误，item_ids: " + item_ids);
-				throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
+				throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
 			}
 		}
 	}
@@ -119,7 +119,7 @@ public class GoodsRecommendController {
 			reco_source_id = Integer.parseInt(sourceId);
 		} catch (NumberFormatException e) {
 			logger.error("获取推荐商品: " + e);
-			throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
+			throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
 		}
 
 		return goodsRecommendService.getFirstRecommendItems(reco_type, reco_count, reco_source_id);

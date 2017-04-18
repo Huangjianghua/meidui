@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
+import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.catalog.constant.ServiceCatalogApiCode;
@@ -41,6 +42,12 @@ public class GlobalExceptionHandler {
 	public Object MethodFromArgumentNotValidHandler(HttpServletRequest request, BindException exception) {
 		return new ResBodyData(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR,
 				ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR),
+				JsonUtils.getInstance().createObjectNode());
+	}
+
+	@ExceptionHandler(value = ApiException.class)
+	public Object ApiExceptionHandler(HttpServletRequest request, ServiceException exception) {
+		return new ResBodyData(exception.getCode(), ServiceCatalogApiCode.getZhMsg(exception.getCode()),
 				JsonUtils.getInstance().createObjectNode());
 	}
 

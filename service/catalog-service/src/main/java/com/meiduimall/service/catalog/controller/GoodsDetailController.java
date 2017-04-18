@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.exception.ServiceException;
+import com.meiduimall.exception.ApiException;
 import com.meiduimall.service.catalog.constant.ServiceCatalogApiCode;
 import com.meiduimall.service.catalog.service.GoodsDetailService;
 
@@ -40,7 +40,7 @@ public class GoodsDetailController {
 			id = Integer.parseInt(item_id);
 		} catch (NumberFormatException e) {
 			logger.error("根据商品编号，查询商品是否存在: " + e);
-			throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
+			throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
 		}
 		return goodsDetailService.checkItemIsExistById(id);
 	}
@@ -61,7 +61,7 @@ public class GoodsDetailController {
 			id = Integer.parseInt(itemId);
 		} catch (NumberFormatException e) {
 			logger.error("根据商品编号，查询商品详情: " + e);
-			throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
+			throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
 		}
 		return goodsDetailService.getItemDetailById(memId, id);
 	}

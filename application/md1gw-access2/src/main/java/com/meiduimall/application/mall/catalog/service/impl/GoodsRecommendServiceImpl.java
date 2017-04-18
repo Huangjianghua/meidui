@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import com.meiduimall.application.mall.catalog.constant.ApplicationMallApiCode;
 import com.meiduimall.application.mall.catalog.service.GoodsRecommendService;
 import com.meiduimall.application.mall.catalog.util.HttpGatewayUtils;
-import com.meiduimall.exception.ApiException;
+import com.meiduimall.exception.ServiceException;
 
 /**
  * GoodsRecommendController的网络请求工具类
@@ -54,7 +54,7 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
 		} catch (Exception e) {
 			logger.error("请求微服务异常： " + e);
-			throw new ApiException(ApplicationMallApiCode.REQUEST_SERVICE_ERROR);
+			throw new ServiceException(ApplicationMallApiCode.REQUEST_SERVICE_ERROR);
 		}
 	}
 }

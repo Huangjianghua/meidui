@@ -12,6 +12,7 @@ import com.meiduimall.application.mall.catalog.constant.ApplicationMallApiCode;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.ApiException;
+import com.meiduimall.exception.ServiceException;
 
 /**
  * @Copyright (C), 2002-2017, 美兑壹购物
@@ -40,9 +41,14 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler(value = ApiException.class)
-	public Object ControllerExceptionHandler(HttpServletRequest request, ApiException exception) {
+	public Object ApiExceptionHandler(HttpServletRequest request, ApiException exception) {
 		return new ResBodyData(exception.getCode(), ApplicationMallApiCode.getZhMsg(exception.getCode()),
 				JsonUtils.getInstance().createObjectNode());
 	}
 
+	@ExceptionHandler(value = ServiceException.class)
+	public Object ServiceExceptionHandler(HttpServletRequest request, ApiException exception) {
+		return new ResBodyData(exception.getCode(), ApplicationMallApiCode.getZhMsg(exception.getCode()),
+				JsonUtils.getInstance().createObjectNode());
+	}
 }

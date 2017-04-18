@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.exception.ServiceException;
+import com.meiduimall.exception.ApiException;
 import com.meiduimall.service.catalog.annotation.HasMemId;
 import com.meiduimall.service.catalog.constant.ServiceCatalogApiCode;
 import com.meiduimall.service.catalog.entity.SysuserAccount;
@@ -45,7 +45,7 @@ public class ShopController {
 			shop_id = Integer.parseInt(shopId);
 		} catch (NumberFormatException e) {
 			logger.error("获取店铺详情: " + e);
-			throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
+			throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
 		}
 		return shopService.getShopDetail(shop_id, memId);
 
@@ -71,7 +71,7 @@ public class ShopController {
 			is_collect = Integer.parseInt(isCollect);
 		} catch (NumberFormatException e) {
 			logger.error("收藏或者取消收藏店铺: " + e);
-			throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
+			throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
 		}
 		SysuserAccount sysuserAccount = (SysuserAccount) request.getAttribute("sysuserAccount");
 		return shopService.collectOrCancelShop(shop_id, sysuserAccount, is_collect);
@@ -91,7 +91,7 @@ public class ShopController {
 			shop_id = Integer.parseInt(shopId);
 		} catch (NumberFormatException e) {
 			logger.error("获取店铺商品分类: " + e);
-			throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
+			throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
 		}
 		return shopService.getShopProductCatalog(shop_id);
 	}

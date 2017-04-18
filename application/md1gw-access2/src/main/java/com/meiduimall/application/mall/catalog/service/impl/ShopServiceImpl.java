@@ -14,7 +14,7 @@ import com.meiduimall.application.mall.catalog.constant.ApplicationMallApiCode;
 import com.meiduimall.application.mall.catalog.request.ShopProductRequest;
 import com.meiduimall.application.mall.catalog.service.ShopService;
 import com.meiduimall.application.mall.catalog.util.HttpGatewayUtils;
-import com.meiduimall.exception.ApiException;
+import com.meiduimall.exception.ServiceException;
 
 /**
  * MDShopController 网络请求工具类
@@ -50,14 +50,14 @@ public class ShopServiceImpl implements ShopService {
 
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("shopId", String.valueOf(shopId));
-		if(!StringUtils.isBlank(memId)){
+		if (!StringUtils.isBlank(memId)) {
 			params.put("memId", memId);
 		}
 		try {
 			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
 		} catch (Exception e) {
 			logger.error("请求微服务异常： " + e);
-			throw new ApiException(ApplicationMallApiCode.REQUEST_SERVICE_ERROR);
+			throw new ServiceException(ApplicationMallApiCode.REQUEST_SERVICE_ERROR);
 		}
 	}
 
@@ -68,7 +68,8 @@ public class ShopServiceImpl implements ShopService {
 	 *            店铺ID
 	 * @param isCollect
 	 *            收藏1，取消收藏0
-	 * @param memId 会员系统ID
+	 * @param memId
+	 *            会员系统ID
 	 * @return
 	 */
 	@Override
@@ -83,14 +84,14 @@ public class ShopServiceImpl implements ShopService {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("shopId", String.valueOf(shopId));
 		params.put("isCollect", String.valueOf(isCollect));
-		if(!StringUtils.isBlank(memId)){
+		if (!StringUtils.isBlank(memId)) {
 			params.put("memId", memId);
 		}
 		try {
 			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
 		} catch (Exception e) {
 			logger.error("请求微服务异常： " + e);
-			throw new ApiException(ApplicationMallApiCode.REQUEST_SERVICE_ERROR);
+			throw new ServiceException(ApplicationMallApiCode.REQUEST_SERVICE_ERROR);
 		}
 	}
 
@@ -115,7 +116,7 @@ public class ShopServiceImpl implements ShopService {
 			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
 		} catch (Exception e) {
 			logger.error("请求微服务异常： " + e);
-			throw new ApiException(ApplicationMallApiCode.REQUEST_SERVICE_ERROR);
+			throw new ServiceException(ApplicationMallApiCode.REQUEST_SERVICE_ERROR);
 		}
 	}
 
@@ -155,7 +156,7 @@ public class ShopServiceImpl implements ShopService {
 			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
 		} catch (Exception e) {
 			logger.error("请求微服务异常： " + e);
-			throw new ApiException(ApplicationMallApiCode.REQUEST_SERVICE_ERROR);
+			throw new ServiceException(ApplicationMallApiCode.REQUEST_SERVICE_ERROR);
 		}
 	}
 }

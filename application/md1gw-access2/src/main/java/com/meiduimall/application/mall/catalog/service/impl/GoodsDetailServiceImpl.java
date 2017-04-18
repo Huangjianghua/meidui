@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import com.meiduimall.application.mall.catalog.constant.ApplicationMallApiCode;
 import com.meiduimall.application.mall.catalog.service.GoodsDetailService;
 import com.meiduimall.application.mall.catalog.util.HttpGatewayUtils;
-import com.meiduimall.exception.ApiException;
+import com.meiduimall.exception.ServiceException;
 
 /**
  * GoodsDetailController的网络请求工具类
@@ -57,7 +57,7 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
 		} catch (Exception e) {
 			logger.error("请求微服务异常： " + e);
-			throw new ApiException(ApplicationMallApiCode.REQUEST_SERVICE_ERROR);
+			throw new ServiceException(ApplicationMallApiCode.REQUEST_SERVICE_ERROR);
 		}
 	}
 }
