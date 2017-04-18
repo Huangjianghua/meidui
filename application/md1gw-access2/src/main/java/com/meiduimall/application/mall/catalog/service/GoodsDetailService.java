@@ -1,7 +1,7 @@
 package com.meiduimall.application.mall.catalog.service;
 
 public interface GoodsDetailService {
-	
+
 	/**
 	 * 根据商品item_id获取商品详情
 	 * 

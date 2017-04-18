@@ -25,7 +25,10 @@ public class ServiceFinancialApiCode extends BaseApiCode {
 	public static final Integer MEMID_VALIDATE_ERROR = 7008;
 
 	/** 数据库异常 */
-	public static final Integer DB_EXCEPTION = 7200;
+	public static final Integer DB_EXCEPTION = 7500;
+
+	/** 未知错误 */
+	public static final Integer UNKNOWN_ERROR = 7777;
 
 	static {
 		zhMsgMap.put(REQUEST_SUCCESS, "请求成功");
@@ -37,5 +40,6 @@ public class ServiceFinancialApiCode extends BaseApiCode {
 		zhMsgMap.put(NO_LOGIN, "请先登录");
 		zhMsgMap.put(MEMID_VALIDATE_ERROR, "memId验证异常");
 		zhMsgMap.put(DB_EXCEPTION, "数据库异常");
+		zhMsgMap.put(UNKNOWN_ERROR, "未知错误");
 	}
 }

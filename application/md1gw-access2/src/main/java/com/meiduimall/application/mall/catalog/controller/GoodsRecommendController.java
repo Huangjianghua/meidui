@@ -33,28 +33,27 @@ public class GoodsRecommendController {
 	/**
 	 * 根据推荐类型，获取推荐商品
 	 * 
-	 * @param response
 	 * @param type
 	 *            推荐类型
-	 * @param req_id
+	 * @param sourceId
 	 *            请求来源
 	 * @return
 	 */
 	@RequestMapping("/getRecommend")
 	public String getFirstRecommendGoods(String type,
-			@RequestParam(value = "req_id", required = false, defaultValue = "1") String req_id) {
+			@RequestParam(value = "sourceId", required = false, defaultValue = "1") String sourceId) {
 
 		int reco_type = 0;
-		int reco_req_id = 0;
+		int reco_source_id = 0;
 		try {
 			reco_type = Integer.parseInt(type);
-			reco_req_id = Integer.parseInt(req_id);
+			reco_source_id = Integer.parseInt(sourceId);
 		} catch (NumberFormatException e) {
 			logger.error("根据推荐类型，获取推荐商品，服务器异常：" + e);
 			throw new ApiException(ApplicationMallApiCode.REQUEST_PARAMS_ERROR);
 		}
 		
-		String result = goodsRecommendService.getFirstRecommendGoodsHttp(reco_type, reco_req_id);
+		String result = goodsRecommendService.getFirstRecommendGoodsHttp(reco_type, reco_source_id);
 		// 增加头部--解决JS跨域问题
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		return result;

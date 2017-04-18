@@ -87,7 +87,7 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 	}
 
 	@Override
-	public ResBodyData getFirstRecommendItems(int type, int count, int req_id) {
+	public ResBodyData getFirstRecommendItems(int type, int count, int sourceId) {
 		logger.info("获取指定类型的推荐商品： " + type);
 
 		ResBodyData result = new ResBodyData();
@@ -114,9 +114,9 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 			if (results != null && results.size() > 0) {
 				// 分别给每一个商品详情查询结果添加访问地址
 				for (GoodsDetailResult detail : results) {
-					if (req_id == 1) {
+					if (sourceId == 1) {
 						detail.setUrl(base_url + "/wap/item.html?item_id=" + detail.getItemId());
-					} else if (req_id == 2) {
+					} else if (sourceId == 2) {
 						detail.setUrl(base_url + "/item.html?item_id=" + detail.getItemId());
 					} else {
 						// can not reach

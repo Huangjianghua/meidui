@@ -34,11 +34,11 @@ public interface GoodsRecommendService {
 	 *            推荐类型
 	 * @param count
 	 *            推荐个数
-	 * @param req_id
+	 * @param sourceId
 	 *            客户端编号
 	 * @return
 	 */
-	ResBodyData getFirstRecommendItems(int type, int count, int req_id);
+	ResBodyData getFirstRecommendItems(int type, int count, int sourceId);
 
 	/**
 	 * 获得所有的推荐商品，需要分页

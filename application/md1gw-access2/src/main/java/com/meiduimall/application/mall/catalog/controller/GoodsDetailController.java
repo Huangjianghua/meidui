@@ -27,23 +27,23 @@ public class GoodsDetailController {
 	private GoodsDetailServiceImpl goodsDetailService;
 
 	/**
-	 * 根据商品item_id获取商品详情
+	 * 根据商品itemId获取商品详情
 	 * 
 	 * @param request
-	 * @param item_id
+	 * @param itemId
 	 *            商品ID
 	 * @return
 	 */
 	@RequestMapping("/getItem")
-	public String getItemDetail(HttpServletRequest request, String item_id) {
-		int itemId = 0;
-		String mem_id = (String) request.getAttribute("mem_id");
+	public String getItemDetail(HttpServletRequest request, String itemId) {
+		int item_id = 0;
+		String memId = (String) request.getAttribute("memId");
 		try {
-			itemId = Integer.parseInt(item_id);
+			item_id = Integer.parseInt(itemId);
 		} catch (NumberFormatException e) {
 			logger.error("根据商品item_id获取商品详情，服务器异常：" + e);
 			throw new ApiException(ApplicationMallApiCode.REQUEST_PARAMS_ERROR);
 		}
-		return goodsDetailService.getItemDetailHttp(itemId, mem_id);
+		return goodsDetailService.getItemDetailHttp(item_id, memId);
 	}
 }

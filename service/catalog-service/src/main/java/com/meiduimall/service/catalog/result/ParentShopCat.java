@@ -2,14 +2,10 @@ package com.meiduimall.service.catalog.result;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class ParentShopCat {
 
-	@JsonProperty("cat_id")
 	private Integer catId; //店铺自定义分类ID
 	
-	@JsonProperty("cat_name")
 	private String catName; //店铺自定义分类名字
 	
 	private List<ChildShopCat> childShopCat; //子分类
