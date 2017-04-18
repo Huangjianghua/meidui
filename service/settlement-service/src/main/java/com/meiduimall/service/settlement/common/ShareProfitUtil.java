@@ -408,26 +408,18 @@ public class ShareProfitUtil {
 	 * @return
 	 */
 	public static Map<String, String> loadProperty(String config) {
-		InputStream is = null;
 		Map<String, String> map = new HashMap<String, String>();
+		InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(config);
+		Properties pro = new Properties();
 		try {
-			is = Thread.currentThread().getContextClassLoader().getResourceAsStream(config);
-			Properties pro = new Properties();
 			pro.load(is);
-			Iterator<Object> localIterator = pro.keySet().iterator();
-			while (localIterator.hasNext()) {
-				Object key = localIterator.next();
-				map.put(key.toString(), pro.get(key).toString());
-			}
-		} catch (Exception e) {
-			log.error("配置文件:{},加载出错!error:{}",config,e.getMessage());
-		} finally {
-			try {
-				if (is != null)
-				is.close();
-			} catch (IOException e) {
-				log.error(e.getMessage(),e);
-			}
+		} catch (IOException e) {
+			log.error("配置文件加载出错{},{}", config, e);
+		}
+		Iterator<Object> localIterator = pro.keySet().iterator();
+		while (localIterator.hasNext()) {
+			Object key = localIterator.next();
+			map.put(key.toString(), pro.get(key).toString());
 		}
 		return map;
 	}
@@ -451,7 +443,7 @@ public class ShareProfitUtil {
 				encodestr = URLEncoder.encode(str, defaultCharSet);
 			}
 		} catch (UnsupportedEncodingException e) {
-			log.error("Unsupported encoding type");
+			log.error("Unsupported encoding type:{}", e);
 		}
 		return encodestr;
 	}

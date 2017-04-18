@@ -109,69 +109,64 @@ public class MemberServiceImpl implements MemberService {
 		
 		final List<String> errors = new ArrayList<String>();
 		
-		try{
-			log.info("Update Score Start:Current Date:" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " for orderSn:"+shareProfit.getOrderSn());
+		log.info("Update Score Start:Current Date:" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " for orderSn:"+shareProfit.getOrderSn());
 
-			if (StringUtil.isEmpty(shareProfit.getPhone()) || StringUtil.isEmpty(shareProfit.getSellerPhone())) {
-				log.warn("会员/商家手机号为空!略过该条更新数据!orderSn:"+shareProfit.getOrderSn());
-				errors.add("会员/商家手机号不能为空!");
-				//略过该条数据，因为没法 更新积分。
-				return errors;
-			}
-			log.info("开始更新订单分润的各受益相关人所获积分到会员系统,orderSn:"+shareProfit.getOrderSn());
-			boolean updateMemberScore = this.addConsumePoints(shareProfit.getPhone(), shareProfit.getPoint().toString(), ShareProfitConstants.DATA_SOURCE_O2O, shareProfit.getOrderSn());
-			if(updateMemberScore){
-				log.info("更新订单分润用户所获积分到会员系统成功,用户手机号:"+shareProfit.getPhone());
-			}else{
-				log.info("更新订单分润用户所获积分到会员系统失败,用户手机号:"+shareProfit.getPhone());
-				errors.add("更新订单分润用户所获积分到会员系统失败,用户手机号:"+shareProfit.getPhone());
-			}
-			
-			boolean updateSellerScore = this.addConsumePoints(shareProfit.getSellerPhone(), shareProfit.getSellerPoint().toString(), ShareProfitConstants.DATA_SOURCE_O2O, shareProfit.getOrderSn());
-			if(updateSellerScore){
-				log.info("更新订单分润商家所获积分到会员系统成功,商家手机号:"+shareProfit.getSellerPhone());
-			}else{
-				log.info("更新订单分润商家所获积分到会员系统失败,商家手机号:"+shareProfit.getSellerPhone());
-				errors.add("更新订单分润商家所获积分到会员系统失败,商家手机号:"+shareProfit.getSellerPhone());
-			}
-			
-			boolean updateOneScore = true;
-			boolean updateTwoScore = true;
-			if (!StringUtil.isEmpty(shareProfit.getBelongOnePhone())) {
-				
-				updateOneScore = this.addConsumePoints(shareProfit.getBelongOnePhone(), shareProfit.getBelongOnePoint().toString(), ShareProfitConstants.DATA_SOURCE_O2O, shareProfit.getOrderSn());
-				
-				if(updateOneScore){
-					log.info("更新订单分润一级推荐人所获积分到会员系统成功,一级推荐人手机号:"+shareProfit.getBelongOnePhone());
-				}else{
-					log.info("更新订单分润一级推荐人所获积分到会员系统失败,一级推荐人手机号:"+shareProfit.getBelongOnePhone());
-					errors.add("更新订单分润一级推荐人所获积分到会员系统失败,一级推荐人手机号:"+shareProfit.getBelongOnePhone());
-				}
-			
-			}
-			if (null != shareProfit.getBelongTwoPhone() && !"".equals(shareProfit.getBelongTwoPhone())) {
-				updateTwoScore = this.addConsumePoints(shareProfit.getBelongTwoPhone(), shareProfit.getBelongTwoPoint().toString(), ShareProfitConstants.DATA_SOURCE_O2O, shareProfit.getOrderSn());
-			
-				if(updateTwoScore){
-					log.info("更新订单分润二级推荐人所获积分到会员系统成功,二级推荐人手机号:"+shareProfit.getBelongTwoPhone());
-				}else{
-					log.info("更新订单分润二级推荐人所获积分到会员系统失败,二级推荐人手机号:"+shareProfit.getBelongTwoPhone());
-					errors.add("更新订单分润二级推荐人所获积分到会员系统失败,二级推荐人手机号:"+shareProfit.getBelongTwoPhone());
-				}
-			
-			}
-
-			if (updateMemberScore && updateSellerScore && updateOneScore && updateTwoScore) {
-				log.info("分润订单更积分成功!orderSn:"+shareProfit.getOrderSn());
-			} else {
-				log.error("updateScore 订单分润更新积分到会员系统失败!!orderSn:"+shareProfit.getOrderSn());
-				log.error("OrderServiceImpl-->updateScore-->更新积分失败!商家/会员/推荐人积分更新失败!");
-			}
-			
-		}catch(Exception e){
-			log.error("updateScore() got error:{} for order:{}",e.getMessage(),shareProfit.getOrderSn());
-			errors.add(e.getMessage());
+		if (StringUtil.isEmpty(shareProfit.getPhone()) || StringUtil.isEmpty(shareProfit.getSellerPhone())) {
+			log.warn("会员/商家手机号为空!略过该条更新数据!orderSn:"+shareProfit.getOrderSn());
+			errors.add("会员/商家手机号不能为空!");
+			//略过该条数据，因为没法 更新积分。
+			return errors;
 		}
+		log.info("开始更新订单分润的各受益相关人所获积分到会员系统,orderSn:"+shareProfit.getOrderSn());
+		boolean updateMemberScore = this.addConsumePoints(shareProfit.getPhone(), shareProfit.getPoint().toString(), ShareProfitConstants.DATA_SOURCE_O2O, shareProfit.getOrderSn());
+		if(updateMemberScore){
+			log.info("更新订单分润用户所获积分到会员系统成功,用户手机号:"+shareProfit.getPhone());
+		}else{
+			log.info("更新订单分润用户所获积分到会员系统失败,用户手机号:"+shareProfit.getPhone());
+			errors.add("更新订单分润用户所获积分到会员系统失败,用户手机号:"+shareProfit.getPhone());
+		}
+		
+		boolean updateSellerScore = this.addConsumePoints(shareProfit.getSellerPhone(), shareProfit.getSellerPoint().toString(), ShareProfitConstants.DATA_SOURCE_O2O, shareProfit.getOrderSn());
+		if(updateSellerScore){
+			log.info("更新订单分润商家所获积分到会员系统成功,商家手机号:"+shareProfit.getSellerPhone());
+		}else{
+			log.info("更新订单分润商家所获积分到会员系统失败,商家手机号:"+shareProfit.getSellerPhone());
+			errors.add("更新订单分润商家所获积分到会员系统失败,商家手机号:"+shareProfit.getSellerPhone());
+		}
+		
+		boolean updateOneScore = true;
+		boolean updateTwoScore = true;
+		if (!StringUtil.isEmpty(shareProfit.getBelongOnePhone())) {
+			
+			updateOneScore = this.addConsumePoints(shareProfit.getBelongOnePhone(), shareProfit.getBelongOnePoint().toString(), ShareProfitConstants.DATA_SOURCE_O2O, shareProfit.getOrderSn());
+			
+			if(updateOneScore){
+				log.info("更新订单分润一级推荐人所获积分到会员系统成功,一级推荐人手机号:"+shareProfit.getBelongOnePhone());
+			}else{
+				log.info("更新订单分润一级推荐人所获积分到会员系统失败,一级推荐人手机号:"+shareProfit.getBelongOnePhone());
+				errors.add("更新订单分润一级推荐人所获积分到会员系统失败,一级推荐人手机号:"+shareProfit.getBelongOnePhone());
+			}
+		
+		}
+		if (null != shareProfit.getBelongTwoPhone() && !"".equals(shareProfit.getBelongTwoPhone())) {
+			updateTwoScore = this.addConsumePoints(shareProfit.getBelongTwoPhone(), shareProfit.getBelongTwoPoint().toString(), ShareProfitConstants.DATA_SOURCE_O2O, shareProfit.getOrderSn());
+		
+			if(updateTwoScore){
+				log.info("更新订单分润二级推荐人所获积分到会员系统成功,二级推荐人手机号:"+shareProfit.getBelongTwoPhone());
+			}else{
+				log.info("更新订单分润二级推荐人所获积分到会员系统失败,二级推荐人手机号:"+shareProfit.getBelongTwoPhone());
+				errors.add("更新订单分润二级推荐人所获积分到会员系统失败,二级推荐人手机号:"+shareProfit.getBelongTwoPhone());
+			}
+		
+		}
+
+		if (updateMemberScore && updateSellerScore && updateOneScore && updateTwoScore) {
+			log.info("分润订单更积分成功!orderSn:"+shareProfit.getOrderSn());
+		} else {
+			log.error("updateScore 订单分润更新积分到会员系统失败!!orderSn:"+shareProfit.getOrderSn());
+			log.error("OrderServiceImpl-->updateScore-->更新积分失败!商家/会员/推荐人积分更新失败!");
+		}
+			
 		return errors;
 	}
 
