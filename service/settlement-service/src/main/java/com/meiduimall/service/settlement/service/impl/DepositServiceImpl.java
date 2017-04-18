@@ -116,19 +116,18 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 		double personToPersonRecRate = Double.parseDouble(systemSetting.get(ShareProfitConstants.PERSON_TO_PERSON_REC_RATE));//个代推个代代理费  推荐人获取代理费分成比例 20%
 		double personToPersonAreaRate = Double.parseDouble(systemSetting.get(ShareProfitConstants.PERSON_TO_PERSON_AREA_RATE));//个代推个代    创建人 即区代  获取代理费分成比例 30%
 		
-		String remark = null;//推荐时备注内容
 		double areaToPersonDeposit = ecmAgent.getCashDeposit() * areaToPersonRate;//区代推荐个代，区代获取50%的保证金
 		double personalToPersonRecDeposit = ecmAgent.getCashDeposit() * personToPersonRecRate;//个代推个代  推荐人获取保证金的20%(若推荐人是个代则20%账单不发出，若推荐人区代20%账单发出)
 		double personToPersonAreaDeposit = ecmAgent.getCashDeposit() * personToPersonAreaRate;//个代推个代  创建人获取保证金的30%
 		
 		ecmAgent.setOpTime(new Timestamp(System.currentTimeMillis()));//操作日期(代理流水、总流水保持一致)
 		
+		String remark = ShareProfitConstants.REMARK_1_TYPE;//推荐时备注内容 (默认备注内容为区代推荐个代)
+		
 		//区代推荐个代（推荐人编号长度为6则为区代）
 		if(ecmAgent.getRecommenderCode().length() == 6){
 			
 			logger.info("区代推荐个代，区代编码：" + ecmAgent.getRecommenderCode());
-			
-			remark = ShareProfitConstants.REMARK_1_TYPE;//备注内容为区代推荐个代
 			
 			//判断区代公司名称是否是"美兑壹购物"，如果不是则插入区代数据（流水金额）
 			if(!ecmAgent.getAddCompanyName().equals(ShareProfitConstants.COMPANY_NAME)){
@@ -336,11 +335,10 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 						
 						//插入代理流水（ecm_mzf_water）
 						EcmMzfWater water = new EcmMzfWater();
-						String flowCode = null;
+						
+						String flowCode = CodeRuleUtil.getPersonalAgentFlowCode(agentWater.getCode());//生成个代流水编号
 						if(agentWater.getType() == ShareProfitConstants.ROLE_TYPE_AREA_AGENT){//角色类型 1-区代、2-个代
 							flowCode = CodeRuleUtil.getAreaAgentFlowCode(agentWater.getCode());//生成区代流水编号
-						}else{
-							flowCode = CodeRuleUtil.getPersonalAgentFlowCode(agentWater.getCode());//生成个代流水编号
 						}
 						water.setWaterId(flowCode);
 						water.setCode(agentWater.getCode());

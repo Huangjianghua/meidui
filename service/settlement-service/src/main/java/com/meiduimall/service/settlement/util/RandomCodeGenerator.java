@@ -41,7 +41,6 @@ public class RandomCodeGenerator {
 	      
 	    /*定义substring的两个参数*/  
 	    int start = 0;
-	    int end = 0;  
 	    for(int i=0;i<length;i++){  
 	        /* 
 	         * 计算start和end的值 
@@ -50,10 +49,8 @@ public class RandomCodeGenerator {
 	         * uuid的前部分是时间戳构成的，因此前部分截取越少，重复率越底 
 	         * 固本方法采用了将多余的部分分散到尾部 
 	         * */  
-	        /*分散到尾部，如length为7的时候4,4,4,4,5,5,5*/  
-//	          end = start + (length-i <= remainder ? 1 : 0)+subLen;  
 	        /*分散到头部，如length为7 的时候5,5,5,5,4,4,4*/  
-	        end = start + (i < remainder ? 1 : 0)+subLen;  
+	        int end = start + (i < remainder ? 1 : 0)+subLen;  
 	        /*截取到的字符串*/  
 	        String code = uuid.substring(start,end);  
 	        /*对所截取的长度进行16位求和*/  

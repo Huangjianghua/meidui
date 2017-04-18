@@ -50,13 +50,12 @@ public class ShareProfitRetryTask {
 			//从ecm_mzf_log_shareprofit_order表中查询需要重新分润的订单
 			Map<String,String> map = getOrders2Retry();
 			
-			if(map != null && !map.isEmpty()){
+			if(!map.isEmpty()){
 				for(Map.Entry<String, String> entry : map.entrySet()){
 					String orderSn = entry.getKey();
 					String shareProfitJsonObj = RedisUtils.get(ShareProfitConstants.REDIS_KEY_PREFIX_ORDER + orderSn);
-					EcmMzfShareProfit shareProfit = null;
 					if(!StringUtil.isEmpty(shareProfitJsonObj)){ 
-						shareProfit = JsonUtils.jsonToBean(shareProfitJsonObj, EcmMzfShareProfit.class);	
+						EcmMzfShareProfit shareProfit = JsonUtils.jsonToBean(shareProfitJsonObj, EcmMzfShareProfit.class);	
 						
 						String retryType = "";
 						if (ShareProfitConstants.SHARE_PROFIT_RETRY_TYPE_FINAL_ROUND.equals(entry.getValue())) {
