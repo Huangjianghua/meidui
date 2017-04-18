@@ -3,6 +3,7 @@ package com.meiduimall.application.mall.catalog.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,17 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 	@Autowired
 	private Environment env;
 
+	/**
+	 * 请求微服务，根据商品itemId获取商品详情
+	 * 
+	 * @param itemId
+	 *            商品ID
+	 * @param memId
+	 *            会员系统ID
+	 * @return
+	 */
 	@Override
-	public String getItemDetailHttp(int item_id, String mem_id) {
+	public String getItemDetailHttp(int itemId, String memId) {
 
 		String uri = "/mall/catalog-service/v1/goodsDetail/getItem";
 		String host = env.getProperty("service.host");
@@ -38,8 +48,10 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 		String url = host + uri;
 
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("item_id", String.valueOf(item_id));
-		params.put("mem_id", "" + mem_id);
+		params.put("itemId", String.valueOf(itemId));
+		if(!StringUtils.isBlank(memId)){
+			params.put("memId", memId);
+		}
 
 		try {
 			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);

@@ -25,69 +25,69 @@ public class ShopController {
 	private ShopServiceImpl shopService;
 
 	/**
-	 * 根据店铺shop_id，获取店铺详情
+	 * 根据店铺shopId，获取店铺详情
 	 * 
 	 * @param request
-	 * @param shop_id
+	 * @param shopId
 	 *            店铺ID
 	 * @return
 	 */
 	@RequestMapping(value = "/getShopDetail")
-	public String getShopDetail(HttpServletRequest request, String shop_id) {
-		int shopId = 0;
-		String mem_id = (String) request.getAttribute("mem_id");
+	public String getShopDetail(HttpServletRequest request, String shopId) {
+		int shop_id = 0;
+		String memId = (String) request.getAttribute("memId");
 		try {
-			shopId = Integer.parseInt(shop_id);
+			shop_id = Integer.parseInt(shopId);
 		} catch (NumberFormatException e) {
 			logger.error("根据店铺shop_id，获取店铺详情，服务器异常：" + e);
 			throw new ApiException(ApplicationMallApiCode.REQUEST_PARAMS_ERROR);
 		}
-		return shopService.getShopDetailHttp(shopId, mem_id);
+		return shopService.getShopDetailHttp(shop_id, memId);
 	}
 
 	/**
 	 * 收藏店铺或者取消收藏
 	 * 
 	 * @param request
-	 * @param shop_id
+	 * @param shopId
 	 *            店铺ID
-	 * @param is_collect
+	 * @param isCollect
 	 *            收藏1，取消收藏0
 	 * @return
 	 */
 	@HasToken
 	@RequestMapping(value = "/collectShop")
-	public String collectOrCancelShop(HttpServletRequest request, String shop_id, String is_collect) {
-		int shopId = 0;
-		int isCollect = 0;
-		String mem_id = (String) request.getAttribute("mem_id");
+	public String collectOrCancelShop(HttpServletRequest request, String shopId, String isCollect) {
+		int shop_id = 0;
+		int is_collect = 0;
+		String memId = (String) request.getAttribute("memId");
 		try {
-			shopId = Integer.parseInt(shop_id);
-			isCollect = Integer.parseInt(is_collect);
+			shop_id = Integer.parseInt(shopId);
+			is_collect = Integer.parseInt(isCollect);
 		} catch (NumberFormatException e) {
 			logger.error("收藏店铺或者取消收藏，服务器异常：" + e);
 			throw new ApiException(ApplicationMallApiCode.REQUEST_PARAMS_ERROR);
 		}
-		return shopService.collectOrCancelShopHttp(shopId, isCollect, mem_id);
+		return shopService.collectOrCancelShopHttp(shop_id, is_collect, memId);
 	}
 
 	/**
 	 * 获取商家自定义商品分类列表
 	 * 
-	 * @param shop_id
+	 * @param shopId
 	 *            店铺ID
 	 * @return
 	 */
 	@RequestMapping(value = "/getShopCatalog")
-	public String getShopProductCatalog(String shop_id) {
-		int shopId = 0;
+	public String getShopProductCatalog(String shopId) {
+		int shop_id = 0;
 		try {
-			shopId = Integer.parseInt(shop_id);
+			shop_id = Integer.parseInt(shopId);
 		} catch (NumberFormatException e) {
 			logger.error("获取商家自定义商品分类列表，服务器异常：" + e);
 			throw new ApiException(ApplicationMallApiCode.REQUEST_PARAMS_ERROR);
 		}
-		return shopService.getShopProductCatalogHttp(shopId);
+		return shopService.getShopProductCatalogHttp(shop_id);
 	}
 
 	/**

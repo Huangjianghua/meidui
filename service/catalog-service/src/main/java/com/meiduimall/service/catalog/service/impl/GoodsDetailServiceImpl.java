@@ -54,7 +54,7 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 
 	@Override
 	public ResBodyData checkItemIsExistById(int item_id) {
-		
+
 		logger.info("根据商品ID，查询这个商品是否存在：" + item_id);
 
 		/** TODO --------查询这个商品ID是否存在-------- */
@@ -96,7 +96,7 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 	}
 
 	@Override
-	public ResBodyData getItemDetailById(String mem_id, Integer item_id) {
+	public ResBodyData getItemDetailById(String memId, Integer itemId) {
 		/**
 		 * <table schema="" tableName="sysitem_item">
 		 * <table schema="" tableName="sysitem_item_desc">
@@ -116,13 +116,13 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 		 * <table schema="" tableName="sysuser_account">
 		 * <table schema="" tableName="sysuser_user_fav">
 		 */
-		
-		logger.info("根据商品ID，查询商品详情：" + item_id);
-		
+
+		logger.info("根据商品ID，查询商品详情：" + itemId);
+
 		ResBodyData result = new ResBodyData();// 最终返回的数据对象
 
 		// 根据item_id查找sysitem_item表中对应的商品记录信息
-		SysitemItemWithBLOBs itemWithBLOBs = baseDao.selectOne(item_id, "SysitemItemMapper.selectByPrimaryKey");
+		SysitemItemWithBLOBs itemWithBLOBs = baseDao.selectOne(itemId, "SysitemItemMapper.selectByPrimaryKey");
 		if (itemWithBLOBs == null) {// 查询不到该商品
 			throw new ServiceException(ServiceCatalogApiCode.NO_THIS_PRODUCT);
 		}
@@ -205,7 +205,7 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 		JsonItemDetailResultItemData itemData = new JsonItemDetailResultItemData();
 
 		// 获取商品详情的HTML页面地址，查找sysitem_item_desc表
-		SysitemItemDesc itemDesc = baseDao.selectOne(item_id, "SysitemItemDescMapper.selectByPrimaryKey");
+		SysitemItemDesc itemDesc = baseDao.selectOne(itemId, "SysitemItemDescMapper.selectByPrimaryKey");
 		String html_detail_url = "";
 		String wapDesc = itemDesc.getWapDesc();
 		String pcDesc = itemDesc.getPcDesc();
@@ -217,7 +217,7 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 		itemData.setHtmlDetailUrl(html_detail_url);
 
 		// 获取商品销量和商品评论信息，查找表sysitem_item_count
-		SysitemItemCount itemCount = baseDao.selectOne(item_id, "SysitemItemCountMapper.selectByPrimaryKey");
+		SysitemItemCount itemCount = baseDao.selectOne(itemId, "SysitemItemCountMapper.selectByPrimaryKey");
 		// 评论数量
 		Integer rateCount = itemCount.getRateCount();
 		if (rateCount == null) {
@@ -241,7 +241,7 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 		itemData.setSalesVolume(String.valueOf(rate_count));
 
 		// 查询商品状态信息，表sysitem_item_status
-		SysitemItemStatus itemStatus = baseDao.selectOne(item_id, "SysitemItemStatusMapper.selectByPrimaryKey");
+		SysitemItemStatus itemStatus = baseDao.selectOne(itemId, "SysitemItemStatusMapper.selectByPrimaryKey");
 		// 商品状态
 		String approveStatus = itemStatus.getApproveStatus();
 		itemData.setApproveStatus(approveStatus);
@@ -261,7 +261,7 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 
 		itemData.setBn(itemWithBLOBs.getBn());
 		itemData.setImageDefaultId(itemWithBLOBs.getImageDefaultId());
-		itemData.setItmeId(String.valueOf(item_id));
+		itemData.setItmeId(String.valueOf(itemId));
 		itemData.setListImage(itemWithBLOBs.getListImage());
 		itemData.setPoint(itemWithBLOBs.getPoint().toString());
 		itemData.setPrice(itemWithBLOBs.getPrice().toString());
@@ -287,7 +287,7 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 		}
 
 		// 查询商品的库存，表sysitem_item_store
-		SysitemItemStore itemStore = baseDao.selectOne(item_id, "SysitemItemStoreMapper.selectByPrimaryKey");
+		SysitemItemStore itemStore = baseDao.selectOne(itemId, "SysitemItemStoreMapper.selectByPrimaryKey");
 		Integer store = itemStore.getStore();
 		Integer freez = itemStore.getFreez();
 		if (store != null) {
@@ -302,14 +302,14 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 		}
 
 		// 检查用户是否收藏了该商品
-		if (StringUtils.isEmpty(mem_id)) {
+		if (StringUtils.isEmpty(memId)) {
 			// 没有token，不需要处理
 			itemData.setIsCollect("0");
 		} else {
 			// 处理token
 			IdAndMemId idAndMemId = new IdAndMemId();
-			idAndMemId.setId(item_id.intValue());
-			idAndMemId.setMemId(mem_id);
+			idAndMemId.setId(itemId.intValue());
+			idAndMemId.setMemId(memId);
 			int count = baseDao.selectOne(idAndMemId, "SysuserUserFavMapper.selectCountByItemIdAndMemId");
 			if (count > 0) {
 				itemData.setIsCollect("1");
@@ -325,7 +325,7 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 		// 查sysitem_sku表，根据item_id查找该商品对应的SKU列表
 		SysitemSkuExample skuExample = new SysitemSkuExample();
 		SysitemSkuExample.Criteria criteria = skuExample.createCriteria();
-		criteria.andItemIdEqualTo(item_id);
+		criteria.andItemIdEqualTo(itemId);
 		List<SysitemSkuWithBLOBs> itemSkuWithBLOBsList = baseDao.selectList(skuExample,
 				"SysitemSkuMapper.selectByExampleWithBLOBs");
 
@@ -399,7 +399,7 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 		// -------------4、开始拼接商家数据-----------
 		Integer shopId = itemWithBLOBs.getShopId();
 		JsonItemDetailResultShopData shopData = ShopCommonService.getJsonItemDetailResult_ShopData(baseDao, shopId,
-				mem_id);
+				memId);
 
 		jsonResult.setShopData(shopData);
 

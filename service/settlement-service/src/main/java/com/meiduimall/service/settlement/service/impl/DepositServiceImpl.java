@@ -370,7 +370,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 	}
 	
 	
-	@Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
+	@Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = ServiceException.class)
 	@Override
 	public void shareProfitAgentLog(ShareProfitAgentLog agentLog, String retryType) {
 		int flag = agentService.insertShareProfitAgentLog(agentLog);

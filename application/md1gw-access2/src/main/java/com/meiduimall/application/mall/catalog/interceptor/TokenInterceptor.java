@@ -72,9 +72,9 @@ public class TokenInterceptor implements HandlerInterceptor {
 				}
 
 			} else {
-				/** token不是必须传递的参数时，先验证token，获取mem_id；不管验证是否通过，都放行 */
+				/** token不是必须传递的参数时，先验证token，获取memId；不管验证是否通过，都放行 */
 				if (!StringUtils.isBlank(token)) {
-					// 如果token不为空，需要调用会员系统根据token获取mem_id
+					// 如果token不为空，需要调用会员系统根据token获取memId
 					checkToken(request, response, token);
 				}
 				return true;
@@ -104,7 +104,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 		try {
 			result = HttpUtils.get(url);
 		} catch (IOException e) {
-			logger.info("根据token获取mem_id，请求会员系统异常：" + e);
+			logger.info("根据token获取memId，请求会员系统异常：" + e);
 			return false;
 		}
 
@@ -112,13 +112,13 @@ public class TokenInterceptor implements HandlerInterceptor {
 		if (memIdResult != null && memIdResult.getData() != null) {
 			String memId = memIdResult.getData().getMemId();
 			if (!StringUtils.isBlank(memId)) {
-				request.setAttribute("mem_id", memId);
-				logger.info("根据token获取mem_id成功：" + memId);
+				request.setAttribute("memId", memId);
+				logger.info("根据token获取memId成功：" + memId);
 				return true;
 			}
 		}
 
-		logger.info("根据token获取mem_id失败：" + token);
+		logger.info("根据token获取memId失败：" + token);
 		return false;
 	}
 

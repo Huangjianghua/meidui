@@ -17,8 +17,6 @@ public class BaseApiCode {
 	
 	/** 正常 **/
 	public static final Integer SUCCESS = 0;
-	/** 失败 **/
-//	public static final Integer FAIL = 1;
 
 	/** clientID参数无效 **/
 	public static final Integer NOT_EXISTS_CLIENTID = 1000;

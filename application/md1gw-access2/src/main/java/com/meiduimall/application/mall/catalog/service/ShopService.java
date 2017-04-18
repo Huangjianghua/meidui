@@ -14,7 +14,7 @@ public interface ShopService {
 	 * @return
 	 */
 	public String getShopDetailHttp(int shop_id, String mem_id);
-	
+
 	/**
 	 * 收藏店铺或者取消收藏
 	 * 
@@ -27,7 +27,7 @@ public interface ShopService {
 	 * @return
 	 */
 	public String collectOrCancelShopHttp(int shop_id, int is_collect, String mem_id);
-	
+
 	/**
 	 * 获取商家自定义商品分类列表
 	 * 
@@ -36,7 +36,7 @@ public interface ShopService {
 	 * @return
 	 */
 	public String getShopProductCatalogHttp(int shop_id);
-	
+
 	/**
 	 * 获取店铺的商品列表
 	 * 

@@ -107,7 +107,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public List<String> sendScore(EcmMzfShareProfit shareProfit){
 		
-		final List<String> errors=new ArrayList<String>();
+		final List<String> errors = new ArrayList<String>();
 		
 		try{
 			log.info("Update Score Start:Current Date:" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " for orderSn:"+shareProfit.getOrderSn());

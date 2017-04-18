@@ -48,21 +48,21 @@ public class GoodsDetailController {
 	/**
 	 * 根据商品编号，查询商品详情
 	 * 
-	 * @param mem_id
+	 * @param memId
 	 *            会员系统ID
-	 * @param item_id
+	 * @param itemId
 	 *            商品编号，必须
 	 * @return
 	 */
 	@RequestMapping(value = "/getItem")
-	public ResBodyData getItemDetail(String mem_id, String item_id) {
+	public ResBodyData getItemDetail(String memId, String itemId) {
 		int id = 0;
 		try {
-			id = Integer.parseInt(item_id);
+			id = Integer.parseInt(itemId);
 		} catch (NumberFormatException e) {
 			logger.error("根据商品编号，查询商品详情: " + e);
 			throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
 		}
-		return goodsDetailService.getItemDetailById(mem_id, id);
+		return goodsDetailService.getItemDetailById(memId, id);
 	}
 }

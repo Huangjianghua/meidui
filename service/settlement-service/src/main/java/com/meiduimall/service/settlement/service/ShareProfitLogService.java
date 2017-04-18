@@ -28,7 +28,7 @@ public interface ShareProfitLogService {
 	 * 
 	 */
 	
-	public void logShareProfitOrder(ShareProfitOrderLog orderLog,String retryType,Integer retryStatus) ;
+	public void logShareProfitOrder(ShareProfitOrderLog orderLog, String retryType, Integer retryStatus);
 	
 	/**
 	 * 功能描述:  账单生成相关日志
@@ -38,7 +38,7 @@ public interface ShareProfitLogService {
 	 * return  boolean
 	 * 
 	 */
-	public boolean logCreateBillLog(CreateBillLog createBillLog) ;
+	public boolean logCreateBillLog(CreateBillLog createBillLog);
 	
 	/**
 	 * 功能描述:  移除重试标识

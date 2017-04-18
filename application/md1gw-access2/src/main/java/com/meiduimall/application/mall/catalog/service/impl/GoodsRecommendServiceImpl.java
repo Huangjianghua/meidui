@@ -28,8 +28,17 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 	@Autowired
 	private Environment env;
 
+	/**
+	 * 请求微服务，根据推荐类型，获取推荐商品
+	 * 
+	 * @param type
+	 *            推荐类型
+	 * @param sourceId
+	 *            请求来源
+	 * @return
+	 */
 	@Override
-	public String getFirstRecommendGoodsHttp(int type, int req_id) {
+	public String getFirstRecommendGoodsHttp(int type, int sourceId) {
 
 		String uri = "/mall/catalog-service/v1/goodsRecommend/getFirstRecommend";
 		String host = env.getProperty("service.host");
@@ -39,7 +48,7 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("type", String.valueOf(type));
-		params.put("req_id", String.valueOf(req_id));
+		params.put("sourceId", String.valueOf(sourceId));
 
 		try {
 			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);

@@ -50,14 +50,14 @@ public class MemIdInterceptor implements HandlerInterceptor {
 			Method method = handlerMethod.getMethod();
 
 			if (method.getAnnotation(HasMemId.class) != null) {
-				/** 需要校验mem_id */
-				String mem_id = request.getParameter("mem_id");
-				if (StringUtils.isBlank(mem_id)) {
-					// mem_id为空，不通过
+				/** 需要校验memId */
+				String memId = request.getParameter("memId");
+				if (StringUtils.isBlank(memId)) {
+					// memId为空，不通过
 					return outPut(response, ServiceCatalogApiCode.NO_LOGIN);
 				}
 
-				SysuserAccount sysuserAccount = userService.getUserByMemId(mem_id);
+				SysuserAccount sysuserAccount = userService.getUserByMemId(memId);
 				if (sysuserAccount == null) {
 					// 验证不通过
 					return outPut(response, ServiceCatalogApiCode.NO_LOGIN);
@@ -67,11 +67,11 @@ public class MemIdInterceptor implements HandlerInterceptor {
 					return true;
 				}
 			} else {
-				/** 不需要校验mem_id，放行 */
+				/** 不需要校验memId，放行 */
 				return true;
 			}
 		} catch (Exception e) {
-			logger.error("验证mem_id，拦截器报异常： " + e);
+			logger.error("验证memId，拦截器报异常： " + e);
 			return outPut(response, ServiceCatalogApiCode.MEMID_VALIDATE_ERROR);
 		}
 	}

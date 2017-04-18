@@ -217,7 +217,7 @@ public class DateUtils {
 	 * date1 比 date2 大
 	 */
 	public static String formatSecond(Date date1, Date date2) {
-		StringBuffer sb = new StringBuffer(128);
+		StringBuilder sb = new StringBuilder(128);
 		long s = (date1.getTime() - date2.getTime()) / 1000;
 		Integer hours = (int) (s / (60 * 60));
 		Integer minutes = (int) (s / 60 - hours * 60);

@@ -36,9 +36,9 @@ public class O2oCallbackServiceImpl implements O2oCallbackService{
 
 	@Override
 	public boolean informSettlementStatus(Collection<String> orderSns, Integer statusCode) {
+		boolean isSuccess = true;
 		
-		boolean isSuccess=true;
-		String statusCodeMsg=ShareProfitUtil.O2O_SETTLEMENT_STATUS_CODE_MAP.get(statusCode)==null?"":ShareProfitUtil.O2O_SETTLEMENT_STATUS_CODE_MAP.get(statusCode);
+		String statusCodeMsg = ShareProfitUtil.O2O_SETTLEMENT_STATUS_CODE_MAP.get(statusCode) == null ? "" : ShareProfitUtil.O2O_SETTLEMENT_STATUS_CODE_MAP.get(statusCode);
 			
 		String resultObjStr = ConnectionUrlUtil.httpRequest(buildUrl4InformSettlementStatus(orderSns,statusCode), ShareProfitUtil.REQUEST_METHOD_POST, null);
 			
@@ -55,19 +55,15 @@ public class O2oCallbackServiceImpl implements O2oCallbackService{
 		//1.发送邮件或短信,修复后需要O2O手动更新订单状态
 		if(!isSuccess){
 			//注意，params中,逗号是参数分隔符,用于将分割后的参数填充到短信模板。
-			String params="通知订单结算状态给O2O失败;status_code:"+statusCodeMsg;
+			String params = "通知订单结算状态给O2O失败;status_code:" + statusCodeMsg;
 			SmsReqDTO smsReqDTO = new SmsReqDTO(ShareProfitUtil.AUTHORIZED_MAP.get(ShareProfitUtil.SMS_PHONES),
-					ShareProfitUtil.TEMPLATE_ID_O2O_1009,params,"");
+					ShareProfitUtil.TEMPLATE_ID_O2O_1009, params, "");
 
-			try {
-				boolean flag = smsService.sendMessage(smsReqDTO);
-				if(flag){
-					log.info("发送短信通知订单结算状态给O2O成功,status_code:{}",statusCodeMsg);
-				}else{
-					log.info("发送短信通知订单结算状态给O2O失败,status_code:{}",statusCodeMsg);
-				}
-			} catch (Exception e1) {
-				log.error("发送短信通知订单结算状态给O2O失败,status_code:{}",statusCodeMsg,e1);
+			boolean flag = smsService.sendMessage(smsReqDTO);
+			if(flag){
+				log.info("发送短信通知订单结算状态给O2O成功,status_code:{}",statusCodeMsg);
+			}else{
+				log.info("发送短信通知订单结算状态给O2O失败,status_code:{}",statusCodeMsg);
 			}
 		}
 

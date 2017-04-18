@@ -30,8 +30,17 @@ public class ShopServiceImpl implements ShopService {
 	@Autowired
 	private Environment env;
 
+	/**
+	 * 请求微服务，根据店铺shopId，获取店铺详情
+	 * 
+	 * @param shopId
+	 *            店铺ID
+	 * @param memId
+	 *            会员系统ID
+	 * @return
+	 */
 	@Override
-	public String getShopDetailHttp(int shop_id, String mem_id) {
+	public String getShopDetailHttp(int shopId, String memId) {
 
 		String uri = "/mall/catalog-service/v1/shopInfo/getShopDetail";
 		String host = env.getProperty("service.host");
@@ -40,8 +49,10 @@ public class ShopServiceImpl implements ShopService {
 		String url = host + uri;
 
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("shop_id", String.valueOf(shop_id));
-		params.put("mem_id", "" + mem_id);
+		params.put("shopId", String.valueOf(shopId));
+		if(!StringUtils.isBlank(memId)){
+			params.put("memId", memId);
+		}
 		try {
 			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
 		} catch (Exception e) {
@@ -50,8 +61,18 @@ public class ShopServiceImpl implements ShopService {
 		}
 	}
 
+	/**
+	 * 请求微服务，收藏店铺或者取消收藏
+	 * 
+	 * @param shopId
+	 *            店铺ID
+	 * @param isCollect
+	 *            收藏1，取消收藏0
+	 * @param memId 会员系统ID
+	 * @return
+	 */
 	@Override
-	public String collectOrCancelShopHttp(int shop_id, int is_collect, String mem_id) {
+	public String collectOrCancelShopHttp(int shopId, int isCollect, String memId) {
 
 		String uri = "/mall/catalog-service/v1/shopInfo/collectShop";
 		String host = env.getProperty("service.host");
@@ -60,9 +81,11 @@ public class ShopServiceImpl implements ShopService {
 		String url = host + uri;
 
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("shop_id", String.valueOf(shop_id));
-		params.put("mem_id", "" + mem_id);
-		params.put("is_collect", String.valueOf(is_collect));
+		params.put("shopId", String.valueOf(shopId));
+		params.put("isCollect", String.valueOf(isCollect));
+		if(!StringUtils.isBlank(memId)){
+			params.put("memId", memId);
+		}
 		try {
 			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
 		} catch (Exception e) {
@@ -71,8 +94,15 @@ public class ShopServiceImpl implements ShopService {
 		}
 	}
 
+	/**
+	 * 请求微服务，获取商家自定义商品分类列表
+	 * 
+	 * @param shopId
+	 *            店铺ID
+	 * @return
+	 */
 	@Override
-	public String getShopProductCatalogHttp(int shop_id) {
+	public String getShopProductCatalogHttp(int shopId) {
 		String uri = "/mall/catalog-service/v1/shopInfo/getShopCatalog";
 		String host = env.getProperty("service.host");
 		String clientID = env.getProperty("service.sign-clientID");
@@ -80,7 +110,7 @@ public class ShopServiceImpl implements ShopService {
 		String url = host + uri;
 
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("shop_id", String.valueOf(shop_id));
+		params.put("shopId", String.valueOf(shopId));
 		try {
 			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
 		} catch (Exception e) {
@@ -89,6 +119,12 @@ public class ShopServiceImpl implements ShopService {
 		}
 	}
 
+	/**
+	 * 请求微服务，获取店铺的商品列表
+	 * 
+	 * @param param
+	 * @return
+	 */
 	@Override
 	public String getShopProductList(ShopProductRequest param) {
 		String uri = "/mall/catalog-service/v1/shopInfo/getProductList";

@@ -140,7 +140,6 @@ public class SmsServiceImpl implements SmsService {
   @Override
   public void sendSmsMessage(CommonShortMessageModel model)  {
     String tempMsg = RedisUtils.get(model.getPhones() + model.getTemplateId() + model.getParams());
-    
     if (StringUtils.isNotEmpty(tempMsg)) {
       throw new ServiceException(SmsApiCode.REPEATING,BaseApiCode.getZhMsg(SmsApiCode.REPEATING));
     }
@@ -233,12 +232,12 @@ public class SmsServiceImpl implements SmsService {
     ssh.setRequestParams(model.getPhones() + "ali send param:" + ti.getExternalTemplateNo() + params + ";mandao send param:" + content);
     ssh.setResultMsg("ali result, flag:" + String.valueOf(flag) + ";mandao result, res:" + String.valueOf(res));
     sendSmsHistoryMapper.insert(ssh);
-
     return result;
   }
 
   @Override
   public int checkSmsVerificationCode(CommonShortMessageModel model)  {
+	  
     String tempVerificationCode = RedisUtils.get(model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId());
     if (StringUtils.isEmpty(tempVerificationCode)) {
       return -2;
@@ -251,7 +250,7 @@ public class SmsServiceImpl implements SmsService {
     //验证通过
     return  0;
   }
-
+  
   private SendSmsHistory setHistory(CommonShortMessageModel model) {
     SendSmsHistory ssh = new SendSmsHistory();
     ssh.setId(UUID.randomUUID().toString());

@@ -1,7 +1,5 @@
 package com.meiduimall.service.catalog.result;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 /**
  * 查询结果--商品详情对象
  * 
@@ -10,19 +8,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ShopGoodsDetailResult {
 
-	@JsonProperty("item_id")
 	private String itemId;
 
 	private String title;
 
-	@JsonProperty("sub_title")
 	private String subTitle;
 
 	private String price;
 
 	private String point;
 
-	@JsonProperty("image_default_id")
 	private String imageDefaultId;
 
 	public String getItemId() {

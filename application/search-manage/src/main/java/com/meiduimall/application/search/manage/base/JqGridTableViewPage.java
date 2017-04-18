@@ -1,7 +1,5 @@
 package com.meiduimall.application.search.manage.base;
-
 import java.util.List;
-
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 

@@ -19,7 +19,7 @@ import com.meiduimall.service.financial.test.BaseTest;
 public class DownloadStatisticsControllerTest extends BaseTest {
 
 	@Test
-	public void testInsertPortal1() throws Exception {
+	public void insertPortal_test_01() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/financial/financial-system-service/v1/statistics/insert")
 				.param("portal", "3"))
@@ -34,7 +34,7 @@ public class DownloadStatisticsControllerTest extends BaseTest {
 	}
 	
 	@Test
-	public void testInsertPortal2() throws Exception {
+	public void insertPortal_test_02() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/financial/financial-system-service/v1/statistics/insert")
 				.param("portal", ""))
@@ -49,7 +49,7 @@ public class DownloadStatisticsControllerTest extends BaseTest {
 	}
 	
 	@Test
-	public void testQueryByDate1() throws Exception {
+	public void queryByDate_test_01() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/financial/financial-system-service/v1/statistics/query")
 				.param("beginDate", "")
@@ -66,7 +66,7 @@ public class DownloadStatisticsControllerTest extends BaseTest {
 	}
 	
 	@Test
-	public void testQueryByDate2() throws Exception {
+	public void queryByDate_test_02() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/financial/financial-system-service/v1/statistics/query")
 				.param("beginDate", "2017-03-03")
@@ -83,7 +83,7 @@ public class DownloadStatisticsControllerTest extends BaseTest {
 	}
 	
 	@Test
-	public void testQueryByDate3() throws Exception {
+	public void queryByDate_test_03() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/financial/financial-system-service/v1/statistics/query")
 				.param("beginDate", "2017-03-03")

@@ -20,7 +20,7 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 @EnableTransactionManagement
 @EnableAsync
-@ComponentScan({ "com.meiduimall" })
+@ComponentScan({ "com.meiduimall.service.financial" })
 @EnableEurekaClient
 public class FinancialServiceApplication extends SpringBootServletInitializer {
 

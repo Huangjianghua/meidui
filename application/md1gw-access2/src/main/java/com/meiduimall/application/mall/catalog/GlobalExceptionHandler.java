@@ -18,7 +18,7 @@ import com.meiduimall.exception.ApiException;
  * @FileName: GlobalExceptionHandler.java
  * @Author: yangchangfu
  * @Date: 2017年3月17日 下午4:11:30
- * @Description: 全局参数验证不通过的处理
+ * @Description: 全局异常处理
  */
 @ControllerAdvice(basePackages = "com.meiduimall.application.mall.catalog.controller")
 @ResponseBody

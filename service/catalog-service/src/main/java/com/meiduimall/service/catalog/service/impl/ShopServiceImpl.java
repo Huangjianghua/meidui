@@ -40,11 +40,11 @@ public class ShopServiceImpl implements ShopService {
 	private BaseDao baseDao;
 
 	@Override
-	public ResBodyData getShopDetail(Integer shopId, String mem_id) {
+	public ResBodyData getShopDetail(Integer shopId, String memId) {
 		logger.info("根据商品编号，获取店铺详情，ID=" + shopId);
 
 		JsonItemDetailResultShopData shopData = ShopCommonService.getJsonItemDetailResult_ShopData(baseDao, shopId,
-				mem_id);
+				memId);
 
 		if (shopData == null) {
 			/** 没有这个店铺 */
