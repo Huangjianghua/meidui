@@ -3,30 +3,25 @@ package com.meiduimall.payment.api.payclient;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import com.meiduimall.payment.api.service.PaymentLogsService;
-
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.google.gson.Gson;
-import com.meiduimall.payment.api.controller.PaymentController;
+import com.meiduimall.core.util.HttpUtils;
+import com.meiduimall.core.util.XmlSupport;
+import com.meiduimall.exception.ApiException;
+import com.meiduimall.password.util.MD5;
 import com.meiduimall.payment.api.model.wechat.WeChatAppModel;
 import com.meiduimall.payment.api.model.wechat.WeChatRequestModel;
 import com.meiduimall.payment.api.model.wechat.WeChatResponeModel;
-import com.meiduimall.exception.ApiException;
-import com.meiduimall.core.util.HttpUtils;
-import com.meiduimall.password.util.MD5;
-import com.meiduimall.core.util.XmlSupport;
-import com.meiduimall.core.util.HttpUtils;
+import com.meiduimall.payment.api.service.PaymentLogsService;
 /**
  * 微信支付
  *
@@ -215,8 +210,10 @@ public class WeChatClient {
             model.setSign(signStr);
             String xmlData = XmlSupport.outputXml(model, WeChatRequestModel.class);
             log.info("getWeChatPayQrCode::request data: \n%s", xmlData);
-
-            String result = HttpUtils.post(WECHAT_URL_PAY, xmlData, null);
+            
+            Map<String,String>  map = new HashMap<String,String>();
+            map.put("Content-Type", "application/json");
+            String result = HttpUtils.post(WECHAT_URL_PAY, xmlData, map);
             log.info("getWeChatPayQrCode::result data: \n%s", result);
 
             

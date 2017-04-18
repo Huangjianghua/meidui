@@ -2,6 +2,7 @@ package com.meiduimall.payment.api.payclient;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
@@ -96,7 +97,9 @@ public class HiCardClient {
         try {
             String json = new Gson().toJson(requestModel);
             log.info("hiCardTrade::request data: \n%s", json);
-            String result = HttpUtils.post(hiCard_gateway, json, null);
+            Map<String,String>  rmap = new HashMap<String,String>();
+            rmap.put("Content-Type", "application/json");
+            String result = HttpUtils.post(hiCard_gateway, json, rmap);
             log.info("hiCardTrade::result data: \n%s", result);
             HashMap map = new ObjectMapper().readValue(result, HashMap.class);
             result =XmlSupport.hashMapToJson(map);

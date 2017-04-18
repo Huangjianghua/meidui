@@ -1,4 +1,4 @@
-package com.meiduimall.core.util;
+package com.meiduimall.password.util;
 
 import java.security.KeyFactory;
 import java.security.PrivateKey;

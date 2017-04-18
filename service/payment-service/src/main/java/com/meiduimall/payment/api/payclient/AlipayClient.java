@@ -14,8 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.meiduimall.core.util.RsaEncrypt;
 import com.meiduimall.exception.ApiException;
+import com.meiduimall.password.util.RsaEncrypt;
 import com.meiduimall.payment.api.model.alipay.AlipayRequestModel;
 
 /**
