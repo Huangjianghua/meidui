@@ -25,7 +25,7 @@ public class GatewaySignUtil {
         Iterator<String> iter = keySet.iterator();
         while (iter.hasNext()) {
             String key = iter.next();
-            if (key.equals("sign")){
+            if ("sign".equals(key)){
             	continue;
             }
             String value = map.get(key);

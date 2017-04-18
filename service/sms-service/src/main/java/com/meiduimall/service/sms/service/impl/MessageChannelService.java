@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.meiduimall.core.Constants;
 import com.meiduimall.core.util.DateUtils;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.ServiceException;
@@ -52,7 +53,7 @@ public class MessageChannelService{
 				List<MessageChannel> channelList = messageChannelMapper.getChannelList();
 				if(null != channelList && (!channelList.isEmpty())){
 					channelListJsonStr = JsonUtils.beanToJsonAndFmDate(channelList);
-					RedisUtils.setex(key, DateUtils.parseDuration("1mn"),channelListJsonStr);
+					RedisUtils.setex(key, Constants.REDIS_NINETY,channelListJsonStr);
 				}
 			} catch (Exception e) {
 				logger.error("获取渠道异常：{}", e);
@@ -75,7 +76,7 @@ public class MessageChannelService{
 				List<TemplateInfo> templateInfo = templateInfoMapper.getTemplateInfoList();
 				if(null != templateInfo && (!templateInfo.isEmpty())){
 					templateListJsonStr = JsonUtils.beanToJsonAndFmDate(templateInfo);
-					RedisUtils.setex(key, DateUtils.parseDuration("10mn"),templateListJsonStr);
+					RedisUtils.setex(key, Constants.REDIS_TENMINUTE,templateListJsonStr);
 				}
 			} catch (Exception e) {
 				logger.error("获取模板异常：{}", e);

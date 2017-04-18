@@ -6,12 +6,13 @@ import com.meiduimall.password.SecurityBaseApiCode;
 import com.meiduimall.password.exception.Md5Exception;
 
 public class MD5 {
+	
 	private final static String[] hexDigits = { "0", "1", "2", "3", "4", "5",
 			"6", "7", "8", "9", "a", "b", "c", "d", "e", "f" };
 
 
 	public static String byteArrayToHexString(byte[] b) {
-		StringBuffer resultSb = new StringBuffer();
+		StringBuilder resultSb = new StringBuilder();
 		for (int i = 0; i < b.length; i++) {
 			resultSb.append(byteToHexString(b[i]));
 		}
