@@ -6,6 +6,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
 
+import com.meiduimall.application.md1gwaccess.util.Logger;
+
 
 public class AlipayNotify {
 
@@ -28,7 +30,7 @@ public class AlipayNotify {
         String preSignStr = AlipayCore.createLinkString(sParaNew);
         //获得签名验证结果
         boolean isSign = false;
-        if(AlipayConfig.sign_type.equals("RSA")){
+        if("RSA".equals(AlipayConfig.sign_type)){
         isSign = RSA.verify(preSignStr, sign, AlipayConfig.alipay_public_key, AlipayConfig.input_charset);
         }
         return isSign;
@@ -74,9 +76,9 @@ public class AlipayNotify {
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection
                 .getInputStream()));
-            inputLine = in.readLine().toString();
+            inputLine = in.readLine();
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.error("system error: %s",e);
             inputLine = "";
         }
 

@@ -78,7 +78,7 @@ public class PaymentController {
 		    Logger.info("计算要支付的第三方金额:%s", paymentTrade.getMoney());
 			
 			
-			if(null == paymentTrade.getToken() || paymentTrade.getToken().equals("")){
+			if(null == paymentTrade.getToken() || "".equals(paymentTrade.getToken())){
 				Logger.info("token不能为空!");
 				json.put("status", 11);
 				json.put("msg", "token不能为空!");
@@ -296,8 +296,7 @@ public class PaymentController {
 			}
 	   
 		} catch (Exception e) {
-			e.printStackTrace();
-			Logger.error("系统错误:%s", e.getMessage());
+			Logger.error("system error: %s",e);
 			json.put("status", 11);
 			json.put("msg", "系统错误!" + e.getMessage());
 			return json;

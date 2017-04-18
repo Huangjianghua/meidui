@@ -9,7 +9,6 @@ import com.meiduimall.application.md1gwaccess.constant.SysParaNameConst;
 import com.meiduimall.application.md1gwaccess.model.EctoolsPayments;
 import com.meiduimall.application.md1gwaccess.model.EctoolsPaymentsSucc;
 import com.meiduimall.application.md1gwaccess.model.PaymentTrade;
-import com.meiduimall.application.md1gwaccess.model.PaymentTradePay;
 import com.meiduimall.application.md1gwaccess.model.SystradePTrade;
 import com.meiduimall.application.md1gwaccess.model.SysuserAccount;
 import com.meiduimall.application.md1gwaccess.model.SysuserUser;
@@ -100,9 +99,9 @@ public class CommonUtil {
 	 * @throws Exception
 	 */
 	public static SysuserWalletPaylog UpdateUsersWalletPayCommon(Map<String, Object> paymentBill,
-			SysuserUser userMoney,PaymentTradePay paymentTradePay,SysuserAccount sysuserAccount) throws Exception{
+			SysuserUser userMoney,PaymentTrade paymentTrade,SysuserAccount sysuserAccount) throws Exception{
 		SysuserWalletPaylog sysuserWalletPaylog = new SysuserWalletPaylog();
-		sysuserWalletPaylog.setUid(Integer.valueOf(paymentTradePay.getUser_id()));
+		sysuserWalletPaylog.setUid(Integer.valueOf(paymentTrade.getUser_id()));
 		sysuserWalletPaylog.setLoginName(sysuserAccount.getLoginAccount());
 		sysuserWalletPaylog.setOrderNo(paymentBill.get("platformId").toString());
 		sysuserWalletPaylog.setVorMoney(userMoney.getMoney());

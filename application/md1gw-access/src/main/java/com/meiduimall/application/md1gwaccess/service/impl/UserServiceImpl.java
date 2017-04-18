@@ -41,31 +41,34 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Map<String, Object> getUserInfo(SysuserUser sysuserUser) throws Exception {
-		Map<String, Object> selectOne = baseMapper.selectOne(sysuserUser, "SysuserUserMapper.getUserInfo");
-		return selectOne;
+		
+		return baseMapper.selectOne(sysuserUser, "SysuserUserMapper.getUserInfo");
 	}
 
 	@Override
 	public SysuserUser getUserMoney(Integer userId) throws Exception {
+		
 		return baseMapper.selectOne(userId, "SysuserUserMapper.getUserMoney");
 	}
 
 	@Override
 	public Integer updateMF(SysuserUser sysuserUser) throws Exception {
+		
 		return baseMapper.update(sysuserUser, "SysuserUserMapper.updateMF");
 
 	}
 
 	@Override
 	public Integer updateUsersWalletPay(SysuserWalletPaylog sysuserWalletPaylog) throws Exception {
+		
 		return baseMapper.update(sysuserWalletPaylog, "SysuserWalletPaylogMapper.updateUsersWalletPay");
 
 	}
 
 	@Override
 	public SysuserAccount getSysuserAccount(Integer userId) throws Exception {
-		SysuserAccount selectOne = baseMapper.selectOne(userId, "SysuserAccountMapper.getLoginAccount");
-		return selectOne;
+		
+		return baseMapper.selectOne(userId, "SysuserAccountMapper.getLoginAccount");
 	}
 
 	@Override
@@ -80,14 +83,14 @@ public class UserServiceImpl implements UserService {
 		try {
 			String url = myProps.getUserCenterUrl() + "/member/front_user_center/v1/get_member_basic_info";
 			url = url + "?token={token}&clientID={clientID}&timestamp={timestamp}&sign={sign}";
-			Map<String, String> map = new HashMap<String, String>();
+			Map<String, String> map = new HashMap<>();
 			map.put("token", token);
 			Map<String, String> commonMap = CommonUtil.CommonMap(map);
 			Logger.info("组装发送数据 :%s", commonMap);
 			postForObject = restTemplate.getForObject(url, JSONObject.class, commonMap);
 			Logger.info("获取用户信息结果 :%s", postForObject);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logger.error("system error: %s",e);
 			throw new RuntimeException("获取会员信息异常!");
 		}
 		return postForObject;
@@ -100,7 +103,7 @@ public class UserServiceImpl implements UserService {
 			Logger.info("解密之后:%s", payPwd);
 			String url = myProps.getRouteServiceUrl() + "/member/account_service/v1/valide_pay_pwd";
 			url = url + "?memId={memId}&pay_pwd={pay_pwd}&clientID={clientID}&timestamp={timestamp}&sign={sign}";
-			Map<String, String> hashMap = new HashMap<String,String>();
+			Map<String, String> hashMap = new HashMap<>();
 			hashMap.put("memId", memId);
 			hashMap.put("pay_pwd", payPwd);
 			Map<String, String> commonMap = CommonUtil.CommonMap(hashMap);
@@ -108,7 +111,7 @@ public class UserServiceImpl implements UserService {
 			postForObject = restTemplate.getForObject(url, JSONObject.class, commonMap);
 			Logger.info("验证支付密码请求结果 :%s", postForObject);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logger.error("system error: %s",e);
 			throw new RuntimeException("验证密码异常!");
 		}
 		return postForObject;
@@ -121,7 +124,7 @@ public class UserServiceImpl implements UserService {
 		try {
 			String url = myProps.getUserCenterUrl() + "/member/front_user_center/v1/get_memid_by_token";
 			url = url + "?token={token}&clientID={clientID}&timestamp={timestamp}&sign={sign}";
-			Map<String, String> map = new HashMap<String, String>();
+			Map<String, String> map = new HashMap<>();
 			map.put(OauthConst.TOKEN, token);
 			Map<String, String> commonMap = CommonUtil.CommonMap(map);
 			Logger.info("tokenTOmemId组装发送数据:%s", commonMap);
@@ -129,7 +132,7 @@ public class UserServiceImpl implements UserService {
 			Logger.info("tokenTOmemId请求结果 :%s", getMemid);
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logger.error("system error: %s",e);
 			throw new RuntimeException("tokenTOmemId异常!");
 		}
 		return getMemid;
@@ -162,7 +165,7 @@ public class UserServiceImpl implements UserService {
 			HttpEntity<JSONObject> formEntity = new HttpEntity<JSONObject>(commonJSON, headers);
 			string = restTemplate.postForObject(url, formEntity, String.class);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logger.error("system error: %s",e);
 			throw new RuntimeException("冻结异常!");
 		}
 		return new JSONObject().fromObject(string);
@@ -179,7 +182,7 @@ public class UserServiceImpl implements UserService {
 			forObject = restTemplate.getForObject(url, String.class);
 			Logger.info("getMemIdByUserId数据:%s", forObject);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logger.error("system error", e);
 			throw new RuntimeException("getMemIdByUserId异常!");
 		}
 		return new JSONObject().fromObject(forObject);
@@ -211,7 +214,7 @@ public class UserServiceImpl implements UserService {
 			string = restTemplate.postForObject(url, formEntity, String.class);
 			Logger.info("unfreezeDeduct结果：%s", string);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logger.error("system error: %s",e);
 			throw new RuntimeException("解冻异常!");
 		}
 		return new JSONObject().fromObject(string);
@@ -219,15 +222,20 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public JSONObject sendSmsMessage(String mobile, String tid) throws Exception {
-			String url = myProps.getSendSmsUrl() + "/notify/short_msg_service/v1/send_common_sms_message";
-			MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>();
-			paramMap.add("templateId", "1GW_1003");
-			paramMap.add("params", tid);
-			paramMap.add("phones", mobile);
-			Logger.info("sendSmsMessage组装发送数据:%s", paramMap);
-			JSONObject postForObject = restTemplate.postForObject(url, paramMap, JSONObject.class);
-			Logger.info("sendSmsMessage结果:%s", postForObject);
-		    return postForObject;
+		JSONObject postForObject = null;	
+		try {
+				String url = myProps.getSendSmsUrl() + "/notify/short_msg_service/v1/send_common_sms_message";
+				MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>();
+				paramMap.add("templateId", "1GW_1003");
+				paramMap.add("params", tid);
+				paramMap.add("phones", mobile);
+				Logger.info("sendSmsMessage组装发送数据:%s", paramMap);
+				postForObject = restTemplate.postForObject(url, paramMap, JSONObject.class);
+				Logger.info("sendSmsMessage结果:%s", postForObject);
+			} catch (Exception e) {
+				Logger.error("sendSmsMessage异常:%s", e.getMessage());
+			}
+			return postForObject;
 	}
 
 }

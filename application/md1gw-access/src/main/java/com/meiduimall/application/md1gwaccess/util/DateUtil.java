@@ -42,7 +42,7 @@ public class DateUtil {
     		SimpleDateFormat sdf = new SimpleDateFormat(format);  
     		return sdf.format(date_str);
     	} catch (Exception e) {  
-    		e.printStackTrace();  
+    		Logger.error("system error", e);
     	}  
     	return "";  
     }  

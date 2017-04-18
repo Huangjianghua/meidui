@@ -22,8 +22,7 @@ public class SystemConfig {
 			try {
 				this.configMap = loadProperty("config.properties");
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Logger.error("system error: %s",e);
 			}
 		}
 	};
@@ -44,7 +43,7 @@ public class SystemConfig {
 	 */
 	public static Map<String, String> loadProperty(String config) {
 		InputStream is = null;
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, String> map = new HashMap<>();
 		try {
 			is = Thread.currentThread().getContextClassLoader().getResourceAsStream(config);
 			Properties pro = new Properties();
@@ -55,14 +54,14 @@ public class SystemConfig {
 				map.put(key.toString(), pro.get(key).toString());
 			}
 		} catch (Exception ex) {
-			System.out.println("配置文件:" + config + "加载出错!");
-			ex.printStackTrace();
+			Logger.error("配置文件:" + config + "加载出错!");
+			Logger.error("system error: %s",ex);
 		} finally {
 			try {
 				if (is != null)
 					is.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				Logger.error("system error: %s",e);
 			}
 		}
 		return map;

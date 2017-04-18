@@ -54,7 +54,7 @@ public class MD5Util {
 			String syssign=MD5Util.MD5EncryptBy32(buffer.toString()).toUpperCase();
 			return syssign;
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logger.error("system error", e);
 			throw e;
 		}
 	}

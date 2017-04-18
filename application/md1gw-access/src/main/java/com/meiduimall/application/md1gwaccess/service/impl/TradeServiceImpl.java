@@ -41,86 +41,97 @@ public class TradeServiceImpl implements TradeService {
 	@Override
 	public List<Map<String,Object>> getTradeMoney(String tid) throws Exception{
 		String[] split = tid.split(",");
-        List<Object> list = new ArrayList<Object>();
+        List<Object> list = new ArrayList<>();
 		for (int i = 0; i < split.length; i++) {
 			list.add(split[i]);
 		}
+		
 		return baseMapper.selectList(ImmutableMap.of("tid",list), "SystradeTradeMapper.getTradeMoney");
 	}
 	
 	@Override
 	public List<Map<String,Object>> getTradeMoney(List<Object> list) throws Exception{
+		
 		return baseMapper.selectList(ImmutableMap.of("tid",list), "SystradeTradeMapper.getTradeMoney");
 	}
 	
 	@Override
 	public SystradePTrade getSystradePTrade(BigInteger platformId) throws Exception {
-			SystradePTrade selectOne = baseMapper.selectOne(platformId, "SystradePTradeMapper.getSystradePTrade");
-			return selectOne;
+		
+			return baseMapper.selectOne(platformId, "SystradePTradeMapper.getSystradePTrade");
 	}
 
 
 	@Override
 	public List<EctoolsTradePaybill> listEctoolsTradePaybill(String paymentId) throws Exception {
-		List<EctoolsTradePaybill> selectList = baseMapper.selectList(paymentId, "EctoolsTradePaybillMapper.listEctoolsTradePaybill");
-		return selectList;
+		
+		return baseMapper.selectList(paymentId, "EctoolsTradePaybillMapper.listEctoolsTradePaybill");
 	}
 
 	@Override
 	public Integer updateEctoolsTradePaybill(List<EctoolsTradePaybill> ectoolsTradePaybill) throws Exception {
+		
 		return baseMapper.update(ectoolsTradePaybill, "EctoolsTradePaybillMapper.updateEctoolsTradePaybill");
 		
 	}
 
 	@Override
 	public Integer deleteEctoolsTradePaybill(List<EctoolsTradePaybill> ectoolsTradePaybill) throws Exception {
+		
 		return baseMapper.delete(ectoolsTradePaybill, "EctoolsTradePaybillMapper.deleteEctoolsTradePaybill");
 		
 	}
 
 	@Override
 	public Integer updateSystradePTrade(SystradePTrade systradePTrade) throws Exception {
+		
 		return baseMapper.update(systradePTrade, "SystradePTradeMapper.updateSystradePTrade");
 		
 	}
 
 	@Override
 	public Integer updateWalletPay(SystradePTrade systradePTrade) throws Exception {
+		
 		return baseMapper.update(systradePTrade, "SystradePTradeMapper.updateWalletPay");
 		
 	}
 
 	@Override
 	public Integer updateCSP(SystradePTrade systradePTrade) throws Exception {
+		
 		return baseMapper.update(systradePTrade, "SystradePTradeMapper.updateCSP");
 		
 	}
 
 	@Override
 	public Integer updateEPStatus(EctoolsPayments s) throws Exception {
+		
 		 return baseMapper.update(s, "EctoolsPaymentsMapper.updateEPStatus");
 		
 	}
 
 	@Override
 	public Integer updateETPStatus(EctoolsTradePaybill s) throws Exception {
+		
 		return baseMapper.update(s, "EctoolsTradePaybillMapper.updateETPStatus");
 		
 	}
 
 	@Override
 	public Integer updateSPTStatus(SystradePTrade s) throws Exception {
+		
        return baseMapper.update(s, "SystradePTradeMapper.updateSPTStatus");		
 	}
 
 	@Override
 	public List<SystradeTrade> listSystradeTrade(BigInteger i) throws Exception {
-		List<SystradeTrade> selectList = baseMapper.selectList(i, "SystradeTradeMapper.listSystradeTrade");
-		return selectList;
+		
+		return baseMapper.selectList(i, "SystradeTradeMapper.listSystradeTrade");
 	}
 
 	@Override
 	public SystradeTrade getTradeInfo(BigInteger tid) throws Exception {
+		
 		return baseMapper.selectOne(tid, "SystradeTradeMapper.getTradeInfo");
 	}
 
@@ -159,7 +170,6 @@ public class TradeServiceImpl implements TradeService {
 						OrderOrPay(hashMap);
 						
 					} catch (Exception e) {
-						e.printStackTrace();
 						Logger.error("系统错误:", e.getMessage());
 					}
 					});
@@ -370,7 +380,6 @@ public class TradeServiceImpl implements TradeService {
 			 
 			} catch (Exception e) {
 				Logger.error("系统错误:%s", e.getMessage());
-				e.printStackTrace();
 			}
 			
 			

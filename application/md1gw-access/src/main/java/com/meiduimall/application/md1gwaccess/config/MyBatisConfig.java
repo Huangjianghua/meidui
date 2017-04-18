@@ -94,8 +94,7 @@ public class MyBatisConfig implements TransactionManagementConfigurer{
             bean.setMapperLocations(resolver.getResources("com/meiduimall/application/md1gwaccess/mapper/*Mapper.xml"));
             return bean.getObject();
         } catch (Exception e) {
-        	logger.error(e.getMessage());
-            throw new RuntimeException("sqlSessionFactory init fail",e);
+            throw new RuntimeException(e);
         }
     }
 

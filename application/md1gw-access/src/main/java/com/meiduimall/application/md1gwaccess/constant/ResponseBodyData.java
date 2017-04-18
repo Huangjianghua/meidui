@@ -1,12 +1,9 @@
 package com.meiduimall.application.md1gwaccess.constant;
 
-import java.io.Serializable;
-
 import net.sf.json.JSONObject;
 
-public class ResponseBodyData implements Serializable{
+public class ResponseBodyData{
 
-	private static final long serialVersionUID = 8882135921855797347L;
 
 	private Object data = new JSONObject();
 	

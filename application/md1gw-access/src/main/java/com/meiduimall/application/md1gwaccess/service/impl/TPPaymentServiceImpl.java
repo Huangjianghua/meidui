@@ -107,8 +107,7 @@ public class TPPaymentServiceImpl implements TPPaymentService {
 				return new ResponseBodyData(11, postForObject.getString("msg"));
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-		    Logger.info("第三方支付系统错误:%s", e.getMessage());
+		    Logger.error("第三方支付系统错误:%s", e.getMessage());
 		    throw new RuntimeException("第三方支付系统错误!"); 
 		}
 

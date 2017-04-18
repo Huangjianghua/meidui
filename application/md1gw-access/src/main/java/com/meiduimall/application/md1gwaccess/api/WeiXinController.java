@@ -141,7 +141,7 @@ public class WeiXinController {
 		try {
 			map = XMLUtil.doXMLParse(xmlString);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logger.error("system error: %s",e);
 			return false;
 		}
 

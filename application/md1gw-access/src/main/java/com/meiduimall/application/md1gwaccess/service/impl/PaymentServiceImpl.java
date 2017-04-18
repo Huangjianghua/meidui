@@ -296,7 +296,6 @@ public class PaymentServiceImpl implements PaymentService {
 				
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 			Logger.error("系统错误:%s", e.getMessage());
 			return new ResponseBodyData(11, "系统错误:" + e.getMessage());
@@ -366,7 +365,7 @@ public class PaymentServiceImpl implements PaymentService {
 									 if(isPhone){
 										 // 请求会员中心短信接口，给商家发送短信
 										 JSONObject sendSmsMessage = userService.sendSmsMessage(mobile.get("mobile"), ectoolsTradePaybill.getTid());
-										 Logger.info("短信发送: %s ; 商家tid: %s ; 商家手机号: %s", sendSmsMessage.getString("msg"), 
+										 Logger.info("短信发送: %s ; 商家tid: %s ; 商家手机号: %s", sendSmsMessage, 
 													 ectoolsTradePaybill.getTid(), mobile.get("mobile"));
 									 }
 								 }
@@ -378,7 +377,6 @@ public class PaymentServiceImpl implements PaymentService {
 				return new ResponseBodyData("支付完成!");
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 			Logger.info("系统错误:%s", e.getMessage());
 			return new ResponseBodyData(11, "系统错误!");
 		}
@@ -589,7 +587,6 @@ public class PaymentServiceImpl implements PaymentService {
 
 		} catch (Exception e) {
 			Logger.error("系统错误:%s", e.getMessage());
-			e.printStackTrace();
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 			CallBackDeal(paymentBill, fromObject);
 			return new ResponseBodyData(1, "系统错误!");
@@ -672,18 +669,22 @@ public class PaymentServiceImpl implements PaymentService {
 	 */
 	@Override
 	public void NoticePaymentService(JSONObject json) throws Exception {
-		String url = myProps.getRouteServiceUrl()+"/pay/payment-service/v1/paynotify";
-		HttpHeaders headers = new HttpHeaders();
-		MediaType type = MediaType.parseMediaType(HttpRConst.MEDIATYPE_JSON_FOR_APP);
-		headers.setContentType(type);
+		try {
+			String url = myProps.getRouteServiceUrl()+"/pay/payment-service/v1/paynotify";
+			HttpHeaders headers = new HttpHeaders();
+			MediaType type = MediaType.parseMediaType(HttpRConst.MEDIATYPE_JSON_FOR_APP);
+			headers.setContentType(type);
 
-		json.put(OauthConst.CLIENT_ID, OauthConst.CLIENT_ID_VALUE);
-		json.put(OauthConst.TIMESATAMP, String.valueOf(System.currentTimeMillis()));
-		json.put(OauthConst.SIGN, GatewaySignUtil.buildsign(OauthConst.SECRETKEY_VALUE, json));
-        Logger.info("通知支付服务参数:%s", json);
-		HttpEntity<JSONObject> formEntity = new HttpEntity<JSONObject>(json, headers);
-		JSONObject postForObject = restTemplate.postForObject(url, formEntity, JSONObject.class);
-		Logger.info("通知支付服务==>:%s", postForObject);
+			json.put(OauthConst.CLIENT_ID, OauthConst.CLIENT_ID_VALUE);
+			json.put(OauthConst.TIMESATAMP, String.valueOf(System.currentTimeMillis()));
+			json.put(OauthConst.SIGN, GatewaySignUtil.buildsign(OauthConst.SECRETKEY_VALUE, json));
+			Logger.info("通知支付服务参数:%s", json);
+			HttpEntity<JSONObject> formEntity = new HttpEntity<JSONObject>(json, headers);
+			JSONObject postForObject = restTemplate.postForObject(url, formEntity, JSONObject.class);
+			Logger.info("通知支付服务==>:%s", postForObject);
+		} catch (Exception e) {
+			Logger.error("通知支付服务异常:%s", e.getMessage());
+		}
 
 	}
 	

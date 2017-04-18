@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.meiduimall.application.md1gwaccess.util.Logger;
+
 public class AlipayCore {
 
 	
@@ -26,11 +28,11 @@ public class AlipayCore {
             return result;
         }
 
-
-        for (String key : sArray.keySet()) {
-            String value = sArray.get(key);
-            if (value == null || value.equals("") || key.equalsIgnoreCase("sign")
-                || key.equalsIgnoreCase("sign_type")) {
+        for (Map.Entry<String, String> entry : sArray.entrySet()) {
+        	String key = entry.getKey();
+        	String value = entry.getValue();
+            if (value == null || "".equals(value) || "sign".equalsIgnoreCase(key)
+                || "sign_type".equalsIgnoreCase(key)) {
                 continue;
             }
             result.put(key, value);
@@ -57,7 +59,7 @@ public class AlipayCore {
 
 
         
-        String prestr = "";
+        StringBuilder prestr = new StringBuilder();
 
 
         for (int i = 0; i < keys.size(); i++) {
@@ -66,14 +68,19 @@ public class AlipayCore {
 
 
             if (i == keys.size() - 1) {//拼接时，不包括最后一个&字符
-                prestr = prestr + key + "=" + value;
+            	prestr.append(key);
+            	prestr.append("=");
+            	prestr.append(value);
             } else {
-                prestr = prestr + key + "=" + value + "&";
+            	prestr.append(key);
+            	prestr.append("=");
+            	prestr.append(value);
+            	prestr.append("&");
             }
         }
 
 
-        return prestr;
+        return prestr.toString();
     }
 
 
@@ -87,13 +94,13 @@ public class AlipayCore {
             writer = new FileWriter(AlipayConfig.log_path + "alipay_log_" + System.currentTimeMillis()+filename+".txt");
             writer.write(sWord);
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.error("system error: %s",e);
         } finally {
             if (writer != null) {
                 try {
                     writer.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                	Logger.error("system error: %s",e);
                 }
             }
         }

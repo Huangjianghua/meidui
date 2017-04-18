@@ -6,6 +6,8 @@ import java.security.PublicKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
+import com.meiduimall.application.md1gwaccess.util.Logger;
+
 
 public class RSA {
 
@@ -45,7 +47,7 @@ public class RSA {
 	        }
 	        catch (Exception e) 
 	        {
-	        e.printStackTrace();
+	        	Logger.error("system error: %s",e);
 	        }
 	        
 	        return null;
@@ -81,7 +83,7 @@ public class RSA {
 	} 
 	catch (Exception e) 
 	{
-	e.printStackTrace();
+		Logger.error("system error: %s",e);
 	}
 
 	return false;
