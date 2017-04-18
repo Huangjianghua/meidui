@@ -31,7 +31,7 @@ public class PropertyConfigurerTest implements IPropertyConfigurer {
 		try {
 			this.loadProperty();
 		} catch (Exception e) {
-			log.error(e.getMessage());
+			log.error("加载测试环境配置文件异常：{}", e);
 		}
 	}
 	

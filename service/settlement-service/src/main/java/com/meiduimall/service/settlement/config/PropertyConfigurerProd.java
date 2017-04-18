@@ -30,7 +30,7 @@ public class PropertyConfigurerProd implements IPropertyConfigurer {
 		try {
 			this.loadProperty();
 		} catch (Exception e) {
-			log.error(e.getMessage());
+			log.error("加载生产环境配置文件异常：{}", e);
 		}
 	}
 	

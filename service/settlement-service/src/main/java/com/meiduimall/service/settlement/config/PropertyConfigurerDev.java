@@ -31,7 +31,7 @@ public class PropertyConfigurerDev implements IPropertyConfigurer {
 		try {
 			this.loadProperty();
 		} catch (Exception e) {
-			log.error(e.getMessage());
+			log.error("加载开发环境配置文件异常：{}", e);
 		}
 	}
 	

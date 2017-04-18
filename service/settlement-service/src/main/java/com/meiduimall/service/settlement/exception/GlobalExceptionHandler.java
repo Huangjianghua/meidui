@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
 	 */
 	@ExceptionHandler(value = BindException.class)
 	public Object methodArgumentNotValidHandler(HttpServletRequest request, BindException exception) {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		exception.getBindingResult().getFieldErrors().forEach((error) -> {
 			sb.append(error.getDefaultMessage()).append(";");
 		});

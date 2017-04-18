@@ -393,10 +393,15 @@ public class ShareProfitUtil {
 		String newString = String.valueOf(tempString);
 		// 把得到的数增加为固定长度,为5位
 		while (newString.length() < 5) {
-			newString = "0" + newString;
+			StringBuilder sb = new StringBuilder();
+			sb.append("0");
+			sb.append(newString);
+			newString = sb.toString();
 		}
-
-		return (timeMillis + newString);
+		StringBuilder sb1 = new StringBuilder();
+		sb1.append(timeMillis);
+		sb1.append(newString);
+		return sb1.toString();
 	}
 		
 	/**
