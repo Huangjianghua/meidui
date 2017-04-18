@@ -10,10 +10,10 @@ import java.util.regex.Pattern;
 public class DateUtils {
 
 	
-	private final static Pattern p = Pattern.compile("(([0-9]+?)((d|h|mi|min|mn|s)))+?");
-	private final static Integer MINUTE = 60;
-	private final static Integer HOUR = 60 * MINUTE;
-	private final static Integer DAY = 24 * HOUR;
+	public final static Pattern p = Pattern.compile("(([0-9]+?)((d|h|mi|min|mn|s)))+?");
+	public final static Integer MINUTE = 60;
+	public final static Integer HOUR = 60 * MINUTE;
+	public final static Integer DAY = 24 * HOUR;
 
 	/**
 	 * Parse a duration
