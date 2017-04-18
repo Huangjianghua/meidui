@@ -670,7 +670,8 @@ public class PaymentServiceImpl implements PaymentService {
 	@Override
 	public void NoticePaymentService(JSONObject json) throws Exception {
 		try {
-			String url = myProps.getRouteServiceUrl()+"/pay/payment-service/v1/paynotify";
+			StringBuilder url = new StringBuilder(myProps.getRouteServiceUrl());
+			url.append("/pay/payment-service/v1/paynotify");
 			HttpHeaders headers = new HttpHeaders();
 			MediaType type = MediaType.parseMediaType(HttpRConst.MEDIATYPE_JSON_FOR_APP);
 			headers.setContentType(type);
@@ -680,7 +681,7 @@ public class PaymentServiceImpl implements PaymentService {
 			json.put(OauthConst.SIGN, GatewaySignUtil.buildsign(OauthConst.SECRETKEY_VALUE, json));
 			Logger.info("通知支付服务参数:%s", json);
 			HttpEntity<JSONObject> formEntity = new HttpEntity<JSONObject>(json, headers);
-			JSONObject postForObject = restTemplate.postForObject(url, formEntity, JSONObject.class);
+			JSONObject postForObject = restTemplate.postForObject(url.toString(), formEntity, JSONObject.class);
 			Logger.info("通知支付服务==>:%s", postForObject);
 		} catch (Exception e) {
 			Logger.error("通知支付服务异常:%s", e.getMessage());
