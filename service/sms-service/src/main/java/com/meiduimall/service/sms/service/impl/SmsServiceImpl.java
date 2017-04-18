@@ -23,7 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.meiduimall.core.BaseApiCode;
-import com.meiduimall.core.util.DateUtils;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.redis.util.RedisUtils;
@@ -34,6 +33,7 @@ import com.meiduimall.service.sms.entity.TemplateInfo;
 import com.meiduimall.service.sms.mapper.SendSmsHistoryMapper;
 import com.meiduimall.service.sms.model.message.CommonShortMessageModel;
 import com.meiduimall.service.sms.service.SmsService;
+import com.meiduimall.service.sms.util.ToSecondsUtils;
 
 
 /**
@@ -175,7 +175,7 @@ public class SmsServiceImpl implements SmsService {
         throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER,BaseApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
       }
     }
-    RedisUtils.setex(model.getPhones() + model.getTemplateId() + model.getParams(), DateUtils.parseDuration(ti.getEffectiveTime()) , content);
+    RedisUtils.setex(model.getPhones() + model.getTemplateId() + model.getParams(), ToSecondsUtils.parseDuration(ti.getEffectiveTime()) , content);
     ssh.setRequestParams(model.getPhones() + "ali send param:" + ti.getExternalTemplateNo() + params + ";mandao send param:" + content);
     ssh.setResultMsg("ali result, flag:" + String.valueOf(flag) + ";mandao result, res:" +res);
     sendSmsHistoryMapper.insert(ssh);
@@ -227,7 +227,7 @@ public class SmsServiceImpl implements SmsService {
         throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER,BaseApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
       }
     }
-    int expire = DateUtils.parseDuration(model.getTimeout() == null ? ti.getEffectiveTime() : model.getTimeout());
+    int expire = ToSecondsUtils.parseDuration(model.getTimeout() == null ? ti.getEffectiveTime() : model.getTimeout());
     RedisUtils.setex(model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId(), expire, result);
     ssh.setRequestParams(model.getPhones() + "ali send param:" + ti.getExternalTemplateNo() + params + ";mandao send param:" + content);
     ssh.setResultMsg("ali result, flag:" + String.valueOf(flag) + ";mandao result, res:" + String.valueOf(res));
@@ -259,7 +259,6 @@ public class SmsServiceImpl implements SmsService {
     ssh.setCreater(model.getPhones());
     ssh.setPhone(model.getPhones());
     ssh.setRemark(model.getParams());
-
     return ssh;
   }
 
