@@ -33,9 +33,9 @@ public class GatewaySignUtil {
             	continue;
             }
             buffer.append(key);
-            buffer.append("&");
-            buffer.append(value);
             buffer.append("=");
+            buffer.append(value);
+            buffer.append("&");
         }
         buffer.append("key=");
         buffer.append(appKey);

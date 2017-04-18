@@ -50,7 +50,9 @@ public class ShopServiceImpl implements ShopService {
 
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("shopId", String.valueOf(shopId));
-		params.put("memId", "" + memId);
+		if(!StringUtils.isBlank(memId)){
+			params.put("memId", memId);
+		}
 		try {
 			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
 		} catch (Exception e) {
@@ -81,7 +83,9 @@ public class ShopServiceImpl implements ShopService {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("shopId", String.valueOf(shopId));
 		params.put("isCollect", String.valueOf(isCollect));
-		params.put("memId", "" + memId);
+		if(!StringUtils.isBlank(memId)){
+			params.put("memId", memId);
+		}
 		try {
 			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
 		} catch (Exception e) {

@@ -28,7 +28,7 @@ public class GoodsDetailControllerTest extends BaseTest {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/md1gwmall/md1gw_access/v1/goodsDetail/getItem")
 				.param("token", "xxxx")
-				.param("item_id", "300"))
+				.param("itemId", "300"))
 				.andExpect(status().isOk());
 		
 		results.andDo(new ResultHandler() {
@@ -47,8 +47,8 @@ public class GoodsDetailControllerTest extends BaseTest {
 	public void getItemDetail_test_02() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/md1gwmall/md1gw_access/v1/goodsDetail/getItem")
-				.param("token", "dd047ecb3b962449494e299ba2eef1fd")
-				.param("item_id", "adsf"))
+				.param("token", "3b964736913cddd60941763689dd489e")
+				.param("itemId", "adsf"))
 				.andExpect(status().isOk());
 		
 		results.andDo(new ResultHandler() {
@@ -67,8 +67,8 @@ public class GoodsDetailControllerTest extends BaseTest {
 	public void getItemDetail_test_03() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/md1gwmall/md1gw_access/v1/goodsDetail/getItem")
-				.param("token", "dd047ecb3b962449494e299ba2eef1fd")
-				.param("item_id", "33310"))
+				.param("token", "3b964736913cddd60941763689dd489e")
+				.param("itemId", "33310"))
 				.andExpect(status().isOk());
 		
 		results.andDo(new ResultHandler() {

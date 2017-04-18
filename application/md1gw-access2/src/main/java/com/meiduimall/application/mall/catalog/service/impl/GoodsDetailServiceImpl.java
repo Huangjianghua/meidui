@@ -3,6 +3,7 @@ package com.meiduimall.application.mall.catalog.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,9 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("itemId", String.valueOf(itemId));
-		params.put("memId", "" + memId);
+		if(!StringUtils.isBlank(memId)){
+			params.put("memId", memId);
+		}
 
 		try {
 			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
