@@ -23,17 +23,17 @@ public class ShareProfitLogServiceImpl implements ShareProfitLogService {
 	
 	@Transactional(propagation=Propagation.REQUIRES_NEW, rollbackFor=Exception.class)
 	@Override
-	public void logShareProfitOrder(ShareProfitOrderLog orderLog,String retryType,Integer retryStatus) {
-		retryStatus=retryStatus==null?0:retryStatus;
+	public void logShareProfitOrder(ShareProfitOrderLog orderLog, String retryType, Integer retryStatus) {
+		retryStatus = retryStatus == null ? 0 : retryStatus;
 		Integer flag = baseMapper.insert(orderLog, "ShareProfitOrderLogMapper.saveShareProfitOrderLog");
-		if(flag<=0){
+		if (flag <= 0) {
 			log.error("ShareProfitOrderLogMapper.saveShareProfitOrderLog failed for orderSn:{}",orderLog.getOrderSn());
 		}
 		
 		if(ShareProfitConstants.SHARE_PROFIT_RETRY_TYPE_FINAL_ROUND.equals(retryType) || ShareProfitConstants.SHARE_PROFIT_RETRY_STATUS_CODE_SUCCESS==retryStatus.intValue()){
 			String orderSn=orderLog.getOrderSn();
 			Integer flag2 = baseMapper.update(orderSn, "ShareProfitOrderLogMapper.removeRetryFlag");
-			if(flag2<=0){
+			if (flag2 <= 0) {
 				log.error("ShareProfitOrderLogMapper.removeRetryFlag failed for orderSn:{}",orderLog.getOrderSn());
 			}
 		}

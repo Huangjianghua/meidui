@@ -84,15 +84,16 @@ public class AsyncTaskService {
 		//更新积分到会员系统
 		final List<String> errors = memberService.sendScore(shareProfit);
 		
+		//更新积分失败时
 		if(errors != null && !errors.isEmpty()){
 			log.warn("订单分润后更新积分到会员系统失败，记录Log出现异常,orderSn:{},error:{}",shareProfit.getOrderSn(),String.valueOf(errors));
 			//将shareProfit 数据放到redis 缓存 
 			if(ShareProfitConstants.SHARE_PROFIT_SOURCE_O2O.equals(shareProfitSource)){
-				RedisUtils.set(ShareProfitConstants.REDIS_KEY_PREFIX_ORDER+shareProfit.getOrderSn(), JsonUtils.beanToJson(shareProfit));
+				RedisUtils.set(ShareProfitConstants.REDIS_KEY_PREFIX_ORDER + shareProfit.getOrderSn(), JsonUtils.beanToJson(shareProfit));
 			}
 			
 			//记录到Log表  
-			ShareProfitOrderLog orderLog=new ShareProfitOrderLog(shareProfit.getOrderSn(),String.valueOf(errors),DateUtil.getCurrentTimeSec(),"更新积分到会员系统失败!");
+			ShareProfitOrderLog orderLog = new ShareProfitOrderLog(shareProfit.getOrderSn(), String.valueOf(errors), DateUtil.getCurrentTimeSec(), "更新积分到会员系统失败!");
 			orderLog.setRetryFlag(ShareProfitConstants.SHARE_PROFIT_RETRY_FLAG_YES);
 			
 			if(ShareProfitConstants.SHARE_PROFIT_SOURCE_CACHE.equals(shareProfitSource)){
@@ -102,54 +103,42 @@ public class AsyncTaskService {
 				
 				//移除redis 缓存的分润数据 
 				if(ShareProfitConstants.SHARE_PROFIT_RETRY_TYPE_FINAL_ROUND.equals(retryType)){
-					RedisUtils.del(ShareProfitConstants.REDIS_KEY_PREFIX_ORDER+shareProfit.getOrderSn());
+					RedisUtils.del(ShareProfitConstants.REDIS_KEY_PREFIX_ORDER + shareProfit.getOrderSn());
 					//三次重试仍然失败，发邮件或短信通知,重试机制终止,需要手动触发重试机制 
-					//select sf.* from ecm_mzf_shareprofit sf inner join `ecm_mzf_order_status` os where sf.`order_sn`=os.`order_sn` and os.`score_status`=0;
-					String params="经过三次重试后;更新积分到会员系统仍然失败;重试机制终止;需要手动触发重试机制或手动更新积分到会员系统;orderSn:"+shareProfit.getOrderSn();
+					String params = "经过三次重试后;更新积分到会员系统仍然失败;重试机制终止;需要手动触发重试机制或手动更新积分到会员系统;orderSn:" + shareProfit.getOrderSn();
+					
 					SmsReqDTO smsReqDTO = new SmsReqDTO(ShareProfitUtil.AUTHORIZED_MAP.get(ShareProfitUtil.SMS_PHONES),
-							ShareProfitUtil.TEMPLATE_ID_O2O_1009,params,"");
+							ShareProfitUtil.TEMPLATE_ID_O2O_1009, params, "");
 
-					try {
-						boolean flag = smsService.sendMessage(smsReqDTO);
-						if(flag){
-							log.info("经过三次重试后,更新积分到会员系统仍然失败。发送短信通知成功,orderSn:{}",shareProfit.getOrderSn());
-						}else{
-							log.info("经过三次重试后,更新积分到会员系统仍然失败。发送短信通知失败,orderSn:{}",shareProfit.getOrderSn());
-						}
-					} catch (Exception e1) {
-						log.error("经过三次重试后,更新积分到会员系统仍然失败,重试机制终止,需要手动触发重试机制或手动更新积分到会员系统,orderSn:{}",shareProfit.getOrderSn(),e1);
+					boolean flag = smsService.sendMessage(smsReqDTO);
+					if(flag){
+						log.info("经过三次重试后,更新积分到会员系统仍然失败。发送短信通知成功,orderSn:{}",shareProfit.getOrderSn());
+					}else{
+						log.error("经过三次重试后,更新积分到会员系统仍然失败。发送短信通知失败,orderSn:{}",shareProfit.getOrderSn());
 					}
 
 				}
 			}
 			
-			try{
-				shareProfitLogService.logShareProfitOrder(orderLog,retryType,null);
-			}catch(Exception e){
-				log.error("订单分润后更新积分到会员系统失败，shareProfitLogService.logShareProfitOrder记录Log出现异常,orderSn:{},error:{}",orderLog.getOrderSn(),e.getMessage());
-			}
+			//插入异常日志
+			shareProfitLogService.logShareProfitOrder(orderLog, retryType, null);
 			
 		}else{
-
 			//更新 已分润和积分是否已更新状态到 ecm_mzf_order_status表
-			//gai wei 由orderStatusService...
-			boolean isUpdated =orderStatusService.updateScoreStatus(shareProfit.getOrderSn());
+			boolean isUpdated = orderStatusService.updateScoreStatus(shareProfit.getOrderSn());
 			if (!isUpdated) {
 				log.error("OrderServiceImpl-->updateScore2MemberSystem-->orderStatus.updateScoreStatus() ecm_mzf_order_status表 更新积分状态失败!orderSn:"+shareProfit.getOrderSn());
-			   //发送短信通知。。。这种情况是概率极小的情况。
+				//发送短信通知(概率极小的情况)
 				String params="积分成功送出;但送积分成功状态更新到表 ecm_mzf_order_status表失败;需要手动更新;orderSn:"+shareProfit.getOrderSn();
+				
 				SmsReqDTO smsReqDTO = new SmsReqDTO(ShareProfitUtil.AUTHORIZED_MAP.get(ShareProfitUtil.SMS_PHONES),
-						ShareProfitUtil.TEMPLATE_ID_O2O_1009,params,"");
+						ShareProfitUtil.TEMPLATE_ID_O2O_1009, params, "");
 
-				try {
-					boolean flag = smsService.sendMessage(smsReqDTO);
-					if(flag){
-						log.info("积分成功送出,但送积分成功状态更新到表 ecm_mzf_order_status表失败,需要手动更新,发送短信通知成功,orderSn:{}",shareProfit.getOrderSn());
-					}else{
-						log.info("积分成功送出,但送积分成功状态更新到表 ecm_mzf_order_status表失败,需要手动更新,发送短信通知失败,orderSn:{}",shareProfit.getOrderSn());
-					}
-				} catch (Exception e1) {
-					log.error("积分成功送出,但送积分成功状态更新到表 ecm_mzf_order_status表失败,需要手动更新,发送短信通知异常,orderSn:{}",shareProfit.getOrderSn(),e1);
+				boolean flag = smsService.sendMessage(smsReqDTO);
+				if(flag){
+					log.info("积分成功送出,但送积分成功状态更新到表 ecm_mzf_order_status表失败,需要手动更新,发送短信通知成功,orderSn:{}", shareProfit.getOrderSn());
+				}else{
+					log.error("积分成功送出,但送积分成功状态更新到表 ecm_mzf_order_status表失败,需要手动更新,发送短信通知失败,orderSn:{}", shareProfit.getOrderSn());
 				}
 
 			}
@@ -157,33 +146,25 @@ public class AsyncTaskService {
 			//如果是重试且重试成功
 			if(ShareProfitConstants.SHARE_PROFIT_SOURCE_CACHE.equals(shareProfitSource)){
 				//记录到Log表 
-				ShareProfitOrderLog orderLog=new ShareProfitOrderLog(shareProfit.getOrderSn(),String.valueOf(errors),DateUtil.getCurrentTimeSec(),"重试机制中更新积分到会员系统成功!");
+				ShareProfitOrderLog orderLog = new ShareProfitOrderLog(shareProfit.getOrderSn(), String.valueOf(errors), DateUtil.getCurrentTimeSec(), "重试机制中更新积分到会员系统成功!");
 				orderLog.setRetryFlag(ShareProfitConstants.SHARE_PROFIT_RETRY_FLAG_NO);
 				orderLog.setRetryStatus(ShareProfitConstants.SHARE_PROFIT_RETRY_STATUS_CODE_SUCCESS);
 				orderLog.setRetryTime(DateUtil.getCurrentTimeSec());
 				
-				try{
-					shareProfitLogService.logShareProfitOrder(orderLog,retryType,ShareProfitConstants.SHARE_PROFIT_RETRY_STATUS_CODE_SUCCESS);
-					
-					//移除redis 缓存的分润数据
-					RedisUtils.del(ShareProfitConstants.REDIS_KEY_PREFIX_ORDER+shareProfit.getOrderSn());
-					
-				}catch(Exception e){
-					log.error("订单分润失败但在重试机制中重试成功后更新积分到会员系统成功，记录Log出现异常,orderSn:{},error:{}",orderLog.getOrderSn(),e.getMessage());
-				}
+				shareProfitLogService.logShareProfitOrder(orderLog,retryType,ShareProfitConstants.SHARE_PROFIT_RETRY_STATUS_CODE_SUCCESS);
+				
+				//移除redis 缓存的分润数据
+				RedisUtils.del(ShareProfitConstants.REDIS_KEY_PREFIX_ORDER + shareProfit.getOrderSn());
 			}
 
-			try {
-				//回调O2O接口，通知积分更新成功
-				boolean isSuccess=o2oCallbackService.informSettlementStatus(ImmutableList.of(shareProfit.getOrderSn()), ShareProfitConstants.O2O_SETTLEMENT_STATUS_CODE_SCORE);
-				
-				if(!isSuccess){
-					ShareProfitOrderLog orderLog=new ShareProfitOrderLog(shareProfit.getOrderSn(),"通知O2O订单积分已更新到会员系统不成功!orderSn:"+shareProfit.getOrderSn(),DateUtil.getCurrentTimeSec(),null);
-					shareProfitLogService.logShareProfitOrder(orderLog,null,null);
-				}
-			} catch (Exception e) {
-				log.error("orderSn:{},error:{}",shareProfit.getOrderSn(),e.getMessage());
+			//回调O2O接口，通知积分更新成功
+			boolean isSuccess = o2oCallbackService.informSettlementStatus(ImmutableList.of(shareProfit.getOrderSn()), ShareProfitConstants.O2O_SETTLEMENT_STATUS_CODE_SCORE);
+			
+			if(!isSuccess){
+				ShareProfitOrderLog orderLog = new ShareProfitOrderLog(shareProfit.getOrderSn(), "通知O2O订单积分已更新到会员系统不成功!orderSn:" + shareProfit.getOrderSn(), DateUtil.getCurrentTimeSec(), null);
+				shareProfitLogService.logShareProfitOrder(orderLog,null,null);
 			}
+			
 		}
 	}
 		
