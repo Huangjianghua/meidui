@@ -106,7 +106,7 @@ public class PaymentController {
 			
 			//验证支付密码
 		    Logger.info("支付密码:%s", paymentTrade.getPay_password());
-		    if(memberBasicInfo.getString("pwd_isopen").equals("1")){//1开 0关
+		    if(memberBasicInfo.getString("paypwd_isopen").equals("1")){//1开 0关
 		    	if(obj_p_trade_info.getIsPaying() == 0){       //第一次支付
 		    		JSONObject validePayPwd = userService.validePayPwd(paymentTrade.getMemId(), Des.appdecrypt(paymentTrade.getPay_password(), SysParaNameConst.appencryptkey));
 		    		if(validePayPwd.getInt("status") != 0){
