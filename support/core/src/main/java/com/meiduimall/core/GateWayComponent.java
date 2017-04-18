@@ -146,7 +146,7 @@ public final class GateWayComponent {
         // append key
         signing.append("key=").append(req.getSignKey());
         // md5
-        return  MD5.MD5Encode(signing.toString()).toUpperCase();
+        return  MD5.encode(signing.toString()).toUpperCase();
 
     }
     

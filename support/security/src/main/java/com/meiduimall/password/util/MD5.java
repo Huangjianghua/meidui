@@ -1,10 +1,7 @@
 package com.meiduimall.password.util;
-
 import java.security.MessageDigest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.meiduimall.password.SecurityBaseApiCode;
 import com.meiduimall.password.exception.Md5Exception;
 
@@ -33,12 +30,11 @@ public class MD5 {
 		return hexDigits[d1] + hexDigits[d2];
 	}
 
-	public static String MD5Encode(String origin) {
+	public static String encode(String origin) {
 		String resultString = null;
 		try {
-			resultString = new String(origin);
 			MessageDigest md = MessageDigest.getInstance("MD5");
-			resultString = byteArrayToHexString(md.digest(resultString.getBytes()));
+			resultString = byteArrayToHexString(md.digest(origin.getBytes()));
 		} catch (Exception ex) {
 			logger.error("md5加密报错:{}", ex);
 			new Md5Exception(SecurityBaseApiCode.EXCEPTION_MD5,SecurityBaseApiCode.getZhMsg(SecurityBaseApiCode.EXCEPTION_MD5));

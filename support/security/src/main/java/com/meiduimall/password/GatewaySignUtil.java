@@ -39,7 +39,7 @@ public class GatewaySignUtil {
         }
         buffer.append("key=");
         buffer.append(appKey);
-        return MD5.MD5Encode(buffer.toString()).toUpperCase();
+        return MD5.encode(buffer.toString()).toUpperCase();
 	}
 	
 	
