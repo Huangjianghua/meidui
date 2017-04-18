@@ -47,7 +47,7 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler(value = ServiceException.class)
-	public Object ServiceExceptionHandler(HttpServletRequest request, ApiException exception) {
+	public Object ServiceExceptionHandler(HttpServletRequest request, ServiceException exception) {
 		return new ResBodyData(exception.getCode(), ApplicationMallApiCode.getZhMsg(exception.getCode()),
 				JsonUtils.getInstance().createObjectNode());
 	}

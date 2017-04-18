@@ -46,7 +46,7 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler(value = ApiException.class)
-	public Object ApiExceptionHandler(HttpServletRequest request, ServiceException exception) {
+	public Object ApiExceptionHandler(HttpServletRequest request, ApiException exception) {
 		return new ResBodyData(exception.getCode(), ServiceCatalogApiCode.getZhMsg(exception.getCode()),
 				JsonUtils.getInstance().createObjectNode());
 	}
@@ -58,7 +58,7 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler(value = DaoException.class)
-	public Object DaoExceptionHandler(HttpServletRequest request, ServiceException exception) {
+	public Object DaoExceptionHandler(HttpServletRequest request, DaoException exception) {
 		logger.error("全局捕获DaoException:   " + exception);
 		return new ResBodyData(ServiceCatalogApiCode.UNKNOWN_ERROR,
 				ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.UNKNOWN_ERROR),
