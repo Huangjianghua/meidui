@@ -377,7 +377,6 @@ public class ShareProfitUtil {
 	 * @return
 	 */
 	public final static String getRandomNum() {
-		
 		//当前秒数
 		String timeMillis = String.valueOf(System.currentTimeMillis()/1000L);
 		
