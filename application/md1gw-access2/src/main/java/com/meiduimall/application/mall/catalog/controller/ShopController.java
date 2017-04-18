@@ -22,18 +22,20 @@ public class ShopController {
 	private static Logger logger = LoggerFactory.getLogger(ShopController.class);
 
 	@Autowired
+	private HttpServletRequest request;
+
+	@Autowired
 	private ShopServiceImpl shopService;
 
 	/**
 	 * 根据店铺shopId，获取店铺详情
 	 * 
-	 * @param request
 	 * @param shopId
 	 *            店铺ID
 	 * @return
 	 */
 	@RequestMapping(value = "/getShopDetail")
-	public String getShopDetail(HttpServletRequest request, String shopId) {
+	public String getShopDetail(String shopId) {
 		int shop_id = 0;
 		String memId = (String) request.getAttribute("memId");
 		try {
@@ -48,7 +50,6 @@ public class ShopController {
 	/**
 	 * 收藏店铺或者取消收藏
 	 * 
-	 * @param request
 	 * @param shopId
 	 *            店铺ID
 	 * @param isCollect
@@ -57,7 +58,7 @@ public class ShopController {
 	 */
 	@HasToken
 	@RequestMapping(value = "/collectShop")
-	public String collectOrCancelShop(HttpServletRequest request, String shopId, String isCollect) {
+	public String collectOrCancelShop(String shopId, String isCollect) {
 		int shop_id = 0;
 		int is_collect = 0;
 		String memId = (String) request.getAttribute("memId");

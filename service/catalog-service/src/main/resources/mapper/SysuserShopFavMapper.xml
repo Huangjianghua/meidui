@@ -78,7 +78,7 @@
   <select id="selectCountByItemIdAndMemId" resultType="int" parameterType="com.meiduimall.service.catalog.entity.IdAndMemId">
   	SELECT COUNT(*) FROM sysuser_shop_fav 
   	WHERE 
-  	user_id=(SELECT user_id FROM sysuser_account WHERE mem_id=#{memId}) 
+  	user_id=(SELECT user_id FROM sysuser_account WHERE mem_id=#{memId} LIMIT 1) 
   	AND 
   	shop_id=#{id};
   </select>

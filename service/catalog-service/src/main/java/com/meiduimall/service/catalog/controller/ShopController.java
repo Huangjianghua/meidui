@@ -24,6 +24,9 @@ public class ShopController {
 	private static Logger logger = LoggerFactory.getLogger(ShopController.class);
 
 	@Autowired
+	private HttpServletRequest request;
+
+	@Autowired
 	private ShopService shopService;
 
 	/**
@@ -51,8 +54,6 @@ public class ShopController {
 	/**
 	 * 收藏或者取消收藏店铺
 	 * 
-	 * @param request
-	 *            通过@HasMemId验证memId是否有效，并通过request传递SysuserAccount对象
 	 * @param shopId
 	 *            店铺ID
 	 * @param isCollect
@@ -61,7 +62,7 @@ public class ShopController {
 	 */
 	@HasMemId
 	@RequestMapping(value = "/collectShop")
-	public ResBodyData collectOrCancelShop(HttpServletRequest request, String shopId, String isCollect) {
+	public ResBodyData collectOrCancelShop(String shopId, String isCollect) {
 
 		int shop_id = 0;
 		int is_collect = 0;

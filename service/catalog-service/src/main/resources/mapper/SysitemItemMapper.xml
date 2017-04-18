@@ -72,10 +72,12 @@
 		type="com.meiduimall.service.catalog.result.ShopGoodsDetailResult">
 		<result column="item_id" property="itemId" jdbcType="INTEGER"/>
 		<result column="title" property="title" jdbcType="VARCHAR"/>
-		<result column="sub_title" property="subTitle" jdbcType="VARCHAR"/>
 		<result column="price" property="price" jdbcType="DECIMAL"/>
 		<result column="point" property="point" jdbcType="INTEGER"/>
 		<result column="image_default_id" property="imageDefaultId" jdbcType="VARCHAR"/>
+		<result column="shop_cat_id" property="shopCatId" jdbcType="VARCHAR"/>
+		<result column="list_time" property="listTime" jdbcType="INTEGER"/>
+		<result column="sold_quantity" property="soldQuantity" jdbcType="INTEGER"/>
 	</resultMap>
 
 	<sql id="Example_Where_Clause">
@@ -199,9 +201,9 @@
 		parameterType="com.meiduimall.service.catalog.request.ShopProductRequest"
 		resultMap="ShopGoodsDetailResultMap" >
 		SELECT
-		sysitem_item.item_id,sysitem_item.title,
-		sysitem_item.sub_title,sysitem_item.price,
-		sysitem_item.point,sysitem_item.image_default_id,
+		sysitem_item.item_id,sysitem_item.title,sysitem_item.price,
+		sysitem_item.point,sysitem_item.image_default_id,sysitem_item.shop_cat_id,
+		sysitem_item_status.list_time,
 		sysitem_item_count.sold_quantity
 		FROM
 		sysitem_item,sysitem_item_count,sysitem_item_status

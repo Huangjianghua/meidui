@@ -26,7 +26,7 @@ public class GoodsRecommendControllerTest extends BaseTest {
 	public void insertBatchItems_test_01() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/mall/catalog-service/v1/goodsRecommend/insertBatch")
-				.param("item_id", "300,600,601")
+				.param("item_ids", "33349,33310")
 				.param("type", "2")
 				.param("level", "200")
 				.param("opt_user", "张三"))
@@ -35,7 +35,7 @@ public class GoodsRecommendControllerTest extends BaseTest {
 		results.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				System.out.println("*********" + result.getResponse().getContentAsString());
+				System.out.println("insertBatchItems_test_01*********" + result.getResponse().getContentAsString());
 			}
 		});
 	}
@@ -48,7 +48,7 @@ public class GoodsRecommendControllerTest extends BaseTest {
 	public void insertBatchItems_test_02() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/mall/catalog-service/v1/goodsRecommend/insertBatch")
-				.param("item_id", "300")
+				.param("item_ids", "33349,33310")
 				.param("type", "3")
 				.param("level", "200")
 				.param("opt_user", "张三"))
@@ -57,7 +57,7 @@ public class GoodsRecommendControllerTest extends BaseTest {
 		results.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				System.out.println("*********" + result.getResponse().getContentAsString());
+				System.out.println("insertBatchItems_test_02*********" + result.getResponse().getContentAsString());
 			}
 		});
 	}
@@ -70,7 +70,7 @@ public class GoodsRecommendControllerTest extends BaseTest {
 	public void insertBatchItems_test_03() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/mall/catalog-service/v1/goodsRecommend/insertBatch")
-				.param("item_id", "300-600")
+				.param("item_ids", "300-600")
 				.param("type", "2")
 				.param("level", "200")
 				.param("opt_user", "张三"))
@@ -79,7 +79,7 @@ public class GoodsRecommendControllerTest extends BaseTest {
 		results.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				System.out.println("*********" + result.getResponse().getContentAsString());
+				System.out.println("insertBatchItems_test_03*********" + result.getResponse().getContentAsString());
 			}
 		});
 	}
@@ -93,13 +93,13 @@ public class GoodsRecommendControllerTest extends BaseTest {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/mall/catalog-service/v1/goodsRecommend/getFirstRecommend")
 				.param("type", "2")
-				.param("req_id", "10086"))
+				.param("sourceId", "1"))
 				.andExpect(status().isOk());
 		
 		results.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				System.out.println("*********" + result.getResponse().getContentAsString());
+				System.out.println("getFirstRecommendItems_test_01*********" + result.getResponse().getContentAsString());
 			}
 		});
 	}
@@ -112,20 +112,19 @@ public class GoodsRecommendControllerTest extends BaseTest {
 	public void getFirstRecommendItems_test_02() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/mall/catalog-service/v1/goodsRecommend/getFirstRecommend")
-				.param("type", "2")
-				.param("req_id", "10086"))
+				.param("sourceId", "2"))
 				.andExpect(status().isOk());
 		
 		results.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				System.out.println("*********" + result.getResponse().getContentAsString());
+				System.out.println("getFirstRecommendItems_test_02*********" + result.getResponse().getContentAsString());
 			}
 		});
 	}
 	
 	/**
-	 * getFirstRecommendItemsAllType---正常测试
+	 * getFirstRecommendItemsAllType---正常测试--没有参数
 	 * @throws Exception
 	 */
 	@Test
@@ -137,7 +136,7 @@ public class GoodsRecommendControllerTest extends BaseTest {
 		results.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				System.out.println("*********" + result.getResponse().getContentAsString());
+				System.out.println("getFirstRecommendItemsAllType_test_01*********" + result.getResponse().getContentAsString());
 			}
 		});
 	}

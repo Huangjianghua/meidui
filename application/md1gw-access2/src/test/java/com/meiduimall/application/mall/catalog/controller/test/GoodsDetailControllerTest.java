@@ -34,7 +34,7 @@ public class GoodsDetailControllerTest extends BaseTest {
 		results.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				System.out.println("*********" + result.getResponse().getContentAsString());
+				System.out.println("getItemDetail_test_01*********" + result.getResponse().getContentAsString());
 			}
 		});
 	}
@@ -54,7 +54,7 @@ public class GoodsDetailControllerTest extends BaseTest {
 		results.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				System.out.println("*********" + result.getResponse().getContentAsString());
+				System.out.println("getItemDetail_test_02*********" + result.getResponse().getContentAsString());
 			}
 		});
 	}
@@ -74,7 +74,7 @@ public class GoodsDetailControllerTest extends BaseTest {
 		results.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				System.out.println("*********" + result.getResponse().getContentAsString());
+				System.out.println("getItemDetail_test_03*********" + result.getResponse().getContentAsString());
 			}
 		});
 	}

@@ -29,12 +29,13 @@ public class GoodsRecommendController {
 	private static Logger logger = LoggerFactory.getLogger(GoodsRecommendController.class);
 
 	@Autowired
+	private HttpServletRequest request;
+	
+	@Autowired
 	private GoodsRecommendService goodsRecommendService;
 
 	/**
 	 * 批量插入，或者单个插入推荐商品
-	 * 
-	 * @param request
 	 * 
 	 * @param item_ids
 	 *            商品编号，可以传一个或者多个，不能为空
@@ -47,7 +48,7 @@ public class GoodsRecommendController {
 	 * @return
 	 */
 	@RequestMapping(value = "/insertBatch")
-	public ResBodyData insertBatchItems(HttpServletRequest request, String item_ids, String type, String opt_user,
+	public ResBodyData insertBatchItems(String item_ids, String type, String opt_user,
 			@RequestParam(value = "level", required = false, defaultValue = "0") String level) {
 
 		String ip = HttpHeaderTools.getIpAddr(request);
@@ -60,28 +61,34 @@ public class GoodsRecommendController {
 			reco_type = Integer.parseInt(type);
 			reco_level = Integer.parseInt(level);
 
-			if (reco_type != 1 || reco_type != 2) {
+			if (reco_type != 1 && reco_type != 2) {
+				logger.error("批量插入，或者单个插入推荐商品，请求参数错误，type= " + reco_type);
 				throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
 			}
 
 		} catch (NumberFormatException e) {
-			logger.error("批量插入，或者单个插入推荐商品: " + e);
+			logger.error("批量插入，或者单个插入推荐商品，请求参数错误: " + e);
 			throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
 		}
 
 		if (StringUtils.isBlank(item_ids)) {
-			logger.error("批量插入，或者单个插入推荐商品: " + item_ids);
+			logger.error("批量插入，或者单个插入推荐商品，请求参数错误，item_ids: " + item_ids);
 			throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
 		} else {
 			String[] str_ids = item_ids.split(",");
 			if (str_ids != null && str_ids.length > 0) {
 				int[] ids = new int[str_ids.length];
-				for (int i = 0; i < str_ids.length; i++) {
-					ids[i] = Integer.parseInt(str_ids[i]);
+				try {
+					for (int i = 0; i < str_ids.length; i++) {
+						ids[i] = Integer.parseInt(str_ids[i]);
+					}
+				} catch (NumberFormatException e) {
+					logger.error("批量插入，或者单个插入推荐商品，请求参数错误，item_ids: " + item_ids);
+					throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
 				}
 				return goodsRecommendService.insertBatchItems(ids, reco_type, opt_user, ip, reco_level);
 			} else {
-				logger.error("批量插入，或者单个插入推荐商品: " + item_ids);
+				logger.error("批量插入，或者单个插入推荐商品，请求参数错误，item_ids: " + item_ids);
 				throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
 			}
 		}

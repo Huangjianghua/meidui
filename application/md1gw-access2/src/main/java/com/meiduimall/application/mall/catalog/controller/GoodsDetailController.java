@@ -24,18 +24,20 @@ public class GoodsDetailController {
 	private static Logger logger = LoggerFactory.getLogger(GoodsDetailController.class);
 
 	@Autowired
+	private HttpServletRequest request;
+	
+	@Autowired
 	private GoodsDetailServiceImpl goodsDetailService;
 
 	/**
 	 * 根据商品itemId获取商品详情
 	 * 
-	 * @param request
 	 * @param itemId
 	 *            商品ID
 	 * @return
 	 */
 	@RequestMapping("/getItem")
-	public String getItemDetail(HttpServletRequest request, String itemId) {
+	public String getItemDetail(String itemId) {
 		int item_id = 0;
 		String memId = (String) request.getAttribute("memId");
 		try {

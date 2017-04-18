@@ -8,17 +8,14 @@ package com.meiduimall.service.catalog.result;
  */
 public class ShopGoodsDetailResult {
 
-	private String itemId;
-
-	private String title;
-
-	private String subTitle;
-
-	private String price;
-
-	private String point;
-
-	private String imageDefaultId;
+	private String itemId;//商品ID
+	private String title;//标题
+	private String price;//商品价格
+	private String point;//可用美兑积分
+	private String imageDefaultId;//商品默认图片
+	private String shopCatId;//商家自定义分类id
+	private String soldQuantity;//商品销量
+	private String listTime;//商品上架时间
 
 	public String getItemId() {
 		return itemId;
@@ -34,14 +31,6 @@ public class ShopGoodsDetailResult {
 
 	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	public String getSubTitle() {
-		return subTitle;
-	}
-
-	public void setSubTitle(String subTitle) {
-		this.subTitle = subTitle;
 	}
 
 	public String getPrice() {
@@ -66,5 +55,29 @@ public class ShopGoodsDetailResult {
 
 	public void setImageDefaultId(String imageDefaultId) {
 		this.imageDefaultId = imageDefaultId;
+	}
+
+	public String getShopCatId() {
+		return shopCatId;
+	}
+
+	public void setShopCatId(String shopCatId) {
+		this.shopCatId = shopCatId;
+	}
+
+	public String getSoldQuantity() {
+		return soldQuantity;
+	}
+
+	public void setSoldQuantity(String soldQuantity) {
+		this.soldQuantity = soldQuantity;
+	}
+
+	public String getListTime() {
+		return listTime;
+	}
+
+	public void setListTime(String listTime) {
+		this.listTime = listTime;
 	}
 }
