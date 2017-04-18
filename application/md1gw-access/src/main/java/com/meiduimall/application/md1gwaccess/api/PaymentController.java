@@ -94,16 +94,31 @@ public class PaymentController {
 			}
 			JSONObject object = (JSONObject) tokenTOmemId.get("data");
 			paymentTrade.setMemId(object.getString("memId"));
-			//验证支付密码
-		    Logger.info("支付密码:%s", paymentTrade.getPay_password());
-		     
-			JSONObject validePayPwd = userService.validePayPwd(paymentTrade.getMemId(), Des.appdecrypt(paymentTrade.getPay_password(), SysParaNameConst.appencryptkey));
-			if(validePayPwd.getInt("status") != 0){
-				Logger.info("验证支付密码 失败! %s", validePayPwd.getString("msg"));
+			
+			//请求会员中心【getMemberBasicInfo】获取用户信息积分等等
+			JSONObject memberBasicInfo = userService.getMemberBasicInfo(paymentTrade.getToken());
+			if(memberBasicInfo.getInt("status") != 0) {
+				Logger.info("获取用户信息 失败! %s", memberBasicInfo.getString("msg"));
 				json.put("status", 11);
-				json.put("msg", validePayPwd.getString("msg"));
+				json.put("msg", memberBasicInfo.getString("msg"));
 				return json;
 			}
+			
+			//验证支付密码
+		    Logger.info("支付密码:%s", paymentTrade.getPay_password());
+		    if(memberBasicInfo.getString("pwd_isopen").equals("1")){//1开 0关
+		    	if(obj_p_trade_info.getIsPaying() == 0){       //第一次支付
+		    		JSONObject validePayPwd = userService.validePayPwd(paymentTrade.getMemId(), Des.appdecrypt(paymentTrade.getPay_password(), SysParaNameConst.appencryptkey));
+		    		if(validePayPwd.getInt("status") != 0){
+		    			Logger.info("验证支付密码 失败! %s", validePayPwd.getString("msg"));
+		    			json.put("status", 11);
+		    			json.put("msg", validePayPwd.getString("msg"));
+		    			return json;
+		    		}
+		    	}
+	    	}  
+		 
+		   
 			//判断支付单paymentBill['status'] == 'succ' || $paymentBill['status'] == 'progress' //提示订单已经支付完成;
 			if(paymentBill.get("status").equals(SysParaNameConst.SUCC)||paymentBill.get("status").equals(SysParaNameConst.progress)){
 				Logger.info("订单已经支付完成!");
@@ -130,14 +145,7 @@ public class PaymentController {
 			}
 					
 			
-			//请求会员中心【getMemberBasicInfo】获取用户信息积分等等
-			JSONObject memberBasicInfo = userService.getMemberBasicInfo(paymentTrade.getToken());
-			if(memberBasicInfo.getInt("status") != 0) {
-				Logger.info("获取用户信息 失败! %s", memberBasicInfo.getString("msg"));
-				json.put("status", 11);
-				json.put("msg", memberBasicInfo.getString("msg"));
-				return json;
-			}
+			
 			JSONObject  object2 = (JSONObject) memberBasicInfo.get("data");
 			BigDecimal totalmoney = new BigDecimal(object2.getString("totalmoney")) ;     //总金额
 			BigDecimal totalpoints = new BigDecimal(object2.getString("totalpoints")) ;  //当前可用积分
