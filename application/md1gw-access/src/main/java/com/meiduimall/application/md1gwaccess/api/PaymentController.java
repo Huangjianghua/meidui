@@ -103,10 +103,10 @@ public class PaymentController {
 				json.put("msg", memberBasicInfo.getString("msg"));
 				return json;
 			}
-			
+			JSONObject  object2 = (JSONObject) memberBasicInfo.get("data");
 			//验证支付密码
 		    Logger.info("支付密码:%s", paymentTrade.getPay_password());
-		    if("1".equals(memberBasicInfo.get("paypwd_isopen"))){//1开 0关
+		    if("1".equals(object2.get("paypwd_isopen"))){//1开 0关
 		    	if(obj_p_trade_info.getIsPaying() == 0){       //第一次支付
 		    		JSONObject validePayPwd = userService.validePayPwd(paymentTrade.getMemId(), Des.appdecrypt(paymentTrade.getPay_password(), SysParaNameConst.appencryptkey));
 		    		if(validePayPwd.getInt("status") != 0){
@@ -146,7 +146,7 @@ public class PaymentController {
 					
 			
 			
-			JSONObject  object2 = (JSONObject) memberBasicInfo.get("data");
+			
 			BigDecimal totalmoney = new BigDecimal(object2.getString("totalmoney")) ;     //总金额
 			BigDecimal totalpoints = new BigDecimal(object2.getString("totalpoints")) ;  //当前可用积分
 				 
