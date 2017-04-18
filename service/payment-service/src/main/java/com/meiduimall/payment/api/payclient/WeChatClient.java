@@ -93,7 +93,7 @@ public class WeChatClient {
         }
         String result = (sb.toString() + "key=" + key);
         log.info("Sign result: \n%s", result);
-        return MD5.md5Digest(result);
+        return MD5.getMD5EncodeUTF8(result);
     }
 
     /**
