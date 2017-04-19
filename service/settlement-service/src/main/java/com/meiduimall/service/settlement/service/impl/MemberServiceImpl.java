@@ -186,7 +186,7 @@ public class MemberServiceImpl implements MemberService {
 				BigDecimal amount=shareProfit.getFirstReferrerCash();
 				
 				//调账的方向,“IN”：调增，“OUT”：调减
-				String direction=amount.compareTo(BigDecimal.ZERO)==1?"IN":"OUT";
+				String direction=amount.compareTo(BigDecimal.ZERO)>0?"IN":"OUT"; //amount>BigDecimal.ZERO时返回1,-1是小于,0是等于
 				
 				if("OUT".equals(direction)){
 					amount=amount.abs();
