@@ -3,26 +3,26 @@ package com.meiduimall.service.catalog.util;
 
 public class ParseSkuSpecDescBean {
 
-	private Integer prop_id;// 规格ID -- 对应syscategory_props表的prop_id字段
-	private Integer prop_value_id;// 规格属性ID -- 对应syscategory_prop_values表的prop_value_id字段
-	private String spec_value; //规格属性ID对应的值 -- 对应syscategory_prop_values表的prop_value字段
+	private Integer propId;// 规格ID -- 对应syscategory_props表的prop_id字段
+	private Integer propValueId;// 规格属性ID -- 对应syscategory_prop_values表的prop_value_id字段
+	private String specValue; //规格属性ID对应的值 -- 对应syscategory_prop_values表的prop_value字段
 	
-	public Integer getProp_id() {
-		return prop_id;
+	public Integer getPropId() {
+		return propId;
 	}
-	public void setProp_id(Integer prop_id) {
-		this.prop_id = prop_id;
+	public void setPropId(Integer propId) {
+		this.propId = propId;
 	}
-	public Integer getProp_value_id() {
-		return prop_value_id;
+	public Integer getPropValueId() {
+		return propValueId;
 	}
-	public void setProp_value_id(Integer prop_value_id) {
-		this.prop_value_id = prop_value_id;
+	public void setPropValueId(Integer propValueId) {
+		this.propValueId = propValueId;
 	}
-	public String getSpec_value() {
-		return spec_value;
+	public String getSpecValue() {
+		return specValue;
 	}
-	public void setSpec_value(String spec_value) {
-		this.spec_value = spec_value;
+	public void setSpecValue(String specValue) {
+		this.specValue = specValue;
 	}
 }

@@ -30,7 +30,7 @@ public class GoodsRecommendController {
 
 	@Autowired
 	private HttpServletRequest request;
-	
+
 	@Autowired
 	private GoodsRecommendService goodsRecommendService;
 
@@ -86,6 +86,8 @@ public class GoodsRecommendController {
 					logger.error("批量插入，或者单个插入推荐商品，请求参数错误，item_ids: " + item_ids);
 					throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
 				}
+
+				// 插入数据
 				return goodsRecommendService.insertBatchItems(ids, reco_type, opt_user, ip, reco_level);
 			} else {
 				logger.error("批量插入，或者单个插入推荐商品，请求参数错误，item_ids: " + item_ids);

@@ -153,8 +153,8 @@ public class ParseSkuSpecDescUtil {
 			Integer prop_id = entry.getKey();
 			Integer prop_value_id = entry.getValue();
 			bean = new ParseSkuSpecDescBean();
-			bean.setProp_id(prop_id);
-			bean.setProp_value_id(prop_value_id);
+			bean.setPropId(prop_id);
+			bean.setPropValueId(prop_value_id);
 			list.add(bean);
 			bean = null;
 		}
@@ -164,7 +164,7 @@ public class ParseSkuSpecDescUtil {
 		for (Map.Entry<Integer, String> entry : map3.entrySet()) {
 			String spec_value = entry.getValue();
 			if (list.size() > index) {
-				list.get(index).setSpec_value(spec_value);
+				list.get(index).setSpecValue(spec_value);
 			}
 			index++;
 		}

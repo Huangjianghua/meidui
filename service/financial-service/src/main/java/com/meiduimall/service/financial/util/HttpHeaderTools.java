@@ -19,7 +19,7 @@ public class HttpHeaderTools {
 	 * @return
 	 */
 	public static String getIpAddr(HttpServletRequest request) {
-		String ipAddress = null;
+		String ipAddress = "";
 		try {
 			ipAddress = request.getHeader("x-forwarded-for");
 
@@ -50,7 +50,7 @@ public class HttpHeaderTools {
 				}
 			}
 		} catch (Exception e) {
-			throw e;
+			logger.error("获取当前请求的IP地址异常: " + e);
 		}
 		return ipAddress;
 	}

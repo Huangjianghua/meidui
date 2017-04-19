@@ -618,7 +618,7 @@ public class PHPSerializer {
 	public static Object unserialize(byte[] ss, Class cls, String charset) throws IllegalAccessException {
 		int hv = 1;
 		ByteArrayInputStream stream = new ByteArrayInputStream(ss);
-		Object result = unserialize(stream, new HashMap(), hv, new HashMap(), charset).value;
+		Object result = unserialize(stream, new HashMap(), hv, new HashMap(), charset).getValue();
 
 		try {
 			stream.close();
@@ -849,15 +849,15 @@ public class PHPSerializer {
 			}
 			UnSerializeResult result = unserialize(stream, ht, hv, rt, charset);
 
-			hv = result.hv;
+			hv = result.getHv();
 			if (al != null) {
 				if ((key instanceof Integer) && (((Integer) key).intValue() == i)) {
-					al.add(result.value);
+					al.add(result.getValue());
 				} else {
 					al = null;
 				}
 			}
-			h.put(key, result.value);
+			h.put(key, result.getValue());
 		}
 		if (al != null) {
 			ht.put(r, al);
@@ -877,8 +877,8 @@ public class PHPSerializer {
 					}
 					UnSerializeResult result = unserialize(stream, ht, hv, rt, charset);
 
-					hv = result.hv;
-					al.set(key, result.value);
+					hv = result.getHv();
+					al.set(key, result.getValue());
 				}
 			}
 		}
@@ -933,14 +933,14 @@ public class PHPSerializer {
 			}
 			UnSerializeResult result = unserialize(stream, ht, hv, rt, charset);
 
-			hv = result.hv;
+			hv = result.getHv();
 			if (o instanceof HashMap) {
-				((HashMap) o).put(key, result.value);
+				((HashMap) o).put(key, result.getValue());
 			} else {
 				Field f = getField(o, key);
 
 				f.setAccessible(true);
-				f.set(o, result.value);
+				f.set(o, result.getValue());
 			}
 		}
 		stream.skip(1);
@@ -999,14 +999,30 @@ interface Serializable {
 }
 
 class UnSerializeResult {
-	public Object value;
-	public int hv;
+	private Object value;
+	private int hv;
 
 	public UnSerializeResult() {
 	}
 
 	public UnSerializeResult(Object value, int hv) {
 		this.value = value;
+		this.hv = hv;
+	}
+
+	public Object getValue() {
+		return value;
+	}
+
+	public void setValue(Object value) {
+		this.value = value;
+	}
+
+	public int getHv() {
+		return hv;
+	}
+
+	public void setHv(int hv) {
 		this.hv = hv;
 	}
 }

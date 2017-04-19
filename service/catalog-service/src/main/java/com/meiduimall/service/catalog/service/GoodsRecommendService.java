@@ -13,19 +13,19 @@ public interface GoodsRecommendService {
 	/**
 	 * 批量插入推荐商品
 	 * 
-	 * @param item_ids
+	 * @param itemIds
 	 *            商品ID，一个或者多个
 	 * @param type
 	 *            推荐类型
-	 * @param opt_user
+	 * @param optUser
 	 *            操作人
 	 * @param ip
 	 *            操作IP
-	 * @param reco_level
+	 * @param recoLevel
 	 *            推荐等级
 	 * @return
 	 */
-	ResBodyData insertBatchItems(int[] item_ids, int type, String opt_user, String ip, int reco_level);
+	ResBodyData insertBatchItems(int[] itemIds, int type, String optUser, String ip, int recoLevel);
 
 	/**
 	 * 根据类型，获得优先推荐的商品
@@ -72,17 +72,17 @@ public interface GoodsRecommendService {
 
 	/**
 	 * 批量删除推荐商品
-	 * @param item_id 商品编号
-	 * @param opt_user 操作人
+	 * @param itemId 商品编号
+	 * @param optUser 操作人
 	 * @return
 	 */
-	ResBodyData deleteRecommendItems(int[] item_id, String opt_user);
+	ResBodyData deleteRecommendItems(int[] itemId, String optUser);
 
 	/**
 	 * 更改推荐商品的推荐排序值
-	 * @param item_id 商品编号
-	 * @param opt_user 操作人
+	 * @param itemId 商品编号
+	 * @param optUser 操作人
 	 * @return
 	 */
-	ResBodyData updateRecommendItemLevel(int item_id, String opt_user);
+	ResBodyData updateRecommendItemLevel(int itemId, String optUser);
 }

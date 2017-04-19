@@ -13,11 +13,11 @@ public interface GoodsDetailService {
 	/**
 	 * 根据商品id查询该商品是否存在
 	 * 
-	 * @param item_id
+	 * @param itemId
 	 *            商品ID
 	 * @return
 	 */
-	ResBodyData checkItemIsExistById(int item_id);
+	ResBodyData checkItemIsExistById(int itemId);
 
 	/**
 	 * 根据商品id获得商品详细信息
