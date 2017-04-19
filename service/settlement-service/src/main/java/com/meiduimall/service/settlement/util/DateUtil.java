@@ -722,7 +722,7 @@ public class DateUtil {
 			if (str.indexOf('-') >= 0) {
 				String[] sqlit = str.split("-");
 				if (sqlit.length >= 3) {
-					return (sqlit[0] + "年" + sqlit[1] + "月" + sqlit[2] + "日");
+					return sqlit[0] + "年" + sqlit[1] + "月" + sqlit[2] + "日";
 				}
 			} else {
 				// yyyy年MM月dd日 转 yyyy-MM-dd
@@ -909,8 +909,8 @@ public class DateUtil {
 	public static long dateDiff(Date date, Date now) {
 		long l = date.getTime() - now.getTime();
 		long day = l / (24 * 60 * 60 * 1000);
-		long hour = (l / (60 * 60 * 1000) - day * 24);
-		long min = ((l / (60 * 1000)) - day * 24 * 60 - hour * 60);
+		long hour = l / (60 * 60 * 1000) - day * 24;
+		long min = (l / (60 * 1000)) - day * 24 * 60 - hour * 60;
 		day = day * 24 * 60;
 		hour = hour * 60;
 		return day + hour + min;

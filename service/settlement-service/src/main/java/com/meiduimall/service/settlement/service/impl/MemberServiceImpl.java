@@ -228,7 +228,7 @@ public class MemberServiceImpl implements MemberService {
 			}
 			if(!isCashStatusUpdated){
 				String params="一级推荐人1%现金成功送出,但送现金成功状态更新到表 ecm_mzf_order_status表失败,需要手动更新,订单数:"+orderSnList.size();
-				SmsReqDTO smsReqDTO = new SmsReqDTO(ShareProfitUtil.AUTHORIZED_MAP.get(ShareProfitUtil.SMS_PHONES),
+				SmsReqDTO smsReqDTO = new SmsReqDTO(ShareProfitUtil.authorizedMap.get(ShareProfitUtil.SMS_PHONES),
 						ShareProfitUtil.TEMPLATE_ID_O2O_1009,params,"");
 
 				try {

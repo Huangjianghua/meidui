@@ -30,7 +30,7 @@ public class SmsServiceImpl implements SmsService {
 	@Override
 	public boolean sendMsm(SmsReqDTO smsReqDTO) {
 		boolean flag = false;
-		String api = ShareProfitUtil.AUTHORIZED_MAP.get(KEY_SMS_API_URL) + ShareProfitUtil.AUTHORIZED_MAP.get(KEY_SEND_MESSAGE);
+		String api = ShareProfitUtil.authorizedMap.get(KEY_SMS_API_URL) + ShareProfitUtil.authorizedMap.get(KEY_SEND_MESSAGE);
 		RestTemplate restTemplate = new RestTemplate();
 		String result = restTemplate.postForEntity(api, smsReqDTO, String.class).getBody();
 		ResultData resBodyData = JsonUtils.jsonToBean(result, ResultData.class);
@@ -73,7 +73,7 @@ public class SmsServiceImpl implements SmsService {
 	}
 	
 	public static String buildSendMsgUrl(SmsReqDTO smsReqDTO) {
-		String api = ShareProfitUtil.AUTHORIZED_MAP.get(KEY_SMS_API_URL) + ShareProfitUtil.AUTHORIZED_MAP.get(KEY_SEND_MESSAGE);
+		String api = ShareProfitUtil.authorizedMap.get(KEY_SMS_API_URL) + ShareProfitUtil.authorizedMap.get(KEY_SEND_MESSAGE);
 		String params = "clientID=" + smsReqDTO.getClientID() + "&phones=" + smsReqDTO.getPhones() + "&templateId="
 				+ smsReqDTO.getTemplateId() + "&params=" + smsReqDTO.getParams();
 		
