@@ -186,7 +186,7 @@ public class MemberServiceImpl implements MemberService {
 				BigDecimal amount=shareProfit.getFirstReferrerCash();
 				
 				//调账的方向,“IN”：调增，“OUT”：调减
-				String direction=amount.compareTo(BigDecimal.ZERO)==1?"IN":"OUT";
+				String direction=amount.compareTo(BigDecimal.ZERO)>0?"IN":"OUT"; //amount>BigDecimal.ZERO时返回1,-1是小于,0是等于
 				
 				if("OUT".equals(direction)){
 					amount=amount.abs();
@@ -228,7 +228,7 @@ public class MemberServiceImpl implements MemberService {
 			}
 			if(!isCashStatusUpdated){
 				String params="一级推荐人1%现金成功送出,但送现金成功状态更新到表 ecm_mzf_order_status表失败,需要手动更新,订单数:"+orderSnList.size();
-				SmsReqDTO smsReqDTO = new SmsReqDTO(ShareProfitUtil.AUTHORIZED_MAP.get(ShareProfitUtil.SMS_PHONES),
+				SmsReqDTO smsReqDTO = new SmsReqDTO(ShareProfitUtil.authorizedMap.get(ShareProfitUtil.SMS_PHONES),
 						ShareProfitUtil.TEMPLATE_ID_O2O_1009,params,"");
 
 				try {

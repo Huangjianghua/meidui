@@ -225,8 +225,6 @@ public class CodeRuleUtil {
 			newtype = 2;
 			break;
 		case 3:
-			newtype = 1;
-			break;
 		case 4:
 			newtype = 1;
 			break;

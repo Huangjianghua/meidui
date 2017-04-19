@@ -388,12 +388,12 @@ public class DateUtil {
 							.getTime() / (24 * 60 * 60 * 1000))) {
 				return true;
 			}
-		} else if (beginDate != null && nowDate != null && endDate == null) {
+		} else if (beginDate != null && nowDate != null) {
 			if ((beginDate.getTime() / (24 * 60 * 60 * 1000)) <= (nowDate
 					.getTime() / (24 * 60 * 60 * 1000))) {
 				return true;
 			}
-		} else if (beginDate == null && nowDate != null && endDate != null) {
+		} else if (beginDate == null && endDate != null) {
 			if ((nowDate.getTime() / (24 * 60 * 60 * 1000)) <= (endDate
 					.getTime() / (24 * 60 * 60 * 1000))) {
 				return true;
@@ -573,14 +573,15 @@ public class DateUtil {
 	 * @return 时间字符串
 	 */
 	public static final String format(Date date, String format) {
-		if (format == null || format.trim().length() == 0) {
-			format = YYYY_MM_DD;
+		String newFormat = YYYY_MM_DD;
+		if (format != null && !"".equals(format)) {
+			newFormat = format;
 		}
 		if (date == null) {
 			return "";
 		}
 
-		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		SimpleDateFormat sdf = new SimpleDateFormat(newFormat);
 		return sdf.format(date);
 	}
 
@@ -599,11 +600,12 @@ public class DateUtil {
 	 * @return 时间字符串
 	 */
 	public static final String format(String format) {
-		if (format == null || format.trim().length() == 0) {
-			format = YYYY_MM_DD;
+		String newFormat = YYYY_MM_DD;
+		if (format != null && !"".equals(format)) {
+			newFormat = format;
 		}
 
-		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		SimpleDateFormat sdf = new SimpleDateFormat(newFormat);
 		return sdf.format(new Date());
 	}
 
@@ -717,10 +719,10 @@ public class DateUtil {
 		// 判断是否符合一般时间格式长度：2007-12-29 or 2007年12月29日
 		if (str.length() >= 6) {
 			// yyyy-MM-dd 转 yyyy年MM月dd日
-			if (str.indexOf("-") > 0) {
+			if (str.indexOf('-') >= 0) {
 				String[] sqlit = str.split("-");
 				if (sqlit.length >= 3) {
-					return (sqlit[0] + "年" + sqlit[1] + "月" + sqlit[2] + "日");
+					return sqlit[0] + "年" + sqlit[1] + "月" + sqlit[2] + "日";
 				}
 			} else {
 				// yyyy年MM月dd日 转 yyyy-MM-dd
@@ -811,7 +813,21 @@ public class DateUtil {
 		if (monthInt > 0 && monthInt < 12) {
 			switch (monthInt) {
 			case 1:
+			case 3:
+			case 5:
+			case 7:
+			case 8:
+			case 10:
+			case 12:
 				if (dayInt > 31 || dayInt < 1) {
+					flag = true;
+				}
+				break;
+			case 4:
+			case 6:
+			case 9:
+			case 11:
+				if (dayInt > 30 || dayInt < 1) {
 					flag = true;
 				}
 				break;
@@ -822,56 +838,6 @@ public class DateUtil {
 				} else {
 					if (dayInt > 28 || dayInt < 1)
 						flag = true;
-				}
-				break;
-			case 3:
-				if (dayInt > 31 || dayInt < 1) {
-					flag = true;
-				}
-				break;
-			case 4:
-				if (dayInt > 30 || dayInt < 1) {
-					flag = true;
-				}
-				break;
-			case 5:
-				if (dayInt > 31 || dayInt < 1) {
-					flag = true;
-				}
-				break;
-			case 6:
-				if (dayInt > 30 || dayInt < 1) {
-					flag = true;
-				}
-				break;
-			case 7:
-				if (dayInt > 31 || dayInt < 1) {
-					flag = true;
-				}
-				break;
-			case 8:
-				if (dayInt > 31 || dayInt < 1) {
-					flag = true;
-				}
-				break;
-			case 9:
-				if (dayInt > 30 || dayInt < 1) {
-					flag = true;
-				}
-				break;
-			case 10:
-				if (dayInt > 31 || dayInt < 1) {
-					flag = true;
-				}
-				break;
-			case 11:
-				if (dayInt > 30 || dayInt < 1) {
-					flag = true;
-				}
-				break;
-			case 12:
-				if (dayInt > 31 || dayInt < 1) {
-					flag = true;
 				}
 				break;
 			default:
@@ -943,8 +909,8 @@ public class DateUtil {
 	public static long dateDiff(Date date, Date now) {
 		long l = date.getTime() - now.getTime();
 		long day = l / (24 * 60 * 60 * 1000);
-		long hour = (l / (60 * 60 * 1000) - day * 24);
-		long min = ((l / (60 * 1000)) - day * 24 * 60 - hour * 60);
+		long hour = l / (60 * 60 * 1000) - day * 24;
+		long min = (l / (60 * 1000)) - day * 24 * 60 - hour * 60;
 		day = day * 24 * 60;
 		hour = hour * 60;
 		return day + hour + min;

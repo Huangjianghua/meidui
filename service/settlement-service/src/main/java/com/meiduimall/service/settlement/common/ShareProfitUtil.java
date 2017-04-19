@@ -86,7 +86,7 @@ public class ShareProfitUtil {
 	public static final String REQUEST_METHOD_POST = "POST";
 	
 	//加载鉴权配置文件
-	public static Map<String, String> AUTHORIZED_MAP = null;
+	public static Map<String, String> authorizedMap = null;
 
 	
 	//直营前缀编码
@@ -117,28 +117,28 @@ public class ShareProfitUtil {
 	public static String getBelongInfoUrl(String phone) {
 		String timeStamp = String.valueOf(System.currentTimeMillis() / 1000L);
 		String nonce = getRandomNum();
-		return AUTHORIZED_MAP.get("authorized.url") 
-				+ AUTHORIZED_MAP.get("authorized.belong")
-				+ "?oauth_signature_method=" + AUTHORIZED_MAP.get("authorized.oauth_signature_method")
-				+ "&oauth_accessor_secret=" + AUTHORIZED_MAP.get("authorized.oauth_accessor_secret") 
-				+ "&oauth_consumer_key=" + AUTHORIZED_MAP.get("authorized.oauth_consumer_key")
+		return authorizedMap.get("authorized.url") 
+				+ authorizedMap.get("authorized.belong")
+				+ "?oauth_signature_method=" + authorizedMap.get("authorized.oauth_signature_method")
+				+ "&oauth_accessor_secret=" + authorizedMap.get("authorized.oauth_accessor_secret") 
+				+ "&oauth_consumer_key=" + authorizedMap.get("authorized.oauth_consumer_key")
 				+ "&oauth_timestamp=" + timeStamp 
 				+ "&oauth_nonce=" + nonce 
-				+ "&oauth_version=" + AUTHORIZED_MAP.get("authorized.oauth_version")
+				+ "&oauth_version=" + authorizedMap.get("authorized.oauth_version")
 				+ "&oauth_signature=" + oauthSignature(phone, timeStamp, nonce) 
 				+ "&share_man=" + phone;
 	}
 	
 	//MD5加密串拼接
 	public static String oauthSignature(String phone, String timeStamp, String nonce) {
-		String md5Str = "get&" + AUTHORIZED_MAP.get("authorized.url") 
-				+ AUTHORIZED_MAP.get("authorized.belong")
-				+ "&oauth_signature_method=" + AUTHORIZED_MAP.get("authorized.oauth_signature_method") 
-				+ "&oauth_accessor_secret=" + AUTHORIZED_MAP.get("authorized.oauth_accessor_secret")
-				+ "&oauth_consumer_key=" + AUTHORIZED_MAP.get("authorized.oauth_consumer_key") 
+		String md5Str = "get&" + authorizedMap.get("authorized.url") 
+				+ authorizedMap.get("authorized.belong")
+				+ "&oauth_signature_method=" + authorizedMap.get("authorized.oauth_signature_method") 
+				+ "&oauth_accessor_secret=" + authorizedMap.get("authorized.oauth_accessor_secret")
+				+ "&oauth_consumer_key=" + authorizedMap.get("authorized.oauth_consumer_key") 
 				+ "&oauth_timestamp=" + timeStamp 
 				+ "&oauth_nonce=" + nonce 
-				+ "&oauth_version=" + AUTHORIZED_MAP.get("authorized.oauth_version") 
+				+ "&oauth_version=" + authorizedMap.get("authorized.oauth_version") 
 				+ "&share_man=" + phone;
 		return mD5Encrypt(encodeStr(md5Str, "UTF-8"));
 	}
@@ -177,14 +177,14 @@ public class ShareProfitUtil {
 			String orderSource =  map.get("order_source")!=null?map.get("order_source"):"";
 			String orderId =  map.get("order_id")!=null?map.get("order_id"):"";
 			
-			String belongInfoUrl = AUTHORIZED_MAP.get("authorized.url")+url;
+			String belongInfoUrl = authorizedMap.get("authorized.url")+url;
 			 
-			String belongInfo = "oauth_signature_method=" + AUTHORIZED_MAP.get("authorized.oauth_signature_method")
-					+ "&oauth_accessor_secret=" + AUTHORIZED_MAP.get("authorized.oauth_accessor_secret") 
-					+ "&oauth_consumer_key=" + AUTHORIZED_MAP.get("authorized.oauth_consumer_key")
+			String belongInfo = "oauth_signature_method=" + authorizedMap.get("authorized.oauth_signature_method")
+					+ "&oauth_accessor_secret=" + authorizedMap.get("authorized.oauth_accessor_secret") 
+					+ "&oauth_consumer_key=" + authorizedMap.get("authorized.oauth_consumer_key")
 					+ "&oauth_timestamp=" + timeStamp 
 					+ "&oauth_nonce=" + nonce 
-					+ "&oauth_version=" + AUTHORIZED_MAP.get("authorized.oauth_version");
+					+ "&oauth_version=" + authorizedMap.get("authorized.oauth_version");
 					
 			
 			String belongInfoend = "&user_id=" + userId
@@ -218,12 +218,12 @@ public class ShareProfitUtil {
 		
 		String userId = ctx.getUserId();
 
-		String signatureMethod=AUTHORIZED_MAP.get(MemberSystemDataContext.KEY_AUTHORIZED_OAUTH_SIGNATURE_METHOD);
-		String accessorSecret=AUTHORIZED_MAP.get(MemberSystemDataContext.KEY_AUTHORIZED_OAUTH_ACCESS_SECRET);
-		String consumerKey=AUTHORIZED_MAP.get(MemberSystemDataContext.KEY_AUTHORIZED_OAUTH_CONSUMER_KEY);
-		String apiDomain=AUTHORIZED_MAP.get(MemberSystemDataContext.KEY_AUTHORIZED_DOMAIN);
-		String apiPath=AUTHORIZED_MAP.get(MemberSystemDataContext.KEY_AUTHORIZED_API_UPD_FIRST_REFERRER_CASH);
-		String version=AUTHORIZED_MAP.get(MemberSystemDataContext.KEY_AUTHORIZED_OAUTH_VERSION);
+		String signatureMethod=authorizedMap.get(MemberSystemDataContext.KEY_AUTHORIZED_OAUTH_SIGNATURE_METHOD);
+		String accessorSecret=authorizedMap.get(MemberSystemDataContext.KEY_AUTHORIZED_OAUTH_ACCESS_SECRET);
+		String consumerKey=authorizedMap.get(MemberSystemDataContext.KEY_AUTHORIZED_OAUTH_CONSUMER_KEY);
+		String apiDomain=authorizedMap.get(MemberSystemDataContext.KEY_AUTHORIZED_DOMAIN);
+		String apiPath=authorizedMap.get(MemberSystemDataContext.KEY_AUTHORIZED_API_UPD_FIRST_REFERRER_CASH);
+		String version=authorizedMap.get(MemberSystemDataContext.KEY_AUTHORIZED_OAUTH_VERSION);
 		
 		String timeStamp = String.valueOf(System.currentTimeMillis() / 1000L);
 		String nonce = getRandomNum();

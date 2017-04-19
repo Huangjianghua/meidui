@@ -1,10 +1,6 @@
 package com.meiduimall.application.search.manage.IDao;
-
 import java.util.List;
 import java.util.Map;
-
-import org.springframework.stereotype.Repository;
-
 import com.meiduimall.application.search.manage.system.domain.Menu;
 
 
@@ -17,7 +13,6 @@ public interface MenuMapper {
 	 */
 	public List<Menu> selectMenuByRId(Map<String, Object> paraMap);
 		
-//	public List<Menu> selectMenuList(Menu menu);
 	
 	/**
 	 * 查询所有菜单

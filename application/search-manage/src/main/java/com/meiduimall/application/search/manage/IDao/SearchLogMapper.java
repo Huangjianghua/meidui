@@ -1,10 +1,6 @@
 package com.meiduimall.application.search.manage.IDao;
-
 import java.util.List;
-
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
-
 import com.meiduimall.application.search.manage.domain.SearchLog;
 import com.meiduimall.application.search.manage.pojo.LogParam;
 import com.meiduimall.application.search.manage.pojo.StatisticLog;

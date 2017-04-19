@@ -93,7 +93,7 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 					this.proxySelf.handleBill(bill,billCreatedtime,billtime,waterOpTime);
 					this.proxySelf.createBillAndOrderMapping(bill,orderToBilledList);
 				} catch (Exception e) {
-					log.error("编号为："+bill.getCode()+ ",账单处理异常:"+e.toString());
+					log.error("编号为:{},账单处理异常:{}",bill.getCode(),e.getMessage());
 					throw e;
 				}
 			}
@@ -124,7 +124,7 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 		//开始生成账单流水数据
 		if(!Strings.isNullOrEmpty(code)){
 			int i=baseMapper.insert(bill,"EcmBillMapper.createBillWater");
-			log.info("生成编号为"+code+"的账单数据："+i+"条 金额:"+amount+" 角色类型:"+type);
+			log.info("生成编号为{}的账单数据:{}条   金额:{} 角色类型:", code, i, amount, type);
 			
 			//BUG #3029::金额为0的账单不需要生成流水
 			if(!SettlementUtil.isZero(amount)){
@@ -143,7 +143,7 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 				water.setOpTime(opTime);
 				water.setBalance(ecmMzfAccount.getBalance());//变更前可提现金额(2017-04-01)
 				int i2=agentService.insertWater(water);
-				log.info("生成编号为"+code+"的流水汇总数据："+i2+"条  金额:"+amount+" 角色类型:"+type);	
+				log.info("生成编号为{}的流水汇总数据:{}条  金额:{} 角色类型:{}", code, i2, amount, type);	
 				
 				//更新账户
 				String newtype=String.valueOf(CodeRuleUtil.getAccountRoleType(type));
@@ -152,7 +152,7 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 				ccount.setBalance(BigDecimal.valueOf(amount));//double改为BigDecimal
 				ccount.setCode(code);
 				int d=agentService.updateAccount(ccount);
-				log.info("更新编号"+code+"的账户："+d+"条 金额:"+amount+" 角色类型:"+newtype);
+				log.info("更新编号{}的账户:{}条 金额:{} 角色类型:{}", code, d, amount, newtype);
 			}
 		}
 	}
