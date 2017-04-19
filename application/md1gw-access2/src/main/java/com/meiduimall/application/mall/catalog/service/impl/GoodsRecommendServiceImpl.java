@@ -28,15 +28,6 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 	@Autowired
 	private Environment env;
 
-	/**
-	 * 请求微服务，根据推荐类型，获取推荐商品
-	 * 
-	 * @param type
-	 *            推荐类型
-	 * @param sourceId
-	 *            请求来源
-	 * @return
-	 */
 	@Override
 	public String getFirstRecommendGoodsHttp(int type, int sourceId) {
 

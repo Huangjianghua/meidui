@@ -33,10 +33,10 @@ public class HttpGatewayUtils {
 	 */
 	public static String sendGet(String url, String clientID, String signKey, Map<String, String> params)
 			throws IOException {
-		String params_content = getParamsContent(clientID, signKey, params);
-		String url_param = url + "?" + params_content;
-		logger.info("请求地址：" + url_param);
-		String result = HttpUtils.get(url_param);
+		String paramsContent = getParamsContent(clientID, signKey, params);
+		String urlParam = url + "?" + paramsContent;
+		logger.info("请求地址：" + urlParam);
+		String result = HttpUtils.get(urlParam);
 		logger.info("请求结果：" + result);
 		return result;
 	}
@@ -53,14 +53,14 @@ public class HttpGatewayUtils {
 	 */
 	public static String sendPost(String url, String clientID, String signKey, Map<String, String> params)
 			throws IOException {
-		String params_content = getParamsContent(clientID, signKey, params);
+		String paramsContent = getParamsContent(clientID, signKey, params);
 		logger.info("请求地址：" + url);
-		logger.info("POST实体内容：" + params_content);
-		
+		logger.info("POST实体内容：" + paramsContent);
+
 		Map<String, String> headers = new HashMap<String, String>();
 		headers.put("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
-		
-		String result = HttpUtils.post(url, params_content, headers);
+
+		String result = HttpUtils.post(url, paramsContent, headers);
 		logger.info("请求结果：" + result);
 		return result;
 	}
@@ -75,13 +75,13 @@ public class HttpGatewayUtils {
 	 */
 	private static String getParamsContent(String clientID, String signKey, Map<String, String> params) {
 		StringBuilder sb = new StringBuilder();
-		Map<String, String> req_params = new HashMap<String, String>();
+		Map<String, String> reqParams = new HashMap<String, String>();
 
 		long timestamp = System.currentTimeMillis();
-		req_params.put("timestamp", String.valueOf(timestamp));
+		reqParams.put("timestamp", String.valueOf(timestamp));
 		sb.append("timestamp=" + timestamp + "&");
 
-		req_params.put("clientID", clientID);
+		reqParams.put("clientID", clientID);
 		sb.append("clientID=" + clientID + "&");
 
 		if (params != null) {
@@ -89,17 +89,16 @@ public class HttpGatewayUtils {
 				String key = entry.getKey();
 				String value = entry.getValue();
 				if (!StringUtils.isBlank(value)) {
-					req_params.put(key, value);
+					reqParams.put(key, value);
 					sb.append(key + "=" + value + "&");
 				}
 			}
 		}
 
 		// 获取签名串
-		String sign = GatewaySignUtil.sign(signKey, req_params);
+		String sign = GatewaySignUtil.sign(signKey, reqParams);
 		sb.append("sign=" + sign);
 
-		String params_content = sb.toString();
-		return params_content;
+		return sb.toString();
 	}
 }

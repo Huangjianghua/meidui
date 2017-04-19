@@ -26,7 +26,7 @@ import com.meiduimall.exception.ServiceException;
 public class GlobalExceptionHandler {
 
 	@ExceptionHandler(value = MethodArgumentNotValidException.class)
-	public Object MethodJsonArgumentNotValidHandler(HttpServletRequest request,
+	public Object methodJsonArgumentNotValidHandler(HttpServletRequest request,
 			MethodArgumentNotValidException exception) {
 		return new ResBodyData(ApplicationMallApiCode.REQUEST_PARAMS_ERROR,
 				ApplicationMallApiCode.getZhMsg(ApplicationMallApiCode.REQUEST_PARAMS_ERROR),
@@ -34,20 +34,20 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler(value = BindException.class)
-	public Object MethodFromArgumentNotValidHandler(HttpServletRequest request, BindException exception) {
+	public Object methodFromArgumentNotValidHandler(HttpServletRequest request, BindException exception) {
 		return new ResBodyData(ApplicationMallApiCode.REQUEST_PARAMS_ERROR,
 				ApplicationMallApiCode.getZhMsg(ApplicationMallApiCode.REQUEST_PARAMS_ERROR),
 				JsonUtils.getInstance().createObjectNode());
 	}
 
 	@ExceptionHandler(value = ApiException.class)
-	public Object ApiExceptionHandler(HttpServletRequest request, ApiException exception) {
+	public Object apiExceptionHandler(HttpServletRequest request, ApiException exception) {
 		return new ResBodyData(exception.getCode(), ApplicationMallApiCode.getZhMsg(exception.getCode()),
 				JsonUtils.getInstance().createObjectNode());
 	}
 
 	@ExceptionHandler(value = ServiceException.class)
-	public Object ServiceExceptionHandler(HttpServletRequest request, ServiceException exception) {
+	public Object serviceExceptionHandler(HttpServletRequest request, ServiceException exception) {
 		return new ResBodyData(exception.getCode(), ApplicationMallApiCode.getZhMsg(exception.getCode()),
 				JsonUtils.getInstance().createObjectNode());
 	}

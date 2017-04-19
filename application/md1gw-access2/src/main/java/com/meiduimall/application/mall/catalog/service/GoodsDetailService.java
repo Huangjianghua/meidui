@@ -3,13 +3,13 @@ package com.meiduimall.application.mall.catalog.service;
 public interface GoodsDetailService {
 
 	/**
-	 * 根据商品item_id获取商品详情
+	 * 请求微服务，根据商品itemId获取商品详情
 	 * 
-	 * @param item_id
+	 * @param itemId
 	 *            商品ID
-	 * @param mem_id
+	 * @param memId
 	 *            会员系统ID
 	 * @return
 	 */
-	public String getItemDetailHttp(int item_id, String mem_id);
+	public String getItemDetailHttp(int itemId, String memId);
 }

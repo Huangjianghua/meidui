@@ -66,7 +66,7 @@ public class DownloadStatisticsServiceImpl implements DownloadStatisticsService 
 			logger.error("查询下载渠道信息，service报异常：" + e);
 			throw new ServiceException(ServiceFinancialApiCode.DB_EXCEPTION);
 		}
-		if (list != null && list.size() > 0) {
+		if (list != null && !list.isEmpty()) {
 			ResBodyData result = new ResBodyData();
 			DownloadStatisticsResultList resultList = new DownloadStatisticsResultList();
 			resultList.setResult(list);

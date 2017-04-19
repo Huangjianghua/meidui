@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.application.mall.catalog.constant.ApplicationMallApiCode;
-import com.meiduimall.application.mall.catalog.service.impl.GoodsRecommendServiceImpl;
+import com.meiduimall.application.mall.catalog.service.GoodsRecommendService;
 import com.meiduimall.exception.ApiException;
 
 /**
@@ -28,7 +28,7 @@ public class GoodsRecommendController {
 	private HttpServletResponse response;
 
 	@Autowired
-	private GoodsRecommendServiceImpl goodsRecommendService;
+	private GoodsRecommendService goodsRecommendService;
 
 	/**
 	 * 根据推荐类型，获取推荐商品
@@ -43,17 +43,17 @@ public class GoodsRecommendController {
 	public String getFirstRecommendGoods(String type,
 			@RequestParam(value = "sourceId", required = false, defaultValue = "1") String sourceId) {
 
-		int reco_type = 0;
-		int reco_source_id = 0;
+		int intType = 0;
+		int intSourceId = 0;
 		try {
-			reco_type = Integer.parseInt(type);
-			reco_source_id = Integer.parseInt(sourceId);
+			intType = Integer.parseInt(type);
+			intSourceId = Integer.parseInt(sourceId);
 		} catch (NumberFormatException e) {
 			logger.error("根据推荐类型，获取推荐商品，服务器异常：" + e);
 			throw new ApiException(ApplicationMallApiCode.REQUEST_PARAMS_ERROR);
 		}
 		
-		String result = goodsRecommendService.getFirstRecommendGoodsHttp(reco_type, reco_source_id);
+		String result = goodsRecommendService.getFirstRecommendGoodsHttp(intType, intSourceId);
 		// 增加头部--解决JS跨域问题
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		return result;

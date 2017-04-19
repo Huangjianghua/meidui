@@ -30,15 +30,6 @@ public class ShopServiceImpl implements ShopService {
 	@Autowired
 	private Environment env;
 
-	/**
-	 * 请求微服务，根据店铺shopId，获取店铺详情
-	 * 
-	 * @param shopId
-	 *            店铺ID
-	 * @param memId
-	 *            会员系统ID
-	 * @return
-	 */
 	@Override
 	public String getShopDetailHttp(int shopId, String memId) {
 
@@ -61,17 +52,6 @@ public class ShopServiceImpl implements ShopService {
 		}
 	}
 
-	/**
-	 * 请求微服务，收藏店铺或者取消收藏
-	 * 
-	 * @param shopId
-	 *            店铺ID
-	 * @param isCollect
-	 *            收藏1，取消收藏0
-	 * @param memId
-	 *            会员系统ID
-	 * @return
-	 */
 	@Override
 	public String collectOrCancelShopHttp(int shopId, int isCollect, String memId) {
 
@@ -95,13 +75,6 @@ public class ShopServiceImpl implements ShopService {
 		}
 	}
 
-	/**
-	 * 请求微服务，获取商家自定义商品分类列表
-	 * 
-	 * @param shopId
-	 *            店铺ID
-	 * @return
-	 */
 	@Override
 	public String getShopProductCatalogHttp(int shopId) {
 		String uri = "/mall/catalog-service/v1/shopInfo/getShopCatalog";
@@ -120,12 +93,6 @@ public class ShopServiceImpl implements ShopService {
 		}
 	}
 
-	/**
-	 * 请求微服务，获取店铺的商品列表
-	 * 
-	 * @param param
-	 * @return
-	 */
 	@Override
 	public String getShopProductList(ShopProductRequest param) {
 		String uri = "/mall/catalog-service/v1/shopInfo/getProductList";

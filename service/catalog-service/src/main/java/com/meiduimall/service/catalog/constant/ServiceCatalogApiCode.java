@@ -53,7 +53,6 @@ public class ServiceCatalogApiCode extends BaseApiCode {
 	
 	/** 数据库异常 */
 	public static final Integer DB_EXCEPTION = 7500;
-
 	
 	/** 未知错误 */
 	public static final Integer UNKNOWN_ERROR = 7777;

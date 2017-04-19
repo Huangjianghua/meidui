@@ -79,18 +79,25 @@ public class DownloadStatisticsController {
 	 */
 	@RequestMapping(value = "/query")
 	public ResBodyData queryByDate(String beginDate, String endDate) {
+
+		String beginDateFormat = "";
+		String endDateFormat = "";
 		try {
 			// 特殊处理--日期时间包含空格和冒号，需要进行URL编码和URL解码
 			if (!StringUtils.isEmpty(beginDate)) {
-				beginDate = URLDecoder.decode(beginDate, "utf-8");
+				beginDateFormat = URLDecoder.decode(beginDate, "utf-8");
+			} else {
+				beginDateFormat = beginDate;
 			}
 			if (!StringUtils.isEmpty(endDate)) {
-				endDate = URLDecoder.decode(endDate, "utf-8");
+				endDateFormat = URLDecoder.decode(endDate, "utf-8");
+			} else {
+				endDateFormat = endDate;
 			}
 		} catch (UnsupportedEncodingException e) {
 			logger.error("对日期进行Decoder错误：" + e);
 			throw new ApiException(ServiceFinancialApiCode.REQUEST_PARAMS_ERROR);
 		}
-		return downloadStatisticsService.queryByDate(beginDate, endDate);
+		return downloadStatisticsService.queryByDate(beginDateFormat, endDateFormat);
 	}
 }
