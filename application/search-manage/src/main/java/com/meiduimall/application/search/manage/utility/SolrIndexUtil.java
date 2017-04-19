@@ -51,7 +51,7 @@ public class SolrIndexUtil {
 			String cat = itemModel.getCat().trim();
 			String catParentId = itemModel.getCatParentId();
 			
-			StringBuffer catInfo = new StringBuffer();
+			StringBuilder catInfo = new StringBuilder();
 			catInfo.append(catParentId).append("_");
 			catInfo.append(catId).append("_");
 			catInfo.append(cat);
@@ -66,7 +66,7 @@ public class SolrIndexUtil {
 			doc.addField("catPath", catPath + catId);
 			
 			// 店铺信息
-			StringBuffer shopInfo = new StringBuffer();
+			StringBuilder shopInfo = new StringBuilder();
 			String shopId = itemModel.getShopId();
 			String shopName = itemModel.getShopName();
 			String shopDescript = itemModel.getShopDescript();

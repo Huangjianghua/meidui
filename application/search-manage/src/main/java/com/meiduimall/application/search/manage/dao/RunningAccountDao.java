@@ -21,5 +21,5 @@ public interface RunningAccountDao extends BaseDao<RunningAccount> {
 	 * @throws Exception 
 	 */
 	public List<RunningAccount> getPaginByPort(Integer pageNo, Integer pageSize, 
-			Map<String, String> paramMap) throws Exception;
+			Map<String, String> paramMap);
 }

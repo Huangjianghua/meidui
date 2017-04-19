@@ -19,6 +19,12 @@
 		<java.version>1.8</java.version>
 	</properties>
   <dependencies>
+    
+    <dependency>
+		<groupId>com.meiduimall</groupId>
+		<artifactId>meiduimall-support-core</artifactId>
+		<version>${meiduimall-support-core.version}</version>
+	</dependency>
 	<dependency>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-web</artifactId>

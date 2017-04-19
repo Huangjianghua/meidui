@@ -1,9 +1,5 @@
 package com.meiduimall.application.search.manage.IDao;
-
 import java.util.List;
-
-import org.springframework.stereotype.Repository;
-
 import com.meiduimall.application.search.manage.domain.SearchDic;
 import com.meiduimall.application.search.manage.page.PageView;
 

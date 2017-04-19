@@ -49,7 +49,6 @@ public final class GateWayComponent {
 	 * param   @param url
 	 * param   @param headers
 	 * param   @param sendData
-	 * param   @return
 	 * param   @throws ClientProtocolException
 	 * param   @throws IOException   
 	 * return  ResBodyData
@@ -151,8 +150,11 @@ public final class GateWayComponent {
     }
     
     /**
-     * 构建clientID配置参数
-     * @param params 参数
+     * 功能描述: 构建clientID配置参数
+     * Author: 陈建宇
+     * Date:   2017年4月18日 下午5:53:14 
+     * param   @param params
+     * return  GateWayComponent
      */
     public GateWayComponent buildConfigParams(SortedMap<String, String> params){
         params.put("clientID", req.getClientID());
@@ -160,8 +162,11 @@ public final class GateWayComponent {
     }
     
     /**
-     * 构建签名参数
-     * @param params 支付参数
+     * 功能描述:  构建签名参数
+     * Author: 陈建宇
+     * Date:   2017年4月18日 下午5:53:27 
+     * param   @param params
+     * return  GateWayComponent
      */
     public GateWayComponent buildSignParams(SortedMap<String,String> params) {
     	//生成签名
