@@ -20,7 +20,7 @@ import com.meiduimall.service.catalog.service.GoodsDetailService;
 @RestController
 @RequestMapping("/mall/catalog-service/v1/goodsDetail")
 public class GoodsDetailController {
-	
+
 	private static Logger logger = LoggerFactory.getLogger(GoodsDetailController.class);
 
 	@Autowired
@@ -40,7 +40,8 @@ public class GoodsDetailController {
 			id = Integer.parseInt(item_id);
 		} catch (NumberFormatException e) {
 			logger.error("根据商品编号，查询商品是否存在: " + e);
-			throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
+			throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR,
+					ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR));
 		}
 		return goodsDetailService.checkItemIsExistById(id);
 	}
@@ -61,7 +62,8 @@ public class GoodsDetailController {
 			id = Integer.parseInt(itemId);
 		} catch (NumberFormatException e) {
 			logger.error("根据商品编号，查询商品详情: " + e);
-			throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
+			throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR,
+					ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR));
 		}
 		return goodsDetailService.getItemDetailById(memId, id);
 	}

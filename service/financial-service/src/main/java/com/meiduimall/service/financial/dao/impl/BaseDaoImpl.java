@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.meiduimall.exception.DaoException;
+import com.meiduimall.service.financial.constant.ServiceFinancialApiCode;
 import com.meiduimall.service.financial.dao.BaseDao;
 
 /**
@@ -29,7 +30,7 @@ public class BaseDaoImpl extends SqlSessionDaoSupport implements BaseDao {
 		try {
 			rt = getSqlSession().selectOne(sqlTag, params);
 		} catch (Exception e) {
-			throw new DaoException(sqlTag + " error, params = " + params, e);
+			throw new DaoException(ServiceFinancialApiCode.UNKNOWN_ERROR, sqlTag + " error, params = " + params, e);
 		}
 		return rt;
 	}
@@ -39,7 +40,7 @@ public class BaseDaoImpl extends SqlSessionDaoSupport implements BaseDao {
 		try {
 			rt = getSqlSession().selectList(sqlTag, params);
 		} catch (Exception e) {
-			throw new DaoException(sqlTag + " error, params = " + params, e);
+			throw new DaoException(ServiceFinancialApiCode.UNKNOWN_ERROR, sqlTag + " error, params = " + params, e);
 		}
 		return rt;
 	}
@@ -49,7 +50,7 @@ public class BaseDaoImpl extends SqlSessionDaoSupport implements BaseDao {
 		try {
 			rt = getSqlSession().insert(sqlTag, t);
 		} catch (Exception e) {
-			throw new DaoException(sqlTag + " error, t = " + t, e);
+			throw new DaoException(ServiceFinancialApiCode.UNKNOWN_ERROR, sqlTag + " error, t = " + t, e);
 		}
 		return rt;
 	}
@@ -59,7 +60,7 @@ public class BaseDaoImpl extends SqlSessionDaoSupport implements BaseDao {
 		try {
 			rt = getSqlSession().insert(sqlTag, ts);
 		} catch (Exception e) {
-			throw new DaoException(sqlTag + " error, ts = " + ts, e);
+			throw new DaoException(ServiceFinancialApiCode.UNKNOWN_ERROR, sqlTag + " error, ts = " + ts, e);
 		}
 		return rt;
 	}
@@ -69,7 +70,7 @@ public class BaseDaoImpl extends SqlSessionDaoSupport implements BaseDao {
 		try {
 			rt = getSqlSession().update(sqlTag, params);
 		} catch (Exception e) {
-			throw new DaoException(sqlTag + " error, params = " + params, e);
+			throw new DaoException(ServiceFinancialApiCode.UNKNOWN_ERROR, sqlTag + " error, params = " + params, e);
 		}
 		return rt;
 	}
@@ -80,7 +81,7 @@ public class BaseDaoImpl extends SqlSessionDaoSupport implements BaseDao {
 		try {
 			rt = getSqlSession().delete(sqlTag, params);
 		} catch (Exception e) {
-			throw new DaoException(sqlTag + " error, params = " + params, e);
+			throw new DaoException(ServiceFinancialApiCode.UNKNOWN_ERROR, sqlTag + " error, params = " + params, e);
 		}
 		return rt;
 	}
@@ -90,7 +91,7 @@ public class BaseDaoImpl extends SqlSessionDaoSupport implements BaseDao {
 		try {
 			rt = getSqlSession().delete(sqlTag, params);
 		} catch (Exception e) {
-			throw new DaoException(sqlTag + " error, params = " + params, e);
+			throw new DaoException(ServiceFinancialApiCode.UNKNOWN_ERROR, sqlTag + " error, params = " + params, e);
 		}
 		return rt;
 	}

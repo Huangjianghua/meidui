@@ -44,7 +44,8 @@ public class DownloadStatisticsController {
 
 		if (StringUtils.isBlank(portal)) {
 			logger.error("渠道编号错误：" + portal);
-			throw new ApiException(ServiceFinancialApiCode.REQUEST_PARAMS_ERROR);
+			throw new ApiException(ServiceFinancialApiCode.REQUEST_PARAMS_ERROR,
+					ServiceFinancialApiCode.getZhMsg(ServiceFinancialApiCode.REQUEST_PARAMS_ERROR));
 		}
 
 		int portalInt = 0;
@@ -52,7 +53,8 @@ public class DownloadStatisticsController {
 			portalInt = Integer.parseInt(portal.trim());
 		} catch (NumberFormatException e) {
 			logger.error("渠道编号错误：" + e);
-			throw new ApiException(ServiceFinancialApiCode.REQUEST_PARAMS_ERROR);
+			throw new ApiException(ServiceFinancialApiCode.REQUEST_PARAMS_ERROR,
+					ServiceFinancialApiCode.getZhMsg(ServiceFinancialApiCode.REQUEST_PARAMS_ERROR));
 		}
 
 		DownloadStatistics bean = new DownloadStatistics();
@@ -96,7 +98,8 @@ public class DownloadStatisticsController {
 			}
 		} catch (UnsupportedEncodingException e) {
 			logger.error("对日期进行Decoder错误：" + e);
-			throw new ApiException(ServiceFinancialApiCode.REQUEST_PARAMS_ERROR);
+			throw new ApiException(ServiceFinancialApiCode.REQUEST_PARAMS_ERROR,
+					ServiceFinancialApiCode.getZhMsg(ServiceFinancialApiCode.REQUEST_PARAMS_ERROR));
 		}
 		return downloadStatisticsService.queryByDate(beginDateFormat, endDateFormat);
 	}

@@ -44,7 +44,8 @@ public class GoodsDetailController {
 			intItemId = Integer.parseInt(itemId);
 		} catch (NumberFormatException e) {
 			logger.error("根据商品item_id获取商品详情，服务器异常：" + e);
-			throw new ApiException(ApplMallApiCode.REQUEST_PARAMS_ERROR);
+			throw new ApiException(ApplMallApiCode.REQUEST_PARAMS_ERROR,
+					ApplMallApiCode.getZhMsg(ApplMallApiCode.REQUEST_PARAMS_ERROR));
 		}
 		return goodsDetailService.getItemDetailHttp(intItemId, memId);
 	}

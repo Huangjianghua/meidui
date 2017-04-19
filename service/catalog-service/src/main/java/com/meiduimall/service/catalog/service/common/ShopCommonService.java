@@ -60,7 +60,8 @@ public class ShopCommonService {
 				shopData.setAttitudeDsr(NumberUtils.formatString(fAttitudeDsr, 1));
 			} catch (Exception e) {
 				logger.error("反序列化数据--解析店铺信息: " + e);
-				throw new ServiceException(ServiceCatalogApiCode.SHOP_DATA_EXCEPTION);
+				throw new ServiceException(ServiceCatalogApiCode.SHOP_DATA_EXCEPTION,
+						ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.SHOP_DATA_EXCEPTION));
 			}
 		} else {
 			shopData.setTallyDsr("5.0");

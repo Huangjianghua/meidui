@@ -41,7 +41,7 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("itemId", String.valueOf(itemId));
-		if(!StringUtils.isBlank(memId)){
+		if (!StringUtils.isBlank(memId)) {
 			params.put("memId", memId);
 		}
 
@@ -49,7 +49,8 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
 		} catch (Exception e) {
 			logger.error("请求微服务异常： " + e);
-			throw new ServiceException(ApplMallApiCode.REQUEST_SERVICE_ERROR);
+			throw new ServiceException(ApplMallApiCode.REQUEST_SERVICE_ERROR,
+					ApplMallApiCode.getZhMsg(ApplMallApiCode.REQUEST_SERVICE_ERROR));
 		}
 	}
 }

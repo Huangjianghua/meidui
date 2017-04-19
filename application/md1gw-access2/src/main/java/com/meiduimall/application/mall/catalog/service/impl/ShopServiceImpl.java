@@ -49,7 +49,8 @@ public class ShopServiceImpl implements ShopService {
 			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
 		} catch (Exception e) {
 			logger.error("请求微服务异常： " + e);
-			throw new ServiceException(ApplMallApiCode.REQUEST_SERVICE_ERROR);
+			throw new ServiceException(ApplMallApiCode.REQUEST_SERVICE_ERROR,
+					ApplMallApiCode.getZhMsg(ApplMallApiCode.REQUEST_SERVICE_ERROR));
 		}
 	}
 
@@ -72,13 +73,14 @@ public class ShopServiceImpl implements ShopService {
 			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
 		} catch (Exception e) {
 			logger.error("请求微服务异常： " + e);
-			throw new ServiceException(ApplMallApiCode.REQUEST_SERVICE_ERROR);
+			throw new ServiceException(ApplMallApiCode.REQUEST_SERVICE_ERROR,
+					ApplMallApiCode.getZhMsg(ApplMallApiCode.REQUEST_SERVICE_ERROR));
 		}
 	}
 
 	@Override
 	public String getShopProductCatalogHttp(int shopId) {
-		
+
 		String clientID = env.getProperty(ApplMallConstant.KEY_SIGN_CLIENT_ID);
 		String signKey = env.getProperty(ApplMallConstant.KEY_SIGN_KEY);
 		String host = env.getProperty(ApplMallConstant.KEY_CATALOG_SERVICE_HOST);
@@ -91,13 +93,14 @@ public class ShopServiceImpl implements ShopService {
 			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
 		} catch (Exception e) {
 			logger.error("请求微服务异常： " + e);
-			throw new ServiceException(ApplMallApiCode.REQUEST_SERVICE_ERROR);
+			throw new ServiceException(ApplMallApiCode.REQUEST_SERVICE_ERROR,
+					ApplMallApiCode.getZhMsg(ApplMallApiCode.REQUEST_SERVICE_ERROR));
 		}
 	}
 
 	@Override
 	public String getShopProductList(ShopProductRequest param) {
-		
+
 		String clientID = env.getProperty(ApplMallConstant.KEY_SIGN_CLIENT_ID);
 		String signKey = env.getProperty(ApplMallConstant.KEY_SIGN_KEY);
 		String host = env.getProperty(ApplMallConstant.KEY_CATALOG_SERVICE_HOST);
@@ -126,7 +129,8 @@ public class ShopServiceImpl implements ShopService {
 			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
 		} catch (Exception e) {
 			logger.error("请求微服务异常： " + e);
-			throw new ServiceException(ApplMallApiCode.REQUEST_SERVICE_ERROR);
+			throw new ServiceException(ApplMallApiCode.REQUEST_SERVICE_ERROR,
+					ApplMallApiCode.getZhMsg(ApplMallApiCode.REQUEST_SERVICE_ERROR));
 		}
 	}
 }

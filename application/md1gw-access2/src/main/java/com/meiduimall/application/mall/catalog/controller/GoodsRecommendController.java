@@ -50,9 +50,10 @@ public class GoodsRecommendController {
 			intSourceId = Integer.parseInt(sourceId);
 		} catch (NumberFormatException e) {
 			logger.error("根据推荐类型，获取推荐商品，服务器异常：" + e);
-			throw new ApiException(ApplMallApiCode.REQUEST_PARAMS_ERROR);
+			throw new ApiException(ApplMallApiCode.REQUEST_PARAMS_ERROR,
+					ApplMallApiCode.getZhMsg(ApplMallApiCode.REQUEST_PARAMS_ERROR));
 		}
-		
+
 		String result = goodsRecommendService.getFirstRecommendGoodsHttp(intType, intSourceId);
 		// 增加头部--解决JS跨域问题
 		response.setHeader("Access-Control-Allow-Origin", "*");

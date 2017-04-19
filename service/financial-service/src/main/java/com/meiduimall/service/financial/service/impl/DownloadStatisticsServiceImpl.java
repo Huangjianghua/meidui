@@ -33,13 +33,7 @@ public class DownloadStatisticsServiceImpl implements DownloadStatisticsService 
 
 		logger.error("插入下载渠道，渠道编号：" + downloadStatistics.getPortal());
 
-		int rows = 0;
-		try {
-			rows = baseDao.insert(downloadStatistics, "downloadStatisticsMapper.insert");
-		} catch (Exception e) {
-			logger.error("插入下载渠道，service报异常：" + e);
-			throw new ServiceException(ServiceFinancialApiCode.DB_EXCEPTION);
-		}
+		int rows = baseDao.insert(downloadStatistics, "downloadStatisticsMapper.insert");
 
 		if (rows > 0) {
 			ResBodyData result = new ResBodyData();
@@ -48,7 +42,8 @@ public class DownloadStatisticsServiceImpl implements DownloadStatisticsService 
 			result.setData(JsonUtils.getInstance().createObjectNode());
 			return result;
 		} else {
-			throw new ServiceException(ServiceFinancialApiCode.OPERAT_FAIL);
+			throw new ServiceException(ServiceFinancialApiCode.OPERAT_FAIL,
+					ServiceFinancialApiCode.getZhMsg(ServiceFinancialApiCode.OPERAT_FAIL));
 		}
 	}
 
@@ -59,13 +54,8 @@ public class DownloadStatisticsServiceImpl implements DownloadStatisticsService 
 		params.setBeginDate(beginDate);
 		params.setEndDate(endDate);
 
-		List<DownloadStatisticsResult> list = null;
-		try {
-			list = baseDao.selectList(params, "downloadStatisticsMapper.queryGroupByPortal");
-		} catch (Exception e) {
-			logger.error("查询下载渠道信息，service报异常：" + e);
-			throw new ServiceException(ServiceFinancialApiCode.DB_EXCEPTION);
-		}
+		List<DownloadStatisticsResult> list = baseDao.selectList(params, "downloadStatisticsMapper.queryGroupByPortal");
+
 		if (list != null && !list.isEmpty()) {
 			ResBodyData result = new ResBodyData();
 			DownloadStatisticsResultList resultList = new DownloadStatisticsResultList();
@@ -76,7 +66,8 @@ public class DownloadStatisticsServiceImpl implements DownloadStatisticsService 
 			result.setMsg(ServiceFinancialApiCode.getZhMsg(ServiceFinancialApiCode.REQUEST_SUCCESS));
 			return result;
 		} else {
-			throw new ServiceException(ServiceFinancialApiCode.NONE_DATA);
+			throw new ServiceException(ServiceFinancialApiCode.NONE_DATA,
+					ServiceFinancialApiCode.getZhMsg(ServiceFinancialApiCode.NONE_DATA));
 		}
 	}
 }
