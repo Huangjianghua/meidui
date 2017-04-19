@@ -124,7 +124,7 @@ public class RedisTemplate {
 				isReturn = false;
 				returnJedisBrokenResource(shardedJedis);
 			}
-			throw new RedisClientException(0, "", ex);
+			throw new RedisClientException(RedisApiCode.EXCEPTION_PIPE_OPER,RedisApiCode.getZhMsg(RedisApiCode.EXCEPTION_PIPE_OPER), ex);
 		} finally {
 			if (isReturn) {
 				returnJedisResource(shardedJedis);
@@ -154,7 +154,7 @@ public class RedisTemplate {
 				isReturn = false;
 				returnJedisBrokenResource(shardedJedis);
 			}
-			throw new RedisClientException(0, "", ex);
+			throw new RedisClientException(RedisApiCode.EXCEPTION_CORE_OPER,RedisApiCode.getZhMsg(RedisApiCode.EXCEPTION_CORE_OPER), ex);
 		} finally {
 			if (isReturn) {
 				returnJedisResource(shardedJedis);
