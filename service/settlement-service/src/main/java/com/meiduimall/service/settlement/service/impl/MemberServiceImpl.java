@@ -250,7 +250,6 @@ public class MemberServiceImpl implements MemberService {
 		if(orderSnList4Err!=null && !orderSnList4Err.isEmpty()){
 			try {
 				log.error("updateReferrerCash() in MemberServiceImpl got error:更新推荐人1%金额到会员系统失败!order size:{},orderSns:{}",orderSnList4Err.size(),Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSnList4Err));
-				//log error msg to ecm_mzf_log_createbill;
 				CreateBillLog cbl=new CreateBillLog("updateReferrerCash() in MemberServiceImpl got error:更新推荐人1%金额到会员系统失败!失败订单数量:{}:"+orderSnList4Err.size(),DateUtil.getCurrentTimeSec(),null);
 				boolean isSuccess=shareProfitLogService.logCreateBillLog(cbl);
 				if(!isSuccess){

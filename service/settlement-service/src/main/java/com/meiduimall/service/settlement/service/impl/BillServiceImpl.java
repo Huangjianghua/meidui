@@ -86,7 +86,6 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 		if(!billList.isEmpty()){
 			
 			Timestamp waterOpTime=new Timestamp(System.currentTimeMillis());
-			//boolean billedSuccess=true;
 			for (int j=0;j<billList.size();j++) {
 				EcmMzfBillWater bill=billList.get(j);
 				

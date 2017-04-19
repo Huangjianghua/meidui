@@ -117,7 +117,7 @@ public class ShareProfitUtil {
 	public static String getBelongInfoUrl(String phone) {
 		String timeStamp = String.valueOf(System.currentTimeMillis() / 1000L);
 		String nonce = getRandomNum();
-		String belongInfoUrl = AUTHORIZED_MAP.get("authorized.url") 
+		return AUTHORIZED_MAP.get("authorized.url") 
 				+ AUTHORIZED_MAP.get("authorized.belong")
 				+ "?oauth_signature_method=" + AUTHORIZED_MAP.get("authorized.oauth_signature_method")
 				+ "&oauth_accessor_secret=" + AUTHORIZED_MAP.get("authorized.oauth_accessor_secret") 
@@ -127,7 +127,6 @@ public class ShareProfitUtil {
 				+ "&oauth_version=" + AUTHORIZED_MAP.get("authorized.oauth_version")
 				+ "&oauth_signature=" + oauthSignature(phone, timeStamp, nonce) 
 				+ "&share_man=" + phone;
-		return belongInfoUrl;
 	}
 	
 	//MD5加密串拼接
@@ -354,7 +353,7 @@ public class ShareProfitUtil {
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			md.update(values.toLowerCase().getBytes());
-			byte b[] = md.digest();
+			byte[] b = md.digest();
 
 			int i;
 			for (int offset = 0; offset < b.length; offset++) {

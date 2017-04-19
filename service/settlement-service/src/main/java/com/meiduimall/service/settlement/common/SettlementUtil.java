@@ -69,12 +69,12 @@ public class SettlementUtil {
 	}
 	
 	public static boolean isZero(double number){
-		
-		BigDecimal num=BigDecimal.valueOf(number);
-		if(num.compareTo(BigDecimal.ZERO)==0){
-			return true;
+		boolean flag = false;
+		BigDecimal num = BigDecimal.valueOf(number);
+		if (num.compareTo(BigDecimal.ZERO) == 0) {
+			flag = true;
 		}
-		return false;
+		return flag;
 	}
 	
 	public static ResBodyData success(Object data) {

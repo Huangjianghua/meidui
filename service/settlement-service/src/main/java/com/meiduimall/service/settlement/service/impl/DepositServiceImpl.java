@@ -266,7 +266,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 			water.setWaterId(CodeRuleUtil.getAreaAgentFlowCode(areaAgent.getAddAgentNo()));//生成区代流水编号
 			water.setCode(areaAgent.getAddAgentNo());
 			water.setMoney(BigDecimal.valueOf(-amount));
-			water.setRemark(ShareProfitConstants.REMARK_3_TYPE);//备注内容 推荐费抵扣;
+			water.setRemark(ShareProfitConstants.REMARK_3_TYPE);
 
 			water.setWaterType(ShareProfitConstants.WATER_TYPE_DEPOSIT);//保证金
 			water.setExtId(payinId);//ecm_agent_payin表中的id

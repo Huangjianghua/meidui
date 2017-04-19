@@ -108,8 +108,6 @@ public class BillTask {
 	public void mergeBilledWaters(){
 		
 		//对生成账单当天的ecm_mzf_water表相同的 code,op_time,water_type记录进行分组，合并金额，删掉重复记录。主要用于修复：同一个用户既是区代又是跨区代分账后生成流水记录表时一个用户在同一时间点产生两天流水记录。
-		//String remark=sdf.format(billtime)+"账单";
-
 		List<BilledWaterVO2Merge> mergeWaterVOList = waterService.getBilledWatersToMerge();
 		
 		if(mergeWaterVOList!=null && !mergeWaterVOList.isEmpty()){

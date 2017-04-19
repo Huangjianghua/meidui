@@ -251,9 +251,7 @@ public class OrderServiceImpl implements OrderService {
 			meiduiCompanyAgentNos.add(ecmOrder.getAgentNoRegionS());
 		}
 		
-		EcmMzfShareProfit ecmMzfShareProfit = buildShareProfitModel(ecmOrder, ctx, meiduiCompanyAgentNos);
-		return ecmMzfShareProfit;
-		
+		return buildShareProfitModel(ecmOrder, ctx, meiduiCompanyAgentNos);
 	}
 
 	@Override

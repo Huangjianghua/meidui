@@ -21,8 +21,7 @@ public class SettingServiceImpl implements SettingService {
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	public EcmSystemSetting updatesystemsetting(EcmSystemSetting input)  {
 		baseMapper.update(input, "EcmSystemSettingMapper.updatesystemsetting");
-		EcmSystemSetting ecmSystemSetting = baseMapper.selectOne(input.getScode(), "EcmSystemSettingMapper.querysystemsetting");
-		return ecmSystemSetting;
+		return baseMapper.selectOne(input.getScode(), "EcmSystemSettingMapper.querysystemsetting");
 	}
 
 	@Override

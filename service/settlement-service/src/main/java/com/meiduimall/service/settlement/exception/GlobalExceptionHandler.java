@@ -49,8 +49,7 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(value = ServiceException.class)
 	public ResBodyData serviceExceptionHandler(HttpServletRequest request, ServiceException exception) {
 		logger.error(request.getContextPath() + request.getRequestURI() + " " + exception.getLocalizedMessage());
-		ResBodyData result = new ResBodyData(ShareProfitConstants.RESPONSE_STATUS_CODE_FAILURE, exception.getLocalizedMessage());
-		return result;
+		return new ResBodyData(ShareProfitConstants.RESPONSE_STATUS_CODE_FAILURE, exception.getLocalizedMessage());
 	}
 
 }
