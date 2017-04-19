@@ -27,7 +27,7 @@ public class ServiceException extends BizException {
 	}
 
 
-	public ServiceException(Integer code, String message, Throwable cause) {
-		super(code, message,cause);
+	public ServiceException(Integer code, String msg, Throwable cause) {
+		super(code, msg,cause);
 	}
 }

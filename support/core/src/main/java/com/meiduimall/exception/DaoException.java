@@ -28,8 +28,8 @@ public class DaoException extends BizException {
 	}
 
 
-	public DaoException(Integer code, String message, Throwable cause) {
-		super(code, message,cause);
+	public DaoException(Integer code, String msg, Throwable cause) {
+		super(code, msg,cause);
 	}
 
 	

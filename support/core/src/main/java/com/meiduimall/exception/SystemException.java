@@ -29,8 +29,8 @@ public class SystemException extends Exception {
 		this.code = code;
 	}
 
-	public SystemException(Integer code, String message, Throwable cause) {
-		super(message, cause);
+	public SystemException(Integer code, String msg, Throwable cause) {
+		super(msg, cause);
 		this.code = code;
 	}
 

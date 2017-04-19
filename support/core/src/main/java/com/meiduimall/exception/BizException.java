@@ -20,8 +20,8 @@ public class BizException extends RuntimeException{
 		this.code = code;
 	}
 
-	public BizException(Integer code, String message, Throwable cause) {
-		super(message, cause);
+	public BizException(Integer code, String msg, Throwable cause) {
+		super(msg, cause);
 		this.code = code;
 	}
 

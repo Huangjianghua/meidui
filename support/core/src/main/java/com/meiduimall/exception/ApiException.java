@@ -27,8 +27,8 @@ public class ApiException extends BizException {
 		super(code,msg);
 	}
 
-	public ApiException(Integer code, String message, Throwable cause) {
-		super(code, message,cause);
+	public ApiException(Integer code, String msg, Throwable cause) {
+		super(code, msg,cause);
 	}
 
 }

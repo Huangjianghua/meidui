@@ -37,7 +37,6 @@ public class RedisTemplate {
 	}
 
 	/**
-	 * 
 	 * 功能描述: 返回ShardedJedis池资源
 	 * Author: 陈建宇
 	 * Date:   2016年12月14日 上午9:37:06
