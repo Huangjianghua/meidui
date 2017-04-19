@@ -18,8 +18,8 @@ import com.github.pagehelper.StringUtil;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.meiduimall.core.Constants;
+import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
-import com.meiduimall.service.settlement.common.ResultData;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 import com.meiduimall.service.settlement.common.ShareProfitUtil;
 import com.meiduimall.service.settlement.context.MemberSystemDataContext;
@@ -70,12 +70,12 @@ public class MemberServiceImpl implements MemberService {
 		hashMap.put("url","Authorized/addConsumePoints");
 		hashMap.put("order_id",orderId);
 		String resultJsonStr = ConnectionUrlUtil.httpRequest(ShareProfitUtil.belongInfoUrl(hashMap), ShareProfitUtil.REQUEST_METHOD_POST, null);
-		ResultData resultJson = JsonUtils.jsonToBean(resultJsonStr, ResultData.class);
+		ResBodyData resultJson = JsonUtils.jsonToBean(resultJsonStr, ResBodyData.class);
 		// 判断返回是否成功,如果不成功则不理会
-		if ("0".equals(resultJson.getStatus_code())) {
+		if (resultJson.getStatus()==0) {
 			 return true;
 		} else {
-			log.error("errcode:" + resultJson.getStatus_code() + ";errmsg:" + resultJson.getResult_msg()+ ";userId:"+phone);
+			log.error("errcode:" + resultJson.getStatus() + ";errmsg:" + resultJson.getMsg()+ ";userId:"+phone);
 			return false;
 		}
 		
@@ -89,14 +89,14 @@ public class MemberServiceImpl implements MemberService {
 
 			String resultJsonStr = ConnectionUrlUtil.httpRequest(ShareProfitUtil.buildMemberSystemAmoutUrl(ctx), ShareProfitUtil.REQUEST_METHOD_POST, null);
 			
-			ResultData resultJson= JsonUtils.jsonToBean(resultJsonStr, ResultData.class);
+			ResBodyData resultJson= JsonUtils.jsonToBean(resultJsonStr, ResBodyData.class);
 			
-			String statusCode = resultJson.getStatus_code() == null ? "" : resultJson.getStatus_code();
+			String statusCode = resultJson.getStatus() == null ? "" : resultJson.getStatus().toString();
 			// 判断返回是否成功,如果不成功则不理会
 			if ("0".equals(statusCode)) {
 				isUpdated=Boolean.TRUE;
 			} else {
-				log.error("errcode:" + resultJson.getStatus_code() + ";errmsg:" + resultJson.getResult_msg() + ";userId:"+userId);
+				log.error("errcode:" + resultJson.getStatus() + ";errmsg:" + resultJson.getMsg() + ";userId:"+userId);
 			}
 		}
 		

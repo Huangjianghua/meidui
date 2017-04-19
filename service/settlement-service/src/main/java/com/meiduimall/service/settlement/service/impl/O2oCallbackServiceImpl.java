@@ -23,7 +23,6 @@ import com.meiduimall.service.settlement.service.O2oCallbackService;
 import com.meiduimall.service.settlement.service.SmsService;
 import com.meiduimall.service.settlement.util.ConnectionUrlUtil;
 import com.meiduimall.service.settlement.util.DateUtil;
-import com.meiduimall.service.settlement.common.ResultData;
 
 
 @Service
@@ -42,14 +41,14 @@ public class O2oCallbackServiceImpl implements O2oCallbackService{
 			
 		String resultObjStr = ConnectionUrlUtil.httpRequest(buildUrl4InformSettlementStatus(orderSns,statusCode), ShareProfitUtil.REQUEST_METHOD_POST, null);
 			
-		ResultData resultObj = JsonUtils.jsonToBean(resultObjStr, ResultData.class);
+		ResBodyData resultObj = JsonUtils.jsonToBean(resultObjStr, ResBodyData.class);
 		
-		if("0".equals(resultObj.getStatus_code())){
+		if(resultObj.getStatus() == 0){
 			log.info("通知订单结算状态给O2O成功!orderSns:{},statusCode:{}",Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSns),statusCodeMsg);
 		}else{
 			isSuccess=false;
 			log.error("通知订单结算状态给O2O失败!orderSns:{},statusCode:{}",Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSns),statusCodeMsg);
-			log.error("通知订单结算状态给O2O失败!orderSns:{},失败信息:{}",Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSns),resultObj.getResult_msg());
+			log.error("通知订单结算状态给O2O失败!orderSns:{},失败信息:{}",Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSns),resultObj.getMsg());
 		}
 		
 		//1.发送邮件或短信,修复后需要O2O手动更新订单状态
