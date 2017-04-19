@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import com.meiduimall.password.exception.Md5Exception;
 import com.meiduimall.password.util.MD5;
 
 public class GatewaySignUtil {
@@ -16,8 +17,9 @@ public class GatewaySignUtil {
 	 * @param appKey
 	 * @param param
 	 * @return String   
+	 * @throws Md5Exception 
 	 */
-	public static String  sign(String appKey,Map<String,String> param) {
+	public static String  sign(String appKey,Map<String,String> param) throws Md5Exception {
 		Map<String, String> map = new TreeMap<String, String>();
 		map.putAll(param);
 		Set<String> keySet = map.keySet();

@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * 实现PHP的序列化和反序列化
  * 
@@ -20,6 +23,8 @@ import java.util.Iterator;
  */
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class PHPSerializer {
+
+	private static Logger logger = LoggerFactory.getLogger(PHPSerializer.class);
 
 	private static Package[] __packages = Package.getPackages();
 	private static final byte __Quote = 34;
@@ -57,12 +62,13 @@ public class PHPSerializer {
 		int hv = 1;
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
-		hv = serialize(stream, obj, ht, hv, charset);
+		serialize(stream, obj, ht, hv, charset);
 		byte[] result = stream.toByteArray();
 
 		try {
 			stream.close();
 		} catch (Exception e) {
+			logger.error("反序列化PHP序列化数据异常： " + e);
 		}
 		return result;
 	}
@@ -290,6 +296,7 @@ public class PHPSerializer {
 				try {
 					__sleep = cls.getMethod("__sleep", new Class[0]);
 				} catch (Exception e) {
+					logger.error("反序列化PHP序列化数据异常： " + e);
 					__sleep = null;
 				}
 				Field[] f;
@@ -301,6 +308,7 @@ public class PHPSerializer {
 						__sleep.setAccessible(true);
 						fieldNames = (String[]) __sleep.invoke(obj, new Object[0]);
 					} catch (Exception e) {
+						logger.error("反序列化PHP序列化数据异常： " + e);
 						fieldNames = null;
 					}
 					f = getFields(obj, fieldNames);
@@ -337,6 +345,7 @@ public class PHPSerializer {
 					try {
 						o = f[i].get(obj);
 					} catch (Exception e) {
+						logger.error("反序列化PHP序列化数据异常： " + e);
 						o = null;
 					}
 					hv = serialize(stream, o, ht, hv, charset);
@@ -353,6 +362,7 @@ public class PHPSerializer {
 		try {
 			return obj.toString().getBytes("US-ASCII");
 		} catch (Exception e) {
+			logger.error("反序列化PHP序列化数据异常： " + e);
 			return obj.toString().getBytes();
 		}
 	}
@@ -361,6 +371,7 @@ public class PHPSerializer {
 		try {
 			return obj.toString().getBytes(charset);
 		} catch (Exception e) {
+			logger.error("反序列化PHP序列化数据异常： " + e);
 			return obj.toString().getBytes();
 		}
 	}
@@ -369,6 +380,7 @@ public class PHPSerializer {
 		try {
 			return new String(data, charset);
 		} catch (Exception e) {
+			logger.error("反序列化PHP序列化数据异常： " + e);
 			return new String(data);
 		}
 	}
@@ -379,6 +391,7 @@ public class PHPSerializer {
 
 			return cls;
 		} catch (Exception e) {
+			logger.error("反序列化PHP序列化数据异常： " + e);
 		}
 		for (int i = 0; i < __packages.length; i++) {
 			try {
@@ -386,6 +399,7 @@ public class PHPSerializer {
 
 				return cls;
 			} catch (Exception e) {
+				logger.error("反序列化PHP序列化数据异常： " + e);
 			}
 		}
 		return null;
@@ -408,6 +422,7 @@ public class PHPSerializer {
 				}
 				return result;
 			} catch (Exception e) {
+				logger.error("反序列化PHP序列化数据异常： " + e);
 			}
 			cls = cls.getSuperclass();
 		}
@@ -459,6 +474,7 @@ public class PHPSerializer {
 				return ctor.newInstance(new Object[0]);
 			}
 		} catch (Exception e) {
+			logger.error("反序列化PHP序列化数据异常： " + e);
 		}
 		try {
 			Constructor ctor = cls.getConstructor(new Class[] { Integer.TYPE });
@@ -468,6 +484,7 @@ public class PHPSerializer {
 				return ctor.newInstance(new Object[] { new Integer(0) });
 			}
 		} catch (Exception e) {
+			logger.error("反序列化PHP序列化数据异常： " + e);
 		}
 		try {
 			Constructor ctor = cls.getConstructor(new Class[] { Boolean.TYPE });
@@ -477,6 +494,7 @@ public class PHPSerializer {
 				return ctor.newInstance(new Object[] { new Boolean(false) });
 			}
 		} catch (Exception e) {
+			logger.error("反序列化PHP序列化数据异常： " + e);
 		}
 		try {
 			Constructor ctor = cls.getConstructor(new Class[] { String.class });
@@ -486,6 +504,7 @@ public class PHPSerializer {
 				return ctor.newInstance(new Object[] { "" });
 			}
 		} catch (Exception e) {
+			logger.error("反序列化PHP序列化数据异常： " + e);
 		}
 		Field[] f = cls.getFields();
 
@@ -494,6 +513,7 @@ public class PHPSerializer {
 				try {
 					return f[i].get(null);
 				} catch (Exception e) {
+					logger.error("反序列化PHP序列化数据异常： " + e);
 				}
 			}
 		}
@@ -504,18 +524,22 @@ public class PHPSerializer {
 				try {
 					return m[i].invoke(null, new Object[0]);
 				} catch (Exception e) {
+					logger.error("反序列化PHP序列化数据异常： " + e);
 				}
 				try {
 					return m[i].invoke(null, new Object[] { new Integer(0) });
 				} catch (Exception e) {
+					logger.error("反序列化PHP序列化数据异常： " + e);
 				}
 				try {
 					return m[i].invoke(null, new Object[] { new Boolean(false) });
 				} catch (Exception e) {
+					logger.error("反序列化PHP序列化数据异常： " + e);
 				}
 				try {
 					return m[i].invoke(null, new Object[] { "" });
 				} catch (Exception e) {
+					logger.error("反序列化PHP序列化数据异常： " + e);
 				}
 			}
 		}
@@ -545,9 +569,7 @@ public class PHPSerializer {
 	}
 
 	public static Object cast(Object obj, Class destClass) {
-		if (obj == null || destClass == null) {
-			return obj;
-		} else if (obj.getClass() == destClass) {
+		if (obj == null || destClass == null || obj.getClass() == destClass) {
 			return obj;
 		} else if (obj instanceof Number) {
 			return cast((Number) obj, destClass);
@@ -589,6 +611,7 @@ public class PHPSerializer {
 			pos.setAccessible(true);
 			return pos.getInt(stream);
 		} catch (Exception e) {
+			logger.error("反序列化PHP序列化数据异常： " + e);
 			return 0;
 		}
 	}
@@ -600,6 +623,7 @@ public class PHPSerializer {
 			pos.setAccessible(true);
 			pos.setInt(stream, p);
 		} catch (Exception e) {
+			logger.error("反序列化PHP序列化数据异常： " + e);
 		}
 	}
 
@@ -623,6 +647,7 @@ public class PHPSerializer {
 		try {
 			stream.close();
 		} catch (Exception e) {
+			logger.error("反序列化PHP序列化数据异常： " + e);
 		}
 		return cast(result, cls);
 	}
@@ -713,9 +738,11 @@ public class PHPSerializer {
 		try {
 			return new Byte(i);
 		} catch (Exception e1) {
+			logger.error("反序列化PHP序列化数据异常： " + e1);
 			try {
 				return new Short(i);
 			} catch (Exception e2) {
+				logger.error("反序列化PHP序列化数据异常： " + e2);
 				return new Integer(i);
 			}
 		}
@@ -737,6 +764,7 @@ public class PHPSerializer {
 		try {
 			return new Long(d);
 		} catch (Exception e1) {
+			logger.error("反序列化PHP序列化数据异常： " + e1);
 			try {
 				Float f = new Float(d);
 
@@ -746,6 +774,7 @@ public class PHPSerializer {
 					return f;
 				}
 			} catch (Exception e2) {
+				logger.error("反序列化PHP序列化数据异常： " + e2);
 				return new Float(0);
 			}
 		}
@@ -939,8 +968,10 @@ public class PHPSerializer {
 			} else {
 				Field f = getField(o, key);
 
-				f.setAccessible(true);
-				f.set(o, result.getValue());
+				if (f != null) {
+					f.setAccessible(true);
+					f.set(o, result.getValue());
+				}
 			}
 		}
 		stream.skip(1);
@@ -950,6 +981,7 @@ public class PHPSerializer {
 			__wakeup = o.getClass().getMethod("__wakeup", new Class[0]);
 			__wakeup.invoke(o, new Object[0]);
 		} catch (Exception e) {
+			logger.error("反序列化PHP序列化数据异常： " + e);
 		}
 		return new UnSerializeResult(o, hv);
 	}

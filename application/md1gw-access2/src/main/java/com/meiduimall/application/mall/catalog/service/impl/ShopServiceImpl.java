@@ -10,7 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
-import com.meiduimall.application.mall.catalog.constant.ApplicationMallApiCode;
+import com.meiduimall.application.mall.catalog.constant.ApplMallApiCode;
+import com.meiduimall.application.mall.catalog.constant.ApplMallConstant;
 import com.meiduimall.application.mall.catalog.request.ShopProductRequest;
 import com.meiduimall.application.mall.catalog.service.ShopService;
 import com.meiduimall.application.mall.catalog.util.HttpGatewayUtils;
@@ -33,10 +34,10 @@ public class ShopServiceImpl implements ShopService {
 	@Override
 	public String getShopDetailHttp(int shopId, String memId) {
 
-		String uri = "/mall/catalog-service/v1/shopInfo/getShopDetail";
-		String host = env.getProperty("service.host");
-		String clientID = env.getProperty("service.sign-clientID");
-		String signKey = env.getProperty("service.sign-key");
+		String clientID = env.getProperty(ApplMallConstant.KEY_SIGN_CLIENT_ID);
+		String signKey = env.getProperty(ApplMallConstant.KEY_SIGN_KEY);
+		String host = env.getProperty(ApplMallConstant.KEY_CATALOG_SERVICE_HOST);
+		String uri = ApplMallConstant.SERVICE_CATALOG_BASE_URL + "/shopInfo/getShopDetail";
 		String url = host + uri;
 
 		Map<String, String> params = new HashMap<String, String>();
@@ -48,17 +49,18 @@ public class ShopServiceImpl implements ShopService {
 			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
 		} catch (Exception e) {
 			logger.error("请求微服务异常： " + e);
-			throw new ServiceException(ApplicationMallApiCode.REQUEST_SERVICE_ERROR);
+			throw new ServiceException(ApplMallApiCode.REQUEST_SERVICE_ERROR,
+					ApplMallApiCode.getZhMsg(ApplMallApiCode.REQUEST_SERVICE_ERROR));
 		}
 	}
 
 	@Override
 	public String collectOrCancelShopHttp(int shopId, int isCollect, String memId) {
 
-		String uri = "/mall/catalog-service/v1/shopInfo/collectShop";
-		String host = env.getProperty("service.host");
-		String clientID = env.getProperty("service.sign-clientID");
-		String signKey = env.getProperty("service.sign-key");
+		String clientID = env.getProperty(ApplMallConstant.KEY_SIGN_CLIENT_ID);
+		String signKey = env.getProperty(ApplMallConstant.KEY_SIGN_KEY);
+		String host = env.getProperty(ApplMallConstant.KEY_CATALOG_SERVICE_HOST);
+		String uri = ApplMallConstant.SERVICE_CATALOG_BASE_URL + "/shopInfo/collectShop";
 		String url = host + uri;
 
 		Map<String, String> params = new HashMap<String, String>();
@@ -71,16 +73,18 @@ public class ShopServiceImpl implements ShopService {
 			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
 		} catch (Exception e) {
 			logger.error("请求微服务异常： " + e);
-			throw new ServiceException(ApplicationMallApiCode.REQUEST_SERVICE_ERROR);
+			throw new ServiceException(ApplMallApiCode.REQUEST_SERVICE_ERROR,
+					ApplMallApiCode.getZhMsg(ApplMallApiCode.REQUEST_SERVICE_ERROR));
 		}
 	}
 
 	@Override
 	public String getShopProductCatalogHttp(int shopId) {
-		String uri = "/mall/catalog-service/v1/shopInfo/getShopCatalog";
-		String host = env.getProperty("service.host");
-		String clientID = env.getProperty("service.sign-clientID");
-		String signKey = env.getProperty("service.sign-key");
+
+		String clientID = env.getProperty(ApplMallConstant.KEY_SIGN_CLIENT_ID);
+		String signKey = env.getProperty(ApplMallConstant.KEY_SIGN_KEY);
+		String host = env.getProperty(ApplMallConstant.KEY_CATALOG_SERVICE_HOST);
+		String uri = ApplMallConstant.SERVICE_CATALOG_BASE_URL + "/shopInfo/getShopCatalog";
 		String url = host + uri;
 
 		Map<String, String> params = new HashMap<String, String>();
@@ -89,16 +93,18 @@ public class ShopServiceImpl implements ShopService {
 			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
 		} catch (Exception e) {
 			logger.error("请求微服务异常： " + e);
-			throw new ServiceException(ApplicationMallApiCode.REQUEST_SERVICE_ERROR);
+			throw new ServiceException(ApplMallApiCode.REQUEST_SERVICE_ERROR,
+					ApplMallApiCode.getZhMsg(ApplMallApiCode.REQUEST_SERVICE_ERROR));
 		}
 	}
 
 	@Override
 	public String getShopProductList(ShopProductRequest param) {
-		String uri = "/mall/catalog-service/v1/shopInfo/getProductList";
-		String host = env.getProperty("service.host");
-		String clientID = env.getProperty("service.sign-clientID");
-		String signKey = env.getProperty("service.sign-key");
+
+		String clientID = env.getProperty(ApplMallConstant.KEY_SIGN_CLIENT_ID);
+		String signKey = env.getProperty(ApplMallConstant.KEY_SIGN_KEY);
+		String host = env.getProperty(ApplMallConstant.KEY_CATALOG_SERVICE_HOST);
+		String uri = ApplMallConstant.SERVICE_CATALOG_BASE_URL + "/shopInfo/getProductList";
 		String url = host + uri;
 
 		Map<String, String> params = new HashMap<String, String>();
@@ -123,7 +129,8 @@ public class ShopServiceImpl implements ShopService {
 			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
 		} catch (Exception e) {
 			logger.error("请求微服务异常： " + e);
-			throw new ServiceException(ApplicationMallApiCode.REQUEST_SERVICE_ERROR);
+			throw new ServiceException(ApplMallApiCode.REQUEST_SERVICE_ERROR,
+					ApplMallApiCode.getZhMsg(ApplMallApiCode.REQUEST_SERVICE_ERROR));
 		}
 	}
 }

@@ -75,7 +75,8 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 			result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_SUCCESS));
 			return result;
 		} else {
-			throw new ServiceException(ServiceCatalogApiCode.NO_THIS_PRODUCT);
+			throw new ServiceException(ServiceCatalogApiCode.NO_THIS_PRODUCT,
+					ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.NO_THIS_PRODUCT));
 		}
 
 		/** TODO ----------查询该商品状态------- */
@@ -124,7 +125,8 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 		// 根据item_id查找sysitem_item表中对应的商品记录信息
 		SysitemItemWithBLOBs itemWithBLOBs = baseDao.selectOne(itemId, "SysitemItemMapper.selectByPrimaryKey");
 		if (itemWithBLOBs == null) {// 查询不到该商品
-			throw new ServiceException(ServiceCatalogApiCode.NO_THIS_PRODUCT);
+			throw new ServiceException(ServiceCatalogApiCode.NO_THIS_PRODUCT,
+					ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.NO_THIS_PRODUCT));
 		}
 
 		JsonItemDetailResult jsonResult = new JsonItemDetailResult();
@@ -138,7 +140,8 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 			parseList = ParseItemSpecDesUtil.parse(itemWithBLOBs.getSpecDesc());
 		} catch (Exception e) {
 			logger.error("解析商品的规格参数，service异常： " + e);
-			throw new ServiceException(ServiceCatalogApiCode.SPEC_DESC_DATA_EXCEPTION);
+			throw new ServiceException(ServiceCatalogApiCode.SPEC_DESC_DATA_EXCEPTION,
+					ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.SPEC_DESC_DATA_EXCEPTION));
 		}
 		if (parseList != null && !parseList.isEmpty()) {
 			for (int i = 0; i < parseList.size(); i++) {
@@ -363,7 +366,8 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 					skuSpecDescBeanList = ParseSkuSpecDescUtil.parse(sysitemSkuWithBLOBs.getSpecDesc());
 				} catch (Exception e) {
 					logger.error("解析每一个商品对应的SKU数据，service异常： " + e);
-					throw new ServiceException(ServiceCatalogApiCode.SKU_DATA_EXCEPTION);
+					throw new ServiceException(ServiceCatalogApiCode.SKU_DATA_EXCEPTION,
+							ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.SKU_DATA_EXCEPTION));
 				}
 
 				if (skuSpecDescBeanList != null && !skuSpecDescBeanList.isEmpty()) {

@@ -19,7 +19,7 @@ import org.springframework.web.context.WebApplicationContext;
 @WebAppConfiguration
 @ActiveProfiles(value="dev")
 @Transactional
-public class BaseTest {
+public abstract class BaseTest {
 	
    public MockMvc mockMvc;
    

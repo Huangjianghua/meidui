@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import com.meiduimall.core.util.HttpUtils;
 import com.meiduimall.password.GatewaySignUtil;
+import com.meiduimall.password.exception.Md5Exception;
 
 /**
  * Http网关请求工具类
@@ -29,10 +30,11 @@ public class HttpGatewayUtils {
 	 * @param signKey
 	 * @param params
 	 * @return
-	 * @throws Exception
+	 * @throws IOException
+	 * @throws Md5Exception
 	 */
 	public static String sendGet(String url, String clientID, String signKey, Map<String, String> params)
-			throws IOException {
+			throws IOException, Md5Exception {
 		String paramsContent = getParamsContent(clientID, signKey, params);
 		String urlParam = url + "?" + paramsContent;
 		logger.info("请求地址：" + urlParam);
@@ -49,10 +51,11 @@ public class HttpGatewayUtils {
 	 * @param signKey
 	 * @param params
 	 * @return
-	 * @throws Exception
+	 * @throws IOException
+	 * @throws Md5Exception
 	 */
 	public static String sendPost(String url, String clientID, String signKey, Map<String, String> params)
-			throws IOException {
+			throws IOException, Md5Exception {
 		String paramsContent = getParamsContent(clientID, signKey, params);
 		logger.info("请求地址：" + url);
 		logger.info("POST实体内容：" + paramsContent);
@@ -72,8 +75,10 @@ public class HttpGatewayUtils {
 	 * @param signKey
 	 * @param params
 	 * @return
+	 * @throws Md5Exception
 	 */
-	private static String getParamsContent(String clientID, String signKey, Map<String, String> params) {
+	private static String getParamsContent(String clientID, String signKey, Map<String, String> params)
+			throws Md5Exception {
 		StringBuilder sb = new StringBuilder();
 		Map<String, String> reqParams = new HashMap<String, String>();
 
@@ -98,7 +103,6 @@ public class HttpGatewayUtils {
 		// 获取签名串
 		String sign = GatewaySignUtil.sign(signKey, reqParams);
 		sb.append("sign=" + sign);
-
 		return sb.toString();
 	}
 }

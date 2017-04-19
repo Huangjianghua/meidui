@@ -14,7 +14,7 @@ public class ShopGoodsDetailResult {
 	private String point;//可用美兑积分
 	private String imageDefaultId;//商品默认图片
 	private String shopCatId;//商家自定义分类id
-	private String soldQuantity;//商品销量
+	private String quantity;//商品销量=实际销量+虚拟销量
 	private String listTime;//商品上架时间
 
 	public String getItemId() {
@@ -65,12 +65,12 @@ public class ShopGoodsDetailResult {
 		this.shopCatId = shopCatId;
 	}
 
-	public String getSoldQuantity() {
-		return soldQuantity;
+	public String getQuantity() {
+		return quantity;
 	}
 
-	public void setSoldQuantity(String soldQuantity) {
-		this.soldQuantity = soldQuantity;
+	public void setQuantity(String quantity) {
+		this.quantity = quantity;
 	}
 
 	public String getListTime() {

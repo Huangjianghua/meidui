@@ -77,10 +77,12 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 				result.setData(JsonUtils.getInstance().createObjectNode());
 				return result;
 			} else {
-				throw new ServiceException(ServiceCatalogApiCode.OPERAT_FAIL);
+				throw new ServiceException(ServiceCatalogApiCode.OPERAT_FAIL,
+						ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.OPERAT_FAIL));
 			}
 		} else {
-			throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
+			throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR,
+					ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR));
 		}
 	}
 
@@ -109,7 +111,7 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 					}
 				}
 			}
-			if (results != null && results.size() > 0) {
+			if (results.size() > 0) {
 				// 分别给每一个商品详情查询结果添加访问地址
 				for (GoodsDetailResult detail : results) {
 					if (sourceId == 2) {
@@ -124,10 +126,12 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 				result.setStatus(ServiceCatalogApiCode.SUCCESS);
 				result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_SUCCESS));
 			} else {
-				throw new ServiceException(ServiceCatalogApiCode.NONE_DATA);
+				throw new ServiceException(ServiceCatalogApiCode.NONE_DATA,
+						ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.NONE_DATA));
 			}
 		} else {
-			throw new ServiceException(ServiceCatalogApiCode.NONE_DATA);
+			throw new ServiceException(ServiceCatalogApiCode.NONE_DATA,
+					ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.NONE_DATA));
 		}
 		return result;
 	}

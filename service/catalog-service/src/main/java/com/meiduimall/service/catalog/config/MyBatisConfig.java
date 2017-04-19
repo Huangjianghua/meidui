@@ -2,6 +2,7 @@ package com.meiduimall.service.catalog.config;
 
 import java.util.Properties;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 import org.apache.ibatis.plugin.Interceptor;
@@ -25,7 +26,7 @@ import com.github.pagehelper.PageHelper;
 @EnableTransactionManagement
 public class MyBatisConfig implements TransactionManagementConfigurer{
 	
-    @Autowired
+	@Resource(name = "dataSource")
     private DataSource dataSource;
     
     @Autowired

@@ -45,7 +45,8 @@ public class ShopController {
 			intShopId = Integer.parseInt(shopId);
 		} catch (NumberFormatException e) {
 			logger.error("获取店铺详情: " + e);
-			throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
+			throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR,
+					ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR));
 		}
 		return shopService.getShopDetail(intShopId, memId);
 
@@ -71,7 +72,8 @@ public class ShopController {
 			intIsCollect = Integer.parseInt(isCollect);
 		} catch (NumberFormatException e) {
 			logger.error("收藏或者取消收藏店铺: " + e);
-			throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
+			throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR,
+					ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR));
 		}
 		SysuserAccount sysuserAccount = (SysuserAccount) request.getAttribute("sysuserAccount");
 		return shopService.collectOrCancelShop(intShopId, sysuserAccount, intIsCollect);
@@ -91,7 +93,8 @@ public class ShopController {
 			intShopId = Integer.parseInt(shopId);
 		} catch (NumberFormatException e) {
 			logger.error("获取店铺商品分类: " + e);
-			throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
+			throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR,
+					ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR));
 		}
 		return shopService.getShopProductCatalog(intShopId);
 	}

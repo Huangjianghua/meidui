@@ -48,7 +48,8 @@ public class ShopServiceImpl implements ShopService {
 
 		if (shopData == null) {
 			/** 没有这个店铺 */
-			throw new ServiceException(ServiceCatalogApiCode.NO_THIS_SHOP);
+			throw new ServiceException(ServiceCatalogApiCode.NO_THIS_SHOP,
+					ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.NO_THIS_SHOP));
 		}
 
 		ResBodyData result = new ResBodyData();// 最终返回的数据对象
@@ -71,7 +72,8 @@ public class ShopServiceImpl implements ShopService {
 
 		// 获取user_id
 		if (sysuserAccount == null) {
-			throw new ServiceException(ServiceCatalogApiCode.NO_LOGIN);
+			throw new ServiceException(ServiceCatalogApiCode.NO_LOGIN,
+					ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.NO_LOGIN));
 		}
 		Integer userId = sysuserAccount.getUserId();
 
@@ -98,7 +100,8 @@ public class ShopServiceImpl implements ShopService {
 
 			if (shopList == null || shopList.size() == 0) {
 				// 没有这个店铺
-				throw new ServiceException(ServiceCatalogApiCode.NO_THIS_SHOP);
+				throw new ServiceException(ServiceCatalogApiCode.NO_THIS_SHOP,
+						ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.NO_THIS_SHOP));
 			}
 			SysshopShop sysshopShop = shopList.get(0);
 
@@ -106,7 +109,7 @@ public class ShopServiceImpl implements ShopService {
 			SysuserShopFav shopFav = new SysuserShopFav();
 
 			// 时间只保存到秒
-			shopFav.setCreateTime(new Long(System.currentTimeMillis() / 1000l).intValue());
+			shopFav.setCreateTime((int) (System.currentTimeMillis() / 1000l));
 			shopFav.setShopId(shopId);
 			shopFav.setShopLogo(sysshopShop.getShopLogo());
 			shopFav.setShopName(sysshopShop.getShopName());
@@ -117,7 +120,8 @@ public class ShopServiceImpl implements ShopService {
 				result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.COLLECT_SUCCESS));
 				result.setData(JsonUtils.getInstance().createObjectNode());
 			} else {
-				throw new ServiceException(ServiceCatalogApiCode.COLLECT_FAIL);
+				throw new ServiceException(ServiceCatalogApiCode.COLLECT_FAIL,
+						ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.COLLECT_FAIL));
 			}
 
 		} else {
@@ -132,7 +136,8 @@ public class ShopServiceImpl implements ShopService {
 				result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.CANCEL_COLLECT_SUCCESS));
 				result.setData(JsonUtils.getInstance().createObjectNode());
 			} else {
-				throw new ServiceException(ServiceCatalogApiCode.CANCEL_COLLECT_FAIL);
+				throw new ServiceException(ServiceCatalogApiCode.CANCEL_COLLECT_FAIL,
+						ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.CANCEL_COLLECT_FAIL));
 			}
 		}
 		return result;
@@ -187,7 +192,8 @@ public class ShopServiceImpl implements ShopService {
 			result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_SUCCESS));
 			return result;
 		} else {
-			throw new ServiceException(ServiceCatalogApiCode.NONE_DATA);
+			throw new ServiceException(ServiceCatalogApiCode.NONE_DATA,
+					ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.NONE_DATA));
 		}
 	}
 

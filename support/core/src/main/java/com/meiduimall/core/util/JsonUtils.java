@@ -86,12 +86,12 @@ public class JsonUtils {
      * return  List<T>
      */
     public static <T> List<T> jsonToList(String json,Class<T> clazz) {
+    	List<T> list =null;
     	if(!Strings.isNullOrEmpty(json)){
     		T[] t =  (T[]) Array.newInstance(clazz, 1024);
             try {
                 t =  (T[]) getInstance().readValue(json, t.getClass());
-                List<T> list = (List<T>) Arrays.asList(t);
-                return list;
+                list= Arrays.asList(t);
             } catch (JsonGenerationException e) {
                 logger.error(e.getMessage(),e);
             } catch (JsonMappingException e) {
@@ -100,7 +100,7 @@ public class JsonUtils {
                 logger.error(e.getMessage(),e);
             }
     	}
-        return null;
+        return list;
     }
 
 

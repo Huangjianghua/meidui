@@ -2,6 +2,8 @@ package com.meiduimall.service.catalog.service.common;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.meiduimall.core.util.NumberUtils;
 import com.meiduimall.exception.ServiceException;
@@ -21,6 +23,8 @@ import com.meiduimall.service.catalog.util.ParseSysRateDsrInfo;
  */
 public class ShopCommonService {
 
+	private static Logger logger = LoggerFactory.getLogger(ShopCommonService.class);
+
 	/**
 	 * 获取店铺详情
 	 * 
@@ -32,14 +36,14 @@ public class ShopCommonService {
 	 */
 	public static JsonItemDetailResultShopData getJsonItemDetailResult_ShopData(BaseDao baseDao, Integer shopId,
 			String memId) {
-		
+
 		// 查询店铺信息
 		SysshopShopWithBLOBs shopWithBLOBs = baseDao.selectOne(shopId, "SysshopShopMapper.selectByPrimaryKey");
-		
+
 		if (shopWithBLOBs == null) {
 			return null;
 		}
-		
+
 		JsonItemDetailResultShopData shopData = new JsonItemDetailResultShopData();
 
 		SysrateDsrWithBLOBs rateDsrWithBLOBs = baseDao.selectOne(new Long(shopId.longValue()),
@@ -55,7 +59,9 @@ public class ShopCommonService {
 				shopData.setDeliverySpeedDsr(NumberUtils.formatString(fDeliverySpeedDsr, 1));
 				shopData.setAttitudeDsr(NumberUtils.formatString(fAttitudeDsr, 1));
 			} catch (Exception e) {
-				throw new ServiceException(ServiceCatalogApiCode.SHOP_DATA_EXCEPTION);
+				logger.error("反序列化数据--解析店铺信息: " + e);
+				throw new ServiceException(ServiceCatalogApiCode.SHOP_DATA_EXCEPTION,
+						ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.SHOP_DATA_EXCEPTION));
 			}
 		} else {
 			shopData.setTallyDsr("5.0");

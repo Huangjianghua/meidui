@@ -31,7 +31,7 @@ public class PropertyConfigurerTest implements IPropertyConfigurer {
 	
 	@Override
 	public void loadProperty()  {
-		ShareProfitUtil.AUTHORIZED_MAP = ShareProfitUtil.loadProperty("config/authorized-test.properties");
+		ShareProfitUtil.authorizedMap = ShareProfitUtil.loadProperty("config/authorized-test.properties");
 
 	}
 

@@ -16,7 +16,8 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.meiduimall.application.mall.catalog.annotation.HasToken;
-import com.meiduimall.application.mall.catalog.constant.ApplicationMallApiCode;
+import com.meiduimall.application.mall.catalog.constant.ApplMallApiCode;
+import com.meiduimall.application.mall.catalog.constant.ApplMallConstant;
 import com.meiduimall.application.mall.catalog.entity.MemIdResult;
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
@@ -59,7 +60,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 
 				if (StringUtils.isBlank(token)) {
 					// token为空，不通过
-					return outPut(response, ApplicationMallApiCode.NO_LOGIN);
+					return outPut(response, ApplMallApiCode.NO_LOGIN);
 				}
 
 				// 调用会员系统，验证token
@@ -68,7 +69,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 					return true;
 				} else {
 					// 验证不通过，不放行
-					return outPut(response, ApplicationMallApiCode.NO_LOGIN);
+					return outPut(response, ApplMallApiCode.NO_LOGIN);
 				}
 
 			} else {
@@ -81,7 +82,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 			}
 		} catch (Exception e) {
 			logger.info("验证token，拦截器出现异常：" + e);
-			return outPut(response, ApplicationMallApiCode.TOKEN_VALIDATE_ERROR);
+			return outPut(response, ApplMallApiCode.TOKEN_VALIDATE_ERROR);
 		}
 	}
 
@@ -96,8 +97,8 @@ public class TokenInterceptor implements HandlerInterceptor {
 	 */
 	private boolean checkToken(HttpServletRequest request, HttpServletResponse response, String token) {
 
-		String host = env.getProperty("member.host");
-		String uri = "/member/front_user_center/v1/get_memid_by_token";
+		String host = env.getProperty("member-access.host");
+		String uri = ApplMallConstant.ACCESS_MEMBER_BASE_URL + "/get_memid_by_token";
 		String url = host + uri + "?token=" + token;
 
 		String result = "";
@@ -131,7 +132,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 	 * @throws IOException
 	 */
 	private boolean outPut(HttpServletResponse response, Integer status) throws IOException {
-		ResBodyData result = new ResBodyData(status, ApplicationMallApiCode.getZhMsg(status),
+		ResBodyData result = new ResBodyData(status, ApplMallApiCode.getZhMsg(status),
 				JsonUtils.getInstance().createObjectNode());
 		response.getWriter().write(JsonUtils.beanToJson(result));
 		return false;

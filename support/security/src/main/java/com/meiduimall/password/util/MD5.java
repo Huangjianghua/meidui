@@ -30,19 +30,19 @@ public class MD5 {
 		return hexDigits[d1] + hexDigits[d2];
 	}
 
-	public static String encode(String origin) {
+	public static String encode(String origin) throws Md5Exception {
 		String resultString = null;
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			resultString = byteArrayToHexString(md.digest(origin.getBytes()));
 		} catch (Exception ex) {
 			logger.error("md5加密报错:{}", ex);
-			new Md5Exception(SecurityBaseApiCode.EXCEPTION_MD5,SecurityBaseApiCode.getZhMsg(SecurityBaseApiCode.EXCEPTION_MD5));
+			throw new Md5Exception(SecurityBaseApiCode.EXCEPTION_MD5,SecurityBaseApiCode.getZhMsg(SecurityBaseApiCode.EXCEPTION_MD5));
 		}
 		return resultString;
 	}
 	
-	public static String getMD5EncodeUTF8(String origin) {
+	public static String getMD5EncodeUTF8(String origin) throws Md5Exception {
 		String resultString = null;
 		try {
 			resultString = new String(origin.getBytes("UTF-8"));
@@ -50,7 +50,7 @@ public class MD5 {
 			resultString = byteArrayToHexString(md.digest(resultString.getBytes()));
 		} catch (Exception ex) {
 			logger.error("utf8编码md5加密报错:{}", ex);
-			new Md5Exception(SecurityBaseApiCode.EXCEPTION_MD5,SecurityBaseApiCode.getZhMsg(SecurityBaseApiCode.EXCEPTION_MD5));
+			throw new Md5Exception(SecurityBaseApiCode.EXCEPTION_MD5,SecurityBaseApiCode.getZhMsg(SecurityBaseApiCode.EXCEPTION_MD5));
 		}
 		return resultString;
 	}

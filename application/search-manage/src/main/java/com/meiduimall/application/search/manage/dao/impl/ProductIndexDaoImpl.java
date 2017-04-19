@@ -82,7 +82,7 @@ public class ProductIndexDaoImpl implements ProductIndexDao {
 			products.commit();
 		} catch (Exception e) {
 			logger.error("通过id批量删除商品信息异常:{},删除ids:{}", e,JsonUtils.beanToJson(ids));
-			e.printStackTrace();
+			new SolrException(SolrException.ErrorCode.BAD_REQUEST,e);
 		}
 		return response.getStatus();
 	}
