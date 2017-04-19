@@ -109,7 +109,7 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 					}
 				}
 			}
-			if (results != null && results.size() > 0) {
+			if (results.size() > 0) {
 				// 分别给每一个商品详情查询结果添加访问地址
 				for (GoodsDetailResult detail : results) {
 					if (sourceId == 2) {

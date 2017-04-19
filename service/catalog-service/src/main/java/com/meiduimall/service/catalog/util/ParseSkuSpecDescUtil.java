@@ -113,7 +113,7 @@ public class ParseSkuSpecDescUtil {
 									String prop_value_id = splitValue.split("=")[1];
 									try {
 										map2.put(Integer.parseInt(prop_id), Integer.parseInt(prop_value_id));
-									} catch (Exception e) {
+									} catch (NumberFormatException e) {
 										continue;
 									}
 								} else if ("spec_value".equals(key2)) {
@@ -126,7 +126,7 @@ public class ParseSkuSpecDescUtil {
 
 									try {
 										map3.put(Integer.parseInt(prop_id), spec_value);
-									} catch (Exception e) {
+									} catch (NumberFormatException e) {
 										continue;
 									}
 
@@ -147,16 +147,14 @@ public class ParseSkuSpecDescUtil {
 		}
 
 		List<ParseSkuSpecDescBean> list = new ArrayList<ParseSkuSpecDescBean>();
-		ParseSkuSpecDescBean bean = null;
 		// 遍历map2 -- 给对象赋值
 		for (Map.Entry<Integer, Integer> entry : map2.entrySet()) {
 			Integer prop_id = entry.getKey();
 			Integer prop_value_id = entry.getValue();
-			bean = new ParseSkuSpecDescBean();
+			ParseSkuSpecDescBean bean = new ParseSkuSpecDescBean();
 			bean.setPropId(prop_id);
 			bean.setPropValueId(prop_value_id);
 			list.add(bean);
-			bean = null;
 		}
 
 		// 遍历map3 -- 给对象赋值

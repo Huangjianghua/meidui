@@ -77,7 +77,7 @@
 		<result column="image_default_id" property="imageDefaultId" jdbcType="VARCHAR"/>
 		<result column="shop_cat_id" property="shopCatId" jdbcType="VARCHAR"/>
 		<result column="list_time" property="listTime" jdbcType="INTEGER"/>
-		<result column="sold_quantity" property="soldQuantity" jdbcType="INTEGER"/>
+		<result column="quantity" property="quantity" jdbcType="INTEGER"/>
 	</resultMap>
 
 	<sql id="Example_Where_Clause">
@@ -204,7 +204,7 @@
 		sysitem_item.item_id,sysitem_item.title,sysitem_item.price,
 		sysitem_item.point,sysitem_item.image_default_id,sysitem_item.shop_cat_id,
 		sysitem_item_status.list_time,
-		sysitem_item_count.sold_quantity
+		sysitem_item_count.sold_quantity + sysitem_item_count.vitural_quantity quantity
 		FROM
 		sysitem_item,sysitem_item_count,sysitem_item_status
 		<include refid="Sql_Shop_Info" />

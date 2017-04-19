@@ -86,7 +86,7 @@ public class ParseSysRateDsrInfo {
 					String value = split2[1];
 					try {
 						map.put(Integer.parseInt(key), Integer.parseInt(value));
-					} catch (Exception e) {
+					} catch (NumberFormatException e) {
 						continue;
 					}
 				} else {

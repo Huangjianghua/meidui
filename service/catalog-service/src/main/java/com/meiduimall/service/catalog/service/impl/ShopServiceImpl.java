@@ -106,7 +106,7 @@ public class ShopServiceImpl implements ShopService {
 			SysuserShopFav shopFav = new SysuserShopFav();
 
 			// 时间只保存到秒
-			shopFav.setCreateTime(new Long(System.currentTimeMillis() / 1000l).intValue());
+			shopFav.setCreateTime((int) (System.currentTimeMillis() / 1000l));
 			shopFav.setShopId(shopId);
 			shopFav.setShopLogo(sysshopShop.getShopLogo());
 			shopFav.setShopName(sysshopShop.getShopName());
