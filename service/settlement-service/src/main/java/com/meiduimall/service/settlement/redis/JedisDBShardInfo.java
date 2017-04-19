@@ -54,8 +54,6 @@ public class JedisDBShardInfo extends JedisShardInfo {
 			}
 		} catch (Exception e) {
 			log.error("连接异常=>" + getHost() + ":" + getPort() + ":" + getDatabase() + ";error msg:{}", e.getMessage());
-		} finally {
-			jedis.close();
 		}
 		return null;
 	}
