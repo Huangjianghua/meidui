@@ -14,7 +14,7 @@
     <artifactId>service</artifactId>
     <name>mall::service</name>
     <packaging>pom</packaging>
-    <version>1.0.0</version>
+    <!--<version>1.0.0</version>-->
     <modules>
         <module>route-service</module>
         <module>payment-service</module>

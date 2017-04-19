@@ -12,6 +12,6 @@ package com.meiduimall.service.sms.service;
 
 
 public interface IAliyunService {
-	public boolean Send(String mobile, String tid, String context) ;
+	boolean send(String mobile, String tid, String context) ;
 
 }
