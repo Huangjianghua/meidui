@@ -5,31 +5,12 @@ public class Md5Exception extends Exception {
 	private static final long serialVersionUID = -8572424828459981362L;
 	private  Integer code;
 
-	public Md5Exception(Integer code) {
-		this.code = code;
-	}
-	
-	public Md5Exception(String e) {
-		super(e);
-	}
-
-	public Md5Exception(Throwable cause) {
-		super(cause);
-	}
 
 	public Md5Exception(Integer code, String e) {
 		super(e);
 		this.code = code;
 	}
 
-	public Md5Exception(Integer code, Throwable cause) {
-		super(cause);
-		this.code = code;
-	}
-
-	public Md5Exception(String message, Throwable cause) {
-		super(message, cause);
-	}
 
 	public Md5Exception(Integer code, String message, Throwable cause) {
 		super(message, cause);
