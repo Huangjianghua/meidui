@@ -10,36 +10,35 @@
 
 package com.meiduimall.exception;
 
-public class SystemException extends RuntimeException {
 
-	/** 
-	* @Fields serialVersionUID : 
-	*/ 
-	private static final long serialVersionUID = -6132660873946805356L;
-	
-	/**
-     * 构造异常对象
-     * @param msg
-     */
-    public SystemException(String msg) {
-        super(msg);
-    }
+/**
+ * Copyright (C), 2002-2017, 美兑壹购物
+ * FileName: SystemException.java
+ * Author:   Administrator
+ * Date:     2017年4月19日 下午4:46:43
+ * Description: 检查类型异常
+ */
+public class SystemException extends Exception {
 
-    /**
-     * TradeSystemException
-     * @param exception
-     */
-    public SystemException(Throwable exception) {
-        super(exception);
-    }
+	private static final long serialVersionUID = 522159568098470670L;
+	private Integer code;
 
-    /**
-     * TradeSystemException
-     * @param mag
-     * @param exception
-     */
-    public SystemException(String mag, Exception exception) {
-        super(mag, exception);
-    }
 
+	public SystemException(Integer code, String msg) {
+		super(msg);
+		this.code = code;
+	}
+
+	public SystemException(Integer code, String message, Throwable cause) {
+		super(message, cause);
+		this.code = code;
+	}
+
+	public Integer getCode() {
+		return code;
+	}
+
+	public void setCode(Integer code) {
+		this.code = code;
+	}
 }

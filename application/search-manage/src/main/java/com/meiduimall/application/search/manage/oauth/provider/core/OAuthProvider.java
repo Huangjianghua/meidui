@@ -21,9 +21,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,7 +35,6 @@ import com.meiduimall.application.search.manage.oauth.OAuthProblemException;
 import com.meiduimall.application.search.manage.oauth.OAuthValidator;
 import com.meiduimall.application.search.manage.oauth.SimpleOAuthValidator;
 import com.meiduimall.application.search.manage.oauth.server.OAuthServlet;
-import com.meiduimall.application.search.manage.utility.DBUtil;
 
 /**
  * Utility methods for providers that store consumers, tokens and secrets in
@@ -56,38 +53,6 @@ public class OAuthProvider {
 
 
 
-	public static synchronized void loadConsumers(ServletConfig config)
-			throws IOException {
-
-		String sql = " select oauth_accessor_name,oauth_accessor_secret,oauth_consumer_key,oauth_callback,oauth_description from sysaccess_authorization where saa_is_valid =1 ";
-		List<Map<String, Object>> list = DBUtil.queryBySql(sql);
-		for (Map<String, Object> map : list) {
-			
-			String consumer_key = (String) map.get("oauth_consumer_key");
-			// make sure it's key not additional properties
-			if (!consumer_key.contains(".")) {
-				String consumer_secret = map.get("oauth_accessor_secret").toString();
-				if (consumer_secret != null) {
-					Object desc = map.get("oauth_description");
-					Object callBack = map.get("oauth_callback");
-					String consumer_description =  desc==null?consumer_key+".Description":desc.toString();
-
-					String consumer_callback_url = callBack==null?consumer_key+".CallBack":callBack.toString();
-					// Create OAuthConsumer w/ key and secret
-					OAuthConsumer consumer = new OAuthConsumer(
-							consumer_callback_url, consumer_key,
-							consumer_secret, null);
-					consumer.setProperty("name", consumer_key);
-					consumer.setProperty("description", consumer_description);
-					ALL_CONSUMERS.put(consumer_key, consumer);
-				}
-			}
-
-		}
-		
-
-
-	}
 
 	public static synchronized OAuthConsumer getConsumer(
 			OAuthMessage requestMessage) throws IOException,

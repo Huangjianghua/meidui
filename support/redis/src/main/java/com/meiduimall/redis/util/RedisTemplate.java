@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import com.meiduimall.core.Constants;
-import com.meiduimall.exception.RedisClientException;
+import com.meiduimall.redis.exception.RedisClientException;
 import com.meiduimall.redis.util.spring.AppContextLauncher;
 import redis.clients.jedis.ShardedJedis;
 import redis.clients.jedis.ShardedJedisPipeline;
@@ -124,7 +124,7 @@ public class RedisTemplate {
 				isReturn = false;
 				returnJedisBrokenResource(shardedJedis);
 			}
-			throw new RedisClientException(ex);
+			throw new RedisClientException(0, "", ex);
 		} finally {
 			if (isReturn) {
 				returnJedisResource(shardedJedis);
@@ -154,7 +154,7 @@ public class RedisTemplate {
 				isReturn = false;
 				returnJedisBrokenResource(shardedJedis);
 			}
-			throw new RedisClientException(ex);
+			throw new RedisClientException(0, "", ex);
 		} finally {
 			if (isReturn) {
 				returnJedisResource(shardedJedis);

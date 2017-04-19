@@ -23,6 +23,7 @@ import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombi
  * 
  */
 public class Pinyin4jUtil {
+	
 	private static final String SEPERATOR = ",";
 	/** 大写形式 */
 	private static final boolean UPPER_CASE = false;
@@ -42,7 +43,7 @@ public class Pinyin4jUtil {
 	 * @return
 	 */
 	public static String getPinyin(String chinese, boolean upperCase, int toneType, int vCharType, String seperator) {
-		StringBuffer pinyinName = new StringBuffer();  
+		StringBuilder pinyinName = new StringBuilder();  
         char[] nameChar = chinese.toCharArray();  
         HanyuPinyinOutputFormat defaultFormat = getOutputFormat(upperCase, toneType, vCharType);
         for (int i = 0; i < nameChar.length; i++) {  
@@ -132,7 +133,7 @@ public class Pinyin4jUtil {
 	 * @return
 	 */
 	public static String getPinyinShort(String chinese, boolean upperCase, String seperator) {
-		StringBuffer pinyinName = new StringBuffer();  
+		StringBuilder pinyinName = new StringBuilder();  
         char[] nameChar = chinese.toCharArray();  
         HanyuPinyinOutputFormat defaultFormat = getOutputFormat(upperCase);
         try {  
@@ -436,16 +437,5 @@ public class Pinyin4jUtil {
 		return returnStr;
 	}
 
-	public static void main(String[] args) {
-		String s = "重庆";
-		String pinyin = getPinyin(s, ",");
-		System.out.println(pinyin);
-		String jianpin = getPinyinShort(s, false,",");
-		System.out.println(jianpin);
-		
-		Collection<String> collection = getPinyinCollection(s);
-		for(String str : collection) {
-			System.out.println(str);
-		}
-	}
+
 }

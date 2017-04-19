@@ -10,46 +10,25 @@
 
 package com.meiduimall.exception;
 
-public class ApiException extends RuntimeException {
 
-	private Integer code;
+/**
+ * Copyright (C), 2002-2017, 美兑壹购物
+ * FileName: ApiException.java
+ * Author:   Administrator
+ * Date:     2017年4月19日 下午4:57:46
+ * Description: 控制层统一错误码异常
+ */
+public class ApiException extends BizException {
 
-	public ApiException(Integer code) {
-		this.code = code;
-	}
 
-	public ApiException(String e) {
-		super(e);
-	}
-
-	public ApiException(Throwable cause) {
-		super(cause);
-	}
-
-	public ApiException(Integer code, String e) {
-		super(e);
-		this.code = code;
-	}
-
-	public ApiException(Integer code, Throwable cause) {
-		super(cause);
-		this.code = code;
-	}
-
-	public ApiException(String message, Throwable cause) {
-		super(message, cause);
+	private static final long serialVersionUID = -2704857873923117602L;
+	
+	public ApiException(Integer code, String msg) {
+		super(code,msg);
 	}
 
 	public ApiException(Integer code, String message, Throwable cause) {
-		super(message, cause);
-		this.code = code;
+		super(code, message,cause);
 	}
 
-	public Integer getCode() {
-		return code;
-	}
-
-	public void setCode(Integer code) {
-		this.code = code;
-	}
 }

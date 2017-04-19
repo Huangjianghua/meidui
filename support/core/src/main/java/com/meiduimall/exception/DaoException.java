@@ -11,47 +11,26 @@
 package com.meiduimall.exception;
 
 
+/**
+ * Copyright (C), 2002-2017, 美兑壹购物
+ * FileName: DaoException.java
+ * Author:   Administrator
+ * Date:     2017年4月19日 下午4:49:13
+ * Description: dao层统一错误码异常
+ */
+public class DaoException extends BizException {
 
-public class DaoException extends RuntimeException {
-	
-	private Integer code;
+	private static final long serialVersionUID = -2400481044433310559L;
 
-	public DaoException(Integer code) {
-		this.code = code;
+
+	public DaoException(Integer code, String msg) {
+		super(code,msg);
 	}
 
-	public DaoException(String e) {
-		super(e);
-	}
-
-	public DaoException(Throwable cause) {
-		super(cause);
-	}
-
-	public DaoException(Integer code, String e) {
-		super(e);
-		this.code = code;
-	}
-
-	public DaoException(Integer code, Throwable cause) {
-		super(cause);
-		this.code = code;
-	}
-
-	public DaoException(String message, Throwable cause) {
-		super(message, cause);
-	}
 
 	public DaoException(Integer code, String message, Throwable cause) {
-		super(message, cause);
-		this.code = code;
+		super(code, message,cause);
 	}
 
-	public Integer getCode() {
-		return code;
-	}
-
-	public void setCode(Integer code) {
-		this.code = code;
-	}
+	
 }
