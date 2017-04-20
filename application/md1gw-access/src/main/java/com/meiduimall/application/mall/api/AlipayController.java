@@ -48,7 +48,7 @@ public class AlipayController {
 	@Autowired
 	private PaymentService paymentService; 
 	
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unused" })
 	@RequestMapping(value =  "/getAliPayNotify" )
 	public String getPayNotify(HttpServletRequest request) throws Exception {
 		Logger.info("进入支付宝异步回调");
@@ -103,36 +103,36 @@ public class AlipayController {
 		
 		
 
-		if(notify_id!=""&&notify_id!=null){
-			if("true".equals(AlipayNotify.verifyResponse(notify_id))){//判断成功之后使用getResponse方法判断是否是支付宝发来的异步通知。
-				if(AlipayNotify.getSignVeryfy(params, sign)){//使用支付宝公钥验签
-					if("TRADE_FINISHED".equals(trade_status) || "TRADE_SUCCESS".equals(trade_status)){
-					//业务处理
-				    EctoolsPaymentsSucc ectoolsPaymentsSucc = new EctoolsPaymentsSucc();
-				    ectoolsPaymentsSucc.setPaymentId(out_trade_no);    
-				    ectoolsPaymentsSucc.setTradeNo(trade_no);
-				    ectoolsPaymentsSucc.setStatus(SysParaNameConst.SUCC);
-				    ectoolsPaymentsSucc.setMoney(new BigDecimal(total_fee));
-				    if(!"".equals(gmt_payment)){
-				    	ectoolsPaymentsSucc.setPayedTime(Integer.valueOf(DateUtil.date2TimeStamp(gmt_payment, "yyyy-MM-dd HH:mm:ss")));
-				    }
-				    ectoolsPaymentsSucc.setBank("支付宝");
-				    ectoolsPaymentsSucc.setPayName("支付宝");
-				    ectoolsPaymentsSucc.setPayAccount("支付宝AILPAY");
-				    ectoolsPaymentsSucc.setAccount(seller_id);
-					ResponseBodyData payCallBack = paymentService.PayCallBack(ectoolsPaymentsSucc,requestParams.toString());
-					Logger.info("支付宝回调处理结果:%s", payCallBack.toString());
+		if(notify_id!=""){
+				if("true".equals(AlipayNotify.verifyResponse(notify_id))){//判断成功之后使用getResponse方法判断是否是支付宝发来的异步通知。
+					if(AlipayNotify.getSignVeryfy(params, sign)){//使用支付宝公钥验签
+						if("TRADE_FINISHED".equals(trade_status) || "TRADE_SUCCESS".equals(trade_status)){
+						//业务处理
+					    EctoolsPaymentsSucc ectoolsPaymentsSucc = new EctoolsPaymentsSucc();
+					    ectoolsPaymentsSucc.setPaymentId(out_trade_no);    
+					    ectoolsPaymentsSucc.setTradeNo(trade_no);
+					    ectoolsPaymentsSucc.setStatus(SysParaNameConst.SUCC);
+					    ectoolsPaymentsSucc.setMoney(new BigDecimal(total_fee));
+					    if(!"".equals(gmt_payment)){
+					    	ectoolsPaymentsSucc.setPayedTime(Integer.valueOf(DateUtil.date2TimeStamp(gmt_payment, "yyyy-MM-dd HH:mm:ss")));
+					    }
+					    ectoolsPaymentsSucc.setBank("支付宝");
+					    ectoolsPaymentsSucc.setPayName("支付宝");
+					    ectoolsPaymentsSucc.setPayAccount("支付宝AILPAY");
+					    ectoolsPaymentsSucc.setAccount(seller_id);
+						ResponseBodyData payCallBack = paymentService.PayCallBack(ectoolsPaymentsSucc,requestParams.toString());
+						Logger.info("支付宝回调处理结果:%s", payCallBack.toString());
+						}
+						Logger.info("success");
+						return "success" ;
+					}else{//验证签名失败
+						Logger.info("sign fail");
+						return "sign fail" ;
 					}
-					Logger.info("success");
-					return "success" ;
-				}else{//验证签名失败
-					Logger.info("sign fail");
-					return "sign fail" ;
+				}else{//验证是否来自支付宝的通知失败
+					Logger.info("response fail");
+					return "response fail" ;
 				}
-			}else{//验证是否来自支付宝的通知失败
-				Logger.info("response fail");
-				return "response fail" ;
-			}
 		}else{
 			Logger.info("no notify message");
 			return "no notify message" ;
