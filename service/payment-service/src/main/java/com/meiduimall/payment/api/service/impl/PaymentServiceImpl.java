@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
+import com.meiduimall.exception.BizException;
+import com.meiduimall.exception.DaoException;
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.payment.api.model.api.PaymentParamModel;
 import com.meiduimall.payment.api.model.api.PaymentResultModel;
 import com.meiduimall.payment.api.service.HandlerService;
@@ -32,9 +35,8 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public ResBodyData payService(PaymentParamModel paramModel){
-    	ResBodyData resultBody = new ResBodyData(0, "success");
+    	ResBodyData resultBody = null;
         boolean isHuik =false;//汇卡启用标志  默认不启用
-        try {
         	
         	String payType=paramModel.getPayType();
         	//微信支付
@@ -63,17 +65,14 @@ public class PaymentServiceImpl implements PaymentService {
             
            
 
-        } catch (Exception e) {
-            resultBody = new ResBodyData(1, e.getMessage());
-            log.error("Handle app payment error.", e);
-        }
+       
 
         return resultBody;
     }
 
 
 	@Override
-	public ResBodyData payAfterService(PaymentResultModel resultModel) throws ApiException {
+	public ResBodyData payAfterService(PaymentResultModel resultModel){
 		ResBodyData resultBody = new ResBodyData(0, "success");
 		dataService.updTrade(resultModel);
 		return resultBody;

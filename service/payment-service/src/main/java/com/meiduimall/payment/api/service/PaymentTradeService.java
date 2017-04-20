@@ -3,6 +3,8 @@ package com.meiduimall.payment.api.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.meiduimall.exception.ServiceException;
+import com.meiduimall.payment.api.constant.ServicePaymentApiCode;
 import com.meiduimall.payment.api.dao.DaoTemplate;
 import com.meiduimall.payment.api.model.api.PaymenttTradeModel;
 
@@ -24,8 +26,12 @@ public class PaymentTradeService {
      * @param model
      * @throws Exception 
      */
-    public void insertTrade(PaymenttTradeModel model) throws Exception {
-        daoTemplate.insert("paymentTrade.insert", model);
+    public void insertTrade(PaymenttTradeModel model){
+        try {
+			daoTemplate.insert("paymentTrade.insert", model);
+		} catch (Exception e) {
+			throw new ServiceException(ServicePaymentApiCode.UNKNOWN_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.UNKNOWN_ERROR),e);
+		}
     }
 
 

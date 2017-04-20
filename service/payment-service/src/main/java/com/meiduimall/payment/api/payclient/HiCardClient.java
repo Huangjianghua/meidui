@@ -1,5 +1,6 @@
 package com.meiduimall.payment.api.payclient;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,11 +11,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.meiduimall.core.util.HttpUtils;
 import com.meiduimall.core.util.XmlSupport;
 import com.meiduimall.exception.ApiException;
+import com.meiduimall.exception.DaoException;
+import com.meiduimall.exception.ServiceException;
+import com.meiduimall.exception.SystemException;
+import com.meiduimall.payment.api.constant.ServicePaymentApiCode;
 import com.meiduimall.payment.api.model.api.PaymentParamModel;
 import com.meiduimall.payment.api.model.hicardpay.HiCardRequestModel;
 import com.meiduimall.payment.api.model.hicardpay.HiCardResponeModel;
@@ -44,7 +51,7 @@ public class HiCardClient {
      * @param object
      * @return
      */
-    public String buildSign(Object object) throws Exception {
+    public String buildSign(Object object){
 
         Class<?> clazz = object.getClass();
         Field[] fields = clazz.getDeclaredFields();
@@ -52,9 +59,13 @@ public class HiCardClient {
 
         for (Field f : fields) {
             f.setAccessible(true);
-            if (f.get(object) != null && f.get(object) != "") {
-                sb.append(f.getName() + "=" + f.get(object) + "&");
-            }
+            try {
+				if (f.get(object) != null && f.get(object) != "") {
+				    sb.append(f.getName() + "=" + f.get(object) + "&");
+				}
+			} catch (IllegalArgumentException | IllegalAccessException e) {
+				throw new DaoException(ServicePaymentApiCode.CLASS_REFLECT_ERROR, ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.CLASS_REFLECT_ERROR));
+			}
         }
         sb.append(key);
         String str = sb.toString();
@@ -64,7 +75,7 @@ public class HiCardClient {
     }
 
 
-    public HiCardRequestModel buildBody(PaymentParamModel paramModel, String type) throws Exception {
+    public HiCardRequestModel buildBody(PaymentParamModel paramModel, String type){
 
         HiCardRequestModel requestModel = new HiCardRequestModel();
 
@@ -90,25 +101,32 @@ public class HiCardClient {
      * @param requestModel
      * @throws Exception
      */
-    public HiCardResponeModel hiCardAppTrade(HiCardRequestModel requestModel) throws Exception {
+    public HiCardResponeModel hiCardAppTrade(HiCardRequestModel requestModel){
 
         HiCardResponeModel responeModel;
 
-        try {
+        
             String json = new Gson().toJson(requestModel);
             log.info("hiCardTrade::request data: \n%s", json);
             Map<String,String>  rmap = new HashMap<String,String>();
             rmap.put("Content-Type", "application/json");
-            String result = HttpUtils.post(hiCard_gateway, json, rmap);
+            String result;
+			try {
+				result = HttpUtils.post(hiCard_gateway, json, rmap);
+			} catch (IOException e) {
+				throw new DaoException(ServicePaymentApiCode.HIKA_API_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.HIKA_API_ERROR));
+			}
             log.info("hiCardTrade::result data: \n%s", result);
-            HashMap map = new ObjectMapper().readValue(result, HashMap.class);
+            HashMap map = null;
+			try {
+				map = new ObjectMapper().readValue(result, HashMap.class);
+			} catch (IOException e) {
+				throw new DaoException(ServicePaymentApiCode.HIKA_API_TRANS_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.HIKA_API_TRANS_ERROR));
+			}
             result =XmlSupport.hashMapToJson(map);
             responeModel=new Gson().fromJson(result, HiCardResponeModel.class);
-            
-        } catch (Exception e) {
-            throw new ApiException(e);
-        }
-        return responeModel;
+       
+            return responeModel;
     }
 
 

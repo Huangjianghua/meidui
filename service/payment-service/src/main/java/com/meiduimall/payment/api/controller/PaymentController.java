@@ -4,6 +4,8 @@ import com.meiduimall.payment.api.model.api.PaymentParamModel;
 import com.meiduimall.payment.api.model.api.PaymentResultModel;
 import com.meiduimall.payment.api.service.PaymentService;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.BizException;
+import com.meiduimall.exception.ServiceException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,11 +38,16 @@ public class PaymentController {
      */
     @PostMapping(value ="/payment")
     public ResBodyData pay(@RequestBody PaymentParamModel model) {
-    	ResBodyData result;
-       
-            result = paymentService.payService(model);
+    	 ResBodyData resultBody = new ResBodyData(0, "success");
+         try{
+        	 resultBody = paymentService.payService(model);
+         }catch(BizException e){
+             resultBody = new ResBodyData(1, e.getMessage());
+             log.error("Handle app payment error.", e);
+         }
+            
         
-        return result;
+        return resultBody;
     }
 
     @PostMapping(value ="/paynotify")
@@ -49,7 +56,7 @@ public class PaymentController {
     	try{
     		log.info("支付回调处理开始-----");
     		result=paymentService.payAfterService(model);
-    	}catch(Exception e){
+    	}catch(BizException e){
     		result = new ResBodyData(1, e.getMessage());
     		log.error("回调处理出错！",e);
     	}

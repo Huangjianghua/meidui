@@ -2,6 +2,8 @@ package com.meiduimall.payment.api.service;
 
 import com.google.gson.Gson;
 import com.meiduimall.exception.ApiException;
+import com.meiduimall.exception.ServiceException;
+import com.meiduimall.payment.api.constant.ServicePaymentApiCode;
 import com.meiduimall.payment.api.controller.PaymentController;
 import com.meiduimall.payment.api.dao.DaoTemplate;
 import com.meiduimall.payment.api.enums.CacheKey;
@@ -17,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -24,7 +27,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 
 /**
- * Created by nico on 2017/2/20.
+ * Created by xj on 2017/2/20.
  */
 @Service
 public class PaymentDataService {
@@ -38,31 +41,38 @@ public class PaymentDataService {
     /**
      * 描述：插入日志、回调数据
      */
-     public void updTrade(PaymentResultModel resultModel)throws ApiException{
+     public void updTrade(PaymentResultModel resultModel){
     	
     	
-    	try{
     		SimpleDateFormat  sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     		resultModel.setCreateTime(new Date());
     		// 写入日志表
     		log.info("开始写入日志表-------");
-        	daoTemplate.insert("paymentLogs.addlog",resultModel);
+        	try {
+				daoTemplate.insert("paymentLogs.addlog",resultModel);
+			} catch (Exception e) {
+				throw new ServiceException(ServicePaymentApiCode.UNKNOWN_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.UNKNOWN_ERROR),e);
+			}
         	log.info("成功写入日志表-------");
         	PaymentNotifyModel  paymentNotifyModel = new PaymentNotifyModel();
         	paymentNotifyModel.setOrderId(resultModel.getOrderNo());
         	paymentNotifyModel.setNotifyData(resultModel.getNotifyData());
         	paymentNotifyModel.setNotifyStatus(Integer.valueOf(resultModel.getNotifyStatus()));
-        	paymentNotifyModel.setNotifyTime(sdf.parse(resultModel.getNotifyTime()));
+        	try {
+				paymentNotifyModel.setNotifyTime(sdf.parse(resultModel.getNotifyTime()));
+			} catch (ParseException e) {
+				throw new ServiceException(ServicePaymentApiCode.DATE_PARES_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.DATE_PARES_ERROR));
+			}
         	//写入回调数据
         	log.info("开始写入回调数据-------");
-        	daoTemplate.insert("paymentNotify.insert",paymentNotifyModel);
+        	try {
+				daoTemplate.insert("paymentNotify.insert",paymentNotifyModel);
+			} catch (Exception e) {
+				throw new ServiceException(ServicePaymentApiCode.UNKNOWN_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.UNKNOWN_ERROR),e);
+			}
         	log.info("成功写入回调数据-------");
         	
-    	}catch(Exception e){
-    		log.error("回调写入数据错误！", e);
-    		throw new ApiException(e);
-
-    	}
+    	
     	
     	
     }

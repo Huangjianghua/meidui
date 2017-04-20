@@ -1,5 +1,6 @@
 package com.meiduimall.payment.api.payclient;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -15,7 +16,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.meiduimall.exception.ApiException;
+import com.meiduimall.exception.DaoException;
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.password.util.RsaEncrypt;
+import com.meiduimall.payment.api.constant.ServicePaymentApiCode;
 import com.meiduimall.payment.api.model.alipay.AlipayRequestModel;
 
 /**
@@ -49,7 +53,7 @@ public class AlipayClient {
 	 * @param alipayAppModel
 	 * @throws ApiException
 	 */
-	protected void buildBody(AlipayRequestModel model, String service) throws ApiException {
+	protected void buildBody(AlipayRequestModel model, String service){
 		model.setPartner(partner);
 		model.setSeller_id(APP_ID);
 		model.setService(service);
@@ -81,7 +85,7 @@ public class AlipayClient {
 	 * @return
 	 * @throws Exception
 	 */
-	protected String buildSign(Object obj, Map<String, String> output) throws Exception {
+	protected String buildSign(Object obj, Map<String, String> output){
 		Class<?> clazz = obj.getClass();
 		Field[] fields = clazz.getDeclaredFields();
 		List<String> list = new ArrayList<String>();
@@ -89,9 +93,13 @@ public class AlipayClient {
 
 		for (Field f : fields) {
 			f.setAccessible(true);
-			if (f.get(obj) != null && f.get(obj) != "") {
-				map.put(f.getName(), f.get(obj).toString());
-				list.add(f.getName() + "=" + f.get(obj) + "&");
+			try {
+				if (f.get(obj) != null && f.get(obj) != "") {
+					map.put(f.getName(), f.get(obj).toString());
+					list.add(f.getName() + "=" + f.get(obj) + "&");
+				}
+			} catch (IllegalArgumentException | IllegalAccessException e) {
+				throw new ServiceException(ServicePaymentApiCode.CLASS_REFLECT_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.CLASS_REFLECT_ERROR));
 			}
 		}
 
@@ -119,13 +127,22 @@ public class AlipayClient {
 	 * @return
 	 * @throws Exception
 	 */
-	public String alipayTradeApp(AlipayRequestModel model) throws Exception {
+	public String alipayTradeApp(AlipayRequestModel model){
 		buildBody(model, "mobile.securitypay.pay");
 
 		Map<String, String> param = new LinkedHashMap<String, String>();
-		String sign = buildSign(model, param);
+		String sign = null;
+		try {
+			sign = buildSign(model, param);
+		} catch (Exception e) {
+			throw new DaoException(ServicePaymentApiCode.ALIPAY_SIGN_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.ALIPAY_SIGN_ERROR));
+		}
 		StringBuffer result = new StringBuffer(buildParam(param));
-		result.append("sign=" + URLEncoder.encode(sign, CHARSET));
+		try {
+			result.append("sign=" + URLEncoder.encode(sign, CHARSET));
+		} catch (UnsupportedEncodingException e) {
+			throw new DaoException(ServicePaymentApiCode.SIGN_ENCODE_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.SIGN_ENCODE_ERROR));
+		}
 		result.append("&sign_type=RSA");
 		log.info("AlipayTradeWap: \n%s", result.toString());
 
@@ -139,7 +156,7 @@ public class AlipayClient {
 	 * @return
 	 * @throws Exception
 	 */
-	public String alipayTradeWap(AlipayRequestModel model) throws Exception {
+	public String alipayTradeWap(AlipayRequestModel model){
 		buildBody(model, "alipay.wap.create.direct.pay.by.user");
 
 		Map<String, String> param = new HashMap<String, String>();

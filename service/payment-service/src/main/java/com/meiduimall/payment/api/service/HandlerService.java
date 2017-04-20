@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.ServiceException;
+import com.meiduimall.payment.api.constant.ServicePaymentApiCode;
 import com.meiduimall.payment.api.model.alipay.AlipayRequestModel;
 import com.meiduimall.payment.api.model.api.PaymentLogsModel;
 import com.meiduimall.payment.api.model.api.PaymentParamModel;
@@ -61,10 +63,8 @@ public class HandlerService {
      * @param paramModel
      * @return
      */
-    public ResBodyData handleWeChatAppSign(PaymentParamModel paramModel) throws Exception {
+    public ResBodyData handleWeChatAppSign(PaymentParamModel paramModel){
     	ResBodyData result = null;
-
-        //PaymentConfigModel configModel = configService.findById(10001L);
 
         WeChatRequestModel requestModel = new WeChatRequestModel();
         requestModel.setBody("APP-PRODUCT");
@@ -96,13 +96,17 @@ public class HandlerService {
         	     List<String> list = new ArrayList<String>();
         	        for (Field f : fields) {
         	            f.setAccessible(true);
-        	            if (f.get(rweChatAppModel) != null && f.get(rweChatAppModel) != "") {
-        	            	if(f.getName().equalsIgnoreCase("pkg")){
-        	            		map.put("package",f.get(rweChatAppModel));
-        	            		continue;
-        	            	}
-        	            	map.put(f.getName(),f.get(rweChatAppModel));
-        	            }
+        	            try {
+							if (f.get(rweChatAppModel) != null && f.get(rweChatAppModel) != "") {
+								if(f.getName().equalsIgnoreCase("pkg")){
+									map.put("package",f.get(rweChatAppModel));
+									continue;
+								}
+								map.put(f.getName(),f.get(rweChatAppModel));
+							}
+						} catch (IllegalArgumentException | IllegalAccessException e) {
+							throw new ServiceException(ServicePaymentApiCode.CLASS_REFLECT_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.CLASS_REFLECT_ERROR));
+						}
         	        }
         	        result.setData(map);
                 //记录日志、流水
@@ -120,7 +124,7 @@ public class HandlerService {
      * @return
      * @throws Exception
      */
-    public ResBodyData handleAlipayAppSign(PaymentParamModel paramModel) throws Exception {
+    public ResBodyData handleAlipayAppSign(PaymentParamModel paramModel){
     	ResBodyData result = new ResBodyData(0 ,"success");
         
 
@@ -130,7 +134,10 @@ public class HandlerService {
         requestModel.setTotal_fee(paramModel.getPayAmount());
         requestModel.setNotify_url(paramModel.getNotifyUrl());
         requestModel.setSubject(paramModel.getSubject());
-        String respondata = alipayClient.alipayTradeApp(requestModel);
+        String respondata;
+		
+		respondata = alipayClient.alipayTradeApp(requestModel);
+		
 
         result.setData(respondata);
          //记录日志、流水
@@ -146,7 +153,7 @@ public class HandlerService {
      * @return
      * @throws Exception
      */
-    public ResBodyData handleHiCardWeChatAppPay(PaymentParamModel paramModel) throws Exception {
+    public ResBodyData handleHiCardWeChatAppPay(PaymentParamModel paramModel){
     	ResBodyData result = null;
         HiCardRequestModel requestModel = hiCardClient.buildBody(paramModel, "006");//微信APP
         HiCardResponeModel responeModel = hiCardClient.hiCardAppTrade(requestModel);
@@ -186,13 +193,17 @@ public class HandlerService {
      * 描述：流水、日志记录操作
      * @throws ParseException 
      */
-    public void  handlePayRecord(PaymentParamModel paramModel,String sign) throws Exception{
+    public void  handlePayRecord(PaymentParamModel paramModel,String sign){
     	 PaymenttTradeModel paymenttTradeModel = new PaymenttTradeModel();
          paymenttTradeModel.setMemId(String.valueOf((paramModel.getMemId())));
          paymenttTradeModel.setOrderInfo(paramModel.getBody());
          if(!StringUtils.isBlank(paramModel.getOrderTime())){
          	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-         	paymenttTradeModel.setOrderTime(sdf.parse(paramModel.getOrderTime()));
+         	try {
+				paymenttTradeModel.setOrderTime(sdf.parse(paramModel.getOrderTime()));
+			} catch (ParseException e) {
+				throw new ServiceException(ServicePaymentApiCode.DATE_PARES_ERROR, ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.DATE_PARES_ERROR));
+			}
          }
          paymenttTradeModel.setOrderId(paramModel.getOrderNo());
          paymenttTradeModel.setOrderAmount(Double.valueOf(StringUtils.isBlank(paramModel.getOrderAmount())?"0":paramModel.getOrderAmount())/100);

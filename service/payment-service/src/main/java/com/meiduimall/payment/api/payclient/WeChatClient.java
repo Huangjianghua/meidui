@@ -1,5 +1,6 @@
 package com.meiduimall.payment.api.payclient;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
+import javax.xml.bind.JAXBException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +20,11 @@ import org.springframework.stereotype.Component;
 import com.meiduimall.core.util.HttpUtils;
 import com.meiduimall.core.util.XmlSupport;
 import com.meiduimall.exception.ApiException;
+import com.meiduimall.exception.DaoException;
+import com.meiduimall.password.SecurityBaseApiCode;
+import com.meiduimall.password.exception.Md5Exception;
 import com.meiduimall.password.util.MD5;
+import com.meiduimall.payment.api.constant.ServicePaymentApiCode;
 import com.meiduimall.payment.api.model.wechat.WeChatAppModel;
 import com.meiduimall.payment.api.model.wechat.WeChatRequestModel;
 import com.meiduimall.payment.api.model.wechat.WeChatResponeModel;
@@ -70,19 +77,23 @@ public class WeChatClient {
      * @return
      * @throws Exception
      */
-    protected String getSign(Object obj, String key) throws Exception {
+    protected String getSign(Object obj, String key){
         Class<?> clazz = obj.getClass();
         Field[] fields = clazz.getDeclaredFields();
         List<String> list = new ArrayList<String>();
         for (Field f : fields) {
             f.setAccessible(true);
-            if (f.get(obj) != null && f.get(obj) != "") {
-            	if(f.getName().equalsIgnoreCase("pkg")){
-            		 list.add("package" + "=" + f.get(obj) + "&");
-            		 continue;
-            	}
-                list.add(f.getName() + "=" + f.get(obj) + "&");
-            }
+            try {
+				if (f.get(obj) != null && f.get(obj) != "") {
+					if(f.getName().equalsIgnoreCase("pkg")){
+						 list.add("package" + "=" + f.get(obj) + "&");
+						 continue;
+					}
+				    list.add(f.getName() + "=" + f.get(obj) + "&");
+				}
+			} catch (IllegalArgumentException | IllegalAccessException e) {
+				throw new DaoException(ServicePaymentApiCode.CLASS_REFLECT_ERROR, ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.CLASS_REFLECT_ERROR));
+			}
         }
         int size = list.size();
         String[] arrayToSort = list.toArray(new String[size]);
@@ -93,7 +104,15 @@ public class WeChatClient {
         }
         String result = (sb.toString() + "key=" + key);
         log.info("Sign result: \n%s", result);
-        return MD5.getMD5EncodeUTF8(result);
+        String md5 = null;
+        try {
+        	md5= MD5.getMD5EncodeUTF8(result);
+		} catch (Md5Exception e) {
+		
+			throw new DaoException(SecurityBaseApiCode.EXCEPTION_MD5,SecurityBaseApiCode.getZhMsg(SecurityBaseApiCode.EXCEPTION_MD5));
+		}
+        
+        return md5;
     }
 
     /**
@@ -159,7 +178,7 @@ public class WeChatClient {
     
     public WeChatAppModel  buildSignBody(WeChatAppModel weChatAppModel,String accountType){
     	
-    	try{
+    	
     		String sign;
     		weChatAppModel.setNoncestr(this.getNonceStr());
     		//壹购物账号
@@ -176,9 +195,7 @@ public class WeChatClient {
         	weChatAppModel.setSign(sign);
         	
         	return weChatAppModel;
-    	}catch(Exception e){
-    		throw new ApiException(e);
-    	}
+    	
     	
     }
 
@@ -198,7 +215,7 @@ public class WeChatClient {
                                       String tradeType, String productId, String openId, String notifyUrl,String accountType) {
         WeChatRequestModel model = buildBody(body, tradeNo, totalFee, spbillCreateIp, tradeType, productId, openId,notifyUrl,accountType);
 
-        try {
+       
         	String signStr;
         	//壹购物账号
         	if(accountType !=null && accountType.equals("1")){
@@ -208,23 +225,35 @@ public class WeChatClient {
         	}
            
             model.setSign(signStr);
-            String xmlData = XmlSupport.outputXml(model, WeChatRequestModel.class);
+            String xmlData = null;
+			try {
+				xmlData = XmlSupport.outputXml(model, WeChatRequestModel.class);
+			} catch (JAXBException e) {
+				throw new DaoException(ServicePaymentApiCode.XML_OBJECT_TRANS_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.XML_OBJECT_TRANS_ERROR));
+			}
             log.info("getWeChatPayQrCode::request data: \n%s", xmlData);
             
             Map<String,String>  map = new HashMap<String,String>();
             map.put("Content-Type", "application/json");
-            String result = HttpUtils.post(WECHAT_URL_PAY, xmlData, map);
+            String result = null;
+			try {
+				result = HttpUtils.post(WECHAT_URL_PAY, xmlData, map);
+			} catch (IOException e) {
+				throw new DaoException(ServicePaymentApiCode.WEBCHAT_API_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.WEBCHAT_API_ERROR));
+			}
             log.info("getWeChatPayQrCode::result data: \n%s", result);
 
             
-            WeChatResponeModel resultModel = XmlSupport.outputBean(result, WeChatResponeModel.class);
+            WeChatResponeModel resultModel = null;
+			try {
+				resultModel = XmlSupport.outputBean(result, WeChatResponeModel.class);
+			} catch (JAXBException e) {
+				throw new DaoException(ServicePaymentApiCode.XML_OBJECT_TRANS_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.XML_OBJECT_TRANS_ERROR));
+			}
            
            
 
             return resultModel;
-        } catch (Exception e) {
-            throw new ApiException(e);
-        }
     }
 
 
