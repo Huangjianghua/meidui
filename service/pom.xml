@@ -17,7 +17,7 @@
     <!--<version>1.0.0</version>-->
     <modules>
         <module>route-service</module>
-        <!-- <module>payment-service</module> -->
+        <module>payment-service</module>
         <module>sms-service</module>
         <module>settlement-service</module>
 		<module>catalog-service</module>
