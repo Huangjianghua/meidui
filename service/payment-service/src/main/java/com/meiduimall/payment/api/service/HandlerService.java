@@ -76,10 +76,10 @@ public class HandlerService {
         WeChatResponeModel responeModel = weChatClient.getAppSign(requestModel,paramModel.getAccountType());
         
         if(!responeModel.getReturn_code().equalsIgnoreCase("SUCCESS")){
-        	result= new ResBodyData(1,responeModel.getReturn_msg());
+        	result= new ResBodyData(ServicePaymentApiCode.OPERAT_FAIL,responeModel.getReturn_msg());
         }else{
         	if(!responeModel.getResult_code().equalsIgnoreCase("SUCCESS")){
-        		result= new ResBodyData(1,responeModel.getErr_code_des());
+        		result= new ResBodyData(ServicePaymentApiCode.OPERAT_FAIL,responeModel.getErr_code_des());
         	}else{
         		//获取请求参数
         		WeChatAppModel weChatAppModel = new WeChatAppModel();
@@ -88,7 +88,7 @@ public class HandlerService {
         		weChatAppModel.setTimestamp(String.valueOf(System.currentTimeMillis()).substring(0, 10));
         		WeChatAppModel rweChatAppModel = weChatClient.buildSignBody(weChatAppModel,paramModel.getAccountType());
         		
-        		result = new ResBodyData(0, "success");
+        		result = new ResBodyData(ServicePaymentApiCode.OPERAT_SUCCESS, ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.OPERAT_SUCCESS));
         		
         		Map map = new LinkedHashMap();
         		 Class<?> clazz = rweChatAppModel.getClass();
@@ -125,7 +125,7 @@ public class HandlerService {
      * @throws Exception
      */
     public ResBodyData handleAlipayAppSign(PaymentParamModel paramModel){
-    	ResBodyData result = new ResBodyData(0 ,"success");
+    	ResBodyData result = new ResBodyData(ServicePaymentApiCode.OPERAT_SUCCESS ,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.OPERAT_SUCCESS));
         
 
         AlipayRequestModel requestModel = new AlipayRequestModel();
@@ -158,9 +158,9 @@ public class HandlerService {
         HiCardRequestModel requestModel = hiCardClient.buildBody(paramModel, "006");//微信APP
         HiCardResponeModel responeModel = hiCardClient.hiCardAppTrade(requestModel);
         if(!responeModel.getRespCode().equalsIgnoreCase("00")){
-        	result=new ResBodyData(1,responeModel.getRespMsg());
+        	result=new ResBodyData(ServicePaymentApiCode.OPERAT_FAIL,responeModel.getRespMsg());
         }else{
-        	result=new ResBodyData(0,"success");
+        	result=new ResBodyData(ServicePaymentApiCode.OPERAT_SUCCESS,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.OPERAT_SUCCESS));
         	result.setData(responeModel.getPayInfo());
         	 //记录日志、流水
             handlePayRecord(paramModel,new Gson().toJson(responeModel.getPayInfo()));
@@ -176,7 +176,7 @@ public class HandlerService {
      * @throws Exception
      */
     public ResBodyData handleHiCardAlipayH5Pay(PaymentParamModel paramModel) throws Exception {
-    	ResBodyData result = new ResBodyData(0, "success");
+    	ResBodyData result = new ResBodyData(ServicePaymentApiCode.OPERAT_SUCCESS, ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.OPERAT_SUCCESS));
         HiCardRequestModel requestModel = hiCardClient.buildBody(paramModel, "007");
         HiCardResponeModel responeModel = hiCardClient.hiCardAppTrade(requestModel);
         if ("1".equals(responeModel.getIsHtml())) {

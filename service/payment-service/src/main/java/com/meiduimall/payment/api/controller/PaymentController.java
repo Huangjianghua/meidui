@@ -53,7 +53,7 @@ public class PaymentController {
     }
 
     @PostMapping(value ="/paynotify")
-    public ResBodyData   payNotify(@RequestBody PaymentResultModel model){
+    public ResBodyData  payNotify(@RequestBody PaymentResultModel model){
     	ResBodyData result = null;
     	try{
     		log.info("支付回调处理开始-----");
