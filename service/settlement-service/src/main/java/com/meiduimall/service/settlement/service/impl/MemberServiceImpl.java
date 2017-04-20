@@ -122,7 +122,7 @@ public class MemberServiceImpl implements MemberService {
 		if(updateMemberScore){
 			log.info("更新订单分润用户所获积分到会员系统成功,用户手机号:"+shareProfit.getPhone());
 		}else{
-			log.info("更新订单分润用户所获积分到会员系统失败,用户手机号:"+shareProfit.getPhone());
+			log.error("更新订单分润用户所获积分到会员系统失败,用户手机号:"+shareProfit.getPhone());
 			errors.add("更新订单分润用户所获积分到会员系统失败,用户手机号:"+shareProfit.getPhone());
 		}
 		
@@ -130,7 +130,7 @@ public class MemberServiceImpl implements MemberService {
 		if(updateSellerScore){
 			log.info("更新订单分润商家所获积分到会员系统成功,商家手机号:"+shareProfit.getSellerPhone());
 		}else{
-			log.info("更新订单分润商家所获积分到会员系统失败,商家手机号:"+shareProfit.getSellerPhone());
+			log.error("更新订单分润商家所获积分到会员系统失败,商家手机号:"+shareProfit.getSellerPhone());
 			errors.add("更新订单分润商家所获积分到会员系统失败,商家手机号:"+shareProfit.getSellerPhone());
 		}
 		
@@ -143,7 +143,7 @@ public class MemberServiceImpl implements MemberService {
 			if(updateOneScore){
 				log.info("更新订单分润一级推荐人所获积分到会员系统成功,一级推荐人手机号:"+shareProfit.getBelongOnePhone());
 			}else{
-				log.info("更新订单分润一级推荐人所获积分到会员系统失败,一级推荐人手机号:"+shareProfit.getBelongOnePhone());
+				log.error("更新订单分润一级推荐人所获积分到会员系统失败,一级推荐人手机号:"+shareProfit.getBelongOnePhone());
 				errors.add("更新订单分润一级推荐人所获积分到会员系统失败,一级推荐人手机号:"+shareProfit.getBelongOnePhone());
 			}
 		
@@ -154,7 +154,7 @@ public class MemberServiceImpl implements MemberService {
 			if(updateTwoScore){
 				log.info("更新订单分润二级推荐人所获积分到会员系统成功,二级推荐人手机号:"+shareProfit.getBelongTwoPhone());
 			}else{
-				log.info("更新订单分润二级推荐人所获积分到会员系统失败,二级推荐人手机号:"+shareProfit.getBelongTwoPhone());
+				log.error("更新订单分润二级推荐人所获积分到会员系统失败,二级推荐人手机号:"+shareProfit.getBelongTwoPhone());
 				errors.add("更新订单分润二级推荐人所获积分到会员系统失败,二级推荐人手机号:"+shareProfit.getBelongTwoPhone());
 			}
 		
@@ -216,65 +216,40 @@ public class MemberServiceImpl implements MemberService {
 		}
 		
 		if(orderSnList!=null && !orderSnList.isEmpty()){
-			boolean isCashStatusUpdated=true;
-			try {
-				isCashStatusUpdated=orderStatusService.batchUpdCashStatus(orderSnList);
-				if(!isCashStatusUpdated){
-					log.error("orderStatusService.batchUpdCashStatus() in updateReferrerCash() 失败!order size:{},orderSnList:{}",orderSnList.size(),Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSnList));
-				}
-			} catch (Exception e) {
-				isCashStatusUpdated=false;
-				log.error("orderStatusService.batchUpdCashStatus() in updateReferrerCash() 出现异常!order size:"+orderSnList.size()+",orderSnList:{},error:{}",Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSnList),e.getMessage());
-			}
+			
+			boolean isCashStatusUpdated=orderStatusService.batchUpdCashStatus(orderSnList);
+				
 			if(!isCashStatusUpdated){
 				String params="一级推荐人1%现金成功送出,但送现金成功状态更新到表 ecm_mzf_order_status表失败,需要手动更新,订单数:"+orderSnList.size();
-				SmsReqDTO smsReqDTO = new SmsReqDTO(ShareProfitUtil.authorizedMap.get(ShareProfitUtil.SMS_PHONES),
-						ShareProfitUtil.TEMPLATE_ID_O2O_1009,params,"");
+				SmsReqDTO smsReqDTO = new SmsReqDTO(ShareProfitUtil.authorizedMap.get(ShareProfitUtil.SMS_PHONES), ShareProfitUtil.TEMPLATE_ID_O2O_1009,params,"");
 
-				try {
-					boolean flag = smsService.sendMessage(smsReqDTO);
-					if(flag){
-						log.info("一级推荐人1%现金成功送出,但送现金成功状态更新到表 ecm_mzf_order_status表失败,需要手动更新,发送短信通知成功,订单数:{}",orderSnList.size());
-					}else{
-						log.info("一级推荐人1%现金成功送出,但送现金成功状态更新到表 ecm_mzf_order_status表失败,需要手动更新,订单数:{}",orderSnList.size());
-					}
-				} catch (Exception e1) {
-					log.error("一级推荐人1%现金成功送出,但送现金成功状态更新到表 ecm_mzf_order_status表失败,需要手动更新,订单数:{}",orderSnList.size(),e1);
+				boolean flag = smsService.sendMessage(smsReqDTO);
+				if(flag){
+					log.info("一级推荐人1%现金成功送出,但送现金成功状态更新到表 ecm_mzf_order_status表失败,需要手动更新,发送短信通知成功,订单数:{}",orderSnList.size());
+				}else{
+					log.error("一级推荐人1%现金成功送出,但送现金成功状态更新到表 ecm_mzf_order_status表失败,需要手动更新,订单数:{}",orderSnList.size());
 				}
-			
-				
 			}
 			
 		}
 		
 		if(orderSnList4Err!=null && !orderSnList4Err.isEmpty()){
-			try {
-				log.error("updateReferrerCash() in MemberServiceImpl got error:更新推荐人1%金额到会员系统失败!order size:{},orderSns:{}",orderSnList4Err.size(),Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSnList4Err));
-				CreateBillLog cbl=new CreateBillLog("updateReferrerCash() in MemberServiceImpl got error:更新推荐人1%金额到会员系统失败!失败订单数量:{}:"+orderSnList4Err.size(),DateUtil.getCurrentTimeSec(),null);
-				boolean isSuccess=shareProfitLogService.logCreateBillLog(cbl);
-				if(!isSuccess){
-					log.error("updateReferrerCash() in MemberServiceImpl:shareProfitLogService.logCreateBillLog()失败!");
-				}
-			} catch (Exception e) {
-				log.error("shareProfitLogService.logCreateBillLog() 送积分errorLog!error:{}:",e.getMessage());
+			log.error("updateReferrerCash() in MemberServiceImpl got error:更新推荐人1%金额到会员系统失败!order size:{},orderSns:{}",orderSnList4Err.size(),Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSnList4Err));
+			CreateBillLog cbl=new CreateBillLog("updateReferrerCash() in MemberServiceImpl got error:更新推荐人1%金额到会员系统失败!失败订单数量:{}:"+orderSnList4Err.size(),DateUtil.getCurrentTimeSec(),null);
+			boolean isSuccess=shareProfitLogService.logCreateBillLog(cbl);
+			if(!isSuccess){
+				log.error("updateReferrerCash() in MemberServiceImpl:shareProfitLogService.logCreateBillLog()失败!");
 			}
-			
-
 		}
 		
 	
 		if(orderSnList!=null && !orderSnList.isEmpty()){
-			//inform o2o 结算状态...
-			try {
-				boolean isSuccess=o2oCallbackService.informSettlementStatus(orderSnList, ShareProfitConstants.O2O_SETTLEMENT_STATUS_CODE_CASH);		
-				if(!isSuccess){
-					CreateBillLog cbl=new CreateBillLog("通知O2O结算状态:更新一级推荐人1%金额到会员系统失败!失败订单数量:"+orderSnList.size(),DateUtil.getCurrentTimeSec(),null);
-					shareProfitLogService.logCreateBillLog(cbl);
-				}
-			} catch (Exception e) {
-				log.error("shareProfitLogService.logCreateBillLog() 通知O2O结算状态STATUS_CODE_CASH errorLog!error:{}",e.getMessage());
+			//inform o2o 结算状态
+			boolean isSuccess=o2oCallbackService.informSettlementStatus(orderSnList, ShareProfitConstants.O2O_SETTLEMENT_STATUS_CODE_CASH);		
+			if(!isSuccess){
+				CreateBillLog cbl=new CreateBillLog("通知O2O结算状态:更新一级推荐人1%金额到会员系统失败!失败订单数量:"+orderSnList.size(),DateUtil.getCurrentTimeSec(),null);
+				shareProfitLogService.logCreateBillLog(cbl);
 			}
-			
 		}
 
 	}

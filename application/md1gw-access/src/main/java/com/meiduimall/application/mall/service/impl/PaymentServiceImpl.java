@@ -40,7 +40,6 @@ import com.meiduimall.application.mall.util.CommonUtil;
 import com.meiduimall.application.mall.util.DateUtil;
 import com.meiduimall.application.mall.util.GatewaySignUtil;
 import com.meiduimall.application.mall.util.Logger;
-import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.ServiceException;
 
 import net.sf.json.JSONObject;
@@ -68,20 +67,14 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Override
 	public Map<String, Object> getPaymentBill(String paymentId) {
-		try {
-			return baseMapper.selectOne(paymentId, "EctoolsPaymentsMapper.getPaymentBill");
-		} catch (DaoException e) {
-			throw new ServiceException(e);
-		}
+		return baseMapper.selectOne(paymentId, "EctoolsPaymentsMapper.getPaymentBill");
+
 	}
 
 	@Override
 	public Integer updateEctoolsPayments(EctoolsPayments ectoolsPayments) {
-		try {
-			return baseMapper.update(ectoolsPayments, "EctoolsPaymentsMapper.updateEctoolsPayments");
-		} catch (DaoException e) {
-			throw new ServiceException(e);
-		}
+		return baseMapper.update(ectoolsPayments, "EctoolsPaymentsMapper.updateEctoolsPayments");
+
 	}
 
 	/**
@@ -170,7 +163,7 @@ public class PaymentServiceImpl implements PaymentService {
 				}
 				// 9.通过 变量deleteParams 清除ectools_trade_paybill表过期数据
 				Integer deleteEctoolsTradePaybill = tradeService.deleteEctoolsTradePaybill(deleteParams);
-				if(deleteEctoolsTradePaybill <= 0){
+				if (deleteEctoolsTradePaybill <= 0) {
 					Logger.info("清除ectools_trade_paybill表过期数据失败!");
 				}
 			}
@@ -411,20 +404,13 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Override
 	public EctoolsPaymentsSucc getEctoolsPaymentsSucc(String paymentId) {
-		try {
-			return baseMapper.selectOne(paymentId, "EctoolsPaymentsSuccMapper.getEctoolsPaymentsSucc");
-		} catch (DaoException e) {
-			throw new ServiceException(e);
-		}
+		return baseMapper.selectOne(paymentId, "EctoolsPaymentsSuccMapper.getEctoolsPaymentsSucc");
+
 	}
 
 	@Override
 	public Integer insertEctoolsPaymentsSucc(EctoolsPaymentsSucc EctoolsPaymentsSucc) {
-		try {
-			return baseMapper.insert(EctoolsPaymentsSucc, "EctoolsPaymentsSuccMapper.insertEctoolsPaymentsSucc");
-		} catch (DaoException e) {
-			throw new ServiceException(e);
-		}
+		return baseMapper.insert(EctoolsPaymentsSucc, "EctoolsPaymentsSuccMapper.insertEctoolsPaymentsSucc");
 	}
 
 	/**
@@ -541,7 +527,8 @@ public class PaymentServiceImpl implements PaymentService {
 			paymentBill = getPaymentBill(ectoolsPaymentsSucc.getPaymentId());
 			if (paymentBill == null) {
 				Logger.info("修改支付单状态之后,获取支付单信息 为空!");
-				throw new ServiceException(MallApiCode.PAYMENTBILL_EMPTY, MallApiCode.getZhMsg(MallApiCode.PAYMENTBILL_EMPTY));
+				throw new ServiceException(MallApiCode.PAYMENTBILL_EMPTY,
+						MallApiCode.getZhMsg(MallApiCode.PAYMENTBILL_EMPTY));
 			}
 
 			// 更新平台订单表信息
@@ -596,7 +583,8 @@ public class PaymentServiceImpl implements PaymentService {
 							systradePTrade, fromObject);
 					if (saveOrderAndUpdateFunction.getStatus() != 0) {
 						Logger.info("同步订单到会员系统失败: %s", saveOrderAndUpdateFunction.getMsg());
-						throw new ServiceException(MallApiCode.SAVEORDER_FAIL, MallApiCode.getZhMsg(MallApiCode.SAVEORDER_FAIL));
+						throw new ServiceException(MallApiCode.SAVEORDER_FAIL,
+								MallApiCode.getZhMsg(MallApiCode.SAVEORDER_FAIL));
 					}
 
 					// 【会员钱包支付接口】,写入钱包支付记录
@@ -685,11 +673,7 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Override
 	public Integer updateErrorMoney(EctoolsPayments ep) {
-		try {
-			return baseMapper.update(ep, "EctoolsPaymentsMapper.updateErrorMoney");
-		} catch (DaoException e) {
-			throw new ServiceException(e);
-		}
+		return baseMapper.update(ep, "EctoolsPaymentsMapper.updateErrorMoney");
 	}
 
 	/**
@@ -697,11 +681,8 @@ public class PaymentServiceImpl implements PaymentService {
 	 */
 	@Override
 	public Integer updateErrorNum(String paymentId) {
-		try {
-			return baseMapper.update(paymentId, "EctoolsPaymentsMapper.updateErrorNum");
-		} catch (DaoException e) {
-			throw new ServiceException(e);
-		}
+		return baseMapper.update(paymentId, "EctoolsPaymentsMapper.updateErrorNum");
+
 	}
 
 	/**

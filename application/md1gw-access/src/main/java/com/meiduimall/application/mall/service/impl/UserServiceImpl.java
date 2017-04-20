@@ -26,7 +26,6 @@ import com.meiduimall.application.mall.model.SysuserWalletPaylog;
 import com.meiduimall.application.mall.service.UserService;
 import com.meiduimall.application.mall.util.CommonUtil;
 import com.meiduimall.application.mall.util.Logger;
-import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.ServiceException;
 
 import net.sf.json.JSONObject;
@@ -45,58 +44,34 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Map<String, Object> getUserInfo(SysuserUser sysuserUser) {
-		try {
-			return baseMapper.selectOne(sysuserUser, "SysuserUserMapper.getUserInfo");
-		} catch (DaoException e) {
-			throw new ServiceException(e);
-		}
+		return baseMapper.selectOne(sysuserUser, "SysuserUserMapper.getUserInfo");
 	}
 
 	@Override
 	public SysuserUser getUserMoney(Integer userId) {
-		try {
-			return baseMapper.selectOne(userId, "SysuserUserMapper.getUserMoney");
-		} catch (DaoException e) {
-			throw new ServiceException(e);
-		}
+		return baseMapper.selectOne(userId, "SysuserUserMapper.getUserMoney");
 	}
 
 	@Override
 	public Integer updateMF(SysuserUser sysuserUser) {
-		try {
-			return baseMapper.update(sysuserUser, "SysuserUserMapper.updateMF");
-		} catch (DaoException e) {
-			throw new ServiceException(e);
-		}
+		return baseMapper.update(sysuserUser, "SysuserUserMapper.updateMF");
 
 	}
 
 	@Override
 	public Integer updateUsersWalletPay(SysuserWalletPaylog sysuserWalletPaylog) {
-		try {
-			return baseMapper.update(sysuserWalletPaylog, "SysuserWalletPaylogMapper.updateUsersWalletPay");
-		} catch (DaoException e) {
-			throw new ServiceException(e);
-		}
+		return baseMapper.update(sysuserWalletPaylog, "SysuserWalletPaylogMapper.updateUsersWalletPay");
 
 	}
 
 	@Override
 	public SysuserAccount getSysuserAccount(Integer userId) {
-		try {
-			return baseMapper.selectOne(userId, "SysuserAccountMapper.getLoginAccount");
-		} catch (DaoException e) {
-			throw new ServiceException(e);
-		}
+		return baseMapper.selectOne(userId, "SysuserAccountMapper.getLoginAccount");
 	}
 
 	@Override
 	public Integer insertSysuserUserScore(SysuserUserScore sysuserUserScore) {
-		try {
-			return baseMapper.insert(sysuserUserScore, "SysuserUserScoreMapper.insertSysuserUserScore");
-		} catch (DaoException e) {
-			throw new ServiceException(e);
-		}
+		return baseMapper.insert(sysuserUserScore, "SysuserUserScoreMapper.insertSysuserUserScore");
 	}
 
 	@Override
@@ -113,7 +88,7 @@ public class UserServiceImpl implements UserService {
 			postForObject = restTemplate.getForObject(url.toString(), JSONObject.class, commonMap);
 			Logger.info("获取用户信息结果 :%s", postForObject);
 		} catch (Exception e) {
-			Logger.error("获取会员信息错误!: %s",e);
+			Logger.error("获取会员信息错误!: %s", e);
 			throw new ServiceException(MallApiCode.GETMEMBER_ERROR, MallApiCode.getZhMsg(MallApiCode.GETMEMBER_ERROR));
 		}
 		return postForObject;
@@ -135,8 +110,9 @@ public class UserServiceImpl implements UserService {
 			postForObject = restTemplate.getForObject(url.toString(), JSONObject.class, commonMap);
 			Logger.info("验证支付密码请求结果 :%s", postForObject);
 		} catch (Exception e) {
-			Logger.error("验证密码错误!: %s",e);
-			throw new ServiceException(MallApiCode.VALIDEPAYPWD_ERROR, MallApiCode.getZhMsg(MallApiCode.VALIDEPAYPWD_ERROR));
+			Logger.error("验证密码错误!: %s", e);
+			throw new ServiceException(MallApiCode.VALIDEPAYPWD_ERROR,
+					MallApiCode.getZhMsg(MallApiCode.VALIDEPAYPWD_ERROR));
 		}
 		return postForObject;
 
@@ -158,7 +134,8 @@ public class UserServiceImpl implements UserService {
 
 		} catch (Exception e) {
 			Logger.error("tokenTOmemId错误!: %s", e);
-			throw new ServiceException(MallApiCode.TOKENTOMEMID_ERROR, MallApiCode.getZhMsg(MallApiCode.TOKENTOMEMID_ERROR));
+			throw new ServiceException(MallApiCode.TOKENTOMEMID_ERROR,
+					MallApiCode.getZhMsg(MallApiCode.TOKENTOMEMID_ERROR));
 		}
 		return getMemid;
 
@@ -192,7 +169,8 @@ public class UserServiceImpl implements UserService {
 			string = restTemplate.postForObject(url.toString(), formEntity, String.class);
 		} catch (Exception e) {
 			Logger.error("冻结错误!: %s", e);
-			throw new ServiceException(MallApiCode.FREEZEUNFREEZE_ERROR, MallApiCode.getZhMsg(MallApiCode.FREEZEUNFREEZE_ERROR));
+			throw new ServiceException(MallApiCode.FREEZEUNFREEZE_ERROR,
+					MallApiCode.getZhMsg(MallApiCode.FREEZEUNFREEZE_ERROR));
 		}
 		return new JSONObject().fromObject(string);
 	}
@@ -210,7 +188,8 @@ public class UserServiceImpl implements UserService {
 			Logger.info("getMemIdByUserId数据:%s", forObject);
 		} catch (Exception e) {
 			Logger.error("getMemIdByUserId错误!: %s", e);
-			throw new ServiceException(MallApiCode.GETMEMIDBYUSERID_ERROR, MallApiCode.getZhMsg(MallApiCode.GETMEMIDBYUSERID_ERROR));
+			throw new ServiceException(MallApiCode.GETMEMIDBYUSERID_ERROR,
+					MallApiCode.getZhMsg(MallApiCode.GETMEMIDBYUSERID_ERROR));
 		}
 		return new JSONObject().fromObject(forObject);
 	}
@@ -243,7 +222,8 @@ public class UserServiceImpl implements UserService {
 			Logger.info("unfreezeDeduct结果：%s", string);
 		} catch (Exception e) {
 			Logger.error("解冻错误!: %s", e);
-			throw new ServiceException(MallApiCode.UNFREEZEDEDUCT_ERROR, MallApiCode.getZhMsg(MallApiCode.UNFREEZEDEDUCT_ERROR));
+			throw new ServiceException(MallApiCode.UNFREEZEDEDUCT_ERROR,
+					MallApiCode.getZhMsg(MallApiCode.UNFREEZEDEDUCT_ERROR));
 		}
 		return new JSONObject().fromObject(string);
 	}
@@ -263,7 +243,8 @@ public class UserServiceImpl implements UserService {
 			Logger.info("sendSmsMessage结果:%s", postForObject);
 		} catch (Exception e) {
 			Logger.error("sendSmsMessage错误!:%s", e);
-			throw new ServiceException(MallApiCode.SENDSMSMESSAGE_ERROR, MallApiCode.getZhMsg(MallApiCode.SENDSMSMESSAGE_ERROR));
+			throw new ServiceException(MallApiCode.SENDSMSMESSAGE_ERROR,
+					MallApiCode.getZhMsg(MallApiCode.SENDSMSMESSAGE_ERROR));
 		}
 		return postForObject;
 	}

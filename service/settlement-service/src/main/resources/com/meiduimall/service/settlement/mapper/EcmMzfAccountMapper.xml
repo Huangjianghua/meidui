@@ -38,7 +38,7 @@
 
     <!-- 获取区代、个代或商家可提现金额  -->
     <select id="queryaccoutbalance" parameterType="java.lang.String" resultType="java.util.Map">
-       SELECT code,balance FROM ecm_mzf_account WHERE CODE = #{code}
+       SELECT code,balance FROM ecm_mzf_account WHERE code = #{code}
     </select>
 
 </mapper>

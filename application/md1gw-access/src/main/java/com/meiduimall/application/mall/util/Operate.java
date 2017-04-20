@@ -17,19 +17,28 @@ public class Operate {
      * @throws IOException
      * @throws FileNotFoundException
      */
+	@SuppressWarnings("resource")
 	public void serializable(PaymentTrade paymentTrade){
 		FileOutputStream fileOutputStream = null;
     	try {
     		fileOutputStream = new FileOutputStream("a.txt");
 			ObjectOutputStream outputStream=new ObjectOutputStream(fileOutputStream);
 			outputStream.writeObject(paymentTrade); 
-			fileOutputStream.close();
+			
 		} catch (FileNotFoundException e) {
-			Logger.info("序列化异常:%s", e);
+			Logger.error("序列化异常:%s", e);
 			throw new ServiceException(MallApiCode.SERIALIZABLE_EXCEPTION, MallApiCode.getZhMsg(MallApiCode.SERIALIZABLE_EXCEPTION));
 		} catch (IOException e) {
-			Logger.info("序列化异常:%s", e);
+			Logger.error("序列化异常:%s", e);
 			throw new ServiceException(MallApiCode.SERIALIZABLE_EXCEPTION, MallApiCode.getZhMsg(MallApiCode.SERIALIZABLE_EXCEPTION));
+		} finally {
+			if (fileOutputStream != null) {
+				try {
+					fileOutputStream.close();
+				} catch (IOException e) {
+					Logger.error("关闭流异常:%s", e);
+				}
+			}
 		} 
     }
      
@@ -40,15 +49,22 @@ public class Operate {
      * @throws ClassNotFoundException
      */
 	public PaymentTrade deSerializable(){
-		ObjectInputStream ois = null;
+		FileInputStream fileInputStream = null;
     	try {
-			FileInputStream fileInputStream = new FileInputStream("a.txt");
-			ois=new ObjectInputStream(fileInputStream);
-			fileInputStream.close();
+			fileInputStream = new FileInputStream("a.txt");
+			ObjectInputStream ois=new ObjectInputStream(fileInputStream);
 			return (PaymentTrade) ois.readObject();
 		} catch (Exception e) {
-			Logger.info("反序列化异常:%s", e);
+			Logger.error("反序列化异常:%s", e);
 			throw new ServiceException(MallApiCode.DESERIALIZABLE_EXCEPTION, MallApiCode.getZhMsg(MallApiCode.DESERIALIZABLE_EXCEPTION));
-		}  
+		}  finally {
+			if(fileInputStream !=null){
+				try {
+					fileInputStream.close();
+				} catch (IOException e) {
+					Logger.error("关闭流异常:%s", e);
+				}
+			}
+		}
     }
 }

@@ -44,6 +44,8 @@ import com.meiduimall.service.settlement.util.DateUtil;
 @Component
 public class AsyncTaskService {
 	
+	private static final Logger log = LoggerFactory.getLogger(AsyncTaskService.class);
+	
 	@Autowired
 	private MemberService memberService;
 	
@@ -64,8 +66,6 @@ public class AsyncTaskService {
 	
 	@Autowired
 	private SmsService smsService;
-	
-	private static final Logger log = LoggerFactory.getLogger(AsyncTaskService.class);
 	
 
 	/**
