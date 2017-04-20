@@ -37,8 +37,7 @@ public class XFCUtil {
 	    	result = new String(result.getBytes(), "utf-8");
 	    	JSONObject obj = JSONObject.fromObject(result);
 	    	if (obj.getInt("status_code") == 0 && obj.get("price") != null) {
-	    		log.info("获取XFC价格成功！");
-				log.info("当前XFC价格： " + obj.getDouble("price"));
+				log.info("获取XFC价格成功,当前XFC价格： " + obj.getDouble("price"));
 				return obj.getDouble("price");
 			}
 		} catch (Exception e) {
