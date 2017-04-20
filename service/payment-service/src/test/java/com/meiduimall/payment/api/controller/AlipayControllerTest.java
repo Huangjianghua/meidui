@@ -62,11 +62,19 @@ public class AlipayControllerTest {
     }
 	 
 	 
-	  public static void main(String[] args) throws Exception{
+	  public static void main(String[] args){
 		  SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		  long a =new Date().getTime();
 		  Date date = new Date(a);
 		  simpleDateFormat.format(date);
+		  int i=5;
+		  
+		  try{
+			 throw new Exception();
+		  }catch(Exception e){
+			  System.out.println("2222222");
+			  
+		  }
 		
 		
 	  }
