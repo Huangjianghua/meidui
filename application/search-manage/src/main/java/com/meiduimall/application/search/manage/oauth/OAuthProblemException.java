@@ -54,7 +54,7 @@ public class OAuthProblemException extends OAuthException {
         }
     }
 
-    private final Map<String, Object> parameters = new HashMap<String, Object>();
+    private final Map<String, Object> parameters = new HashMap<>();
 
     @Override
     public String getMessage() {

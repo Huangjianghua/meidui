@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
         exception.getBindingResult().getFieldErrors().forEach((error)->{
         	sb.append(error.getDefaultMessage()).append(";");
         });
-        Map<String, Object> result=new HashMap<String, Object>();
+        Map<String, Object> result=new HashMap<>();
         result.put(SysConstant.STATUS_CODE,HttpStatus.SC_BAD_REQUEST);
 		result.put(SysConstant.RESULT_MSG, sb.toString());
         return result;  
@@ -41,7 +41,7 @@ public class GlobalExceptionHandler {
         exception.getBindingResult().getFieldErrors().forEach((error)->{
         	sb.append(error.getDefaultMessage()).append(";");
         });
-        Map<String, Object> result=new HashMap<String, Object>();
+        Map<String, Object> result=new HashMap<>();
         result.put(SysConstant.STATUS_CODE,HttpStatus.SC_BAD_REQUEST);
 		result.put(SysConstant.RESULT_MSG, sb.toString());
         return result;  

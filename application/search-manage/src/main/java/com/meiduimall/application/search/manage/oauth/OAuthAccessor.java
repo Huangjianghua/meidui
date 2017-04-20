@@ -45,7 +45,7 @@ public class OAuthAccessor implements Cloneable, Serializable {
         this.tokenSecret = null;
     }
 
-    private final Map<String, Object> properties = new HashMap<String, Object>();
+    private final Map<String, Object> properties = new HashMap<>();
 
     @Override
     public OAuthAccessor clone() {

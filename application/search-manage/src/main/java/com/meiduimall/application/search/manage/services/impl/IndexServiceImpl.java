@@ -76,7 +76,7 @@ public class IndexServiceImpl implements IndexService {
 	
 	@Override
 	public Map<String, Object> addProductIndex(Integer pageSize) {
-		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> result = new HashMap<>();
 		String itemId = "";
 		try {
 			// 更新之前先删除所有
@@ -125,7 +125,7 @@ public class IndexServiceImpl implements IndexService {
 	
 	@Override
 	public Map<String, Object> addProductIndexById(Integer itemId) {
-		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> result = new HashMap<>();
 		try {
 			QueryResponse query = productIndexDao.query(new SolrQuery("itemId:" + itemId));
 			if (!query.getResults().isEmpty()) {
@@ -169,7 +169,7 @@ public class IndexServiceImpl implements IndexService {
 
 	@Override
 	public Map<String, Object> deleteProductIndexByItemId(String itemId) {
-		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> result = new HashMap<>();
 		try {
 			productIndexDao.deleteById(itemId);
 			result.put(SysConstant.STATUS_CODE, "0");
@@ -186,7 +186,7 @@ public class IndexServiceImpl implements IndexService {
 	
 	@Override
 	public Map<String, Object> deleteProductIndexByQuery(String query) {
-		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> result = new HashMap<>();
 		try {
 			productIndexDao.deleteByQuery(query);
 			result.put(SysConstant.STATUS_CODE, "0");
@@ -206,7 +206,7 @@ public class IndexServiceImpl implements IndexService {
 
 	@Override
 	public Map<String, Object> addSuggestIndex(Integer pageSize) {
-		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> result = new HashMap<>();
 		try {
 			result = deleteAllSuggestIndex();
 			// 获取字典总记录数
@@ -279,7 +279,7 @@ public class IndexServiceImpl implements IndexService {
 
 	@Override
 	public Map<String, Object> addSuggestIndexById(String key) {
-		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> result = new HashMap<>();
 		try {
 			Suggest suggest = transformSuggest(key);
 			long start = System.currentTimeMillis();
@@ -302,7 +302,7 @@ public class IndexServiceImpl implements IndexService {
 
 	@Override
 	public Map<String, Object> addSuggestIndexById(int suggestId) {
-		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> result = new HashMap<>();
 		try {
 			SuggestWord suggestWord = suggestWordMapper.querySuggestWordById(suggestId);
 			Suggest suggest = transformSuggest(suggestWord.getKw());
@@ -327,7 +327,7 @@ public class IndexServiceImpl implements IndexService {
 
 	@Override
 	public Map<String, Object> deleteSuggestIndexById(String key) {
-		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> result = new HashMap<>();
 		try {
 			//suggestDao.deleteSuggestById(key);
 			result.put(SysConstant.STATUS_CODE, "0");
@@ -347,7 +347,7 @@ public class IndexServiceImpl implements IndexService {
 
 	@Override
 	public Map<String, Object> deleteSuggestIndexByQuery(String key) {
-		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> result = new HashMap<>();
 		try {
 			//suggestDao.deleteSuggestByQuery("suggest:" + key);
 			result.put(SysConstant.STATUS_CODE, "0");
@@ -367,7 +367,7 @@ public class IndexServiceImpl implements IndexService {
 
 	@Override
 	public Map<String, Object> deleteAllSuggestIndex() {
-		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> result = new HashMap<>();
 		try {
 			//suggestDao.deleteSuggestByQuery("*:*");
 			result.put(SysConstant.STATUS_CODE, "0");
@@ -387,7 +387,7 @@ public class IndexServiceImpl implements IndexService {
 
 	@Override
 	public Map<String, Object> addCatlogIndex(int pageSize) {
-		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> result = new HashMap<>();
 		try {
 			long totalCount = catMapper.queryCatsCount();
 			PageView pageView = new PageView();
@@ -419,7 +419,7 @@ public class IndexServiceImpl implements IndexService {
 
 	@Override
 	public Map<String, Object> addCatlogIndexById(int catId) {
-		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> result = new HashMap<>();
 		try {
 			long start = System.currentTimeMillis();
 			CatModel catModel = catMapper.queryCatById(catId);
@@ -442,7 +442,7 @@ public class IndexServiceImpl implements IndexService {
 
 	@Override
 	public Map<String, Object> deleteCatlogIndexByItemId(String catId) {
-		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> result = new HashMap<>();
 		try {
 			catIndexDao.deleteCatIndexById(catId);
 			result.put(SysConstant.STATUS_CODE, "0");
@@ -462,7 +462,7 @@ public class IndexServiceImpl implements IndexService {
 
 	@Override
 	public Map<String, Object> deleteCatlogIndexByQuery(String query) {
-		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> result = new HashMap<>();
 		try {
 			catIndexDao.deleteCatIndexByQuery(query);
 			result.put(SysConstant.STATUS_CODE, "0");

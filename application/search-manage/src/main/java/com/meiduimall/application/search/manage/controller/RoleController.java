@@ -59,7 +59,7 @@ public class RoleController {
 	@ResponseBody
 	@RequestMapping("/addRole")
 	public  Object  addRole(Role role){
-		Map<String, Object> resultMap = new HashMap<String, Object>();
+		Map<String, Object> resultMap = new HashMap<>();
 		boolean bool =  roleService.addRole(role);
 		resultMap.put("result", bool);
 		return  resultMap;
@@ -86,7 +86,7 @@ public class RoleController {
 	@ResponseBody
 	@RequestMapping("/editRole")
 	public Object  editRole(Role role){
-		Map<String, Object> resultMap = new HashMap<String, Object>();
+		Map<String, Object> resultMap = new HashMap<>();
 		boolean bool = roleService.editRole(role);
 		resultMap.put("result", bool);
 		return resultMap;
