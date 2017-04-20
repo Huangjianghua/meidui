@@ -30,7 +30,6 @@ public class HttpTooUtils {
 			}
 			read.close();
 			in.close();
-			in = null;
 			if (conn != null) {
 				conn.disconnect();
 			}
@@ -79,11 +78,8 @@ public class HttpTooUtils {
                 result += line;
             }  
         } catch (Exception e) {  
-            System.out.println("发送POST请求出现异常！" + e);  
             e.printStackTrace();  
-        }  
-        //使用finally块来关闭输出流、输入流  
-        finally {  
+        }finally {  
             try {  
                 if (out != null) {  
                     out.close();  

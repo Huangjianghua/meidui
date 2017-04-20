@@ -64,6 +64,8 @@ public class BaseApiCode {
 	public static final Integer EXCEPTION_PRASE_GET = 3007;
 	/** form解析异常 **/
 	public static final Integer EXCEPTION_PRASE_FORM = 3008;
+	/** 未知异常 **/
+	public static final Integer EXCEPTION_UNKNOWN = 3009;
 
 	
 	public static String getZhMsg(Integer errorCode) {
@@ -94,6 +96,7 @@ public class BaseApiCode {
 		zhMsgMap.put(FAIL_SMS_CHANNEL, "短信渠道失败");
 		zhMsgMap.put(EXCEPTION_SMS_SEND, "发送短信异常");
 		zhMsgMap.put(EXCEPTION_PRASE_FORM, "form解析异常");
+		zhMsgMap.put(EXCEPTION_UNKNOWN, "未知异常");
 	}
 	
 }
