@@ -6,12 +6,18 @@ import javax.annotation.Resource;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.meiduimall.core.BaseApiCode;
+import com.meiduimall.exception.DaoException;
 import com.meiduimall.service.settlement.dao.BaseMapper;
 
 @Repository
 public class BaseMapperImpl extends SqlSessionDaoSupport implements BaseMapper {
+	
+	private static final Logger logger = LoggerFactory.getLogger(BaseMapperImpl.class);
 	
     @Resource  
     public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory){  
@@ -20,51 +26,72 @@ public class BaseMapperImpl extends SqlSessionDaoSupport implements BaseMapper {
     
     @Override
 	public <T, P> T selectOne(P params, String sqlTag) {
-    	
-		return getSqlSession().selectOne(sqlTag, params);
-		
+		try {
+			return getSqlSession().selectOne(sqlTag, params);
+		} catch (RuntimeException e) {
+			logger.error(sqlTag + " error, params = " + params, e);
+			throw new DaoException(BaseApiCode.EXCEPTION_UNKNOWN,BaseApiCode.getZhMsg(BaseApiCode.EXCEPTION_UNKNOWN));
+		}
 	}
 
 	@Override
 	public <T, P> List<T> selectList(P params, String sqlTag) {
-		
-		return getSqlSession().selectList(sqlTag, params);
-		
+		try {
+			return getSqlSession().selectList(sqlTag, params);
+		} catch (RuntimeException e) {
+			logger.error(sqlTag + " error, params = " + params, e);
+			throw new DaoException(BaseApiCode.EXCEPTION_UNKNOWN,BaseApiCode.getZhMsg(BaseApiCode.EXCEPTION_UNKNOWN));
+		}
 	}
 	
 	@Override
 	public <T> Integer insert(T t, String sqlTag) {
-		
-		return getSqlSession().insert(sqlTag, t);
-		
+		try {
+			return getSqlSession().insert(sqlTag, t);
+		} catch (RuntimeException e) {
+			logger.error(sqlTag + " error, t = " + t, e);
+			throw new DaoException(BaseApiCode.EXCEPTION_UNKNOWN,BaseApiCode.getZhMsg(BaseApiCode.EXCEPTION_UNKNOWN));
+		}
 	}
 
 	@Override
 	public <T> Integer insertBatch(List<T> ts, String sqlTag) {
-		
-		return getSqlSession().insert(sqlTag + "." + sqlTag, ts);
-		
+		try {
+			return getSqlSession().insert(sqlTag + "." + sqlTag, ts);
+		} catch (RuntimeException e) {
+			logger.error(sqlTag + " error, ts = " + ts, e);
+			throw new DaoException(BaseApiCode.EXCEPTION_UNKNOWN,BaseApiCode.getZhMsg(BaseApiCode.EXCEPTION_UNKNOWN));
+		}
 	}
 
 	@Override
 	public <P> Integer update(P params, String sqlTag) {
-		
-		return getSqlSession().update(sqlTag, params);
-		
+		try {
+			return getSqlSession().update(sqlTag, params);
+		} catch (RuntimeException e) {
+			logger.error(sqlTag + " error, params = " + params, e);
+			throw new DaoException(BaseApiCode.EXCEPTION_UNKNOWN,BaseApiCode.getZhMsg(BaseApiCode.EXCEPTION_UNKNOWN));
+		}
 	}
 
 	@Override
 	public <P> Integer delete(P params, String sqlTag) {
-		
-		return getSqlSession().delete(sqlTag, params);
-		
+		try {
+			return getSqlSession().delete(sqlTag, params);
+		} catch (RuntimeException e) {
+			logger.error(sqlTag + " error, params = " + params, e);
+			throw new DaoException(BaseApiCode.EXCEPTION_UNKNOWN,BaseApiCode.getZhMsg(BaseApiCode.EXCEPTION_UNKNOWN));
+		}
 	}
 
 	@Override
 	public <P> Integer deleteBatch(List<P> params, String sqlTag) {
-		
-		return getSqlSession().delete(sqlTag, params);
-		
+		try {
+			return getSqlSession().delete(sqlTag, params);
+		} catch (RuntimeException e) {
+			logger.error(sqlTag + " error, params = " + params, e);
+			throw new DaoException(BaseApiCode.EXCEPTION_UNKNOWN,BaseApiCode.getZhMsg(BaseApiCode.EXCEPTION_UNKNOWN));
+		}
 	}
 
 }

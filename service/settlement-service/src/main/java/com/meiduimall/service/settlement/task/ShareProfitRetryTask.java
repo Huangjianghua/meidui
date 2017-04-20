@@ -70,7 +70,7 @@ public class ShareProfitRetryTask {
 			}		
 			
 		} catch (ServiceException e) {
-			log.error("retryOrderShareProfit() job got error:"+e.getMessage());
+			log.error("订单分润重试送积分失败：{}", e);
 		}
 		
 
