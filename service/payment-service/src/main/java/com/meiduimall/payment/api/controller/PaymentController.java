@@ -1,9 +1,11 @@
 package com.meiduimall.payment.api.controller;
 
+import com.meiduimall.payment.api.constant.ServicePaymentApiCode;
 import com.meiduimall.payment.api.model.api.PaymentParamModel;
 import com.meiduimall.payment.api.model.api.PaymentResultModel;
 import com.meiduimall.payment.api.service.PaymentService;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.BizException;
 import com.meiduimall.exception.ServiceException;
 
@@ -38,12 +40,12 @@ public class PaymentController {
      */
     @PostMapping(value ="/payment")
     public ResBodyData pay(@RequestBody PaymentParamModel model) {
-    	 ResBodyData resultBody = new ResBodyData(0, "success");
+    	 ResBodyData resultBody = new ResBodyData(ServicePaymentApiCode.OPERAT_SUCCESS, ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.OPERAT_SUCCESS));
          try{
         	 resultBody = paymentService.payService(model);
          }catch(BizException e){
-             resultBody = new ResBodyData(1, e.getMessage());
-             log.error("Handle app payment error.", e);
+        	 log.error("Handle app payment error.", e);
+        	 throw new ApiException(ServicePaymentApiCode.OPERAT_FAIL,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.OPERAT_FAIL));
          }
             
         
@@ -57,8 +59,8 @@ public class PaymentController {
     		log.info("支付回调处理开始-----");
     		result=paymentService.payAfterService(model);
     	}catch(BizException e){
-    		result = new ResBodyData(1, e.getMessage());
     		log.error("回调处理出错！",e);
+    		 throw new ApiException(ServicePaymentApiCode.OPERAT_FAIL,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.OPERAT_FAIL));
     	}
     	
     	return  result;
