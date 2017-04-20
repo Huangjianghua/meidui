@@ -1,6 +1,7 @@
 package com.meiduimall.application.search.manage.services.impl;
 
 import java.util.Date;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +16,13 @@ import com.meiduimall.application.search.manage.services.IndexLogService;
 @Service
 public class IndexLogServiceImpl implements IndexLogService {
 
-	/*@Autowired
-	private IndexLogMapper indexLogMapper;*/
+	@Autowired
+	private IndexLogMapper indexLogMapper;
 	
 	@Override
 	public QueryResult queryIndexLogs(PageView pageView) throws Exception {
-		List<IndexLog> indexLogs =null;// indexLogMapper.queryIndexLogs(pageView);
-		int count =0;// indexLogMapper.queryIndexLogCount();
+		List<IndexLog> indexLogs =indexLogMapper.queryIndexLogs(pageView);
+		int count =indexLogMapper.queryIndexLogCount();
 		QueryResult qr = new QueryResult();
 		qr.setDateList(indexLogs);
 		qr.setTotalCount(count);
@@ -33,12 +34,12 @@ public class IndexLogServiceImpl implements IndexLogService {
 		IndexLog indexLogs = new IndexLog();
 		indexLogs.setRemark(remark);
 		indexLogs.setLogTime(new Date());
-		return 0;//indexLogMapper.insertIndexLog(indexLogs);
+		return indexLogMapper.insertIndexLog(indexLogs);
 	}
 
 	@Override
 	public int deleteIndexLogById(int logId) throws Exception {
-		return 0;//indexLogMapper.deleteIndexLogById(logId);
+		return indexLogMapper.deleteIndexLogById(logId);
 	}
 
 }

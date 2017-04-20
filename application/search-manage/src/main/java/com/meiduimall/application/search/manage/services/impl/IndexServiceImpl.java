@@ -48,8 +48,8 @@ public class IndexServiceImpl implements IndexService {
 	@Autowired
 	private ItemMapper itemMapper;
 	
-	/*@Autowired
-	private SuggestWordMapper suggestWordMapper;*/
+	@Autowired
+	private SuggestWordMapper suggestWordMapper;
 
 	@Autowired
 	private CatIndexDao catIndexDao;
@@ -60,15 +60,15 @@ public class IndexServiceImpl implements IndexService {
 	@Autowired
 	private PropMapper propMapper;
 	
-	/*@Autowired
-	private IndexLogMapper indexLogMapper;*/
+	@Autowired
+	private IndexLogMapper indexLogMapper;
 	
 	private void addIndexLog(String remark) {
 		try {
 			IndexLog indexLogs = new IndexLog();
 			indexLogs.setRemark(remark);
 			indexLogs.setLogTime(new Date());
-			//indexLogMapper.insertIndexLog(indexLogs);
+			indexLogMapper.insertIndexLog(indexLogs);
 		} catch (Exception e) {
 			log.error("插入索引日志信息异常", e);
 		}
@@ -210,7 +210,7 @@ public class IndexServiceImpl implements IndexService {
 		try {
 			result = deleteAllSuggestIndex();
 			// 获取字典总记录数
-			long totalCount =0;// suggestWordMapper.querySuggestWordCount(null);
+			long totalCount =suggestWordMapper.querySuggestWordCount(null);
 			PageView pageView = new PageView();
 			pageView.setPageSize(pageSize);
 			int totalPage = (int) Math.ceil(totalCount/(double)pageSize);
@@ -219,7 +219,7 @@ public class IndexServiceImpl implements IndexService {
 				pageView.setCurrentPage(i);
 				List<Suggest> suggests = getSuggests(pageView);
 				if (suggests != null) {
-					//suggestDao.saveSuggestIndexes(suggests);
+					suggestDao.saveSuggestIndexes(suggests);
 				}
 			}
 			long end = System.currentTimeMillis();
@@ -245,7 +245,7 @@ public class IndexServiceImpl implements IndexService {
 	 */
 	private List<Suggest> getSuggests(PageView pageView) {
 		try {
-			List<SuggestWord> suggestWords =null;// suggestWordMapper.querySuggestWords(pageView);
+			List<SuggestWord> suggestWords =suggestWordMapper.querySuggestWords(pageView);
 			List<Suggest> list = new ArrayList<>();
 			for (SuggestWord suggestWord : suggestWords) {
 				Suggest suggest = transformSuggest(suggestWord.getKw());
@@ -304,7 +304,7 @@ public class IndexServiceImpl implements IndexService {
 	public Map<String, Object> addSuggestIndexById(int suggestId) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
-			SuggestWord suggestWord =null;// suggestWordMapper.querySuggestWordById(suggestId);
+			SuggestWord suggestWord = suggestWordMapper.querySuggestWordById(suggestId);
 			Suggest suggest = transformSuggest(suggestWord.getKw());
 			suggest.setKwfreq(suggestWord.getKwfreq());
 			long start = System.currentTimeMillis();

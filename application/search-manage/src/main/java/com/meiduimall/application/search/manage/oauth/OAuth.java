@@ -99,9 +99,9 @@ public class OAuth {
         public static final Map<String, Integer> TO_HTTP_CODE = mapToHttpCode();
 
         private static Map<String, Integer> mapToHttpCode() {
-            Integer badRequest = new Integer(400);
-            Integer unauthorized = new Integer(401);
-            Integer serviceUnavailable = new Integer(503);
+            Integer badRequest = 400;
+            Integer unauthorized = 401;
+            Integer serviceUnavailable = 503;
             Map<String, Integer> map = new HashMap<String, Integer>();
 
             map.put(Problems.VERSION_REJECTED, badRequest);
@@ -177,10 +177,6 @@ public class OAuth {
      */
     public static String formEncode(Iterable<? extends Map.Entry> parameters)
             throws IOException {
-        //ByteArrayOutputStream b = new ByteArrayOutputStream();
-        //formEncode(parameters, b);
-        //return decodeCharacters(b.toByteArray());
-    	
     	return formEncodeHandler(parameters);
     }
 
@@ -265,10 +261,7 @@ public class OAuth {
         }
         try {
             return URLEncoder.encode(s, ENCODING).toLowerCase();
-                    // OAuth encodes some characters differently:
-                  /*  .replace("+", "%2B").replace("*", "%2A")
-                    .replace("%7E", "~");*/
-            // This could be done faster with more hand-crafted code.
+    
         } catch (UnsupportedEncodingException wow) {
             throw new RuntimeException(wow.getMessage(), wow);
         }
@@ -277,7 +270,6 @@ public class OAuth {
     public static String decodePercent(String s) {
         try {
             return URLDecoder.decode(s, ENCODING);
-            // This implements http://oauth.pbwiki.com/FlexibleDecoding
         } catch (java.io.UnsupportedEncodingException wow) {
             throw new RuntimeException(wow.getMessage(), wow);
         }
