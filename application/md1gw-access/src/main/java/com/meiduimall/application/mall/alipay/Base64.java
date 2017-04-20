@@ -133,13 +133,13 @@ public final class Base64 {
             if (fDebug) {
                 System.out.println("val2 = " + val2);
                 System.out.println("k4   = " + (k << 4));
-                System.out.println("vak  = " + (val2 | (k << 4)));
+                System.out.println("vak  = " + ((val2 & 0xff) | (k << 4)));
             }
 
 
             encodedData[encodedIndex++] = lookUpBase64Alphabet[val1];
-            encodedData[encodedIndex++] = lookUpBase64Alphabet[val2 | (k << 4)];
-            encodedData[encodedIndex++] = lookUpBase64Alphabet[(l << 2) | val3];
+            encodedData[encodedIndex++] = lookUpBase64Alphabet[(val2 & 0xff) | (k << 4)];
+            encodedData[encodedIndex++] = lookUpBase64Alphabet[(l << 2) | (val3 & 0xff)];
             encodedData[encodedIndex++] = lookUpBase64Alphabet[b3 & 0x3f];
         }
 
@@ -156,7 +156,7 @@ public final class Base64 {
             encodedData[encodedIndex++] = lookUpBase64Alphabet[val1];
             encodedData[encodedIndex++] = lookUpBase64Alphabet[k << 4];
             encodedData[encodedIndex++] = PAD;
-            encodedData[encodedIndex++] = PAD;
+            encodedData[encodedIndex] = PAD;
         } else if (fewerThan24bits == SIXTEENBIT) {
             b1 = binaryData[dataIndex];
             b2 = binaryData[dataIndex + 1];
@@ -169,9 +169,9 @@ public final class Base64 {
 
 
             encodedData[encodedIndex++] = lookUpBase64Alphabet[val1];
-            encodedData[encodedIndex++] = lookUpBase64Alphabet[val2 | (k << 4)];
+            encodedData[encodedIndex++] = lookUpBase64Alphabet[(val2 & 0xff)| (k << 4)];
             encodedData[encodedIndex++] = lookUpBase64Alphabet[l << 2];
-            encodedData[encodedIndex++] = PAD;
+            encodedData[encodedIndex] = PAD;
         }
 
 
@@ -240,7 +240,7 @@ public final class Base64 {
 
             decodedData[encodedIndex++] = (byte) (b1 << 2 | b2 >> 4);
             decodedData[encodedIndex++] = (byte) (((b2 & 0xf) << 4) | ((b3 >> 2) & 0xf));
-            decodedData[encodedIndex++] = (byte) (b3 << 6 | b4);
+            decodedData[encodedIndex++] = (byte) (b3 << 6 | (b4 & 0xff));
         }
 
 
@@ -254,7 +254,7 @@ public final class Base64 {
 
 
         d3 = base64Data[dataIndex++];
-        d4 = base64Data[dataIndex++];
+        d4 = base64Data[dataIndex];
         if (!isData((d3)) || !isData((d4))) {//Check if they are PAD characters
             if (isPad(d3) && isPad(d4)) {
                 if ((b2 & 0xf) != 0)//last 4 bits should be zero
@@ -284,7 +284,7 @@ public final class Base64 {
             b4 = base64Alphabet[d4];
             decodedData[encodedIndex++] = (byte) (b1 << 2 | b2 >> 4);
             decodedData[encodedIndex++] = (byte) (((b2 & 0xf) << 4) | ((b3 >> 2) & 0xf));
-            decodedData[encodedIndex++] = (byte) (b3 << 6 | b4);
+            decodedData[encodedIndex] = (byte) (b3 << 6 | (b4 & 0xff));
 
 
         }
@@ -316,4 +316,5 @@ public final class Base64 {
         }
         return newSize;
     }
+    
 }

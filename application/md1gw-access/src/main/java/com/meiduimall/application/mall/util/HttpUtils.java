@@ -257,9 +257,8 @@ public class HttpUtils {
 	private static void close(CloseableHttpClient httpClient) {
 		try {
 			httpClient.close();
-		} catch (IOException e) {
-			httpClient = null;
-			logger.error("httpclient资源关闭异常信息:{}", e.getMessage());
+		} catch (Exception e) {
+			logger.error("httpclient资源关闭异常信息:{}", e);
 		}
 	}
 }

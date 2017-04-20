@@ -7,7 +7,9 @@ import java.util.Set;
 import java.util.TreeMap;
 import org.apache.commons.lang.StringUtils;
 
+import com.meiduimall.application.mall.exception.MallApiCode;
 import com.meiduimall.application.mall.util.MD5;
+import com.meiduimall.exception.ServiceException;
 
 import net.sf.json.JSONObject;
 
@@ -37,11 +39,11 @@ public class GatewaySignUtil {
 		Map<String, String> map = new TreeMap<String, String>();
 		map.putAll(param);
 		Set<String> keySet = map.keySet();
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
         Iterator<String> iter = keySet.iterator();
         while (iter.hasNext()) {
             String key = iter.next();
-            if (key.equals("sign")){
+            if ("sign".equals(key)){
             	continue;
             }
             String value = map.get(key);
@@ -61,14 +63,14 @@ public class GatewaySignUtil {
 	
 	@SuppressWarnings("rawtypes")
 	public static String  buildsign(String appKey,JSONObject param) {
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		String key;
 		String value;
 		Iterator iterator = param.keys();
 		while (iterator.hasNext()) {
 			key = (String) iterator.next();
 			value = param.getString(key);
-            if ( value == null || value.length() < 1 || key.equals("sign") || StringUtils.isEmpty(value)) {
+            if ( value == null || value.length() < 1 || "sign".equals(key) || StringUtils.isEmpty(value)) {
             	continue;
             }
 			buffer.append(key);
@@ -92,19 +94,24 @@ public class GatewaySignUtil {
 	 * @return String   
 	 * @throws
 	 */
-	public static String buildEncodeSortParam(String appKey,Map<String, String> parameters) throws Exception{
+	public static String buildEncodeSortParam(String appKey,Map<String, String> parameters) {
 		StringBuilder getSB = new StringBuilder();
 		String key;
 		String value;
 		for (Map.Entry<String, String> entry : parameters.entrySet()) {
 			key = entry.getKey();
 			value = entry.getValue();
-			if (key.equals("sign")||StringUtils.isEmpty(value)) {
+			if ("sign".equals(key)||StringUtils.isEmpty(value)) {
 				continue;
 			}
-			getSB.append(key).append(URLEQUALS)
-					.append(URLEncoder.encode(value, INPUT_CHARSET_DEFAULT))
-					.append(URLCONNCTION);
+			try {
+				getSB.append(key).append(URLEQUALS)
+						.append(URLEncoder.encode(value, INPUT_CHARSET_DEFAULT))
+						.append(URLCONNCTION);
+			} catch (Exception e) {
+				Logger.error("产生签名的字符串错误: %s", e);
+				throw new ServiceException(MallApiCode.SIGN_ERROR, MallApiCode.getZhMsg(MallApiCode.SIGN_ERROR));
+			}
 		}
 		String[] arrs = getSB.toString().split(URLCONNCTION);
 		Arrays.sort(arrs);

@@ -25,7 +25,7 @@ public class SystemConfig {
 				Logger.error("system error: %s",e);
 			}
 		}
-	};
+	}
 	public static SystemConfig getInstance() { 
 		return systemConfig;
 	}

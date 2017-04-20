@@ -21,6 +21,7 @@ import com.meiduimall.application.mall.service.TradeService;
 import com.meiduimall.application.mall.service.UserService;
 import com.meiduimall.application.mall.util.Des;
 import com.meiduimall.application.mall.util.Logger;
+import com.meiduimall.exception.ServiceException;
 
 import net.sf.json.JSONObject;
 
@@ -45,7 +46,7 @@ public class PaymentController {
 	 * @throws Exception
 	 */
 	@GetMapping(value="/PayJudgment")
-	public JSONObject PayJudgment(PaymentTrade  paymentTrade) throws Exception{
+	public JSONObject PayJudgment(PaymentTrade  paymentTrade){
 		//验证支付密码是否正确，用户输的支付密码拼接userPayKey(商城配置为'{liangping}')与pay_password比较。
 		//注：选择支付方式的时候，余额、积分2种方式只要有选择任何一个，都需要验证支付密码，
 		//没有需要提示用户设置支付密码(商城sysuser_account表pay_password字段,有需求正在将支付密码迁移至会员系统)
@@ -151,7 +152,7 @@ public class PaymentController {
 			BigDecimal totalpoints = new BigDecimal(object2.getString("totalpoints")) ;  //当前可用积分
 				 
 			//仅余额支付判断余额是否足够 
-			if(new BigDecimal(paymentTrade.getUse_money()).compareTo(totalmoney) == 1){
+			if(new BigDecimal(paymentTrade.getUse_money()).compareTo(totalmoney) > 0){
 				Logger.info("用户余额不足!");
 				json.put("status", 11);
 				json.put("msg", "用户余额不足!");
@@ -252,7 +253,7 @@ public class PaymentController {
 				
 				//(忽略)***（当前没有消费券，可忽略）验证用户提交的使用消费券cpn_money与会员系统可用消费券consume_coupon，本次最多可使用消费券（order_percentage计算）比较***(忽略)
 			    //验证用户提交的使用积分point_pay与会员系统totalpoints字段、商城obj_p_trade_info['total_point']字段比较是否在使用范围，是否合法
-			    if(new BigDecimal(paymentTrade.getUse_point()).compareTo(totalpoints) == 1){
+			    if(new BigDecimal(paymentTrade.getUse_point()).compareTo(totalpoints) > 0){
 			    	Logger.info("积分不够!");
 			    	json.put("status", 11);
 					json.put("msg", "积分不够!");
@@ -303,7 +304,7 @@ public class PaymentController {
 				return json;
 			}
 	   
-		} catch (Exception e) {
+		} catch (ServiceException e) {
 			Logger.error("system error: %s",e);
 			json.put("status", 11);
 			json.put("msg", "系统错误!" + e.getMessage());

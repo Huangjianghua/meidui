@@ -3,7 +3,6 @@ package com.meiduimall.application.mall.api;
 import java.io.BufferedReader;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -73,7 +72,7 @@ public class YgwWeiXinController {
 		request.getReader().close(); 
 	
 	
-		Map<String, String> map = new HashMap<String, String>() ;
+		Map<String, String> map = null;
 		 
 	
 		map = XMLUtil.doXMLParse(xmlString) ;
@@ -92,14 +91,9 @@ public class YgwWeiXinController {
 		String trade_type = "";
 		String transaction_id = "";
 		
-		bank_type = map.get("bank_type");
-		cash_fee = map.get("cash_fee");
-		fee_type = map.get("fee_type");
-		is_subscribe = map.get("is_subscribe");
 		result_code = map.get("result_code");
 		out_trade_no = map.get("out_trade_no");
 		total_fee = map.get("total_fee");
-		sign = map.get("sign");
 		bank_type = map.get("return_code");
 		transaction_id = map.get("transaction_id");
 		mch_id = map.get("mch_id");
@@ -108,7 +102,7 @@ public class YgwWeiXinController {
 	   
 			if( checkSign(xmlString)){ 
 			//订单操作
-				if( result_code.toLowerCase().equals("success") ){
+				if( "success".equalsIgnoreCase(result_code) ){
 				//业务处理
 					EctoolsPaymentsSucc ectoolsPaymentsSucc = new EctoolsPaymentsSucc();
 					ectoolsPaymentsSucc.setPaymentId(out_trade_no);
@@ -145,7 +139,7 @@ public class YgwWeiXinController {
 			return false;
 		}
 
-		String signFromAPIResponse = map.get("sign").toString();
+		String signFromAPIResponse = map.get("sign");
 
 		if (StringUtils.isEmpty(signFromAPIResponse)) {
 			return false;

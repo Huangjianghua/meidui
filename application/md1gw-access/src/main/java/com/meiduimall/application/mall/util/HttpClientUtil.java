@@ -1,6 +1,5 @@
 package com.meiduimall.application.mall.util;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
@@ -92,7 +91,7 @@ public class HttpClientUtil {
 			Map<String,String[]> parameterMap = request.getParameterMap();
 			Iterator<String> paIter = parameterMap.keySet().iterator();
 			while (paIter.hasNext()) {
-				String key = paIter.next().toString();
+				String key = paIter.next();
 				String[] values = (String[]) parameterMap.get(key);
 				jsonObject.put(key, values[0]);
 			}
@@ -127,7 +126,7 @@ public class HttpClientUtil {
 				jsonObject.put(key,value);
 			}
 					
-			BufferedReader bufferedReader= new BufferedReader(new InputStreamReader(request.getInputStream()));  
+//			BufferedReader bufferedReader= new BufferedReader(new InputStreamReader(request.getInputStream()));  
 		/*	isr = new InputStreamReader(request.getInputStream(), "UTF-8");
 			StringBuffer sb = new StringBuffer();
 			int size = 0;
@@ -206,16 +205,18 @@ public class HttpClientUtil {
 			if (ipAddress == null || ipAddress.length() == 0
 					|| "unknown".equalsIgnoreCase(ipAddress)) {
 				ipAddress = request.getRemoteAddr();
-				if (ipAddress.equals("127.0.0.1")
-						|| ipAddress.equals("0:0:0:0:0:0:0:1")) {
+				if ("127.0.0.1".equals(ipAddress)
+						|| "0:0:0:0:0:0:0:1".equals(ipAddress)) {
 					// 根据网卡取本机配置的IP
 					InetAddress inet = null;
 					try {
 						inet = InetAddress.getLocalHost();
 					} catch (UnknownHostException e) {
-						e.printStackTrace();
+						Logger.error("UnknownHost: %s", e);
 					}
-					ipAddress = inet.getHostAddress();
+					if(inet != null){
+						ipAddress = inet.getHostAddress();
+					}
 				}
 			}
 			// 对于通过多个代理的情况，第一个IP为客户端真实IP,多个IP按照','分割

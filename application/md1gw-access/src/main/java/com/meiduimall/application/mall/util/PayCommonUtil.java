@@ -9,7 +9,7 @@ public class PayCommonUtil {
     //定义签名，微信根据参数字段的ASCII码值进行排序 加密签名,故使用SortMap进行参数排序
     @SuppressWarnings("rawtypes")
 	public static String createSign(String characterEncoding,SortedMap<String,String> parameters){
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         Set es = parameters.entrySet();
         Iterator it = es.iterator();
         while(it.hasNext()) {
@@ -30,7 +30,7 @@ public class PayCommonUtil {
 
     @SuppressWarnings("rawtypes")
 	public static String getRequestXml(SortedMap<String,String> parameters){
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         sb.append("<xml>");
         Set es = parameters.entrySet();
         Iterator it = es.iterator();

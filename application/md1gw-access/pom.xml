@@ -30,6 +30,17 @@
 
 	<dependencies>
 
+		<dependency>
+            <groupId>com.meiduimall</groupId>
+            <artifactId>meiduimall-support-security</artifactId>
+            <version>${meiduimall-support-security.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.meiduimall</groupId>
+            <artifactId>meiduimall-support-core</artifactId>
+            <version>${meiduimall-support-core.version}</version>
+        </dependency>
+
 		<!-- Boot 和 Eureka 依赖 -->
 
 		<dependency>

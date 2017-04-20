@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import com.meiduimall.application.mall.exception.MallApiCode;
 import com.meiduimall.application.mall.model.PaymentTrade;
+import com.meiduimall.exception.ServiceException;
 
 public class Operate {
 	/**
@@ -15,10 +17,20 @@ public class Operate {
      * @throws IOException
      * @throws FileNotFoundException
      */
-    @SuppressWarnings("resource")
-	public void serializable(PaymentTrade paymentTrade) throws FileNotFoundException, IOException{
-        ObjectOutputStream outputStream=new ObjectOutputStream(new FileOutputStream("a.txt"));
-        outputStream.writeObject(paymentTrade); 
+	public void serializable(PaymentTrade paymentTrade){
+		FileOutputStream fileOutputStream = null;
+    	try {
+    		fileOutputStream = new FileOutputStream("a.txt");
+			ObjectOutputStream outputStream=new ObjectOutputStream(fileOutputStream);
+			outputStream.writeObject(paymentTrade); 
+			fileOutputStream.close();
+		} catch (FileNotFoundException e) {
+			Logger.info("序列化异常:%s", e);
+			throw new ServiceException(MallApiCode.SERIALIZABLE_EXCEPTION, MallApiCode.getZhMsg(MallApiCode.SERIALIZABLE_EXCEPTION));
+		} catch (IOException e) {
+			Logger.info("序列化异常:%s", e);
+			throw new ServiceException(MallApiCode.SERIALIZABLE_EXCEPTION, MallApiCode.getZhMsg(MallApiCode.SERIALIZABLE_EXCEPTION));
+		} 
     }
      
     /**
@@ -27,9 +39,16 @@ public class Operate {
      * @throws FileNotFoundException
      * @throws ClassNotFoundException
      */
-    @SuppressWarnings("resource")
-	public PaymentTrade deSerializable() throws FileNotFoundException, IOException, ClassNotFoundException{
-        ObjectInputStream ois=new ObjectInputStream(new FileInputStream("a.txt"));
-        return (PaymentTrade) ois.readObject();
+	public PaymentTrade deSerializable(){
+		ObjectInputStream ois = null;
+    	try {
+			FileInputStream fileInputStream = new FileInputStream("a.txt");
+			ois=new ObjectInputStream(fileInputStream);
+			fileInputStream.close();
+			return (PaymentTrade) ois.readObject();
+		} catch (Exception e) {
+			Logger.info("反序列化异常:%s", e);
+			throw new ServiceException(MallApiCode.DESERIALIZABLE_EXCEPTION, MallApiCode.getZhMsg(MallApiCode.DESERIALIZABLE_EXCEPTION));
+		}  
     }
 }

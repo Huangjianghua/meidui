@@ -8,6 +8,8 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.mall.constant.OauthConst;
+import com.meiduimall.application.mall.exception.MallApiCode;
+import com.meiduimall.exception.ServiceException;
 
 public class MD5Util {
 	
@@ -18,7 +20,7 @@ public class MD5Util {
 	 * @return
 	 * @throws Exception 
 	 */
-	public static String getSign(Collection<? extends Map.Entry<String, String>> parameters,String key,String clientID,String timestamp,int type) throws Exception
+	public static String getSign(Collection<? extends Map.Entry<String, String>> parameters,String key,String clientID,String timestamp,int type) 
 	{
 		try {
 			Logger.info("参数:"+JSONObject.toJSONString(parameters));
@@ -44,7 +46,7 @@ public class MD5Util {
 				i++;
 			}
 			Arrays.sort(arr);
-			StringBuffer buffer = new StringBuffer();
+			StringBuilder buffer = new StringBuilder();
 			for (int k = 0; k < arr.length; k++) {
 				buffer.append(arr[k]);
 				buffer.append(OauthConst.CONNECTION_SYMBOL);
@@ -76,17 +78,18 @@ public class MD5Util {
 
 	public static String bytetoString(byte[] digest) {
 
-		String str = "";
+		StringBuilder str = new StringBuilder();
 		String tempStr = "";
 		for (int i = 1; i < digest.length; i++) {
 			tempStr = (Integer.toHexString(digest[i] & 0xff));
 			if (tempStr.length() == 1) {
-				str = str + "0" + tempStr;
+				str.append("0");
+				str.append(tempStr);
 			} else {
-				str = str + tempStr;
+				str.append(tempStr);
 			}
 		}
-		return str.toLowerCase();
+		return str.toString().toLowerCase();
 	}
 
 	/**
@@ -95,8 +98,8 @@ public class MD5Util {
 	 * @param values
 	 * @return
 	 */
-	public static String MD5EncryptBy32(String values) throws Exception {
-		StringBuffer buf = new StringBuffer("");
+	public static String MD5EncryptBy32(String values) {
+		StringBuilder buf = new StringBuilder("");
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			md.update(values.getBytes());
@@ -112,8 +115,8 @@ public class MD5Util {
 				buf.append(Integer.toHexString(i));
 			}
 		} catch (NoSuchAlgorithmException e) {
-			Logger.error("MD5Encrypt异常:", e);
-			throw e;
+			Logger.error("MD5Encrypt异常:%s", e);
+			throw new ServiceException(MallApiCode.MD5ENCRYPT_EXCEPTION, MallApiCode.getZhMsg(MallApiCode.MD5ENCRYPT_EXCEPTION));
 		}
 		return buf.toString();
 	}
@@ -126,14 +129,19 @@ public class MD5Util {
 	 * @param values
 	 * @return
 	 */
-	public static String MD5EncryptBy16(String values) throws Exception {
-		String str = MD5Util.MD5EncryptBy32(values);
+	public static String MD5EncryptBy16(String values) {
+		String str = "";
+		try {
+			str = MD5Util.MD5EncryptBy32(values);
+		} catch (Exception e) {
+			 Logger.error("16位加密错误: %s", e);
+		}
 		return str.substring(8, str.length() - 8);
 	}
 
 	// 随机生成5位随机数
 	public final static String get5Radom() {
-		String newString = null;
+		StringBuilder newString = new StringBuilder();
 
 		// 得到0.0到1.0之间的数字,并扩大100000倍
 		double doubleP = Math.random() * 100000;
@@ -146,19 +154,19 @@ public class MD5Util {
 		// 然后把这个数字转化为不包含小数点的整数
 		int tempString = (int) Math.ceil(doubleP);
 
-		// 转化为字符串
-		newString = "" + tempString;
+		 
 
 		// 把得到的数增加为固定长度,为5位
 		while (newString.length() < 5) {
-			newString = "0" + newString;
+			newString.append("0");
+			newString.append(tempString);
 		}
 
-		return newString;
+		return newString.toString();
 	}
 
 	// 主要把传递过来的字符串参数转化为经过MD5算法加密的字符串
-	public final static String encrypeString(String neededEncrypedString) throws Exception {
+	public final static String encrypeString(String neededEncrypedString){
 		// 初始化加密之后的字符串
 		String encrypeString = null;
 
@@ -190,7 +198,8 @@ public class MD5Util {
 			}
 			encrypeString = new String(neededEncrypedByte);
 		} catch (NoSuchAlgorithmException ex) {
-			throw new Exception(ex);
+			Logger.error("MD5算法加密错误:%s", ex);
+			throw new ServiceException(MallApiCode.MD5_ERROR, MallApiCode.getZhMsg(MallApiCode.MD5_ERROR));
 		}
 
 		// 返回加密之后的字符串
@@ -217,7 +226,7 @@ public class MD5Util {
 		String hexString = null;
 		if (str != null && str.length() > 0) {
 			char[] digital = "0123456789ABCDEF".toCharArray();
-			StringBuffer sb = new StringBuffer("");
+			StringBuilder sb = new StringBuilder("");
 			try {
 				byte[] bs = str.getBytes("utf-8");
 				int bit;
@@ -271,7 +280,7 @@ public class MD5Util {
 		// 当前秒数
 		String timeMillis = String.valueOf(System.currentTimeMillis() / 1000L);
 
-		String newString = null;
+		StringBuilder newString = new StringBuilder();
 		// 得到0.0到1.0之间的数字,并扩大100000倍
 		double doubleP = Math.random() * 100000;
 		// 如果数据等于100000,则减少1
@@ -280,11 +289,11 @@ public class MD5Util {
 		}
 		// 然后把这个数字转化为不包含小数点的整数
 		int tempString = (int) Math.ceil(doubleP);
-		// 转化为字符串
-		newString = "" + tempString;
+		 
 		// 把得到的数增加为固定长度,为5位
 		while (newString.length() < 5) {
-			newString = "0" + newString;
+			newString.append("0");
+			newString.append(tempString);
 		}
 		return (timeMillis + newString);
 	}
@@ -292,7 +301,7 @@ public class MD5Util {
 	
 	 //微信Md5加密工具
 	  private static String byteArrayToHexString(byte b[]) {
-	      StringBuffer resultSb = new StringBuffer();
+	      StringBuilder resultSb = new StringBuilder();
 	      for (int i = 0; i < b.length; i++)
 	         resultSb.append(byteToHexString(b[i]));
 
@@ -311,7 +320,7 @@ public class MD5Util {
 	   public static String MD5Encode(String origin, String charsetname) {
 	      String resultString = null;
 	      try {
-	         resultString = new String(origin);
+	         resultString = origin;
 	         MessageDigest md = MessageDigest.getInstance("MD5");
 	         if (charsetname == null || "".equals(charsetname))
 	            resultString = byteArrayToHexString(md.digest(resultString
@@ -319,7 +328,8 @@ public class MD5Util {
 	         else
 	            resultString = byteArrayToHexString(md.digest(resultString
 	                  .getBytes(charsetname)));
-	      } catch (Exception exception) {
+	      } catch (Exception e) {
+	    	  Logger.error("微信Md5加密工具异常: %s", e);
 	      }
 	      return resultString;
 	   }

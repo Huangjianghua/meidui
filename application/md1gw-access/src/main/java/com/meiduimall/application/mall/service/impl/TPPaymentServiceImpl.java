@@ -14,12 +14,14 @@ import com.meiduimall.application.mall.constant.HttpRConst;
 import com.meiduimall.application.mall.constant.OauthConst;
 import com.meiduimall.application.mall.constant.PayConfig;
 import com.meiduimall.application.mall.constant.ResponseBodyData;
+import com.meiduimall.application.mall.exception.MallApiCode;
 import com.meiduimall.application.mall.model.PaymentTrade;
 import com.meiduimall.application.mall.model.SystradePTrade;
 import com.meiduimall.application.mall.service.TPPaymentService;
 import com.meiduimall.application.mall.util.DateUtil;
 import com.meiduimall.application.mall.util.GatewaySignUtil;
 import com.meiduimall.application.mall.util.Logger;
+import com.meiduimall.exception.ServiceException;
 
 import net.sf.json.JSONObject;
 
@@ -38,7 +40,7 @@ public class TPPaymentServiceImpl implements TPPaymentService {
 	 * 混合支付
 	 */
 	@Override
-	public ResponseBodyData Payment(PaymentTrade paymentTrade, SystradePTrade obj_p_trade_info) throws Exception {
+	public ResponseBodyData Payment(PaymentTrade paymentTrade, SystradePTrade obj_p_trade_info){
 		try {
 			JSONObject bigJson = new JSONObject();
 			String url = myProps.getRouteServiceUrl()+"/pay/payment-service/v1/payment";
@@ -46,7 +48,7 @@ public class TPPaymentServiceImpl implements TPPaymentService {
 			bigJson.put("memId", paymentTrade.getMemId());
 			// app提交 wechatpay:微信  其他:支付宝
 			// 支付服务的 0:微信 1: 支付宝
-			if (paymentTrade.getPay_type().equals("wechatpay")) {
+			if ("wechatpay".equals(paymentTrade.getPay_type())) {
 				bigJson.put("payType", "0");
 				bigJson.put("merchantId", PayConfig.MDAPP_Mchid); // 商家标识
 
@@ -59,7 +61,7 @@ public class TPPaymentServiceImpl implements TPPaymentService {
 				
 				bigJson.put("notifyUrl", myProps.getPayUrl()+"/md1gwmall/md1gw_access/v1/getWXPayNotify");// 回调地址
 				if(null != paymentTrade.getWechat_pay_account_type()){
-					if(paymentTrade.getWechat_pay_account_type().equals("1")){
+					if("1".equals(paymentTrade.getWechat_pay_account_type())){
 						bigJson.put("merchantId", PayConfig.YGWAPP_Mchid); // 商家标识
 						bigJson.put("notifyUrl", myProps.getPayUrl()+"/md1gwmall/md1gw_access/v1/getYgwWXPayNotify");// 回调地址
 						bigJson.put("accountType", "1");// 1gw微信标识
@@ -81,7 +83,7 @@ public class TPPaymentServiceImpl implements TPPaymentService {
 			bigJson.put("orderNo", obj_p_trade_info.getPlatformId().toString()); // 订单号
 			bigJson.put("orderTime", DateUtil.orderTime(obj_p_trade_info.getCreatedTime().toString())); // 订单时间
 			bigJson.put("tradeNo", paymentTrade.getPayment_id()); // 交易号
-			bigJson.put("integral", paymentTrade.getUse_point().toString()); // 积分
+			bigJson.put("integral", paymentTrade.getUse_point()); // 积分
 
 			bigJson.put(OauthConst.CLIENT_ID, OauthConst.CLIENT_ID_VALUE);
 			bigJson.put(OauthConst.TIMESATAMP, String.valueOf(System.currentTimeMillis()));
@@ -107,8 +109,8 @@ public class TPPaymentServiceImpl implements TPPaymentService {
 				return new ResponseBodyData(11, postForObject.getString("msg"));
 			}
 		} catch (Exception e) {
-		    Logger.error("第三方支付系统错误:%s", e.getMessage());
-		    throw new RuntimeException("第三方支付系统错误!"); 
+		    Logger.error("第三方支付系统错误:%s", e);
+		    throw new ServiceException(MallApiCode.PAYMENT_ERROR, MallApiCode.getZhMsg(MallApiCode.PAYMENT_ERROR)); 
 		}
 
 	}

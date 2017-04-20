@@ -17,6 +17,7 @@ import com.meiduimall.application.mall.config.MyProps;
 import com.meiduimall.application.mall.constant.HttpRConst;
 import com.meiduimall.application.mall.constant.OauthConst;
 import com.meiduimall.application.mall.dao.BaseMapper;
+import com.meiduimall.application.mall.exception.MallApiCode;
 import com.meiduimall.application.mall.model.PaymentTrade;
 import com.meiduimall.application.mall.model.SysuserAccount;
 import com.meiduimall.application.mall.model.SysuserUser;
@@ -25,6 +26,8 @@ import com.meiduimall.application.mall.model.SysuserWalletPaylog;
 import com.meiduimall.application.mall.service.UserService;
 import com.meiduimall.application.mall.util.CommonUtil;
 import com.meiduimall.application.mall.util.Logger;
+import com.meiduimall.exception.DaoException;
+import com.meiduimall.exception.ServiceException;
 
 import net.sf.json.JSONObject;
 
@@ -41,45 +44,63 @@ public class UserServiceImpl implements UserService {
 	private MyProps myProps;
 
 	@Override
-	public Map<String, Object> getUserInfo(SysuserUser sysuserUser) throws Exception {
-		
-		return baseMapper.selectOne(sysuserUser, "SysuserUserMapper.getUserInfo");
+	public Map<String, Object> getUserInfo(SysuserUser sysuserUser) {
+		try {
+			return baseMapper.selectOne(sysuserUser, "SysuserUserMapper.getUserInfo");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
 	}
 
 	@Override
-	public SysuserUser getUserMoney(Integer userId) throws Exception {
-		
-		return baseMapper.selectOne(userId, "SysuserUserMapper.getUserMoney");
+	public SysuserUser getUserMoney(Integer userId) {
+		try {
+			return baseMapper.selectOne(userId, "SysuserUserMapper.getUserMoney");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
 	}
 
 	@Override
-	public Integer updateMF(SysuserUser sysuserUser) throws Exception {
-		
-		return baseMapper.update(sysuserUser, "SysuserUserMapper.updateMF");
+	public Integer updateMF(SysuserUser sysuserUser) {
+		try {
+			return baseMapper.update(sysuserUser, "SysuserUserMapper.updateMF");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
 
 	}
 
 	@Override
-	public Integer updateUsersWalletPay(SysuserWalletPaylog sysuserWalletPaylog) throws Exception {
-		
-		return baseMapper.update(sysuserWalletPaylog, "SysuserWalletPaylogMapper.updateUsersWalletPay");
+	public Integer updateUsersWalletPay(SysuserWalletPaylog sysuserWalletPaylog) {
+		try {
+			return baseMapper.update(sysuserWalletPaylog, "SysuserWalletPaylogMapper.updateUsersWalletPay");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
 
 	}
 
 	@Override
-	public SysuserAccount getSysuserAccount(Integer userId) throws Exception {
-		
-		return baseMapper.selectOne(userId, "SysuserAccountMapper.getLoginAccount");
+	public SysuserAccount getSysuserAccount(Integer userId) {
+		try {
+			return baseMapper.selectOne(userId, "SysuserAccountMapper.getLoginAccount");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
 	}
 
 	@Override
-	public Integer insertSysuserUserScore(SysuserUserScore sysuserUserScore) throws Exception {
-
-		return baseMapper.insert(sysuserUserScore, "SysuserUserScoreMapper.insertSysuserUserScore");
+	public Integer insertSysuserUserScore(SysuserUserScore sysuserUserScore) {
+		try {
+			return baseMapper.insert(sysuserUserScore, "SysuserUserScoreMapper.insertSysuserUserScore");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
 	}
 
 	@Override
-	public JSONObject getMemberBasicInfo(String token) throws Exception {
+	public JSONObject getMemberBasicInfo(String token) {
 		JSONObject postForObject = new JSONObject();
 		try {
 			StringBuilder url = new StringBuilder(myProps.getUserCenterUrl());
@@ -92,14 +113,14 @@ public class UserServiceImpl implements UserService {
 			postForObject = restTemplate.getForObject(url.toString(), JSONObject.class, commonMap);
 			Logger.info("获取用户信息结果 :%s", postForObject);
 		} catch (Exception e) {
-			Logger.error("system error: %s",e);
-			throw new RuntimeException("获取会员信息异常!");
+			Logger.error("获取会员信息错误!: %s",e);
+			throw new ServiceException(MallApiCode.GETMEMBER_ERROR, MallApiCode.getZhMsg(MallApiCode.GETMEMBER_ERROR));
 		}
 		return postForObject;
 	}
 
 	@Override
-	public JSONObject validePayPwd(String memId, String payPwd) throws Exception {
+	public JSONObject validePayPwd(String memId, String payPwd) {
 		JSONObject postForObject = new JSONObject();
 		try {
 			Logger.info("解密之后:%s", payPwd);
@@ -114,15 +135,15 @@ public class UserServiceImpl implements UserService {
 			postForObject = restTemplate.getForObject(url.toString(), JSONObject.class, commonMap);
 			Logger.info("验证支付密码请求结果 :%s", postForObject);
 		} catch (Exception e) {
-			Logger.error("system error: %s",e);
-			throw new RuntimeException("验证密码异常!");
+			Logger.error("验证密码错误!: %s",e);
+			throw new ServiceException(MallApiCode.VALIDEPAYPWD_ERROR, MallApiCode.getZhMsg(MallApiCode.VALIDEPAYPWD_ERROR));
 		}
 		return postForObject;
 
 	}
 
 	@Override
-	public JSONObject tokenTOmemId(String token) throws Exception {
+	public JSONObject tokenTOmemId(String token) {
 		JSONObject getMemid = new JSONObject();
 		try {
 			StringBuilder url = new StringBuilder(myProps.getUserCenterUrl());
@@ -134,18 +155,18 @@ public class UserServiceImpl implements UserService {
 			Logger.info("tokenTOmemId组装发送数据:%s", commonMap);
 			getMemid = restTemplate.getForObject(url.toString(), JSONObject.class, commonMap);
 			Logger.info("tokenTOmemId请求结果 :%s", getMemid);
-			
+
 		} catch (Exception e) {
-			Logger.error("system error: %s",e);
-			throw new RuntimeException("tokenTOmemId异常!");
+			Logger.error("tokenTOmemId错误!: %s", e);
+			throw new ServiceException(MallApiCode.TOKENTOMEMID_ERROR, MallApiCode.getZhMsg(MallApiCode.TOKENTOMEMID_ERROR));
 		}
 		return getMemid;
-		
+
 	}
 
 	@SuppressWarnings("static-access")
 	@Override
-	public JSONObject freezeUnfreeze(PaymentTrade paymentTrade, Map<String, Object> paymentBill) throws Exception {
+	public JSONObject freezeUnfreeze(PaymentTrade paymentTrade, Map<String, Object> paymentBill) {
 		String string = "";
 		try {
 			StringBuilder url = new StringBuilder(myProps.getRouteServiceUrl());
@@ -156,7 +177,7 @@ public class UserServiceImpl implements UserService {
 			JSONObject json = new JSONObject();
 			json.put("memId", paymentTrade.getMemId());
 			json.put("order_source", "1gw");
-			if (new BigDecimal(paymentBill.get("curMoney").toString()).compareTo(new BigDecimal(0)) != 1) {
+			if (new BigDecimal(paymentBill.get("curMoney").toString()).compareTo(new BigDecimal(0)) < 1) {
 				json.put("pay_type", 2);
 				// 没有第三方支付
 			} else {
@@ -170,15 +191,15 @@ public class UserServiceImpl implements UserService {
 			HttpEntity<JSONObject> formEntity = new HttpEntity<JSONObject>(commonJSON, headers);
 			string = restTemplate.postForObject(url.toString(), formEntity, String.class);
 		} catch (Exception e) {
-			Logger.error("system error: %s",e);
-			throw new RuntimeException("冻结异常!");
+			Logger.error("冻结错误!: %s", e);
+			throw new ServiceException(MallApiCode.FREEZEUNFREEZE_ERROR, MallApiCode.getZhMsg(MallApiCode.FREEZEUNFREEZE_ERROR));
 		}
 		return new JSONObject().fromObject(string);
 	}
 
 	@SuppressWarnings("static-access")
 	@Override
-	public JSONObject getMemIdByUserId(Integer userId) throws Exception {
+	public JSONObject getMemIdByUserId(Integer userId) {
 		String forObject = "";
 		try {
 			StringBuilder url = new StringBuilder(myProps.getMeiduimallUrl());
@@ -188,15 +209,15 @@ public class UserServiceImpl implements UserService {
 			forObject = restTemplate.getForObject(url.toString(), String.class);
 			Logger.info("getMemIdByUserId数据:%s", forObject);
 		} catch (Exception e) {
-			Logger.error("system error", e);
-			throw new RuntimeException("getMemIdByUserId异常!");
+			Logger.error("getMemIdByUserId错误!: %s", e);
+			throw new ServiceException(MallApiCode.GETMEMIDBYUSERID_ERROR, MallApiCode.getZhMsg(MallApiCode.GETMEMIDBYUSERID_ERROR));
 		}
 		return new JSONObject().fromObject(forObject);
 	}
 
 	@SuppressWarnings("static-access")
 	@Override
-	public JSONObject unfreezeDeduct(Map<String, Object> paymentBill, String memId) throws Exception {
+	public JSONObject unfreezeDeduct(Map<String, Object> paymentBill, String memId) {
 		String string = "";
 		try {
 			StringBuilder url = new StringBuilder(myProps.getRouteServiceUrl());
@@ -207,7 +228,7 @@ public class UserServiceImpl implements UserService {
 			JSONObject json = new JSONObject();
 			json.put("memId", memId);
 			json.put("order_source", "1gw");
-			if (new BigDecimal(paymentBill.get("curMoney").toString()).compareTo(new BigDecimal(0)) != 1) {
+			if (new BigDecimal(paymentBill.get("curMoney").toString()).compareTo(new BigDecimal(0)) < 1) {
 				json.put("pay_type", 2);
 				// 没有第三方支付
 			} else {
@@ -221,29 +242,30 @@ public class UserServiceImpl implements UserService {
 			string = restTemplate.postForObject(url.toString(), formEntity, String.class);
 			Logger.info("unfreezeDeduct结果：%s", string);
 		} catch (Exception e) {
-			Logger.error("system error: %s",e);
-			throw new RuntimeException("解冻异常!");
+			Logger.error("解冻错误!: %s", e);
+			throw new ServiceException(MallApiCode.UNFREEZEDEDUCT_ERROR, MallApiCode.getZhMsg(MallApiCode.UNFREEZEDEDUCT_ERROR));
 		}
 		return new JSONObject().fromObject(string);
 	}
 
 	@Override
-	public JSONObject sendSmsMessage(String mobile, String tid) throws Exception {
-		JSONObject postForObject = null;	
+	public JSONObject sendSmsMessage(String mobile, String tid) {
+		JSONObject postForObject = null;
 		try {
-				StringBuilder url = new StringBuilder(myProps.getSendSmsUrl());
-				url.append("/notify/short_msg_service/v1/send_common_sms_message");
-				MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>();
-				paramMap.add("templateId", "1GW_1003");
-				paramMap.add("params", tid);
-				paramMap.add("phones", mobile);
-				Logger.info("sendSmsMessage组装发送数据:%s", paramMap);
-				postForObject = restTemplate.postForObject(url.toString(), paramMap, JSONObject.class);
-				Logger.info("sendSmsMessage结果:%s", postForObject);
-			} catch (Exception e) {
-				Logger.error("sendSmsMessage异常:%s", e.getMessage());
-			}
-			return postForObject;
+			StringBuilder url = new StringBuilder(myProps.getSendSmsUrl());
+			url.append("/notify/short_msg_service/v1/send_common_sms_message");
+			MultiValueMap<String, String> paramMap = new LinkedMultiValueMap<>();
+			paramMap.add("templateId", "1GW_1003");
+			paramMap.add("params", tid);
+			paramMap.add("phones", mobile);
+			Logger.info("sendSmsMessage组装发送数据:%s", paramMap);
+			postForObject = restTemplate.postForObject(url.toString(), paramMap, JSONObject.class);
+			Logger.info("sendSmsMessage结果:%s", postForObject);
+		} catch (Exception e) {
+			Logger.error("sendSmsMessage错误!:%s", e);
+			throw new ServiceException(MallApiCode.SENDSMSMESSAGE_ERROR, MallApiCode.getZhMsg(MallApiCode.SENDSMSMESSAGE_ERROR));
+		}
+		return postForObject;
 	}
 
 }

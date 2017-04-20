@@ -1,7 +1,11 @@
 package com.meiduimall.application.mall.util;
 
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import com.meiduimall.application.mall.exception.MallApiCode;
+import com.meiduimall.exception.ServiceException;
 
 
 public class DateUtil {
@@ -31,9 +35,9 @@ public class DateUtil {
             SimpleDateFormat sdf = new SimpleDateFormat(format);  
             return String.valueOf(sdf.parse(date_str).getTime()/1000);  
         } catch (Exception e) { 
-        	Logger.info("系统错误:s%", e.getMessage());
+        	Logger.info("日期转换错误!: %s", e);
+        	throw new ServiceException(MallApiCode.DATE_ERROR, MallApiCode.getZhMsg(MallApiCode.DATE_ERROR));
         }  
-        return "";  
     }  
     
     
@@ -42,9 +46,9 @@ public class DateUtil {
     		SimpleDateFormat sdf = new SimpleDateFormat(format);  
     		return sdf.format(date_str);
     	} catch (Exception e) {  
-    		Logger.error("system error", e);
+    		Logger.error("日期转换错误!: %s", e);
+    		throw new ServiceException(MallApiCode.DATE_ERROR, MallApiCode.getZhMsg(MallApiCode.DATE_ERROR));
     	}  
-    	return "";  
     }  
     
     public static String formatTiemStr(String date_str){  
@@ -52,9 +56,10 @@ public class DateUtil {
         	String reg = "(\\d{4})(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})";
         	return date_str.replaceAll(reg, "$1-$2-$3 $4:$5:$6");
     	} catch (Exception e) {  
-    		Logger.info("系统错误:s%", e.getMessage());
+    		Logger.info("日期转换错误:%s", e);
+    		throw new ServiceException(MallApiCode.DATE_ERROR, MallApiCode.getZhMsg(MallApiCode.DATE_ERROR));
     	}  
-    	return "";  
+    	 
     }  
     
 }

@@ -26,6 +26,8 @@ import com.meiduimall.application.mall.model.SystradeTrade;
 import com.meiduimall.application.mall.service.SysitemService;
 import com.meiduimall.application.mall.service.TradeService;
 import com.meiduimall.application.mall.util.Logger;
+import com.meiduimall.exception.DaoException;
+import com.meiduimall.exception.ServiceException;
 @Component
 public class TradeServiceImpl implements TradeService {
 
@@ -39,107 +41,149 @@ public class TradeServiceImpl implements TradeService {
 	
 
 	@Override
-	public List<Map<String,Object>> getTradeMoney(String tid) throws Exception{
+	public List<Map<String,Object>> getTradeMoney(String tid){
 		String[] split = tid.split(",");
         List<Object> list = new ArrayList<>();
 		for (int i = 0; i < split.length; i++) {
 			list.add(split[i]);
 		}
-		
-		return baseMapper.selectList(ImmutableMap.of("tid",list), "SystradeTradeMapper.getTradeMoney");
+		try {
+			return baseMapper.selectList(ImmutableMap.of("tid",list), "SystradeTradeMapper.getTradeMoney");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
 	}
 	
 	@Override
-	public List<Map<String,Object>> getTradeMoney(List<Object> list) throws Exception{
-		
-		return baseMapper.selectList(ImmutableMap.of("tid",list), "SystradeTradeMapper.getTradeMoney");
+	public List<Map<String,Object>> getTradeMoney(List<Object> list){
+		try {
+			return baseMapper.selectList(ImmutableMap.of("tid",list), "SystradeTradeMapper.getTradeMoney");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
 	}
 	
 	@Override
-	public SystradePTrade getSystradePTrade(BigInteger platformId) throws Exception {
-		
+	public SystradePTrade getSystradePTrade(BigInteger platformId) {
+		try {
 			return baseMapper.selectOne(platformId, "SystradePTradeMapper.getSystradePTrade");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
 	}
 
 
 	@Override
-	public List<EctoolsTradePaybill> listEctoolsTradePaybill(String paymentId) throws Exception {
-		
-		return baseMapper.selectList(paymentId, "EctoolsTradePaybillMapper.listEctoolsTradePaybill");
+	public List<EctoolsTradePaybill> listEctoolsTradePaybill(String paymentId) {
+		try {
+			return baseMapper.selectList(paymentId, "EctoolsTradePaybillMapper.listEctoolsTradePaybill");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
 	}
 
 	@Override
-	public Integer updateEctoolsTradePaybill(List<EctoolsTradePaybill> ectoolsTradePaybill) throws Exception {
-		
-		return baseMapper.update(ectoolsTradePaybill, "EctoolsTradePaybillMapper.updateEctoolsTradePaybill");
-		
-	}
-
-	@Override
-	public Integer deleteEctoolsTradePaybill(List<EctoolsTradePaybill> ectoolsTradePaybill) throws Exception {
-		
-		return baseMapper.delete(ectoolsTradePaybill, "EctoolsTradePaybillMapper.deleteEctoolsTradePaybill");
-		
-	}
-
-	@Override
-	public Integer updateSystradePTrade(SystradePTrade systradePTrade) throws Exception {
-		
-		return baseMapper.update(systradePTrade, "SystradePTradeMapper.updateSystradePTrade");
+	public Integer updateEctoolsTradePaybill(List<EctoolsTradePaybill> ectoolsTradePaybill) {
+		try {
+			return baseMapper.update(ectoolsTradePaybill, "EctoolsTradePaybillMapper.updateEctoolsTradePaybill");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
 		
 	}
 
 	@Override
-	public Integer updateWalletPay(SystradePTrade systradePTrade) throws Exception {
-		
-		return baseMapper.update(systradePTrade, "SystradePTradeMapper.updateWalletPay");
-		
-	}
-
-	@Override
-	public Integer updateCSP(SystradePTrade systradePTrade) throws Exception {
-		
-		return baseMapper.update(systradePTrade, "SystradePTradeMapper.updateCSP");
+	public Integer deleteEctoolsTradePaybill(List<EctoolsTradePaybill> ectoolsTradePaybill) {
+		try {
+			return baseMapper.delete(ectoolsTradePaybill, "EctoolsTradePaybillMapper.deleteEctoolsTradePaybill");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
 		
 	}
 
 	@Override
-	public Integer updateEPStatus(EctoolsPayments s) throws Exception {
-		
-		 return baseMapper.update(s, "EctoolsPaymentsMapper.updateEPStatus");
-		
-	}
-
-	@Override
-	public Integer updateETPStatus(EctoolsTradePaybill s) throws Exception {
-		
-		return baseMapper.update(s, "EctoolsTradePaybillMapper.updateETPStatus");
+	public Integer updateSystradePTrade(SystradePTrade systradePTrade) {
+		try {
+			return baseMapper.update(systradePTrade, "SystradePTradeMapper.updateSystradePTrade");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
 		
 	}
 
 	@Override
-	public Integer updateSPTStatus(SystradePTrade s) throws Exception {
+	public Integer updateWalletPay(SystradePTrade systradePTrade) {
+		try {
+			return baseMapper.update(systradePTrade, "SystradePTradeMapper.updateWalletPay");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
 		
-       return baseMapper.update(s, "SystradePTradeMapper.updateSPTStatus");		
 	}
 
 	@Override
-	public List<SystradeTrade> listSystradeTrade(BigInteger i) throws Exception {
+	public Integer updateCSP(SystradePTrade systradePTrade) {
+		try {
+			return baseMapper.update(systradePTrade, "SystradePTradeMapper.updateCSP");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
 		
-		return baseMapper.selectList(i, "SystradeTradeMapper.listSystradeTrade");
 	}
 
 	@Override
-	public SystradeTrade getTradeInfo(BigInteger tid) throws Exception {
+	public Integer updateEPStatus(EctoolsPayments s) {
+		try {
+			return baseMapper.update(s, "EctoolsPaymentsMapper.updateEPStatus");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
 		
-		return baseMapper.selectOne(tid, "SystradeTradeMapper.getTradeInfo");
+	}
+
+	@Override
+	public Integer updateETPStatus(EctoolsTradePaybill s) {
+		try {
+			return baseMapper.update(s, "EctoolsTradePaybillMapper.updateETPStatus");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
+		
+	}
+
+	@Override
+	public Integer updateSPTStatus(SystradePTrade s) {
+		try {
+			return baseMapper.update(s, "SystradePTradeMapper.updateSPTStatus");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}	
+	}
+
+	@Override
+	public List<SystradeTrade> listSystradeTrade(BigInteger i) {
+		try {
+			return baseMapper.selectList(i, "SystradeTradeMapper.listSystradeTrade");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
+	}
+
+	@Override
+	public SystradeTrade getTradeInfo(BigInteger tid) {
+		try {
+			return baseMapper.selectOne(tid, "SystradeTradeMapper.getTradeInfo");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
 	}
 
     /**
      * 【订单支付状态更改接口】
      */
 	@Override
-	public Boolean TradePayFinish(SystradeTrade trade) throws Exception {
+	public Boolean TradePayFinish(SystradeTrade trade) throws Exception{
 			//获取指定订单信息
 			SystradeTrade tradeInfo = getTradeInfo(trade.getTid());
 			if(tradeInfo==null){
@@ -170,7 +214,7 @@ public class TradeServiceImpl implements TradeService {
 						OrderOrPay(hashMap);
 						
 					} catch (Exception e) {
-						Logger.error("系统错误:", e.getMessage());
+						Logger.error("系统错误:", e);
 					}
 					});
 			}//order_type==0判断结束
@@ -217,7 +261,7 @@ public class TradeServiceImpl implements TradeService {
 	 * 【下单或支付时扣减库存接口】
 	 * @throws Exception
 	 */
-	public Boolean OrderOrPay(Map<String, Object> hashMap) throws Exception{
+	public Boolean OrderOrPay(Map<String, Object> hashMap)throws Exception{
 		//sub_stock!=0下单减库存(有恶意下单占库存风险)判断开始
 		if((Integer)hashMap.get("sub_stock") != 0){
 			
@@ -238,8 +282,8 @@ public class TradeServiceImpl implements TradeService {
 		    return false;
 		    
 		}else{ //付款减库存，有库存超卖风险   
-			if(hashMap.get("status").equals("on")){
-				if(hashMap.get("item_id").toString().equals("")){
+			if("on".equals(hashMap.get("status"))){
+				if("".equals(hashMap.get("item_id").toString())){
 					//根据sku_id获取item_id，再次调用'item_id'参数存在的逻辑
 					SysitemSku sysitemSkuByskuId = sysitemService.getSysitemSkuByskuId((Integer)hashMap.get("sku_id"));
 					if(sysitemSkuByskuId == null){
@@ -252,7 +296,7 @@ public class TradeServiceImpl implements TradeService {
 				updateFreez(hashMap);
 			}
 			
-			if(hashMap.get("status").equals("success")){
+			if("success".equals(hashMap.get("status"))){
 		
 				SysitemItem itemInfo = sysitemService.getSysitemItemBysubStock(hashMap);
 				if(itemInfo == null) throw new Exception("根据itemId获取subStock失败!");
@@ -305,13 +349,17 @@ public class TradeServiceImpl implements TradeService {
 	 * 商品订单信息
 	 */
 	@Override
-	public List<SystradeOrder> listTradeInfoOrder(SystradeOrder systradeOrder) throws Exception {
-		return baseMapper.selectList(systradeOrder, "SystradeOrderMapper.listTradeInfoOrder");
+	public List<SystradeOrder> listTradeInfoOrder(SystradeOrder systradeOrder) {
+		try {
+			return baseMapper.selectList(systradeOrder, "SystradeOrderMapper.listTradeInfoOrder");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
 	}
 
 	 
 	//更新Freez
-	public void updateFreez(Map<String,Object> hashMap) throws Exception{
+	public void updateFreez(Map<String,Object> hashMap){
 		//修改sku_store表的冻结库存
 		Integer updateSkuStoreFreez = sysitemService.updateSkuStoreFreez(hashMap);
 		if(updateSkuStoreFreez <= 0){
@@ -328,31 +376,43 @@ public class TradeServiceImpl implements TradeService {
 	}
 
 	@Override 
-	public Integer updateSystradeTradeBytid(SystradeTrade systradeTrade) throws Exception {
-		 
-		return baseMapper.update(systradeTrade, "SystradeTradeMapper.updateSystradeTradeBytid");
+	public Integer updateSystradeTradeBytid(SystradeTrade systradeTrade) {
+		try {
+			return baseMapper.update(systradeTrade, "SystradeTradeMapper.updateSystradeTradeBytid");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
 	}
 
 	@Override
-	public Integer updateSystradeOrderBytid(SystradeOrder systradeOrder) throws Exception {
-		
-		return baseMapper.update(systradeOrder, "SystradeOrderMapper.updateSystradeOrderBytid");
+	public Integer updateSystradeOrderBytid(SystradeOrder systradeOrder) {
+		try {
+			return baseMapper.update(systradeOrder, "SystradeOrderMapper.updateSystradeOrderBytid");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
 	}
 
 	@Override
-	public Integer insertSystradeLog(SystradeLog systradeLog) throws Exception {
-		 
-		return baseMapper.insert(systradeLog, "SystradeLogMapper.insertSystradeLog");
+	public Integer insertSystradeLog(SystradeLog systradeLog) {
+		try {
+			return baseMapper.insert(systradeLog, "SystradeLogMapper.insertSystradeLog");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
 	}
 
 	@Override
-	public Integer updateIsSyncByplatformId(SystradePTrade systradePTrade) throws Exception {
-		 
-		return baseMapper.update(systradePTrade, "SystradePTradeMapper.updateIsSyncByplatformId");
+	public Integer updateIsSyncByplatformId(SystradePTrade systradePTrade) {
+		try {
+			return baseMapper.update(systradePTrade, "SystradePTradeMapper.updateIsSyncByplatformId");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
 	}
 
 	@Override
-	public List<Map<String, Object>> listTrade(List<Object> list) throws Exception {
+	public List<Map<String, Object>> listTrade(List<Object> list) {
 		 
 		//获取商家订单信息  存入变量tradeLists 
 		List<Map<String, Object>> tradeLists = getTradeMoney(list);
@@ -379,7 +439,7 @@ public class TradeServiceImpl implements TradeService {
 			 
 			 
 			} catch (Exception e) {
-				Logger.error("系统错误:%s", e.getMessage());
+				Logger.error("系统错误:%s", e);
 			}
 			
 			
@@ -400,27 +460,39 @@ public class TradeServiceImpl implements TradeService {
 	}
 
 	@Override
-	public List<Map<String,Object>> listOrder(List<Object> list) throws Exception {
-		 
-		return baseMapper.selectList(ImmutableMap.of("tid",list), "SystradeOrderMapper.listOrder");
+	public List<Map<String,Object>> listOrder(List<Object> list) {
+		try {
+			return baseMapper.selectList(ImmutableMap.of("tid",list), "SystradeOrderMapper.listOrder");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
 	}
 
 	@Override
-	public SystradePromotionDetail getpromotionActivityData(Long oid) throws Exception {
-		 
-		return baseMapper.selectOne(oid, "SystradePromotionDetailMapper.getpromotionActivityData");
+	public SystradePromotionDetail getpromotionActivityData(Long oid) {
+		try {
+			return baseMapper.selectOne(oid, "SystradePromotionDetailMapper.getpromotionActivityData");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
 	}
 
 	@Override
-	public Map<String, String> getShopMobile(BigInteger tid) throws Exception {
-		 
-		return baseMapper.selectOne(tid, "SystradeTradeMapper.getShopMobile");
+	public Map<String, String> getShopMobile(BigInteger tid) {
+		try {
+			return baseMapper.selectOne(tid, "SystradeTradeMapper.getShopMobile");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
 	}
 
 	@Override
-	public EctoolsPayments getIsPaySucc(EctoolsPayments ectoolsPayments) throws Exception {
-		 
-		return baseMapper.selectOne(ectoolsPayments, "EctoolsPaymentsMapper.getIsPaySucc");
+	public EctoolsPayments getIsPaySucc(EctoolsPayments ectoolsPayments) {
+		try {
+			return baseMapper.selectOne(ectoolsPayments, "EctoolsPaymentsMapper.getIsPaySucc");
+		} catch (DaoException e) {
+			throw new ServiceException(e);
+		}
 	}
 	
 	

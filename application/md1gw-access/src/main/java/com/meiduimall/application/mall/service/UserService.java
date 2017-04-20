@@ -17,93 +17,93 @@ public interface UserService {
 	 * 获取用户详细信息
 	 * @param sysuserUser
 	 * @return
-	 * @throws Exception
+	 * @
 	 */
-	Map<String,Object> getUserInfo(SysuserUser sysuserUser) throws Exception;
+	Map<String,Object> getUserInfo(SysuserUser sysuserUser) ;
 
 	/**
 	 * 获取用户余额和已冻结金额
 	 * @param userId
 	 * @return
-	 * @throws Exception
+	 * @
 	 */
-	SysuserUser getUserMoney(Integer userId)throws Exception;
+	SysuserUser getUserMoney(Integer userId);
 	
 	/**
 	 * 更新冻结金额
-	 * @throws Exception
+	 * @
 	 */
-	Integer updateMF(SysuserUser sysuserUser)throws Exception;
+	Integer updateMF(SysuserUser sysuserUser);
 	
 	/**
 	 * 会员钱包支付
 	 * @param sysuserWalletPaylog
-	 * @throws Exception
+	 * @
 	 */
-	Integer updateUsersWalletPay(SysuserWalletPaylog sysuserWalletPaylog)throws Exception;
+	Integer updateUsersWalletPay(SysuserWalletPaylog sysuserWalletPaylog);
 
 	/**
 	 * 获取 (sysuser_account)
 	 * @param userId
 	 * @return
 	 */
-	SysuserAccount getSysuserAccount(Integer userId)throws Exception;
+	SysuserAccount getSysuserAccount(Integer userId);
 	
 	/**
 	 * 写入积分消费记录
 	 * @param sysuserUserScore
 	 * @return
-	 * @throws Exception
+	 * @
 	 */
-	Integer insertSysuserUserScore(SysuserUserScore sysuserUserScore)throws Exception;
+	Integer insertSysuserUserScore(SysuserUserScore sysuserUserScore);
 	
 	/**
 	 * 获取当前会员基本信息
 	 * @return
-	 * @throws Exception
+	 * @
 	 */
-    JSONObject getMemberBasicInfo(String token)throws Exception;
+    JSONObject getMemberBasicInfo(String token);
     
     /**
      * token2memId
      * @param token
      * @return
-     * @throws Exception
+     * @
      */
-    JSONObject tokenTOmemId(String token)throws Exception;
+    JSONObject tokenTOmemId(String token);
     
     /**
      * 验证支付密码
      * @param memId
      * @param payPwd
      * @return
-     * @throws Exception
+     * @
      */
-    JSONObject validePayPwd(String memId,String payPwd)throws Exception;
+    JSONObject validePayPwd(String memId,String payPwd);
 
     /**冻结余额和积分
      * @param paymentTrade
      * @param paymentBill
      * @return
-     * @throws Exception 
+     * @ 
      */
-	JSONObject freezeUnfreeze(PaymentTrade paymentTrade, Map<String, Object> paymentBill) throws Exception;
+	JSONObject freezeUnfreeze(PaymentTrade paymentTrade, Map<String, Object> paymentBill) ;
 
 	/**
 	 * 根据userId获取memId
 	 * @param valueOf
 	 * @return
 	 */
-	JSONObject getMemIdByUserId(Integer userId) throws Exception;
+	JSONObject getMemIdByUserId(Integer userId) ;
 
 	/**
 	 * 解冻,扣减 积分余额
 	 * @param paymentBill
 	 * @param object
 	 * @return
-	 * @throws Exception 
+	 * @ 
 	 */
-	JSONObject unfreezeDeduct(Map<String, Object> paymentBill, String memId) throws Exception;
+	JSONObject unfreezeDeduct(Map<String, Object> paymentBill, String memId) ;
     
 	
 	/**
@@ -111,7 +111,7 @@ public interface UserService {
 	 * @param mobile
 	 * @param tid
 	 * @return
-	 * @throws Exception
+	 * @
 	 */
-	JSONObject sendSmsMessage(String mobile,String tid)throws Exception;  
+	JSONObject sendSmsMessage(String mobile,String tid);  
 }

@@ -53,7 +53,7 @@ public class AlipayController {
 	public String getPayNotify(HttpServletRequest request) throws Exception {
 		Logger.info("进入支付宝异步回调");
 		
-		Map<String,String> params = new HashMap<String,String>();
+		Map<String,String> params = new HashMap<>();
 		Map requestParams = request.getParameterMap();
         Logger.info("支付宝得到的报文:%s", requestParams.toString());
 		for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext();) {
@@ -104,16 +104,16 @@ public class AlipayController {
 		
 
 		if(notify_id!=""&&notify_id!=null){
-			if(AlipayNotify.verifyResponse(notify_id).equals("true")){//判断成功之后使用getResponse方法判断是否是支付宝发来的异步通知。
+			if("true".equals(AlipayNotify.verifyResponse(notify_id))){//判断成功之后使用getResponse方法判断是否是支付宝发来的异步通知。
 				if(AlipayNotify.getSignVeryfy(params, sign)){//使用支付宝公钥验签
-					if(trade_status.equals("TRADE_FINISHED") || trade_status.equals("TRADE_SUCCESS")){
+					if("TRADE_FINISHED".equals(trade_status) || "TRADE_SUCCESS".equals(trade_status)){
 					//业务处理
 				    EctoolsPaymentsSucc ectoolsPaymentsSucc = new EctoolsPaymentsSucc();
 				    ectoolsPaymentsSucc.setPaymentId(out_trade_no);    
 				    ectoolsPaymentsSucc.setTradeNo(trade_no);
 				    ectoolsPaymentsSucc.setStatus(SysParaNameConst.SUCC);
 				    ectoolsPaymentsSucc.setMoney(new BigDecimal(total_fee));
-				    if(!gmt_payment.equals("")){
+				    if(!"".equals(gmt_payment)){
 				    	ectoolsPaymentsSucc.setPayedTime(Integer.valueOf(DateUtil.date2TimeStamp(gmt_payment, "yyyy-MM-dd HH:mm:ss")));
 				    }
 				    ectoolsPaymentsSucc.setBank("支付宝");

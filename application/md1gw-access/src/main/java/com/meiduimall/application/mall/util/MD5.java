@@ -8,7 +8,7 @@ public class MD5 {
 
 
 	public static String byteArrayToHexString(byte[] b) {
-		StringBuffer resultSb = new StringBuffer();
+		StringBuilder resultSb = new StringBuilder();
 		for (int i = 0; i < b.length; i++) {
 			resultSb.append(byteToHexString(b[i]));
 		}
@@ -28,11 +28,11 @@ public class MD5 {
 		String resultString = null;
 
 		try {
-			resultString = new String(origin);
+			resultString = origin;
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			resultString = byteArrayToHexString(md.digest(resultString.getBytes()));
 		} catch (Exception ex) {
-
+			Logger.error("系统错误!: %s", ex);
 		}
 		return resultString;
 	}
@@ -44,7 +44,7 @@ public class MD5 {
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			resultString = byteArrayToHexString(md.digest(resultString.getBytes()));
 		} catch (Exception ex) {
-
+           Logger.error("系统错误!: %s", ex);
 		}
 		return resultString;
 	}
@@ -56,7 +56,7 @@ public class MD5 {
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			resultString = byteArrayToHexString(md.digest(resultString.getBytes()));
 		} catch (Exception ex) {
-
+			Logger.error("系统错误!: %s", ex);
 		}
 		return resultString;
 	}
@@ -68,7 +68,7 @@ public class MD5 {
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			resultString = byteArrayToHexString(md.digest(resultString.getBytes()));
 		} catch (Exception ex) {
-
+			Logger.error("系统错误!: %s", ex);
 		}
 		return resultString;
 	}

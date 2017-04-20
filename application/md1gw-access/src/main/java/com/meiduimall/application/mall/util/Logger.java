@@ -27,6 +27,7 @@ public class Logger {
 			}
 			return msg;
 		} catch (Exception e) {
+			log4j.error("Oops. Error in Logger !", e);
 			return msg;
 		}
 	}
@@ -88,7 +89,7 @@ public class Logger {
 	public static void trace(String message, Object... args) {
 		try {
 			org.apache.log4j.Logger.getLogger(getCallerClassName()).trace(format(message, args));
-		} catch (Throwable ex) {
+		} catch (Exception ex) {
 			log4j.error("Oops. Error in Logger !", ex);
 		}
 	}
@@ -104,7 +105,7 @@ public class Logger {
 	public static void debug(String message, Object... args) {
 		try {
 			org.apache.log4j.Logger.getLogger(getCallerClassName()).debug(format(message, args));
-		} catch (Throwable ex) {
+		} catch (Exception ex) {
 			log4j.error("Oops. Error in Logger !", ex);
 		}
 	}
@@ -122,7 +123,7 @@ public class Logger {
 	public static void debug(Throwable e, String message, Object... args) {
 		try {
 			org.apache.log4j.Logger.getLogger(getCallerClassName()).debug(format(message, args), e);
-		} catch (Throwable ex) {
+		} catch (Exception ex) {
 			log4j.error("Oops. Error in Logger !", ex);
 		}
 	}
@@ -138,7 +139,7 @@ public class Logger {
 	public static void info(String message, Object... args) {
 		try {
 			org.apache.log4j.Logger.getLogger(getCallerClassName()).info(format(message, args));
-		} catch (Throwable ex) {
+		} catch (Exception ex) {
 			log4j.error("Oops. Error in Logger !", ex);
 		}
 	}
@@ -156,7 +157,7 @@ public class Logger {
 	public static void info(Throwable e, String message, Object... args) {
 		try {
 			org.apache.log4j.Logger.getLogger(getCallerClassName()).info(format(message, args), e);
-		} catch (Throwable ex) {
+		} catch (Exception ex) {
 			log4j.error("Oops. Error in Logger !", ex);
 		}
 	}
@@ -172,7 +173,7 @@ public class Logger {
 	public static void warn(String message, Object... args) {
 		try {
 			org.apache.log4j.Logger.getLogger(getCallerClassName()).warn(format(message, args));
-		} catch (Throwable ex) {
+		} catch (Exception ex) {
 			log4j.error("Oops. Error in Logger !", ex);
 		}
 	}
@@ -190,7 +191,7 @@ public class Logger {
 	public static void warn(Throwable e, String message, Object... args) {
 		try {
 			org.apache.log4j.Logger.getLogger(getCallerClassName()).warn(format(message, args), e);
-		} catch (Throwable ex) {
+		} catch (Exception ex) {
 			log4j.error("Oops. Error in Logger !", ex);
 		}
 	}
@@ -206,7 +207,7 @@ public class Logger {
 	public static void error(String message, Object... args) {
 		try {
 			org.apache.log4j.Logger.getLogger(getCallerClassName()).error(format(message, args));
-		} catch (Throwable ex) {
+		} catch (Exception ex) {
 			log4j.error("Oops. Error in Logger !", ex);
 		}
 	}
@@ -224,7 +225,7 @@ public class Logger {
 	public static void error(Throwable e, String message, Object... args) {
 		try {
 			org.apache.log4j.Logger.getLogger(getCallerClassName()).error(format(message, args), e);
-		} catch (Throwable ex) {
+		} catch (Exception ex) {
 			log4j.error("Oops. Error in Logger !", ex);
 		}
 	}
@@ -240,7 +241,7 @@ public class Logger {
 	public static void fatal(String message, Object... args) {
 		try {
 			org.apache.log4j.Logger.getLogger(getCallerClassName()).fatal(format(message, args));
-		} catch (Throwable ex) {
+		} catch (Exception ex) {
 			log4j.error("Oops. Error in Logger !", ex);
 		}
 	}
@@ -258,7 +259,7 @@ public class Logger {
 	public static void fatal(Throwable e, String message, Object... args) {
 		try {
 			org.apache.log4j.Logger.getLogger(getCallerClassName()).fatal(format(message, args), e);
-		} catch (Throwable ex) {
+		} catch (Exception ex) {
 			log4j.error("Oops. Error in Logger !", ex);
 		}
 	}
@@ -282,7 +283,7 @@ public class Logger {
 			buffer.append(request.getParameter(paramName));
 			buffer.append(OauthConst.CONNECTION_SYMBOL);
 		}
-		Logger.info("Request_Url:%s", buffer.substring(0, buffer.length() - 1).toString());
+		Logger.info("Request_Url:%s", buffer.substring(0, buffer.length() - 1));
 		Logger.info("Request_Method: %s", request.getMethod());
 		Logger.info("IP_Address: %s", request.getRemoteAddr());
 	}

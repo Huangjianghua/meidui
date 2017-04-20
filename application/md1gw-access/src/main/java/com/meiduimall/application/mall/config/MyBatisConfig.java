@@ -24,7 +24,9 @@ import org.springframework.transaction.annotation.TransactionManagementConfigure
 import org.springframework.web.client.RestTemplate;
 
 import com.github.pagehelper.PageHelper;
+import com.meiduimall.application.mall.exception.MallApiCode;
 import com.meiduimall.aspect.pointcut.MethodLogAdvice;
+import com.meiduimall.exception.ServiceException;
 
 
 /**
@@ -63,16 +65,7 @@ public class MyBatisConfig implements TransactionManagementConfigurer{
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
         bean.setTypeAliasesPackage("com.meiduimall.application.md1gwaccess.model");
-        //bean.setTypeHandlersPackage("com.meiduimall.settlement.typehandler");   //un-comment it if needed.
-        
-/*      remove optimistic lock ...  
- *      OptimisticLocker optLocker=new OptimisticLocker();
-        Properties optLockerprop=new Properties();
-        optLockerprop.setProperty("versionField", "version");
-        optLockerprop.setProperty("versionColumn", "version");
-        optLocker.setProperties(optLockerprop);
-        
-        */
+    
 
         //分页插件,插件无非是设置mybatis的拦截器
         PageHelper pageHelper = new PageHelper();
@@ -85,7 +78,6 @@ public class MyBatisConfig implements TransactionManagementConfigurer{
 
         //添加插件
         bean.setPlugins(new Interceptor[]{pageHelper});
-       // bean.setPlugins(new Interceptor[]{pageHelper,optLocker});
 
         //添加XML目录
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
@@ -94,7 +86,8 @@ public class MyBatisConfig implements TransactionManagementConfigurer{
             bean.setMapperLocations(resolver.getResources("com/meiduimall/application/md1gwaccess/mapper/*Mapper.xml"));
             return bean.getObject();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+        	logger.error("设置xml扫描路径错误! %s",e);
+            throw new ServiceException(MallApiCode.XML_ERROR, MallApiCode.getZhMsg(MallApiCode.XML_ERROR));
         }
     }
 

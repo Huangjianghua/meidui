@@ -15,6 +15,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.alibaba.fastjson.*;
+import com.meiduimall.application.mall.exception.MallApiCode;
+import com.meiduimall.exception.ServiceException;
 
 
 public class StringUtil {
@@ -63,7 +65,7 @@ public class StringUtil {
 	/** 检查集合是否为空 */
 	@SuppressWarnings("rawtypes")
 	public static boolean isEmptyByCollection(Collection c) {
-		return ((c == null) || (c.size() == 0));
+		return ((c == null) || (c.isEmpty()));
 	}
 
 	/**
@@ -89,13 +91,13 @@ public class StringUtil {
 	 */
 	public static boolean checkNumber(String num, String type) {
 		String eL = "";
-		if (type.equals("0+"))
+		if ("0+".equals(type))
 			eL = "^\\d+$";// 非负整数
-		else if (type.equals("+"))
+		else if ("+".equals(type))
 			eL = "^\\d*[1-9]\\d*$";// 正整数
-		else if (type.equals("-0"))
+		else if ("-0".equals(type))
 			eL = "^((-\\d+)|(0+))$";// 非正整数
-		else if (type.equals("-"))
+		else if ("-".equals(type))
 			eL = "^-\\d*[1-9]\\d*$";// 负整数
 		else
 			eL = "^-?\\d+$";// 整数
@@ -115,13 +117,13 @@ public class StringUtil {
 	 */
 	public static boolean checkFloat(String num, String type) {
 		String eL = "";
-		if (type.equals("0+"))
+		if ("0+".equals(type))
 			eL = "^\\d+(\\.\\d+)?$";// 非负浮点数
-		else if (type.equals("+"))
+		else if ("+".equals(type))
 			eL = "^((\\d+\\.\\d*[1-9]\\d*)|(\\d*[1-9]\\d*\\.\\d+)|(\\d*[1-9]\\d*))$";// 正浮点数
-		else if (type.equals("-0"))
+		else if ("-0".equals(type))
 			eL = "^((-\\d+(\\.\\d+)?)|(0+(\\.0+)?))$";// 非正浮点数
-		else if (type.equals("-"))
+		else if ("-".equals(type))
 			eL = "^(-((\\d+\\.\\d*[1-9]\\d*)|(\\d*[1-9]\\d*\\.\\d+)|(\\d*[1-9]\\d*)))$";// 负浮点数
 		else
 			eL = "^(-?\\d+)(\\.\\d+)?$";// 浮点数
@@ -339,35 +341,35 @@ public class StringUtil {
 	 * @return
 	 */
 	public static String convertUTF8ToString(String s) {
-		if (s == null || s.equals("")) {
+		if (s == null || "".equals(s)) {
 			return null;
 		}
+		String upperCase = s.toUpperCase();
 		try {
-			s = s.toUpperCase();
-			int total = s.length() / 2;
+			int total = upperCase.length() / 2;
 			int pos = 0;
 			byte[] buffer = new byte[total];
 			for (int i = 0; i < total; i++) {
 				int start = i * 2;
 				buffer[i] = (byte) Integer.parseInt(
-						s.substring(start, start + 2), 16);
+						upperCase.substring(start, start + 2), 16);
 				pos++;
 			}
 			return new String(buffer, 0, pos, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			log.error("convertUTF8ToString异常:", e);
 		}
-		return s;
+		return upperCase;
 	}
 
 	/**
 	 * 将文件名中的汉字转为UTF8编码的串,以便下载时能正确显示另存的文件名.
 	 */
 	public static String convertStringToUTF8(String s) {
-		if (s == null || s.equals("")) {
+		if (s == null || "".equals(s)) {
 			return null;
 		}
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		try {
 			char c;
 			for (int i = 0; i < s.length(); i++) {
@@ -478,9 +480,9 @@ public class StringUtil {
 	 */
 	public static boolean isIp(String IP) {
 		boolean b = false;
-		IP = IP.trim();
-		if (IP.matches("\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}")) {
-			String s[] = IP.split("\\.");
+		String iptrim = IP.trim();
+		if (iptrim.matches("\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}")) {
+			String s[] = iptrim.split("\\.");
 			if (Integer.parseInt(s[0]) < 255)
 				if (Integer.parseInt(s[1]) < 255)
 					if (Integer.parseInt(s[2]) < 255)
@@ -498,12 +500,13 @@ public class StringUtil {
 	 */
 	public static String randomString(int length) {// 传入的字符串的长度
 		StringBuilder builder = new StringBuilder(length);
+		double random = Math.random();
 		for (int i = 0; i < length; i++) {
 
-			int r = (int) (Math.random() * 3);
-			int rn1 = (int) (48 + Math.random() * 10);
-			int rn2 = (int) (65 + Math.random() * 26);
-			int rn3 = (int) (97 + Math.random() * 26);
+			int r = (int) (random * 3);
+			int rn1 = (int) (48 + random * 10);
+			int rn2 = (int) (65 + random * 26);
+			int rn3 = (int) (97 + random * 26);
 
 			switch (r) {
 			case 0:
@@ -533,7 +536,7 @@ public class StringUtil {
 		int count = 0;
 		int index = 0;
 		if(str == null || key == null) {
-			throw new RuntimeException("参数字符串不能为null！");
+			throw new ServiceException(MallApiCode.NOTNULL_EMPTY, MallApiCode.getZhMsg(MallApiCode.NOTNULL_EMPTY));
 		}
 		while((index = str.indexOf(key,index)) != -1) {
 			index = index + key.length();
@@ -559,9 +562,9 @@ public class StringUtil {
 		
 		int u = user_id % 10000;
 		String uss = "";
-		if(u / 1000 > 0) uss = String.valueOf(u);
-		else uss = String.valueOf(u);
-		
+		uss = String.valueOf(u);
+		 
 		return format2+valueOf+uss;
 	}
+	
 }
