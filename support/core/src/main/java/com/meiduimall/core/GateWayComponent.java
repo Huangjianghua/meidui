@@ -6,6 +6,7 @@ import java.util.TreeMap;
 import com.google.common.base.Strings;
 import com.meiduimall.core.util.HttpUtils;
 import com.meiduimall.core.util.JsonUtils;
+import com.meiduimall.password.exception.Md5Exception;
 import com.meiduimall.password.util.MD5;
 
 /**
@@ -134,8 +135,9 @@ public final class GateWayComponent {
      * Date:   2017年4月13日 下午6:41:24 
      * param   参数(已经升序, 排出非空值和sign)
      * return  String
+     * @throws Md5Exception 
      */
-    private String doSign(SortedMap<String, String> params) {
+    private String doSign(SortedMap<String, String> params) throws Md5Exception {
         StringBuilder signing = new StringBuilder();
         for (Map.Entry<String, String> entry : params.entrySet()) {
             if (!Strings.isNullOrEmpty(entry.getValue())){
@@ -167,8 +169,9 @@ public final class GateWayComponent {
      * Date:   2017年4月18日 下午5:53:27 
      * param   @param params
      * return  GateWayComponent
+     * @throws Md5Exception 
      */
-    public GateWayComponent buildSignParams(SortedMap<String,String> params) {
+    public GateWayComponent buildSignParams(SortedMap<String,String> params) throws Md5Exception {
     	//生成签名
     	TreeMap<String, String> signingMap=filterSignParams(params);
     	String expectSign=doSign(signingMap);
