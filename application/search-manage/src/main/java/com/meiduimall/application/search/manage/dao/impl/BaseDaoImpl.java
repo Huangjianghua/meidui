@@ -62,7 +62,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
         JSONObject jsonObj = JSONObject.fromObject(resultJson);
         if(jsonObj.get("RESULTS") == null 
         		|| jsonObj.get("RESULTS").equals("") 
-        		|| jsonObj.getJSONArray("RESULTS").size() == 0) {
+        		|| jsonObj.getJSONArray("RESULTS").isEmpty()) {
         	return null;
         }
         List<T> itemList = JSONArray.toList(jsonObj.getJSONArray("RESULTS"),objectClass);

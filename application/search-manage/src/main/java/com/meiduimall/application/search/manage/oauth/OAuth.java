@@ -202,22 +202,22 @@ public class OAuth {
     }
     
     public static String formEncodeHandler(Iterable<? extends Map.Entry> parameters) throws IOException {
-        String strReturn = "";
+        StringBuilder strReturn = new StringBuilder();
     	if (parameters != null) {
             boolean first = true;
             for (Map.Entry parameter : parameters) {
                 if (first) {
                     first = false;
                 } else {
-                	strReturn+='&';
+                	strReturn.append('&');
                 }
-                strReturn+=toString(parameter.getKey());
-                strReturn+="=";
-                strReturn+=toString(parameter.getValue());
+                strReturn.append(toString(parameter.getKey()));
+                strReturn.append("=");
+                strReturn.append(toString(parameter.getValue()));
             }
         }
     	
-    	return strReturn;
+    	return strReturn.toString();
     }
     
     

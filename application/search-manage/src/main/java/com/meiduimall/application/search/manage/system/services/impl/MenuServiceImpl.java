@@ -65,7 +65,7 @@ public class MenuServiceImpl implements IMenuService{
 	
    public  List<Integer> getMenuIds(List<Privilege> privilege ){
 	   List<Integer> menuIds = new  ArrayList<Integer>();
-	   if(privilege !=null && privilege.size() >0){
+	   if(privilege !=null && !privilege.isEmpty()){
 		   for(Privilege item :privilege){
 			   Integer id = item.getMid();
 			   menuIds.add(id);

@@ -35,7 +35,7 @@ public class SuggestWordServiceImpl implements SuggestWordService {
 	@Override
 	public SuggestWord querySuggestWordByKey(String key) throws Exception {
 		List<SuggestWord> words = suggestWordMapper.querySuggestWordByKey(key);
-		if (words == null || words.size() == 0) {
+		if (words == null || words.isEmpty()) {
 			return null;
 		}
 		return words.get(0);

@@ -46,7 +46,7 @@ public class OAuthProvider {
 
 	public static final OAuthValidator VALIDATOR = new SimpleOAuthValidator();
 
-	public static Map<String, OAuthConsumer> ALL_CONSUMERS = Collections
+	public static final Map<String, OAuthConsumer> ALL_CONSUMERS = Collections
 			.synchronizedMap(new HashMap<String, OAuthConsumer>(10));
 
 	public static final Collection<OAuthAccessor> ALL_TOKENS = new HashSet<OAuthAccessor>();
@@ -62,7 +62,7 @@ public class OAuthProvider {
 		// try to load from local cache if not throw exception
 		String consumer_key = requestMessage.getConsumerKey();
 
-		if (ALL_CONSUMERS != null |ALL_CONSUMERS.size()>0) {
+		if (ALL_CONSUMERS != null ||  !ALL_CONSUMERS.isEmpty()) {
 			consumer = ALL_CONSUMERS.get(consumer_key);
 		} 
 		
@@ -129,8 +129,6 @@ public class OAuthProvider {
 	 */
 	public static synchronized void markAsUnAuthorized(OAuthAccessor accessor)
 			throws OAuthException {
-
-		// first remove the accessor from cache
 		ALL_TOKENS.remove(accessor);
 
 	}

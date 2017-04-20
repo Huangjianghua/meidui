@@ -373,7 +373,7 @@ public class ProductIndexServiceImpl implements ProductIndexService {
 		QueryResponse queryResponse = productIndexDao.query(params);
 		List<Item> items = queryResponse.getBeans(Item.class);
 		Item item = null;
-		if (items.size() > 0) {
+		if (!items.isEmpty()) {
 			item = items.get(0);
 		}
 		return item;

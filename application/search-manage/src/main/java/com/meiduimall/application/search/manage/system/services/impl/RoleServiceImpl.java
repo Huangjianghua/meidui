@@ -134,7 +134,7 @@ public class RoleServiceImpl implements IRoleService {
 	 */
 	public boolean checkRoleName(Role role) {
 		 List<Role> list =	roleDao.selectRoleList(role);
-		   if(list !=null && list.size()>0){
+		   if(list !=null && !list.isEmpty()){
 			   return  true ;
 		   }
 			return false;
@@ -149,7 +149,7 @@ public class RoleServiceImpl implements IRoleService {
 		User user  = new User();
 		user.setRid(rid.toString());
 	    List<User>list = userService.selectUserList(user);
-	    if(list !=null && list.size()>0){
+	    if(list !=null && !list.isEmpty()){
 	    	bl=true;
 	    }
 	    return  bl;

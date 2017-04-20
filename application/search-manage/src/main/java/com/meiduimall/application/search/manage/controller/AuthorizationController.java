@@ -102,7 +102,6 @@ public class AuthorizationController extends BaseController {
 		} catch(Exception e) {
 			result.put(SysConstant.STATUS_CODE, "9999");
 			result.put(SysConstant.RESULT_MSG, "服务器错误，缺少认证参数或服务器错误统一返回此参数");
-			log.info("数据库类目信息全量增加到索引库操作的IP地址 " + ip + "结束，服务器错误，缺少认证参数或服务器错误统一返回此参数");
 			log.error("数据库类目信息全量增加到索引库操作的IP地址 " + ip + "结束，服务器错误，缺少认证参数或服务器错误统一返回此参数", e);
 			return result;
 		}
@@ -149,7 +148,6 @@ public class AuthorizationController extends BaseController {
 		} catch(Exception e) {
 			result.put(SysConstant.STATUS_CODE, "9999");
 			result.put(SysConstant.RESULT_MSG, "服务器错误，缺少认证参数或服务器错误统一返回此参数");
-			log.info("根据ID将类目信息添加到索引库操作的IP地址 " + ip + "结束，服务器错误，缺少认证参数或服务器错误统一返回此参数");
 			log.error("根据ID将类目信息添加到索引库操作的IP地址 " + ip + "结束，服务器错误，缺少认证参数或服务器错误统一返回此参数", e);
 			return result;
 		}
@@ -196,7 +194,6 @@ public class AuthorizationController extends BaseController {
 		} catch(Exception e) {
 			result.put(SysConstant.STATUS_CODE, "9999");
 			result.put(SysConstant.RESULT_MSG, "服务器错误，缺少认证参数或服务器错误统一返回此参数");
-			log.info("根据ID删除类目索引信息操作的IP地址 " + ip + "结束，服务器错误，缺少认证参数或服务器错误统一返回此参数");
 			log.error("根据ID删除类目索引信息操作的IP地址 " + ip + "结束，服务器错误，缺少认证参数或服务器错误统一返回此参数", e);
 			return result;
 		}
@@ -238,7 +235,6 @@ public class AuthorizationController extends BaseController {
 		} catch(Exception e) {
 			result.put(SysConstant.STATUS_CODE, "9999");
 			result.put(SysConstant.RESULT_MSG, "服务器错误，缺少认证参数或服务器错误统一返回此参数");
-			log.info("数据库商品信息全量增加到索引库操作的IP地址 " + ip + "结束，服务器错误，缺少认证参数或服务器错误统一返回此参数");
 			log.error("数据库商品信息全量增加到索引库操作的IP地址 " + ip + "结束，服务器错误，缺少认证参数或服务器错误统一返回此参数", e);
 			return result;
 		}
@@ -285,7 +281,6 @@ public class AuthorizationController extends BaseController {
 		} catch(Exception e) {
 			result.put(SysConstant.STATUS_CODE, "9999");
 			result.put(SysConstant.RESULT_MSG, "服务器错误，缺少认证参数或服务器错误统一返回此参数");
-			log.info("根据ID将商品信息添加到索引库操作的IP地址 " + ip + "结束，服务器错误，缺少认证参数或服务器错误统一返回此参数");
 			log.error("根据ID将商品信息添加到索引库操作的IP地址 " + ip + "结束，服务器错误，缺少认证参数或服务器错误统一返回此参数", e);
 			return result;
 		}
@@ -309,7 +304,6 @@ public class AuthorizationController extends BaseController {
 		if (StringUtil.isEmptyByString(item_id)) {
 			result.put(SysConstant.STATUS_CODE, "9999");
 			result.put(SysConstant.RESULT_MSG, "服务器错误，缺少认证参数或服务器错误统一返回此参数");
-			log.info("id为空");
 			log.error("根据ID删除商品索引信息操作的IP地址 " + ip + "结束，服务器错误，缺少认证参数或服务器错误统一返回此参数");
 			return result;
 		}
@@ -332,7 +326,6 @@ public class AuthorizationController extends BaseController {
 		} catch(Exception e) {
 			result.put(SysConstant.STATUS_CODE, "9999");
 			result.put(SysConstant.RESULT_MSG, "服务器错误，缺少认证参数或服务器错误统一返回此参数");
-			log.info("根据ID删除商品索引信息操作的IP地址 " + ip + "结束，服务器错误，缺少认证参数或服务器错误统一返回此参数");
 			log.error("根据ID删除商品索引信息操作的IP地址 " + ip + "结束，服务器错误，缺少认证参数或服务器错误统一返回此参数", e);
 			return result;
 		}
@@ -356,7 +349,6 @@ public class AuthorizationController extends BaseController {
 		if (StringUtil.isEmptyByString(query)) {
 			result.put(SysConstant.STATUS_CODE, "9999");
 			result.put(SysConstant.RESULT_MSG, "服务器错误，缺少认证参数或服务器错误统一返回此参数");
-			log.info("id为空");
 			log.error("根据条件删除商品索引信息操作的IP地址 " + ip + "结束，服务器错误，缺少认证参数或服务器错误统一返回此参数");
 			return result;
 		}
@@ -379,7 +371,6 @@ public class AuthorizationController extends BaseController {
 		} catch(Exception e) {
 			result.put(SysConstant.STATUS_CODE, "9999");
 			result.put(SysConstant.RESULT_MSG, "服务器错误，缺少认证参数或服务器错误统一返回此参数");
-			log.info("根据条件删除商品索引信息操作的IP地址 " + ip + "结束，服务器错误，缺少认证参数或服务器错误统一返回此参数");
 			log.error("根据条件删除商品索引信息操作的IP地址 " + ip + "结束，服务器错误，缺少认证参数或服务器错误统一返回此参数", e);
 			return result;
 		}
@@ -420,7 +411,6 @@ public class AuthorizationController extends BaseController {
 		} catch(Exception e) {
 			result.put(SysConstant.STATUS_CODE, "9999");
 			result.put(SysConstant.RESULT_MSG, "服务器错误，缺少认证参数或服务器错误统一返回此参数");
-			log.info("输入提示索引操作的IP地址 " + ip + "结束，服务器错误，缺少认证参数或服务器错误统一返回此参数");
 			log.error("输入提示索引操作的IP地址 " + ip + "结束，服务器错误，缺少认证参数或服务器错误统一返回此参数", e);
 			return result;
 		}
@@ -444,7 +434,6 @@ public class AuthorizationController extends BaseController {
 		if (StringUtil.isEmptyByString(key)) {
 			result.put(SysConstant.STATUS_CODE, "9999");
 			result.put(SysConstant.RESULT_MSG, "服务器错误，缺少认证参数或服务器错误统一返回此参数");
-			log.info("id为空");
 			log.error("将提示信息添加到索引库操作的IP地址 " + ip + "结束，服务器错误，缺少认证参数或服务器错误统一返回此参数");
 			return result;
 		}
@@ -467,7 +456,6 @@ public class AuthorizationController extends BaseController {
 		} catch(Exception e) {
 			result.put(SysConstant.STATUS_CODE, "9999");
 			result.put(SysConstant.RESULT_MSG, "服务器错误，缺少认证参数或服务器错误统一返回此参数");
-			log.info("将提示信息添加到索引库操作的IP地址 " + ip + "结束，服务器错误，缺少认证参数或服务器错误统一返回此参数");
 			log.error("将提示信息添加到索引库操作的IP地址 " + ip + "结束，服务器错误，缺少认证参数或服务器错误统一返回此参数", e);
 			return result;
 		}
@@ -491,8 +479,6 @@ public class AuthorizationController extends BaseController {
 		if (StringUtil.isEmptyByString(key)) {
 			result.put(SysConstant.STATUS_CODE, "9999");
 			result.put(SysConstant.RESULT_MSG, "服务器错误，缺少认证参数或服务器错误统一返回此参数");
-			log.info("id为空");
-			log.error("将提示信息删除到索引库操作的IP地址 " + ip + "结束，服务器错误，缺少认证参数或服务器错误统一返回此参数");
 			return result;
 		}
 		String url = request.getRequestURL().toString();
@@ -514,7 +500,6 @@ public class AuthorizationController extends BaseController {
 		} catch(Exception e) {
 			result.put(SysConstant.STATUS_CODE, "9999");
 			result.put(SysConstant.RESULT_MSG, "服务器错误，缺少认证参数或服务器错误统一返回此参数");
-			log.info("将提示信息删除到索引库操作的IP地址 " + ip + "结束，服务器错误，缺少认证参数或服务器错误统一返回此参数");
 			log.error("将提示信息删除到索引库操作的IP地址 " + ip + "结束，服务器错误，缺少认证参数或服务器错误统一返回此参数", e);
 			return result;
 		}
@@ -545,7 +530,6 @@ public class AuthorizationController extends BaseController {
 	
 	/**
 	 * building basic parameter for out request
-	 * 
 	 * @param secret
 	 * @param key
 	 * @param timeStamp

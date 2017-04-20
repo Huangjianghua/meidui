@@ -47,7 +47,7 @@ public class UserServiceImpl implements IUserService{
 			return null ;
 		}
 		List<User> users = userDao.selectUserList(user);
-		if(users !=null &&users.size()>0){
+		if(users !=null && !users.isEmpty()){
 			return  users.get(0);
 		}
 	   return null;
@@ -98,7 +98,7 @@ public class UserServiceImpl implements IUserService{
 	public boolean checkUserName(User user) {
 	   user.setUserName(DESC.firstEncryption(user.getUserName()));
 	   List<User> list =	userDao.selectUserList(user);
-	   if(list !=null && list.size()>0){
+	   if(list !=null && !list.isEmpty()){
 		   return  true ;
 	   }
 		return false;

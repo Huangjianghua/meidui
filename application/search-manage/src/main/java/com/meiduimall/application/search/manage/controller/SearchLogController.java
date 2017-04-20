@@ -110,7 +110,7 @@ public class SearchLogController {
 		try {
 			QueryResult result = searchLogService.queryStatisticLogs(logParam);
 			List data = result.getDateList();
-			if (result != null && data != null && data.size() > 0) {
+			if (result != null && data != null && !data.isEmpty()) {
 				StatisticLog log = (StatisticLog) data.get(0);
 				String keyword = log.getKeyword();
 				SuggestWord suggestWord = suggestWordService.querySuggestWordByKey(keyword);
