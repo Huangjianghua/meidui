@@ -103,7 +103,7 @@ public class WeChatClient {
             sb.append(arrayToSort[i]);
         }
         String result = (sb.toString() + "key=" + key);
-        log.info("Sign result: \n%s", result);
+        log.info("Sign result: \n{}", result);
         String md5 = null;
         try {
         	md5= MD5.getMD5EncodeUTF8(result);
