@@ -44,7 +44,7 @@ public class MD5Tool {
 
 	// 32位加密
 	public static String MD5Encrypt(String values) {
-		StringBuffer buf = new StringBuffer("");
+		StringBuilder buf = new StringBuilder("");
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			md.update(values.getBytes());
@@ -148,7 +148,7 @@ public class MD5Tool {
 		String hexString = null;
 		if (str != null && str.length() > 0) {
 			char[] digital = "0123456789ABCDEF".toCharArray();
-			StringBuffer sb = new StringBuffer("");
+			StringBuilder sb = new StringBuilder("");
 			try {
 				byte[] bs = str.getBytes("utf-8");
 				int bit;

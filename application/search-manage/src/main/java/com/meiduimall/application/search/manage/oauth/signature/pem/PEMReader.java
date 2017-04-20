@@ -116,7 +116,7 @@ public class PEMReader {
     private byte[] readBytes(BufferedReader reader, String endMarker) throws IOException
     {
         String          line = null;
-        StringBuffer    buf = new StringBuffer();
+        StringBuilder    buf = new StringBuilder();
 
         while ((line = reader.readLine()) != null)
         {

@@ -51,7 +51,7 @@ public class XFCUtil {
 
 	
     private static String getParams(JSONObject json) {
-    	StringBuffer buff = new StringBuffer();
+    	StringBuilder buff = new StringBuilder();
     	buff.append("oauth_signature_method=" + Constant.OAUTH_SIGNATURE_METHOD)
     	.append("&oauth_accessor_secret=" + Constant.FIRST_XFC_SECRET)
     	.append("&oauth_consumer_key=" +Constant.FIRST_XFC_KEY)
