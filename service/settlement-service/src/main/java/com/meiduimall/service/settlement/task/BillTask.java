@@ -115,9 +115,9 @@ public class BillTask {
 			String billTime = DateUtil.getUpDAY();//账单日期
 			try{
 				billService.mergeBilledWaters(mergeWaterVOList);
-				log.info("合并流水表中同一用户重复流水金额成功,账单日期:" + billTime);
+				log.info("合并流水表中同一用户重复流水金额成功,账单日期:{}", billTime);
 			}catch(ServiceException e){
-				log.error("合并流水表中同一用户重复流水金额失败,账单日期:" + billTime + "|" + e.getMessage());
+				log.error("合并流水表中同一用户重复流水金额失败,账单日期:{},异常:{}", billTime, e.getMessage());
 			}
 		}
 

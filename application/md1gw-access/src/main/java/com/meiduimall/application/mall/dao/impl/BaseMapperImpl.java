@@ -9,6 +9,8 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
 
 import com.meiduimall.application.mall.dao.BaseMapper;
+import com.meiduimall.application.mall.exception.MallApiCode;
+import com.meiduimall.application.mall.util.Logger;
 import com.meiduimall.exception.DaoException;
 
 @Repository
@@ -26,8 +28,9 @@ public class BaseMapperImpl extends SqlSessionDaoSupport implements BaseMapper {
 		try {
 			rt = getSqlSession().selectOne(sqlTag, params);
 		} catch (RuntimeException e) {
-			throw new DaoException(sqlTag + " error, params = " + params, e);
-		}
+			Logger.error(sqlTag + " error, params = " + params, e);
+			throw new DaoException(MallApiCode.EXCEPTION_UNKNOWN,MallApiCode.getZhMsg(MallApiCode.EXCEPTION_UNKNOWN));
+		} 
 		return rt;
 	}
 
@@ -37,7 +40,8 @@ public class BaseMapperImpl extends SqlSessionDaoSupport implements BaseMapper {
 		try {
 			rt = getSqlSession().selectList(sqlTag, params);
 		} catch (RuntimeException e) {
-			throw new DaoException(sqlTag + " error, params = " + params, e);
+			Logger.error(sqlTag + " error, params = " + params, e);
+			throw new DaoException(MallApiCode.EXCEPTION_UNKNOWN,MallApiCode.getZhMsg(MallApiCode.EXCEPTION_UNKNOWN));
 		}
 		return rt;
 	}
@@ -48,7 +52,8 @@ public class BaseMapperImpl extends SqlSessionDaoSupport implements BaseMapper {
 		try {
 			rt = getSqlSession().insert(sqlTag, t);
 		} catch (RuntimeException e) {
-			throw new DaoException(sqlTag + " error, t = " + t, e);
+			Logger.error(sqlTag + " error, params = " + t, e);
+			throw new DaoException(MallApiCode.EXCEPTION_UNKNOWN,MallApiCode.getZhMsg(MallApiCode.EXCEPTION_UNKNOWN));
 		}
 		return rt;
 	}
@@ -59,7 +64,8 @@ public class BaseMapperImpl extends SqlSessionDaoSupport implements BaseMapper {
 		try {
 			rt = getSqlSession().insert(sqlTag + "." + sqlTag, ts);
 		} catch (RuntimeException e) {
-			throw new DaoException(sqlTag + " error, ts = " + ts, e);
+			Logger.error(sqlTag + " error, params = " + ts, e);
+			throw new DaoException(MallApiCode.EXCEPTION_UNKNOWN,MallApiCode.getZhMsg(MallApiCode.EXCEPTION_UNKNOWN));
 		}
 		return rt;
 	}
@@ -70,7 +76,8 @@ public class BaseMapperImpl extends SqlSessionDaoSupport implements BaseMapper {
 		try {
 			rt = getSqlSession().update(sqlTag, params);
 		} catch (RuntimeException e) {
-			throw new DaoException(sqlTag + " error, params = " + params, e);
+			Logger.error(sqlTag + " error, params = " + params, e);
+			throw new DaoException(MallApiCode.EXCEPTION_UNKNOWN,MallApiCode.getZhMsg(MallApiCode.EXCEPTION_UNKNOWN));
 		}
 		return rt;
 	}
@@ -82,7 +89,8 @@ public class BaseMapperImpl extends SqlSessionDaoSupport implements BaseMapper {
 		try {
 			rt = getSqlSession().delete(sqlTag, params);
 		} catch (RuntimeException e) {
-			throw new DaoException(sqlTag + " error, params = " + params, e);
+			Logger.error(sqlTag + " error, params = " + params, e);
+			throw new DaoException(MallApiCode.EXCEPTION_UNKNOWN,MallApiCode.getZhMsg(MallApiCode.EXCEPTION_UNKNOWN));
 		}
 		return rt;
 	}
@@ -94,7 +102,8 @@ public class BaseMapperImpl extends SqlSessionDaoSupport implements BaseMapper {
 		try {
 			rt = getSqlSession().delete(sqlTag, params);
 		} catch (RuntimeException e) {
-			throw new DaoException(sqlTag + " error, params = " + params, e);
+			Logger.error(sqlTag + " error, params = " + params, e);
+			throw new DaoException(MallApiCode.EXCEPTION_UNKNOWN,MallApiCode.getZhMsg(MallApiCode.EXCEPTION_UNKNOWN));
 		}
 		return rt;
 	}

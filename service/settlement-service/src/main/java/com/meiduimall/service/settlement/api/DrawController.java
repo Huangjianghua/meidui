@@ -19,6 +19,7 @@ import com.github.pagehelper.StringUtil;
 import com.google.common.collect.Maps;
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.SettlementApiCode;
 import com.meiduimall.service.settlement.common.DrawCashConstants;
@@ -64,8 +65,12 @@ public class DrawController {
 	 */
 	@PostMapping(value="/queryaccoutbalance")
 	public ResBodyData queryAccoutBalance(String code) {
-		Map<String, Object> accountResult = drawService.queryAccoutBalance(code);
-		return SettlementUtil.success(accountResult);
+		try {
+			Map<String, Object> accountResult = drawService.queryAccoutBalance(code);
+			return SettlementUtil.success(accountResult);
+		} catch (DaoException e) {
+			throw new ServiceException(e.getCode(),e.getMessage());
+		}
 	}
 	
 
