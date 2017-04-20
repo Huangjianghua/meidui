@@ -69,7 +69,7 @@ public class HiCardClient {
         }
         sb.append(key);
         String str = sb.toString();
-        log.info("buildSign::Sign data -> %s", str);
+        log.info("buildSign::Sign data -> {}", str);
        return DigestUtils.md5Hex(str);
        //return Md5Encrypt.md5Digest(str);
     }
@@ -107,7 +107,7 @@ public class HiCardClient {
 
         
             String json = new Gson().toJson(requestModel);
-            log.info("hiCardTrade::request data: \n%s", json);
+            log.info("hiCardTrade::request data: \n{}", json);
             Map<String,String>  rmap = new HashMap<String,String>();
             rmap.put("Content-Type", "application/json");
             String result;
@@ -116,7 +116,7 @@ public class HiCardClient {
 			} catch (IOException e) {
 				throw new DaoException(ServicePaymentApiCode.HIKA_API_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.HIKA_API_ERROR));
 			}
-            log.info("hiCardTrade::result data: \n%s", result);
+            log.info("hiCardTrade::result data: \n{}", result);
             HashMap map = null;
 			try {
 				map = new ObjectMapper().readValue(result, HashMap.class);

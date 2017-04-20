@@ -231,7 +231,7 @@ public class WeChatClient {
 			} catch (JAXBException e) {
 				throw new DaoException(ServicePaymentApiCode.XML_OBJECT_TRANS_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.XML_OBJECT_TRANS_ERROR));
 			}
-            log.info("getWeChatPayQrCode::request data: \n%s", xmlData);
+            log.info("getWeChatPayQrCode::request data: \n{}", xmlData);
             
             Map<String,String>  map = new HashMap<String,String>();
             map.put("Content-Type", "application/json");
@@ -241,7 +241,7 @@ public class WeChatClient {
 			} catch (IOException e) {
 				throw new DaoException(ServicePaymentApiCode.WEBCHAT_API_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.WEBCHAT_API_ERROR));
 			}
-            log.info("getWeChatPayQrCode::result data: \n%s", result);
+            log.info("getWeChatPayQrCode::result data: \n{}", result);
 
             
             WeChatResponeModel resultModel = null;

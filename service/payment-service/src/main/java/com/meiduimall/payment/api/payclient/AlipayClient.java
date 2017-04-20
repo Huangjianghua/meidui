@@ -105,7 +105,7 @@ public class AlipayClient {
 
 		if (output != null) {
 			output.putAll(map);
-			log.info("Sign output: \n%s", output);
+			log.info("Sign output: \n{}", output);
 		}
 
 		StringBuffer sb = new StringBuffer();
@@ -115,7 +115,7 @@ public class AlipayClient {
 		}
 
 		String result = sb.toString().substring(0, sb.length() - 1);
-		log.info("Sign result: \n%s", result);
+		log.info("Sign result: \n{}", result);
 		String sign = RsaEncrypt.encrypt(result, APP_PRIVATE_KEY, CHARSET);
 		return sign;
 	}
@@ -144,7 +144,7 @@ public class AlipayClient {
 			throw new DaoException(ServicePaymentApiCode.SIGN_ENCODE_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.SIGN_ENCODE_ERROR));
 		}
 		result.append("&sign_type=RSA");
-		log.info("AlipayTradeWap: \n%s", result.toString());
+		log.info("AlipayTradeWap: \n{}", result.toString());
 
 		return result.toString();
 	}
@@ -176,7 +176,7 @@ public class AlipayClient {
 
 		result.append("<input type=\"submit\" value=\"提交\" style=\"display:none;\"></form>");
 		result.append("<script>document.forms['alipaysubmit'].submit();</script>");
-		log.info("AlipayTradeWap: \n%s", result.toString());
+		log.info("AlipayTradeWap: \n{}", result.toString());
 
 		return result.toString();
 	}
