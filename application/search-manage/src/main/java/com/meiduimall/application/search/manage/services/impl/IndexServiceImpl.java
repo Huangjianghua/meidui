@@ -160,7 +160,7 @@ public class IndexServiceImpl implements IndexService {
 	
 	private Map<Integer, Props> getPropMap() throws Exception {
 		List<Props> props = propMapper.queryProps();
-		Map<Integer, Props> propMap = new HashMap<Integer, Props>();
+		Map<Integer, Props> propMap = new HashMap<>();
 		for (Props prop : props) {
 			propMap.put(prop.getPropValueId(), prop);
 		}

@@ -15,19 +15,19 @@ public interface CatMapper {
      * 查询类目信息
      * @return
      */
-	public List<CatModel> queryCats(PageView pageView) throws Exception;
+	public List<CatModel> queryCats(PageView pageView) ;
 	
 	/**
 	 * 查询总记录数
 	 * @return
 	 */
-	public long queryCatsCount() throws Exception;
+	public long queryCatsCount() ;
 	
 	/**
 	 * 根据ID查询类目信息
 	 * @return
 	 */
-	public CatModel queryCatById(Integer id) throws Exception;
+	public CatModel queryCatById(Integer id) ;
 
 	/**
 	 * 查询所有类目ID

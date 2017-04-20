@@ -15,19 +15,19 @@ public interface ItemMapper {
      * 查询产品信息
      * @return
      */
-	public List<ItemModel> queryItems(ItemModel itemModel) throws Exception;
+	public List<ItemModel> queryItems(ItemModel itemModel) ;
 	
 	/**
 	 * 查询总记录数
 	 * @return
 	 */
-	public long queryItemsCount(ItemModel itemModel) throws Exception;
+	public long queryItemsCount(ItemModel itemModel) ;
 	
 	/**
 	 * 根据ID查询产品信息
 	 * @return
 	 */
-	public ItemModel queryItemById(Integer id) throws Exception;
+	public ItemModel queryItemById(Integer id) ;
 
 	/**
 	 * 查询所有产品ID

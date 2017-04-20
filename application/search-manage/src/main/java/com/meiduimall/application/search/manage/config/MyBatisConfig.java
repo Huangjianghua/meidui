@@ -1,8 +1,6 @@
 package com.meiduimall.application.search.manage.config;
 import java.util.Properties;
-
 import javax.sql.DataSource;
-
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -19,7 +17,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-
 import com.github.pagehelper.PageHelper;
 
 
@@ -43,7 +40,7 @@ public class MyBatisConfig {
 
     @Bean(name = "sqlSessionFactory1")
     @Primary
-    public SqlSessionFactory sqlSessionFactoryBean1(@Qualifier("dataSource1") DataSource dataSource1) {
+    public SqlSessionFactory sqlSessionFactoryBean1(@Qualifier("dataSource1") DataSource dataSource1) throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource1);
         bean.setTypeAliasesPackage("com.meiduimall.application.search.manage.pojo");
@@ -58,14 +55,9 @@ public class MyBatisConfig {
         bean.setPlugins(new Interceptor[]{pageHelper});
         //添加XML目录
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        try {
-            //设置xml扫描路径
-            bean.setMapperLocations(resolver.getResources("classpath:mapping/*.xml"));
-            return bean.getObject();
-        } catch (Exception e) {
-        	logger.error(e.getMessage());
-            throw new RuntimeException("sqlSessionFactory init fail",e);
-        }
+        bean.setMapperLocations(resolver.getResources("classpath:mapping/*.xml"));
+        return bean.getObject();
+      
     }
     
     

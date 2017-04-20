@@ -14,12 +14,12 @@ public interface PropMapper {
      * 查询属性名信息
      * @return
      */
-	public List<Props> queryProps() throws Exception;
+	public List<Props> queryProps() ;
 	
 	/**
 	 * 根据ID查询属性名信息
 	 * @return
 	 */
-	public Props queryPropById(Integer id) throws Exception;
+	public Props queryPropById(Integer id) ;
 
 }
