@@ -36,7 +36,7 @@
 		    <artifactId>phprpc</artifactId>
 		    <version>3.0.2</version>
 		</dependency>
-
+		
 		<!--引入meiduimall-common -->
 		<!-- <dependency>
 			<groupId>com.meiduimall</groupId>
