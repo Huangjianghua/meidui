@@ -48,8 +48,8 @@ public class IndexServiceImpl implements IndexService {
 	@Autowired
 	private ItemMapper itemMapper;
 	
-	/*@Autowired
-	private SuggestWordMapper suggestWordMapper;*/
+	@Autowired
+	private SuggestWordMapper suggestWordMapper;
 
 	@Autowired
 	private CatIndexDao catIndexDao;
@@ -60,15 +60,15 @@ public class IndexServiceImpl implements IndexService {
 	@Autowired
 	private PropMapper propMapper;
 	
-	/*@Autowired
-	private IndexLogMapper indexLogMapper;*/
+	@Autowired
+	private IndexLogMapper indexLogMapper;
 	
 	private void addIndexLog(String remark) {
 		try {
 			IndexLog indexLogs = new IndexLog();
 			indexLogs.setRemark(remark);
 			indexLogs.setLogTime(new Date());
-			//indexLogMapper.insertIndexLog(indexLogs);
+			indexLogMapper.insertIndexLog(indexLogs);
 		} catch (Exception e) {
 			log.error("插入索引日志信息异常", e);
 		}
@@ -76,7 +76,7 @@ public class IndexServiceImpl implements IndexService {
 	
 	@Override
 	public Map<String, Object> addProductIndex(Integer pageSize) {
-		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> result = new HashMap<>();
 		String itemId = "";
 		try {
 			// 更新之前先删除所有
@@ -125,7 +125,7 @@ public class IndexServiceImpl implements IndexService {
 	
 	@Override
 	public Map<String, Object> addProductIndexById(Integer itemId) {
-		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> result = new HashMap<>();
 		try {
 			QueryResponse query = productIndexDao.query(new SolrQuery("itemId:" + itemId));
 			if (!query.getResults().isEmpty()) {
@@ -160,7 +160,7 @@ public class IndexServiceImpl implements IndexService {
 	
 	private Map<Integer, Props> getPropMap() throws Exception {
 		List<Props> props = propMapper.queryProps();
-		Map<Integer, Props> propMap = new HashMap<Integer, Props>();
+		Map<Integer, Props> propMap = new HashMap<>();
 		for (Props prop : props) {
 			propMap.put(prop.getPropValueId(), prop);
 		}
@@ -169,7 +169,7 @@ public class IndexServiceImpl implements IndexService {
 
 	@Override
 	public Map<String, Object> deleteProductIndexByItemId(String itemId) {
-		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> result = new HashMap<>();
 		try {
 			productIndexDao.deleteById(itemId);
 			result.put(SysConstant.STATUS_CODE, "0");
@@ -186,7 +186,7 @@ public class IndexServiceImpl implements IndexService {
 	
 	@Override
 	public Map<String, Object> deleteProductIndexByQuery(String query) {
-		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> result = new HashMap<>();
 		try {
 			productIndexDao.deleteByQuery(query);
 			result.put(SysConstant.STATUS_CODE, "0");
@@ -206,11 +206,11 @@ public class IndexServiceImpl implements IndexService {
 
 	@Override
 	public Map<String, Object> addSuggestIndex(Integer pageSize) {
-		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> result = new HashMap<>();
 		try {
 			result = deleteAllSuggestIndex();
 			// 获取字典总记录数
-			long totalCount =0;// suggestWordMapper.querySuggestWordCount(null);
+			long totalCount =suggestWordMapper.querySuggestWordCount(null);
 			PageView pageView = new PageView();
 			pageView.setPageSize(pageSize);
 			int totalPage = (int) Math.ceil(totalCount/(double)pageSize);
@@ -219,7 +219,7 @@ public class IndexServiceImpl implements IndexService {
 				pageView.setCurrentPage(i);
 				List<Suggest> suggests = getSuggests(pageView);
 				if (suggests != null) {
-					//suggestDao.saveSuggestIndexes(suggests);
+					suggestDao.saveSuggestIndexes(suggests);
 				}
 			}
 			long end = System.currentTimeMillis();
@@ -245,7 +245,7 @@ public class IndexServiceImpl implements IndexService {
 	 */
 	private List<Suggest> getSuggests(PageView pageView) {
 		try {
-			List<SuggestWord> suggestWords =null;// suggestWordMapper.querySuggestWords(pageView);
+			List<SuggestWord> suggestWords =suggestWordMapper.querySuggestWords(pageView);
 			List<Suggest> list = new ArrayList<>();
 			for (SuggestWord suggestWord : suggestWords) {
 				Suggest suggest = transformSuggest(suggestWord.getKw());
@@ -279,7 +279,7 @@ public class IndexServiceImpl implements IndexService {
 
 	@Override
 	public Map<String, Object> addSuggestIndexById(String key) {
-		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> result = new HashMap<>();
 		try {
 			Suggest suggest = transformSuggest(key);
 			long start = System.currentTimeMillis();
@@ -302,9 +302,9 @@ public class IndexServiceImpl implements IndexService {
 
 	@Override
 	public Map<String, Object> addSuggestIndexById(int suggestId) {
-		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> result = new HashMap<>();
 		try {
-			SuggestWord suggestWord =null;// suggestWordMapper.querySuggestWordById(suggestId);
+			SuggestWord suggestWord = suggestWordMapper.querySuggestWordById(suggestId);
 			Suggest suggest = transformSuggest(suggestWord.getKw());
 			suggest.setKwfreq(suggestWord.getKwfreq());
 			long start = System.currentTimeMillis();
@@ -327,7 +327,7 @@ public class IndexServiceImpl implements IndexService {
 
 	@Override
 	public Map<String, Object> deleteSuggestIndexById(String key) {
-		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> result = new HashMap<>();
 		try {
 			//suggestDao.deleteSuggestById(key);
 			result.put(SysConstant.STATUS_CODE, "0");
@@ -347,7 +347,7 @@ public class IndexServiceImpl implements IndexService {
 
 	@Override
 	public Map<String, Object> deleteSuggestIndexByQuery(String key) {
-		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> result = new HashMap<>();
 		try {
 			//suggestDao.deleteSuggestByQuery("suggest:" + key);
 			result.put(SysConstant.STATUS_CODE, "0");
@@ -367,7 +367,7 @@ public class IndexServiceImpl implements IndexService {
 
 	@Override
 	public Map<String, Object> deleteAllSuggestIndex() {
-		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> result = new HashMap<>();
 		try {
 			//suggestDao.deleteSuggestByQuery("*:*");
 			result.put(SysConstant.STATUS_CODE, "0");
@@ -387,7 +387,7 @@ public class IndexServiceImpl implements IndexService {
 
 	@Override
 	public Map<String, Object> addCatlogIndex(int pageSize) {
-		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> result = new HashMap<>();
 		try {
 			long totalCount = catMapper.queryCatsCount();
 			PageView pageView = new PageView();
@@ -419,7 +419,7 @@ public class IndexServiceImpl implements IndexService {
 
 	@Override
 	public Map<String, Object> addCatlogIndexById(int catId) {
-		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> result = new HashMap<>();
 		try {
 			long start = System.currentTimeMillis();
 			CatModel catModel = catMapper.queryCatById(catId);
@@ -442,7 +442,7 @@ public class IndexServiceImpl implements IndexService {
 
 	@Override
 	public Map<String, Object> deleteCatlogIndexByItemId(String catId) {
-		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> result = new HashMap<>();
 		try {
 			catIndexDao.deleteCatIndexById(catId);
 			result.put(SysConstant.STATUS_CODE, "0");
@@ -462,7 +462,7 @@ public class IndexServiceImpl implements IndexService {
 
 	@Override
 	public Map<String, Object> deleteCatlogIndexByQuery(String query) {
-		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> result = new HashMap<>();
 		try {
 			catIndexDao.deleteCatIndexByQuery(query);
 			result.put(SysConstant.STATUS_CODE, "0");

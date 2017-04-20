@@ -11,50 +11,23 @@
 package com.meiduimall.exception;
 
 /**
- * 统一错误码异常
- *
- * Created by simon on 14/03/2017.
+ * Copyright (C), 2002-2017, 美兑壹购物
+ * FileName: ServiceException.java
+ * Author:   Administrator
+ * Date:     2017年4月19日 下午4:47:53
+ * Description: service层统一错误码异常
  */
-public class ServiceException extends RuntimeException {
+public class ServiceException extends BizException {
+	
+	private static final long serialVersionUID = 3208750423221347264L;
 
-	private Integer code;
 
-	public ServiceException(Integer code) {
-		this.code = code;
+	public ServiceException(Integer code, String msg) {
+		super(code,msg);
 	}
 
-	public ServiceException(String e) {
-		super(e);
-	}
 
-	public ServiceException(Throwable cause) {
-		super(cause);
-	}
-
-	public ServiceException(Integer code, String e) {
-		super(e);
-		this.code = code;
-	}
-
-	public ServiceException(Integer code, Throwable cause) {
-		super(cause);
-		this.code = code;
-	}
-
-	public ServiceException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
-	public ServiceException(Integer code, String message, Throwable cause) {
-		super(message, cause);
-		this.code = code;
-	}
-
-	public Integer getCode() {
-		return code;
-	}
-
-	public void setCode(Integer code) {
-		this.code = code;
+	public ServiceException(Integer code, String msg, Throwable cause) {
+		super(code, msg,cause);
 	}
 }

@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.application.mall.catalog.annotation.HasToken;
-import com.meiduimall.application.mall.catalog.constant.ApplicationMallApiCode;
+import com.meiduimall.application.mall.catalog.constant.ApplMallApiCode;
 import com.meiduimall.application.mall.catalog.request.ShopProductRequest;
-import com.meiduimall.application.mall.catalog.service.impl.ShopServiceImpl;
+import com.meiduimall.application.mall.catalog.service.ShopService;
 import com.meiduimall.exception.ApiException;
 
 @RestController
@@ -25,7 +25,7 @@ public class ShopController {
 	private HttpServletRequest request;
 
 	@Autowired
-	private ShopServiceImpl shopService;
+	private ShopService shopService;
 
 	/**
 	 * 根据店铺shopId，获取店铺详情
@@ -36,15 +36,16 @@ public class ShopController {
 	 */
 	@RequestMapping(value = "/getShopDetail")
 	public String getShopDetail(String shopId) {
-		int shop_id = 0;
+		int intShopId = 0;
 		String memId = (String) request.getAttribute("memId");
 		try {
-			shop_id = Integer.parseInt(shopId);
+			intShopId = Integer.parseInt(shopId);
 		} catch (NumberFormatException e) {
 			logger.error("根据店铺shop_id，获取店铺详情，服务器异常：" + e);
-			throw new ApiException(ApplicationMallApiCode.REQUEST_PARAMS_ERROR);
+			throw new ApiException(ApplMallApiCode.REQUEST_PARAMS_ERROR,
+					ApplMallApiCode.getZhMsg(ApplMallApiCode.REQUEST_PARAMS_ERROR));
 		}
-		return shopService.getShopDetailHttp(shop_id, memId);
+		return shopService.getShopDetailHttp(intShopId, memId);
 	}
 
 	/**
@@ -59,17 +60,18 @@ public class ShopController {
 	@HasToken
 	@RequestMapping(value = "/collectShop")
 	public String collectOrCancelShop(String shopId, String isCollect) {
-		int shop_id = 0;
-		int is_collect = 0;
+		int intShopId = 0;
+		int intIsCollect = 0;
 		String memId = (String) request.getAttribute("memId");
 		try {
-			shop_id = Integer.parseInt(shopId);
-			is_collect = Integer.parseInt(isCollect);
+			intShopId = Integer.parseInt(shopId);
+			intIsCollect = Integer.parseInt(isCollect);
 		} catch (NumberFormatException e) {
 			logger.error("收藏店铺或者取消收藏，服务器异常：" + e);
-			throw new ApiException(ApplicationMallApiCode.REQUEST_PARAMS_ERROR);
+			throw new ApiException(ApplMallApiCode.REQUEST_PARAMS_ERROR,
+					ApplMallApiCode.getZhMsg(ApplMallApiCode.REQUEST_PARAMS_ERROR));
 		}
-		return shopService.collectOrCancelShopHttp(shop_id, is_collect, memId);
+		return shopService.collectOrCancelShopHttp(intShopId, intIsCollect, memId);
 	}
 
 	/**
@@ -81,14 +83,15 @@ public class ShopController {
 	 */
 	@RequestMapping(value = "/getShopCatalog")
 	public String getShopProductCatalog(String shopId) {
-		int shop_id = 0;
+		int intShopId = 0;
 		try {
-			shop_id = Integer.parseInt(shopId);
+			intShopId = Integer.parseInt(shopId);
 		} catch (NumberFormatException e) {
 			logger.error("获取商家自定义商品分类列表，服务器异常：" + e);
-			throw new ApiException(ApplicationMallApiCode.REQUEST_PARAMS_ERROR);
+			throw new ApiException(ApplMallApiCode.REQUEST_PARAMS_ERROR,
+					ApplMallApiCode.getZhMsg(ApplMallApiCode.REQUEST_PARAMS_ERROR));
 		}
-		return shopService.getShopProductCatalogHttp(shop_id);
+		return shopService.getShopProductCatalogHttp(intShopId);
 	}
 
 	/**

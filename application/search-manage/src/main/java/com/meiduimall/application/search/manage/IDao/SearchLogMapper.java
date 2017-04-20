@@ -1,10 +1,6 @@
 package com.meiduimall.application.search.manage.IDao;
-
 import java.util.List;
-
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
-
 import com.meiduimall.application.search.manage.domain.SearchLog;
 import com.meiduimall.application.search.manage.pojo.LogParam;
 import com.meiduimall.application.search.manage.pojo.StatisticLog;
@@ -18,7 +14,7 @@ public interface SearchLogMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<SearchLog> querySearchLogs(LogParam logParam) throws Exception;
+	public List<SearchLog> querySearchLogs(LogParam logParam) ;
 	
 	/**
 	 * 查询搜索日志总数
@@ -26,7 +22,7 @@ public interface SearchLogMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public long querySearchLogCount(LogParam logParam) throws Exception;
+	public long querySearchLogCount(LogParam logParam) ;
 	
 	/**
 	 * 查询统计日志内容
@@ -34,7 +30,7 @@ public interface SearchLogMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<StatisticLog> queryStatisticLogs(LogParam logParam) throws Exception;
+	public List<StatisticLog> queryStatisticLogs(LogParam logParam) ;
 	
 	/**
 	 * 查询统计日志总数
@@ -42,7 +38,7 @@ public interface SearchLogMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public long queryStatisticCount(LogParam logParam) throws Exception;
+	public long queryStatisticCount(LogParam logParam) ;
 	
 	/**
 	 * 根据关键词查询搜索日志内容
@@ -50,7 +46,7 @@ public interface SearchLogMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public SearchLog querySearchLogByKeyword(String keyword) throws Exception;
+	public SearchLog querySearchLogByKeyword(String keyword) ;
 	
 	/**
 	 * 根据ID查询搜索日志内容
@@ -58,7 +54,7 @@ public interface SearchLogMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public SearchLog querySearchLogById(Integer logId) throws Exception;
+	public SearchLog querySearchLogById(Integer logId) ;
 
 	/**
 	 * 添加搜索日志信息
@@ -66,7 +62,7 @@ public interface SearchLogMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public int addSearchLog(@Param("logs") List<SearchLog> searchLogs) throws Exception;
+	public int addSearchLog(@Param("logs") List<SearchLog> searchLogs) ;
 	
 	/**
 	 * 删除搜索日志信息
@@ -74,5 +70,5 @@ public interface SearchLogMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public int deleteSearchLogById(Integer dicId) throws Exception;
+	public int deleteSearchLogById(Integer dicId) ;
 }

@@ -18,8 +18,8 @@ import com.github.pagehelper.StringUtil;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.meiduimall.core.Constants;
+import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
-import com.meiduimall.service.settlement.common.ResultData;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 import com.meiduimall.service.settlement.common.ShareProfitUtil;
 import com.meiduimall.service.settlement.context.MemberSystemDataContext;
@@ -70,12 +70,12 @@ public class MemberServiceImpl implements MemberService {
 		hashMap.put("url","Authorized/addConsumePoints");
 		hashMap.put("order_id",orderId);
 		String resultJsonStr = ConnectionUrlUtil.httpRequest(ShareProfitUtil.belongInfoUrl(hashMap), ShareProfitUtil.REQUEST_METHOD_POST, null);
-		ResultData resultJson = JsonUtils.jsonToBean(resultJsonStr, ResultData.class);
+		ResBodyData resultJson = JsonUtils.jsonToBean(resultJsonStr, ResBodyData.class);
 		// 判断返回是否成功,如果不成功则不理会
-		if ("0".equals(resultJson.getStatus_code())) {
+		if (resultJson.getStatus()==0) {
 			 return true;
 		} else {
-			log.error("errcode:" + resultJson.getStatus_code() + ";errmsg:" + resultJson.getResult_msg()+ ";userId:"+phone);
+			log.error("errcode:" + resultJson.getStatus() + ";errmsg:" + resultJson.getMsg()+ ";userId:"+phone);
 			return false;
 		}
 		
@@ -89,14 +89,14 @@ public class MemberServiceImpl implements MemberService {
 
 			String resultJsonStr = ConnectionUrlUtil.httpRequest(ShareProfitUtil.buildMemberSystemAmoutUrl(ctx), ShareProfitUtil.REQUEST_METHOD_POST, null);
 			
-			ResultData resultJson= JsonUtils.jsonToBean(resultJsonStr, ResultData.class);
+			ResBodyData resultJson= JsonUtils.jsonToBean(resultJsonStr, ResBodyData.class);
 			
-			String statusCode = resultJson.getStatus_code() == null ? "" : resultJson.getStatus_code();
+			String statusCode = resultJson.getStatus() == null ? "" : resultJson.getStatus().toString();
 			// 判断返回是否成功,如果不成功则不理会
 			if ("0".equals(statusCode)) {
 				isUpdated=Boolean.TRUE;
 			} else {
-				log.error("errcode:" + resultJson.getStatus_code() + ";errmsg:" + resultJson.getResult_msg() + ";userId:"+userId);
+				log.error("errcode:" + resultJson.getStatus() + ";errmsg:" + resultJson.getMsg() + ";userId:"+userId);
 			}
 		}
 		
@@ -186,7 +186,7 @@ public class MemberServiceImpl implements MemberService {
 				BigDecimal amount=shareProfit.getFirstReferrerCash();
 				
 				//调账的方向,“IN”：调增，“OUT”：调减
-				String direction=amount.compareTo(BigDecimal.ZERO)==1?"IN":"OUT";
+				String direction=amount.compareTo(BigDecimal.ZERO)>0?"IN":"OUT"; //amount>BigDecimal.ZERO时返回1,-1是小于,0是等于
 				
 				if("OUT".equals(direction)){
 					amount=amount.abs();
@@ -228,7 +228,7 @@ public class MemberServiceImpl implements MemberService {
 			}
 			if(!isCashStatusUpdated){
 				String params="一级推荐人1%现金成功送出,但送现金成功状态更新到表 ecm_mzf_order_status表失败,需要手动更新,订单数:"+orderSnList.size();
-				SmsReqDTO smsReqDTO = new SmsReqDTO(ShareProfitUtil.AUTHORIZED_MAP.get(ShareProfitUtil.SMS_PHONES),
+				SmsReqDTO smsReqDTO = new SmsReqDTO(ShareProfitUtil.authorizedMap.get(ShareProfitUtil.SMS_PHONES),
 						ShareProfitUtil.TEMPLATE_ID_O2O_1009,params,"");
 
 				try {
@@ -250,7 +250,6 @@ public class MemberServiceImpl implements MemberService {
 		if(orderSnList4Err!=null && !orderSnList4Err.isEmpty()){
 			try {
 				log.error("updateReferrerCash() in MemberServiceImpl got error:更新推荐人1%金额到会员系统失败!order size:{},orderSns:{}",orderSnList4Err.size(),Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSnList4Err));
-				//log error msg to ecm_mzf_log_createbill;
 				CreateBillLog cbl=new CreateBillLog("updateReferrerCash() in MemberServiceImpl got error:更新推荐人1%金额到会员系统失败!失败订单数量:{}:"+orderSnList4Err.size(),DateUtil.getCurrentTimeSec(),null);
 				boolean isSuccess=shareProfitLogService.logCreateBillLog(cbl);
 				if(!isSuccess){

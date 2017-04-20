@@ -35,7 +35,7 @@ public class ConnectionUrlUtil {
 			URL u0 = new URL(url);
 			HttpURLConnection conn = (HttpURLConnection) u0.openConnection();
 			conn.setRequestMethod("POST");
-			byte contentbyte[] = requestXml.getBytes();
+			byte[] contentbyte = requestXml.getBytes();
 			conn.setRequestProperty("Content-Type", "text/plain");
 			conn.setRequestProperty("Content-Length", (new StringBuilder()).append(contentbyte.length).toString());
 			conn.setRequestProperty("Content-Language", "en-US");
@@ -50,8 +50,7 @@ public class ConnectionUrlUtil {
 			bWriter.close();
 			InputStream in = conn.getInputStream();
 			StringBuilder buffer = new StringBuilder();
-			for (int i = 0; i != -1;) {
-				i = in.read();
+			for (int i = 0; i != -1; i = in.read()) {
 				if (i != -1)
 					buffer.append((char) i);
 			}
@@ -72,7 +71,7 @@ public class ConnectionUrlUtil {
 			URL u0 = new URL(url);
 			HttpURLConnection conn = (HttpURLConnection) u0.openConnection();
 			conn.setRequestMethod("POST");
-			byte contentbyte[] = requestXml.getBytes();
+			byte[] contentbyte = requestXml.getBytes();
 			for (Map.Entry<String, String> header : heads.entrySet()) {
 				conn.setRequestProperty(header.getKey(), header.getValue());
 			}
@@ -91,8 +90,7 @@ public class ConnectionUrlUtil {
 			bWriter.close();
 			InputStream in = conn.getInputStream();
 			StringBuilder buffer = new StringBuilder();
-			for (int i = 0; i != -1;) {
-				i = in.read();
+			for (int i = 0; i != -1; i = in.read()) {
 				if (i != -1)
 					buffer.append((char) i);
 			}
@@ -114,7 +112,7 @@ public class ConnectionUrlUtil {
 			URL u0 = new URL(url);
 			HttpURLConnection conn = (HttpURLConnection) u0.openConnection();
 			conn.setRequestMethod("POST");
-			byte contentbyte[] = requestXml.getBytes();
+			byte[] contentbyte = requestXml.getBytes();
 			conn.setRequestProperty("Content-Type", "text/plain");
 			conn.setRequestProperty("Content-Length", (new StringBuilder())
 					.append(contentbyte.length).toString());
@@ -131,8 +129,7 @@ public class ConnectionUrlUtil {
 			bWriter.close();
 			InputStream in = conn.getInputStream();
 			StringBuilder buffer = new StringBuilder();
-			for (int i = 0; i != -1;) {
-				i = in.read();
+			for (int i = 0; i != -1; i = in.read()) {
 				if (i != -1)
 					buffer.append((char) i);
 			}
@@ -154,7 +151,7 @@ public class ConnectionUrlUtil {
 			URL u0 = new URL(url);
 			HttpURLConnection conn = (HttpURLConnection) u0.openConnection();
 			conn.setRequestMethod("POST");
-			byte contentbyte[] = requestXml.getBytes();
+			byte[] contentbyte = requestXml.getBytes();
 			conn.setRequestProperty("Content-Type", "application/xml");
 			conn.setRequestProperty("Content-Length", (new StringBuilder())
 					.append(contentbyte.length).toString());
@@ -172,8 +169,7 @@ public class ConnectionUrlUtil {
 			bWriter.close();
 			InputStream in = conn.getInputStream();
 			StringBuilder buffer = new StringBuilder();
-			for (int i = 0; i != -1;) {
-				i = in.read();
+			for (int i = 0; i != -1; i = in.read()) {
 				if (i != -1)
 					buffer.append((char) i);
 			}
@@ -193,7 +189,7 @@ public class ConnectionUrlUtil {
 			URL u0 = new URL(url);
 			HttpURLConnection conn = (HttpURLConnection) u0.openConnection();
 			conn.setRequestMethod("POST");
-			byte contentbyte[] = data.getBytes();
+			byte[] contentbyte = data.getBytes();
 			conn.setRequestProperty("Content-Type", contentType);
 			conn.setRequestProperty("Content-Length", (new StringBuilder())
 					.append(contentbyte.length).toString());
@@ -210,8 +206,7 @@ public class ConnectionUrlUtil {
 			bWriter.close();
 			InputStream in = conn.getInputStream();
 			StringBuilder buffer = new StringBuilder();
-			for (int i = 0; i != -1;) {
-				i = in.read();
+			for (int i = 0; i != -1; i = in.read()) {
 				if (i != -1)
 					buffer.append((char) i);
 			}
@@ -233,7 +228,7 @@ public class ConnectionUrlUtil {
 			URL u0 = new URL(url);
 			HttpURLConnection conn = (HttpURLConnection) u0.openConnection();
 			conn.setRequestMethod("POST");
-			byte contentbyte[] = data.getBytes();
+			byte[] contentbyte = data.getBytes();
 			for ( Map.Entry<String, String> d : headers.entrySet()) {
 				conn.setRequestProperty(d.getKey(), d.getValue());
 			}
@@ -253,8 +248,7 @@ public class ConnectionUrlUtil {
 			bWriter.close();
 			InputStream in = conn.getInputStream();
 			StringBuilder buffer = new StringBuilder();
-			for (int i = 0; i != -1;) {
-				i = in.read();
+			for (int i = 0; i != -1; i = in.read()) {
 				if (i != -1)
 					buffer.append((char) i);
 			}
@@ -320,16 +314,13 @@ public class ConnectionUrlUtil {
 		InputStream in = con.getInputStream();
 
 		StringBuilder buffer = new StringBuilder();
-		for (int i = 0; i != -1;) {
-			i = in.read();
+		for (int i = 0; i != -1; i = in.read()) {
 			if (i != -1)
 				buffer.append((char) i);
 		}
 
 		in.close();
-		String result = new String(buffer.toString().getBytes("iso-8859-1"),
-				"UTF-8");
-		return result;
+		return new String(buffer.toString().getBytes("iso-8859-1"), "UTF-8");
 	}
 
 	
@@ -339,7 +330,7 @@ public class ConnectionUrlUtil {
 			URL u0 = new URL(url);
 			HttpURLConnection conn = (HttpURLConnection) u0.openConnection();
 			conn.setRequestMethod("POST");
-			byte contentbyte[] = requestXml.getBytes();
+			byte[] contentbyte = requestXml.getBytes();
 			conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
 			conn.setRequestProperty("Content-Length", (new StringBuilder()).append(contentbyte.length).toString());
 			conn.setRequestProperty("Content-Language", "en-US");
@@ -359,8 +350,7 @@ public class ConnectionUrlUtil {
 			bWriter.close();
 			InputStream in = conn.getInputStream();
 			StringBuilder buffer = new StringBuilder();
-			for (int i = 0; i != -1;) {
-				i = in.read();
+			for (int i = 0; i != -1; i = in.read()) {
 				if (i != -1)
 					buffer.append((char) i);
 			}
@@ -395,8 +385,7 @@ public class ConnectionUrlUtil {
 		map.put("sessionid", sessionid);
 
 		StringBuilder buffer = new StringBuilder();
-		for (int i = 0; i != -1;) {
-			i = in.read();
+		for (int i = 0; i != -1; i = in.read()) {
 			if (i != -1)
 				buffer.append((char) i);
 		}

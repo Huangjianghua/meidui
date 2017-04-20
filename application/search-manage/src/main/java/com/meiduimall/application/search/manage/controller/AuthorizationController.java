@@ -34,8 +34,6 @@ public class AuthorizationController extends BaseController {
 
 	private Logger log = Logger.getLogger(AuthorizationController.class);
 	
-	
-	
 	// 更新产品索引URL
 	private String updateProductIndexUrl = "";
 	
@@ -50,9 +48,6 @@ public class AuthorizationController extends BaseController {
 	
 	// 根据ID更新提示索引URL
 	private String updateSuggestIndexByIdUrl = "";
-	
-	// 删除提示索引URL
-	private String deleteSuggestIndexUrl = "";
 	
 	// 更新类目索引URL
 	private String updateCatlogIndexUrl = "";

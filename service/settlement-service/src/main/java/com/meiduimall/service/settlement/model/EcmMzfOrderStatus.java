@@ -18,7 +18,7 @@ public class EcmMzfOrderStatus implements Serializable {
 	
 	private Integer id;
 	//订单号
-	@NotBlank(message="订单号不能为空.")
+	@NotBlank(message="订单号不能为空")
 	private String orderSn;
 	private Integer status;
 	private Integer shareStatus=0;
@@ -26,15 +26,15 @@ public class EcmMzfOrderStatus implements Serializable {
 	private Integer scoreStatus=0;
 	private Integer cashStatus=0;
 	
-	@Range(min=0,max=Integer.MAX_VALUE,message="审核状态应该为数值。")
-	@NotNull(message="审核状态不能为空.")
+	@Range(min=0,max=Integer.MAX_VALUE,message="审核状态应该为数值")
+	@NotNull(message="审核状态不能为空")
 	private Integer verifyStatus;
 	
-	@NotBlank(message="审核人姓名不能为空！")
+	@NotBlank(message="审核人姓名不能为空")
 	private String verifyName;
 	
-	@Range(min=0,max=Integer.MAX_VALUE,message="审核时间应该为10位数时间戳.")
-	@NotNull(message="审核时间不能为空.")
+	@Range(min=0,max=Integer.MAX_VALUE,message="审核时间应该为10位数时间戳")
+	@NotNull(message="审核时间不能为空")
 	private Integer verifyTime;
 	
 	private Integer addTime;

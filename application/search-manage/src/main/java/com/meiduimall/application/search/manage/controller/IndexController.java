@@ -22,9 +22,6 @@ public class IndexController {
 		return "search/indexOpt";
 	}
 	
-	
-	
-	
 	@Autowired
 	private IndexService indexService;
 	

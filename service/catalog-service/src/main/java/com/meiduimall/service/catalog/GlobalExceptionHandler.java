@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
 	private static Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
 	@ExceptionHandler(value = MethodArgumentNotValidException.class)
-	public Object MethodJsonArgumentNotValidHandler(HttpServletRequest request,
+	public Object methodJsonArgumentNotValidHandler(HttpServletRequest request,
 			MethodArgumentNotValidException exception) {
 		return new ResBodyData(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR,
 				ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR),
@@ -39,29 +39,25 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler(value = BindException.class)
-	public Object MethodFromArgumentNotValidHandler(HttpServletRequest request, BindException exception) {
+	public Object methodFromArgumentNotValidHandler(HttpServletRequest request, BindException exception) {
 		return new ResBodyData(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR,
 				ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR),
 				JsonUtils.getInstance().createObjectNode());
 	}
 
 	@ExceptionHandler(value = ApiException.class)
-	public Object ApiExceptionHandler(HttpServletRequest request, ApiException exception) {
-		return new ResBodyData(exception.getCode(), ServiceCatalogApiCode.getZhMsg(exception.getCode()),
-				JsonUtils.getInstance().createObjectNode());
+	public Object apiExceptionHandler(HttpServletRequest request, ApiException exception) {
+		return new ResBodyData(exception.getCode(), exception.getMessage(), JsonUtils.getInstance().createObjectNode());
 	}
 
 	@ExceptionHandler(value = ServiceException.class)
-	public Object ServiceExceptionHandler(HttpServletRequest request, ServiceException exception) {
-		return new ResBodyData(exception.getCode(), ServiceCatalogApiCode.getZhMsg(exception.getCode()),
-				JsonUtils.getInstance().createObjectNode());
+	public Object serviceExceptionHandler(HttpServletRequest request, ServiceException exception) {
+		return new ResBodyData(exception.getCode(), exception.getMessage(), JsonUtils.getInstance().createObjectNode());
 	}
 
 	@ExceptionHandler(value = DaoException.class)
-	public Object DaoExceptionHandler(HttpServletRequest request, DaoException exception) {
+	public Object daoExceptionHandler(HttpServletRequest request, DaoException exception) {
 		logger.error("全局捕获DaoException:   " + exception);
-		return new ResBodyData(ServiceCatalogApiCode.UNKNOWN_ERROR,
-				ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.UNKNOWN_ERROR),
-				JsonUtils.getInstance().createObjectNode());
+		return new ResBodyData(exception.getCode(), exception.getMessage(), JsonUtils.getInstance().createObjectNode());
 	}
 }

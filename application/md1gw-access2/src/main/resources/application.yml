@@ -4,37 +4,49 @@ server:
 ---
 spring:
   profiles: dev
-# 配置微服务网关
-service : 
+
+# 配置clientID和key
+sign : 
+  clientID : mall_java
+  key : Test123 
+
+# 商品模块微服务地址
+catalog-service : 
   host : http://192.168.4.240:9050
-  sign-clientID : mall_java
-  sign-key : Test123 
-# 会员系统地址
-member : 
+# 会员系统接入层地址
+member-access : 
   host : http://192.168.4.240:8097
 
 
 ---
 spring:
   profiles: pro
-# 配置微服务网关
-service : 
+
+# 配置clientID和key
+sign : 
+  clientID : mall_java
+  key :  
+
+# 商品模块微服务地址
+catalog-service : 
   host : http://10.116.21.93:9050
-  sign-clientID : mall_java
-  sign-key : 
-# 会员系统地址
-member : 
+# 会员系统接入层地址
+member-access : 
   host : vip.api.meiduimall.com
 
 
 ---
 spring:
   profiles: test
-# 配置微服务网关
-service : 
+
+# 配置clientID和key
+sign : 
+  clientID : mall_java
+  key : Test123 
+
+# 商品模块微服务地址
+catalog-service : 
   host : http://10.45.178.235:9050
-  sign-clientID : mall_java
-  sign-key : Test123  
-# 会员系统地址
-member : 
+# 会员系统接入层地址
+member-access : 
   host : vipt.api.meiduimall.com

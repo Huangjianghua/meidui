@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import com.meiduimall.core.util.HttpUtils;
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.ServiceException;
+import com.meiduimall.password.exception.Md5Exception;
 import com.meiduimall.password.util.MD5;
 import com.meiduimall.service.sms.SmsApiCode;
 
@@ -51,9 +52,10 @@ public class ZucpService {
 	 * @param stime
 	 * @param rrid
 	 * @return
+	 * @throws Md5Exception 
 	 * @throws Exception
 	 */
-	String buildBody(String mobile, String content, String ext, String stime, String rrid){
+	String buildBody(String mobile, String content, String ext, String stime, String rrid) throws Md5Exception{
 		StringBuilder sb = new StringBuilder();
 		sb.append("<soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
 				+ "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">");

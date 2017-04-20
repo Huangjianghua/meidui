@@ -46,20 +46,20 @@ public class AgentControllerTest extends BaseTest {
 	 * 功能描述:  新商家送积分
 	 * Author: guidl
 	 */
-	@Test
-	public void testSendScore() throws Exception {
-		ResultActions results = mockMvc
-				.perform(MockMvcRequestBuilders.post("/settlementservice/agentservice/v1/sendscore")
-						.param("username", "15816881611").param("storeNo", "123456"))
-				.andExpect(status().isOk());
-
-		results.andDo(new ResultHandler() {
-			@Override
-			public void handle(MvcResult result) throws Exception {
-				System.out.println("*********" + result.getResponse().getContentAsString());
-			}
-		});
-	}
+//	@Test
+//	public void testSendScore() throws Exception {
+//		ResultActions results = mockMvc
+//				.perform(MockMvcRequestBuilders.post("/settlementservice/agentservice/v1/sendscore")
+//						.param("username", "15816881611").param("storeNo", "123456"))
+//				.andExpect(status().isOk());
+//
+//		results.andDo(new ResultHandler() {
+//			@Override
+//			public void handle(MvcResult result) throws Exception {
+//				System.out.println("*********" + result.getResponse().getContentAsString());
+//			}
+//		});
+//	}
 
 	/**
 	 * 功能描述:  创建区代、个代和商家账号

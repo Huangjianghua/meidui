@@ -15,19 +15,19 @@ public interface ScannerMapper {
      * 查询索引扫描信息
      * @return
      */
-	public List<Scanner> queryScanners(PageView pageView) throws Exception;
+	public List<Scanner> queryScanners(PageView pageView) ;
 	
 	/**
 	 * 查询总记录数
 	 * @return
 	 */
-	public long queryScannerCount() throws Exception;
+	public long queryScannerCount() ;
 	
 	/**
 	 * 根据ID查询索引扫描信息
 	 * @return
 	 */
-	public Scanner queryScannerById(Integer id) throws Exception;
+	public Scanner queryScannerById(Integer id) ;
 
 	/**
 	 * 删除已扫描记录

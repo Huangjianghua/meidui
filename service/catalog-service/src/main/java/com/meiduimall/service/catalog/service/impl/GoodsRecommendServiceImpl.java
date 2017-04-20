@@ -38,13 +38,12 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 
 	@Transactional
 	@Override
-	public ResBodyData insertBatchItems(int[] item_ids, int type, String opt_user, String ip, int reco_level) {
-		logger.info("批量插入推荐商品ID: " + Arrays.toString(item_ids) + " ; type: " + type);
+	public ResBodyData insertBatchItems(int[] itemIds, int type, String optUser, String ip, int recoLevel) {
+		logger.info("批量插入推荐商品ID: " + Arrays.toString(itemIds) + " ; type: " + type);
 		List<SysitemItemRecommend> list = new ArrayList<SysitemItemRecommend>();
-		SysitemItemRecommend bean = null;
-		for (int i = 0; i < item_ids.length; i++) {
+		for (int i = 0; i < itemIds.length; i++) {
 			/** ----------验证这个item_id是否存在-------- */
-			int count = baseDao.selectOne(item_ids[i], "SysitemItemMapper.getItemCountByItemId");
+			int count = baseDao.selectOne(itemIds[i], "SysitemItemMapper.getItemCountByItemId");
 			if (count < 1) {
 				continue;
 			}
@@ -55,15 +54,14 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 			 * approveStatus = itemStatus.getApproveStatus(); if
 			 * (!"onsale".equals(approveStatus)) { continue; }
 			 */
-			bean = new SysitemItemRecommend();
-			bean.setItemId(item_ids[i]);
+			SysitemItemRecommend bean = new SysitemItemRecommend();
+			bean.setItemId(itemIds[i]);
 			bean.setRecoType(type);
-			bean.setOptUser(opt_user);
+			bean.setOptUser(optUser);
 			bean.setIp(ip);
 			bean.setRecoTime(new Date());
-			bean.setRecoLevel(reco_level);
+			bean.setRecoLevel(recoLevel);
 			list.add(bean);
-			bean = null;
 		}
 
 		if (list.size() > 0) {
@@ -79,10 +77,12 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 				result.setData(JsonUtils.getInstance().createObjectNode());
 				return result;
 			} else {
-				throw new ServiceException(ServiceCatalogApiCode.OPERAT_FAIL);
+				throw new ServiceException(ServiceCatalogApiCode.OPERAT_FAIL,
+						ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.OPERAT_FAIL));
 			}
 		} else {
-			throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
+			throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR,
+					ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR));
 		}
 	}
 
@@ -91,7 +91,7 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 		logger.info("获取指定类型的推荐商品： " + type);
 
 		ResBodyData result = new ResBodyData();
-		String base_url = env.getProperty("estore.base-url");
+		String baseUrl = env.getProperty("estore.base-url");
 		// 先查询出最后推荐的商品item_id(不需要过滤重复数据)
 		List<Integer> list = baseDao.selectList(type, "SysitemItemRecommendMapper.selectLastRecordByType");
 		// 集合反转
@@ -102,25 +102,22 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 			List<GoodsDetailResult> queryResults = baseDao.selectList(list, "SysitemItemMapper.getItemsInItemId");
 			// 重新排序:查询商品详情获取到的顺序 与 查询商品item_id的顺序不一致，所以需要重新排序
 			for (int i = 0; i < list.size(); i++) {
-				int item_id = list.get(i);
+				int itemId = list.get(i);
 				inner: for (int k = 0; k < queryResults.size(); k++) {
 					String temp_id = queryResults.get(k).getItemId();
-					if (item_id == Integer.parseInt(temp_id)) {
+					if (itemId == Integer.parseInt(temp_id)) {
 						results.add(queryResults.get(k));
 						break inner;
 					}
 				}
 			}
-			if (results != null && results.size() > 0) {
+			if (results.size() > 0) {
 				// 分别给每一个商品详情查询结果添加访问地址
 				for (GoodsDetailResult detail : results) {
-					if (sourceId == 1) {
-						detail.setUrl(base_url + "/wap/item.html?item_id=" + detail.getItemId());
-					} else if (sourceId == 2) {
-						detail.setUrl(base_url + "/item.html?item_id=" + detail.getItemId());
+					if (sourceId == 2) {
+						detail.setUrl(baseUrl + "/item.html?item_id=" + detail.getItemId());
 					} else {
-						// can not reach
-						detail.setUrl(base_url + "/wap/item.html?item_id=" + detail.getItemId());
+						detail.setUrl(baseUrl + "/wap/item.html?item_id=" + detail.getItemId());
 					}
 				}
 				ListGoodsDetailResult data = new ListGoodsDetailResult();
@@ -129,10 +126,12 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 				result.setStatus(ServiceCatalogApiCode.SUCCESS);
 				result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_SUCCESS));
 			} else {
-				throw new ServiceException(ServiceCatalogApiCode.NONE_DATA);
+				throw new ServiceException(ServiceCatalogApiCode.NONE_DATA,
+						ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.NONE_DATA));
 			}
 		} else {
-			throw new ServiceException(ServiceCatalogApiCode.NONE_DATA);
+			throw new ServiceException(ServiceCatalogApiCode.NONE_DATA,
+					ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.NONE_DATA));
 		}
 		return result;
 	}
@@ -151,24 +150,20 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 		List<CheckGoodsResult> results2 = new ArrayList<CheckGoodsResult>();
 
 		if (list1 != null && list1.size() > 0) {
-			CheckGoodsResult detail = null;
 			for (Integer item_id : list1) {
-				detail = new CheckGoodsResult();
+				CheckGoodsResult detail = new CheckGoodsResult();
 				detail.setItemId(item_id.toString());
 				detail.setUrl(base_url + "/item.html?item_id=" + item_id.intValue());
 				results1.add(detail);
-				detail = null;
 			}
 		}
 
 		if (list2 != null && list2.size() > 0) {
-			CheckGoodsResult detail = null;
 			for (Integer item_id : list2) {
-				detail = new CheckGoodsResult();
+				CheckGoodsResult detail = new CheckGoodsResult();
 				detail.setItemId(item_id.toString());
 				detail.setUrl(base_url + "/item.html?item_id=" + item_id.intValue());
 				results2.add(detail);
-				detail = null;
 			}
 		}
 
@@ -195,13 +190,13 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 	}
 
 	@Override
-	public ResBodyData deleteRecommendItems(int[] item_id, String opt_user) {
+	public ResBodyData deleteRecommendItems(int[] itemId, String optUser) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ResBodyData updateRecommendItemLevel(int item_id, String opt_user) {
+	public ResBodyData updateRecommendItemLevel(int itemId, String optUser) {
 		// TODO Auto-generated method stub
 		return null;
 	}

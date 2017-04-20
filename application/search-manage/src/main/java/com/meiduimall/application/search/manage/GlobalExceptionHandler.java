@@ -1,16 +1,13 @@
 package com.meiduimall.application.search.manage;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.apache.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.meiduimall.application.search.manage.constant.SysConstant;
 
 
@@ -26,12 +23,12 @@ import com.meiduimall.application.search.manage.constant.SysConstant;
 public class GlobalExceptionHandler {
 	
     @ExceptionHandler(value=MethodArgumentNotValidException.class)  
-    public Object MethodJsonArgumentNotValidHandler(HttpServletRequest request,MethodArgumentNotValidException exception) throws Exception {  
-        StringBuffer sb=new StringBuffer();
+    public Object MethodJsonArgumentNotValidHandler(HttpServletRequest request,MethodArgumentNotValidException exception)  {  
+        StringBuilder sb=new StringBuilder();
         exception.getBindingResult().getFieldErrors().forEach((error)->{
         	sb.append(error.getDefaultMessage()).append(";");
         });
-        Map<String, Object> result=new HashMap<String, Object>();
+        Map<String, Object> result=new HashMap<>();
         result.put(SysConstant.STATUS_CODE,HttpStatus.SC_BAD_REQUEST);
 		result.put(SysConstant.RESULT_MSG, sb.toString());
         return result;  
@@ -39,16 +36,18 @@ public class GlobalExceptionHandler {
     
     
     @ExceptionHandler(value=BindException.class)  
-    public Object MethodFromArgumentNotValidHandler(HttpServletRequest request,BindException exception) throws Exception {  
-        StringBuffer sb=new StringBuffer();
+    public Object MethodFromArgumentNotValidHandler(HttpServletRequest request,BindException exception) {  
+    	StringBuilder sb=new StringBuilder();
         exception.getBindingResult().getFieldErrors().forEach((error)->{
         	sb.append(error.getDefaultMessage()).append(";");
         });
-        Map<String, Object> result=new HashMap<String, Object>();
+        Map<String, Object> result=new HashMap<>();
         result.put(SysConstant.STATUS_CODE,HttpStatus.SC_BAD_REQUEST);
 		result.put(SysConstant.RESULT_MSG, sb.toString());
         return result;  
     }  
 
 
+    
+    
 }

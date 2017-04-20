@@ -53,10 +53,13 @@ public class ServiceCatalogApiCode extends BaseApiCode {
 	
 	/** 数据库异常 */
 	public static final Integer DB_EXCEPTION = 7500;
-
+	
+	/**反序列化数据异常*/
+	public static final Integer SERIALIZER_EXCEPTION = 7501;
 	
 	/** 未知错误 */
 	public static final Integer UNKNOWN_ERROR = 7777;
+	
 
 	static {
 		zhMsgMap.put(REQUEST_SUCCESS, "请求成功");
@@ -79,6 +82,7 @@ public class ServiceCatalogApiCode extends BaseApiCode {
 		zhMsgMap.put(NO_THIS_SHOP, "没有这个店铺");
 		zhMsgMap.put(NO_THIS_PRODUCT, "没有这个商品");
 		zhMsgMap.put(DB_EXCEPTION, "数据库异常");
+		zhMsgMap.put(SERIALIZER_EXCEPTION, "反序列化数据异常");
 		zhMsgMap.put(UNKNOWN_ERROR, "未知错误");
 	}
 }

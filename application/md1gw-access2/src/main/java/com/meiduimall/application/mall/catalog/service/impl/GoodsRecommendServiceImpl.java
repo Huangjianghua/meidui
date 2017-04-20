@@ -9,7 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
-import com.meiduimall.application.mall.catalog.constant.ApplicationMallApiCode;
+import com.meiduimall.application.mall.catalog.constant.ApplMallApiCode;
+import com.meiduimall.application.mall.catalog.constant.ApplMallConstant;
 import com.meiduimall.application.mall.catalog.service.GoodsRecommendService;
 import com.meiduimall.application.mall.catalog.util.HttpGatewayUtils;
 import com.meiduimall.exception.ServiceException;
@@ -28,22 +29,13 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 	@Autowired
 	private Environment env;
 
-	/**
-	 * 请求微服务，根据推荐类型，获取推荐商品
-	 * 
-	 * @param type
-	 *            推荐类型
-	 * @param sourceId
-	 *            请求来源
-	 * @return
-	 */
 	@Override
 	public String getFirstRecommendGoodsHttp(int type, int sourceId) {
 
-		String uri = "/mall/catalog-service/v1/goodsRecommend/getFirstRecommend";
-		String host = env.getProperty("service.host");
-		String clientID = env.getProperty("service.sign-clientID");
-		String signKey = env.getProperty("service.sign-key");
+		String clientID = env.getProperty(ApplMallConstant.KEY_SIGN_CLIENT_ID);
+		String signKey = env.getProperty(ApplMallConstant.KEY_SIGN_KEY);
+		String host = env.getProperty(ApplMallConstant.KEY_CATALOG_SERVICE_HOST);
+		String uri = ApplMallConstant.SERVICE_CATALOG_BASE_URL + "/goodsRecommend/getFirstRecommend";
 		String url = host + uri;
 
 		Map<String, String> params = new HashMap<String, String>();
@@ -54,7 +46,8 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
 		} catch (Exception e) {
 			logger.error("请求微服务异常： " + e);
-			throw new ServiceException(ApplicationMallApiCode.REQUEST_SERVICE_ERROR);
+			throw new ServiceException(ApplMallApiCode.REQUEST_SERVICE_ERROR,
+					ApplMallApiCode.getZhMsg(ApplMallApiCode.REQUEST_SERVICE_ERROR));
 		}
 	}
 }

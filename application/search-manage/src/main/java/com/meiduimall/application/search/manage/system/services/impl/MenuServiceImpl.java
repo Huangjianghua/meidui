@@ -31,7 +31,7 @@ public class MenuServiceImpl implements IMenuService{
 
 	
 	public List<Menu> selectMenuByPId(User user,String pid) {
-		Map<String, Object> paraMap = new HashMap<String, Object>();
+		Map<String, Object> paraMap = new HashMap<>();
 		paraMap.put("rid", user.getRid());		
 		paraMap.put("pid", pid);
 		return menuDao.selectMenuByPId(paraMap);
@@ -75,7 +75,7 @@ public class MenuServiceImpl implements IMenuService{
 	   
    }
    public List<Menu> selectMenuFirst(User user) {
-		Map<String, Object> paraMap = new HashMap<String, Object>();
+		Map<String, Object> paraMap = new HashMap<>();
 		paraMap.put("rid", user.getRid());		
 		return menuDao.selectMenuFirst(paraMap);
 	}

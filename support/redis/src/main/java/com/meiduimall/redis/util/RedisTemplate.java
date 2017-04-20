@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import com.meiduimall.core.Constants;
-import com.meiduimall.exception.RedisClientException;
+import com.meiduimall.redis.exception.RedisClientException;
 import com.meiduimall.redis.util.spring.AppContextLauncher;
 import redis.clients.jedis.ShardedJedis;
 import redis.clients.jedis.ShardedJedisPipeline;
@@ -37,7 +37,6 @@ public class RedisTemplate {
 	}
 
 	/**
-	 * 
 	 * 功能描述: 返回ShardedJedis池资源
 	 * Author: 陈建宇
 	 * Date:   2016年12月14日 上午9:37:06
@@ -124,7 +123,7 @@ public class RedisTemplate {
 				isReturn = false;
 				returnJedisBrokenResource(shardedJedis);
 			}
-			throw new RedisClientException(ex);
+			throw new RedisClientException(RedisApiCode.EXCEPTION_PIPE_OPER,RedisApiCode.getZhMsg(RedisApiCode.EXCEPTION_PIPE_OPER), ex);
 		} finally {
 			if (isReturn) {
 				returnJedisResource(shardedJedis);
@@ -154,7 +153,7 @@ public class RedisTemplate {
 				isReturn = false;
 				returnJedisBrokenResource(shardedJedis);
 			}
-			throw new RedisClientException(ex);
+			throw new RedisClientException(RedisApiCode.EXCEPTION_CORE_OPER,RedisApiCode.getZhMsg(RedisApiCode.EXCEPTION_CORE_OPER), ex);
 		} finally {
 			if (isReturn) {
 				returnJedisResource(shardedJedis);

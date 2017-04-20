@@ -53,12 +53,12 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 	private BaseDao baseDao;
 
 	@Override
-	public ResBodyData checkItemIsExistById(int item_id) {
+	public ResBodyData checkItemIsExistById(int itemId) {
 
-		logger.info("根据商品ID，查询这个商品是否存在：" + item_id);
+		logger.info("根据商品ID，查询这个商品是否存在：" + itemId);
 
 		/** TODO --------查询这个商品ID是否存在-------- */
-		int count = baseDao.selectOne(item_id, "SysitemItemMapper.getItemCountByItemId");
+		int count = baseDao.selectOne(itemId, "SysitemItemMapper.getItemCountByItemId");
 
 		if (count > 0) {
 			// 返回访问这个商品的详情页的地址
@@ -66,16 +66,17 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 
 			CheckGoodsResult bean = new CheckGoodsResult();
 			String base_url = env.getProperty("estore.base-url");
-			String url = base_url + "/item.html?item_id=" + item_id;
+			String url = base_url + "/item.html?item_id=" + itemId;
 			bean.setUrl(url);
-			bean.setItemId(String.valueOf(item_id));
+			bean.setItemId(String.valueOf(itemId));
 
 			result.setData(bean);
 			result.setStatus(ServiceCatalogApiCode.SUCCESS);
 			result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_SUCCESS));
 			return result;
 		} else {
-			throw new ServiceException(ServiceCatalogApiCode.NO_THIS_PRODUCT);
+			throw new ServiceException(ServiceCatalogApiCode.NO_THIS_PRODUCT,
+					ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.NO_THIS_PRODUCT));
 		}
 
 		/** TODO ----------查询该商品状态------- */
@@ -124,7 +125,8 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 		// 根据item_id查找sysitem_item表中对应的商品记录信息
 		SysitemItemWithBLOBs itemWithBLOBs = baseDao.selectOne(itemId, "SysitemItemMapper.selectByPrimaryKey");
 		if (itemWithBLOBs == null) {// 查询不到该商品
-			throw new ServiceException(ServiceCatalogApiCode.NO_THIS_PRODUCT);
+			throw new ServiceException(ServiceCatalogApiCode.NO_THIS_PRODUCT,
+					ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.NO_THIS_PRODUCT));
 		}
 
 		JsonItemDetailResult jsonResult = new JsonItemDetailResult();
@@ -138,10 +140,10 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 			parseList = ParseItemSpecDesUtil.parse(itemWithBLOBs.getSpecDesc());
 		} catch (Exception e) {
 			logger.error("解析商品的规格参数，service异常： " + e);
-			throw new ServiceException(ServiceCatalogApiCode.SPEC_DESC_DATA_EXCEPTION);
+			throw new ServiceException(ServiceCatalogApiCode.SPEC_DESC_DATA_EXCEPTION,
+					ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.SPEC_DESC_DATA_EXCEPTION));
 		}
-		if (parseList != null && parseList.size() > 0) {
-			JsonItemDetailResultProps itemProps = null;
+		if (parseList != null && !parseList.isEmpty()) {
 			for (int i = 0; i < parseList.size(); i++) {
 
 				// 获取每一组规格。比如：[{4颜色：43黑色，44咖啡色，51军绿色},{},{}]
@@ -149,43 +151,41 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 
 				if (parserItemSpecDescBean != null) {
 					// 规格
-					itemProps = new JsonItemDetailResultProps();
+					JsonItemDetailResultProps itemProps = new JsonItemDetailResultProps();
 
 					// 根据规格ID查找规格名称。查找表syscategory_props
 					// 比如上面只得到了编号4，并没有得到4对应的名称颜色
 					// TODO 待优化
-					SyscategoryProps categoryProps = baseDao.selectOne(parserItemSpecDescBean.getProp_id(),
+					SyscategoryProps categoryProps = baseDao.selectOne(parserItemSpecDescBean.getPropId(),
 							"SyscategoryPropsMapper.selectByPrimaryKey");
 
-					itemProps.setPropId(parserItemSpecDescBean.getProp_id().toString());
+					itemProps.setPropId(parserItemSpecDescBean.getPropId().toString());
 					itemProps.setPropName(categoryProps.getPropName());
 
 					// 遍历该规格下的每一种规格属性
 					// 获取规格编号4颜色，对应的属性值：43黑色，44咖啡色，51军绿色，整理数据
 					List<PropBean> propBeanList = parserItemSpecDescBean.getPropBeanList();
 					if (propBeanList != null && propBeanList.size() > 0) {
-						List<JsonItemDetailResultPropValues> prop_list = new ArrayList<JsonItemDetailResultPropValues>();
-						JsonItemDetailResultPropValues propValues = null;
+						List<JsonItemDetailResultPropValues> propList = new ArrayList<JsonItemDetailResultPropValues>();
 						for (int j = 0; j < propBeanList.size(); j++) {
 							PropBean propBean = propBeanList.get(j);
 							if (propBean != null) {
-								propValues = new JsonItemDetailResultPropValues();
-								Integer spec_value_id = propBean.getPropValueBean().getSpec_value_id();
-								String spec_value = propBean.getPropValueBean().getSpec_value();
-								if (spec_value_id != null) {
-									propValues.setPropValueId(spec_value_id.toString());
+								JsonItemDetailResultPropValues propValues = new JsonItemDetailResultPropValues();
+								Integer specValueId = propBean.getPropValueBean().getSpecValueId();
+								String specValue = propBean.getPropValueBean().getSpecValue();
+								if (specValueId != null) {
+									propValues.setPropValueId(specValueId.toString());
 								} else {
 									propValues.setPropValueId("0");
 								}
-								propValues.setPropValue(spec_value);
-								prop_list.add(propValues);
+								propValues.setPropValue(specValue);
+								propList.add(propValues);
 							} else {
 								// 数据异常
 							}
-							propValues = null;
 						}
 						// 给该规格(比如4颜色)添加对应的规格属性列表
-						itemProps.setPropList(prop_list);
+						itemProps.setPropList(propList);
 					} else {
 						// 只有规格名称，没有规格对应的规格属性
 						continue;
@@ -194,7 +194,6 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 				} else {
 					// 数据异常
 				}
-				itemProps = null;
 			} // 循环结束
 		} else {
 			// 查找不到规格参数
@@ -206,15 +205,15 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 
 		// 获取商品详情的HTML页面地址，查找sysitem_item_desc表
 		SysitemItemDesc itemDesc = baseDao.selectOne(itemId, "SysitemItemDescMapper.selectByPrimaryKey");
-		String html_detail_url = "";
+		String htmlDetailUrl = "";
 		String wapDesc = itemDesc.getWapDesc();
 		String pcDesc = itemDesc.getPcDesc();
 		if (!StringUtils.isEmpty(wapDesc)) {
-			html_detail_url = wapDesc;
+			htmlDetailUrl = wapDesc;
 		} else {
-			html_detail_url = pcDesc;
+			htmlDetailUrl = pcDesc;
 		}
-		itemData.setHtmlDetailUrl(html_detail_url);
+		itemData.setHtmlDetailUrl(htmlDetailUrl);
 
 		// 获取商品销量和商品评论信息，查找表sysitem_item_count
 		SysitemItemCount itemCount = baseDao.selectOne(itemId, "SysitemItemCountMapper.selectByPrimaryKey");
@@ -330,22 +329,19 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 				"SysitemSkuMapper.selectByExampleWithBLOBs");
 
 		if (itemSkuWithBLOBsList != null && itemSkuWithBLOBsList.size() > 0) {
-			JsonItemDetailResultSku result_sku = null;
 			for (int i = 0; i < itemSkuWithBLOBsList.size(); i++) {
 				SysitemSkuWithBLOBs sysitemSkuWithBLOBs = itemSkuWithBLOBsList.get(i);
 				if (sysitemSkuWithBLOBs == null) {
 					continue;// can not reach
 				}
-				result_sku = new JsonItemDetailResultSku();
+				JsonItemDetailResultSku resultSku = new JsonItemDetailResultSku();
 
-				result_sku.setPoint(sysitemSkuWithBLOBs.getPoint().toString());
-				result_sku.setPrice(sysitemSkuWithBLOBs.getPrice().toString());
-				result_sku.setSkuId(sysitemSkuWithBLOBs.getSkuId().toString());
+				resultSku.setPoint(sysitemSkuWithBLOBs.getPoint().toString());
+				resultSku.setPrice(sysitemSkuWithBLOBs.getPrice().toString());
+				resultSku.setSkuId(sysitemSkuWithBLOBs.getSkuId().toString());
 
-				// result_sku.setSpec_info(sysitemSkuWithBLOBs.getSpecInfo());前端不需要该字段
-
-				String sku_status = sysitemSkuWithBLOBs.getStatus();
-				result_sku.setStatus(sku_status);
+				String skuStatus = sysitemSkuWithBLOBs.getStatus();
+				resultSku.setStatus(skuStatus);
 				// if ("normal".equals(sku_status)) {
 				// result_sku.setStatus("正常");
 				// } else {
@@ -353,16 +349,16 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 				// }
 
 				if (sysitemSkuWithBLOBs.getWeight() != null) {
-					result_sku.setWeight(sysitemSkuWithBLOBs.getWeight().toString());
+					resultSku.setWeight(sysitemSkuWithBLOBs.getWeight().toString());
 				} else {
-					result_sku.setWeight("0");
+					resultSku.setWeight("0");
 				}
 
 				// 查sysitem_sku_store表，获取每一个SKU对应的库存信息
 				SysitemSkuStore skuStore = baseDao.selectOne(sysitemSkuWithBLOBs.getSkuId(),
 						"SysitemSkuStoreMapper.selectByPrimaryKey");
-				int sku_store = skuStore.getStore().intValue() - skuStore.getFreez().intValue();
-				result_sku.setSkuStore(String.valueOf(sku_store));
+				int intSkuStore = skuStore.getStore().intValue() - skuStore.getFreez().intValue();
+				resultSku.setSkuStore(String.valueOf(intSkuStore));
 
 				// 反序列化数据---解析每一个商品对应的SKU数据
 				List<ParseSkuSpecDescBean> skuSpecDescBeanList = null;
@@ -370,26 +366,26 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 					skuSpecDescBeanList = ParseSkuSpecDescUtil.parse(sysitemSkuWithBLOBs.getSpecDesc());
 				} catch (Exception e) {
 					logger.error("解析每一个商品对应的SKU数据，service异常： " + e);
-					throw new ServiceException(ServiceCatalogApiCode.SKU_DATA_EXCEPTION);
+					throw new ServiceException(ServiceCatalogApiCode.SKU_DATA_EXCEPTION,
+							ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.SKU_DATA_EXCEPTION));
 				}
 
-				if (skuSpecDescBeanList != null && skuSpecDescBeanList.size() > 0) {
+				if (skuSpecDescBeanList != null && !skuSpecDescBeanList.isEmpty()) {
 					StringBuilder sb = new StringBuilder();
 					for (int j = 0; j < skuSpecDescBeanList.size(); j++) {
-						Integer prop_value_id = skuSpecDescBeanList.get(j).getProp_value_id();
-						sb.append(prop_value_id + "_");
+						Integer propValueId = skuSpecDescBeanList.get(j).getPropValueId();
+						sb.append(propValueId + "_");
 					}
 					if (sb.length() > 1) {
-						String prop_value_ids = sb.substring(0, sb.length() - 1);
-						result_sku.setPropValueIds(prop_value_ids);
+						String propValueIds = sb.substring(0, sb.length() - 1);
+						resultSku.setPropValueIds(propValueIds);
 					} else {
 						// 数据异常，没有找到prop_value_id(一般不会发生)
 					}
 				} else {
 					// 数据异常，反序列化失败
 				}
-				skuList.add(result_sku);
-				result_sku = null;
+				skuList.add(resultSku);
 			}
 		} else {
 			// 没有SKU，不需要处理

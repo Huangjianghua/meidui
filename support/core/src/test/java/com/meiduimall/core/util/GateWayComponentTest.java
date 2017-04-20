@@ -17,6 +17,7 @@ import com.meiduimall.core.GateWayBuilder;
 import com.meiduimall.core.GateWayComponent;
 import com.meiduimall.core.GateWayRequest;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.password.exception.Md5Exception;
 
 public class GateWayComponentTest {
 	
@@ -104,9 +105,10 @@ public class GateWayComponentTest {
 	 * param   @throws ClientProtocolException
 	 * param   @throws IOException   
 	 * return  void
+	 * @throws Md5Exception 
 	 */
 	@Test
-	public void testDoGet() throws ClientProtocolException, IOException{
+	public void testDoGet() throws ClientProtocolException, IOException, Md5Exception{
 		TreeMap<String, String> treeMap=new TreeMap<>();
 		component.buildConfigParams(treeMap).buildSignParams(treeMap);
 		
@@ -125,9 +127,10 @@ public class GateWayComponentTest {
 	 * param   @throws ClientProtocolException
 	 * param   @throws IOException   
 	 * return  void
+	 * @throws Md5Exception 
 	 */
 	@Test
-	public void testDoDelete() throws ClientProtocolException, IOException{
+	public void testDoDelete() throws ClientProtocolException, IOException, Md5Exception{
 		TreeMap<String, String> treeMap=new TreeMap<>();
 		component.buildConfigParams(treeMap).buildSignParams(treeMap);
 		
@@ -145,9 +148,10 @@ public class GateWayComponentTest {
 	 * param   @throws ClientProtocolException
 	 * param   @throws IOException   
 	 * return  void
+	 * @throws Md5Exception 
 	 */
 	@Test
-	public void testDoPost() throws ClientProtocolException, IOException{
+	public void testDoPost() throws ClientProtocolException, IOException, Md5Exception{
 		TreeMap<String, String> treeMap=new TreeMap<>();
 		
 		Map<String,String> headers=Maps.newHashMap();
@@ -170,9 +174,10 @@ public class GateWayComponentTest {
 	 * param   @throws ClientProtocolException
 	 * param   @throws IOException   
 	 * return  void
+	 * @throws Md5Exception 
 	 */
 	@Test
-	public void testDoPut() throws ClientProtocolException, IOException{
+	public void testDoPut() throws ClientProtocolException, IOException, Md5Exception{
 		TreeMap<String, String> treeMap=new TreeMap<>();
 		
 		Map<String,String> headers=Maps.newHashMap();

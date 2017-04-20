@@ -21,11 +21,11 @@ import com.github.pagehelper.StringUtil;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.meiduimall.core.BaseApiCode;
+import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.SettlementApiCode;
-import com.meiduimall.service.settlement.common.ResultData;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 import com.meiduimall.service.settlement.common.ShareProfitUtil;
 import com.meiduimall.service.settlement.context.ShareProfitContext;
@@ -102,7 +102,7 @@ public class OrderServiceImpl implements OrderService {
 		
 		// 获取推荐人信息		
 		String resultStr = ConnectionUrlUtil.httpRequest(ShareProfitUtil.getBelongInfoUrl(ecmOrder.getBuyerName()), ShareProfitUtil.REQUEST_METHOD_POST, null);
-		ResultData resultJson= JsonUtils.jsonToBean(resultStr, ResultData.class);
+		ResBodyData resultJson= JsonUtils.jsonToBean(resultStr, ResBodyData.class);
 		
 		Map<String, String> belongMap = null;
 		
@@ -111,13 +111,13 @@ public class OrderServiceImpl implements OrderService {
 			throw new ServiceException(SettlementApiCode.GET_RECOMMENDER_INFO_FAILURE, BaseApiCode.getZhMsg(SettlementApiCode.GET_RECOMMENDER_INFO_FAILURE));
 		}else{
 			// 判断返回是否成功,如果不成功则不理会
-			if ("0".equals(resultJson.getStatus_code())) {
-				List<Map<String, String>> map = resultJson.getRESULT();
-				belongMap = ShareProfitUtil.getlvlAndPhone(map);
+			if (resultJson.getStatus()==0) {
+//				List<Map<String, String>> map = resultJson.getRESULT();
+//				belongMap = ShareProfitUtil.getlvlAndPhone(map);
 				
 				log.info("推荐人信息:" + resultJson.getData());
 			} else {
-				log.error("errcode:" + resultJson.getStatus_code() + ";errmsg:" + resultJson.getResult_msg());
+				log.error("errcode:" + resultJson.getStatus() + ";errmsg:" + resultJson.getMsg());
 			}
 		}
 		
@@ -251,18 +251,12 @@ public class OrderServiceImpl implements OrderService {
 			meiduiCompanyAgentNos.add(ecmOrder.getAgentNoRegionS());
 		}
 		
-		EcmMzfShareProfit ecmMzfShareProfit = buildShareProfitModel(ecmOrder, ctx, meiduiCompanyAgentNos);
-		return ecmMzfShareProfit;
-		
+		return buildShareProfitModel(ecmOrder, ctx, meiduiCompanyAgentNos);
 	}
 
 	@Override
 	public List<EcmMzfOrderStatus> queryOrderStatus(List<String> orderSns) {
-		try {
-			return baseMapper.selectList(ImmutableMap.of("orderSns", orderSns), "EcmMzfOrderStatusMapper.queryorderstatus");
-		} catch (DaoException e) {
-			throw new ServiceException(e);
-		}
+		return baseMapper.selectList(ImmutableMap.of("orderSns", orderSns), "EcmMzfOrderStatusMapper.queryorderstatus");
 	}
 
 	

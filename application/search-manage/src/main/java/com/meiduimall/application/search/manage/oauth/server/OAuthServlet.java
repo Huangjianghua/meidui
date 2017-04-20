@@ -61,7 +61,7 @@ public class OAuthServlet {
 
     /** Reconstruct the requested URL, complete with query string (if any). */
     public static String getRequestURL(HttpServletRequest request) {
-        StringBuffer url = request.getRequestURL();
+    	StringBuilder url = new StringBuilder(request.getRequestURL().toString()) ;
         String queryString = request.getQueryString();
         if (queryString != null) {
             url.append("?").append(queryString);

@@ -23,7 +23,6 @@ import com.meiduimall.service.settlement.service.O2oCallbackService;
 import com.meiduimall.service.settlement.service.SmsService;
 import com.meiduimall.service.settlement.util.ConnectionUrlUtil;
 import com.meiduimall.service.settlement.util.DateUtil;
-import com.meiduimall.service.settlement.common.ResultData;
 
 
 @Service
@@ -42,21 +41,21 @@ public class O2oCallbackServiceImpl implements O2oCallbackService{
 			
 		String resultObjStr = ConnectionUrlUtil.httpRequest(buildUrl4InformSettlementStatus(orderSns,statusCode), ShareProfitUtil.REQUEST_METHOD_POST, null);
 			
-		ResultData resultObj = JsonUtils.jsonToBean(resultObjStr, ResultData.class);
+		ResBodyData resultObj = JsonUtils.jsonToBean(resultObjStr, ResBodyData.class);
 		
-		if("0".equals(resultObj.getStatus_code())){
+		if(resultObj.getStatus() == 0){
 			log.info("通知订单结算状态给O2O成功!orderSns:{},statusCode:{}",Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSns),statusCodeMsg);
 		}else{
 			isSuccess=false;
 			log.error("通知订单结算状态给O2O失败!orderSns:{},statusCode:{}",Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSns),statusCodeMsg);
-			log.error("通知订单结算状态给O2O失败!orderSns:{},失败信息:{}",Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSns),resultObj.getResult_msg());
+			log.error("通知订单结算状态给O2O失败!orderSns:{},失败信息:{}",Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSns),resultObj.getMsg());
 		}
 		
 		//1.发送邮件或短信,修复后需要O2O手动更新订单状态
 		if(!isSuccess){
 			//注意，params中,逗号是参数分隔符,用于将分割后的参数填充到短信模板。
 			String params = "通知订单结算状态给O2O失败;status_code:" + statusCodeMsg;
-			SmsReqDTO smsReqDTO = new SmsReqDTO(ShareProfitUtil.AUTHORIZED_MAP.get(ShareProfitUtil.SMS_PHONES),
+			SmsReqDTO smsReqDTO = new SmsReqDTO(ShareProfitUtil.authorizedMap.get(ShareProfitUtil.SMS_PHONES),
 					ShareProfitUtil.TEMPLATE_ID_O2O_1009, params, "");
 
 			boolean flag = smsService.sendMessage(smsReqDTO);
@@ -73,9 +72,9 @@ public class O2oCallbackServiceImpl implements O2oCallbackService{
 	
 	private String buildUrl4InformSettlementStatus(Collection<String> orderSns, Integer statusCode) {
 		
-		String apiUrl=ShareProfitUtil.AUTHORIZED_MAP.get(O2oApiConstants.KEY_O2O_API_URL);
-		String apiPath=ShareProfitUtil.AUTHORIZED_MAP.get(O2oApiConstants.KEY_O2O_API_SAVE_ORDER_BILL_STATUS);
-		String apiKey=ShareProfitUtil.AUTHORIZED_MAP.get(O2oApiConstants.KEY_O2O_API_KEY);
+		String apiUrl=ShareProfitUtil.authorizedMap.get(O2oApiConstants.KEY_O2O_API_URL);
+		String apiPath=ShareProfitUtil.authorizedMap.get(O2oApiConstants.KEY_O2O_API_SAVE_ORDER_BILL_STATUS);
+		String apiKey=ShareProfitUtil.authorizedMap.get(O2oApiConstants.KEY_O2O_API_KEY);
 		
 		String orderSnsStr=Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSns);
 		String params = "?orderSns=" + orderSnsStr + "&statusCode=" + statusCode  + "&apiKey="+apiKey;
@@ -109,9 +108,9 @@ public class O2oCallbackServiceImpl implements O2oCallbackService{
 	 */
 	private String buildUrl4AddProxyFee(EcmAgent areaAgent, double amount) {
 		
-		String apiUrl = ShareProfitUtil.AUTHORIZED_MAP.get(O2oApiConstants.KEY_O2O_API_URL);
-		String apiPath = ShareProfitUtil.AUTHORIZED_MAP.get(O2oApiConstants.KEY_O2O_API_ADD_PROXY_FEE);
-		String apiKey = ShareProfitUtil.AUTHORIZED_MAP.get(O2oApiConstants.KEY_O2O_API_KEY);
+		String apiUrl = ShareProfitUtil.authorizedMap.get(O2oApiConstants.KEY_O2O_API_URL);
+		String apiPath = ShareProfitUtil.authorizedMap.get(O2oApiConstants.KEY_O2O_API_ADD_PROXY_FEE);
+		String apiKey = ShareProfitUtil.authorizedMap.get(O2oApiConstants.KEY_O2O_API_KEY);
 		
 		int addTime = DateUtil.getCurrentTimeSec();
 		

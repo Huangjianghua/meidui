@@ -2,6 +2,7 @@ package com.meiduimall.service.financial.config;
 
 import java.util.Properties;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 import org.apache.ibatis.plugin.Interceptor;
@@ -18,6 +19,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
+
 import com.github.pagehelper.PageHelper;
 
 
@@ -25,7 +27,7 @@ import com.github.pagehelper.PageHelper;
 @EnableTransactionManagement
 public class MyBatisConfig implements TransactionManagementConfigurer{
 	
-    @Autowired
+	@Resource(name = "dataSource")
     private DataSource dataSource;
     
     @Autowired

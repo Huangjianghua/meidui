@@ -22,10 +22,10 @@ public class UserServiceImpl implements UserService {
 	private BaseDao baseDao;
 
 	@Override
-	public SysuserAccount getUserByMemId(String mem_id) {
+	public SysuserAccount getUserByMemId(String memId) {
 		SysuserAccountExample userAccountExample = new SysuserAccountExample();
 		SysuserAccountExample.Criteria userAccountCriteria = userAccountExample.createCriteria();
-		userAccountCriteria.andMemIdEqualTo(mem_id);
+		userAccountCriteria.andMemIdEqualTo(memId);
 		List<SysuserAccount> list = baseDao.selectList(userAccountExample, "SysuserAccountMapper.selectByExample");
 		if (list != null && list.size() > 0) {
 			return list.get(0);

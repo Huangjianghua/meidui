@@ -162,7 +162,7 @@ public class SmsServiceImpl implements SmsService {
      * 首先阿里云发送发送短信，如果发送失败则调用漫道发送 </br>
      * 全部失败则返回失败信息
      */
-    boolean flag = aliyunService.Send(model.getPhones(), ti.getExternalTemplateNo(), params);
+    boolean flag = aliyunService.send(model.getPhones(), ti.getExternalTemplateNo(), params);
     logger.info("阿里大于发送短信结果（flag）：", flag);
     String res = "";
     if (!flag) {
@@ -215,7 +215,7 @@ public class SmsServiceImpl implements SmsService {
      * 首先阿里云发送发送短信，如果发送失败则调用漫道发送 </br>
      * 全部失败则返回失败信息
      */
-    boolean flag = aliyunService.Send(model.getPhones(), ti.getExternalTemplateNo(), params);
+    boolean flag = aliyunService.send(model.getPhones(), ti.getExternalTemplateNo(), params);
     logger.info("阿里大于发送短信结果(flag):{}",flag);
     if (!flag) {
       res = zucpService.send(model.getPhones(), content);

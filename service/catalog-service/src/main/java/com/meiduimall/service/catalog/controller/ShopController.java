@@ -40,14 +40,15 @@ public class ShopController {
 	@RequestMapping(value = "/getShopDetail")
 	public ResBodyData getShopDetail(String shopId, String memId) {
 
-		int shop_id = 0;
+		int intShopId = 0;
 		try {
-			shop_id = Integer.parseInt(shopId);
+			intShopId = Integer.parseInt(shopId);
 		} catch (NumberFormatException e) {
 			logger.error("获取店铺详情: " + e);
-			throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
+			throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR,
+					ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR));
 		}
-		return shopService.getShopDetail(shop_id, memId);
+		return shopService.getShopDetail(intShopId, memId);
 
 	}
 
@@ -64,17 +65,18 @@ public class ShopController {
 	@RequestMapping(value = "/collectShop")
 	public ResBodyData collectOrCancelShop(String shopId, String isCollect) {
 
-		int shop_id = 0;
-		int is_collect = 0;
+		int intShopId = 0;
+		int intIsCollect = 0;
 		try {
-			shop_id = Integer.parseInt(shopId);
-			is_collect = Integer.parseInt(isCollect);
+			intShopId = Integer.parseInt(shopId);
+			intIsCollect = Integer.parseInt(isCollect);
 		} catch (NumberFormatException e) {
 			logger.error("收藏或者取消收藏店铺: " + e);
-			throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
+			throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR,
+					ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR));
 		}
 		SysuserAccount sysuserAccount = (SysuserAccount) request.getAttribute("sysuserAccount");
-		return shopService.collectOrCancelShop(shop_id, sysuserAccount, is_collect);
+		return shopService.collectOrCancelShop(intShopId, sysuserAccount, intIsCollect);
 	}
 
 	/**
@@ -86,14 +88,15 @@ public class ShopController {
 	@RequestMapping(value = "/getShopCatalog")
 	public ResBodyData getShopProductCatalog(String shopId) {
 
-		int shop_id = 0;
+		int intShopId = 0;
 		try {
-			shop_id = Integer.parseInt(shopId);
+			intShopId = Integer.parseInt(shopId);
 		} catch (NumberFormatException e) {
 			logger.error("获取店铺商品分类: " + e);
-			throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
+			throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR,
+					ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR));
 		}
-		return shopService.getShopProductCatalog(shop_id);
+		return shopService.getShopProductCatalog(intShopId);
 	}
 
 	/**

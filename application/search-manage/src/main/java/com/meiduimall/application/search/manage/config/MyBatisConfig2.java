@@ -36,7 +36,7 @@ public class MyBatisConfig2 {
     
     
     @Bean(name = "sqlSessionFactory2")
-    public SqlSessionFactory sqlSessionFactoryBean2(@Qualifier("dataSource2")DataSource dataSource2) {
+    public SqlSessionFactory sqlSessionFactoryBean2(@Qualifier("dataSource2")DataSource dataSource2) throws Exception {
     	
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource2);
@@ -52,14 +52,9 @@ public class MyBatisConfig2 {
         bean.setPlugins(new Interceptor[]{pageHelper});
         //添加XML目录
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        try {
-            //设置xml扫描路径
-            bean.setMapperLocations(resolver.getResources("classpath:mapper/*.xml"));
-            return bean.getObject();
-        } catch (Exception e) {
-        	logger.error(e.getMessage());
-            throw new RuntimeException("sqlSessionFactory init fail",e);
-        }
+        //设置xml扫描路径
+        bean.setMapperLocations(resolver.getResources("classpath:mapper/*.xml"));
+        return bean.getObject();
     }
     
      

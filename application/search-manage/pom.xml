@@ -9,7 +9,7 @@
    </parent>
   <groupId>com.first</groupId>
   <artifactId>search-manage</artifactId>
-  <version>1.0.0</version>
+  <!--<version>1.0.0</version>-->
   <packaging>jar</packaging>
   
   
@@ -19,6 +19,12 @@
 		<java.version>1.8</java.version>
 	</properties>
   <dependencies>
+    
+    <dependency>
+		<groupId>com.meiduimall</groupId>
+		<artifactId>meiduimall-support-core</artifactId>
+		<version>${meiduimall-support-core.version}</version>
+	</dependency>
 	<dependency>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-web</artifactId>
@@ -143,6 +149,11 @@
 		    <groupId>dom4j</groupId>
 		    <artifactId>dom4j</artifactId>
 		    <version>1.6.1</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.sction</groupId>
+		    <artifactId>phprpc</artifactId>
+		    <version>3.0.2</version>
 		</dependency>
 		</dependencies> 
 	     <build>

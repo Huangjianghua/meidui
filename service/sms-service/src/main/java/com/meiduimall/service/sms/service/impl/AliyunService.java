@@ -43,7 +43,7 @@ public class AliyunService implements IAliyunService {
 
 	
 	@Override
-	public boolean Send(String mobile, String tid, String context)  {
+	public boolean send(String mobile, String tid, String context)  {
 		if(StringUtils.isEmpty(tid)){
 			logger.error("模板ID为空,无法发送短消息");
 			return false;

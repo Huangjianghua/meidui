@@ -26,17 +26,17 @@ import org.slf4j.LoggerFactory;
  */
 public class DateUtil {
 	
-	private static final Logger log=LoggerFactory.getLogger(DateUtil.class);
+	private static final Logger log = LoggerFactory.getLogger(DateUtil.class);
 	
-	public static final String DATE_FORMAT="yyyy-MM-dd HH:mm:ss";
-	public static final String DATE_FORMAT_WITH_MS="yyyy-MM-dd HH:mm:ss:SSS";
-	
-	public static final String DATE_FORMAT_YMD_1="yyyy-MM-dd";
-	public static final String DATE_FORMAT_YMD_2="yyyy/MM/dd";
-	
-	public static final String TIME_FORMAT="HH:mm:ss";
-	public static final String TIME_FORMAT_WITH_MS="HH:mm:ss:SSS";
-	
+	public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+	public static final String DATE_FORMAT_WITH_MS = "yyyy-MM-dd HH:mm:ss:SSS";
+
+	public static final String DATE_FORMAT_YMD_1 = "yyyy-MM-dd";
+	public static final String DATE_FORMAT_YMD_2 = "yyyy/MM/dd";
+
+	public static final String TIME_FORMAT = "HH:mm:ss";
+	public static final String TIME_FORMAT_WITH_MS = "HH:mm:ss:SSS";
+
 	public static final String YYYY = "yyyy";
 	public static final String YYYY_MM = "yyyy-MM";
 	public static final String YYYY_MM_DD = "yyyy-MM-dd";
@@ -53,45 +53,36 @@ public class DateUtil {
 	public static final String YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
 	public static final String YYYYMMDDHHMMSSS = "yyyyMMddHHmmssS";
 	
-	/**
-	 * 日期格式化对象
-	 */
+	private static final int CONSTDATESUB = -36500;
+	
 	private static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-	private static DateFormat dateFormat_input = new SimpleDateFormat(
-			"yyyyMMdd");
-	/**
-	 * 日期时间格式化对象
-	 */
+	private static DateFormat dateFormat_input = new SimpleDateFormat("yyyyMMdd");
 	private static DateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-
 	private static DateFormat dateTimeFormat_input = new SimpleDateFormat("yyyyMMddHHmm");
 	
-	/**
-	 * 时间格式化对象
-	 */
 	private static DateFormat timeFormat = new SimpleDateFormat("HH:mm");
-
-	/**
-	 * 用于重点生产资料监测系统
-	 */
-	private static final int day = 1;
-	/**
-	 * 用于重点生产资料监测系统
-	 */
-	private static final int lastDay = 15;
 	
-	private static final int constDateSub = -36500;
+	private static String[] oldCase = new String[] { "00", "0", "一", "二", "三",
+			"四", "五", "六", "七", "八", "九", "十", "十一", "十二", "十三", "十四", "十五",
+			"十六", "十七", "十八", "十九", "二十", "二十一", "二十二", "二十三", "二十四", "二十五",
+			"二十六", "二十七", "二十八", "二十九", "三十", "三十一", "年", "月", "日", "时", "分",
+			"秒", "零", "-", "/" };
 
-	public static int getDay() {
-		return day;
-	}
+	private static String[] numberCase = new String[] { "00", "0", "1", "2",
+			"3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14",
+			"15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25",
+			"26", "27", "28", "29", "30", "31", "年", "月", "日", "时", "分", "秒",
+			"零", "-", "/", };
 
-	public static int getLastDay() {
-		return lastDay;
+	private static Map<String, String> map = new HashMap<>();
+
+	private DateUtil() {
+		for (int i = 0; i < oldCase.length; i++) {
+			map.put(oldCase[i], numberCase[i]);
+			map.put(numberCase[i], oldCase[i]);
+		}
 	}
 	
-
 	public static Long getLastDayEndBySecond () {
 		
 		return getLastDayEndByMillisecond()/1000;  //切记不能将结果四舍五入
@@ -370,11 +361,10 @@ public class DateUtil {
 	 */
 	public static final int dateSub(Date a, Date b) {
 		if (a == null || b == null) {
-			return constDateSub;
+			return CONSTDATESUB;
 		}
-		int date = (int) (a.getTime() / (24 * 60 * 60 * 1000) - b.getTime()
+		return (int) (a.getTime() / (24 * 60 * 60 * 1000) - b.getTime()
 				/ (24 * 60 * 60 * 1000));
-		return date;
 	}
 
 	public static final int dateSubAddOne(Date a, Date b) {
@@ -398,12 +388,12 @@ public class DateUtil {
 							.getTime() / (24 * 60 * 60 * 1000))) {
 				return true;
 			}
-		} else if (beginDate != null && nowDate != null && endDate == null) {
+		} else if (beginDate != null && nowDate != null) {
 			if ((beginDate.getTime() / (24 * 60 * 60 * 1000)) <= (nowDate
 					.getTime() / (24 * 60 * 60 * 1000))) {
 				return true;
 			}
-		} else if (beginDate == null && nowDate != null && endDate != null) {
+		} else if (beginDate == null && endDate != null) {
 			if ((nowDate.getTime() / (24 * 60 * 60 * 1000)) <= (endDate
 					.getTime() / (24 * 60 * 60 * 1000))) {
 				return true;
@@ -583,14 +573,15 @@ public class DateUtil {
 	 * @return 时间字符串
 	 */
 	public static final String format(Date date, String format) {
-		if (format == null || format.trim().length() == 0) {
-			format = YYYY_MM_DD;
+		String newFormat = YYYY_MM_DD;
+		if (format != null && !"".equals(format)) {
+			newFormat = format;
 		}
 		if (date == null) {
 			return "";
 		}
 
-		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		SimpleDateFormat sdf = new SimpleDateFormat(newFormat);
 		return sdf.format(date);
 	}
 
@@ -609,11 +600,12 @@ public class DateUtil {
 	 * @return 时间字符串
 	 */
 	public static final String format(String format) {
-		if (format == null || format.trim().length() == 0) {
-			format = YYYY_MM_DD;
+		String newFormat = YYYY_MM_DD;
+		if (format != null && !"".equals(format)) {
+			newFormat = format;
 		}
 
-		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		SimpleDateFormat sdf = new SimpleDateFormat(newFormat);
 		return sdf.format(new Date());
 	}
 
@@ -716,27 +708,6 @@ public class DateUtil {
 		return sdf.format(new Date());
 	}
 
-	private static String[] oldCase = new String[] { "00", "0", "一", "二", "三",
-			"四", "五", "六", "七", "八", "九", "十", "十一", "十二", "十三", "十四", "十五",
-			"十六", "十七", "十八", "十九", "二十", "二十一", "二十二", "二十三", "二十四", "二十五",
-			"二十六", "二十七", "二十八", "二十九", "三十", "三十一", "年", "月", "日", "时", "分",
-			"秒", "零", "-", "/" };
-
-	private static String[] numberCase = new String[] { "00", "0", "1", "2",
-			"3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14",
-			"15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25",
-			"26", "27", "28", "29", "30", "31", "年", "月", "日", "时", "分", "秒",
-			"零", "-", "/", };
-
-	private static Map<String, String> map = new HashMap<>();
-
-	private DateUtil() {
-		for (int i = 0; i < oldCase.length; i++) {
-			map.put(oldCase[i], numberCase[i]);
-			map.put(numberCase[i], oldCase[i]);
-		}
-	}
-
 	/**
 	 * 时间格式转换 <li>yyyy-MM-dd 转 yyyy年MM月dd日</li> <li>yyyy年MM月dd日 转 yyyy-MM-dd</li>
 	 * @param date Old Date
@@ -748,10 +719,10 @@ public class DateUtil {
 		// 判断是否符合一般时间格式长度：2007-12-29 or 2007年12月29日
 		if (str.length() >= 6) {
 			// yyyy-MM-dd 转 yyyy年MM月dd日
-			if (str.indexOf("-") > 0) {
+			if (str.indexOf('-') >= 0) {
 				String[] sqlit = str.split("-");
 				if (sqlit.length >= 3) {
-					return (sqlit[0] + "年" + sqlit[1] + "月" + sqlit[2] + "日");
+					return sqlit[0] + "年" + sqlit[1] + "月" + sqlit[2] + "日";
 				}
 			} else {
 				// yyyy年MM月dd日 转 yyyy-MM-dd
@@ -842,7 +813,21 @@ public class DateUtil {
 		if (monthInt > 0 && monthInt < 12) {
 			switch (monthInt) {
 			case 1:
+			case 3:
+			case 5:
+			case 7:
+			case 8:
+			case 10:
+			case 12:
 				if (dayInt > 31 || dayInt < 1) {
+					flag = true;
+				}
+				break;
+			case 4:
+			case 6:
+			case 9:
+			case 11:
+				if (dayInt > 30 || dayInt < 1) {
 					flag = true;
 				}
 				break;
@@ -853,56 +838,6 @@ public class DateUtil {
 				} else {
 					if (dayInt > 28 || dayInt < 1)
 						flag = true;
-				}
-				break;
-			case 3:
-				if (dayInt > 31 || dayInt < 1) {
-					flag = true;
-				}
-				break;
-			case 4:
-				if (dayInt > 30 || dayInt < 1) {
-					flag = true;
-				}
-				break;
-			case 5:
-				if (dayInt > 31 || dayInt < 1) {
-					flag = true;
-				}
-				break;
-			case 6:
-				if (dayInt > 30 || dayInt < 1) {
-					flag = true;
-				}
-				break;
-			case 7:
-				if (dayInt > 31 || dayInt < 1) {
-					flag = true;
-				}
-				break;
-			case 8:
-				if (dayInt > 31 || dayInt < 1) {
-					flag = true;
-				}
-				break;
-			case 9:
-				if (dayInt > 30 || dayInt < 1) {
-					flag = true;
-				}
-				break;
-			case 10:
-				if (dayInt > 31 || dayInt < 1) {
-					flag = true;
-				}
-				break;
-			case 11:
-				if (dayInt > 30 || dayInt < 1) {
-					flag = true;
-				}
-				break;
-			case 12:
-				if (dayInt > 31 || dayInt < 1) {
-					flag = true;
 				}
 				break;
 			default:
@@ -926,8 +861,7 @@ public class DateUtil {
 		Calendar c2 = Calendar.getInstance();
 		c2.setTime(date2);
 		long temp = c1.getTimeInMillis() - c2.getTimeInMillis();
-		int count = (int) (temp / (24 * 60 * 60 * 1000));
-		return count;
+		return (int) (temp / (24 * 60 * 60 * 1000));
 	}
 
 	public static final int compareDay2(Date date1, Date date2) {
@@ -975,8 +909,8 @@ public class DateUtil {
 	public static long dateDiff(Date date, Date now) {
 		long l = date.getTime() - now.getTime();
 		long day = l / (24 * 60 * 60 * 1000);
-		long hour = (l / (60 * 60 * 1000) - day * 24);
-		long min = ((l / (60 * 1000)) - day * 24 * 60 - hour * 60);
+		long hour = l / (60 * 60 * 1000) - day * 24;
+		long min = (l / (60 * 1000)) - day * 24 * 60 - hour * 60;
 		day = day * 24 * 60;
 		hour = hour * 60;
 		return day + hour + min;
@@ -996,8 +930,7 @@ public class DateUtil {
 		NumberFormat numberFormat = NumberFormat.getInstance();
 		// 设置精确到小数点后2位
 		numberFormat.setMaximumFractionDigits(1);
-		String result = numberFormat.format((float) x / (float) total * 100);
-		return result;
+		return numberFormat.format((float) x / (float) total * 100);
 	}
 
 	/**
@@ -1014,8 +947,7 @@ public class DateUtil {
 		NumberFormat numberFormat = NumberFormat.getInstance();
 		// 设置精确到小数点后1位
 		numberFormat.setMaximumFractionDigits(1);
-		String result = numberFormat.format((float) x / (float) total * 100);
-		return result;
+		return numberFormat.format((float) x / (float) total * 100);
 	}
 	
 	/**
@@ -1138,8 +1070,7 @@ public class DateUtil {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd"); 
 		Calendar ca = Calendar.getInstance();    
 		ca.set(Calendar.DAY_OF_MONTH, ca.getActualMaximum(Calendar.DAY_OF_MONTH));  
-		String last = format.format(ca.getTime());
-		return last;
+		return format.format(ca.getTime());
 	}
 	
 	/**

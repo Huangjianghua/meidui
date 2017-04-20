@@ -110,7 +110,7 @@ public class ValidCodeUtil {
      * @return 随机字符
      */
     private static String createRandomChar(Graphics2D g,String baseChar) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         int x = 5;
         String ch ="";
         // 控制字数

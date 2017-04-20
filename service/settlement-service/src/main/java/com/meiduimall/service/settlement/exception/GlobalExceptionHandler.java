@@ -34,7 +34,7 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(value = BindException.class)
 	public Object methodArgumentNotValidHandler(HttpServletRequest request, BindException exception) {
 		StringBuilder sb = new StringBuilder();
-		exception.getBindingResult().getFieldErrors().forEach((error) -> {
+		exception.getBindingResult().getFieldErrors().forEach(error -> {
 			sb.append(error.getDefaultMessage()).append(";");
 		});
 		return new ResBodyData(ShareProfitConstants.RESPONSE_STATUS_CODE_FAILURE, sb.toString());
@@ -49,8 +49,7 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(value = ServiceException.class)
 	public ResBodyData serviceExceptionHandler(HttpServletRequest request, ServiceException exception) {
 		logger.error(request.getContextPath() + request.getRequestURI() + " " + exception.getLocalizedMessage());
-		ResBodyData result = new ResBodyData(ShareProfitConstants.RESPONSE_STATUS_CODE_FAILURE, exception.getLocalizedMessage());
-		return result;
+		return new ResBodyData(ShareProfitConstants.RESPONSE_STATUS_CODE_FAILURE, exception.getLocalizedMessage());
 	}
 
 }

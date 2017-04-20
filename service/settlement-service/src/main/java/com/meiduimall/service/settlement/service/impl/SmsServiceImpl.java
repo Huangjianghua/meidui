@@ -7,8 +7,8 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
-import com.meiduimall.service.settlement.common.ResultData;
 import com.meiduimall.service.settlement.common.SettlementUtil;
 import com.meiduimall.service.settlement.common.ShareProfitUtil;
 import com.meiduimall.service.settlement.model.SmsReqDTO;
@@ -30,15 +30,15 @@ public class SmsServiceImpl implements SmsService {
 	@Override
 	public boolean sendMsm(SmsReqDTO smsReqDTO) {
 		boolean flag = false;
-		String api = ShareProfitUtil.AUTHORIZED_MAP.get(KEY_SMS_API_URL) + ShareProfitUtil.AUTHORIZED_MAP.get(KEY_SEND_MESSAGE);
+		String api = ShareProfitUtil.authorizedMap.get(KEY_SMS_API_URL) + ShareProfitUtil.authorizedMap.get(KEY_SEND_MESSAGE);
 		RestTemplate restTemplate = new RestTemplate();
 		String result = restTemplate.postForEntity(api, smsReqDTO, String.class).getBody();
-		ResultData resBodyData = JsonUtils.jsonToBean(result, ResultData.class);
+		ResBodyData resBodyData = JsonUtils.jsonToBean(result, ResBodyData.class);
 
-		if ("0".equals(resBodyData.getStatus_code())) {
+		if (resBodyData.getStatus() == 0) {
 			flag = true;
 		} else {
-			logger.error(resBodyData.getResult_msg());
+			logger.error(resBodyData.getMsg());
 		}
 
 		return flag;
@@ -61,19 +61,19 @@ public class SmsServiceImpl implements SmsService {
 		}
 		
 		String resultObjStr = ConnectionUrlUtil.httpRequest(buildSendMsgUrl(smsReqDTO), ShareProfitUtil.REQUEST_METHOD_POST, null);
-		ResultData resBodyData = JsonUtils.jsonToBean(resultObjStr, ResultData.class);
+		ResBodyData resBodyData = JsonUtils.jsonToBean(resultObjStr, ResBodyData.class);
 
-		if ("0".equals(resBodyData.getStatus_code())) {
+		if (resBodyData.getStatus() == 0) {
 			flag = true;
 		} else {
-			logger.error(resBodyData.getResult_msg());
+			logger.error(resBodyData.getMsg());
 		}
 
 		return flag;
 	}
 	
 	public static String buildSendMsgUrl(SmsReqDTO smsReqDTO) {
-		String api = ShareProfitUtil.AUTHORIZED_MAP.get(KEY_SMS_API_URL) + ShareProfitUtil.AUTHORIZED_MAP.get(KEY_SEND_MESSAGE);
+		String api = ShareProfitUtil.authorizedMap.get(KEY_SMS_API_URL) + ShareProfitUtil.authorizedMap.get(KEY_SEND_MESSAGE);
 		String params = "clientID=" + smsReqDTO.getClientID() + "&phones=" + smsReqDTO.getPhones() + "&templateId="
 				+ smsReqDTO.getTemplateId() + "&params=" + smsReqDTO.getParams();
 		

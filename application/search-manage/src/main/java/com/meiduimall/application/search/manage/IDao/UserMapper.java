@@ -1,10 +1,6 @@
 package com.meiduimall.application.search.manage.IDao;
-
 import java.util.List;
 import java.util.Map;
-
-import org.springframework.stereotype.Repository;
-
 import com.meiduimall.application.search.manage.system.domain.User;
 
 

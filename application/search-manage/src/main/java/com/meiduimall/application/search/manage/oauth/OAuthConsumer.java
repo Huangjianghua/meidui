@@ -42,7 +42,7 @@ public class OAuthConsumer implements Serializable {
         this.serviceProvider = serviceProvider;
     }
 
-    private final Map<String, Object> properties = new HashMap<String, Object>();
+    private final Map<String, Object> properties = new HashMap<>();
 
     public Object getProperty(String name) {
         return properties.get(name);

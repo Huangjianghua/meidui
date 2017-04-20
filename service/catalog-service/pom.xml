@@ -12,7 +12,7 @@
 
 	<groupId>com.meiduimall</groupId>
 	<artifactId>catalog-service</artifactId>
-	<version>1.0.0</version>
+	<!--<version>1.0.0</version>-->
 	<packaging>jar</packaging>
 	<name>catalog-service</name>
 	<description>catalog-service</description>
@@ -30,6 +30,12 @@
 	</dependencyManagement>
 
 	<dependencies>
+	
+		<dependency>
+		    <groupId>org.sction</groupId>
+		    <artifactId>phprpc</artifactId>
+		    <version>3.0.2</version>
+		</dependency>
 
 		<!--引入meiduimall-common -->
 		<!-- <dependency>

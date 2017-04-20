@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+
+import com.meiduimall.service.catalog.exception.CatalogException;
+
 public class ParseItemSpecDesUtil {
 
 	/**
@@ -16,9 +19,9 @@ public class ParseItemSpecDesUtil {
 	 * 5={4={spec_value_id=4, spec_value=F, private_spec_value_id=}},
 	 * 6={76={spec_value_id=76, spec_value=默认, private_spec_value_id=}}}
 	 * 
-	 * @param result
+	 * @param content
 	 * @return
-	 * @throws Exception
+	 * @throws CatalogException
 	 */
 	public static List<ParseItemSpecDescBean> parse(String content) throws Exception {
 		if (content == null || content.length() < 1) {
@@ -99,7 +102,7 @@ public class ParseItemSpecDesUtil {
 
 						// 创建ParseItemSpecDescBean对象
 						ParseItemSpecDescBean itemSpecDescBean = new ParseItemSpecDescBean();
-						itemSpecDescBean.setProp_id(key2);
+						itemSpecDescBean.setPropId(key2);
 
 						// 创建集合，用于存储PropBean
 						List<ParseItemSpecDescBean.PropBean> propBeanList = new ArrayList<ParseItemSpecDescBean.PropBean>();
@@ -138,7 +141,7 @@ public class ParseItemSpecDesUtil {
 
 							// 创建二级对象
 							ParseItemSpecDescBean.PropBean propBean = new ParseItemSpecDescBean().new PropBean();
-							propBean.setProp_value_id(key5);
+							propBean.setPropValueId(key5);
 
 							if (value5 != null && value5.length() > 0) {
 								if (value5.startsWith("{") && value5.endsWith("}")) {
@@ -162,22 +165,22 @@ public class ParseItemSpecDesUtil {
 														switch (propsKey) {
 														case "spec_value_id":
 															try {
-																bean.setSpec_value_id(Integer.parseInt(propsValue));
-															} catch (Exception e) {
-																bean.setSpec_value_id(0);
+																bean.setSpecValueId(Integer.parseInt(propsValue));
+															} catch (NumberFormatException e) {
+																bean.setSpecValueId(0);
 															}
 															break;
 														case "spec_value":
-															bean.setSpec_value(propsValue);
+															bean.setSpecValue(propsValue);
 															break;
 														case "private_spec_value_id":
 															// can not reach
 															// 因为private_spec_value_id的值一般为空
 															try {
-																bean.setPrivate_spec_value_id(Integer
-																		.parseInt(propsValue));
-															} catch (Exception e) {
-																bean.setPrivate_spec_value_id(null);
+																bean.setPrivateSpecValueId(
+																		Integer.parseInt(propsValue));
+															} catch (NumberFormatException e) {
+																bean.setPrivateSpecValueId(null);
 															}
 															break;
 														}

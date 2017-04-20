@@ -25,6 +25,10 @@
         <jacoco.version>0.7.9</jacoco.version>
     </properties>
 
+    <scm>
+        <connection>scm:git:http://git.meiduimall.com/service/meiduimall.git</connection>
+        <developerConnection>scm:git:http://git.meiduimall.com/service/meiduimall.git</developerConnection>
+    </scm>
 
     <profiles>
         <profile>
@@ -59,6 +63,15 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.2</version>
+                <configuration>
+                    <tagBase>http://git.meiduimall.com/service/meiduimall.git</tagBase>
+                </configuration>
             </plugin>
         </plugins>
     </build>

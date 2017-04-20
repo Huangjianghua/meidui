@@ -8,13 +8,13 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.solr.common.SolrInputDocument;
+import org.phprpc.util.PHPSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.meiduimall.application.search.manage.pojo.ItemModel;
 import com.meiduimall.application.search.manage.pojo.ItemPropValue;
 import com.meiduimall.application.search.manage.pojo.Props;
-import com.meiduimall.application.search.manage.utility.prop.PHPSerializer;
 
 public class SolrIndexUtil {
 	
@@ -51,7 +51,7 @@ public class SolrIndexUtil {
 			String cat = itemModel.getCat().trim();
 			String catParentId = itemModel.getCatParentId();
 			
-			StringBuffer catInfo = new StringBuffer();
+			StringBuilder catInfo = new StringBuilder();
 			catInfo.append(catParentId).append("_");
 			catInfo.append(catId).append("_");
 			catInfo.append(cat);
@@ -66,7 +66,7 @@ public class SolrIndexUtil {
 			doc.addField("catPath", catPath + catId);
 			
 			// 店铺信息
-			StringBuffer shopInfo = new StringBuffer();
+			StringBuilder shopInfo = new StringBuilder();
 			String shopId = itemModel.getShopId();
 			String shopName = itemModel.getShopName();
 			String shopDescript = itemModel.getShopDescript();
@@ -175,7 +175,8 @@ public class SolrIndexUtil {
 	@SuppressWarnings("rawtypes")
 	public static Map<Integer, ArrayList<ItemPropValue>> transformProp(String specDesc) throws Exception {
 		HashMap<Integer,ArrayList<ItemPropValue>> itemProp = new HashMap<Integer,ArrayList<ItemPropValue>>();
-		Object obj = PHPSerializer.unserialize(specDesc.getBytes("utf-8"));
+		PHPSerializer p = new PHPSerializer();
+		Object obj = p.unserialize(specDesc.getBytes("utf-8"));;
         HashMap  propMap = (HashMap)obj; 
 		for ( Object key:propMap.keySet()) {
 			Integer propId = (Integer)key;
