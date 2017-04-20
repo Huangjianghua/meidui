@@ -55,14 +55,13 @@ public class O2oCallbackServiceImpl implements O2oCallbackService{
 		if(!isSuccess){
 			//注意，params中,逗号是参数分隔符,用于将分割后的参数填充到短信模板。
 			String params = "通知订单结算状态给O2O失败;status_code:" + statusCodeMsg;
-			SmsReqDTO smsReqDTO = new SmsReqDTO(ShareProfitUtil.authorizedMap.get(ShareProfitUtil.SMS_PHONES),
-					ShareProfitUtil.TEMPLATE_ID_O2O_1009, params, "");
+			SmsReqDTO smsReqDTO = new SmsReqDTO(ShareProfitUtil.authorizedMap.get(ShareProfitUtil.SMS_PHONES), ShareProfitUtil.TEMPLATE_ID_O2O_1009, params, "");
 
 			boolean flag = smsService.sendMessage(smsReqDTO);
 			if(flag){
 				log.info("发送短信通知订单结算状态给O2O成功,status_code:{}",statusCodeMsg);
 			}else{
-				log.info("发送短信通知订单结算状态给O2O失败,status_code:{}",statusCodeMsg);
+				log.error("发送短信通知订单结算状态给O2O失败,status_code:{}",statusCodeMsg);
 			}
 		}
 
