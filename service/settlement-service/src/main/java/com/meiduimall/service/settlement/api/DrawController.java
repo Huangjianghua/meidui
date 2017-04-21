@@ -66,10 +66,10 @@ public class DrawController {
 	@PostMapping(value="/queryaccoutbalance")
 	public ResBodyData queryAccoutBalance(String code) {
 		try {
-			Map<String, Object> accountResult = drawService.queryAccoutBalance(code);
-			return SettlementUtil.success(accountResult);
+		Map<String, Object> accountResult = drawService.queryAccoutBalance(code);
+		return SettlementUtil.success(accountResult);
 		} catch (DaoException e) {
-			throw new ServiceException(e.getCode(),e.getMessage());
+			throw new ServiceException(e.getCode(),e.getMessage(),e);
 		}
 	}
 	
