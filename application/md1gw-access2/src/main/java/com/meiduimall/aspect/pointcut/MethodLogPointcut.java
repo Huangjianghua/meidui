@@ -13,6 +13,6 @@ public class MethodLogPointcut {
 	
 	@Pointcut("execution(* com.meiduimall.application.mall.catalog.controller.*.*(..))")
 	public void pointcutLog() {
-		
+		// Do nothing because of X and Y.
 	}
 }

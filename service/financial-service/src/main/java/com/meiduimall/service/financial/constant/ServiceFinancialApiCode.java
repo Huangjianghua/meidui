@@ -4,8 +4,6 @@ import com.meiduimall.core.BaseApiCode;
 
 public class ServiceFinancialApiCode extends BaseApiCode {
 	
-	private ServiceFinancialApiCode(){}
-
 	/** 请求成功 */
 	public static final Integer REQUEST_SUCCESS = 7001;
 	/** 请求失败 */
@@ -41,4 +39,6 @@ public class ServiceFinancialApiCode extends BaseApiCode {
 		zhMsgMap.put(MEMID_VALIDATE_ERROR, "memId验证异常");
 		zhMsgMap.put(DB_EXCEPTION, "数据库异常");
 	}
+	
+	private ServiceFinancialApiCode(){}
 }

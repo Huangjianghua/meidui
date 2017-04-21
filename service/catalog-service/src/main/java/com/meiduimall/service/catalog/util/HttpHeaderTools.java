@@ -1,20 +1,14 @@
 package com.meiduimall.service.catalog.util;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class HttpHeaderTools {
 
 	private static Logger logger = LoggerFactory.getLogger(HttpHeaderTools.class);
-
-	private static final String LOCAL_LOOPBACK_ADDRESS = "127.0.0.1";
-
-	private static final String LOCAL_UNKNOW_ADDRESS = "0:0:0:0:0:0:0:1";
 
 	private static final String UNKNOWN = "unknown";
 
@@ -31,25 +25,14 @@ public class HttpHeaderTools {
 		String ipAddress = "";
 		try {
 			ipAddress = request.getHeader("x-forwarded-for");
-
-			if (ipAddress == null || ipAddress.length() == 0 || UNKNOWN.equalsIgnoreCase(ipAddress)) {
+			if (StringUtils.isBlank(ipAddress) || UNKNOWN.equalsIgnoreCase(ipAddress)) {
 				ipAddress = request.getHeader("Proxy-Client-IP");
 			}
-			if (ipAddress == null || ipAddress.length() == 0 || UNKNOWN.equalsIgnoreCase(ipAddress)) {
+			if (StringUtils.isBlank(ipAddress) || UNKNOWN.equalsIgnoreCase(ipAddress)) {
 				ipAddress = request.getHeader("WL-Proxy-Client-IP");
 			}
-			if (ipAddress == null || ipAddress.length() == 0 || UNKNOWN.equalsIgnoreCase(ipAddress)) {
+			if (StringUtils.isBlank(ipAddress) || UNKNOWN.equalsIgnoreCase(ipAddress)) {
 				ipAddress = request.getRemoteAddr();
-				if (LOCAL_LOOPBACK_ADDRESS.equals(ipAddress) || LOCAL_UNKNOW_ADDRESS.equals(ipAddress)) {
-					// 根据网卡取本机配置的IP
-					InetAddress inet = null;
-					try {
-						inet = InetAddress.getLocalHost();
-						ipAddress = inet.getHostAddress();
-					} catch (UnknownHostException e) {
-						logger.error("获取IP失败：" + e);
-					}
-				}
 			}
 			// 对于通过多个代理的情况，第一个IP为客户端真实IP,多个IP按照','分割
 			if (ipAddress != null && ipAddress.length() > 15) { // "***.***.***.***".length()

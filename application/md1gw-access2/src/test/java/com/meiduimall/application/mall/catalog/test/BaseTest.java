@@ -1,6 +1,7 @@
 package com.meiduimall.application.mall.catalog.test;
 
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,4 +31,8 @@ public class BaseTest {
 	   mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
    }
 
+   @Test
+   public void testNull(){
+	   
+   }
 }

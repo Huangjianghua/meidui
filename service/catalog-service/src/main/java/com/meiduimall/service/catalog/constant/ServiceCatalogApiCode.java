@@ -3,8 +3,6 @@ package com.meiduimall.service.catalog.constant;
 import com.meiduimall.core.BaseApiCode;
 
 public class ServiceCatalogApiCode extends BaseApiCode {
-	
-	private ServiceCatalogApiCode(){}
 
 	/** 请求成功 */
 	public static final Integer REQUEST_SUCCESS = 7001;
@@ -52,16 +50,14 @@ public class ServiceCatalogApiCode extends BaseApiCode {
 	/** 没有这个商品 */
 	public static final Integer NO_THIS_PRODUCT = 7030;
 
-
-	/**反序列化数据异常*/
+	/** 反序列化数据异常 */
 	public static final Integer SERIALIZER_EXCEPTION = 7501;
-	
+
 	/** 输出异常 */
 	public static final Integer OUT_PUT_EXCEPTION = 7502;
-	
+
 	/** 数据库错误 */
 	public static final Integer DB_EXCEPTION = 7777;
-	
 
 	static {
 		zhMsgMap.put(REQUEST_SUCCESS, "请求成功");
@@ -86,5 +82,8 @@ public class ServiceCatalogApiCode extends BaseApiCode {
 		zhMsgMap.put(SERIALIZER_EXCEPTION, "反序列化数据异常");
 		zhMsgMap.put(OUT_PUT_EXCEPTION, "输出异常");
 		zhMsgMap.put(DB_EXCEPTION, "数据库错误");
+	}
+
+	private ServiceCatalogApiCode() {
 	}
 }
