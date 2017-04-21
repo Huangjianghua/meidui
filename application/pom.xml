@@ -18,7 +18,7 @@
     <modules>
         <module>mall-api</module>
 		<module>md1gw-access2</module>
-<!-- 		<module>md1gw-access</module> -->
+ 		<module>md1gw-access</module> 
 	
     </modules>
 
