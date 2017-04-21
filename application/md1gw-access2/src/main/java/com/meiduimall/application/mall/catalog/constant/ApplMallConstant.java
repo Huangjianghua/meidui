@@ -1,6 +1,9 @@
 package com.meiduimall.application.mall.catalog.constant;
 
 public class ApplMallConstant {
+	
+	private ApplMallConstant(){}
+	
 
 	public static final String KEY_SIGN_CLIENT_ID = "sign.clientID";
 

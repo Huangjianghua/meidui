@@ -3,6 +3,8 @@ package com.meiduimall.application.mall.catalog.constant;
 import com.meiduimall.core.BaseApiCode;
 
 public class ApplMallApiCode extends BaseApiCode {
+	
+	private ApplMallApiCode(){}
 
 	/** 请求微服务出错 */
 	public static final Integer REQUEST_SERVICE_ERROR = 8001;

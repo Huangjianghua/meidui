@@ -89,14 +89,14 @@ public class SysuserUserFavExample {
 
 		protected void addCriterion(String condition) {
 			if (condition == null) {
-				throw new DaoException(ServiceCatalogApiCode.UNKNOWN_ERROR, "Value for condition cannot be null");
+				throw new DaoException(ServiceCatalogApiCode.DB_EXCEPTION, "Value for condition cannot be null");
 			}
 			criteria.add(new Criterion(condition));
 		}
 
 		protected void addCriterion(String condition, Object value, String property) {
 			if (value == null) {
-				throw new DaoException(ServiceCatalogApiCode.UNKNOWN_ERROR,
+				throw new DaoException(ServiceCatalogApiCode.DB_EXCEPTION,
 						"Value for " + property + " cannot be null");
 			}
 			criteria.add(new Criterion(condition, value));
@@ -104,7 +104,7 @@ public class SysuserUserFavExample {
 
 		protected void addCriterion(String condition, Object value1, Object value2, String property) {
 			if (value1 == null || value2 == null) {
-				throw new DaoException(ServiceCatalogApiCode.UNKNOWN_ERROR,
+				throw new DaoException(ServiceCatalogApiCode.DB_EXCEPTION,
 						"Between values for " + property + " cannot be null");
 			}
 			criteria.add(new Criterion(condition, value1, value2));

@@ -8,13 +8,18 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.meiduimall.service.catalog.constant.ServiceCatalogConstant;
-
 public class HttpHeaderTools {
 
 	private static Logger logger = LoggerFactory.getLogger(HttpHeaderTools.class);
-	
-	private HttpHeaderTools(){}
+
+	private static final String LOCAL_LOOPBACK_ADDRESS = "127.0.0.1";
+
+	private static final String LOCAL_UNKNOW_ADDRESS = "0:0:0:0:0:0:0:1";
+
+	private static final String UNKNOWN = "unknown";
+
+	private HttpHeaderTools() {
+	}
 
 	/**
 	 * 获取当前请求的IP地址
@@ -27,16 +32,15 @@ public class HttpHeaderTools {
 		try {
 			ipAddress = request.getHeader("x-forwarded-for");
 
-			if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
+			if (ipAddress == null || ipAddress.length() == 0 || UNKNOWN.equalsIgnoreCase(ipAddress)) {
 				ipAddress = request.getHeader("Proxy-Client-IP");
 			}
-			if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
+			if (ipAddress == null || ipAddress.length() == 0 || UNKNOWN.equalsIgnoreCase(ipAddress)) {
 				ipAddress = request.getHeader("WL-Proxy-Client-IP");
 			}
-			if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
+			if (ipAddress == null || ipAddress.length() == 0 || UNKNOWN.equalsIgnoreCase(ipAddress)) {
 				ipAddress = request.getRemoteAddr();
-				if (ServiceCatalogConstant.LOCAL_LOOPBACK_ADDRESS.equals(ipAddress)
-						|| ServiceCatalogConstant.LOCAL_UNKNOW_ADDRESS.equals(ipAddress)) {
+				if (LOCAL_LOOPBACK_ADDRESS.equals(ipAddress) || LOCAL_UNKNOW_ADDRESS.equals(ipAddress)) {
 					// 根据网卡取本机配置的IP
 					InetAddress inet = null;
 					try {
