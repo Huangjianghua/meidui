@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
 		SysuserAccountExample.Criteria userAccountCriteria = userAccountExample.createCriteria();
 		userAccountCriteria.andMemIdEqualTo(memId);
 		List<SysuserAccount> list = baseDao.selectList(userAccountExample, "SysuserAccountMapper.selectByExample");
-		if (list != null && list.size() > 0) {
+		if (list != null && !list.isEmpty()) {
 			return list.get(0);
 		} else {
 			return null;

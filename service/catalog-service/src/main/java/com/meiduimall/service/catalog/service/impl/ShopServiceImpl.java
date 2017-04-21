@@ -98,7 +98,7 @@ public class ShopServiceImpl implements ShopService {
 			shopCriteria.andShopIdEqualTo(shopId);
 			List<SysshopShop> shopList = baseDao.selectList(shopExample, "SysshopShopMapper.selectByExample");
 
-			if (shopList == null || shopList.size() == 0) {
+			if (shopList == null || shopList.isEmpty()) {
 				// 没有这个店铺
 				throw new ServiceException(ServiceCatalogApiCode.NO_THIS_SHOP,
 						ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.NO_THIS_SHOP));
@@ -152,7 +152,7 @@ public class ShopServiceImpl implements ShopService {
 		criteria.andShopIdEqualTo(Integer.valueOf(shopId));
 		List<SysshopShopCat> list = baseDao.selectList(example, "SysshopShopCatMapper.selectByExample");
 
-		if (list != null && list.size() > 0) {
+		if (list != null && !list.isEmpty()) {
 			ShopCatResult shopCatResult = new ShopCatResult();
 			List<ParentShopCat> results = new ArrayList<ParentShopCat>();
 

@@ -23,6 +23,7 @@ import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.HttpUtils;
 import com.meiduimall.core.util.JsonUtils;
+import com.meiduimall.exception.ServiceException;
 
 public class TokenInterceptor implements HandlerInterceptor {
 
@@ -133,7 +134,13 @@ public class TokenInterceptor implements HandlerInterceptor {
 	private boolean outPut(HttpServletResponse response, Integer status) throws IOException {
 		ResBodyData result = new ResBodyData(status, ApplMallApiCode.getZhMsg(status),
 				JsonUtils.getInstance().createObjectNode());
-		response.getWriter().write(JsonUtils.beanToJson(result));
+		try {
+			response.getWriter().write(JsonUtils.beanToJson(result));
+		} catch (IOException e) {
+			logger.error("拦截器输出异常: " + e);
+			throw new ServiceException(ApplMallApiCode.OUT_PUT_EXCEPTION,
+					ApplMallApiCode.getZhMsg(ApplMallApiCode.OUT_PUT_EXCEPTION));
+		}
 		return false;
 	}
 }

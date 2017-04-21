@@ -64,7 +64,7 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 			list.add(bean);
 		}
 
-		if (list.size() > 0) {
+		if (!list.isEmpty()) {
 			/** TODO 是否需要删除就数据?? */
 			// baseDao.delete(null,
 			// "SysitemItemRecommendMapper.deleteByExample");
@@ -97,7 +97,7 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 		// 集合反转
 		Collections.reverse(list);
 		List<GoodsDetailResult> results = new ArrayList<GoodsDetailResult>();
-		if (list != null && list.size() > 0) {
+		if (list != null && !list.isEmpty()) {
 			// 根据商品id查询商品详情
 			List<GoodsDetailResult> queryResults = baseDao.selectList(list, "SysitemItemMapper.getItemsInItemId");
 			// 重新排序:查询商品详情获取到的顺序 与 查询商品item_id的顺序不一致，所以需要重新排序
@@ -111,7 +111,7 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 					}
 				}
 			}
-			if (results.size() > 0) {
+			if (!results.isEmpty()) {
 				// 分别给每一个商品详情查询结果添加访问地址
 				for (GoodsDetailResult detail : results) {
 					if (sourceId == 2) {
@@ -149,7 +149,7 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 		List<CheckGoodsResult> results1 = new ArrayList<CheckGoodsResult>();
 		List<CheckGoodsResult> results2 = new ArrayList<CheckGoodsResult>();
 
-		if (list1 != null && list1.size() > 0) {
+		if (list1 != null && !list1.isEmpty()) {
 			for (Integer item_id : list1) {
 				CheckGoodsResult detail = new CheckGoodsResult();
 				detail.setItemId(item_id.toString());
@@ -158,7 +158,7 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 			}
 		}
 
-		if (list2 != null && list2.size() > 0) {
+		if (list2 != null && !list2.isEmpty()) {
 			for (Integer item_id : list2) {
 				CheckGoodsResult detail = new CheckGoodsResult();
 				detail.setItemId(item_id.toString());

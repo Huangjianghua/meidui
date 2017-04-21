@@ -46,7 +46,7 @@ public class ShopCommonService {
 
 		JsonItemDetailResultShopData shopData = new JsonItemDetailResultShopData();
 
-		SysrateDsrWithBLOBs rateDsrWithBLOBs = baseDao.selectOne(new Long(shopId.longValue()),
+		SysrateDsrWithBLOBs rateDsrWithBLOBs = baseDao.selectOne(Long.valueOf(shopId.intValue()),
 				"SysrateDsrMapper.selectByPrimaryKey");
 		if (rateDsrWithBLOBs != null) {
 			// 反序列化数据---解析店铺信息中的：描述相符、服务态度、发货速度的分值

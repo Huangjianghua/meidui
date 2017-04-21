@@ -1,5 +1,6 @@
 package com.meiduimall.service.catalog.interceptor;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.catalog.annotation.HasMemId;
 import com.meiduimall.service.catalog.constant.ServiceCatalogApiCode;
 import com.meiduimall.service.catalog.entity.SysuserAccount;
@@ -76,10 +78,16 @@ public class MemIdInterceptor implements HandlerInterceptor {
 		}
 	}
 
-	private boolean outPut(HttpServletResponse response, Integer code) throws Exception {
+	private boolean outPut(HttpServletResponse response, Integer code) {
 		ResBodyData result = new ResBodyData(code, ServiceCatalogApiCode.getZhMsg(code),
 				JsonUtils.getInstance().createObjectNode());
-		response.getWriter().write(JsonUtils.beanToJson(result));
+		try {
+			response.getWriter().write(JsonUtils.beanToJson(result));
+		} catch (IOException e) {
+			logger.error("拦截器输出异常: " + e);
+			throw new ServiceException(ServiceCatalogApiCode.OUT_PUT_EXCEPTION,
+					ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.OUT_PUT_EXCEPTION));
+		}
 		return false;
 	}
 }

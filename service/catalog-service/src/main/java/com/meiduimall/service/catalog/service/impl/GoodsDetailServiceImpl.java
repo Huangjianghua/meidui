@@ -328,7 +328,7 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 		List<SysitemSkuWithBLOBs> itemSkuWithBLOBsList = baseDao.selectList(skuExample,
 				"SysitemSkuMapper.selectByExampleWithBLOBs");
 
-		if (itemSkuWithBLOBsList != null && itemSkuWithBLOBsList.size() > 0) {
+		if (itemSkuWithBLOBsList != null && !itemSkuWithBLOBsList.isEmpty()) {
 			for (int i = 0; i < itemSkuWithBLOBsList.size(); i++) {
 				SysitemSkuWithBLOBs sysitemSkuWithBLOBs = itemSkuWithBLOBsList.get(i);
 				if (sysitemSkuWithBLOBs == null) {
