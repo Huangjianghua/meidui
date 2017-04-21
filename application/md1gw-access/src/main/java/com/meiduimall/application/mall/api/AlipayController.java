@@ -48,7 +48,7 @@ public class AlipayController {
 	@Autowired
 	private PaymentService paymentService; 
 	
-	@SuppressWarnings({ "rawtypes", "unused" })
+	@SuppressWarnings({ "rawtypes" })
 	@RequestMapping(value =  "/getAliPayNotify" )
 	public String getPayNotify(HttpServletRequest request) throws Exception {
 		Logger.info("进入支付宝异步回调");

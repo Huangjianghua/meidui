@@ -15,7 +15,7 @@ import java.util.Properties;
 public class SystemConfig {
 
 	private static final SystemConfig systemConfig = new SystemConfig();
-	public static Map<String, String> configMap;
+	protected static Map<String, String> configMap;
 	@SuppressWarnings("static-access")
 	private SystemConfig() {
 		if (configMap == null) {
