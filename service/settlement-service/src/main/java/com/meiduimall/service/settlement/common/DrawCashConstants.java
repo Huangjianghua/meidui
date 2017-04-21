@@ -19,5 +19,7 @@ public class DrawCashConstants {
 	public static final int STATUS_TRANSFER_SUCCESS=4;
 	
 	public static final int STATUS_TRANSFER_FAIL=5;
+	
+	private DrawCashConstants(){}
 
 }

@@ -67,7 +67,7 @@ public class BillTask {
 		try {
 			orderSns=billService.createBills();
 		} catch (Exception e) {
-			log.error("billService.createBills()生成账单出错:" + e.toString());
+			log.error("billService.createBills()生成账单出错:{}", e);
 		}
 		
 		if(orderSns!=null && !orderSns.isEmpty()){  //账单创建成功
@@ -82,7 +82,7 @@ public class BillTask {
 					CreateBillLog orderLog=new CreateBillLog(reason,DateUtil.getCurrentTimeSec(),null);
 					shareProfitLogService.logCreateBillLog(orderLog);
 				} catch (Exception e) {
-					log.error("shareProfitLogService.logCreateBillLog() 通知O2O结算状态STATUS_CODE_BILL errorLog!error:{}",e.getMessage());
+					log.error("shareProfitLogService.logCreateBillLog() 通知O2O结算状态STATUS_CODE_BILL errorLog!error:{}", e);
 				}
 			}
 			// 异步送一级推荐人1%现金余额奖励到会员系统
@@ -117,7 +117,7 @@ public class BillTask {
 				billService.mergeBilledWaters(mergeWaterVOList);
 				log.info("合并流水表中同一用户重复流水金额成功,账单日期:{}", billTime);
 			}catch(ServiceException e){
-				log.error("合并流水表中同一用户重复流水金额失败,账单日期:{},异常:{}", billTime, e.getMessage());
+				log.error("合并流水表中同一用户重复流水金额失败,账单日期:{},异常:{}", billTime, e);
 			}
 		}
 

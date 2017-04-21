@@ -37,8 +37,9 @@ public class Logger {
 	 */
 	static class CallInfo {
 
-		public String className;
-		public String methodName;
+		private String className;
+		@SuppressWarnings("unused")
+		private String methodName;
 
 		public CallInfo() {
 		}

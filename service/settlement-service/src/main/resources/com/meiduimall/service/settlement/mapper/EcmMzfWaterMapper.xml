@@ -159,20 +159,6 @@
 		  WHERE a.water_id = #{waterId} and a.water_type = #{waterType}
 	</select>
 	
-	<!-- 根据提现编号获取提现详情 -->
-	<select id="getDrawDetailByDrawCode" parameterType="java.lang.String" resultType="Draw">
-	    SELECT 
-		  draw_code drawCode,
-		  realname,
-		  bankname,
-		  banknum,
-		  bankaddress,
-		  cash_withdrawal_fee cashWithdrawalFee 
-		FROM
-		  ecm_mzf_draw 
-		WHERE draw_code = #{drawCode}
-	</select>
-	
 	<select id="getShareProfitByWaterId"  resultType="EcmMzfShareProfit">
 		select w.`water_id` as waterId,sf.`order_sn` as orderSn,sf.`outarea` as outArea,sf.`person_agent_profit` as personAgentProfit,sf.`area_agent_profit` as areaAgentProfit,sf.`outarea_agent_profit` as outareaAgentProfit,sf.`seller_profit` as sellerProfit,os.`status_desc` as statusDesc 
 		from ecm_mzf_order_status os,ecm_mzf_shareprofit sf ,`ecm_mzf_water` w,ecm_mzf_bill_water_order wo 

@@ -788,68 +788,6 @@ public class DateUtil {
 	}
 
 	/**
-	 * 判断8位的日期的字符串是否为正确的日期字符串
-	 * @param dateString
-	 * @return 不是正确的日期字符串返回true
-	 */
-	public static boolean isErrorFormatDateString(String dateString) {
-		boolean flag = false;
-		String yearString = "";
-		String monthString = "";
-		String dayString = "";
-		if (dateString.length() == 8) {
-			yearString = dateString.substring(0, 4);
-			monthString = dateString.substring(4, 6);
-			dayString = dateString.substring(6, 8);
-		} else {
-			return true;
-		}
-		int yearInt = Integer.parseInt(yearString);
-		int monthInt = Integer.parseInt(monthString);
-		int dayInt = Integer.parseInt(dayString);
-		if (DateUtil.year(DateUtil.nowDate()) != yearInt) {
-			return true;
-		}
-		if (monthInt > 0 && monthInt < 12) {
-			switch (monthInt) {
-			case 1:
-			case 3:
-			case 5:
-			case 7:
-			case 8:
-			case 10:
-			case 12:
-				if (dayInt > 31 || dayInt < 1) {
-					flag = true;
-				}
-				break;
-			case 4:
-			case 6:
-			case 9:
-			case 11:
-				if (dayInt > 30 || dayInt < 1) {
-					flag = true;
-				}
-				break;
-			case 2:
-				if (isLeapYear(yearInt)) {
-					if (dayInt > 29 || dayInt < 1)
-						flag = true;
-				} else {
-					if (dayInt > 28 || dayInt < 1)
-						flag = true;
-				}
-				break;
-			default:
-				break;
-			}
-		} else {
-			flag = true;
-		}
-		return flag;
-	}
-
-	/**
 	 * 返回两个日期相差的天数
 	 * @param date1
 	 * @param date2

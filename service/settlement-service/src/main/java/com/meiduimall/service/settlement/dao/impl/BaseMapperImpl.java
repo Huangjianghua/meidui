@@ -20,6 +20,7 @@ public class BaseMapperImpl extends SqlSessionDaoSupport implements BaseMapper {
 	private static final Logger logger = LoggerFactory.getLogger(BaseMapperImpl.class);
 	
     @Resource  
+    @Override
     public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory){  
         super.setSqlSessionFactory(sqlSessionFactory);  
     }

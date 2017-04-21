@@ -42,17 +42,6 @@ public class EcmMzfOrderStatus implements Serializable {
 	private Integer createdDate;
 	private String statusDesc="已支付";
 	
-	public EcmMzfOrderStatus(){
-		
-	}
-	
-	public EcmMzfOrderStatus(String orderSn, Integer billStatus, String statusDesc) {
-		this.orderSn = orderSn;
-		this.billStatus = billStatus;
-		this.statusDesc = statusDesc;
-	}
-
-	
 	public Integer getId() {
 		return id;
 	}

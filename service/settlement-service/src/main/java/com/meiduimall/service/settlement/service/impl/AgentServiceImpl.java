@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Maps;
 import com.meiduimall.service.settlement.dao.BaseMapper;
-import com.meiduimall.service.settlement.model.Draw;
 import com.meiduimall.service.settlement.model.EcmMzfAccount;
 import com.meiduimall.service.settlement.model.EcmMzfAgentWater;
 import com.meiduimall.service.settlement.model.EcmMzfDrawWater;
@@ -123,12 +122,6 @@ public class AgentServiceImpl implements AgentService {
 		params.put("waterId", waterId);
 		params.put("waterType", waterType);
 		return baseMapper.selectOne(params, "EcmMzfWaterMapper.getWaterDetailByWaterId");
-	}
-
-	
-	@Override
-	public Draw getDrawDetailByDrawCode(String drawCode) {
-		return baseMapper.selectOne(drawCode, "EcmMzfWaterMapper.getDrawDetailByDrawCode");
 	}
 
 	

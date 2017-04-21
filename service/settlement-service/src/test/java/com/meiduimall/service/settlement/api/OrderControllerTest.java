@@ -97,7 +97,7 @@ public class OrderControllerTest extends BaseTest {
 		results.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				System.out.println("*********"+result.getResponse().getContentAsString());
+				System.out.println("========*********"+result.getResponse().getContentAsString());
 			}
 		});
 	}

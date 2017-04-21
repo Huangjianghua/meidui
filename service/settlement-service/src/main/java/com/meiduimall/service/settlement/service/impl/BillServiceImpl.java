@@ -197,7 +197,10 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 		if(orderSnList!=null && !orderSnList.isEmpty()){
 			for(String orderSn:orderSnList){	
 				try {
-					EcmMzfOrderStatus os = new EcmMzfOrderStatus(orderSn, 3, "已结算");
+					EcmMzfOrderStatus os = new EcmMzfOrderStatus();
+					os.setOrderSn(orderSn);
+					os.setBillStatus(3);
+					os.setStatusDesc("已结算");
 					baseMapper.update(os, "EcmMzfOrderStatusMapper.updateBillStatus");
 					log.info("EcmMzfOrderStatusMapper.updateBillStatus success: orderSn:" + orderSn);
 				} catch (Exception e) {

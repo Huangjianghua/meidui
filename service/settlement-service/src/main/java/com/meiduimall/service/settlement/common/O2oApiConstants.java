@@ -14,4 +14,6 @@ public class O2oApiConstants {
 	public static final String KEY_O2O_API_ADD_PROXY_FEE="o2o.api.add_proxy_fee";
 	public static final String KEY_O2O_API_KEY="o2o.api.api_key";
 
+	private O2oApiConstants(){}
+	
 }

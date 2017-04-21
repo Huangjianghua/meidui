@@ -15,7 +15,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableHystrix
 @EnableEurekaClient
 public class SettlementApplication {
-
+	
 	public static void main(String[] args) {
 		SpringApplication.run(SettlementApplication.class, args); 
 	}

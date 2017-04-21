@@ -11,7 +11,7 @@ import java.util.UUID;
  */
 public class RandomCodeGenerator {
 	
-
+	private RandomCodeGenerator(){}
 	
 	/** 
 	 * 随机码生成 

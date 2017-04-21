@@ -23,6 +23,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 
 import com.github.pagehelper.PageHelper;
+import com.meiduimall.core.BaseApiCode;
+import com.meiduimall.exception.ServiceException;
+import com.meiduimall.service.SettlementApiCode;
 
 
 /**
@@ -84,8 +87,8 @@ public class MyBatisConfig implements TransactionManagementConfigurer{
             bean.setMapperLocations(resolver.getResources("classpath:com/meiduimall/service/settlement/mapper/*Mapper.xml"));
             return bean.getObject();
         } catch (Exception e) {
-        	logger.error(e.getMessage());
-            throw new RuntimeException("sqlSessionFactory init fail",e);
+        	logger.error("sqlSessionFactory init fail", e);
+        	throw new ServiceException(SettlementApiCode.SQLSESSIONFACTORY_INIT_FAIL, BaseApiCode.getZhMsg(SettlementApiCode.SQLSESSIONFACTORY_INIT_FAIL));
         }
     }
 
