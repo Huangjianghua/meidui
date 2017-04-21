@@ -1,172 +1,109 @@
 package com.meiduimall.service.catalog.util;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.phprpc.util.AssocArray;
+import org.phprpc.util.PHPSerializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ParseSkuSpecDescUtil {
 
+	private static Logger logger = LoggerFactory.getLogger(ParseSkuSpecDescUtil.class);
+
 	/**
-	 * 解析如下格式字符串
+	 * 解析表sysitem_sku，字段spec_desc(商品SKU序列化数据),格式如下：
+	 * {spec_value_id={43=437, 44=440, 45=447, 46=450}, 
+	 * spec_private_value_id={43=, 44=, 45=, 46=}, 
+	 * spec_value={43=茅台葡萄酒, 44=12度, 45=干红, 46=贵州}}
 	 * 
-	 * {spec_value_id={77=706, 16=588, 67=593}, spec_value={77=全网通, 16=wifi128G,
-	 * 67=金色}, spec_private_value_id={77=, 16=, 67=}}
-	 * 
-	 * @param result
+	 * @param content
+	 *            数据格式如下：a:3:{s:13:"spec_value_id";a:4:
+	 *            {i:46;s:3:"450";i:43;s:3:"437";i:44;s:3:"440";i:45;s:3:"447";}
+	 *            s:10:"spec_value";a:4:{i:46;s:6:"贵州";i:43;s:15:"茅台葡萄酒";i:44;
+	 *            s:5:"12度";i:45;s:6:"干红";}s:21:"spec_private_value_id";a:4:{i:46;s:
+	 *            0:"";i:43;s:0:"";i:44;s:0:"";i:45;s:0:"";}}
 	 * @return
-	 * @throws Exception
 	 */
-	public static List<ParseSkuSpecDescBean> parse(String content) throws Exception {
+	public static List<ParseSkuSpecDescBean> parse(String content) {
 
-		if (content == null || content.length() < 1) {
+		if (content == null || "null".equals(content) || content.trim().length() == 0) {
+			return null;
+		}
+		PHPSerializer p = new PHPSerializer();
+		AssocArray array = null;
+		try {
+			array = (AssocArray) p.unserialize(content.getBytes());
+		} catch (Exception e) {
+			logger.error("解析商品SKU序列化数据，异常： " + e);
+			return null;
+		}
+		if (array == null || array.isEmpty()) {
 			return null;
 		}
 
-		Object obj = PHPSerializer.unserialize(content.getBytes("utf-8"), "utf-8");
-		String result = obj.toString();
-
-		if (result == null || result.length() < 1) {
-			return null;
-		}
-		result = result.replace(" ", "");
-		if (result == null || result.length() < 1) {
+		@SuppressWarnings("unchecked")
+		HashMap<String, AssocArray> map = array.toHashMap();
+		if (map == null || map.isEmpty()) {
 			return null;
 		}
 
-		if (result.startsWith("{") && result.endsWith("}")) {
-			result = result.substring(1, result.length() - 1);
-		} else {
-			return null;
-		}
-
-		if (result == null || result.length() < 1) {
-			return null;
-		}
-
-		if (!result.contains("{")) {
-			return null;
-		}
-
-		Map<String, String> map1 = new TreeMap<String, String>();
-		int cc = 0;
-		int ee = 0;
-		for (int i = 0; i < result.length(); i++) {
-			char ch = result.charAt(i);
-			if ('{' == ch) {
-				cc++;
+		// 这里创建一个TreeMap集合是为了对数据进行排序。
+		Map<Integer, ParseSkuSpecDescBean> resultMap = new TreeMap<Integer, ParseSkuSpecDescBean>();
+		for (Map.Entry<String, AssocArray> entry : map.entrySet()) {
+			String key = entry.getKey();
+			AssocArray value = entry.getValue();
+			if (value == null || value.isEmpty()) {
+				continue;
 			}
-			if ('}' == ch) {
-				cc--;
-				if (cc == 0) {
 
-					// 第一次切割---取出最外层，切分规格个数
-					String sub = result.substring(ee, i + 1);
-					if (sub == null || sub.length() < 1) {
-						continue;
-					}
-
-					// 第二次切割 ---存入TreeMap，自动排序
-					int index = sub.indexOf('=');
-					if (index < 1) {
-						continue;
-					}
-					String key1 = sub.substring(0, index);
-					String value1 = sub.substring(index + 1, sub.length());
-					map1.put(key1, value1);
-
-					ee = i + 2;
-				}
+			@SuppressWarnings("unchecked")
+			HashMap<Integer, Object> map2 = value.toHashMap();
+			if (map2 == null || map2.isEmpty()) {
+				continue;
 			}
-		}
-
-		if (map1.size() == 0) {
-			return null;
-		}
-
-		// 用TreeMap存放数据是为了自动排序
-		Map<Integer, Integer> map2 = new TreeMap<Integer, Integer>();
-		Map<Integer, String> map3 = new TreeMap<Integer, String>();
-
-		// 遍历map1,并对map1的value进行第三次切割
-		for (Map.Entry<String, String> entry : map1.entrySet()) {
-			String key2 = entry.getKey();
-			String value2 = entry.getValue();
-			if (value2 != null && value2.length() > 0) {
-				if (value2.startsWith("{") && value2.endsWith("}")) {
-					value2 = value2.substring(1, value2.length() - 1);
-					if (value2 == null || value2.length() < 1) {
-						continue;
-					} else {
-
-						// 第三次切割
-						String[] split = value2.split(",");
-						for (int i = 0; i < split.length; i++) {
-							String splitValue = split[i];
-							if (splitValue != null && splitValue.length() > 0) {
-								if ("spec_value_id".equals(key2)) {
-
-									// 第四次切割
-									// 取出每一个 规格ID 对应 的
-									// 规格属性ID，value值形式：{4=51, 5=4,6=76}
-									String prop_id = splitValue.split("=")[0];
-									String prop_value_id = splitValue.split("=")[1];
-									try {
-										map2.put(Integer.parseInt(prop_id), Integer.parseInt(prop_value_id));
-									} catch (NumberFormatException e) {
-										continue;
-									}
-								} else if ("spec_value".equals(key2)) {
-
-									// 第四次切割
-									// 取出每一个 规格ID 对应 的
-									// 规格属性内容，value值形式：{4=军绿色, 5=F,6=默认}
-									String prop_id = splitValue.split("=")[0];
-									String spec_value = splitValue.split("=")[1];
-
-									try {
-										map3.put(Integer.parseInt(prop_id), spec_value);
-									} catch (NumberFormatException e) {
-										continue;
-									}
-
-								} else {// key2=spec_private_value_id 不需要处理
-									continue;
-								}
-							} else {
-								continue;
-							}
-						}
+			for (Map.Entry<Integer, Object> entry2 : map2.entrySet()) {
+				Integer key2 = entry2.getKey();
+				Object value2 = entry2.getValue();
+				byte[] bs = (byte[]) value2;
+				String result = null;
+				if (bs != null && bs.length > 0) {
+					try {
+						result = new String(bs, "utf-8");
+					} catch (UnsupportedEncodingException e) {
+						logger.error("解析商品SKU序列化数据，异常： " + e);
 					}
 				} else {
 					continue;
 				}
-			} else {
-				continue;
+
+				// 数据解析完毕，开始将数据放到resultMap集合中，自动排序
+				ParseSkuSpecDescBean bean = resultMap.get(key2);
+				if (bean == null) {
+					bean = new ParseSkuSpecDescBean();
+					bean.setPropId(key2);
+				}
+				if ("spec_value_id".equals(key)) {
+					bean.setPropValueId(Integer.parseInt(result));
+				} else if ("spec_value".equals(key)) {
+					bean.setSpecValue(result);
+				} else {
+					continue;
+				}
+				resultMap.put(key2, bean);
 			}
 		}
 
+		// 将Map数据转为List数据，并返回
 		List<ParseSkuSpecDescBean> list = new ArrayList<ParseSkuSpecDescBean>();
-		// 遍历map2 -- 给对象赋值
-		for (Map.Entry<Integer, Integer> entry : map2.entrySet()) {
-			Integer prop_id = entry.getKey();
-			Integer prop_value_id = entry.getValue();
-			ParseSkuSpecDescBean bean = new ParseSkuSpecDescBean();
-			bean.setPropId(prop_id);
-			bean.setPropValueId(prop_value_id);
-			list.add(bean);
+		for (Map.Entry<Integer, ParseSkuSpecDescBean> entry : resultMap.entrySet()) {
+			list.add(entry.getValue());
 		}
-
-		// 遍历map3 -- 给对象赋值
-		int index = 0;
-		for (Map.Entry<Integer, String> entry : map3.entrySet()) {
-			String spec_value = entry.getValue();
-			if (list.size() > index) {
-				list.get(index).setSpecValue(spec_value);
-			}
-			index++;
-		}
-
 		return list;
 	}
 }

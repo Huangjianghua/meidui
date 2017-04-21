@@ -13,7 +13,7 @@ import com.meiduimall.service.catalog.entity.IdAndMemId;
 import com.meiduimall.service.catalog.entity.SysrateDsrWithBLOBs;
 import com.meiduimall.service.catalog.entity.SysshopShopWithBLOBs;
 import com.meiduimall.service.catalog.result.JsonItemDetailResultShopData;
-import com.meiduimall.service.catalog.util.ParseSysRateDsrInfo;
+import com.meiduimall.service.catalog.util.ParseSysRateDsrInfoUtil;
 
 /**
  * 公共服务类--店铺相关
@@ -51,9 +51,9 @@ public class ShopCommonService {
 		if (rateDsrWithBLOBs != null) {
 			// 反序列化数据---解析店铺信息中的：描述相符、服务态度、发货速度的分值
 			try {
-				float fTallyDsr = ParseSysRateDsrInfo.getValue(rateDsrWithBLOBs.getTallyDsr());
-				float fDeliverySpeedDsr = ParseSysRateDsrInfo.getValue(rateDsrWithBLOBs.getDeliverySpeedDsr());
-				float fAttitudeDsr = ParseSysRateDsrInfo.getValue(rateDsrWithBLOBs.getAttitudeDsr());
+				float fTallyDsr = ParseSysRateDsrInfoUtil.getValue(rateDsrWithBLOBs.getTallyDsr());
+				float fDeliverySpeedDsr = ParseSysRateDsrInfoUtil.getValue(rateDsrWithBLOBs.getDeliverySpeedDsr());
+				float fAttitudeDsr = ParseSysRateDsrInfoUtil.getValue(rateDsrWithBLOBs.getAttitudeDsr());
 
 				shopData.setTallyDsr(NumberUtils.formatString(fTallyDsr, 1));
 				shopData.setDeliverySpeedDsr(NumberUtils.formatString(fDeliverySpeedDsr, 1));

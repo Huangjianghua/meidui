@@ -1,218 +1,156 @@
 package com.meiduimall.service.catalog.util;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.phprpc.util.AssocArray;
+import org.phprpc.util.PHPSerializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.meiduimall.service.catalog.exception.CatalogException;
+import com.meiduimall.service.catalog.util.ParseItemSpecDescBean.PropValueBean;
 
 public class ParseItemSpecDesUtil {
 
+	private static Logger logger = LoggerFactory.getLogger(ParseItemSpecDesUtil.class);
+
 	/**
-	 * 解析如下格式字符串
+	 * 解析：表sysitem_sku，字段spec_desc序列化数据,格式字符串
 	 * 
-	 * {4={51={spec_value_id=51, spec_value=军绿色, private_spec_value_id=},
-	 * 43={spec_value_id=43, spec_value=黑色, private_spec_value_id=},
-	 * 44={spec_value_id=44, spec_value=咖啡色, private_spec_value_id=}},
-	 * 5={4={spec_value_id=4, spec_value=F, private_spec_value_id=}},
-	 * 6={76={spec_value_id=76, spec_value=默认, private_spec_value_id=}}}
+		{
+			4={
+					64={spec_value_id=64, spec_value=1号自然棕色, private_spec_value_id=}, 
+					43={spec_value_id=43, spec_value=2号浅棕色, spec_private_value_id=[], private_spec_value_id=}
+			}, 
+			25={
+					245={spec_value_id=245, spec_value=CLIOCLIO珂莱欧, private_spec_value_id=}
+			}
+		}
 	 * 
 	 * @param content
+	 *            数据格式:
+	 *            a:2:{i:4;a:2:{i:64;a:3:{s:13:"spec_value_id";s:2:"64";s:10:"spec_value";s:16:
+	 *            "1号自然棕色";s:21:"private_spec_value_id";s:0:"";}i:43;a:4:{s:21:"private_spec_value_id"
+	 *            ;s:0:"";s:10:"spec_value";s:13:"2号浅棕色";s:13:"spec_value_id";s:2:"43";s:21:
+	 *            "spec_private_value_id";a:0:{}}}i:25;a:1:{i:245;a:3:{s:13:"spec_value_id";s:3:"245
+	 *            ";s:10:"spec_value";s:17:"CLIOCLIO珂莱欧";s:21:"private_spec_value_id";s:0:"";}}}
+	 * 
 	 * @return
 	 * @throws CatalogException
 	 */
-	public static List<ParseItemSpecDescBean> parse(String content) throws Exception {
-		if (content == null || content.length() < 1) {
+	public static List<ParseItemSpecDescBean> parse(String content) {
+		if (content == null || "null".equals(content) || content.trim().length() == 0) {
 			return null;
 		}
 
-		Object obj = PHPSerializer.unserialize(content.getBytes("utf-8"), "utf-8");
-		String result = obj.toString();
-
-		if (result == null || result.length() < 1) {
+		PHPSerializer p = new PHPSerializer();
+		AssocArray array = null;
+		try {
+			array = (AssocArray) p.unserialize(content.getBytes());
+		} catch (Exception e) {
+			logger.error("解析：表sysitem_sku，字段spec_desc，异常： " + e);
 			return null;
 		}
-		result = result.replace(" ", "");
-		if (result == null || result.length() < 1) {
+		if (array == null || array.isEmpty()) {
 			return null;
 		}
-
-		if (result.startsWith("{") && result.endsWith("}")) {
-			result = result.substring(1, result.length() - 1);
-		} else {
-			return null;
-		}
-
-		if (result == null || result.length() < 1) {
+		@SuppressWarnings("unchecked")
+		HashMap<Integer, AssocArray> map = array.toHashMap();
+		if (map == null || map.isEmpty()) {
 			return null;
 		}
 
-		if (!result.contains("{")) {
-			return null;
-		}
-
-		// 第一次切割---取出最外层 ---切分规格个数，存入TreeMap，自动排序
-		Map<Integer, String> map1 = new TreeMap<Integer, String>();
-		int cc = 0;
-		int ee = 0;
-		for (int i = 0; i < result.length(); i++) {
-			char ch = result.charAt(i);
-			if ('{' == ch) {
-				cc++;
-			}
-			if ('}' == ch) {
-				cc--;
-				if (cc == 0) {
-					String sub = result.substring(ee, i + 1);
-					if (sub == null || sub.length() < 1) {
-						continue;
-					}
-					int index = sub.indexOf('=');
-					if (index < 1) {
-						continue;
-					}
-					String key1 = sub.substring(0, index);
-					String value1 = sub.substring(index + 1, sub.length());
-					map1.put(Integer.parseInt(key1), value1);
-
-					ee = i + 2;
-				}
-			}
-		}
-
-		if (map1.size() == 0) {
-			return null;
-		}
-
-		List<ParseItemSpecDescBean> list = new ArrayList<ParseItemSpecDescBean>();
-
-		// 遍历map1,并对map1的value进行第二次切割
-		for (Map.Entry<Integer, String> entry : map1.entrySet()) {
-			Integer key2 = entry.getKey();
-			String value2 = entry.getValue();
-
-			if (value2 != null && value2.length() > 0) {
-				if (value2.startsWith("{") && value2.endsWith("}")) {
-					value2 = value2.substring(1, value2.length() - 1);
-					if (value2 == null || value2.length() < 1) {
-						continue;
-					} else {
-
-						// 创建ParseItemSpecDescBean对象
-						ParseItemSpecDescBean itemSpecDescBean = new ParseItemSpecDescBean();
-						itemSpecDescBean.setPropId(key2);
-
-						// 创建集合，用于存储PropBean
-						List<ParseItemSpecDescBean.PropBean> propBeanList = new ArrayList<ParseItemSpecDescBean.PropBean>();
-						// 第二次切割
-						Map<Integer, String> map2 = new TreeMap<Integer, String>();
-						int aa = 0;
-						int bb = 0;
-						for (int i = 0; i < value2.length(); i++) {
-							char ch = value2.charAt(i);
-							if ('{' == ch) {
-								aa++;
-							}
-							if ('}' == ch) {
-								aa--;
-								if (aa == 0) {
-									String value3 = value2.substring(bb, i + 1);
-									if (value3 == null || value3.length() < 1) {
-										continue;
-									}
-									int index = value3.indexOf('=');
-									if (index < 1) {
-										continue;
-									}
-									String key4 = value3.substring(0, index);
-									String value4 = value3.substring(index + 1, value3.length());
-									map2.put(Integer.parseInt(key4), value4);
-									bb = i + 2;
-								}
-							}
-						}
-
-						// 第三次切割
-						for (Map.Entry<Integer, String> entry2 : map2.entrySet()) {
-							Integer key5 = entry2.getKey();
-							String value5 = entry2.getValue();
-
-							// 创建二级对象
-							ParseItemSpecDescBean.PropBean propBean = new ParseItemSpecDescBean().new PropBean();
-							propBean.setPropValueId(key5);
-
-							if (value5 != null && value5.length() > 0) {
-								if (value5.startsWith("{") && value5.endsWith("}")) {
-									value5 = value5.substring(1, value5.length() - 1);
-									if (value5 == null || value5.length() < 1) {
-										continue;
-									} else {
-										// 第四次切割--获取最里面的规格属性值
-										String[] propValues = value5.split(",");
-										if (propValues != null && propValues.length > 0) {
-
-											// 创建三级对象
-											ParseItemSpecDescBean.PropValueBean bean = new ParseItemSpecDescBean().new PropValueBean();
-											for (int j = 0; j < propValues.length; j++) {
-												String propValue = propValues[j];
-												if (propValue != null && propValue.length() > 0) {
-													String[] props = propValue.split("=");
-													if (props.length > 1) {
-														String propsKey = props[0];
-														String propsValue = props[1];
-														switch (propsKey) {
-														case "spec_value_id":
-															try {
-																bean.setSpecValueId(Integer.parseInt(propsValue));
-															} catch (NumberFormatException e) {
-																bean.setSpecValueId(0);
-															}
-															break;
-														case "spec_value":
-															bean.setSpecValue(propsValue);
-															break;
-														case "private_spec_value_id":
-															// can not reach
-															// 因为private_spec_value_id的值一般为空
-															try {
-																bean.setPrivateSpecValueId(
-																		Integer.parseInt(propsValue));
-															} catch (NumberFormatException e) {
-																bean.setPrivateSpecValueId(null);
-															}
-															break;
-														}
-													}
-												} else {
-													continue;
-												}
-											}
-											// 添加 PropValueBean
-											propBean.setPropValueBean(bean);
-										} else {
-											continue;
-										}
-									}
-								} else {
-									continue;
-								}
-							} else {
-								continue;
-							}
-							// 添加 PropBean
-							propBeanList.add(propBean);
-						}
-						itemSpecDescBean.setPropBeanList(propBeanList);
-						list.add(itemSpecDescBean);
-					}
-				} else {
-					continue;
-				}
-			} else {
+		// 这里创建一个TreeMap集合是为了对ParseItemSpecDescBean进行排序。
+		Map<Integer, ParseItemSpecDescBean> resultMap = new TreeMap<Integer, ParseItemSpecDescBean>();
+		// 第一次循环，取出规格ID--4,25
+		for (Map.Entry<Integer, AssocArray> entry : map.entrySet()) {
+			Integer key = entry.getKey(); // 4,25
+			AssocArray value = entry.getValue();
+			if (value == null || value.isEmpty()) {
 				continue;
 			}
+			@SuppressWarnings("unchecked")
+			HashMap<Integer, AssocArray> map2 = value.toHashMap();
+			if (map2 == null || map2.isEmpty()) {
+				continue;
+			}
+
+			// 封装数据封装到ParseItemSpecDescBean
+			ParseItemSpecDescBean itemBean = resultMap.get(key);
+			if (itemBean == null) {
+				itemBean = new ParseItemSpecDescBean();
+				itemBean.setPropId(key);
+				itemBean.setPropValueBeanList(new ArrayList<PropValueBean>());
+			}
+
+			// 这里创建一个TreeMap集合是为了对PropValueBean进行排序。
+			Map<Integer, PropValueBean> tempMap = new TreeMap<Integer, PropValueBean>();
+			// 第二次循环只是为了取出最内侧AssocArray
+			for (Map.Entry<Integer, AssocArray> entry2 : map2.entrySet()) {
+				Integer key2 = entry2.getKey(); // 64,43,245
+				AssocArray value2 = entry2.getValue();
+				if (value2 == null || value2.isEmpty()) {
+					continue;
+				}
+				@SuppressWarnings("unchecked")
+				HashMap<String, Object> map3 = value2.toHashMap();
+				if (map3 == null || map3.isEmpty()) {
+					continue;
+				}
+
+				// 第三次循环，取出spec_value_id和spec_value对应的值
+				for (Map.Entry<String, Object> entry3 : map3.entrySet()) {
+					String key3 = entry3.getKey();// spec_value_id,spec_value
+					Object value3 = entry3.getValue();
+					byte[] bs = null;
+					try {
+						bs = (byte[]) value3;
+					} catch (Exception e) {
+						logger.error("解析：表sysitem_sku，字段spec_desc，异常： " + e);
+						continue;
+					}
+					String result = null;
+					if (bs != null && bs.length > 0) {
+						try {
+							result = new String(bs, "utf-8");
+						} catch (UnsupportedEncodingException e) {
+							logger.error("解析：表sysitem_sku，字段spec_desc，异常： " + e);
+						}
+					} else {
+						continue;
+					}
+
+					// 将数据封装到PropValueBean
+					PropValueBean valueBean = tempMap.get(key2);
+					if (valueBean == null) {
+						valueBean = new ParseItemSpecDescBean().new PropValueBean();
+					}
+					if ("spec_value_id".equals(key3)) {
+						valueBean.setSpecValueId(Integer.parseInt(result));
+					} else if ("spec_value".equals(key3)) {
+						valueBean.setSpecValue(result);
+					} else {
+						continue;
+					}
+					tempMap.put(key2, valueBean);
+				}
+			}
+
+			for (Map.Entry<Integer, PropValueBean> entry4 : tempMap.entrySet()) {
+				itemBean.getPropValueBeanList().add(entry4.getValue());
+			}
+			resultMap.put(key, itemBean);
+		}
+
+		// 将Map数据转为List数据，并返回
+		List<ParseItemSpecDescBean> list = new ArrayList<ParseItemSpecDescBean>();
+		for (Map.Entry<Integer, ParseItemSpecDescBean> entry : resultMap.entrySet()) {
+			list.add(entry.getValue());
 		}
 		return list;
 	}

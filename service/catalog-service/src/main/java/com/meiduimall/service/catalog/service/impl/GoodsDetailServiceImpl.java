@@ -37,7 +37,7 @@ import com.meiduimall.service.catalog.service.GoodsDetailService;
 import com.meiduimall.service.catalog.service.common.ShopCommonService;
 import com.meiduimall.service.catalog.util.ParseItemSpecDesUtil;
 import com.meiduimall.service.catalog.util.ParseItemSpecDescBean;
-import com.meiduimall.service.catalog.util.ParseItemSpecDescBean.PropBean;
+import com.meiduimall.service.catalog.util.ParseItemSpecDescBean.PropValueBean;
 import com.meiduimall.service.catalog.util.ParseSkuSpecDescBean;
 import com.meiduimall.service.catalog.util.ParseSkuSpecDescUtil;
 
@@ -164,15 +164,15 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 
 					// 遍历该规格下的每一种规格属性
 					// 获取规格编号4颜色，对应的属性值：43黑色，44咖啡色，51军绿色，整理数据
-					List<PropBean> propBeanList = parserItemSpecDescBean.getPropBeanList();
-					if (propBeanList != null && propBeanList.size() > 0) {
+					List<PropValueBean> propValueBeanList = parserItemSpecDescBean.getPropValueBeanList();
+					if (propValueBeanList != null && propValueBeanList.size() > 0) {
 						List<JsonItemDetailResultPropValues> propList = new ArrayList<JsonItemDetailResultPropValues>();
-						for (int j = 0; j < propBeanList.size(); j++) {
-							PropBean propBean = propBeanList.get(j);
-							if (propBean != null) {
+						for (int j = 0; j < propValueBeanList.size(); j++) {
+							PropValueBean propValueBean = propValueBeanList.get(j);
+							if (propValueBean != null) {
 								JsonItemDetailResultPropValues propValues = new JsonItemDetailResultPropValues();
-								Integer specValueId = propBean.getPropValueBean().getSpecValueId();
-								String specValue = propBean.getPropValueBean().getSpecValue();
+								Integer specValueId = propValueBean.getSpecValueId();
+								String specValue = propValueBean.getSpecValue();
 								if (specValueId != null) {
 									propValues.setPropValueId(specValueId.toString());
 								} else {
