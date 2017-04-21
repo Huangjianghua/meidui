@@ -32,6 +32,8 @@ import java.util.Map;
  * 
  */
 public class OAuth {
+	
+	
 
     public static final String VERSION_1_0 = "1.0";
 
@@ -137,25 +139,25 @@ public class OAuth {
     }
 
     public static String decodeCharacters(byte[] from) {
-	if (characterEncoding != null) {
-	    try {
-		return new String(from, characterEncoding);
-	    } catch (UnsupportedEncodingException e) {
-		System.err.println(e + "");
-	    }
-	}
-	return new String(from);
+		if (characterEncoding != null) {
+		    try {
+		    	return new String(from, characterEncoding);
+		    } catch (UnsupportedEncodingException e) {
+		    }
+		}
+		return new String(from);
     }
 
     public static byte[] encodeCharacters(String from) {
 	if (characterEncoding != null) {
 	    try {
-		return from.getBytes(characterEncoding);
+	    	return from.getBytes(characterEncoding);
 	    } catch (UnsupportedEncodingException e) {
-		System.err.println(e + "");
+	    	
+	    	
 	    }
 	}
-	return from.getBytes();
+		return from.getBytes();
     }
 
     /** Return true if the given Content-Type header means FORM_ENCODED. */
@@ -163,7 +165,7 @@ public class OAuth {
         if (contentType == null) {
             return false;
         }
-        int semi = contentType.indexOf(";");
+        int semi = contentType.indexOf(';');
         if (semi >= 0) {
             contentType = contentType.substring(0, semi);
         }
@@ -391,7 +393,7 @@ public class OAuth {
         if (form == null || form.length() <= 0) {
             return url;
         } else {
-            return url + ((url.indexOf("?") < 0) ? '?' : '&') + form;
+            return url + ((url.indexOf('?') < 0) ? '?' : '&') + form;
         }
     }
 

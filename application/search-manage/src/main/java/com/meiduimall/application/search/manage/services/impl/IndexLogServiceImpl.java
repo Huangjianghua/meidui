@@ -20,7 +20,7 @@ public class IndexLogServiceImpl implements IndexLogService {
 	private IndexLogMapper indexLogMapper;
 	
 	@Override
-	public QueryResult queryIndexLogs(PageView pageView) throws Exception {
+	public QueryResult queryIndexLogs(PageView pageView)  {
 		List<IndexLog> indexLogs =indexLogMapper.queryIndexLogs(pageView);
 		int count =indexLogMapper.queryIndexLogCount();
 		QueryResult qr = new QueryResult();
@@ -30,7 +30,7 @@ public class IndexLogServiceImpl implements IndexLogService {
 	}
 
 	@Override
-	public int insertIndexLog(String remark) throws Exception {
+	public int insertIndexLog(String remark)  {
 		IndexLog indexLogs = new IndexLog();
 		indexLogs.setRemark(remark);
 		indexLogs.setLogTime(new Date());
@@ -38,7 +38,7 @@ public class IndexLogServiceImpl implements IndexLogService {
 	}
 
 	@Override
-	public int deleteIndexLogById(int logId) throws Exception {
+	public int deleteIndexLogById(int logId) {
 		return indexLogMapper.deleteIndexLogById(logId);
 	}
 

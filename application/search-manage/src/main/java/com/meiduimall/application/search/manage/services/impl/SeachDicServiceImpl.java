@@ -18,37 +18,37 @@ public class SeachDicServiceImpl implements SearchDicService {
 	private SearchDicMapper searchDicMapper;
 	
 	@Override
-	public List<SearchDic> querySearchDics(PageView pageView) throws Exception {
+	public List<SearchDic> querySearchDics(PageView pageView)  {
 		return searchDicMapper.querySearchDics(pageView);
 	}
 
 	@Override
-	public long querySearchDicsCount() throws Exception {
+	public long querySearchDicsCount() {
 		return searchDicMapper.querySearchDicCount();
 	}
 
 	@Override
-	public SearchDic querySearchDicById(Integer dicId) throws Exception {
+	public SearchDic querySearchDicById(Integer dicId)  {
 		return searchDicMapper.querySearchDicById(dicId);
 	}
 
 	@Override
-	public int addSearchDic(SearchDic searchDic) throws Exception {
+	public int addSearchDic(SearchDic searchDic)  {
 		return searchDicMapper.addSearchDic(searchDic);
 	}
 
 	@Override
-	public int updateSearchDic(SearchDic searchDic) throws Exception {
+	public int updateSearchDic(SearchDic searchDic)  {
 		return searchDicMapper.updateSearchDic(searchDic);
 	}
 
 	@Override
-	public int deleteSearchDicById(Integer dicId) throws Exception {
+	public int deleteSearchDicById(Integer dicId){
 		return searchDicMapper.deleteSearchDicById(dicId);
 	}
 
 	@Override
-	public int deleteSearchDicByName(String dicName) throws Exception {
+	public int deleteSearchDicByName(String dicName) {
 		return searchDicMapper.deleteSearchDicByName(dicName);
 	}
 

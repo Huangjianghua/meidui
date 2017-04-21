@@ -1,16 +1,15 @@
 package com.meiduimall.application.search.manage.controller;
 
 import java.text.SimpleDateFormat;
+
 import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +32,6 @@ import com.meiduimall.application.search.manage.utility.XFCUtil;
 @Controller
 public class SearchController extends BaseController {
 
-	private Logger log = Logger.getLogger(SearchController.class);
 	
 	@Resource
 	private ProductIndexService productIndexService;
@@ -121,7 +119,6 @@ public class SearchController extends BaseController {
 		obj.put("resultNum", totalCount);
 		obj.put("platform", platform == null ? "0":platform);
 		obj.put("searchTime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-		log.info(obj);
 	}
 	
 	/**
@@ -130,25 +127,19 @@ public class SearchController extends BaseController {
 	 * @return
 	 */
 	private QueryIndexResult getQueryResult(SearchParam searchParam) {
-		try {
-			QueryIndexResult qir = productIndexService.query(searchParam);
-			
-			Long totalCount = qir.getTotalCount();
-			if (totalCount == 0) {
-				return null;
-			}
-			// 用户传递页码参数大于查询总页数时显示最后一页信息
-			Integer totalPage = (int) Math.ceil(totalCount/(double)searchParam.getRows());
-			String page = searchParam.getPage();
-			if (Integer.parseInt(page) > totalPage) {
-				searchParam.setPage(totalPage.toString());
-				qir = productIndexService.query(searchParam);
-			}
-			return qir;
-		} catch (Exception e) {
-			log.error("查询索引库信息异常，异常信息： " + e.getMessage());
-			e.printStackTrace();
+		QueryIndexResult qir = productIndexService.query(searchParam);
+		
+		Long totalCount = qir.getTotalCount();
+		if (totalCount == 0) {
+			return null;
 		}
-		return null;
+		// 用户传递页码参数大于查询总页数时显示最后一页信息
+		Integer totalPage = (int) Math.ceil(totalCount/(double)searchParam.getRows());
+		String page = searchParam.getPage();
+		if (Integer.parseInt(page) > totalPage) {
+			searchParam.setPage(totalPage.toString());
+			qir = productIndexService.query(searchParam);
+		}
+		return qir;
 	}
 }

@@ -17,17 +17,17 @@ public class ScannerServiceImpl implements ScannerService {
 	private ScannerMapper scannerMapper;
 	
 	@Override
-	public List<Scanner> queryScanners(PageView pageView) throws Exception {
+	public List<Scanner> queryScanners(PageView pageView) {
 		return scannerMapper.queryScanners(pageView);
 	}
 
 	@Override
-	public long queryScannerCount() throws Exception {
+	public long queryScannerCount()  {
 		return scannerMapper.queryScannerCount();
 	}
 
 	@Override
-	public Scanner queryScannerById(Integer id) throws Exception {
+	public Scanner queryScannerById(Integer id)  {
 		return scannerMapper.queryScannerById(id);
 	}
 

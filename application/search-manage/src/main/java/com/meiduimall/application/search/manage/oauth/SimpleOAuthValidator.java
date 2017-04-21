@@ -283,7 +283,7 @@ public class SimpleOAuthValidator implements OAuthValidator {
         private final String sortKey;
 
         long getTimestamp() {
-            int end = sortKey.indexOf("&");
+            int end = sortKey.indexOf('&');
             if (end < 0)
                 end = sortKey.length();
             return Long.parseLong(sortKey.substring(0, end).trim());

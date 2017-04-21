@@ -1,19 +1,23 @@
 package com.meiduimall.application.search.manage.controller;
 
 import java.io.IOException;
-
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.meiduimall.application.search.manage.SearchManageApiCode;
 import com.meiduimall.application.search.manage.constant.SysConstant;
 import com.meiduimall.application.search.manage.page.PageView;
 import com.meiduimall.application.search.manage.page.QueryResult;
@@ -23,10 +27,13 @@ import com.meiduimall.application.search.manage.system.domain.User;
 import com.meiduimall.application.search.manage.system.services.IRoleService;
 import com.meiduimall.application.search.manage.system.services.ISystemlogService;
 import com.meiduimall.application.search.manage.system.services.IUserService;
+import com.meiduimall.exception.ApiException;
 
 @Controller
 @RequestMapping("/user")
 public class UserController extends BaseController {
+	
+	 private static Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	@Resource
 	private IUserService userService;
@@ -41,7 +48,7 @@ public class UserController extends BaseController {
 	private HttpServletRequest request;
 	
 	@RequestMapping("/login")
-	public  void login(User user){
+	public  void login(User user) {
 		 Systemlog  log = new Systemlog();
 		 try {
 			PrintWriter write = response.getWriter();
@@ -79,7 +86,7 @@ public class UserController extends BaseController {
 			write.close();
 			log.setRemark("登入成功");
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new ApiException(SearchManageApiCode.EXCEPTION_LOGIN, SearchManageApiCode.getZhMsg(SearchManageApiCode.EXCEPTION_LOGIN),e);
 		}finally{
 			systemlogService.addSysLog(log);
 		}
@@ -186,7 +193,7 @@ public class UserController extends BaseController {
 	 */
 	@RequestMapping("/addUser")
 	public  ModelAndView  addUser(User user ){
-		ModelAndView mav = new ModelAndView();
+		 ModelAndView mav = new ModelAndView();
 		 User loginUser = (User) request.getSession().getAttribute(SysConstant.USER_SESSSION_INFO);
 		 user.setCreateAccount(loginUser.getUserName());
 		 userService.addUser(user);

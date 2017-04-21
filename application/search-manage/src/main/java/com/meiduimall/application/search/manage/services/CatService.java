@@ -7,11 +7,11 @@ import com.meiduimall.application.search.manage.pojo.CatModel;
 
 public interface CatService {
 
-	public List<CatModel> queryCats(PageView pageView) throws Exception;
+	public List<CatModel> queryCats(PageView pageView) ;
 	
-	public long queryCatsCount() throws Exception;
+	public long queryCatsCount() ;
 	
-	public CatModel queryCatById(Integer id) throws Exception;
+	public CatModel queryCatById(Integer id) ;
 
 	public List<Integer> queryAllCatsId();
 }

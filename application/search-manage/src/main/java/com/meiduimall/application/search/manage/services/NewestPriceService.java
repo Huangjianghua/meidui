@@ -7,5 +7,5 @@ import com.meiduimall.application.search.manage.pojo.NewestPrice;
 
 public interface NewestPriceService {
 
-	public LinkedList<NewestPrice> getNewestPrices(List<Integer> ids) throws Exception;
+	public LinkedList<NewestPrice> getNewestPrices(List<Integer> ids) ;
 }

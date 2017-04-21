@@ -41,16 +41,12 @@ public class ItemController {
 	@RequestMapping("showListPage")
 	public ModelAndView showListPage(ItemModel itemModel) {
 		ModelAndView mav = this.getModel();
-		try {
-			QueryResult result = itemService.queryItems(itemModel);
-			PageView pageView = new PageView(itemModel.getCurrentPage());
-			itemModel.setOffset(pageView.getFirstIndex());
-			pageView.setQueryResult(result);
-			mav.setViewName("/search/itemList");
-			mav.addObject("pageView", pageView);
-		} catch (Exception e) {
-			log.error("查询商品信息异常", e);
-		}
+		QueryResult result = itemService.queryItems(itemModel);
+		PageView pageView = new PageView(itemModel.getCurrentPage());
+		itemModel.setOffset(pageView.getFirstIndex());
+		pageView.setQueryResult(result);
+		mav.setViewName("/search/itemList");
+		mav.addObject("pageView", pageView);
 		return mav;
 	}
 	

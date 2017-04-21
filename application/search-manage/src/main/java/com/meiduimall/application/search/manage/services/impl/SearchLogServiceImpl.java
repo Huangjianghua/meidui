@@ -19,7 +19,7 @@ public class SearchLogServiceImpl implements SearchLogService {
 	private SearchLogMapper searchLogMapper;
 	
 	@Override
-	public QueryResult querySearchLogs(LogParam logParam) throws Exception {
+	public QueryResult querySearchLogs(LogParam logParam) {
 		List<SearchLog> searchLogs = searchLogMapper.querySearchLogs(logParam);
 		long count = searchLogMapper.querySearchLogCount(logParam);
 		QueryResult results = new QueryResult();
@@ -29,7 +29,7 @@ public class SearchLogServiceImpl implements SearchLogService {
 	}
 
 	@Override
-	public QueryResult queryStatisticLogs(LogParam logParam) throws Exception {
+	public QueryResult queryStatisticLogs(LogParam logParam)  {
 		List<StatisticLog> statisticLogs = searchLogMapper.queryStatisticLogs(logParam);
 		long count = searchLogMapper.queryStatisticCount(logParam);
 		QueryResult results = new QueryResult();
@@ -39,22 +39,22 @@ public class SearchLogServiceImpl implements SearchLogService {
 	}
 
 	@Override
-	public SearchLog querySearchLogByKeyword(String keyword) throws Exception {
+	public SearchLog querySearchLogByKeyword(String keyword) {
 		return searchLogMapper.querySearchLogByKeyword(keyword);
 	}
 
 	@Override
-	public SearchLog querySearchLogById(Integer logId) throws Exception {
+	public SearchLog querySearchLogById(Integer logId) {
 		return searchLogMapper.querySearchLogById(logId);
 	}
 
 	@Override
-	public int addSearchLog(List<SearchLog> searchLogs) throws Exception {
+	public int addSearchLog(List<SearchLog> searchLogs)  {
 		return searchLogMapper.addSearchLog(searchLogs);
 	}
 
 	@Override
-	public int deleteSearchLogById(Integer dicId) throws Exception {
+	public int deleteSearchLogById(Integer dicId) {
 		return searchLogMapper.deleteSearchLogById(dicId);
 	}
 

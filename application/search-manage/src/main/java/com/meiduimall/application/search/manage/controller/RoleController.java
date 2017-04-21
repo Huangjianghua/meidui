@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +22,8 @@ import com.meiduimall.application.search.manage.system.services.IRoleService;
 @Controller
 @RequestMapping("/role")
 public class RoleController {
+	
+	private static Logger logger = LoggerFactory.getLogger(RoleController.class);
 	
 	@Resource
 	private IRoleService roleService ;
@@ -117,7 +122,7 @@ public class RoleController {
 				write.write("{\"ok\":\"角色名可以使用!\"}");
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error("检查角色名称是否存在异常:{}",e);
 		}finally{
 			if(write !=null){
 			 write.close();

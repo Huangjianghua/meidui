@@ -18,22 +18,22 @@ public class SuggestWordServiceImpl implements SuggestWordService {
 	private SuggestWordMapper suggestWordMapper;
 
 	@Override
-	public List<SuggestWord> querySuggestWords(PageView pageView) throws Exception {
+	public List<SuggestWord> querySuggestWords(PageView pageView) {
 		return suggestWordMapper.querySuggestWords(pageView);
 	}
 
 	@Override
-	public long querySuggestWordCount(String kw) throws Exception {
+	public long querySuggestWordCount(String kw)  {
 		return suggestWordMapper.querySuggestWordCount(kw);
 	}
 
 	@Override
-	public SuggestWord querySuggestWordById(Integer suggestId) throws Exception {
+	public SuggestWord querySuggestWordById(Integer suggestId)  {
 		return suggestWordMapper.querySuggestWordById(suggestId);
 	}
 
 	@Override
-	public SuggestWord querySuggestWordByKey(String key) throws Exception {
+	public SuggestWord querySuggestWordByKey(String key) {
 		List<SuggestWord> words = suggestWordMapper.querySuggestWordByKey(key);
 		if (words == null || words.isEmpty()) {
 			return null;
@@ -42,22 +42,22 @@ public class SuggestWordServiceImpl implements SuggestWordService {
 	}
 
 	@Override
-	public List<SuggestWord> fuzzyQuerySuggestWord(String key) throws Exception {
+	public List<SuggestWord> fuzzyQuerySuggestWord(String key)  {
 		return suggestWordMapper.fuzzyQuerySuggestWord(key);
 	}
 
 	@Override
-	public int addSuggestWord(SuggestWord suggestWord) throws Exception {
+	public int addSuggestWord(SuggestWord suggestWord)  {
 		return suggestWordMapper.addSuggestWord(getSuggestWord(suggestWord));
 	}
 
 	@Override
-	public int updateSuggestWord(SuggestWord suggestWord) throws Exception {
+	public int updateSuggestWord(SuggestWord suggestWord) {
 		return suggestWordMapper.updateSuggestWord(getSuggestWord(suggestWord));
 	}
 
 	@Override
-	public int deleteSuggestWordById(Integer suggestId) throws Exception {
+	public int deleteSuggestWordById(Integer suggestId)  {
 		return suggestWordMapper.deleteSuggestWordById(suggestId);
 	}
 

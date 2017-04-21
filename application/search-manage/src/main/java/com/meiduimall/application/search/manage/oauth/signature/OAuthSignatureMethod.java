@@ -175,7 +175,7 @@ public abstract class OAuthSignatureMethod {
                            || (scheme.equals("https") && uri.getPort() == 443);
         if (dropPort) {
             // find the last : in the authority
-            int index = authority.lastIndexOf(":");
+            int index = authority.lastIndexOf(':');
             if (index >= 0) {
                 authority = authority.substring(0, index);
             }

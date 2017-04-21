@@ -16,7 +16,7 @@ public class SuggestServiceImpl implements SuggestService {
 	private SuggestDao suggestDao;
 	
 	@Override
-	public List<String> querySuggest(String keyword, Integer limit) throws Exception {
+	public List<String> querySuggest(String keyword, Integer limit){
 		return suggestDao.querySuggest(keyword, limit);
 	}
 

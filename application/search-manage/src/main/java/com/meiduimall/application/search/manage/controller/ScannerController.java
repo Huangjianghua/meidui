@@ -45,18 +45,14 @@ public class ScannerController {
 			page = Integer.parseInt(currentPage);
 		}
 		PageView pageView = new PageView(page);
-		try {
-			List<Scanner> scanners = scannerService.queryScanners(pageView);
-			long count = scannerService.queryScannerCount();
-			QueryResult result = new QueryResult();
-			result.setDateList(scanners);
-			result.setTotalCount((int)count);
-			pageView.setQueryResult(result);
-			mav.addObject("pageView", pageView);
-			mav.setViewName("search/scannerList");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		List<Scanner> scanners = scannerService.queryScanners(pageView);
+		long count = scannerService.queryScannerCount();
+		QueryResult result = new QueryResult();
+		result.setDateList(scanners);
+		result.setTotalCount((int)count);
+		pageView.setQueryResult(result);
+		mav.addObject("pageView", pageView);
+		mav.setViewName("search/scannerList");
 		return mav;
 	}
 	
@@ -71,62 +67,56 @@ public class ScannerController {
 		int flagId = -1;
 		int count = 0;
 		String table = "";
-		try {
-			// 查询所有数据库商品ID
-			List<Scanner> scanners = scannerService.queryScanners(null);
-			// 已删除ID
-			List<Integer> deletedIds = new ArrayList<Integer>();
-			for (Scanner scanner : scanners) {
-				flagId = scanner.getScanId();
-				// 更新表：1、item，2、brand，3、cat，4、shop
-				table = scanner.getTableName();
-				Integer updateId = scanner.getUpdateId();
-				String field = "";
-				switch (table) {
-				case "item":
-					field = "itemId";
-					break;
-				case "brand":
-					field = "brandId";
-					break;
-				case "cat":
-					field = "catId";
-					break;
-				case "shop":
-					field = "shopId";
-					break;
-					
-				default:
-					break;
-				}
-				// 将已更新内容ID添加到已删除集合中
-				deletedIds.add(flagId);
+		// 查询所有数据库商品ID
+		List<Scanner> scanners = scannerService.queryScanners(null);
+		// 已删除ID
+		List<Integer> deletedIds = new ArrayList<Integer>();
+		for (Scanner scanner : scanners) {
+			flagId = scanner.getScanId();
+			// 更新表：1、item，2、brand，3、cat，4、shop
+			table = scanner.getTableName();
+			Integer updateId = scanner.getUpdateId();
+			String field = "";
+			switch (table) {
+			case "item":
+				field = "itemId";
+				break;
+			case "brand":
+				field = "brandId";
+				break;
+			case "cat":
+				field = "catId";
+				break;
+			case "shop":
+				field = "shopId";
+				break;
 				
-				// 根据条件查询符合的索引信息
-				List<String> idList = productIndexService.queryIndexByQuery(field + ":" + updateId);
-				for (String itemId : idList) {
-					if (itemId != null) {
-						indexService.addProductIndexById(Integer.parseInt(itemId));
-						//如果是类目同时修改类目索引
-						if (table.equals("cat")){
-							indexService.addCatlogIndexById(updateId);
-						}
-						count++;
+			default:
+				break;
+			}
+			// 将已更新内容ID添加到已删除集合中
+			deletedIds.add(flagId);
+			
+			// 根据条件查询符合的索引信息
+			List<String> idList = productIndexService.queryIndexByQuery(field + ":" + updateId);
+			for (String itemId : idList) {
+				if (itemId != null) {
+					indexService.addProductIndexById(Integer.parseInt(itemId));
+					//如果是类目同时修改类目索引
+					if (table.equals("cat")){
+						indexService.addCatlogIndexById(updateId);
 					}
+					count++;
 				}
 			}
-			if (flagId == -1) {
-				return mav;
-			}
-			// 同步结束 删除已扫描记录
-			int deleteNum = scannerService.deleteScanned(deletedIds);
-			if (deleteNum > 0) {
-				log.info("成功删除已扫描表，共操作" + count + "条记录,结束时间：" + sdf.format(new Date()));
-			}
-		} catch (Exception e) {
-			log.error("手动更新数据库和索引库未同步信息出现异常，" + table +"_id： " + flagId, e);
-		} finally {
-			log.info("完成手动更新数据库和索引库未同步信息，结束时间：" + sdf.format(new Date()));
+		}
+		if (flagId == -1) {
+			return mav;
+		}
+		// 同步结束 删除已扫描记录
+		int deleteNum = scannerService.deleteScanned(deletedIds);
+		if (deleteNum > 0) {
+			log.info("成功删除已扫描表，共操作" + count + "条记录,结束时间：" + sdf.format(new Date()));
 		}
 		return mav;
 	}
@@ -146,54 +136,48 @@ public class ScannerController {
 		int ids = Integer.parseInt(id);
 		int count = 0;
 		String table = "";
-		try {
-			// 查询所有数据库商品ID
-			Scanner scanner = scannerService.queryScannerById(20);
-			// 更新表：1、item，2、brand，3、cat，4、shop
-			table = scanner.getTableName();
-			Integer updateId = scanner.getUpdateId();
-			String field = "";
-			switch (table) {
-			case "item":
-				field = "itemId";
-				break;
-			case "brand":
-				field = "brandId";
-				break;
-			case "cat":
-				field = "catId";
-				break;
-			case "shop":
-				field = "shopId";
-				break;
+		// 查询所有数据库商品ID
+		Scanner scanner = scannerService.queryScannerById(20);
+		// 更新表：1、item，2、brand，3、cat，4、shop
+		table = scanner.getTableName();
+		Integer updateId = scanner.getUpdateId();
+		String field = "";
+		switch (table) {
+		case "item":
+			field = "itemId";
+			break;
+		case "brand":
+			field = "brandId";
+			break;
+		case "cat":
+			field = "catId";
+			break;
+		case "shop":
+			field = "shopId";
+			break;
 
-			default:
-				break;
-			}
-			// 根据条件查询符合的索引信息
-			List<String> idList = productIndexService.queryIndexByQuery(field + ":" + updateId);
-			for (String itemId : idList) {
-				if (itemId != null) {
-					indexService.addProductIndexById(Integer.parseInt(itemId));
-					// 如果是类目同时修改类目索引
-					if (table.equals("cat")) {
-						indexService.addCatlogIndexById(updateId);
-					}
-					count++;
+		default:
+			break;
+		}
+		// 根据条件查询符合的索引信息
+		List<String> idList = productIndexService.queryIndexByQuery(field + ":" + updateId);
+		for (String itemId : idList) {
+			if (itemId != null) {
+				indexService.addProductIndexById(Integer.parseInt(itemId));
+				// 如果是类目同时修改类目索引
+				if (table.equals("cat")) {
+					indexService.addCatlogIndexById(updateId);
 				}
+				count++;
 			}
-			// 已删除ID
-			List<Integer> deletedIds = new ArrayList<Integer>();
-			deletedIds.add(ids);
-			// 同步结束 删除已扫描记录
-			int deleteNum = scannerService.deleteScanned(deletedIds);
-			if (deleteNum > 0) {
-				log.info("成功删除已扫描表，共操作" + count + "条记录,结束时间：" + sdf.format(new Date()));
-			}
-		} catch (Exception e) {
-			log.error("手动更新数据库和索引库未同步信息出现异常，" + table +"_id： " + id, e);
-		} finally {
-			log.info("完成手动更新数据库和索引库未同步信息，结束时间：" + sdf.format(new Date()));
+		}
+		// 已删除ID
+		List<Integer> deletedIds = new ArrayList<Integer>();
+		deletedIds.add(ids);
+		// 同步结束 删除已扫描记录
+		int deleteNum = scannerService.deleteScanned(deletedIds);
+		if (deleteNum > 0) {
+			log.info("成功删除已扫描表，共操作" + count + "条记录,结束时间：" + sdf.format(new Date()));
 		}
 		return mav;
 	}

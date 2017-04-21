@@ -14,7 +14,7 @@ public interface ProductIndexService {
 	 * @return
 	 * @throws Exception
 	 */
-	public QueryIndexResult query(SearchParam searchParam) throws Exception;
+	public QueryIndexResult query(SearchParam searchParam) ;
 	
 	/**
 	 * 根据ID查询索引信息
@@ -22,7 +22,7 @@ public interface ProductIndexService {
 	 * @return
 	 * @throws Exception
 	 */
-	public Item queryById(String id) throws Exception;
+	public Item queryById(String id) ;
 	
 	/**
 	 * 查询索引库ID是否存在
@@ -30,14 +30,14 @@ public interface ProductIndexService {
 	 * @return
 	 * @throws Exception
 	 */
-	public boolean isExists(Integer id) throws Exception;
+	public boolean isExists(Integer id) ;
 	
 	/**
 	 * 查询索引索引ID
 	 * @return
 	 * @throws Exception
 	 */
-	public List<Integer> queryIds() throws Exception;
+	public List<Integer> queryIds() ;
 	
 	
 	/**
@@ -46,6 +46,6 @@ public interface ProductIndexService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<String> queryIndexByQuery(String query) throws Exception;
+	public List<String> queryIndexByQuery(String query) ;
 	
 }

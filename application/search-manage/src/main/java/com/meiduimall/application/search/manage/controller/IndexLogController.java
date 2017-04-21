@@ -26,14 +26,11 @@ public class IndexLogController {
 			page = Integer.parseInt(currentPage);
 		}
 		PageView pageView = new PageView(page);
-		try {
-			QueryResult result = indexLogService.queryIndexLogs(pageView);
-			pageView.setQueryResult(result);
-			mav.addObject("pageView", pageView);
-			mav.setViewName("search/indexLogList");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		QueryResult result = indexLogService.queryIndexLogs(pageView);
+		pageView.setQueryResult(result);
+		mav.addObject("pageView", pageView);
+		mav.setViewName("search/indexLogList");
+		
 		return mav;
 	}
 	
@@ -42,16 +39,12 @@ public class IndexLogController {
 	@RequestMapping(value = "deleteIndexLog")
 	public ModelAndView deleteIndexLog(String logId) {
 		ModelAndView mav = new ModelAndView();
-		try {
-			if (StringUtil.isEmptyByString(logId)) {
-				mav.addObject(SysConstant.RESULT_MSG, "缺少必要参数");
-				return mav;
-			}
-			indexLogService.deleteIndexLogById(Integer.parseInt(logId));
-			mav.setViewName("redirect:/indexLog/queryIndexLogs.do?msg=1");
-		} catch (Exception e) {
-			e.printStackTrace();
+		if (StringUtil.isEmptyByString(logId)) {
+			mav.addObject(SysConstant.RESULT_MSG, "缺少必要参数");
+			return mav;
 		}
+		indexLogService.deleteIndexLogById(Integer.parseInt(logId));
+		mav.setViewName("redirect:/indexLog/queryIndexLogs.do?msg=1");
 		return mav;
 	}
 }

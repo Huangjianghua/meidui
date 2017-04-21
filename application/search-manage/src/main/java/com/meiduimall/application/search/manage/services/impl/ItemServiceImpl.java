@@ -18,7 +18,7 @@ public class ItemServiceImpl implements ItemService {
 	private ItemMapper itemMapper;
 
 	@Override
-	public QueryResult queryItems(ItemModel itemModel) throws Exception {
+	public QueryResult queryItems(ItemModel itemModel)  {
 		List<ItemModel> items = itemMapper.queryItems(itemModel);
 		QueryResult qr = new QueryResult();
 		qr.setDateList(items);
@@ -27,12 +27,12 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public long queryItemsCount(ItemModel itemModel) throws Exception {
+	public long queryItemsCount(ItemModel itemModel)  {
 		return itemMapper.queryItemsCount(itemModel);
 	}
 
 	@Override
-	public ItemModel queryItemById(Integer id) throws Exception {
+	public ItemModel queryItemById(Integer id) {
 		return itemMapper.queryItemById(id);
 	}
 

@@ -1,9 +1,7 @@
 package com.meiduimall.application.search.manage.controller;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,23 +53,19 @@ public class SearchLogController {
 		if (!StringUtil.isEmptyByString(currentPage)) {
 			page = Integer.parseInt(currentPage);
 		}
-		try {
-			// 默认查询近一周搜索日志
-			if (logParam.getStartTime() == null) {
-				logParam.setStartTime(startTime);
-			}
-			QueryResult result = searchLogService.querySearchLogs(logParam);
-			PageView pageView = new PageView(page);
-			pageView.setQueryResult(result);
-			// 回显参数
-			mav.addObject("startTime", logParam.getStartTime());
-			mav.addObject("endTime", logParam.getEndTime());
-			mav.addObject("keyword", logParam.getKeyword());
-			mav.addObject("pageView", pageView);
-			mav.setViewName("search/searchLogList");
-		} catch (Exception e) {
-			e.printStackTrace();
+		// 默认查询近一周搜索日志
+		if (logParam.getStartTime() == null) {
+			logParam.setStartTime(startTime);
 		}
+		QueryResult result = searchLogService.querySearchLogs(logParam);
+		PageView pageView = new PageView(page);
+		pageView.setQueryResult(result);
+		// 回显参数
+		mav.addObject("startTime", logParam.getStartTime());
+		mav.addObject("endTime", logParam.getEndTime());
+		mav.addObject("keyword", logParam.getKeyword());
+		mav.addObject("pageView", pageView);
+		mav.setViewName("search/searchLogList");
 		return mav;
 	}
 	
@@ -83,23 +77,19 @@ public class SearchLogController {
 		if (!StringUtil.isEmptyByString(currentPage)) {
 			page = Integer.parseInt(currentPage);
 		}
-		try {
-			// 默认查询近一周搜索日志
-			if (logParam.getStartTime() == null) {
-				logParam.setStartTime(startTime);
-			}
-			QueryResult result = searchLogService.queryStatisticLogs(logParam);
-			PageView pageView = new PageView(page);
-			pageView.setQueryResult(result);
-			// 回显参数
-			mav.addObject("startTime", logParam.getStartTime());
-			mav.addObject("endTime", logParam.getEndTime());
-			mav.addObject("keyword", logParam.getKeyword());
-			mav.addObject("pageView", pageView);
-			mav.setViewName("search/statisticLogList");
-		} catch (Exception e) {
-			e.printStackTrace();
+		// 默认查询近一周搜索日志
+		if (logParam.getStartTime() == null) {
+			logParam.setStartTime(startTime);
 		}
+		QueryResult result = searchLogService.queryStatisticLogs(logParam);
+		PageView pageView = new PageView(page);
+		pageView.setQueryResult(result);
+		// 回显参数
+		mav.addObject("startTime", logParam.getStartTime());
+		mav.addObject("endTime", logParam.getEndTime());
+		mav.addObject("keyword", logParam.getKeyword());
+		mav.addObject("pageView", pageView);
+		mav.setViewName("search/statisticLogList");
 		return mav;
 	}
 	
@@ -107,34 +97,30 @@ public class SearchLogController {
 	@RequestMapping(value = "updateSuggest")
 	public String updateSuggest(LogParam logParam) {
 		String url = "redirect:/searchLog/statisticSearchLog.do";
-		try {
-			QueryResult result = searchLogService.queryStatisticLogs(logParam);
-			List data = result.getDateList();
-			if (result != null && data != null && !data.isEmpty()) {
-				StatisticLog log = (StatisticLog) data.get(0);
-				String keyword = log.getKeyword();
-				SuggestWord suggestWord = suggestWordService.querySuggestWordByKey(keyword);
-				long num = log.getNum();
-				// 提示词中有该词条则修改搜索次数
-				if (suggestWord != null) {
-					suggestWord.setKwfreq((int)num);
-					int word = suggestWordService.updateSuggestWord(suggestWord);
-					if (word > 0) {
-						url += "?msg=1";
-					}
-				} else {
-					// 提示词中没有有该词条则增加该词条
-					suggestWord = new SuggestWord();
-					suggestWord.setKw(keyword);
-					suggestWord.setKwfreq((int)num);
-					int word = suggestWordService.addSuggestWord(suggestWord);
-					if (word > 0) {
-						url += "?msg=1";
-					}
+		QueryResult result = searchLogService.queryStatisticLogs(logParam);
+		List data = result.getDateList();
+		if (result != null && data != null && !data.isEmpty()) {
+			StatisticLog log = (StatisticLog) data.get(0);
+			String keyword = log.getKeyword();
+			SuggestWord suggestWord = suggestWordService.querySuggestWordByKey(keyword);
+			long num = log.getNum();
+			// 提示词中有该词条则修改搜索次数
+			if (suggestWord != null) {
+				suggestWord.setKwfreq((int)num);
+				int word = suggestWordService.updateSuggestWord(suggestWord);
+				if (word > 0) {
+					url += "?msg=1";
+				}
+			} else {
+				// 提示词中没有有该词条则增加该词条
+				suggestWord = new SuggestWord();
+				suggestWord.setKw(keyword);
+				suggestWord.setKwfreq((int)num);
+				int word = suggestWordService.addSuggestWord(suggestWord);
+				if (word > 0) {
+					url += "?msg=1";
 				}
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		return url;
 	}

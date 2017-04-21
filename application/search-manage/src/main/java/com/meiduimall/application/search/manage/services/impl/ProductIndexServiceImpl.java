@@ -43,7 +43,7 @@ public class ProductIndexServiceImpl implements ProductIndexService {
 	private CatIndexDao catIndexDao;
 	
 	@Override
-	public QueryIndexResult query(SearchParam searchParam) throws Exception {
+	public QueryIndexResult query(SearchParam searchParam)  {
 		SolrQuery params = new SolrQuery();
 		int rows = searchParam.getRows();
 		params.setRows(rows);
@@ -159,7 +159,7 @@ public class ProductIndexServiceImpl implements ProductIndexService {
 	 * @return
 	 * @throws Exception
 	 */
-	private QueryResponse getQueryResponse(SolrQuery params, SearchParam searchParam) throws Exception {
+	private QueryResponse getQueryResponse(SolrQuery params, SearchParam searchParam) {
 		// 第一次查询获取默认分页匹配结果
 		QueryResponse response = productIndexDao.query(params);
 		SolrDocumentList results = response.getResults();
@@ -367,7 +367,7 @@ public class ProductIndexServiceImpl implements ProductIndexService {
 	}
 
 	@Override
-	public Item queryById(String id) throws Exception {
+	public Item queryById(String id)  {
 		SolrQuery params = new SolrQuery();
 		params.setQuery(SolrConstant.ITEM_ID + ":" + id);
 		QueryResponse queryResponse = productIndexDao.query(params);
@@ -380,7 +380,7 @@ public class ProductIndexServiceImpl implements ProductIndexService {
 	}
 
 	@Override
-	public boolean isExists(Integer id) throws Exception {
+	public boolean isExists(Integer id)  {
 		SolrQuery params = new SolrQuery();
 		params.setQuery("itemId:" + id);
 		QueryResponse queryResponse = productIndexDao.query(params);
@@ -388,7 +388,7 @@ public class ProductIndexServiceImpl implements ProductIndexService {
 	}
 
 	@Override
-	public List<Integer> queryIds() throws Exception {
+	public List<Integer> queryIds()  {
 		SolrQuery params = new SolrQuery();
 		params.setQuery("*:*");
 		QueryResponse queryResponse = productIndexDao.query(params);
@@ -406,7 +406,7 @@ public class ProductIndexServiceImpl implements ProductIndexService {
 	}
 
 	@Override
-	public List<String> queryIndexByQuery(String query) throws Exception {
+	public List<String> queryIndexByQuery(String query)  {
 		SolrQuery params = new SolrQuery(query);
 		QueryResponse queryResponse = productIndexDao.query(params);
 		SolrDocumentList results = queryResponse.getResults();

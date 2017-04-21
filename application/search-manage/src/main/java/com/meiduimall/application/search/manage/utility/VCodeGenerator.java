@@ -5,6 +5,8 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Random;
+
 import javax.imageio.ImageIO;
 
 /**
@@ -88,36 +90,36 @@ public class VCodeGenerator {
 	    }
 
 	    private double getRandomArch() {
-	        return ((int) (Math.random() * 1000) % 2 == 0 ? -1 : 1) * Math.random();
+	        return (new Random().nextInt(1000)% 2 == 0 ? -1 : 1) * Math.random();
 	    }
 
 	    private Color getRandomColor() {
-	        int r = (int) (Math.random() * 10000) % 200;
-	        int g = (int) (Math.random() * 10000) % 200;
-	        int b = (int) (Math.random() * 10000) % 200;
+	        int r = new Random().nextInt(10000) % 200;
+	        int g = new Random().nextInt(10000) % 200;
+	        int b = new Random().nextInt(10000) % 200;
 	        return new Color(r, g, b);
 	    }
 
 	    private String getRandomFontName() {
-	        int pos = (int) (Math.random() * 10000) % (fontNames.length);
+	        int pos = new Random().nextInt(10000) % (fontNames.length);
 	        return fontNames[pos];
 	    }
 
 	    private int getRandomStyle() {
-	        int pos = (int) (Math.random() * 10000) % (fontStyle.length);
+	        int pos = new Random().nextInt(10000) % (fontStyle.length);
 	        return fontStyle[pos];
 	    }
 
 	    private int getRandomSize() {
 	        int max = (int) (this.height * 0.98);
 	        int min = (int) (this.height * 0.75);
-	        return (int) (Math.random() * 10000) % (max - min + 1) + min;
+	        return new Random().nextInt(10000) % (max - min + 1) + min;
 	    }
 
 	    private char[] generateCode() {
 	        char[] ret = new char[charCnt];
 	        for (int i = 0; i < charCnt; i++) {
-	            int letterPos = (int) (Math.random() * 10000) % (chars.length);
+	            int letterPos = new Random().nextInt(10000) % (chars.length);
 	            ret[i] = chars[letterPos];
 	        }
 	        return ret;
@@ -126,10 +128,10 @@ public class VCodeGenerator {
 	    private void drawDisturbLine(Graphics2D graphics) {
 	        for (int i = 0; i < disturbLineNum; i++) {
 	            graphics.setColor(getRandomColor());
-	            int x = (int) (Math.random() * 10000) % (this.width + 1) + 1;
-	            int x1 = (int) (Math.random() * 10000) % (this.width + 1) + 1;
-	            int y = (int) (Math.random() * 10000) % (this.height + 1) + 1;
-	            int y1 = (int) (Math.random() * 10000) % (this.height + 1) + 1;
+	            int x = new Random().nextInt(10000) % (this.width + 1) + 1;
+	            int x1 = new Random().nextInt(10000) % (this.width + 1) + 1;
+	            int y = new Random().nextInt(10000) % (this.height + 1) + 1;
+	            int y1 = new Random().nextInt(10000) % (this.height + 1) + 1;
 	            graphics.drawLine(x, y, x1, y1);
 	        }
 

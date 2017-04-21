@@ -18,7 +18,7 @@ public class NewestPriceServiceImpl implements NewestPriceService {
 	private NewestPriceMapper newestPriceMapper;
 	
 	@Override
-	public LinkedList<NewestPrice> getNewestPrices(List<Integer> ids) throws Exception {
+	public LinkedList<NewestPrice> getNewestPrices(List<Integer> ids)  {
 		return newestPriceMapper.getNewestPrices(ids);
 	}
 

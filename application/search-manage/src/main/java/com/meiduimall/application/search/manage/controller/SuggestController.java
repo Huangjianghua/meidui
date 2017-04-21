@@ -1,9 +1,11 @@
 package com.meiduimall.application.search.manage.controller;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +21,7 @@ import com.meiduimall.application.search.manage.services.SuggestService;
 @Controller
 public class SuggestController {
 
-	private Logger logger = Logger.getLogger(SuggestController.class);
+	private static Logger logger = LoggerFactory.getLogger(SuggestController.class);
 	
 	@Autowired
 	private SuggestService suggestService;

@@ -18,17 +18,17 @@ public class CatServiceImpl implements CatService {
 	private CatMapper catMapper;
 
 	@Override
-	public List<CatModel> queryCats(PageView pageView) throws Exception {
+	public List<CatModel> queryCats(PageView pageView)  {
 		return catMapper.queryCats(pageView);
 	}
 
 	@Override
-	public long queryCatsCount() throws Exception {
+	public long queryCatsCount()  {
 		return catMapper.queryCatsCount();
 	}
 
 	@Override
-	public CatModel queryCatById(Integer id) throws Exception {
+	public CatModel queryCatById(Integer id)  {
 		return catMapper.queryCatById(id);
 	}
 

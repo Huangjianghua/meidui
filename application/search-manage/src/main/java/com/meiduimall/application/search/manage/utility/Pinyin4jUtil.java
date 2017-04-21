@@ -1,5 +1,4 @@
 package com.meiduimall.application.search.manage.utility;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -7,7 +6,8 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
@@ -23,6 +23,8 @@ import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombi
  * 
  */
 public class Pinyin4jUtil {
+	
+	private static Logger logger = LoggerFactory.getLogger(Pinyin4jUtil.class);
 	
 	private static final String SEPERATOR = ",";
 	/** 大写形式 */
@@ -60,7 +62,7 @@ public class Pinyin4jUtil {
                         }  
                     }  
                 } catch (BadHanyuPinyinOutputFormatCombination e) {  
-                    e.printStackTrace();  
+                	logger.error("汉字转拼音异常:{}",e);
                 }  
             } else {  
                 pinyinName.append(nameChar[i]);  
@@ -156,7 +158,7 @@ public class Pinyin4jUtil {
                 pinyinName.append(" ");  
             } 
         } catch (BadHanyuPinyinOutputFormatCombination e) {  
-            e.printStackTrace();  
+        	logger.error("获取汉字简拼异常:{}",e);
         }
         return parseTheChineseByObject(discountTheChinese(pinyinName.toString(),seperator),seperator);  
 	}
@@ -199,7 +201,7 @@ public class Pinyin4jUtil {
 				}
 			}
 		} catch (BadHanyuPinyinOutputFormatCombination e) {
-			e.printStackTrace();
+			logger.error("获取汉字全拼异常:{}",e);
 		}
 		
 		Set<String> pinyins = null;

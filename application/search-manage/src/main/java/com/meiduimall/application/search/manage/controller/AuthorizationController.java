@@ -5,9 +5,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import net.sf.json.JSONObject;
-
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,13 +15,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.meiduimall.application.search.manage.constant.SysConstant;
 import com.meiduimall.application.search.manage.oauth.OAuth;
+import com.meiduimall.application.search.manage.oauth.OAuth.Parameter;
 import com.meiduimall.application.search.manage.oauth.OAuthAccessor;
 import com.meiduimall.application.search.manage.oauth.OAuthConsumer;
 import com.meiduimall.application.search.manage.oauth.OAuthMessage;
-import com.meiduimall.application.search.manage.oauth.OAuth.Parameter;
 import com.meiduimall.application.search.manage.oauth.provider.core.OAuthProvider;
 import com.meiduimall.application.search.manage.services.IndexService;
 import com.meiduimall.application.search.manage.utility.StringUtil;
+
+import net.sf.json.JSONObject;
 
 /**
  * 索引操作
@@ -32,7 +33,7 @@ import com.meiduimall.application.search.manage.utility.StringUtil;
 @RequestMapping("Authorized")
 public class AuthorizationController extends BaseController {
 
-	private Logger log = Logger.getLogger(AuthorizationController.class);
+	private static Logger log = LoggerFactory.getLogger(AuthorizationController.class);
 	
 	// 更新产品索引URL
 	private String updateProductIndexUrl = "";

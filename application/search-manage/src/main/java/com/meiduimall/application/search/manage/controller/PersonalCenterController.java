@@ -4,6 +4,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
@@ -21,6 +23,9 @@ import net.sf.json.JSONObject;
 @Controller
 @RequestMapping("/personalCenter")
 public class PersonalCenterController {
+	
+	
+	 private static Logger logger = LoggerFactory.getLogger(PersonalCenterController.class);
 	
 	@Resource
 	private IUserService userService;
@@ -83,7 +88,7 @@ public class PersonalCenterController {
 				return result.toString();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("密码修改异常:{}",e);
 			result.put(SysConstant.STATUS_CODE, 1023);
 			result.put(SysConstant.CUSTMSG, "密码修改失败");
 			return result.toString();
