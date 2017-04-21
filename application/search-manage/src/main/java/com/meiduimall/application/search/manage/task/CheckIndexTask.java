@@ -6,7 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -18,7 +19,7 @@ import com.meiduimall.application.search.manage.services.ProductIndexService;
 @Component("checkIndexTask")
 public class CheckIndexTask {
 
-	private Logger log = Logger.getLogger(CheckIndexTask.class);
+	private static Logger log= LoggerFactory.getLogger(CheckIndexTask.class);
 	
 	@Autowired
 	private IndexService indexService;
@@ -72,7 +73,7 @@ public class CheckIndexTask {
 	private Collection<Integer> getDiffent(Collection<Integer> collmax, Collection<Integer> collmin) throws Exception {
 		
 		//使用LinkeList防止差异过大时,元素拷贝
-        Collection<Integer> csReturn = new LinkedList<Integer>();
+        Collection<Integer> csReturn = new LinkedList<>();
         Collection<Integer> max = collmax;
         Collection<Integer> min = collmin;
         //先比较大小,这样会减少后续map的if判断次数

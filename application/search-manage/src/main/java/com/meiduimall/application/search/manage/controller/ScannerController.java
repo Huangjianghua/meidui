@@ -4,7 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.apache.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +25,7 @@ import com.meiduimall.application.search.manage.utility.StringUtil;
 @RequestMapping("scanner")
 public class ScannerController {
 
-	private Logger log = Logger.getLogger(ScannerController.class);
+	private static Logger log = LoggerFactory.getLogger(ScannerController.class);
 	
 	@Autowired
 	private IndexService indexService;

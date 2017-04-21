@@ -2,17 +2,21 @@ package com.meiduimall.application.search.manage.utility;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import net.sf.json.JSONObject;
-import org.apache.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.meiduimall.application.search.manage.constant.Constant;
 import com.meiduimall.application.search.manage.oauth.OAuth;
-import com.meiduimall.application.search.manage.oauth.OAuthMessage;
 import com.meiduimall.application.search.manage.oauth.OAuth.Parameter;
+import com.meiduimall.application.search.manage.oauth.OAuthMessage;
 import com.meiduimall.application.search.manage.oauth.signature.OAuthSignatureMethod;
+
+import net.sf.json.JSONObject;
 
 public class XFCUtil {
 
-	private static Logger log = Logger.getLogger(XFCUtil.class);
+	private static Logger log = LoggerFactory.getLogger(XFCUtil.class);
 
 	public static double getxfc() {
 		try {

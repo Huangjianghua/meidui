@@ -6,7 +6,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -19,7 +20,7 @@ import com.meiduimall.application.search.manage.services.ScannerService;
 @Component("syncIndexTask")
 public class SyncIndexTask {
 
-	private Logger log = Logger.getLogger(SyncIndexTask.class);
+	private static Logger log = LoggerFactory.getLogger(SyncIndexTask.class);
 	
 	@Autowired
 	private IndexService indexService;
@@ -82,7 +83,6 @@ public class SyncIndexTask {
 				deletedIds.add(flagId);
 			}
 			if (flagId == -1 || count == 0) {
-				log.info("本次无更新记录……");
 				return;
 			}
 			// 同步结束 删除已扫描记录
