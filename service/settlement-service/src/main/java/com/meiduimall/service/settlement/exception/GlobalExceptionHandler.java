@@ -34,9 +34,7 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(value = BindException.class)
 	public Object methodArgumentNotValidHandler(HttpServletRequest request, BindException exception) {
 		StringBuilder sb = new StringBuilder();
-		exception.getBindingResult().getFieldErrors().forEach(error -> {
-			sb.append(error.getDefaultMessage()).append(";");
-		});
+		exception.getBindingResult().getFieldErrors().forEach(error -> sb.append(error.getDefaultMessage()).append(";"));
 		return new ResBodyData(ShareProfitConstants.RESPONSE_STATUS_CODE_FAILURE, sb.toString());
 	}
 	
