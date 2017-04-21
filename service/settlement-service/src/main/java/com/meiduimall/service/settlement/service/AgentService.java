@@ -3,7 +3,6 @@ package com.meiduimall.service.settlement.service;
 import java.util.List;
 import java.util.Map;
 
-import com.meiduimall.service.settlement.model.Draw;
 import com.meiduimall.service.settlement.model.EcmMzfAccount;
 import com.meiduimall.service.settlement.model.EcmMzfAgentWater;
 import com.meiduimall.service.settlement.model.EcmMzfDrawWater;
@@ -162,16 +161,6 @@ public interface AgentService {
 	public EcmMzfWater getWaterDetailByWaterId(String waterId, String waterType);
 	
 
-	/**
-	 * 功能描述:  根据提现编号获取提现详情
-	 * Author: guidl
-	 * Date:   2017年3月24日 上午11:25:02
-	 * param   drawCode
-	 * return  
-	 */
-	public Draw getDrawDetailByDrawCode(String drawCode);
-	
-	
 	/**
 	 * 功能描述:  个代保证金分润  更新个代积分失败时  插入异常日志
 	 * Author: guidl
