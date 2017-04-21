@@ -23,6 +23,7 @@ public class BaseDaoImpl extends SqlSessionDaoSupport implements BaseDao {
 	private static final String ERROR_PARAMS = " error, params = ";
 
 	@Autowired
+	@Override
 	public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
 		super.setSqlSessionFactory(sqlSessionFactory);
 	}

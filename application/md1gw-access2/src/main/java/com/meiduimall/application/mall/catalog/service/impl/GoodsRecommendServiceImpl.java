@@ -9,12 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
-import com.meiduimall.application.mall.catalog.constant.ApplMallApiCode;
 import com.meiduimall.application.mall.catalog.constant.ApplMallConstant;
 import com.meiduimall.application.mall.catalog.service.GoodsRecommendService;
 import com.meiduimall.application.mall.catalog.util.HttpGatewayUtils;
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.exception.ServiceException;
 
 /**
  * GoodsRecommendController的网络请求工具类
@@ -25,6 +23,7 @@ import com.meiduimall.exception.ServiceException;
 @Service
 public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 
+	@SuppressWarnings("unused")
 	private static Logger logger = LoggerFactory.getLogger(GoodsRecommendServiceImpl.class);
 
 	@Autowired
@@ -43,12 +42,6 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 		params.put("type", String.valueOf(type));
 		params.put("sourceId", String.valueOf(sourceId));
 
-		try {
-			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
-		} catch (Exception e) {
-			logger.error("请求微服务异常： " + e);
-			throw new ServiceException(ApplMallApiCode.REQUEST_SERVICE_ERROR,
-					ApplMallApiCode.getZhMsg(ApplMallApiCode.REQUEST_SERVICE_ERROR));
-		}
+		return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
 	}
 }

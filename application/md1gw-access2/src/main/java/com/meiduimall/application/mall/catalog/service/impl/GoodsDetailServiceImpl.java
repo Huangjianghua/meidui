@@ -10,12 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
-import com.meiduimall.application.mall.catalog.constant.ApplMallApiCode;
 import com.meiduimall.application.mall.catalog.constant.ApplMallConstant;
 import com.meiduimall.application.mall.catalog.service.GoodsDetailService;
 import com.meiduimall.application.mall.catalog.util.HttpGatewayUtils;
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.exception.ServiceException;
 
 /**
  * GoodsDetailController的网络请求工具类
@@ -26,6 +24,7 @@ import com.meiduimall.exception.ServiceException;
 @Service
 public class GoodsDetailServiceImpl implements GoodsDetailService {
 
+	@SuppressWarnings("unused")
 	private static Logger logger = LoggerFactory.getLogger(GoodsDetailServiceImpl.class);
 
 	@Autowired
@@ -45,13 +44,6 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 		if (!StringUtils.isBlank(memId)) {
 			params.put("memId", memId);
 		}
-
-		try {
-			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
-		} catch (Exception e) {
-			logger.error("请求微服务异常： " + e);
-			throw new ServiceException(ApplMallApiCode.REQUEST_SERVICE_ERROR,
-					ApplMallApiCode.getZhMsg(ApplMallApiCode.REQUEST_SERVICE_ERROR));
-		}
+		return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
 	}
 }

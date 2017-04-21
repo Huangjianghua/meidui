@@ -10,13 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
-import com.meiduimall.application.mall.catalog.constant.ApplMallApiCode;
 import com.meiduimall.application.mall.catalog.constant.ApplMallConstant;
 import com.meiduimall.application.mall.catalog.request.ShopProductRequest;
 import com.meiduimall.application.mall.catalog.service.ShopService;
 import com.meiduimall.application.mall.catalog.util.HttpGatewayUtils;
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.exception.ServiceException;
 
 /**
  * MDShopController 网络请求工具类
@@ -27,7 +25,10 @@ import com.meiduimall.exception.ServiceException;
 @Service
 public class ShopServiceImpl implements ShopService {
 
+	@SuppressWarnings("unused")
 	private static Logger logger = LoggerFactory.getLogger(ShopServiceImpl.class);
+
+	private static final String SHOP_ID = "shopId";
 
 	@Autowired
 	private Environment env;
@@ -42,17 +43,11 @@ public class ShopServiceImpl implements ShopService {
 		String url = host + uri;
 
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("shopId", String.valueOf(shopId));
+		params.put(SHOP_ID, String.valueOf(shopId));
 		if (!StringUtils.isBlank(memId)) {
 			params.put("memId", memId);
 		}
-		try {
-			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
-		} catch (Exception e) {
-			logger.error("请求微服务异常： " + e);
-			throw new ServiceException(ApplMallApiCode.REQUEST_SERVICE_ERROR,
-					ApplMallApiCode.getZhMsg(ApplMallApiCode.REQUEST_SERVICE_ERROR));
-		}
+		return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
 	}
 
 	@Override
@@ -65,18 +60,12 @@ public class ShopServiceImpl implements ShopService {
 		String url = host + uri;
 
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("shopId", String.valueOf(shopId));
+		params.put(SHOP_ID, String.valueOf(shopId));
 		params.put("isCollect", String.valueOf(isCollect));
 		if (!StringUtils.isBlank(memId)) {
 			params.put("memId", memId);
 		}
-		try {
-			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
-		} catch (Exception e) {
-			logger.error("请求微服务异常： " + e);
-			throw new ServiceException(ApplMallApiCode.REQUEST_SERVICE_ERROR,
-					ApplMallApiCode.getZhMsg(ApplMallApiCode.REQUEST_SERVICE_ERROR));
-		}
+		return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
 	}
 
 	@Override
@@ -89,14 +78,8 @@ public class ShopServiceImpl implements ShopService {
 		String url = host + uri;
 
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("shopId", String.valueOf(shopId));
-		try {
-			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
-		} catch (Exception e) {
-			logger.error("请求微服务异常： " + e);
-			throw new ServiceException(ApplMallApiCode.REQUEST_SERVICE_ERROR,
-					ApplMallApiCode.getZhMsg(ApplMallApiCode.REQUEST_SERVICE_ERROR));
-		}
+		params.put(SHOP_ID, String.valueOf(shopId));
+		return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
 	}
 
 	@Override
@@ -109,7 +92,7 @@ public class ShopServiceImpl implements ShopService {
 		String url = host + uri;
 
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("shopId", String.valueOf(param.getShopId()));
+		params.put(SHOP_ID, String.valueOf(param.getShopId()));
 		if (param.getShopCatId() != null) {
 			params.put("shopCatId", String.valueOf(param.getShopCatId()));
 		}
@@ -125,13 +108,6 @@ public class ShopServiceImpl implements ShopService {
 		if (!StringUtils.isBlank(param.getColumn())) {
 			params.put("column", param.getColumn());
 		}
-
-		try {
-			return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
-		} catch (Exception e) {
-			logger.error("请求微服务异常： " + e);
-			throw new ServiceException(ApplMallApiCode.REQUEST_SERVICE_ERROR,
-					ApplMallApiCode.getZhMsg(ApplMallApiCode.REQUEST_SERVICE_ERROR));
-		}
+		return HttpGatewayUtils.sendGet(url, clientID, signKey, params);
 	}
 }

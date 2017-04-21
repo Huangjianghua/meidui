@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
  * @描述：数字小数点操作工具类
  */
 public class NumberUtils {
+	
+	private NumberUtils(){}
 
 	private static Logger logger = LoggerFactory.getLogger(NumberUtils.class);
 
@@ -57,8 +59,7 @@ public class NumberUtils {
 	 */
 	public static double formatDouble(double orignal, int count) {
 		if (count <= 0) {
-			int temp = (int) (orignal + 0.5);
-			return temp;
+			return (int) (orignal + 0.5);
 		}
 		double pow = Math.pow(10, count);
 		int temp = (int) ((orignal * pow) + 0.5);
@@ -76,8 +77,7 @@ public class NumberUtils {
 	 */
 	public static float formatFloat(float orignal, int count) {
 		if (count <= 0) {
-			int temp = (int) (orignal + 0.5);
-			return temp;
+			return (int) (orignal + 0.5);
 		}
 		int pow = (int) Math.pow(10, count);
 		int temp = (int) ((orignal * pow) + 0.5f);

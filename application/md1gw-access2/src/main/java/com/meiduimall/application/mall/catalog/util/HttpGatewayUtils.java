@@ -1,6 +1,5 @@
 package com.meiduimall.application.mall.catalog.util;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,10 +7,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.meiduimall.application.mall.catalog.constant.ApplMallApiCode;
 import com.meiduimall.application.mall.catalog.constant.ApplMallConstant;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.HttpUtils;
 import com.meiduimall.core.util.JsonUtils;
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.password.GatewaySignUtil;
 import com.meiduimall.password.exception.Md5Exception;
 
@@ -24,8 +25,9 @@ import com.meiduimall.password.exception.Md5Exception;
 public class HttpGatewayUtils {
 
 	private static Logger logger = LoggerFactory.getLogger(HttpGatewayUtils.class);
-	
-	private HttpGatewayUtils(){}
+
+	private HttpGatewayUtils() {
+	}
 
 	/**
 	 * GET请求
@@ -35,17 +37,21 @@ public class HttpGatewayUtils {
 	 * @param signKey
 	 * @param params
 	 * @return
-	 * @throws IOException
-	 * @throws Md5Exception
 	 */
-	public static ResBodyData sendGet(String url, String clientID, String signKey, Map<String, String> params)
-			throws IOException, Md5Exception {
-		String paramsContent = getParamsContent(clientID, signKey, params);
-		String urlParam = url + "?" + paramsContent;
-		logger.info("请求地址：" + urlParam);
-		String result = HttpUtils.get(urlParam);
-		logger.info("请求结果：" + result);
-		return JsonUtils.jsonToBean(result, ResBodyData.class);
+	public static ResBodyData sendGet(String url, String clientID, String signKey, Map<String, String> params) {
+
+		try {
+			String paramsContent = getParamsContent(clientID, signKey, params);
+			String urlParam = url + "?" + paramsContent;
+			logger.info("请求地址：" + urlParam);
+			String result = HttpUtils.get(urlParam);
+			logger.info("请求结果：" + result);
+			return JsonUtils.jsonToBean(result, ResBodyData.class);
+		} catch (Exception e) {
+			logger.error("请求微服务异常： " + e);
+			throw new ServiceException(ApplMallApiCode.REQUEST_SERVICE_ERROR,
+					ApplMallApiCode.getZhMsg(ApplMallApiCode.REQUEST_SERVICE_ERROR));
+		}
 	}
 
 	/**
@@ -56,21 +62,24 @@ public class HttpGatewayUtils {
 	 * @param signKey
 	 * @param params
 	 * @return
-	 * @throws IOException
-	 * @throws Md5Exception
 	 */
-	public static ResBodyData sendPost(String url, String clientID, String signKey, Map<String, String> params)
-			throws IOException, Md5Exception {
-		String paramsContent = getParamsContent(clientID, signKey, params);
-		logger.info("请求地址：" + url);
-		logger.info("POST实体内容：" + paramsContent);
+	public static ResBodyData sendPost(String url, String clientID, String signKey, Map<String, String> params) {
+		try {
+			String paramsContent = getParamsContent(clientID, signKey, params);
+			logger.info("请求地址：" + url);
+			logger.info("POST实体内容：" + paramsContent);
 
-		Map<String, String> headers = new HashMap<String, String>();
-		headers.put(ApplMallConstant.CONTENT_TYPE, ApplMallConstant.CONTENT_TYPE_FORM);
+			Map<String, String> headers = new HashMap<String, String>();
+			headers.put(ApplMallConstant.CONTENT_TYPE, ApplMallConstant.CONTENT_TYPE_FORM);
 
-		String result = HttpUtils.post(url, paramsContent, headers);
-		logger.info("请求结果：" + result);
-		return JsonUtils.jsonToBean(result, ResBodyData.class);
+			String result = HttpUtils.post(url, paramsContent, headers);
+			logger.info("请求结果：" + result);
+			return JsonUtils.jsonToBean(result, ResBodyData.class);
+		} catch (Exception e) {
+			logger.error("请求微服务异常： " + e);
+			throw new ServiceException(ApplMallApiCode.REQUEST_SERVICE_ERROR,
+					ApplMallApiCode.getZhMsg(ApplMallApiCode.REQUEST_SERVICE_ERROR));
+		}
 	}
 
 	/**
