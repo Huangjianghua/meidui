@@ -37,7 +37,7 @@ public class IndexServiceImpl implements IndexService {
 
 	private Logger log = Logger.getLogger(IndexServiceImpl.class);
 	
-	private Map<Integer, Props> propMaps = new HashMap<Integer, Props>();
+	private Map<Integer, Props> propMaps = new HashMap<>();
 	
 	@Autowired
 	private ProductIndexDao productIndexDao;

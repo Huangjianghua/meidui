@@ -9,7 +9,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class HttpTooUtils {
+	
+	private static Logger logger = LoggerFactory.getLogger(HttpTooUtils.class);
 	
 	public static String sendGet(String url){
 		StringBuilder bufferRes = new StringBuilder();
@@ -34,7 +39,7 @@ public class HttpTooUtils {
 				conn.disconnect();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("get请求异常：{}",e);
 		}
 		return bufferRes.toString();
 
@@ -78,7 +83,7 @@ public class HttpTooUtils {
                 result += line;
             }  
         } catch (Exception e) {  
-            e.printStackTrace();  
+        	logger.error("post请求异常：{}",e);
         }finally {  
             try {  
                 if (out != null) {  
@@ -87,7 +92,7 @@ public class HttpTooUtils {
                 if ( in != null) { in .close();  
                 }  
             } catch (IOException ex) {  
-                ex.printStackTrace();  
+            	logger.error("post请求流关闭异常：{}",ex);
             }  
         }  
         return result;  

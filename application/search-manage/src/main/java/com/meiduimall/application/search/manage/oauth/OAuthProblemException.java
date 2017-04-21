@@ -67,9 +67,9 @@ public class OAuthProblemException extends OAuthException {
         Object response = getParameters().get(HTTP_RESPONSE);
         if (response != null) {
             msg = response.toString();
-            int eol = msg.indexOf("\n");
+            int eol = msg.indexOf('\n');
             if (eol < 0) {
-                eol = msg.indexOf("\r");
+                eol = msg.indexOf('\r');
             }
             if (eol >= 0) {
                 msg = msg.substring(0, eol);

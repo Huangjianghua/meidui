@@ -217,7 +217,7 @@ public class ProductIndexServiceImpl implements ProductIndexService {
 		// 排序
 		String r_sort = searchParam.getR_sort();
 		if (r_sort != null && !"buy_count_desc".equals(r_sort)) {
-			int spliteIndex = r_sort.lastIndexOf("_");
+			int spliteIndex = r_sort.lastIndexOf('_');
 			String order = r_sort.substring(spliteIndex + 1);
 			String field = r_sort.substring(0, spliteIndex);
 			params.addSort(field, "asc".equals(order) ? ORDER.asc : ORDER.desc);

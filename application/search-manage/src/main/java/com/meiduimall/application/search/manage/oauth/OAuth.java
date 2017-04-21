@@ -27,13 +27,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Miscellaneous constants, methods and types.
  * 
  */
 public class OAuth {
 	
-	
+	private static Logger logger = LoggerFactory.getLogger(OAuth.class);
 
     public static final String VERSION_1_0 = "1.0";
 
@@ -143,6 +146,7 @@ public class OAuth {
 		    try {
 		    	return new String(from, characterEncoding);
 		    } catch (UnsupportedEncodingException e) {
+		    	logger.error("解码失败：{}",e);
 		    }
 		}
 		return new String(from);
@@ -153,8 +157,7 @@ public class OAuth {
 	    try {
 	    	return from.getBytes(characterEncoding);
 	    } catch (UnsupportedEncodingException e) {
-	    	
-	    	
+	    	logger.error("编码失败：{}",e);
 	    }
 	}
 		return from.getBytes();
@@ -377,25 +380,9 @@ public class OAuth {
         return (from == null) ? null : from.toString();
     }
 
-    /**
-     * Construct a URL like the given one, but with the given parameters added
-     * to its query string.
-     */
-    public static String addParameters(String url, String... parameters)
-            throws IOException {
-        return addParameters(url, newList(parameters));
-    }
 
-    public static String addParameters(String url,
-            Iterable<? extends Map.Entry<String, String>> parameters)
-            throws IOException {
-        String form = formEncode(parameters);
-        if (form == null || form.length() <= 0) {
-            return url;
-        } else {
-            return url + ((url.indexOf('?') < 0) ? '?' : '&') + form;
-        }
-    }
+
+
 
     public static boolean isEmpty(String str) {
 	return (str == null) || (str.length() == 0);
