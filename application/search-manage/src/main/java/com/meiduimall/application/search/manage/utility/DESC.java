@@ -1,17 +1,13 @@
 package com.meiduimall.application.search.manage.utility;
-
-import java.io.ByteArrayOutputStream;
-
 import java.security.Key;
 import java.security.SecureRandom;
-
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
-
 import org.apache.commons.codec.binary.Base64;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.meiduimall.application.search.manage.constant.Constant;
 
 /**
@@ -20,6 +16,8 @@ import com.meiduimall.application.search.manage.constant.Constant;
  *
  */
 public class DESC {
+	
+	private static Logger logger = LoggerFactory.getLogger(DESC.class);
 	
 	private static boolean IS_OPEN=true;
 
@@ -87,7 +85,7 @@ public class DESC {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("firstEncryption加密异常:{}",e);
 			return "";
 		}
 	}
@@ -114,11 +112,9 @@ public class DESC {
 				}else{
 					return str;
 				}
-			
-
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("firstDeyption加密异常:{}",e);
 			return null;
 		}
 	}
@@ -142,8 +138,7 @@ public class DESC {
 				}
 			}
 		} catch (Exception e) {
-
-			e.printStackTrace();
+			logger.error("firstEncryption解密异常:{}",e);
 			return null;
 		}
 	}
@@ -168,8 +163,7 @@ public class DESC {
 				}
 			}
 		} catch (Exception e) {
-			//  Auto-generated catch block
-			e.printStackTrace();
+			logger.error("firstDeyption解密异常:{}",e);
 			return null;
 		}
 	}
@@ -188,16 +182,5 @@ public class DESC {
 	   }  
 	   return sb.toString();  
 	}  
-	/* 
-	* 将16进制数字解码成字符串,适用于所有字符（包括中文） 
-	*/  
-	public static String decode(String bytes) {  
-	   ByteArrayOutputStream baos = new ByteArrayOutputStream(  
-	     bytes.length() / 2);  
-	   // 将每2位16进制整数组装成一个字节  
-	   for (int i = 0; i < bytes.length(); i += 2)  
-	    baos.write((hexString.indexOf(bytes.charAt(i)) << 4 | hexString  
-	      .indexOf(bytes.charAt(i + 1))));  
-	   return new String(baos.toByteArray());  
-	} 
+
 }

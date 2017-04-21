@@ -165,7 +165,7 @@ public class ScannerController {
 			if (itemId != null) {
 				indexService.addProductIndexById(Integer.parseInt(itemId));
 				// 如果是类目同时修改类目索引
-				if (table.equals("cat")) {
+				if ("cat".equals(table)) {
 					indexService.addCatlogIndexById(updateId);
 				}
 				count++;

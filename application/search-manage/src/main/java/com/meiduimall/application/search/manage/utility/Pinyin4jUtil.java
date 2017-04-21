@@ -247,7 +247,7 @@ public class Pinyin4jUtil {
 				}
 			}
 		} catch (BadHanyuPinyinOutputFormatCombination e) {
-			e.printStackTrace();
+			logger.error("getPinyinShortCollection方法异常:{}",e);
 		}
 		Set<String> sorts=new HashSet<String>();
 		Set<String> pinyins = null;

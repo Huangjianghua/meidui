@@ -387,7 +387,6 @@ public abstract class OAuthSignatureMethod {
         public String toString() {
             return key;
         }
-
     }
 
     /** Retrieve the original parameters from a sorted collection. */

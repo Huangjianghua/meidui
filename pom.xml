@@ -25,10 +25,10 @@
         <jacoco.version>0.7.9</jacoco.version>
     </properties>
 
-    <scm>
+<!--     <scm>
         <connection>scm:git:http://git.meiduimall.com/service/meiduimall.git</connection>
         <developerConnection>scm:git:http://git.meiduimall.com/service/meiduimall.git</developerConnection>
-    </scm>
+    </scm> -->
 
     <profiles>
         <profile>
@@ -45,7 +45,7 @@
         </profile>
     </profiles>
 
-    <build>
+   <!--  <build>
         <plugins>
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -74,5 +74,5 @@
                 </configuration>
             </plugin>
         </plugins>
-    </build>
+    </build> -->
 </project>

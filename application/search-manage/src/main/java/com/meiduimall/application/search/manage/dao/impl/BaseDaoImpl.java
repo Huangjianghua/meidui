@@ -26,15 +26,13 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 		JqGridTableViewPage<T> jqTable = new JqGridTableViewPage<T>();
         int currentPage = pageNo > 1 ? pageNo : 1;
         jqTable.setRecords(20);
-//        long total = filterTotal.intValue() % pageSize > 0 ? filterTotal.intValue() / pageSize + 1 : filterTotal.intValue() / pageSize;
         jqTable.setTotal(200);
-//        List<T> itemList = query.setFirstResult((currentPage - 1) * pageSize).setMaxResults(pageSize).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
         String resultJson = HttpTooUtils.sendGet(url);
         resultJson = resultJson.replace("null", "\"\"");
         JSONObject jsonObj = JSONObject.fromObject(resultJson);
         if(jsonObj.get("RESULTS") == null 
-        		|| jsonObj.get("RESULTS").equals("") 
-        		|| jsonObj.getJSONArray("RESULTS").size() == 0) {
+        		|| "".equals(jsonObj.get("RESULTS"))
+        		|| jsonObj.getJSONArray("RESULTS").isEmpty()) {
         	return null;
         }
         List<T> itemList = JSONArray.toList(jsonObj.getJSONArray("RESULTS"),objectClass);

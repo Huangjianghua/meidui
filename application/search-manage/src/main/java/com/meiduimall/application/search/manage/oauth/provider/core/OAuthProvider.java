@@ -49,7 +49,8 @@ public class OAuthProvider {
 	public static final Map<String, OAuthConsumer> ALL_CONSUMERS = Collections
 			.synchronizedMap(new HashMap<String, OAuthConsumer>(10));
 
-	public static final Collection<OAuthAccessor> ALL_TOKENS = new HashSet<OAuthAccessor>();
+	
+	public static final Collection<OAuthAccessor> ALL_TOKENS = new HashSet<>();
 
 
 

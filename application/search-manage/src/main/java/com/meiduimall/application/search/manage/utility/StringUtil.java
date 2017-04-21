@@ -108,6 +108,6 @@ public class StringUtil {
 	 * @return true 为空
 	 */
 	public static boolean isEmptyByString(String value) {
-		return ((value == null) || (value.trim().length() == 0) || value.equals("null"));
+		return ((value == null) || (value.trim().length() == 0) || "null".equals(value));
 	}
 }

@@ -19,40 +19,40 @@ public class ValidCodeUtil {
      * 设置图片的背景色
      * @param g
      */
-    public static void setBackGround(Graphics g,int WIDTH,int HEIGHT) {
+    public static void setBackGround(Graphics g,int width,int height) {
         // 设置颜色
     	Color color = new Color(236,236,236);
     	g.setColor(color);
         // 填充区域
-        g.fillRect(0, 0, WIDTH, HEIGHT);
+        g.fillRect(0, 0, width, height);
     }
 
     /**
      * 设置图片的边框
      * @param g
      */
-    public static void setBorder(Graphics g,int WIDTH,int HEIGHT) {
+    public static void setBorder(Graphics g,int width,int height) {
         // 设置边框颜色
     	Color color = new Color(212,212,212);
     	g.setColor(color);
         // 边框区域
-        g.drawRect(1, 1, WIDTH - 2, HEIGHT - 2);
+        g.drawRect(1, 1, width - 2, height - 2);
     }
 
     /**
      * 在图片上画随机线条
      * @param g
      */
-    public static void drawRandomLine(Graphics g,int WIDTH,int HEIGHT) {
+    public static void drawRandomLine(Graphics g,int width,int height) {
         // 设置颜色
     	Color color = new Color(62,147,237);
     	g.setColor(color);
         // 设置线条个数并画线
         for (int i = 0; i < 5; i++) {
-            int x1 = new Random().nextInt(WIDTH);
-            int y1 = new Random().nextInt(HEIGHT);
-            int x2 = new Random().nextInt(WIDTH);
-            int y2 = new Random().nextInt(HEIGHT);
+            int x1 = new Random().nextInt(width);
+            int y1 = new Random().nextInt(height);
+            int x2 = new Random().nextInt(width);
+            int y2 = new Random().nextInt(height);
             g.drawLine(x1, y1, x2, y2);
         }
     }
@@ -85,13 +85,13 @@ public class ValidCodeUtil {
             if (createTypeFlag[0].equals("ch")) {
                 // 截取汉字
                 return createRandomChar(g, baseChineseChar);
-            }else if (createTypeFlag[0].equals("nl")) {
+            }else if ("nl".equals(createTypeFlag[0])) {
                 // 截取数字和字母的组合
                 return createRandomChar(g, baseNumLetter);
-            }else if (createTypeFlag[0].equals("n")) {
+            }else if ("n".equals(createTypeFlag[0])) {
                 // 截取数字
                 return createRandomChar(g, baseNum);
-            }else if (createTypeFlag[0].equals("l")) {
+            }else if ("l".equals(createTypeFlag[0])) {
                 // 截取字母
                 return createRandomChar(g, baseLetter);
             }
@@ -117,7 +117,7 @@ public class ValidCodeUtil {
         for (int i = 0; i < 4; i++) {
             // 设置字体旋转角度
             int degree = new Random().nextInt() % 30;
-            ch = baseChar.charAt(new Random().nextInt(baseChar.length())) + "";
+            ch = baseChar.charAt(new Random().nextInt(baseChar.length()))+"";
             sb.append(ch);
             // 正向角度
             g.rotate(degree * Math.PI / 180, x, 20);
