@@ -54,6 +54,10 @@ public class MallApiCode extends BaseApiCode {
 	public static final Integer ITEMINFO_FAIL = 10047;
 	public static final Integer SKUIDINFO_FAIL = 10048;
 	public static final Integer ITEMINFOS_FAIL = 10049;
+	public static final Integer UPDATESKU_FAIL = 10050;
+	public static final Integer UPDATEITEMSTORE_FAIL = 10051;
+	public static final Integer UPDATESKUSTORE_FAIL = 10052;
+	public static final Integer UPDATEIS_FAIL = 10053;
 	
 	
 	
@@ -107,5 +111,9 @@ public class MallApiCode extends BaseApiCode {
 		zhMsgMap.put(ITEMINFO_FAIL, "根据itemId获取subStock失败!");
 		zhMsgMap.put(SKUIDINFO_FAIL, "获取sku库存表信息失败!");
 		zhMsgMap.put(ITEMINFOS_FAIL, "获取商品库存表信息失败!");
+		zhMsgMap.put(UPDATESKU_FAIL, "更新库存表失败!");
+		zhMsgMap.put(UPDATEITEMSTORE_FAIL, "更新商品库存表失败!");
+		zhMsgMap.put(UPDATESKUSTORE_FAIL, "修改sku_store表的冻结库存失败!");
+		zhMsgMap.put(UPDATEIS_FAIL, "修改商品主item_store表的冻结库存失败!");
 	}
 }

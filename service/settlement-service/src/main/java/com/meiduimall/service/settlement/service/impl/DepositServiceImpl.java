@@ -173,19 +173,18 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 			//插入区代数据（流水金额）
 			
 			//判断区代公司名称是否是"美兑壹购物"，如果不是则插入区代数据（流水金额）
-			if(!ecmAgent.getAddCompanyName().equals(ShareProfitConstants.COMPANY_NAME)){
+			if (!ecmAgent.getAddCompanyName().equals(ShareProfitConstants.COMPANY_NAME)
+					&& !Strings.isNullOrEmpty(ecmAgent.getAddAgentNo())
+					&& !Strings.isNullOrEmpty(ecmAgent.getAddBindPhone())) {
 				
-				if(!Strings.isNullOrEmpty(ecmAgent.getAddAgentNo()) && !Strings.isNullOrEmpty(ecmAgent.getAddBindPhone())){
-					
-					logger.info("===============个代推荐个代，插入创建人区代获取保证金的流水start===============");
-					logger.info("个代推荐个代，创建人区代获取30%代理费");
-					
-					addWater(ecmAgent.getId(), CodeRuleUtil.getAreaAgentFlowCode(ecmAgent.getAddAgentNo()), ecmAgent.getAddAgentNo(),
-							personToPersonAreaDeposit, 0, ecmAgent.getAddBindPhone(), ShareProfitConstants.ROLE_TYPE_AREA_AGENT, (int)(personToPersonAreaRate*100), ecmAgent.getRecNo(), ecmAgent.getOpTime());
-					logger.info("创建人区代获得30%保证金：{}", personToPersonAreaDeposit);
-					
-					logger.info("===============个代推荐个代，插入创建人区代获取保证金的流水end===============");
-				}
+				logger.info("===============个代推荐个代，插入创建人区代获取保证金的流水start===============");
+				logger.info("个代推荐个代，创建人区代获取30%代理费");
+				
+				addWater(ecmAgent.getId(), CodeRuleUtil.getAreaAgentFlowCode(ecmAgent.getAddAgentNo()), ecmAgent.getAddAgentNo(),
+						personToPersonAreaDeposit, 0, ecmAgent.getAddBindPhone(), ShareProfitConstants.ROLE_TYPE_AREA_AGENT, (int)(personToPersonAreaRate*100), ecmAgent.getRecNo(), ecmAgent.getOpTime());
+				logger.info("创建人区代获得30%保证金：{}", personToPersonAreaDeposit);
+				
+				logger.info("===============个代推荐个代，插入创建人区代获取保证金的流水end===============");
 			}
 			
 			//插入推荐个代数据（流水金额）

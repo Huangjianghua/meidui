@@ -56,9 +56,9 @@ public class DateUtil {
 	private static final int CONSTDATESUB = -36500;
 	
 	private static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-	private static DateFormat dateFormat_input = new SimpleDateFormat("yyyyMMdd");
+	private static DateFormat dateFormatInput = new SimpleDateFormat("yyyyMMdd");
 	private static DateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-	private static DateFormat dateTimeFormat_input = new SimpleDateFormat("yyyyMMddHHmm");
+	private static DateFormat dateTimeFormatInput = new SimpleDateFormat("yyyyMMddHHmm");
 	
 	private static DateFormat timeFormat = new SimpleDateFormat("HH:mm");
 	
@@ -228,7 +228,7 @@ public class DateUtil {
 	 * @return
 	 */
 	public static final DateFormat getDateFormatInput() {
-		return dateFormat_input;
+		return dateFormatInput;
 	}
 
 	/**
@@ -642,7 +642,7 @@ public class DateUtil {
 		if (date == null){
 			return "";
 		}
-		return dateFormat_input.format(date);
+		return dateFormatInput.format(date);
 	}
 
 	/**
@@ -669,7 +669,7 @@ public class DateUtil {
 		if (date == null){
 			return "";
 		}
-		return dateTimeFormat_input.format(date);
+		return dateTimeFormatInput.format(date);
 	}
 
 	/**
@@ -733,58 +733,6 @@ public class DateUtil {
 			}
 		} 
 		return str;
-	}
-
-	/**
-	 * 时间格式转换 <li>yyyy/MM/dd, yyyy-MM-dd , yyyy年MM月dd日 转 二00八年一月七日</li> <li>
-	 * 二00八年一月七日 转 2008-01-07</li>
-	 * @param date Old Date String
-	 * @return New Date To String
-	 * @ <b>Date Format is Error .</b>
-	 */
-	public static String replaceDate(String date){
-		// 过滤时间里的/, 年, 月, 日,
-		String str = date.trim().replace("/", "-").replace("年", "-")
-				.replace("月", "-").replace("日", "-");
-		StringBuilder buf = new StringBuilder();
-		String[] sqlit = str.split("-");
-		if (sqlit.length >= 3) {
-			// 年份格式判断，并且转换
-			char[] year = sqlit[0].toCharArray();
-			if (year.length == 4 || year.length == 2) {
-				for (int i = 0; i < year.length; i++) {
-					if (map.isEmpty()) {
-						new DateUtil();
-					}
-					buf.append(map.get(String.valueOf(year[i])));
-				}
-				buf.append("年");
-			} 
-
-			// 月份格式判断，并且转换
-			char[] month = sqlit[1].toCharArray();
-			if (month.length <= 2) {
-				if (month[0] == '0') {
-					buf.append(map.get(String.valueOf(month[1])));
-				} else {
-					buf.append(map.get(sqlit[1]));
-				}
-				buf.append("月");
-			} 
-
-			// 日格式判断，并且转换
-			char[] day = sqlit[2].toCharArray();
-			if (day.length <= 3) {
-				if (day[0] == '0') {
-					buf.append(map.get(String.valueOf(day[1])));
-				} else {
-					buf.append(map.get(sqlit[2]));
-				}
-				buf.append("日");
-			} 
-		} 
-		// 返回时间格式
-		return buf.toString();
 	}
 
 	/**

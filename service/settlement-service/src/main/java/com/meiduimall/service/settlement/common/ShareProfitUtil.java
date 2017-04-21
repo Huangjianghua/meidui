@@ -184,8 +184,6 @@ public class ShareProfitUtil {
 
 		}
 		return value;
-		
-		
 	}
 
 

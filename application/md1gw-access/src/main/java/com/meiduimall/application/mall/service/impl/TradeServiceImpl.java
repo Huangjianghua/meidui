@@ -263,22 +263,26 @@ public class TradeServiceImpl implements TradeService {
 			if ("success".equals(hashMap.get("status"))) {
 
 				SysitemItem itemInfo = sysitemService.getSysitemItemBysubStock(hashMap);
-				if (itemInfo == null)
+				if (itemInfo == null){
+					Logger.info("根据itemId获取subStock失败!");
 					throw new ServiceException(MallApiCode.ITEMINFO_FAIL, MallApiCode.getZhMsg(MallApiCode.ITEMINFO_FAIL));
-
+				}
 				// 是否支持下单减库存
 				if (itemInfo.getSubStock() > 0)
 					return false;
 
 				// 获取sku库存表信息
 				SysitemSkuStore skuIdInfo = sysitemService.getSysitemSkuStore((Integer) hashMap.get("sku_id"));
-				if (skuIdInfo == null)
+				if (skuIdInfo == null){
+					Logger.info("获取sku库存表信息失败!");
 					throw new ServiceException(MallApiCode.SKUIDINFO_FAIL, MallApiCode.getZhMsg(MallApiCode.SKUIDINFO_FAIL));
-
+				}
 				// 根据skuInfo['item_id']获取商品库存表信息
 				SysitemItemStore itemInfoS = sysitemService.getSysitemItemStore(skuIdInfo.getItemId());
-				if (itemInfoS == null)
+				if (itemInfoS == null){
+					Logger.info("获取商品库存表信息失败!");
 					throw new ServiceException(MallApiCode.ITEMINFOS_FAIL, MallApiCode.getZhMsg(MallApiCode.ITEMINFOS_FAIL));
+				}
 
 				if ((skuIdInfo.getStore() - (Integer) hashMap.get("quantity")) < 0)
 					return false;
@@ -296,9 +300,10 @@ public class TradeServiceImpl implements TradeService {
 				sss.setStore(store);
 				sss.setSkuId((Integer) hashMap.get("sku_id"));
 				Integer sysitemSkuStoreByfreezANDstore = sysitemService.updateSysitemSkuStoreByfreezANDstore(sss);
-				if (sysitemSkuStoreByfreezANDstore <= 0)
-					throw new RuntimeException("更新sku库存表ByfreezANDstore 失败!");
-
+				if (sysitemSkuStoreByfreezANDstore <= 0){
+					Logger.info("更新库存表失败!");
+					throw new ServiceException(MallApiCode.UPDATESKU_FAIL, MallApiCode.getZhMsg(MallApiCode.UPDATESKU_FAIL));
+				}
 				Integer freezs = itemInfoS.getFreez() - (Integer) hashMap.get("quantity");
 				Integer stores = itemInfoS.getStore() - (Integer) hashMap.get("quantity");
 
@@ -308,9 +313,10 @@ public class TradeServiceImpl implements TradeService {
 				sis.setStore(stores);
 				sis.setItemId(skuIdInfo.getItemId());
 				Integer sysitemItemStoreByfreezANDstore = sysitemService.updateSysitemItemStoreByfreezANDstore(sis);
-				if (sysitemItemStoreByfreezANDstore <= 0)
-					throw new RuntimeException("更新sku库存表更新成功,更新商品库存表 失败!");
-
+				if (sysitemItemStoreByfreezANDstore <= 0){
+					Logger.info("更新商品库存表失败!");
+					throw new ServiceException(MallApiCode.UPDATEITEMSTORE_FAIL, MallApiCode.getZhMsg(MallApiCode.UPDATEITEMSTORE_FAIL));
+				}
 			}
 			return false;
 		} // arrParams[sub_stock]!=0下单减库存(有恶意下单占库存风险)判断结束
@@ -333,14 +339,14 @@ public class TradeServiceImpl implements TradeService {
 		Integer updateSkuStoreFreez = sysitemService.updateSkuStoreFreez(hashMap);
 		if (updateSkuStoreFreez <= 0) {
 			Logger.info("修改sku_store表的冻结库存失败!");
-			throw new RuntimeException("修改sku_store表的冻结库存失败!");
+			throw new ServiceException(MallApiCode.UPDATESKUSTORE_FAIL, MallApiCode.getZhMsg(MallApiCode.UPDATESKUSTORE_FAIL));
 		}
 
 		// 修改商品主item_store表的冻结库存
 		Integer updateItemStoreFreez = sysitemService.updateItemStoreFreez(hashMap);
 		if (updateItemStoreFreez <= 0) {
 			Logger.info("修改商品主item_store表的冻结库存失败!");
-			throw new RuntimeException("修改商品主item_store表的冻结库存失败!");
+			throw new ServiceException(MallApiCode.UPDATEIS_FAIL, MallApiCode.getZhMsg(MallApiCode.UPDATEIS_FAIL));
 		}
 	}
 
