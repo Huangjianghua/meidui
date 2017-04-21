@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.meiduimall.service.catalog.constant.ServiceCatalogConstant;
+
 public class HttpHeaderTools {
 
 	private static Logger logger = LoggerFactory.getLogger(HttpHeaderTools.class);
@@ -31,7 +33,8 @@ public class HttpHeaderTools {
 			}
 			if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
 				ipAddress = request.getRemoteAddr();
-				if ("127.0.0.1".equals(ipAddress) || "0:0:0:0:0:0:0:1".equals(ipAddress)) {
+				if (ServiceCatalogConstant.LOCAL_LOOPBACK_ADDRESS.equals(ipAddress)
+						|| ServiceCatalogConstant.LOCAL_UNKNOW_ADDRESS.equals(ipAddress)) {
 					// 根据网卡取本机配置的IP
 					InetAddress inet = null;
 					try {
@@ -45,9 +48,7 @@ public class HttpHeaderTools {
 			// 对于通过多个代理的情况，第一个IP为客户端真实IP,多个IP按照','分割
 			if (ipAddress != null && ipAddress.length() > 15) { // "***.***.***.***".length()
 				logger.info("当前请求ip地址未过滤=" + ipAddress); // = 15
-				if (ipAddress.indexOf(',') > 0) {
-					ipAddress = ipAddress.substring(0, ipAddress.indexOf(','));
-				}
+				ipAddress = ipAddress.substring(0, ipAddress.indexOf(',', 1));
 			}
 		} catch (Exception e) {
 			logger.error("获取当前请求的IP地址异常: " + e);
