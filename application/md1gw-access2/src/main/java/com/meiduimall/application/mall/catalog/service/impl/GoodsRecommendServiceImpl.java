@@ -13,6 +13,7 @@ import com.meiduimall.application.mall.catalog.constant.ApplMallApiCode;
 import com.meiduimall.application.mall.catalog.constant.ApplMallConstant;
 import com.meiduimall.application.mall.catalog.service.GoodsRecommendService;
 import com.meiduimall.application.mall.catalog.util.HttpGatewayUtils;
+import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ServiceException;
 
 /**
@@ -30,7 +31,7 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 	private Environment env;
 
 	@Override
-	public String getFirstRecommendGoodsHttp(int type, int sourceId) {
+	public ResBodyData getFirstRecommendGoodsHttp(int type, int sourceId) {
 
 		String clientID = env.getProperty(ApplMallConstant.KEY_SIGN_CLIENT_ID);
 		String signKey = env.getProperty(ApplMallConstant.KEY_SIGN_KEY);

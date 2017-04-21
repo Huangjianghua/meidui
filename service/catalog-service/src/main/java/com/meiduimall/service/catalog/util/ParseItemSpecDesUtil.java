@@ -18,6 +18,8 @@ import com.meiduimall.service.catalog.util.ParseItemSpecDescBean.PropValueBean;
 public class ParseItemSpecDesUtil {
 
 	private static Logger logger = LoggerFactory.getLogger(ParseItemSpecDesUtil.class);
+	
+	private ParseItemSpecDesUtil(){}
 
 	/**
 	 * 解析：表sysitem_sku，字段spec_desc序列化数据,格式字符串

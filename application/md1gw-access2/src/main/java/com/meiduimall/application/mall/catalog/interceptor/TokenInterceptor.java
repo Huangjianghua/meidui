@@ -64,7 +64,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 				}
 
 				// 调用会员系统，验证token
-				if (checkToken(request, response, token)) {
+				if (checkToken(request, token)) {
 					// 验证通过，放行
 					return true;
 				} else {
@@ -76,7 +76,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 				/** token不是必须传递的参数时，先验证token，获取memId；不管验证是否通过，都放行 */
 				if (!StringUtils.isBlank(token)) {
 					// 如果token不为空，需要调用会员系统根据token获取memId
-					checkToken(request, response, token);
+					checkToken(request, token);
 				}
 				return true;
 			}
@@ -90,12 +90,11 @@ public class TokenInterceptor implements HandlerInterceptor {
 	 * 调用会员系统，验证token
 	 * 
 	 * @param request
-	 * @param response
 	 * @param token
 	 * @return
 	 * @throws Exception
 	 */
-	private boolean checkToken(HttpServletRequest request, HttpServletResponse response, String token) {
+	private boolean checkToken(HttpServletRequest request, String token) {
 
 		String host = env.getProperty("member-access.host");
 		String uri = ApplMallConstant.ACCESS_MEMBER_BASE_URL + "/get_memid_by_token";

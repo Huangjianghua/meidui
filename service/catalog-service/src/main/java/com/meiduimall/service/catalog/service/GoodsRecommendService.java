@@ -41,48 +41,9 @@ public interface GoodsRecommendService {
 	ResBodyData getFirstRecommendItems(int type, int count, int sourceId);
 
 	/**
-	 * 获得所有的推荐商品，需要分页
-	 * 
-	 * @param pageNo
-	 *            页数，默认是1
-	 * @param pageSize
-	 *            每页数量，默认是10
-	 * @return
-	 */
-	ResBodyData getAllRecommendItems(int pageNo, int pageSize);
-
-	/**
 	 * 获取所有类型，优先推荐的商品
 	 * @param count 推荐个数
 	 * @return
 	 */
 	ResBodyData getFirstRecommendItemsAllType(int count);
-	
-	/**
-	 * 
-	 * @param type
-	 *            推荐类型
-	 * @param pageNo
-	 *            页数，默认是1
-	 * @param pageSize
-	 *            每页数量，默认是10
-	 * @return
-	 */
-	ResBodyData getRecommendItemsByType(int type, int pageNo, int pageSize);
-
-	/**
-	 * 批量删除推荐商品
-	 * @param itemId 商品编号
-	 * @param optUser 操作人
-	 * @return
-	 */
-	ResBodyData deleteRecommendItems(int[] itemId, String optUser);
-
-	/**
-	 * 更改推荐商品的推荐排序值
-	 * @param itemId 商品编号
-	 * @param optUser 操作人
-	 * @return
-	 */
-	ResBodyData updateRecommendItemLevel(int itemId, String optUser);
 }

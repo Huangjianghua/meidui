@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.application.mall.catalog.constant.ApplMallApiCode;
 import com.meiduimall.application.mall.catalog.service.GoodsDetailService;
+import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
 
 /**
@@ -37,7 +38,7 @@ public class GoodsDetailController {
 	 * @return
 	 */
 	@RequestMapping("/getItem")
-	public String getItemDetail(String itemId) {
+	public ResBodyData getItemDetail(String itemId) {
 		int intItemId = 0;
 		String memId = (String) request.getAttribute("memId");
 		try {

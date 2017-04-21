@@ -8,7 +8,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.meiduimall.application.mall.catalog.constant.ApplMallConstant;
+import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.HttpUtils;
+import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.password.GatewaySignUtil;
 import com.meiduimall.password.exception.Md5Exception;
 
@@ -21,6 +24,8 @@ import com.meiduimall.password.exception.Md5Exception;
 public class HttpGatewayUtils {
 
 	private static Logger logger = LoggerFactory.getLogger(HttpGatewayUtils.class);
+	
+	private HttpGatewayUtils(){}
 
 	/**
 	 * GET请求
@@ -33,14 +38,14 @@ public class HttpGatewayUtils {
 	 * @throws IOException
 	 * @throws Md5Exception
 	 */
-	public static String sendGet(String url, String clientID, String signKey, Map<String, String> params)
+	public static ResBodyData sendGet(String url, String clientID, String signKey, Map<String, String> params)
 			throws IOException, Md5Exception {
 		String paramsContent = getParamsContent(clientID, signKey, params);
 		String urlParam = url + "?" + paramsContent;
 		logger.info("请求地址：" + urlParam);
 		String result = HttpUtils.get(urlParam);
 		logger.info("请求结果：" + result);
-		return result;
+		return JsonUtils.jsonToBean(result, ResBodyData.class);
 	}
 
 	/**
@@ -54,18 +59,18 @@ public class HttpGatewayUtils {
 	 * @throws IOException
 	 * @throws Md5Exception
 	 */
-	public static String sendPost(String url, String clientID, String signKey, Map<String, String> params)
+	public static ResBodyData sendPost(String url, String clientID, String signKey, Map<String, String> params)
 			throws IOException, Md5Exception {
 		String paramsContent = getParamsContent(clientID, signKey, params);
 		logger.info("请求地址：" + url);
 		logger.info("POST实体内容：" + paramsContent);
 
 		Map<String, String> headers = new HashMap<String, String>();
-		headers.put("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+		headers.put(ApplMallConstant.CONTENT_TYPE, ApplMallConstant.CONTENT_TYPE_FORM);
 
 		String result = HttpUtils.post(url, paramsContent, headers);
 		logger.info("请求结果：" + result);
-		return result;
+		return JsonUtils.jsonToBean(result, ResBodyData.class);
 	}
 
 	/**

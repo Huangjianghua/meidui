@@ -16,6 +16,8 @@ import org.slf4j.LoggerFactory;
 public class ParseSysRateDsrInfoUtil {
 
 	private static Logger logger = LoggerFactory.getLogger(ParseSysRateDsrInfoUtil.class);
+	
+	private ParseSysRateDsrInfoUtil(){}
 
 	/**
 	 * 反序列化表sysrate_dsr中的序列化数据，并计算店铺评分 {1=0, 2=0, 3=0, 4=1, 5=3}

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.application.mall.catalog.constant.ApplMallApiCode;
 import com.meiduimall.application.mall.catalog.service.GoodsRecommendService;
+import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
 
 /**
@@ -40,7 +41,7 @@ public class GoodsRecommendController {
 	 * @return
 	 */
 	@RequestMapping("/getRecommend")
-	public String getFirstRecommendGoods(String type,
+	public ResBodyData getFirstRecommendGoods(String type,
 			@RequestParam(value = "sourceId", required = false, defaultValue = "1") String sourceId) {
 
 		int intType = 0;
@@ -54,7 +55,7 @@ public class GoodsRecommendController {
 					ApplMallApiCode.getZhMsg(ApplMallApiCode.REQUEST_PARAMS_ERROR));
 		}
 
-		String result = goodsRecommendService.getFirstRecommendGoodsHttp(intType, intSourceId);
+		ResBodyData result = goodsRecommendService.getFirstRecommendGoodsHttp(intType, intSourceId);
 		// 增加头部--解决JS跨域问题
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		return result;

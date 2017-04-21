@@ -1,6 +1,7 @@
 package com.meiduimall.application.mall.catalog.service;
 
 import com.meiduimall.application.mall.catalog.request.ShopProductRequest;
+import com.meiduimall.core.ResBodyData;
 
 public interface ShopService {
 
@@ -13,7 +14,7 @@ public interface ShopService {
 	 *            会员系统ID
 	 * @return
 	 */
-	public String getShopDetailHttp(int shopId, String memId);
+	public ResBodyData getShopDetailHttp(int shopId, String memId);
 
 	/**
 	 * 请求微服务，收藏店铺或者取消收藏
@@ -26,7 +27,7 @@ public interface ShopService {
 	 *            会员系统ID
 	 * @return
 	 */
-	public String collectOrCancelShopHttp(int shopId, int isCollect, String memId);
+	public ResBodyData collectOrCancelShopHttp(int shopId, int isCollect, String memId);
 
 	/**
 	 * 请求微服务，获取商家自定义商品分类列表
@@ -35,7 +36,7 @@ public interface ShopService {
 	 *            店铺ID
 	 * @return
 	 */
-	public String getShopProductCatalogHttp(int shopId);
+	public ResBodyData getShopProductCatalogHttp(int shopId);
 
 	/**
 	 * 请求微服务，获取店铺的商品列表
@@ -43,5 +44,5 @@ public interface ShopService {
 	 * @param param
 	 * @return
 	 */
-	public String getShopProductList(ShopProductRequest param);
+	public ResBodyData getShopProductList(ShopProductRequest param);
 }

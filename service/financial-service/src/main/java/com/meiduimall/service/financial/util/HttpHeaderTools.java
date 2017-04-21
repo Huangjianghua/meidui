@@ -13,6 +13,8 @@ import com.meiduimall.service.financial.constant.ServiceFinancialConstant;
 public class HttpHeaderTools {
 
 	private static Logger logger = LoggerFactory.getLogger(HttpHeaderTools.class);
+	
+	private HttpHeaderTools(){}
 
 	/**
 	 * 获取当前请求的IP地址

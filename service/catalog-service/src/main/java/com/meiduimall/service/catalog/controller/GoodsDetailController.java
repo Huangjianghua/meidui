@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.core.ResBodyData;
@@ -29,15 +30,16 @@ public class GoodsDetailController {
 	/**
 	 * 根据商品编号，查询商品是否存在
 	 * 
-	 * @param item_id
+	 * @param itemId
 	 *            商品编号，必须
 	 * @return
 	 */
 	@RequestMapping(value = "/isExist")
-	public ResBodyData checkItemIsExist(String item_id) {
+	public ResBodyData checkItemIsExist(
+			@RequestParam(value = "item_id", required = false) String itemId) {
 		int id = 0;
 		try {
-			id = Integer.parseInt(item_id);
+			id = Integer.parseInt(itemId);
 		} catch (NumberFormatException e) {
 			logger.error("根据商品编号，查询商品是否存在: " + e);
 			throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR,

@@ -142,7 +142,7 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 
 		ResBodyData result = new ResBodyData();
 
-		String base_url = env.getProperty("estore.base-url");
+		String baseUrl = env.getProperty("estore.base-url");
 		List<Integer> list1 = baseDao.selectList(1, "SysitemItemRecommendMapper.selectLastRecordByType");
 		List<Integer> list2 = baseDao.selectList(2, "SysitemItemRecommendMapper.selectLastRecordByType");
 
@@ -153,7 +153,7 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 			for (Integer item_id : list1) {
 				CheckGoodsResult detail = new CheckGoodsResult();
 				detail.setItemId(item_id.toString());
-				detail.setUrl(base_url + "/item.html?item_id=" + item_id.intValue());
+				detail.setUrl(baseUrl + "/item.html?item_id=" + item_id.intValue());
 				results1.add(detail);
 			}
 		}
@@ -162,7 +162,7 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 			for (Integer item_id : list2) {
 				CheckGoodsResult detail = new CheckGoodsResult();
 				detail.setItemId(item_id.toString());
-				detail.setUrl(base_url + "/item.html?item_id=" + item_id.intValue());
+				detail.setUrl(baseUrl + "/item.html?item_id=" + item_id.intValue());
 				results2.add(detail);
 			}
 		}
@@ -176,29 +176,4 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 		result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_SUCCESS));
 		return result;
 	}
-
-	@Override
-	public ResBodyData getAllRecommendItems(int pageNo, int pageSize) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ResBodyData getRecommendItemsByType(int type, int pageNo, int pageSize) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ResBodyData deleteRecommendItems(int[] itemId, String optUser) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ResBodyData updateRecommendItemLevel(int itemId, String optUser) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

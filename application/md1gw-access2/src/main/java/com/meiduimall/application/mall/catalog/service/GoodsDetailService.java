@@ -1,5 +1,7 @@
 package com.meiduimall.application.mall.catalog.service;
 
+import com.meiduimall.core.ResBodyData;
+
 public interface GoodsDetailService {
 
 	/**
@@ -11,5 +13,5 @@ public interface GoodsDetailService {
 	 *            会员系统ID
 	 * @return
 	 */
-	public String getItemDetailHttp(int itemId, String memId);
+	public ResBodyData getItemDetailHttp(int itemId, String memId);
 }

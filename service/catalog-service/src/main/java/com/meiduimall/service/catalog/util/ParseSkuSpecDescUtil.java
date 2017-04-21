@@ -15,6 +15,8 @@ import org.slf4j.LoggerFactory;
 public class ParseSkuSpecDescUtil {
 
 	private static Logger logger = LoggerFactory.getLogger(ParseSkuSpecDescUtil.class);
+	
+	private ParseSkuSpecDescUtil(){}
 
 	/**
 	 * 解析表sysitem_sku，字段spec_desc(商品SKU序列化数据),格式如下：

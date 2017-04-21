@@ -14,6 +14,7 @@ import com.meiduimall.application.mall.catalog.constant.ApplMallApiCode;
 import com.meiduimall.application.mall.catalog.constant.ApplMallConstant;
 import com.meiduimall.application.mall.catalog.service.GoodsDetailService;
 import com.meiduimall.application.mall.catalog.util.HttpGatewayUtils;
+import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ServiceException;
 
 /**
@@ -31,7 +32,7 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 	private Environment env;
 
 	@Override
-	public String getItemDetailHttp(int itemId, String memId) {
+	public ResBodyData getItemDetailHttp(int itemId, String memId) {
 
 		String clientID = env.getProperty(ApplMallConstant.KEY_SIGN_CLIENT_ID);
 		String signKey = env.getProperty(ApplMallConstant.KEY_SIGN_KEY);

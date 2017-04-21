@@ -15,6 +15,7 @@ import com.meiduimall.application.mall.catalog.constant.ApplMallConstant;
 import com.meiduimall.application.mall.catalog.request.ShopProductRequest;
 import com.meiduimall.application.mall.catalog.service.ShopService;
 import com.meiduimall.application.mall.catalog.util.HttpGatewayUtils;
+import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ServiceException;
 
 /**
@@ -32,7 +33,7 @@ public class ShopServiceImpl implements ShopService {
 	private Environment env;
 
 	@Override
-	public String getShopDetailHttp(int shopId, String memId) {
+	public ResBodyData getShopDetailHttp(int shopId, String memId) {
 
 		String clientID = env.getProperty(ApplMallConstant.KEY_SIGN_CLIENT_ID);
 		String signKey = env.getProperty(ApplMallConstant.KEY_SIGN_KEY);
@@ -55,7 +56,7 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
-	public String collectOrCancelShopHttp(int shopId, int isCollect, String memId) {
+	public ResBodyData collectOrCancelShopHttp(int shopId, int isCollect, String memId) {
 
 		String clientID = env.getProperty(ApplMallConstant.KEY_SIGN_CLIENT_ID);
 		String signKey = env.getProperty(ApplMallConstant.KEY_SIGN_KEY);
@@ -79,7 +80,7 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
-	public String getShopProductCatalogHttp(int shopId) {
+	public ResBodyData getShopProductCatalogHttp(int shopId) {
 
 		String clientID = env.getProperty(ApplMallConstant.KEY_SIGN_CLIENT_ID);
 		String signKey = env.getProperty(ApplMallConstant.KEY_SIGN_KEY);
@@ -99,7 +100,7 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
-	public String getShopProductList(ShopProductRequest param) {
+	public ResBodyData getShopProductList(ShopProductRequest param) {
 
 		String clientID = env.getProperty(ApplMallConstant.KEY_SIGN_CLIENT_ID);
 		String signKey = env.getProperty(ApplMallConstant.KEY_SIGN_KEY);

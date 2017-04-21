@@ -1,5 +1,7 @@
 package com.meiduimall.application.mall.catalog.service;
 
+import com.meiduimall.core.ResBodyData;
+
 public interface GoodsRecommendService {
 
 	/**
@@ -11,5 +13,5 @@ public interface GoodsRecommendService {
 	 *            请求来源
 	 * @return
 	 */
-	public String getFirstRecommendGoodsHttp(int type, int sourceId);
+	public ResBodyData getFirstRecommendGoodsHttp(int type, int sourceId);
 }

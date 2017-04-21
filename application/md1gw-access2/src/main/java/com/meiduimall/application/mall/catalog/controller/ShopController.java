@@ -13,6 +13,7 @@ import com.meiduimall.application.mall.catalog.annotation.HasToken;
 import com.meiduimall.application.mall.catalog.constant.ApplMallApiCode;
 import com.meiduimall.application.mall.catalog.request.ShopProductRequest;
 import com.meiduimall.application.mall.catalog.service.ShopService;
+import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
 
 @RestController
@@ -35,7 +36,7 @@ public class ShopController {
 	 * @return
 	 */
 	@RequestMapping(value = "/getShopDetail")
-	public String getShopDetail(String shopId) {
+	public ResBodyData getShopDetail(String shopId) {
 		int intShopId = 0;
 		String memId = (String) request.getAttribute("memId");
 		try {
@@ -59,7 +60,7 @@ public class ShopController {
 	 */
 	@HasToken
 	@RequestMapping(value = "/collectShop")
-	public String collectOrCancelShop(String shopId, String isCollect) {
+	public ResBodyData collectOrCancelShop(String shopId, String isCollect) {
 		int intShopId = 0;
 		int intIsCollect = 0;
 		String memId = (String) request.getAttribute("memId");
@@ -82,7 +83,7 @@ public class ShopController {
 	 * @return
 	 */
 	@RequestMapping(value = "/getShopCatalog")
-	public String getShopProductCatalog(String shopId) {
+	public ResBodyData getShopProductCatalog(String shopId) {
 		int intShopId = 0;
 		try {
 			intShopId = Integer.parseInt(shopId);
@@ -101,7 +102,7 @@ public class ShopController {
 	 * @return
 	 */
 	@RequestMapping(value = "/getProductList")
-	public String getShopProductList(@Validated ShopProductRequest param) {
+	public ResBodyData getShopProductList(@Validated ShopProductRequest param) {
 		return shopService.getShopProductList(param);
 	}
 }
