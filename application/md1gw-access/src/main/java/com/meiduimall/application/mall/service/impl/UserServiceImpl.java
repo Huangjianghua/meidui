@@ -101,7 +101,10 @@ public class UserServiceImpl implements UserService {
 			Logger.info("解密之后:%s", payPwd);
 			StringBuilder url = new StringBuilder(myProps.getRouteServiceUrl());
 			url.append("/member/account_service/v1/valide_pay_pwd");
-			url.append("?memId={memId}&pay_pwd={pay_pwd}&clientID={clientID}&timestamp={timestamp}&sign={sign}");
+			url.append("?memId={memId}");
+			url.append("&pay_pwd=");
+			url.append(payPwd);
+			url.append("&clientID={clientID}&timestamp={timestamp}&sign={sign}");
 			Map<String, String> hashMap = new HashMap<>();
 			hashMap.put("memId", memId);
 			hashMap.put("pay_pwd", payPwd);

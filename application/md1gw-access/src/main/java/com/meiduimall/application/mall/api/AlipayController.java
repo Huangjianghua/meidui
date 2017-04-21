@@ -73,28 +73,28 @@ public class AlipayController {
 		
 		//获取支付宝的通知返回参数，可参考技术文档中页面跳转同步通知参数列表(以下仅供参考)//
 		//商户订单号  
-		String out_trade_no = new String(request.getParameter("out_trade_no").getBytes("ISO-8859-1"),"UTF-8");
+		String outTradeNo = new String(request.getParameter("out_trade_no").getBytes("ISO-8859-1"),"UTF-8");
 
 		//支付宝交易号  
-		String trade_no = new String(request.getParameter("trade_no").getBytes("ISO-8859-1"),"UTF-8");
+		String tradeNo = new String(request.getParameter("trade_no").getBytes("ISO-8859-1"),"UTF-8");
 
 
 		//交易状态
-		String trade_status = new String(request.getParameter("trade_status").getBytes("ISO-8859-1"),"UTF-8");
+		String tradeStatus = new String(request.getParameter("trade_status").getBytes("ISO-8859-1"),"UTF-8");
 
 		//异步通知ID
-		String notify_id = new String(request.getParameter("notify_id").getBytes("ISO-8859-1"),"UTF-8");
+		String notifyId = new String(request.getParameter("notify_id").getBytes("ISO-8859-1"),"UTF-8");
 
 		//sign
 		String sign = new String(request.getParameter("sign").getBytes("ISO-8859-1"),"UTF-8");
 		
 		//订单金额
-		String total_fee = new String(request.getParameter("total_fee").getBytes("ISO-8859-1"),"UTF-8");
+		String totalFee = new String(request.getParameter("total_fee").getBytes("ISO-8859-1"),"UTF-8");
 		
-		String gmt_payment = "";
+		String gmtPayment = "";
 		
 		if(null != request.getParameter("gmt_payment")){
-			 gmt_payment = new String(request.getParameter("gmt_payment").getBytes("ISO-8859-1"),"UTF-8");
+			 gmtPayment = new String(request.getParameter("gmt_payment").getBytes("ISO-8859-1"),"UTF-8");
 		} 
 		//交易结束时间
 		
@@ -103,18 +103,18 @@ public class AlipayController {
 		
 		
 
-		if(notify_id!=""){
-				if("true".equals(AlipayNotify.verifyResponse(notify_id))){//判断成功之后使用getResponse方法判断是否是支付宝发来的异步通知。
+		if(notifyId!=""){
+				if("true".equals(AlipayNotify.verifyResponse(notifyId))){//判断成功之后使用getResponse方法判断是否是支付宝发来的异步通知。
 					if(AlipayNotify.getSignVeryfy(params, sign)){//使用支付宝公钥验签
-						if("TRADE_FINISHED".equals(trade_status) || "TRADE_SUCCESS".equals(trade_status)){
+						if("TRADE_FINISHED".equals(tradeStatus) || "TRADE_SUCCESS".equals(tradeStatus)){
 						//业务处理
 					    EctoolsPaymentsSucc ectoolsPaymentsSucc = new EctoolsPaymentsSucc();
-					    ectoolsPaymentsSucc.setPaymentId(out_trade_no);    
-					    ectoolsPaymentsSucc.setTradeNo(trade_no);
+					    ectoolsPaymentsSucc.setPaymentId(outTradeNo);    
+					    ectoolsPaymentsSucc.setTradeNo(tradeNo);
 					    ectoolsPaymentsSucc.setStatus(SysParaNameConst.SUCC);
-					    ectoolsPaymentsSucc.setMoney(new BigDecimal(total_fee));
-					    if(!"".equals(gmt_payment)){
-					    	ectoolsPaymentsSucc.setPayedTime(Integer.valueOf(DateUtil.date2TimeStamp(gmt_payment, "yyyy-MM-dd HH:mm:ss")));
+					    ectoolsPaymentsSucc.setMoney(new BigDecimal(totalFee));
+					    if(!"".equals(gmtPayment)){
+					    	ectoolsPaymentsSucc.setPayedTime(Integer.valueOf(DateUtil.date2TimeStamp(gmtPayment, "yyyy-MM-dd HH:mm:ss")));
 					    }
 					    ectoolsPaymentsSucc.setBank("支付宝");
 					    ectoolsPaymentsSucc.setPayName("支付宝");

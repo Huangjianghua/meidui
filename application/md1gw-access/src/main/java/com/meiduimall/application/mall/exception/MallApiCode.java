@@ -24,7 +24,7 @@ public class MallApiCode extends BaseApiCode {
 	public static final Integer UNFREEZEDEDUCT_FAIL = 10017;
 	public static final Integer UPDATEERRORNUM_FAIL = 10018;
 	public static final Integer WALLETPAY_FAIL = 10019;
-	public static final Integer EPSucc_FAIL = 10020;
+	public static final Integer EPSUCC_FAIL = 10020;
 	public static final Integer UPDATEERRORMONEY_FAIL = 10021;
 	public static final Integer PAYMENT_ERROR = 10022;
 	public static final Integer GETMEMBER_ERROR = 10023;
@@ -66,7 +66,7 @@ public class MallApiCode extends BaseApiCode {
 		zhMsgMap.put(UNFREEZEDEDUCT_FAIL, "回滚更新用户余额失败!");
 		zhMsgMap.put(UPDATEERRORNUM_FAIL, "推送次数加1 失败!");
 		zhMsgMap.put(WALLETPAY_FAIL, "写入钱包支付记录失败!");
-		zhMsgMap.put(EPSucc_FAIL, "记录支付成功记录失败!");
+		zhMsgMap.put(EPSUCC_FAIL, "记录支付成功记录失败!");
 		zhMsgMap.put(UPDATEERRORMONEY_FAIL, "更新支付单错误金额失败!");
 		zhMsgMap.put(PAYMENT_ERROR, "第三方支付系统错误!");
 		zhMsgMap.put(GETMEMBER_ERROR, "获取会员信息错误!");

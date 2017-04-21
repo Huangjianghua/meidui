@@ -10,7 +10,7 @@ public final class Base64 {
     static private final int     FOURBYTE             = 4;
     static private final int     SIGN                 = -128;
     static private final char    PAD                  = '=';
-    static private final boolean fDebug               = false;
+    static private final boolean FDEBUG               = false;
     static final private byte[]  base64Alphabet       = new byte[BASELENGTH];
     static final private char[]  lookUpBase64Alphabet = new char[LOOKUPLENGTH];
 
@@ -105,7 +105,7 @@ public final class Base64 {
 
         int encodedIndex = 0;
         int dataIndex = 0;
-        if (fDebug) {
+        if (FDEBUG) {
             System.out.println("number of triplets = " + numberTriplets);
         }
 
@@ -116,7 +116,7 @@ public final class Base64 {
             b3 = binaryData[dataIndex++];
 
 
-            if (fDebug) {
+            if (FDEBUG) {
                 System.out.println("b1= " + b1 + ", b2= " + b2 + ", b3= " + b3);
             }
 
@@ -130,7 +130,7 @@ public final class Base64 {
             byte val3 = ((b3 & SIGN) == 0) ? (byte) (b3 >> 6) : (byte) ((b3) >> 6 ^ 0xfc);
 
 
-            if (fDebug) {
+            if (FDEBUG) {
                 System.out.println("val2 = " + val2);
                 System.out.println("k4   = " + (k << 4));
                 System.out.println("vak  = " + ((val2 & 0xff) | (k << 4)));
@@ -148,7 +148,7 @@ public final class Base64 {
         if (fewerThan24bits == EIGHTBIT) {
             b1 = binaryData[dataIndex];
             k = (byte) (b1 & 0x03);
-            if (fDebug) {
+            if (FDEBUG) {
                 System.out.println("b1=" + b1);
                 System.out.println("b1<<2 = " + (b1 >> 2));
             }

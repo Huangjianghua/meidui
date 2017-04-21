@@ -30,8 +30,8 @@ public class AlipayNotify {
         String preSignStr = AlipayCore.createLinkString(sParaNew);
         //获得签名验证结果
         boolean isSign = false;
-        if("RSA".equals(AlipayConfig.sign_type)){
-        isSign = RSA.verify(preSignStr, sign, AlipayConfig.alipay_public_key, AlipayConfig.input_charset);
+        if("RSA".equals(AlipayConfig.signType)){
+        isSign = RSA.verify(preSignStr, sign, AlipayConfig.alipayPublicKey, AlipayConfig.inputCharset);
         }
         return isSign;
     }

@@ -429,7 +429,7 @@ public class PaymentServiceImpl implements PaymentService {
 			Integer integer = insertEctoolsPaymentsSucc(ectoolsPaymentsSucc);
 			if (integer <= 0) {
 				Logger.info("记录支付成功记录 失败!");
-				throw new ServiceException(MallApiCode.EPSucc_FAIL, MallApiCode.getZhMsg(MallApiCode.EPSucc_FAIL));
+				throw new ServiceException(MallApiCode.EPSUCC_FAIL, MallApiCode.getZhMsg(MallApiCode.EPSUCC_FAIL));
 			}
 
 		}

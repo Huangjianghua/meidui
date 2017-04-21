@@ -76,50 +76,50 @@ public class YgwWeiXinController {
 		 
 	
 		map = XMLUtil.doXMLParse(xmlString) ;
-		String bank_type = "";
-		String cash_fee = "";
-		String fee_type = "";
-		String is_subscribe = "";
-		String mch_id = "";
-		String nonce_str = "";
+		String bankType = "";
+		String cashFee = "";
+		String feeType = "";
+		String isSubscribe = "";
+		String mchId = "";
+		String nonceStr = "";
 		String openid = "";
-		String out_trade_no = "";
-		String result_code = "";
+		String outTradeNo = "";
+		String resultCode = "";
 		String sign = "";
-		String time_end = "";
-		String total_fee = "";
-		String trade_type = "";
-		String transaction_id = "";
+		String timeEnd = "";
+		String totalFee = "";
+		String tradeType = "";
+		String transactionId = "";
 		
-		result_code = map.get("result_code");
-		out_trade_no = map.get("out_trade_no");
-		total_fee = map.get("total_fee");
-		bank_type = map.get("return_code");
-		transaction_id = map.get("transaction_id");
-		mch_id = map.get("mch_id");
-		time_end = map.get("time_end");  
+		resultCode = map.get("result_code");
+		outTradeNo = map.get("out_trade_no");
+		totalFee = map.get("total_fee");
+		bankType = map.get("return_code");
+		transactionId = map.get("transaction_id");
+		mchId = map.get("mch_id");
+		timeEnd = map.get("time_end");  
 		
 	   
 			if( checkSign(xmlString)){ 
 			//订单操作
-				if( "success".equalsIgnoreCase(result_code) ){
+				if( "success".equalsIgnoreCase(resultCode) ){
 				//业务处理
 					EctoolsPaymentsSucc ectoolsPaymentsSucc = new EctoolsPaymentsSucc();
-					ectoolsPaymentsSucc.setPaymentId(out_trade_no);
-					ectoolsPaymentsSucc.setTradeNo(transaction_id);
-					ectoolsPaymentsSucc.setMoney(new BigDecimal(total_fee).divide(new BigDecimal(100), 2, RoundingMode.HALF_UP));
-					ectoolsPaymentsSucc.setBank(bank_type);
+					ectoolsPaymentsSucc.setPaymentId(outTradeNo);
+					ectoolsPaymentsSucc.setTradeNo(transactionId);
+					ectoolsPaymentsSucc.setMoney(new BigDecimal(totalFee).divide(new BigDecimal(100), 2, RoundingMode.HALF_UP));
+					ectoolsPaymentsSucc.setBank(bankType);
 					ectoolsPaymentsSucc.setStatus(SysParaNameConst.SUCC);
 					ectoolsPaymentsSucc.setPayName("微信支付");
 					ectoolsPaymentsSucc.setPayAccount("微信支付"); 
-					ectoolsPaymentsSucc.setAccount(mch_id);
-					ectoolsPaymentsSucc.setPayedTime(Integer.valueOf(DateUtil.date2TimeStamp(time_end, "yyyyMMddHHmmss")));
+					ectoolsPaymentsSucc.setAccount(mchId);
+					ectoolsPaymentsSucc.setPayedTime(Integer.valueOf(DateUtil.date2TimeStamp(timeEnd, "yyyyMMddHHmmss")));
 					
 					ResponseBodyData payCallBack = paymentService.PayCallBack(ectoolsPaymentsSucc,xmlString);
 					Logger.info("微信支付回调处理的结果:%s", payCallBack.toString());
 				}
-				Logger.info(result_code);
-				return returnXML(result_code) ;
+				Logger.info(resultCode);
+				return returnXML(resultCode) ;
 			}else{
 				Logger.info("FAIL");
 				return returnXML("FAIL") ;
