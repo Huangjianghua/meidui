@@ -2,7 +2,9 @@ package com.meiduimall.payment.api.model.wechat;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.meiduimall.core.util.XmlSupport;
+import com.meiduimall.payment.api.util.XmlSupport;
+
+
 
 /**
  * 微信支付请求体

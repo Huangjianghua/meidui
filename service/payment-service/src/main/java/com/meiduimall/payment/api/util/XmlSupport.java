@@ -1,4 +1,4 @@
-package com.meiduimall.core.util;
+package com.meiduimall.payment.api.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;

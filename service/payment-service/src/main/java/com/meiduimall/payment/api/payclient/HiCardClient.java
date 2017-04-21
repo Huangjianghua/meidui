@@ -11,20 +11,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.meiduimall.core.util.HttpUtils;
-import com.meiduimall.core.util.XmlSupport;
-import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.DaoException;
-import com.meiduimall.exception.ServiceException;
-import com.meiduimall.exception.SystemException;
 import com.meiduimall.payment.api.constant.ServicePaymentApiCode;
 import com.meiduimall.payment.api.model.api.PaymentParamModel;
 import com.meiduimall.payment.api.model.hicardpay.HiCardRequestModel;
 import com.meiduimall.payment.api.model.hicardpay.HiCardResponeModel;
+import com.meiduimall.payment.api.util.XmlSupport;
 
 /**
  * Created by nico on 2017/2/22.

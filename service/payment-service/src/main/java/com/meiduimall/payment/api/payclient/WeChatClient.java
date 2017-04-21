@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.meiduimall.core.util.HttpUtils;
-import com.meiduimall.core.util.XmlSupport;
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.DaoException;
 import com.meiduimall.password.SecurityBaseApiCode;
@@ -29,6 +28,7 @@ import com.meiduimall.payment.api.model.wechat.WeChatAppModel;
 import com.meiduimall.payment.api.model.wechat.WeChatRequestModel;
 import com.meiduimall.payment.api.model.wechat.WeChatResponeModel;
 import com.meiduimall.payment.api.service.PaymentLogsService;
+import com.meiduimall.payment.api.util.XmlSupport;
 /**
  * 微信支付
  *
