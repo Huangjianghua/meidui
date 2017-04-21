@@ -220,7 +220,7 @@ public class AsyncTaskService {
 					
 					//送积分失败 插入异常记录
 					int time = DateUtil.getCurrentTimeSec();
-					Timestamp timestamp = Timestamp.valueOf(DateUtil.timeStamp2Date(String.valueOf(time), DateUtil.DATE_FORMAT));
+					Timestamp timestamp = Timestamp.valueOf(DateUtil.timeStamp2Date(String.valueOf(time), DateUtil.YYYY_MM_DD_HH_MM_SS));
 					ShareProfitAgentLog agentLog = new ShareProfitAgentLog();
 					agentLog.setAgentNo(ecmAgent.getAgentNo());
 					agentLog.setPhone(ecmAgent.getBindPhone());

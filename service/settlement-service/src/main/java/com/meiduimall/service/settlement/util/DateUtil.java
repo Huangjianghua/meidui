@@ -28,7 +28,6 @@ public class DateUtil {
 	
 	private static final Logger log = LoggerFactory.getLogger(DateUtil.class);
 	
-	public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 	public static final String DATE_FORMAT_WITH_MS = "yyyy-MM-dd HH:mm:ss:SSS";
 
 	public static final String DATE_FORMAT_YMD_1 = "yyyy-MM-dd";
@@ -131,7 +130,7 @@ public class DateUtil {
 
 	public static long getLastDayBeginByMillisecond(){
 
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
+		SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT_WITH_MS);
 		
 		SimpleDateFormat dateYMDFormat = new SimpleDateFormat("yyyy-MM-dd");
 		
@@ -155,7 +154,7 @@ public class DateUtil {
 	
 	public static long getDayBeginByMillisecond(int offset){
 
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
+		SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT_WITH_MS);
 		
 		SimpleDateFormat dateYMDFormat = new SimpleDateFormat("yyyy-MM-dd");
 		
@@ -379,8 +378,7 @@ public class DateUtil {
 		return date <= 0 ? date : date + 1;
 	}
 
-	public static final boolean isBetweenDateS(Date beginDate, Date nowDate,
-			Date endDate) {
+	public static final boolean isBetweenDateS(Date beginDate, Date nowDate, Date endDate) {
 		if (beginDate != null && nowDate != null && endDate != null) {
 			if ((beginDate.getTime() / (24 * 60 * 60 * 1000)) <= (nowDate
 					.getTime() / (24 * 60 * 60 * 1000))
@@ -393,7 +391,7 @@ public class DateUtil {
 					.getTime() / (24 * 60 * 60 * 1000))) {
 				return true;
 			}
-		} else if (beginDate == null && endDate != null) {
+		} else if (nowDate != null && endDate != null) {
 			if ((nowDate.getTime() / (24 * 60 * 60 * 1000)) <= (endDate
 					.getTime() / (24 * 60 * 60 * 1000))) {
 				return true;
@@ -771,7 +769,7 @@ public class DateUtil {
 	 * @return 返回当前字符串型日期时间
 	 */
 	public static String getCurrentTime() {
-		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat f = new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS);
 		Date date = new Date();
 		return f.format(date);
 	}
@@ -856,7 +854,7 @@ public class DateUtil {
 	 * @return true开始时间少于结束时间，false开始时间大于结束时间 
 	 */
 	public static boolean compareDateTime(String date1, String date2) throws ParseException {
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		DateFormat df = new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS);
 		java.util.Date d1 = df.parse(date1);
 		java.util.Date d2 = df.parse(date2);
 		return d1.getTime() < d2.getTime();
@@ -864,7 +862,7 @@ public class DateUtil {
 	
 	
 	public static Date getRandomDate() throws ParseException {
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat df = new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS);
 		int m = new Random().nextInt(8) + 1;
 		int d = new Random().nextInt(18) + 10;
 		String dateStr = "2015-0" + m + "-" + d + " 12:20:56";
@@ -921,11 +919,7 @@ public class DateUtil {
     }  
 
 	/**
-	 * 方法名: firstDateNow
-	 * 描述: 获取当前月第一天
-	 * 编写者: lyq 
-	 * 创建时间: 2016年6月3日
-	 * @param 
+	 * 获取当前月第一天
 	 * @return
 	 */
 	public static String getFirstDateNow(){
@@ -933,23 +927,11 @@ public class DateUtil {
 	 	Calendar c = Calendar.getInstance();    
         c.add(Calendar.MONTH, 0);
         c.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天 
-        String first = format.format(c.getTime());
-        System.out.println("===============first:"+first);
-        
-        //获取当前月最后一天
-        Calendar ca = Calendar.getInstance();    
-        ca.set(Calendar.DAY_OF_MONTH, ca.getActualMaximum(Calendar.DAY_OF_MONTH));  
-        String last = format.format(ca.getTime());
-        System.out.println("===============last:"+last);
-		return first;
+        return format.format(c.getTime());
 	}
 	
 	/**
-	 * 方法名: lastDateNow
-	 * 描述: 获取当前月最后一天
-	 * 编写者: lyq 
-	 * 创建时间: 2016年6月3日
-	 * @param 
+	 * 获取当前月最后一天
 	 * @return
 	 */
 	public static String getLastDateNow(){

@@ -291,7 +291,7 @@ public class DrawServiceImpl implements DrawService {
 		
 		//不管是存时间戳还是日期，必须保持一致
 		int time = DateUtil.getCurrentTimeSec();
-		Timestamp timestamp = Timestamp.valueOf(DateUtil.timeStamp2Date(String.valueOf(time), DateUtil.DATE_FORMAT));
+		Timestamp timestamp = Timestamp.valueOf(DateUtil.timeStamp2Date(String.valueOf(time), DateUtil.YYYY_MM_DD_HH_MM_SS));
 		ecmMzfDraw.setAddTime(time);
 		ecmMzfDraw.setDrawTime(time);
 		
