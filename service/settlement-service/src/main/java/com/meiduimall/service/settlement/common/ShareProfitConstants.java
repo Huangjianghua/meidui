@@ -8,7 +8,6 @@ package com.meiduimall.service.settlement.common;
  * Description: 分润常量定义类
  */
 public abstract class ShareProfitConstants {
-
 	
 	// date
 	public static final String FORMATE_DATE_ALL = "yyyy-mm-dd hh24:mm:ss";
@@ -88,5 +87,7 @@ public abstract class ShareProfitConstants {
 	public static final Integer O2O_SETTLEMENT_STATUS_CODE_SCORE=1;
 	public static final Integer O2O_SETTLEMENT_STATUS_CODE_BILL=2;
 	public static final Integer O2O_SETTLEMENT_STATUS_CODE_CASH=3;
+	
+	private ShareProfitConstants(){}
 	
 }
