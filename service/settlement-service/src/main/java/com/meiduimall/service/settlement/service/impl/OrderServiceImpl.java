@@ -20,6 +20,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.StringUtil;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
@@ -311,7 +312,7 @@ public class OrderServiceImpl implements OrderService {
 		ecmMzfShareProfit.setOrderFee(ecmOrder.getTotalFee());
 		ecmMzfShareProfit.setPoint(memberRevenue.setScale(0, BigDecimal.ROUND_DOWN));
 		ecmMzfShareProfit.setSellerShareprofitRate(discount);
-		ecmMzfShareProfit.setAreaShareprofitRate((isTwoHundreAgentFlag != null && isTwoHundreAgentFlag == true) ? new BigDecimal(systemSetting.get(ShareProfitUtil.TWO_AREA_SCALE)) : new BigDecimal(systemSetting.get(ShareProfitUtil.AREA_SCALE)));
+		ecmMzfShareProfit.setAreaShareprofitRate((isTwoHundreAgentFlag != null && isTwoHundreAgentFlag) ? new BigDecimal(systemSetting.get(ShareProfitUtil.TWO_AREA_SCALE)) : new BigDecimal(systemSetting.get(ShareProfitUtil.AREA_SCALE)));
 		ecmMzfShareProfit.setSellerPointRate(new BigDecimal(systemSetting.get(ShareProfitUtil.SELLER_POINT_RATE)));
 		if (null != belongMap && belongMap.size() > 0) {
 			if(!Strings.isNullOrEmpty(belongMap.get("1"))){  //Alex:fix the bug:belongMap={1=} @2016 Dec 13
@@ -386,9 +387,10 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Override
 	public List<EcmMzfShareProfit> queryShareProfit(Collection<String> orderSns)  {
-		
-		List<EcmMzfShareProfit> shareProfits= baseMapper.selectList(ImmutableMap.of("orderSns", orderSns), "ShareProfitMapper.getShareProfitByOrderSns");
-		List<EcmMzfBillWaterVO> billWaterVOs= baseMapper.selectList(ImmutableMap.of("orderSns", orderSns), "ShareProfitMapper.getBillDateByOrderSns");
+		Map<String,Object> params = Maps.newHashMap();
+		params.put("orderSns", orderSns);
+		List<EcmMzfShareProfit> shareProfits= baseMapper.selectList(params, "ShareProfitMapper.getShareProfitByOrderSns");
+		List<EcmMzfBillWaterVO> billWaterVOs= baseMapper.selectList(params, "ShareProfitMapper.getBillDateByOrderSns");
 
 		ShareProfitUtil.updateBillInfo(shareProfits,billWaterVOs);
 		return shareProfits;

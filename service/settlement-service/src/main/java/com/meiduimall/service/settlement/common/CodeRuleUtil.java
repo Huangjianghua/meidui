@@ -17,6 +17,8 @@ public class CodeRuleUtil {
 
 	private static final String DAY_PATTERN = "yyMMdd";
 	
+	private CodeRuleUtil(){}
+	
 	/**
 	 * 保证金分润  生成区代流水编号
 	 * @param agentCode 代理编号

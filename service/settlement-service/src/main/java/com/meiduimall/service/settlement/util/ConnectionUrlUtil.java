@@ -22,6 +22,8 @@ public class ConnectionUrlUtil {
 
 	private static Logger log = LoggerFactory.getLogger(ConnectionUrlUtil.class);
 	
+	private ConnectionUrlUtil(){}
+	
 	/**
 	 * Description : Http请求
 	 * Created By : Fkx 

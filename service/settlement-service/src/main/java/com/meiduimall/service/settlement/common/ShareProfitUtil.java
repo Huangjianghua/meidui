@@ -112,6 +112,8 @@ public class ShareProfitUtil {
 	
 	public static final Map<Integer,String> O2O_SETTLEMENT_STATUS_CODE_MAP=ImmutableMap.of(ShareProfitConstants.O2O_SETTLEMENT_STATUS_CODE_SCORE,"积分已送出",
 			ShareProfitConstants.O2O_SETTLEMENT_STATUS_CODE_BILL,"订单已结算",ShareProfitConstants.O2O_SETTLEMENT_STATUS_CODE_CASH,"一级推荐人现金奖励已送出");
+	
+	private ShareProfitUtil(){}
 
 	//接口参数url拼接
 	public static String getBelongInfoUrl(String phone) {

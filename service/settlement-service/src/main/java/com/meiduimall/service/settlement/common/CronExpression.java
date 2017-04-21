@@ -45,4 +45,6 @@ public class CronExpression {
 	 */
 	public static final String TIME_ZERO_HOUR_THIRTY_MIN = "0 30 0 * * ?";
 	
+	private CronExpression(){}
+	
 }

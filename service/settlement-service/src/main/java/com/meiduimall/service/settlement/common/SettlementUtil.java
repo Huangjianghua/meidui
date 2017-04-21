@@ -28,6 +28,8 @@ public class SettlementUtil {
 	
 	private static final Log log = LogFactory.getLog(SettlementUtil.class);
 	
+	private SettlementUtil(){}
+	
 	public static <K,V> Map<K,V> convert2Map(List<V> list,String propName){
 		
 		Map<K,V> map=new HashMap<>();
