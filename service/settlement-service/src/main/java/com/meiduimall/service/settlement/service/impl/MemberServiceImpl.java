@@ -22,6 +22,7 @@ import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 import com.meiduimall.service.settlement.common.ShareProfitUtil;
+import com.meiduimall.service.settlement.config.MyProps;
 import com.meiduimall.service.settlement.context.MemberSystemDataContext;
 import com.meiduimall.service.settlement.dao.BaseMapper;
 import com.meiduimall.service.settlement.model.CreateBillLog;
@@ -54,6 +55,9 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Autowired
 	private SmsService smsService;
+	
+	@Autowired
+	private MyProps myProps;
 
 	
 	@Override
@@ -69,7 +73,7 @@ public class MemberServiceImpl implements MemberService {
 		hashMap.put("order_source",source);
 		hashMap.put("url","Authorized/addConsumePoints");
 		hashMap.put("order_id",orderId);
-		String resultJsonStr = ConnectionUrlUtil.httpRequest(ShareProfitUtil.belongInfoUrl(hashMap), ShareProfitUtil.REQUEST_METHOD_POST, null);
+		String resultJsonStr = ConnectionUrlUtil.httpRequest(belongInfoUrl(hashMap), ShareProfitUtil.REQUEST_METHOD_POST, null);
 		ResBodyData resultJson = JsonUtils.jsonToBean(resultJsonStr, ResBodyData.class);
 		// 判断返回是否成功,如果不成功则不理会
 		if (resultJson.getStatus()==0) {
@@ -87,7 +91,7 @@ public class MemberServiceImpl implements MemberService {
 		Boolean isUpdated=Boolean.FALSE;
  		if(!Strings.isNullOrEmpty(userId)){
 
-			String resultJsonStr = ConnectionUrlUtil.httpRequest(ShareProfitUtil.buildMemberSystemAmoutUrl(ctx), ShareProfitUtil.REQUEST_METHOD_POST, null);
+			String resultJsonStr = ConnectionUrlUtil.httpRequest(buildMemberSystemAmoutUrl(ctx), ShareProfitUtil.REQUEST_METHOD_POST, null);
 			
 			ResBodyData resultJson= JsonUtils.jsonToBean(resultJsonStr, ResBodyData.class);
 			
@@ -103,6 +107,96 @@ public class MemberServiceImpl implements MemberService {
 		return isUpdated;
 
 	}
+	
+	//构建更新一级推荐人所获现金余额到会员系统接口的URL以及请求参数
+	public String buildMemberSystemAmoutUrl(MemberSystemDataContext ctx) {
+		
+		String userId = ctx.getUserId();
+
+		String signatureMethod = myProps.getOauthSignatureMethod();
+		String accessorSecret = myProps.getOauthAccessorSecret();
+		String consumerKey = myProps.getOauthConsumerKey();
+		String apiDomain = myProps.getUrl();
+		String apiPath = myProps.getApiUpdFirstReferrerCash();
+		String version = myProps.getOauthVersion();
+
+		String timeStamp = String.valueOf(System.currentTimeMillis() / 1000L);
+		String nonce = ShareProfitUtil.getRandomNum();
+		String source = ctx.getSource();
+		String orderId = ctx.getOrderSn();
+		String tradeType = ctx.getTradeType();
+		String tradeAmount = ctx.getAmount().toString();
+		String direction = ctx.getDirection();
+		String tradeTime = String.valueOf(ctx.getTradeTime());
+		String remark = ctx.getRemark();
+		String remarkEncoded = ShareProfitUtil.encodeStr(remark, Constants.ENCODE_UTF8);
+			
+		String api = apiDomain+apiPath;
+		 
+		String oauthParams = "oauth_signature_method=" + signatureMethod
+				+ "&oauth_accessor_secret=" + accessorSecret 
+				+ "&oauth_consumer_key=" + consumerKey
+				+ "&oauth_timestamp=" + timeStamp 
+				+ "&oauth_nonce=" + nonce 
+				+ "&oauth_version=" + version;
+		
+		String dataParams = "&user_id=" + userId
+				+ "&source=" + source
+				+ "&trade_type=" + tradeType
+		        + "&order_id=" + orderId 
+		        + "&direction=" + direction 
+		        + "&trade_amount=" + tradeAmount 
+		        + "&trade_time=" + tradeTime
+		        + "&remark=" + remarkEncoded;
+		
+		String dataParams4Sign = "&user_id=" + userId
+				+ "&source=" + source
+				+ "&trade_type=" + tradeType
+		        + "&order_id=" + orderId 
+		        + "&direction=" + direction 
+		        + "&trade_amount=" + tradeAmount 
+		        + "&trade_time=" + tradeTime
+		        + "&remark=" + remark;
+				
+		String signature = "&oauth_signature=" + ShareProfitUtil.mD5Encrypt(ShareProfitUtil.encodeStr("get&"+api+"&"+oauthParams+dataParams4Sign, Constants.ENCODE_UTF8)); 
+		
+		return api+"?"+oauthParams+signature+dataParams;  //不嫩直接将中文字符的remark字段传到请求参数，不然API服务器那边接收到时会出现乱码。
+	}
+		
+	
+	//接口参数url拼接
+	private String belongInfoUrl(Map<String, String> map) {
+		String timeStamp = String.valueOf(System.currentTimeMillis() / 1000L);
+		String nonce = ShareProfitUtil.getRandomNum();
+		map.put("timeStamp", timeStamp);
+		map.put("nonce", nonce);
+		
+		String url =  map.get("url")!=null?map.get("url"):"";
+		String userId =  map.get("user_id")!=null?map.get("user_id"):"";
+		String consumePointsCount =  map.get("consume_points_count")!=null?map.get("consume_points_count"):"";
+		String orderSource =  map.get("order_source")!=null?map.get("order_source"):"";
+		String orderId =  map.get("order_id")!=null?map.get("order_id"):"";
+			
+		String belongInfoUrl = myProps.getUrl() + url;
+			 
+		String belongInfo = "oauth_signature_method=" + myProps.getOauthSignatureMethod()
+				+ "&oauth_accessor_secret=" + myProps.getOauthAccessorSecret()
+				+ "&oauth_consumer_key=" + myProps.getOauthConsumerKey()
+				+ "&oauth_timestamp=" + timeStamp 
+				+ "&oauth_nonce=" + nonce 
+				+ "&oauth_version=" + myProps.getOauthVersion();
+				
+		
+		String belongInfoend = "&user_id=" + userId
+				+ "&consume_points_count=" + consumePointsCount
+				+ "&order_source=" + orderSource
+		        + "&order_id=" + orderId;
+				
+		String oauthSignature  = "&oauth_signature=" + ShareProfitUtil.mD5Encrypt(ShareProfitUtil.encodeStr("get&"+belongInfoUrl+"&"+belongInfo+belongInfoend, "UTF-8")); 
+		
+		return belongInfoUrl+"?"+belongInfo+oauthSignature+belongInfoend;
+	}
+	
 
 	@Override
 	public List<String> sendScore(EcmMzfShareProfit shareProfit){
@@ -221,7 +315,7 @@ public class MemberServiceImpl implements MemberService {
 				
 			if(!isCashStatusUpdated){
 				String params="一级推荐人1%现金成功送出,但送现金成功状态更新到表 ecm_mzf_order_status表失败,需要手动更新,订单数:"+orderSnList.size();
-				SmsReqDTO smsReqDTO = new SmsReqDTO(ShareProfitUtil.authorizedMap.get(ShareProfitUtil.SMS_PHONES), ShareProfitUtil.TEMPLATE_ID_O2O_1009,params,"");
+				SmsReqDTO smsReqDTO = new SmsReqDTO(myProps.getSmsPhones(), ShareProfitUtil.TEMPLATE_ID_O2O_1009,params,"");
 
 				boolean flag = smsService.sendMessage(smsReqDTO);
 				if(flag){

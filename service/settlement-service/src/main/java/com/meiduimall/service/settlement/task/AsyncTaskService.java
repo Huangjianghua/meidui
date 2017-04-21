@@ -18,6 +18,7 @@ import com.meiduimall.exception.ServiceException;
 import com.meiduimall.redis.util.RedisUtils;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 import com.meiduimall.service.settlement.common.ShareProfitUtil;
+import com.meiduimall.service.settlement.config.MyProps;
 import com.meiduimall.service.settlement.model.EcmAgent;
 import com.meiduimall.service.settlement.model.EcmMzfShareProfit;
 import com.meiduimall.service.settlement.model.ShareProfitAgentLog;
@@ -67,6 +68,9 @@ public class AsyncTaskService {
 	@Autowired
 	private SmsService smsService;
 	
+	@Autowired
+	private MyProps myProps;
+	
 
 	/**
 	 * 功能描述:  异步执行送订单所获积分到会员系统
@@ -107,8 +111,7 @@ public class AsyncTaskService {
 					//三次重试仍然失败，发邮件或短信通知,重试机制终止,需要手动触发重试机制 
 					String params = "经过三次重试后;更新积分到会员系统仍然失败;重试机制终止;需要手动触发重试机制或手动更新积分到会员系统;orderSn:" + shareProfit.getOrderSn();
 					
-					SmsReqDTO smsReqDTO = new SmsReqDTO(ShareProfitUtil.authorizedMap.get(ShareProfitUtil.SMS_PHONES),
-							ShareProfitUtil.TEMPLATE_ID_O2O_1009, params, "");
+					SmsReqDTO smsReqDTO = new SmsReqDTO(myProps.getSmsPhones(), ShareProfitUtil.TEMPLATE_ID_O2O_1009, params, "");
 
 					boolean flag = smsService.sendMessage(smsReqDTO);
 					if(flag){
@@ -131,8 +134,7 @@ public class AsyncTaskService {
 				//发送短信通知(概率极小的情况)
 				String params="积分成功送出;但送积分成功状态更新到表 ecm_mzf_order_status表失败;需要手动更新;orderSn:"+shareProfit.getOrderSn();
 				
-				SmsReqDTO smsReqDTO = new SmsReqDTO(ShareProfitUtil.authorizedMap.get(ShareProfitUtil.SMS_PHONES),
-						ShareProfitUtil.TEMPLATE_ID_O2O_1009, params, "");
+				SmsReqDTO smsReqDTO = new SmsReqDTO(myProps.getSmsPhones(), ShareProfitUtil.TEMPLATE_ID_O2O_1009, params, "");
 
 				boolean flag = smsService.sendMessage(smsReqDTO);
 				if(flag){
@@ -248,8 +250,7 @@ public class AsyncTaskService {
 							//三次重试仍然失败，发邮件或短信通知,重试机制终止,需要手动触发重试机制
 							agentLog.setRemark("三次自动重试更新积分到会员失败，需手动更新积分到会员");
 							
-							SmsReqDTO smsReqDTO = new SmsReqDTO(
-									ShareProfitUtil.authorizedMap.get(ShareProfitUtil.SMS_PHONES),
+							SmsReqDTO smsReqDTO = new SmsReqDTO(myProps.getSmsPhones(),
 									ShareProfitUtil.TEMPLATE_ID_O2O_1008, ecmAgent.getBindPhone() + "," + score, "");
 							boolean flag = smsService.sendMessage(smsReqDTO);
 							if(flag){

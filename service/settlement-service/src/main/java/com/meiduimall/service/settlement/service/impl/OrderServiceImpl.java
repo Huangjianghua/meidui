@@ -29,6 +29,7 @@ import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.SettlementApiCode;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 import com.meiduimall.service.settlement.common.ShareProfitUtil;
+import com.meiduimall.service.settlement.config.MyProps;
 import com.meiduimall.service.settlement.context.ShareProfitContext;
 import com.meiduimall.service.settlement.dao.BaseMapper;
 import com.meiduimall.service.settlement.model.EcmMzfOrderStatus;
@@ -48,6 +49,9 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Autowired
 	private BaseMapper baseMapper;
+	
+	@Autowired
+	private MyProps myProps;
 	
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = ServiceException.class)
 	@Override
@@ -102,7 +106,7 @@ public class OrderServiceImpl implements OrderService {
 		log.info("订单支付金额:" + ecmOrder.getOrderAmount());
 		
 		// 获取推荐人信息		
-		String resultStr = ConnectionUrlUtil.httpRequest(ShareProfitUtil.getBelongInfoUrl(ecmOrder.getBuyerName()), ShareProfitUtil.REQUEST_METHOD_POST, null);
+		String resultStr = ConnectionUrlUtil.httpRequest(getBelongInfoUrl(ecmOrder.getBuyerName()), ShareProfitUtil.REQUEST_METHOD_POST, null);
 		ResBodyData resultJson= JsonUtils.jsonToBean(resultStr, ResBodyData.class);
 		
 		Map<String, String> belongMap = null;
@@ -254,6 +258,7 @@ public class OrderServiceImpl implements OrderService {
 		
 		return buildShareProfitModel(ecmOrder, ctx, meiduiCompanyAgentNos);
 	}
+	
 
 	@Override
 	public List<EcmMzfOrderStatus> queryOrderStatus(List<String> orderSns) {
@@ -489,6 +494,36 @@ public class OrderServiceImpl implements OrderService {
 		params.put("billStartDate", billStartDate);
 		params.put("billEndDate", billEndDate);
 		return baseMapper.selectList(params, "EcmBillMapper.querytotalprofit");
+	}
+	
+	//接口参数url拼接
+	public String getBelongInfoUrl(String phone) {
+		String timeStamp = String.valueOf(System.currentTimeMillis() / 1000L);
+		String nonce = ShareProfitUtil.getRandomNum();
+		return myProps.getUrl()
+				+ myProps.getBelong()
+				+ "?oauth_signature_method=" + myProps.getOauthSignatureMethod()
+				+ "&oauth_accessor_secret=" + myProps.getOauthAccessorSecret()
+				+ "&oauth_consumer_key=" + myProps.getOauthConsumerKey()
+				+ "&oauth_timestamp=" + timeStamp 
+				+ "&oauth_nonce=" + nonce 
+				+ "&oauth_version=" + myProps.getOauthVersion()
+				+ "&oauth_signature=" + oauthSignature(phone, timeStamp, nonce) 
+				+ "&share_man=" + phone;
+	}
+		
+	//MD5加密串拼接
+	public String oauthSignature(String phone, String timeStamp, String nonce) {
+		String md5Str = "get&" + myProps.getUrl() 
+				+ myProps.getBelong()
+				+ "&oauth_signature_method=" + myProps.getOauthSignatureMethod() 
+				+ "&oauth_accessor_secret=" + myProps.getOauthAccessorSecret()
+				+ "&oauth_consumer_key=" + myProps.getOauthConsumerKey() 
+				+ "&oauth_timestamp=" + timeStamp 
+				+ "&oauth_nonce=" + nonce 
+				+ "&oauth_version=" + myProps.getOauthVersion() 
+				+ "&share_man=" + phone;
+		return ShareProfitUtil.mD5Encrypt(ShareProfitUtil.encodeStr(md5Str, "UTF-8"));
 	}
 
 }

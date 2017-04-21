@@ -11,6 +11,7 @@ import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.service.settlement.common.SettlementUtil;
 import com.meiduimall.service.settlement.common.ShareProfitUtil;
+import com.meiduimall.service.settlement.config.MyProps;
 import com.meiduimall.service.settlement.model.SmsReqDTO;
 import com.meiduimall.service.settlement.service.SmsService;
 import com.meiduimall.service.settlement.util.ConnectionUrlUtil;
@@ -20,17 +21,17 @@ public class SmsServiceImpl implements SmsService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(SmsServiceImpl.class);
 	
-	private static final String KEY_SMS_API_URL = "sms.api.url";
-	private static final String KEY_SEND_MESSAGE = "sms.send_message";
-	
 	@Autowired
 	private Environment environment;
+	
+	@Autowired
+	private MyProps myProps;
 	
 	
 	@Override
 	public boolean sendMsm(SmsReqDTO smsReqDTO) {
 		boolean flag = false;
-		String api = ShareProfitUtil.authorizedMap.get(KEY_SMS_API_URL) + ShareProfitUtil.authorizedMap.get(KEY_SEND_MESSAGE);
+		String api = myProps.getSmsUrl() + myProps.getSmsSendMessage();
 		RestTemplate restTemplate = new RestTemplate();
 		String result = restTemplate.postForEntity(api, smsReqDTO, String.class).getBody();
 		ResBodyData resBodyData = JsonUtils.jsonToBean(result, ResBodyData.class);
@@ -72,8 +73,8 @@ public class SmsServiceImpl implements SmsService {
 		return flag;
 	}
 	
-	public static String buildSendMsgUrl(SmsReqDTO smsReqDTO) {
-		String api = ShareProfitUtil.authorizedMap.get(KEY_SMS_API_URL) + ShareProfitUtil.authorizedMap.get(KEY_SEND_MESSAGE);
+	public String buildSendMsgUrl(SmsReqDTO smsReqDTO) {
+		String api = myProps.getSmsUrl() + myProps.getSmsSendMessage();
 		String params = "clientID=" + smsReqDTO.getClientID() + "&phones=" + smsReqDTO.getPhones() + "&templateId="
 				+ smsReqDTO.getTemplateId() + "&params=" + smsReqDTO.getParams();
 		

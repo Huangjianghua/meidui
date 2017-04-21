@@ -18,14 +18,13 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Strings;
 import com.github.pagehelper.StringUtil;
 import com.google.common.base.Predicate;
+import com.google.common.base.Strings;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.meiduimall.core.Constants;
-import com.meiduimall.service.settlement.context.MemberSystemDataContext;
 import com.meiduimall.service.settlement.model.EcmMzfOrderStatus;
 import com.meiduimall.service.settlement.model.EcmMzfShareProfit;
 import com.meiduimall.service.settlement.model.EcmSystemSetting;
@@ -85,10 +84,6 @@ public class ShareProfitUtil {
 	//请求方式_post
 	public static final String REQUEST_METHOD_POST = "POST";
 	
-	//加载鉴权配置文件
-	public static Map<String, String> authorizedMap = null;
-
-	
 	//直营前缀编码
 	public static final String CODE_DIRECT_SALE = "888888";
 	
@@ -115,37 +110,6 @@ public class ShareProfitUtil {
 	
 	private ShareProfitUtil(){}
 
-	//接口参数url拼接
-	public static String getBelongInfoUrl(String phone) {
-		String timeStamp = String.valueOf(System.currentTimeMillis() / 1000L);
-		String nonce = getRandomNum();
-		return authorizedMap.get("authorized.url") 
-				+ authorizedMap.get("authorized.belong")
-				+ "?oauth_signature_method=" + authorizedMap.get("authorized.oauth_signature_method")
-				+ "&oauth_accessor_secret=" + authorizedMap.get("authorized.oauth_accessor_secret") 
-				+ "&oauth_consumer_key=" + authorizedMap.get("authorized.oauth_consumer_key")
-				+ "&oauth_timestamp=" + timeStamp 
-				+ "&oauth_nonce=" + nonce 
-				+ "&oauth_version=" + authorizedMap.get("authorized.oauth_version")
-				+ "&oauth_signature=" + oauthSignature(phone, timeStamp, nonce) 
-				+ "&share_man=" + phone;
-	}
-	
-	//MD5加密串拼接
-	public static String oauthSignature(String phone, String timeStamp, String nonce) {
-		String md5Str = "get&" + authorizedMap.get("authorized.url") 
-				+ authorizedMap.get("authorized.belong")
-				+ "&oauth_signature_method=" + authorizedMap.get("authorized.oauth_signature_method") 
-				+ "&oauth_accessor_secret=" + authorizedMap.get("authorized.oauth_accessor_secret")
-				+ "&oauth_consumer_key=" + authorizedMap.get("authorized.oauth_consumer_key") 
-				+ "&oauth_timestamp=" + timeStamp 
-				+ "&oauth_nonce=" + nonce 
-				+ "&oauth_version=" + authorizedMap.get("authorized.oauth_version") 
-				+ "&share_man=" + phone;
-		return mD5Encrypt(encodeStr(md5Str, "UTF-8"));
-	}
-	
-	
 	/**
 	 * Description : 查询分润数据配置
 	 * Created By : Fkx 
@@ -166,39 +130,6 @@ public class ShareProfitUtil {
 	}
 	
 	
-	//接口参数url拼接
-	public static String belongInfoUrl(Map<String, String> map) {
-			String timeStamp = String.valueOf(System.currentTimeMillis() / 1000L);
-			String nonce = getRandomNum();
-			map.put("timeStamp", timeStamp);
-			map.put("nonce", nonce);
-			
-			String url =  map.get("url")!=null?map.get("url"):"";
-			String userId =  map.get("user_id")!=null?map.get("user_id"):"";
-			String consumePointsCount =  map.get("consume_points_count")!=null?map.get("consume_points_count"):"";
-			String orderSource =  map.get("order_source")!=null?map.get("order_source"):"";
-			String orderId =  map.get("order_id")!=null?map.get("order_id"):"";
-			
-			String belongInfoUrl = authorizedMap.get("authorized.url")+url;
-			 
-			String belongInfo = "oauth_signature_method=" + authorizedMap.get("authorized.oauth_signature_method")
-					+ "&oauth_accessor_secret=" + authorizedMap.get("authorized.oauth_accessor_secret") 
-					+ "&oauth_consumer_key=" + authorizedMap.get("authorized.oauth_consumer_key")
-					+ "&oauth_timestamp=" + timeStamp 
-					+ "&oauth_nonce=" + nonce 
-					+ "&oauth_version=" + authorizedMap.get("authorized.oauth_version");
-					
-			
-			String belongInfoend = "&user_id=" + userId
-					+ "&consume_points_count=" + consumePointsCount
-					+ "&order_source=" + orderSource
-			        + "&order_id=" + orderId;
-					
-			String oauthSignature  = "&oauth_signature=" + mD5Encrypt(encodeStr("get&"+belongInfoUrl+"&"+belongInfo+belongInfoend, "UTF-8")); 
-			
-			return belongInfoUrl+"?"+belongInfo+oauthSignature+belongInfoend;
-	}
-	
 	public static String getPersonalAgentType(String personalAgentNo){
 		if(Strings.isNullOrEmpty(personalAgentNo)){
 			return PERSONAL_AGENT_TYPE_NORMAL;
@@ -215,60 +146,6 @@ public class ShareProfitUtil {
 		
 	}
 
-	//构建更新一级推荐人所获现金余额到会员系统接口的URL以及请求参数
-	public static String buildMemberSystemAmoutUrl(MemberSystemDataContext ctx) {
-		
-		String userId = ctx.getUserId();
-
-		String signatureMethod=authorizedMap.get(MemberSystemDataContext.KEY_AUTHORIZED_OAUTH_SIGNATURE_METHOD);
-		String accessorSecret=authorizedMap.get(MemberSystemDataContext.KEY_AUTHORIZED_OAUTH_ACCESS_SECRET);
-		String consumerKey=authorizedMap.get(MemberSystemDataContext.KEY_AUTHORIZED_OAUTH_CONSUMER_KEY);
-		String apiDomain=authorizedMap.get(MemberSystemDataContext.KEY_AUTHORIZED_DOMAIN);
-		String apiPath=authorizedMap.get(MemberSystemDataContext.KEY_AUTHORIZED_API_UPD_FIRST_REFERRER_CASH);
-		String version=authorizedMap.get(MemberSystemDataContext.KEY_AUTHORIZED_OAUTH_VERSION);
-		
-		String timeStamp = String.valueOf(System.currentTimeMillis() / 1000L);
-		String nonce = getRandomNum();
-		String source=ctx.getSource();
-		String orderId=ctx.getOrderSn();
-		String tradeType=ctx.getTradeType();
-		String tradeAmount=ctx.getAmount().toString();
-		String direction=ctx.getDirection();
-		String tradeTime=String.valueOf(ctx.getTradeTime());
-		String remark=ctx.getRemark();
-		String remarkEncoded=encodeStr(remark,Constants.ENCODE_UTF8);
-			
-		String api = apiDomain+apiPath;
-		 
-		String oauthParams = "oauth_signature_method=" + signatureMethod
-				+ "&oauth_accessor_secret=" + accessorSecret 
-				+ "&oauth_consumer_key=" + consumerKey
-				+ "&oauth_timestamp=" + timeStamp 
-				+ "&oauth_nonce=" + nonce 
-				+ "&oauth_version=" + version;
-		
-		String dataParams = "&user_id=" + userId
-				+ "&source=" + source
-				+ "&trade_type=" + tradeType
-		        + "&order_id=" + orderId 
-		        + "&direction=" + direction 
-		        + "&trade_amount=" + tradeAmount 
-		        + "&trade_time=" + tradeTime
-		        + "&remark=" + remarkEncoded;
-		
-		String dataParams4Sign = "&user_id=" + userId
-				+ "&source=" + source
-				+ "&trade_type=" + tradeType
-		        + "&order_id=" + orderId 
-		        + "&direction=" + direction 
-		        + "&trade_amount=" + tradeAmount 
-		        + "&trade_time=" + tradeTime
-		        + "&remark=" + remark;
-				
-		String signature = "&oauth_signature=" + mD5Encrypt(encodeStr("get&"+api+"&"+oauthParams+dataParams4Sign, Constants.ENCODE_UTF8)); 
-		
-		return api+"?"+oauthParams+signature+dataParams;  //不嫩直接将中文字符的remark字段传到请求参数，不然API服务器那边接收到时会出现乱码。
-	}
 
 	public static EcmMzfOrderStatus buildOrderStatusObj(EcmMzfShareProfit ecmMzfShareProfit) {
 		EcmMzfOrderStatus orderStatus = new EcmMzfOrderStatus();
