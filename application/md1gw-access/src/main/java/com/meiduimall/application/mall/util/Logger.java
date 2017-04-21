@@ -274,7 +274,7 @@ public class Logger {
 	 */
 	public static void valInterceptorLog(HttpServletRequest request) {
 		Enumeration<String> enumer = request.getParameterNames();
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		buffer.append(request.getRequestURL());
 		buffer.append(OauthConst.QUESTION_SYMBOL);
 		while(enumer.hasMoreElements()) {

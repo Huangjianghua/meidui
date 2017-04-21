@@ -131,7 +131,7 @@ public class PaymentServiceImpl implements PaymentService {
 			List<Object> B = new ArrayList<Object>();
 			trades.forEach(trade -> {
 				EctoolsTradePaybill etpb = new EctoolsTradePaybill();
-				etpb.setStatus(SysParaNameConst.paying);
+				etpb.setStatus(SysParaNameConst.PAYING);
 				etpb.setPayment(new BigDecimal(trade.get("payment").toString()));
 				etpb.setTid(trade.get("tid").toString());
 				etpb.setPaymentId(paymentTrade.getPayment_id());
@@ -177,7 +177,7 @@ public class PaymentServiceImpl implements PaymentService {
 				}
 
 				// 更新平台订单表第三方支付的款和状态
-				obj_p_trade_info.setIsPaying(SysParaNameConst.isPaying);
+				obj_p_trade_info.setIsPaying(SysParaNameConst.IS_PAYING);
 				obj_p_trade_info.setCashPay(new BigDecimal(paymentTrade.getMoney()));
 				Integer updateSystradePTrade = tradeService.updateSystradePTrade(obj_p_trade_info);
 				if (updateSystradePTrade <= 0) {
@@ -322,10 +322,10 @@ public class PaymentServiceImpl implements PaymentService {
 	 * 组合参数调用会员中心接口【SaveOrder接口】，同步订单到会员系统
 	 */
 	public ResponseBodyData SaveOrderAndUpdateFunction(Map<String, Object> paymentBill, SystradePTrade obj_p_trade_info,
-			JSONObject fromObject) throws Exception {
+			JSONObject fromObject) {
 		// 更新平台订单信息,标识已同步订单到会员系统
 		SystradePTrade systradePTrade = new SystradePTrade();
-		systradePTrade.setIsSync(SysParaNameConst.isSync);
+		systradePTrade.setIsSync(SysParaNameConst.IS_SYNC);
 		systradePTrade.setPlatformId(new BigInteger(paymentBill.get("platformId").toString()));
 		Integer updateSystradePTrade = tradeService.updateIsSyncByplatformId(systradePTrade);
 		if (updateSystradePTrade == null) {
@@ -485,7 +485,7 @@ public class PaymentServiceImpl implements PaymentService {
 					.compareTo(ectoolsPaymentsSucc.getMoney()) != 0) {
 				// 更新支付单错误金额
 				Integer updateErrorMoney = updateErrorMoney(
-						new EctoolsPayments(ectoolsPaymentsSucc.getPaymentId(), SysParaNameConst.error_money));
+						new EctoolsPayments(ectoolsPaymentsSucc.getPaymentId(), SysParaNameConst.ERROR_MONEY));
 				if (updateErrorMoney <= 0) {
 					Logger.info("更新支付单错误金额 失败!");
 					throw new ServiceException(MallApiCode.UPDATEERRORMONEY_FAIL,

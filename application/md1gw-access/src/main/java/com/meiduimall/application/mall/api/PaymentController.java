@@ -109,7 +109,7 @@ public class PaymentController {
 		    Logger.info("支付密码:%s", paymentTrade.getPay_password());
 		    if("1".equals(object2.get("paypwd_isopen"))){//1开 0关
 		    	if(obj_p_trade_info.getIsPaying() == 0){       //第一次支付
-		    		JSONObject validePayPwd = userService.validePayPwd(paymentTrade.getMemId(), Des.appdecrypt(paymentTrade.getPay_password(), SysParaNameConst.appencryptkey));
+		    		JSONObject validePayPwd = userService.validePayPwd(paymentTrade.getMemId(), Des.appdecrypt(paymentTrade.getPay_password(), SysParaNameConst.APP_ENCRYPT_KEY));
 		    		if(validePayPwd.getInt("status") != 0){
 		    			Logger.info("验证支付密码 失败! %s", validePayPwd.getString("msg"));
 		    			json.put("status", 11);
@@ -130,7 +130,7 @@ public class PaymentController {
 				
 			 
 			//paymentBill['status']值是否为'ready',否则提示'请勿重复发起支付;
-			if(!paymentBill.get("status").equals(SysParaNameConst.ready)){
+			if(!paymentBill.get("status").equals(SysParaNameConst.READY)){
  				Logger.info("请勿重复发起支付!");
  				json.put("status", 11);
 				json.put("msg", "请勿重复发起支付!");
@@ -275,7 +275,7 @@ public class PaymentController {
 			//有第三方支付  调用微信支付/支付宝支付
 			if (paymentTradePays.getStatus() == 3) {
 				Logger.info("第三方支付成功!");
-				String encrypt = Des.appencrypt(paymentTradePays.getData().toString(),SysParaNameConst.appencryptkey);
+				String encrypt = Des.appencrypt(paymentTradePays.getData().toString(),SysParaNameConst.APP_ENCRYPT_KEY);
 				json.put("status", 0);
 				json.put("data", encrypt);
 				json.put("msg", "success");

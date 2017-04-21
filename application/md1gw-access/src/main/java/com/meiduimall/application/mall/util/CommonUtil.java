@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.meiduimall.application.mall.config.MyProps;
 import com.meiduimall.application.mall.constant.OauthConst;
 import com.meiduimall.application.mall.constant.SysParaNameConst;
 import com.meiduimall.application.mall.exception.MallApiCode;
@@ -20,7 +23,8 @@ import net.sf.json.JSONObject;
 
 public class CommonUtil {
 
-	
+	@Autowired
+	private static MyProps myProps;
 	/**
 	 * 组装签名 公共的key value
 	 * @param map
@@ -59,7 +63,6 @@ public class CommonUtil {
 	 * @return
 	 * @throws Exception
 	 */
-	@SuppressWarnings("static-access")
 	public static EctoolsPayments UpdateEctoolsPaymentsCommon(PaymentTrade paymentTrade){
 		EctoolsPayments ectoolsPayments = new EctoolsPayments();
 		ectoolsPayments.setCurMoney(new BigDecimal(paymentTrade.getMoney()));     //支付货币金额 (第三方支付金额,必须money)
@@ -68,7 +71,7 @@ public class CommonUtil {
 		ectoolsPayments.setCoupPay(new BigDecimal(0));     //消费券支付金额 coup_pay 忽略
 		ectoolsPayments.setPointPay(Integer.valueOf(paymentTrade.getUse_point())); //积分支付金额
 		ectoolsPayments.setCartXfc(new BigDecimal(0));     //忽略
-		ectoolsPayments.setStatus(SysParaNameConst.paying);  
+		ectoolsPayments.setStatus(SysParaNameConst.PAYING);  
 		ectoolsPayments.setPaymentId(paymentTrade.getPayment_id()); //支付单号
 		Operate operate = new Operate();
 		try {
@@ -77,7 +80,7 @@ public class CommonUtil {
 			Logger.error("序列化失败: %s", e);
 			throw new ServiceException(MallApiCode.SERIALIZABLE_FAIL, MallApiCode.getZhMsg(MallApiCode.SERIALIZABLE_FAIL));
 		}
-		ectoolsPayments.setReturnUrl(SystemConfig.getInstance().configMap.get("Finish_URL")+"?paymentTrade="+paymentTrade);    //支付返回地址
+		ectoolsPayments.setReturnUrl(myProps.getFinishUrl()+"?paymentTrade="+paymentTrade);    //支付返回地址
 		return ectoolsPayments;
 	}
 
@@ -146,5 +149,7 @@ public class CommonUtil {
 		sysuserUser.setUserId(Integer.valueOf(paymentTrade.getUser_id()));
 		return sysuserUser;
 	}
+	
+	
 	
 }

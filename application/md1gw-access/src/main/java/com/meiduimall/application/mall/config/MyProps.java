@@ -12,9 +12,7 @@ public class MyProps {
 	private String sendSmsUrl;
 	private String payUrl;
 	private String meiduimallUrl;
-	
-	
-	
+	private String finishUrl;
 	
 
 	public String getRouteServiceUrl() {
@@ -56,6 +54,15 @@ public class MyProps {
 	public void setMeiduimallUrl(String meiduimallUrl) {
 		this.meiduimallUrl = meiduimallUrl;
 	}
+
+	public String getFinishUrl() {
+		return finishUrl;
+	}
+
+	public void setFinishUrl(String finishUrl) {
+		this.finishUrl = finishUrl;
+	}
+
 
 	 
 

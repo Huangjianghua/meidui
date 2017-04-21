@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import com.google.common.collect.ImmutableMap;
 import com.meiduimall.application.mall.constant.SysParaNameConst;
 import com.meiduimall.application.mall.dao.BaseMapper;
+import com.meiduimall.application.mall.exception.MallApiCode;
 import com.meiduimall.application.mall.model.EctoolsPayments;
 import com.meiduimall.application.mall.model.EctoolsTradePaybill;
 import com.meiduimall.application.mall.model.SysitemItem;
@@ -26,6 +27,7 @@ import com.meiduimall.application.mall.model.SystradeTrade;
 import com.meiduimall.application.mall.service.SysitemService;
 import com.meiduimall.application.mall.service.TradeService;
 import com.meiduimall.application.mall.util.Logger;
+import com.meiduimall.exception.ServiceException;
 
 @Component
 public class TradeServiceImpl implements TradeService {
@@ -143,12 +145,12 @@ public class TradeServiceImpl implements TradeService {
 	 * 【订单支付状态更改接口】
 	 */
 	@Override
-	public Boolean TradePayFinish(SystradeTrade trade) throws Exception {
+	public Boolean TradePayFinish(SystradeTrade trade) {
 		// 获取指定订单信息
 		SystradeTrade tradeInfo = getTradeInfo(trade.getTid());
 		if (tradeInfo == null) {
 			Logger.info("获取指定订单信息为空!");
-			throw new Exception("获取指定订单信息为空!");
+			throw new ServiceException(MallApiCode.TRADEINFO_EMPTY, MallApiCode.getZhMsg(MallApiCode.TRADEINFO_EMPTY));
 		}
 
 		// 待付款状态 终止当前这一次循环
@@ -161,7 +163,7 @@ public class TradeServiceImpl implements TradeService {
 				List<SystradeOrder> listTradeInfoOrder = listTradeInfoOrder(new SystradeOrder(trade.getTid()));
 				if (listTradeInfoOrder == null) {
 					Logger.info("商品订单信息为空!");
-					throw new Exception("商品订单信息为空!");
+					throw new ServiceException(MallApiCode.TRADEINFOORDER_EMPTY,MallApiCode.getZhMsg(MallApiCode.TRADEINFOORDER_EMPTY));
 				}
 				listTradeInfoOrder.forEach(list -> {
 					Map<String, Object> hashMap = new HashMap<String, Object>();
@@ -188,7 +190,7 @@ public class TradeServiceImpl implements TradeService {
 		Integer systradeTradeBytid = updateSystradeTradeBytid(systradeTrade);
 		if (systradeTradeBytid <= 0) {
 			Logger.info("更新商家订单信息失败!");
-			throw new RuntimeException("更新商家订单信息失败!");
+			throw new ServiceException(MallApiCode.UPDATEST_FAIL, MallApiCode.getZhMsg(MallApiCode.UPDATEST_FAIL));
 		}
 
 		// 更新商品订单信息
@@ -198,7 +200,7 @@ public class TradeServiceImpl implements TradeService {
 		Integer systradeOrderBytid = updateSystradeOrderBytid(systradeOrder);
 		if (systradeOrderBytid <= 0) {
 			Logger.info("更新商品订单信息失败!");
-			throw new RuntimeException("更新商品订单信息失败!");
+			throw new ServiceException(MallApiCode.UPDATESO_FAIL, MallApiCode.getZhMsg(MallApiCode.UPDATESO_FAIL));
 		}
 
 		// 记录订单操作日志
@@ -212,7 +214,7 @@ public class TradeServiceImpl implements TradeService {
 		Integer insertsystradeLog = insertSystradeLog(systradeLog);
 		if (insertsystradeLog <= 0) {
 			Logger.info("记录订单操作日志失败!");
-			throw new RuntimeException("记录订单操作日志失败!");
+			throw new ServiceException(MallApiCode.INSERTSLOG_FAIL, MallApiCode.getZhMsg(MallApiCode.INSERTSLOG_FAIL));
 		}
 
 		return true;
@@ -223,7 +225,7 @@ public class TradeServiceImpl implements TradeService {
 	 * 
 	 * @throws Exception
 	 */
-	public Boolean OrderOrPay(Map<String, Object> hashMap) throws Exception {
+	public Boolean OrderOrPay(Map<String, Object> hashMap) {
 		// sub_stock!=0下单减库存(有恶意下单占库存风险)判断开始
 		if ((Integer) hashMap.get("sub_stock") != 0) {
 
@@ -231,14 +233,14 @@ public class TradeServiceImpl implements TradeService {
 			Integer updateSysitemSkuStore = sysitemService.updateSysitemSkuStore(hashMap);
 			if (updateSysitemSkuStore <= 0) {
 				Logger.info("更新货品库存失败!");
-				throw new RuntimeException("更新货品库存失败!");
+				throw new ServiceException(MallApiCode.UPDATESSS_FAIL, MallApiCode.getZhMsg(MallApiCode.UPDATESSS_FAIL));
 			}
 
 			// 更新商品库存
 			Integer updateSysitemItemStore = sysitemService.updateSysitemItemStore(hashMap);
 			if (updateSysitemItemStore <= 0) {
 				Logger.info("更新商品库存失败!");
-				throw new RuntimeException("更新商品库存失败!");
+				throw new ServiceException(MallApiCode.UPDATESIS_FAIL, MallApiCode.getZhMsg(MallApiCode.UPDATESIS_FAIL));
 			}
 
 			return false;
@@ -250,7 +252,7 @@ public class TradeServiceImpl implements TradeService {
 					SysitemSku sysitemSkuByskuId = sysitemService.getSysitemSkuByskuId((Integer) hashMap.get("sku_id"));
 					if (sysitemSkuByskuId == null) {
 						Logger.info("根据sku_id获取item_id失败!");
-						throw new Exception("根据sku_id获取item_id失败!");
+						throw new ServiceException(MallApiCode.SSKUBYSKUID_FAIL, MallApiCode.getZhMsg(MallApiCode.SSKUBYSKUID_FAIL));
 					}
 					hashMap.put("item_id", sysitemSkuByskuId.getItemId());
 				}
@@ -262,7 +264,7 @@ public class TradeServiceImpl implements TradeService {
 
 				SysitemItem itemInfo = sysitemService.getSysitemItemBysubStock(hashMap);
 				if (itemInfo == null)
-					throw new Exception("根据itemId获取subStock失败!");
+					throw new ServiceException(MallApiCode.ITEMINFO_FAIL, MallApiCode.getZhMsg(MallApiCode.ITEMINFO_FAIL));
 
 				// 是否支持下单减库存
 				if (itemInfo.getSubStock() > 0)
@@ -271,12 +273,12 @@ public class TradeServiceImpl implements TradeService {
 				// 获取sku库存表信息
 				SysitemSkuStore skuIdInfo = sysitemService.getSysitemSkuStore((Integer) hashMap.get("sku_id"));
 				if (skuIdInfo == null)
-					throw new Exception("获取sku库存表信息失败!");
+					throw new ServiceException(MallApiCode.SKUIDINFO_FAIL, MallApiCode.getZhMsg(MallApiCode.SKUIDINFO_FAIL));
 
 				// 根据skuInfo['item_id']获取商品库存表信息
 				SysitemItemStore itemInfoS = sysitemService.getSysitemItemStore(skuIdInfo.getItemId());
 				if (itemInfoS == null)
-					throw new Exception("获取商品库存表信息失败!");
+					throw new ServiceException(MallApiCode.ITEMINFOS_FAIL, MallApiCode.getZhMsg(MallApiCode.ITEMINFOS_FAIL));
 
 				if ((skuIdInfo.getStore() - (Integer) hashMap.get("quantity")) < 0)
 					return false;

@@ -43,6 +43,17 @@ public class MallApiCode extends BaseApiCode {
 	public static final Integer MD5ENCRYPT_EXCEPTION = 10036;
 	public static final Integer SERIALIZABLE_EXCEPTION = 10037;
 	public static final Integer DESERIALIZABLE_EXCEPTION = 10038;
+	public static final Integer TRADEINFO_EMPTY = 10039;
+	public static final Integer TRADEINFOORDER_EMPTY = 10040;
+	public static final Integer UPDATEST_FAIL = 10041;
+	public static final Integer UPDATESO_FAIL = 10042;
+	public static final Integer INSERTSLOG_FAIL = 10043;
+	public static final Integer UPDATESSS_FAIL = 10044;
+	public static final Integer UPDATESIS_FAIL = 10045;
+	public static final Integer SSKUBYSKUID_FAIL = 10046;
+	public static final Integer ITEMINFO_FAIL = 10047;
+	public static final Integer SKUIDINFO_FAIL = 10048;
+	public static final Integer ITEMINFOS_FAIL = 10049;
 	
 	
 	
@@ -85,5 +96,16 @@ public class MallApiCode extends BaseApiCode {
 		zhMsgMap.put(MD5ENCRYPT_EXCEPTION, "MD5Encrypt异常!");
 		zhMsgMap.put(SERIALIZABLE_EXCEPTION, "序列化异常!");
 		zhMsgMap.put(DESERIALIZABLE_EXCEPTION, "反序列化异常!");
+		zhMsgMap.put(TRADEINFO_EMPTY, "获取订单信息为空!");
+		zhMsgMap.put(TRADEINFOORDER_EMPTY, "商品订单信息为空!");
+		zhMsgMap.put(UPDATEST_FAIL, "更新商家订单信息失败!");
+		zhMsgMap.put(UPDATESO_FAIL, "更新商品订单信息失败!");
+		zhMsgMap.put(INSERTSLOG_FAIL, "记录订单操作日志失败!");
+		zhMsgMap.put(UPDATESSS_FAIL, "更新货品库存失败!");
+		zhMsgMap.put(UPDATESIS_FAIL, "更新商品库存失败!");
+		zhMsgMap.put(SSKUBYSKUID_FAIL, "根据sku_id获取item_id失败!");
+		zhMsgMap.put(ITEMINFO_FAIL, "根据itemId获取subStock失败!");
+		zhMsgMap.put(SKUIDINFO_FAIL, "获取sku库存表信息失败!");
+		zhMsgMap.put(ITEMINFOS_FAIL, "获取商品库存表信息失败!");
 	}
 }

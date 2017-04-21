@@ -62,7 +62,7 @@ public class WeiXinController {
 		reader = request.getReader() ;
 		String line = "" ;
 		String xmlString = null ;
-		StringBuffer inputString = new StringBuffer() ;
+		StringBuilder inputString = new StringBuilder() ;
 	
 		while( (line = reader.readLine()) != null ){
 		inputString.append(line) ;
@@ -172,7 +172,7 @@ public class WeiXinController {
 
 	@SuppressWarnings("rawtypes")
 	private static String createSign(String characterEncoding, SortedMap<String, String> parameters) {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		Set es = parameters.entrySet();
 		Iterator it = es.iterator();
 

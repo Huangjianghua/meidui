@@ -87,21 +87,21 @@ public class SysParaNameConst {
 	public static final String logText = "订单付款成功！";
 
 	
-	public static final Byte isSync = 1;
-	public static final String paying = "paying";
-	public static final Byte isPaying = 1;
+	public static final Byte IS_SYNC = 1;
+	public static final String PAYING = "paying";
+	public static final Byte IS_PAYING = 1;
 	
 	/**
 	 * 用户输的支付密码拼接userPayKey(商城配置为'{liangping}')
 	 */
-	public static final String userPayKey = "{liangping}";
+	public static final String USERPAY_KEY = "{liangping}";
 	
 	/** 支付验证 **/
-	public static final String ready = "ready";
+	public static final String READY = "ready";
 	
-	public static final BigDecimal error_money = new BigDecimal(3);
-	public static final String remark  = "订单消费";
-	public static final String appencryptkey  = "%Rs-t&oZ";
+	public static final BigDecimal ERROR_MONEY = new BigDecimal(3);
+	public static final String REMARK  = "订单消费";
+	public static final String APP_ENCRYPT_KEY  = "%Rs-t&oZ";
 	
 	
 	/**匹配是否是手机号的正则表达式**/

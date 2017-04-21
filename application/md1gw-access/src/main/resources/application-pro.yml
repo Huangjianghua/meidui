@@ -75,3 +75,4 @@ myProps :
   sendSmsUrl : http://192.168.4.240:20000     #发送短信
   payUrl : http://pay.meiduimall.com          #支付接入生产环境
   meiduimallUrl : www.meiduimall.com          #商城生产环境
+  finishUrl : http://www.meiduimall.com/wap/finish.html #完成url

@@ -51,7 +51,7 @@ public interface PaymentService {
  	 * 支付回调
  	 * @
  	 */
- 	ResponseBodyData PayCallBack(EctoolsPaymentsSucc ectoolsPaymentsSucc,String notice)throws Exception;  
+ 	ResponseBodyData PayCallBack(EctoolsPaymentsSucc ectoolsPaymentsSucc,String notice);  
  	
  	/**
  	 * 更新支付单错误金额

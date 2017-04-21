@@ -124,7 +124,7 @@ public interface TradeService {
 	 * @param tradelist
 	 * @
 	 */
-	Boolean TradePayFinish(SystradeTrade trade)throws Exception;
+	Boolean TradePayFinish(SystradeTrade trade);
 	
 	/**
 	 * 商品订单信息
