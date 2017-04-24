@@ -94,36 +94,7 @@
   <sql id="Blob_Column_List" >
     user_agent
   </sql>
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.meiduimall.service.financial.entity.DownloadStatisticsExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from download_statistics
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.service.financial.entity.DownloadStatisticsExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from download_statistics
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
+
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -136,12 +107,7 @@
     delete from download_statistics
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.meiduimall.service.financial.entity.DownloadStatisticsExample" >
-    delete from download_statistics
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
+
   <insert id="insert" parameterType="com.meiduimall.service.financial.entity.DownloadStatistics" >
     insert into download_statistics (id, portal, request_time, 
       ip, curr_time, user_agent
@@ -193,61 +159,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.meiduimall.service.financial.entity.DownloadStatisticsExample" resultType="java.lang.Integer" >
-    select count(*) from download_statistics
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map" >
-    update download_statistics
-    <set >
-      <if test="record.id != null" >
-        id = #{record.id,jdbcType=INTEGER},
-      </if>
-      <if test="record.portal != null" >
-        portal = #{record.portal,jdbcType=INTEGER},
-      </if>
-      <if test="record.requestTime != null" >
-        request_time = #{record.requestTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.ip != null" >
-        ip = #{record.ip,jdbcType=VARCHAR},
-      </if>
-      <if test="record.currTime != null" >
-        curr_time = #{record.currTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.userAgent != null" >
-        user_agent = #{record.userAgent,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map" >
-    update download_statistics
-    set id = #{record.id,jdbcType=INTEGER},
-      portal = #{record.portal,jdbcType=INTEGER},
-      request_time = #{record.requestTime,jdbcType=TIMESTAMP},
-      ip = #{record.ip,jdbcType=VARCHAR},
-      curr_time = #{record.currTime,jdbcType=TIMESTAMP},
-      user_agent = #{record.userAgent,jdbcType=LONGVARCHAR}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map" >
-    update download_statistics
-    set id = #{record.id,jdbcType=INTEGER},
-      portal = #{record.portal,jdbcType=INTEGER},
-      request_time = #{record.requestTime,jdbcType=TIMESTAMP},
-      ip = #{record.ip,jdbcType=VARCHAR},
-      curr_time = #{record.currTime,jdbcType=TIMESTAMP}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
+
   <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.service.financial.entity.DownloadStatistics" >
     update download_statistics
     <set >
