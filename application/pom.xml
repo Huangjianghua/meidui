@@ -14,7 +14,7 @@
     <artifactId>application</artifactId>
     <name>mall::application</name>
     <packaging>pom</packaging>
-    <!--<version>1.0.0</version>-->
+    <version>1.0.0-SNAPSHOT</version>
     <modules>
 		<module>md1gw-access2</module>
  		<module>md1gw-access</module> 
