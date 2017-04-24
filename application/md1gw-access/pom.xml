@@ -4,12 +4,12 @@
 	<parent>
 		<groupId>com.meiduimall</groupId>
 		<artifactId>application</artifactId>
-		<version>1.0.1</version>
+		<version>1.0.2-SNAPSHOT</version>
 	</parent>
 
 	<groupId>com.meiduimall.application</groupId>
 	<artifactId>md1gw-access</artifactId>
-	<version>1.0.1</version>
+	<version>1.0.2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>md1gw-access</name>
