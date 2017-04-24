@@ -6,7 +6,7 @@
     <artifactId>mall</artifactId>
     <name>mall</name>
     <packaging>pom</packaging>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.1</version>
     <modules>
     	<module>support</module>
         <module>platform</module>
@@ -27,7 +27,7 @@
         <connection>scm:git:http://git.meiduimall.com/service/meiduimall.git</connection>
         <developerConnection>scm:git:http://git.meiduimall.com/service/meiduimall.git</developerConnection>
         <url>http://git.meiduimall.com/service/meiduimall/tree/develop</url>
-      <tag>HEAD</tag>
+      <tag>mall-1.0.1</tag>
   </scm>
 
     <profiles>
@@ -47,7 +47,7 @@
 
     <distributionManagement>
         <repository>
-            <layout></layout>
+            <layout />
             <id>nexus</id>
             <name>Nexus Releases</name>
             <url>http://maven.meiduimall.com/repository/maven-releases/</url>
