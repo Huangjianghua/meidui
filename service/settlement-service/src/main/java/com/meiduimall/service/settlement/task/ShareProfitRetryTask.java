@@ -12,7 +12,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.github.pagehelper.StringUtil;
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.redis.util.RedisUtils;
@@ -79,9 +79,13 @@ public class ShareProfitRetryTask {
 	private Map<String, String> getOrders2Retry()  {
 		Integer currentTimestampSec = DateUtil.getCurrentTimeSec();
 		log.info("current timestamp sec:{},Date:{}",currentTimestampSec,DateUtil.getCurrentTime());
-		List<ShareProfitOrderLog> shareProfit5MinOrder2Retry = baseMapper.selectList(ImmutableMap.of("currentTimestamp",currentTimestampSec), "ShareProfitOrderLogMapper.get5MinOrders2Retry");
-		List<ShareProfitOrderLog> shareProfit30MinOrder2Retry = baseMapper.selectList(ImmutableMap.of("currentTimestamp",currentTimestampSec), "ShareProfitOrderLogMapper.get30MinOrders2Retry");
-		List<ShareProfitOrderLog> shareProfit12HOrder2Retry = baseMapper.selectList(ImmutableMap.of("currentTimestamp",currentTimestampSec), "ShareProfitOrderLogMapper.get12HOrders2Retry");
+		
+		Map<String, Object> params = Maps.newHashMap();
+		params.put("currentTimestamp", currentTimestampSec);
+		
+		List<ShareProfitOrderLog> shareProfit5MinOrder2Retry = baseMapper.selectList(params, "ShareProfitOrderLogMapper.get5MinOrders2Retry");
+		List<ShareProfitOrderLog> shareProfit30MinOrder2Retry = baseMapper.selectList(params, "ShareProfitOrderLogMapper.get30MinOrders2Retry");
+		List<ShareProfitOrderLog> shareProfit12HOrder2Retry = baseMapper.selectList(params, "ShareProfitOrderLogMapper.get12HOrders2Retry");
 		
 		final Map<String, String> retryOrders = new HashMap<>();
 		//注意retryOrders存放orderSn数据要安装这样的顺序:12H->30Min->5Min,因为要过滤掉已经重试过但失败的orderSn。

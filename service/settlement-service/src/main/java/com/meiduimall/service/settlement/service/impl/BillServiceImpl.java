@@ -164,13 +164,8 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 	public void createBillAndOrderMapping(EcmMzfBillWater bill, List<OrderToBilledVO> orderToBilledList)  {
 		if(bill!=null && !Strings.isNullOrEmpty(bill.getCode())){
 			final String code=bill.getCode();
-			Collection<OrderToBilledVO> orderToBilledVos=Collections2.filter(orderToBilledList, new Predicate<OrderToBilledVO>(){
-				@Override
-				public boolean apply(OrderToBilledVO vo) {
-					return code.equalsIgnoreCase(vo.getCode());
-				}
-				
-			});
+
+			Collection<OrderToBilledVO> orderToBilledVos=Collections2.filter(orderToBilledList, vo -> code.equalsIgnoreCase(vo.getCode()));
 			
 			if(orderToBilledVos!=null && !orderToBilledVos.isEmpty()){
 				for(OrderToBilledVO ob:orderToBilledVos){

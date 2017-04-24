@@ -159,29 +159,22 @@ public class ShareProfitUtil {
 	}
 
 	public static BigDecimal getShareProfitByType(String roleType, List<ShareProfitVO> shareProfitVOs,String profitType) {
-		BigDecimal value=null;
-		if(shareProfitVOs!=null && !shareProfitVOs.isEmpty() && !StringUtil.isEmpty(roleType)){
-			Collection<ShareProfitVO> col=Collections2.filter(shareProfitVOs, new Predicate<ShareProfitVO>(){
-				
-				@Override
-				public boolean apply(ShareProfitVO soVo) {
-					return roleType.equals(soVo.getType());
-				}});
+		BigDecimal value = null;
+		if (shareProfitVOs != null && !shareProfitVOs.isEmpty() && !StringUtil.isEmpty(roleType)) {
 			
-			if(col!=null){
+			Collection<ShareProfitVO> col = Collections2.filter(shareProfitVOs, soVo -> roleType.equals(soVo.getType()));
+			
+			if (col != null) {
 				final List<ShareProfitVO> list = new ArrayList<>(col);
-				ShareProfitVO spVO=list.get(0);
-				if(spVO!=null){
-					if("Today".equals(profitType)){
-						return spVO.getProfitToday();
-					}
-					
-					if("Settlement".equals(profitType)){
-						return spVO.getProfit4Settlement();
-					}
+				ShareProfitVO spVO = list.get(0);
+				if ("Today".equals(profitType)) {
+					return spVO.getProfitToday();
+				}
+
+				if ("Settlement".equals(profitType)) {
+					return spVO.getProfit4Settlement();
 				}
 			}
-
 		}
 		return value;
 	}
