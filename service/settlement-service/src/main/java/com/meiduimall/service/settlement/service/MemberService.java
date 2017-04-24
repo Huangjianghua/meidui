@@ -24,7 +24,7 @@ public interface MemberService {
 	 * return  boolean
 	 * 
 	 */
-    public Boolean addConsumePoints(String phone,String credit,String source,String orderId);
+    public boolean addConsumePoints(String phone,String credit,String source,String orderId);
 
 	/**
 	 * 功能描述:  给会员系统送积分

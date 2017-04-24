@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.common.collect.Maps;
+
 /**
  * Copyright (C), 2002-2017, 美兑壹购物
  * FileName: ShareProfitContext.java
@@ -30,13 +32,13 @@ public class ShareProfitContext {
 	// 个代分账 = 消费者返积分 * 个代分账比例
 	private BigDecimal personAgentRevenue =BigDecimal.ZERO;
 	// 是否是前200区代
-	private Boolean isTwoHundreAgentFlag;
+	private boolean isTwoHundreAgentFlag;
 	
 	private BigDecimal discount =BigDecimal.ZERO;
 	
 	private Map<String, String> systemSetting=new HashMap<>();
 	
-	Map<String, String> belongMap=new HashMap<>();
+	Map<String, String> belongMap = Maps.newHashMap();
 	
 	private String personalAgentType;
 	
@@ -91,10 +93,10 @@ public class ShareProfitContext {
 	public void setPersonAgentRevenue(BigDecimal personAgentRevenue) {
 		this.personAgentRevenue = personAgentRevenue;
 	}
-	public Boolean getIsTwoHundreAgentFlag() {
+	public boolean getIsTwoHundreAgentFlag() {
 		return isTwoHundreAgentFlag;
 	}
-	public void setIsTwoHundreAgentFlag(Boolean isTwoHundreAgentFlag) {
+	public void setIsTwoHundreAgentFlag(boolean isTwoHundreAgentFlag) {
 		this.isTwoHundreAgentFlag = isTwoHundreAgentFlag;
 	}
 	public BigDecimal getDiscount() {
