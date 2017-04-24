@@ -11,18 +11,11 @@
     <groupId>com.meiduimall</groupId>
     <artifactId>starter</artifactId>
     <name>mall::starter</name>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     		
 	
     <modules>
         <module>meduimall-service-starter</module>
     </modules>
-    	
-
-
-
-  <scm>
-    <tag>mall-1.0.0</tag>
-  </scm>
 </project>
