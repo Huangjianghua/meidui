@@ -25,10 +25,11 @@
         <jacoco.version>0.7.9</jacoco.version>
     </properties>
 
-<!--     <scm>
+    <scm>
         <connection>scm:git:http://git.meiduimall.com/service/meiduimall.git</connection>
         <developerConnection>scm:git:http://git.meiduimall.com/service/meiduimall.git</developerConnection>
-    </scm> -->
+        <url>http://git.meiduimall.com/service/meiduimall/tree/develop</url>
+    </scm>
 
     <profiles>
         <profile>
@@ -45,7 +46,7 @@
         </profile>
     </profiles>
 
-   <!--  <build>
+     <build>
         <plugins>
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -70,9 +71,23 @@
                 <artifactId>maven-release-plugin</artifactId>
                 <version>2.5.2</version>
                 <configuration>
-                    <tagBase>http://git.meiduimall.com/service/meiduimall.git</tagBase>
+                    <providerImplementations>
+                        <git>jgit</git>
+                    </providerImplementations>
+                    <username></username>
+                    <password></password>
+                    <tagBase>${project.artifactId}-${project.version}</tagBase>
+                    <goals>-f pom.xml deploy</goals>
                 </configuration>
+                <dependencies>
+                    <!-- https://mvnrepository.com/artifact/org.apache.maven.scm/maven-scm-provider-jgit -->
+                    <dependency>
+                        <groupId>org.apache.maven.scm</groupId>
+                        <artifactId>maven-scm-provider-jgit</artifactId>
+                        <version>1.9.5</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
-    </build> -->
+    </build>
 </project>
