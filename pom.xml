@@ -47,6 +47,7 @@
 
     <distributionManagement>
         <repository>
+            <layout></layout>
             <id>nexus</id>
             <name>Nexus Releases</name>
             <url>http://maven.meiduimall.com/repository/maven-releases/</url>
