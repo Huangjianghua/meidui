@@ -115,10 +115,10 @@
                     <providerImplementations>
                         <git>jgit</git>
                     </providerImplementations>
-                    <username></username>
-                    <password></password>
-                    <!--<tagBase>${project.artifactId}-${project.version}</tagBase>-->
-                    <!--<goals>-f pom.xml deploy</goals>-->
+                    <!--<username></username>-->
+                    <!--<password></password>-->
+                    <tagBase>${project.artifactId}-${project.version}</tagBase>
+                    <goals>-f pom.xml deploy</goals>
                 </configuration>
                 <dependencies>
                     <!-- https://mvnrepository.com/artifact/org.apache.maven.scm/maven-scm-provider-jgit -->
