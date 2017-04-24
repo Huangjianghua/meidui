@@ -54,7 +54,7 @@ public class HttpTooUtils {
     public static String sendPost(String url, String param) {  
         PrintWriter out = null;  
         BufferedReader in = null;  
-        String result = "";  
+        StringBuilder result = new StringBuilder();  
         try {  
             URL realUrl = new URL(url);  
             //打开和URL之间的连接  
@@ -79,8 +79,8 @@ public class HttpTooUtils {
             in = new BufferedReader(  
                 new InputStreamReader(conn.getInputStream()));  
             String line;  
-            while ((line = in .readLine()) != null) {  
-                result += line;
+            while ((line = in .readLine()) != null) { 
+            	result.append(line);
             }  
         } catch (Exception e) {  
         	logger.error("post请求异常：{}",e);
@@ -95,6 +95,6 @@ public class HttpTooUtils {
             	logger.error("post请求流关闭异常：{}",ex);
             }  
         }  
-        return result;  
+        return result.toString();  
     }  
 }

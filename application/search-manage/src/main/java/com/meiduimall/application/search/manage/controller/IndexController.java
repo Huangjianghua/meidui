@@ -109,7 +109,7 @@ public class IndexController {
 	 * @throws Exception 
 	 */
 	@RequestMapping(value = "suggestIndex", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-	public Object suggestIndex(@Validated IndexRequest request) throws Exception {
+	public Object suggestIndex(@Validated IndexRequest request) {
 		Map<String, Object> result = null;
 		switch (request.getOpt()) {
 		case "a":

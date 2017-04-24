@@ -82,7 +82,7 @@ public class ValidCodeUtil {
         String baseLetter = "ABCDEFGHJKLMNOPQRSTUVWXYZ";
         //createTypeFlag[0]==null表示没有传递参数
         if (createTypeFlag.length > 0 && null != createTypeFlag[0]) {
-            if (createTypeFlag[0].equals("ch")) {
+            if ("ch".equals(createTypeFlag[0])) {
                 // 截取汉字
                 return createRandomChar(g, baseChineseChar);
             }else if ("nl".equals(createTypeFlag[0])) {
@@ -117,7 +117,7 @@ public class ValidCodeUtil {
         for (int i = 0; i < 4; i++) {
             // 设置字体旋转角度
             int degree = new Random().nextInt() % 30;
-            ch = baseChar.charAt(new Random().nextInt(baseChar.length()))+"";
+            ch =String.valueOf(baseChar.charAt(new Random().nextInt(baseChar.length())));
             sb.append(ch);
             // 正向角度
             g.rotate(degree * Math.PI / 180, x, 20);

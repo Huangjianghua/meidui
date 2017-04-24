@@ -43,7 +43,7 @@ public class StringUtil {
 	/** 检查集合是否为空 */
 	@SuppressWarnings("rawtypes")
 	public static boolean isEmptyByCollection(Collection c) {
-		return ((c == null) || (c.size() == 0));
+		return ((c == null) || (c.isEmpty()));
 	}
 
 
@@ -57,13 +57,13 @@ public class StringUtil {
 	 */
 	public static boolean checkNumber(String num, String type) {
 		String eL = "";
-		if (type.equals("0+"))
+		if ("0+".equals(type))
 			eL = "^\\d+$";// 非负整数
-		else if (type.equals("+"))
+		else if ("+".equals(type))
 			eL = "^\\d*[1-9]\\d*$";// 正整数
-		else if (type.equals("-0"))
+		else if ("-0".equals(type))
 			eL = "^((-\\d+)|(0+))$";// 非正整数
-		else if (type.equals("-"))
+		else if ("-".equals(type))
 			eL = "^-\\d*[1-9]\\d*$";// 负整数
 		else
 			eL = "^-?\\d+$";// 整数
