@@ -23,7 +23,6 @@ import com.meiduimall.service.catalog.entity.SysitemItemDesc;
 import com.meiduimall.service.catalog.entity.SysitemItemStatus;
 import com.meiduimall.service.catalog.entity.SysitemItemStore;
 import com.meiduimall.service.catalog.entity.SysitemItemWithBLOBs;
-import com.meiduimall.service.catalog.entity.SysitemSkuExample;
 import com.meiduimall.service.catalog.entity.SysitemSkuStore;
 import com.meiduimall.service.catalog.entity.SysitemSkuWithBLOBs;
 import com.meiduimall.service.catalog.result.CheckGoodsResult;
@@ -322,11 +321,8 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 		List<JsonItemDetailResultSku> skuList = new ArrayList<JsonItemDetailResultSku>();
 
 		// 查sysitem_sku表，根据item_id查找该商品对应的SKU列表
-		SysitemSkuExample skuExample = new SysitemSkuExample();
-		SysitemSkuExample.Criteria criteria = skuExample.createCriteria();
-		criteria.andItemIdEqualTo(itemId);
-		List<SysitemSkuWithBLOBs> itemSkuWithBLOBsList = baseDao.selectList(skuExample,
-				"SysitemSkuMapper.selectByExampleWithBLOBs");
+		List<SysitemSkuWithBLOBs> itemSkuWithBLOBsList = baseDao.selectList(itemId,
+				"SysitemSkuMapper.selectByItemId");
 
 		if (itemSkuWithBLOBsList != null && !itemSkuWithBLOBsList.isEmpty()) {
 			for (int i = 0; i < itemSkuWithBLOBsList.size(); i++) {

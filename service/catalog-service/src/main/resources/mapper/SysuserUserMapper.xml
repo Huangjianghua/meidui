@@ -98,21 +98,6 @@
     experience, source, area, addr, email_verify, frozen_money, m_point, m_frozen_point
   </sql>
   
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.service.catalog.entity.SysuserUserExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    * 
-    from sysuser_user
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     * 
@@ -123,13 +108,6 @@
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sysuser_user
     where user_id = #{userId,jdbcType=INTEGER}
-  </delete>
-  
-  <delete id="deleteByExample" parameterType="com.meiduimall.service.catalog.entity.SysuserUserExample" >
-    delete from sysuser_user
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
   </delete>
   
   <insert id="insert" parameterType="com.meiduimall.service.catalog.entity.SysuserUser" >
@@ -330,141 +308,6 @@
       </if>
     </trim>
   </insert>
-  
-  <select id="countByExample" parameterType="com.meiduimall.service.catalog.entity.SysuserUserExample" resultType="java.lang.Integer" >
-    select count(*) from sysuser_user
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  
-  <update id="updateByExampleSelective" parameterType="map" >
-    update sysuser_user
-    <set >
-      <if test="record.userId != null" >
-        user_id = #{record.userId,jdbcType=INTEGER},
-      </if>
-      <if test="record.gradeId != null" >
-        grade_id = #{record.gradeId,jdbcType=INTEGER},
-      </if>
-      <if test="record.name != null" >
-        name = #{record.name,jdbcType=VARCHAR},
-      </if>
-      <if test="record.username != null" >
-        username = #{record.username,jdbcType=VARCHAR},
-      </if>
-      <if test="record.point != null" >
-        point = #{record.point,jdbcType=INTEGER},
-      </if>
-      <if test="record.money != null" >
-        money = #{record.money,jdbcType=DECIMAL},
-      </if>
-      <if test="record.coupon != null" >
-        coupon = #{record.coupon,jdbcType=VARCHAR},
-      </if>
-      <if test="record.payPercent != null" >
-        pay_percent = #{record.payPercent,jdbcType=VARCHAR},
-      </if>
-      <if test="record.referId != null" >
-        refer_id = #{record.referId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.referUrl != null" >
-        refer_url = #{record.referUrl,jdbcType=VARCHAR},
-      </if>
-      <if test="record.birthday != null" >
-        birthday = #{record.birthday,jdbcType=INTEGER},
-      </if>
-      <if test="record.sex != null" >
-        sex = #{record.sex,jdbcType=VARCHAR},
-      </if>
-      <if test="record.wedlock != null" >
-        wedlock = #{record.wedlock,jdbcType=INTEGER},
-      </if>
-      <if test="record.education != null" >
-        education = #{record.education,jdbcType=VARCHAR},
-      </if>
-      <if test="record.vocation != null" >
-        vocation = #{record.vocation,jdbcType=VARCHAR},
-      </if>
-      <if test="record.regIp != null" >
-        reg_ip = #{record.regIp,jdbcType=VARCHAR},
-      </if>
-      <if test="record.regtime != null" >
-        regtime = #{record.regtime,jdbcType=INTEGER},
-      </if>
-      <if test="record.cur != null" >
-        cur = #{record.cur,jdbcType=VARCHAR},
-      </if>
-      <if test="record.lang != null" >
-        lang = #{record.lang,jdbcType=VARCHAR},
-      </if>
-      <if test="record.disabled != null" >
-        disabled = #{record.disabled,jdbcType=INTEGER},
-      </if>
-      <if test="record.experience != null" >
-        experience = #{record.experience,jdbcType=INTEGER},
-      </if>
-      <if test="record.source != null" >
-        source = #{record.source,jdbcType=VARCHAR},
-      </if>
-      <if test="record.area != null" >
-        area = #{record.area,jdbcType=VARCHAR},
-      </if>
-      <if test="record.addr != null" >
-        addr = #{record.addr,jdbcType=VARCHAR},
-      </if>
-      <if test="record.emailVerify != null" >
-        email_verify = #{record.emailVerify,jdbcType=INTEGER},
-      </if>
-      <if test="record.frozenMoney != null" >
-        frozen_money = #{record.frozenMoney,jdbcType=DECIMAL},
-      </if>
-      <if test="record.mPoint != null" >
-        m_point = #{record.mPoint,jdbcType=DECIMAL},
-      </if>
-      <if test="record.mFrozenPoint != null" >
-        m_frozen_point = #{record.mFrozenPoint,jdbcType=DECIMAL},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  
-  <update id="updateByExample" parameterType="map" >
-    update sysuser_user
-    set user_id = #{record.userId,jdbcType=INTEGER},
-      grade_id = #{record.gradeId,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR},
-      username = #{record.username,jdbcType=VARCHAR},
-      point = #{record.point,jdbcType=INTEGER},
-      money = #{record.money,jdbcType=DECIMAL},
-      coupon = #{record.coupon,jdbcType=VARCHAR},
-      pay_percent = #{record.payPercent,jdbcType=VARCHAR},
-      refer_id = #{record.referId,jdbcType=VARCHAR},
-      refer_url = #{record.referUrl,jdbcType=VARCHAR},
-      birthday = #{record.birthday,jdbcType=INTEGER},
-      sex = #{record.sex,jdbcType=VARCHAR},
-      wedlock = #{record.wedlock,jdbcType=INTEGER},
-      education = #{record.education,jdbcType=VARCHAR},
-      vocation = #{record.vocation,jdbcType=VARCHAR},
-      reg_ip = #{record.regIp,jdbcType=VARCHAR},
-      regtime = #{record.regtime,jdbcType=INTEGER},
-      cur = #{record.cur,jdbcType=VARCHAR},
-      lang = #{record.lang,jdbcType=VARCHAR},
-      disabled = #{record.disabled,jdbcType=INTEGER},
-      experience = #{record.experience,jdbcType=INTEGER},
-      source = #{record.source,jdbcType=VARCHAR},
-      area = #{record.area,jdbcType=VARCHAR},
-      addr = #{record.addr,jdbcType=VARCHAR},
-      email_verify = #{record.emailVerify,jdbcType=INTEGER},
-      frozen_money = #{record.frozenMoney,jdbcType=DECIMAL},
-      m_point = #{record.mPoint,jdbcType=DECIMAL},
-      m_frozen_point = #{record.mFrozenPoint,jdbcType=DECIMAL}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
   
   <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.service.catalog.entity.SysuserUser" >
     update sysuser_user
