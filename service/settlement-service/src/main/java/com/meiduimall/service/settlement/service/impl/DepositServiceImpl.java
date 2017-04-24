@@ -401,7 +401,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 			//商家积分流水号
 			String scoreFlow = "EGW" + ecmStore.getStoreNo() + System.currentTimeMillis();
 			//调用积分接口 更新积分 
-			Boolean result = scoreService.addConsumePoints(ecmStore.getUsername(), score, ShareProfitConstants.DATA_SOURCE_O2O,scoreFlow);
+			boolean result = scoreService.addConsumePoints(ecmStore.getUsername(), score, ShareProfitConstants.DATA_SOURCE_O2O,scoreFlow);
 			
 			//插入商家送积分记录
 			EcmMzfStoreRecord ecmMzfStoreRecord = new EcmMzfStoreRecord();

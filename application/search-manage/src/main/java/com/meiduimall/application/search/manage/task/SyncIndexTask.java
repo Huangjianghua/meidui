@@ -104,7 +104,7 @@ public class SyncIndexTask {
 			if (itemId != null) {
 				indexService.addProductIndexById(Integer.parseInt(itemId));
 				// 如果是类目同时修改类目索引
-				if (table.equals("cat")) {
+				if ("cat".equals(table)) {
 					indexService.addCatlogIndexById(updateId);
 				}
 				log.info("更新索引 [" + field + ":" + updateId + "] 成功！");

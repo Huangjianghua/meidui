@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.StringUtil;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
@@ -61,144 +61,6 @@ public class MemberServiceImpl implements MemberService {
 
 	
 	@Override
-	public Boolean addConsumePoints(String phone, String credit,String source,String orderId){
-		
-		if("0".equals(credit)){
-			log.info("积分为0,userId:{},忽略该积分的发送。",phone);
-			return true;
-		}
-		Map<String, String> hashMap = new HashMap<>();
-		hashMap.put("user_id", phone);
-		hashMap.put("consume_points_count",credit);
-		hashMap.put("order_source",source);
-		hashMap.put("url","Authorized/addConsumePoints");
-		hashMap.put("order_id",orderId);
-		String resultJsonStr = ConnectionUrlUtil.httpRequest(belongInfoUrl(hashMap), ShareProfitUtil.REQUEST_METHOD_POST, null);
-		ResBodyData resultJson = JsonUtils.jsonToBean(resultJsonStr, ResBodyData.class);
-		// 判断返回是否成功,如果不成功则不理会
-		if (resultJson.getStatus()==0) {
-			 return true;
-		} else {
-			log.error("errcode:" + resultJson.getStatus() + ";errmsg:" + resultJson.getMsg()+ ";userId:"+phone);
-			return false;
-		}
-		
-	}
-	
-	public Boolean updateAmout2MemberSystem(MemberSystemDataContext ctx) {
-		
-		String userId=ctx.getUserId();
-		Boolean isUpdated=Boolean.FALSE;
- 		if(!Strings.isNullOrEmpty(userId)){
-
-			String resultJsonStr = ConnectionUrlUtil.httpRequest(buildMemberSystemAmoutUrl(ctx), ShareProfitUtil.REQUEST_METHOD_POST, null);
-			
-			ResBodyData resultJson= JsonUtils.jsonToBean(resultJsonStr, ResBodyData.class);
-			
-			String statusCode = resultJson.getStatus() == null ? "" : resultJson.getStatus().toString();
-			// 判断返回是否成功,如果不成功则不理会
-			if ("0".equals(statusCode)) {
-				isUpdated=Boolean.TRUE;
-			} else {
-				log.error("errcode:" + resultJson.getStatus() + ";errmsg:" + resultJson.getMsg() + ";userId:"+userId);
-			}
-		}
-		
-		return isUpdated;
-
-	}
-	
-	//构建更新一级推荐人所获现金余额到会员系统接口的URL以及请求参数
-	public String buildMemberSystemAmoutUrl(MemberSystemDataContext ctx) {
-		
-		String userId = ctx.getUserId();
-
-		String signatureMethod = myProps.getOauthSignatureMethod();
-		String accessorSecret = myProps.getOauthAccessorSecret();
-		String consumerKey = myProps.getOauthConsumerKey();
-		String apiDomain = myProps.getUrl();
-		String apiPath = myProps.getApiUpdFirstReferrerCash();
-		String version = myProps.getOauthVersion();
-
-		String timeStamp = String.valueOf(System.currentTimeMillis() / 1000L);
-		String nonce = ShareProfitUtil.getRandomNum();
-		String source = ctx.getSource();
-		String orderId = ctx.getOrderSn();
-		String tradeType = ctx.getTradeType();
-		String tradeAmount = ctx.getAmount().toString();
-		String direction = ctx.getDirection();
-		String tradeTime = String.valueOf(ctx.getTradeTime());
-		String remark = ctx.getRemark();
-		String remarkEncoded = ShareProfitUtil.encodeStr(remark, Constants.ENCODE_UTF8);
-			
-		String api = apiDomain+apiPath;
-		 
-		String oauthParams = "oauth_signature_method=" + signatureMethod
-				+ "&oauth_accessor_secret=" + accessorSecret 
-				+ "&oauth_consumer_key=" + consumerKey
-				+ "&oauth_timestamp=" + timeStamp 
-				+ "&oauth_nonce=" + nonce 
-				+ "&oauth_version=" + version;
-		
-		String dataParams = "&user_id=" + userId
-				+ "&source=" + source
-				+ "&trade_type=" + tradeType
-		        + "&order_id=" + orderId 
-		        + "&direction=" + direction 
-		        + "&trade_amount=" + tradeAmount 
-		        + "&trade_time=" + tradeTime
-		        + "&remark=" + remarkEncoded;
-		
-		String dataParams4Sign = "&user_id=" + userId
-				+ "&source=" + source
-				+ "&trade_type=" + tradeType
-		        + "&order_id=" + orderId 
-		        + "&direction=" + direction 
-		        + "&trade_amount=" + tradeAmount 
-		        + "&trade_time=" + tradeTime
-		        + "&remark=" + remark;
-				
-		String signature = "&oauth_signature=" + ShareProfitUtil.mD5Encrypt(ShareProfitUtil.encodeStr("get&"+api+"&"+oauthParams+dataParams4Sign, Constants.ENCODE_UTF8)); 
-		
-		return api+"?"+oauthParams+signature+dataParams;  //不嫩直接将中文字符的remark字段传到请求参数，不然API服务器那边接收到时会出现乱码。
-	}
-		
-	
-	//接口参数url拼接
-	private String belongInfoUrl(Map<String, String> map) {
-		String timeStamp = String.valueOf(System.currentTimeMillis() / 1000L);
-		String nonce = ShareProfitUtil.getRandomNum();
-		map.put("timeStamp", timeStamp);
-		map.put("nonce", nonce);
-		
-		String url =  map.get("url")!=null?map.get("url"):"";
-		String userId =  map.get("user_id")!=null?map.get("user_id"):"";
-		String consumePointsCount =  map.get("consume_points_count")!=null?map.get("consume_points_count"):"";
-		String orderSource =  map.get("order_source")!=null?map.get("order_source"):"";
-		String orderId =  map.get("order_id")!=null?map.get("order_id"):"";
-			
-		String belongInfoUrl = myProps.getUrl() + url;
-			 
-		String belongInfo = "oauth_signature_method=" + myProps.getOauthSignatureMethod()
-				+ "&oauth_accessor_secret=" + myProps.getOauthAccessorSecret()
-				+ "&oauth_consumer_key=" + myProps.getOauthConsumerKey()
-				+ "&oauth_timestamp=" + timeStamp 
-				+ "&oauth_nonce=" + nonce 
-				+ "&oauth_version=" + myProps.getOauthVersion();
-				
-		
-		String belongInfoend = "&user_id=" + userId
-				+ "&consume_points_count=" + consumePointsCount
-				+ "&order_source=" + orderSource
-		        + "&order_id=" + orderId;
-				
-		String oauthSignature  = "&oauth_signature=" + ShareProfitUtil.mD5Encrypt(ShareProfitUtil.encodeStr("get&"+belongInfoUrl+"&"+belongInfo+belongInfoend, "UTF-8")); 
-		
-		return belongInfoUrl+"?"+belongInfo+oauthSignature+belongInfoend;
-	}
-	
-
-	@Override
 	public List<String> sendScore(EcmMzfShareProfit shareProfit){
 		
 		final List<String> errors = new ArrayList<>();
@@ -206,25 +68,25 @@ public class MemberServiceImpl implements MemberService {
 		log.info("Update Score Start:Current Date:" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " for orderSn:"+shareProfit.getOrderSn());
 
 		if (StringUtil.isEmpty(shareProfit.getPhone()) || StringUtil.isEmpty(shareProfit.getSellerPhone())) {
-			log.warn("会员/商家手机号为空!略过该条更新数据!orderSn:"+shareProfit.getOrderSn());
+			log.warn("会员/商家手机号为空!略过该条更新数据!orderSn:{}", shareProfit.getOrderSn());
 			errors.add("会员/商家手机号不能为空!");
 			//略过该条数据，因为没法 更新积分。
 			return errors;
 		}
-		log.info("开始更新订单分润的各受益相关人所获积分到会员系统,orderSn:"+shareProfit.getOrderSn());
+		log.info("开始更新订单分润的各受益相关人所获积分到会员系统,orderSn:{}", shareProfit.getOrderSn());
 		boolean updateMemberScore = this.addConsumePoints(shareProfit.getPhone(), shareProfit.getPoint().toString(), ShareProfitConstants.DATA_SOURCE_O2O, shareProfit.getOrderSn());
 		if(updateMemberScore){
-			log.info("更新订单分润用户所获积分到会员系统成功,用户手机号:"+shareProfit.getPhone());
+			log.info("更新订单分润用户所获积分到会员系统成功,用户手机号:{}", shareProfit.getPhone());
 		}else{
-			log.error("更新订单分润用户所获积分到会员系统失败,用户手机号:"+shareProfit.getPhone());
+			log.error("更新订单分润用户所获积分到会员系统失败,用户手机号:{}", shareProfit.getPhone());
 			errors.add("更新订单分润用户所获积分到会员系统失败,用户手机号:"+shareProfit.getPhone());
 		}
 		
 		boolean updateSellerScore = this.addConsumePoints(shareProfit.getSellerPhone(), shareProfit.getSellerPoint().toString(), ShareProfitConstants.DATA_SOURCE_O2O, shareProfit.getOrderSn());
 		if(updateSellerScore){
-			log.info("更新订单分润商家所获积分到会员系统成功,商家手机号:"+shareProfit.getSellerPhone());
+			log.info("更新订单分润商家所获积分到会员系统成功,商家手机号:{}", shareProfit.getSellerPhone());
 		}else{
-			log.error("更新订单分润商家所获积分到会员系统失败,商家手机号:"+shareProfit.getSellerPhone());
+			log.error("更新订单分润商家所获积分到会员系统失败,商家手机号:{}", shareProfit.getSellerPhone());
 			errors.add("更新订单分润商家所获积分到会员系统失败,商家手机号:"+shareProfit.getSellerPhone());
 		}
 		
@@ -235,9 +97,9 @@ public class MemberServiceImpl implements MemberService {
 			updateOneScore = this.addConsumePoints(shareProfit.getBelongOnePhone(), shareProfit.getBelongOnePoint().toString(), ShareProfitConstants.DATA_SOURCE_O2O, shareProfit.getOrderSn());
 			
 			if(updateOneScore){
-				log.info("更新订单分润一级推荐人所获积分到会员系统成功,一级推荐人手机号:"+shareProfit.getBelongOnePhone());
+				log.info("更新订单分润一级推荐人所获积分到会员系统成功,一级推荐人手机号:{}", shareProfit.getBelongOnePhone());
 			}else{
-				log.error("更新订单分润一级推荐人所获积分到会员系统失败,一级推荐人手机号:"+shareProfit.getBelongOnePhone());
+				log.error("更新订单分润一级推荐人所获积分到会员系统失败,一级推荐人手机号:{}", shareProfit.getBelongOnePhone());
 				errors.add("更新订单分润一级推荐人所获积分到会员系统失败,一级推荐人手机号:"+shareProfit.getBelongOnePhone());
 			}
 		
@@ -246,18 +108,18 @@ public class MemberServiceImpl implements MemberService {
 			updateTwoScore = this.addConsumePoints(shareProfit.getBelongTwoPhone(), shareProfit.getBelongTwoPoint().toString(), ShareProfitConstants.DATA_SOURCE_O2O, shareProfit.getOrderSn());
 		
 			if(updateTwoScore){
-				log.info("更新订单分润二级推荐人所获积分到会员系统成功,二级推荐人手机号:"+shareProfit.getBelongTwoPhone());
+				log.info("更新订单分润二级推荐人所获积分到会员系统成功,二级推荐人手机号:{}", shareProfit.getBelongTwoPhone());
 			}else{
-				log.error("更新订单分润二级推荐人所获积分到会员系统失败,二级推荐人手机号:"+shareProfit.getBelongTwoPhone());
+				log.error("更新订单分润二级推荐人所获积分到会员系统失败,二级推荐人手机号:{}", shareProfit.getBelongTwoPhone());
 				errors.add("更新订单分润二级推荐人所获积分到会员系统失败,二级推荐人手机号:"+shareProfit.getBelongTwoPhone());
 			}
 		
 		}
 
 		if (updateMemberScore && updateSellerScore && updateOneScore && updateTwoScore) {
-			log.info("分润订单更积分成功!orderSn:"+shareProfit.getOrderSn());
+			log.info("分润订单更积分成功!orderSn:{}", shareProfit.getOrderSn());
 		} else {
-			log.error("updateScore 订单分润更新积分到会员系统失败!!orderSn:"+shareProfit.getOrderSn());
+			log.error("updateScore 订单分润更新积分到会员系统失败!!orderSn:{}", shareProfit.getOrderSn());
 			log.error("OrderServiceImpl-->updateScore-->更新积分失败!商家/会员/推荐人积分更新失败!");
 		}
 			
@@ -345,7 +207,144 @@ public class MemberServiceImpl implements MemberService {
 				shareProfitLogService.logCreateBillLog(cbl);
 			}
 		}
+	}
+	
+	
+	@Override
+	public boolean addConsumePoints(String phone, String credit,String source,String orderId){
+		
+		if("0".equals(credit)){
+			log.info("积分为0,userId:{},忽略该积分的发送", phone);
+			return true;
+		}
+		Map<String, String> hashMap = Maps.newHashMap();
+		hashMap.put("user_id", phone);
+		hashMap.put("consume_points_count",credit);
+		hashMap.put("order_source",source);
+		hashMap.put("url","Authorized/addConsumePoints");
+		hashMap.put("order_id",orderId);
+		String resultJsonStr = ConnectionUrlUtil.httpRequest(belongInfoUrl(hashMap), ShareProfitUtil.REQUEST_METHOD_POST, null);
+		ResBodyData resultJson = JsonUtils.jsonToBean(resultJsonStr, ResBodyData.class);
+		// 判断返回是否成功,如果不成功则不理会
+		if (resultJson.getStatus()==0) {
+			 return true;
+		} else {
+			log.error("errcode:{};errmsg:{};userId:{}", resultJson.getStatus(), resultJson.getMsg(), phone);
+			return false;
+		}
+		
+	}
+	
+	public boolean updateAmout2MemberSystem(MemberSystemDataContext ctx) {
+		
+		String userId=ctx.getUserId();
+		boolean isUpdated=false;
+ 		if(!Strings.isNullOrEmpty(userId)){
 
+			String resultJsonStr = ConnectionUrlUtil.httpRequest(buildMemberSystemAmoutUrl(ctx), ShareProfitUtil.REQUEST_METHOD_POST, null);
+			
+			ResBodyData resultJson= JsonUtils.jsonToBean(resultJsonStr, ResBodyData.class);
+			
+			String statusCode = resultJson.getStatus() == null ? "" : resultJson.getStatus().toString();
+			// 判断返回是否成功,如果不成功则不理会
+			if ("0".equals(statusCode)) {
+				isUpdated=true;
+			} else {
+				log.error("errcode:{};errmsg:{};userId:{}", resultJson.getStatus(), resultJson.getMsg(), userId);
+			}
+		}
+		
+		return isUpdated;
+
+	}
+	
+	//构建更新一级推荐人所获现金余额到会员系统接口的URL以及请求参数
+	public String buildMemberSystemAmoutUrl(MemberSystemDataContext ctx) {
+		
+		String userId = ctx.getUserId();
+
+		String signatureMethod = myProps.getOauthSignatureMethod();
+		String accessorSecret = myProps.getOauthAccessorSecret();
+		String consumerKey = myProps.getOauthConsumerKey();
+		String apiDomain = myProps.getUrl();
+		String apiPath = myProps.getApiUpdFirstReferrerCash();
+		String version = myProps.getOauthVersion();
+
+		String timeStamp = String.valueOf(System.currentTimeMillis() / 1000L);
+		String nonce = ShareProfitUtil.getRandomNum();
+		String source = ctx.getSource();
+		String orderId = ctx.getOrderSn();
+		String tradeType = ctx.getTradeType();
+		String tradeAmount = ctx.getAmount().toString();
+		String direction = ctx.getDirection();
+		String tradeTime = String.valueOf(ctx.getTradeTime());
+		String remark = ctx.getRemark();
+		String remarkEncoded = ShareProfitUtil.encodeStr(remark, Constants.ENCODE_UTF8);
+			
+		String api = apiDomain+apiPath;
+		 
+		String oauthParams = "oauth_signature_method=" + signatureMethod
+				+ "&oauth_accessor_secret=" + accessorSecret 
+				+ "&oauth_consumer_key=" + consumerKey
+				+ "&oauth_timestamp=" + timeStamp 
+				+ "&oauth_nonce=" + nonce 
+				+ "&oauth_version=" + version;
+		
+		String dataParams = "&user_id=" + userId
+				+ "&source=" + source
+				+ "&trade_type=" + tradeType
+		        + "&order_id=" + orderId 
+		        + "&direction=" + direction 
+		        + "&trade_amount=" + tradeAmount 
+		        + "&trade_time=" + tradeTime
+		        + "&remark=" + remarkEncoded;
+		
+		String dataParams4Sign = "&user_id=" + userId
+				+ "&source=" + source
+				+ "&trade_type=" + tradeType
+		        + "&order_id=" + orderId 
+		        + "&direction=" + direction 
+		        + "&trade_amount=" + tradeAmount 
+		        + "&trade_time=" + tradeTime
+		        + "&remark=" + remark;
+				
+		String signature = "&oauth_signature=" + ShareProfitUtil.mD5Encrypt(ShareProfitUtil.encodeStr("get&"+api+"&"+oauthParams+dataParams4Sign, Constants.ENCODE_UTF8)); 
+		
+		return api+"?"+oauthParams+signature+dataParams;  //不能直接将中文字符的remark字段传到请求参数，不然API服务器那边接收到时会出现乱码。
+	}
+		
+	
+	//接口参数url拼接
+	private String belongInfoUrl(Map<String, String> map) {
+		String timeStamp = String.valueOf(System.currentTimeMillis() / 1000L);
+		String nonce = ShareProfitUtil.getRandomNum();
+		map.put("timeStamp", timeStamp);
+		map.put("nonce", nonce);
+		
+		String url =  map.get("url")!=null?map.get("url"):"";
+		String userId =  map.get("user_id")!=null?map.get("user_id"):"";
+		String consumePointsCount =  map.get("consume_points_count")!=null?map.get("consume_points_count"):"";
+		String orderSource =  map.get("order_source")!=null?map.get("order_source"):"";
+		String orderId =  map.get("order_id")!=null?map.get("order_id"):"";
+			
+		String belongInfoUrl = myProps.getUrl() + url;
+			 
+		String belongInfo = "oauth_signature_method=" + myProps.getOauthSignatureMethod()
+				+ "&oauth_accessor_secret=" + myProps.getOauthAccessorSecret()
+				+ "&oauth_consumer_key=" + myProps.getOauthConsumerKey()
+				+ "&oauth_timestamp=" + timeStamp 
+				+ "&oauth_nonce=" + nonce 
+				+ "&oauth_version=" + myProps.getOauthVersion();
+				
+		
+		String belongInfoend = "&user_id=" + userId
+				+ "&consume_points_count=" + consumePointsCount
+				+ "&order_source=" + orderSource
+		        + "&order_id=" + orderId;
+				
+		String oauthSignature  = "&oauth_signature=" + ShareProfitUtil.mD5Encrypt(ShareProfitUtil.encodeStr("get&"+belongInfoUrl+"&"+belongInfo+belongInfoend, "UTF-8")); 
+		
+		return belongInfoUrl+"?"+belongInfo+oauthSignature+belongInfoend;
 	}
 	
 

@@ -73,21 +73,6 @@
     item_id, shop_id, approve_status, list_time, delist_time
   </sql>
   
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.service.catalog.entity.SysitemItemStatusExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    * 
-    from sysitem_item_status
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     * 
@@ -98,13 +83,6 @@
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sysitem_item_status
     where item_id = #{itemId,jdbcType=INTEGER}
-  </delete>
-  
-  <delete id="deleteByExample" parameterType="com.meiduimall.service.catalog.entity.SysitemItemStatusExample" >
-    delete from sysitem_item_status
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
   </delete>
   
   <insert id="insert" parameterType="com.meiduimall.service.catalog.entity.SysitemItemStatus" >
@@ -151,49 +129,6 @@
       </if>
     </trim>
   </insert>
-  
-  <select id="countByExample" parameterType="com.meiduimall.service.catalog.entity.SysitemItemStatusExample" resultType="java.lang.Integer" >
-    select count(*) from sysitem_item_status
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  
-  <update id="updateByExampleSelective" parameterType="map" >
-    update sysitem_item_status
-    <set >
-      <if test="record.itemId != null" >
-        item_id = #{record.itemId,jdbcType=INTEGER},
-      </if>
-      <if test="record.shopId != null" >
-        shop_id = #{record.shopId,jdbcType=INTEGER},
-      </if>
-      <if test="record.approveStatus != null" >
-        approve_status = #{record.approveStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="record.listTime != null" >
-        list_time = #{record.listTime,jdbcType=INTEGER},
-      </if>
-      <if test="record.delistTime != null" >
-        delist_time = #{record.delistTime,jdbcType=INTEGER},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  
-  <update id="updateByExample" parameterType="map" >
-    update sysitem_item_status
-    set item_id = #{record.itemId,jdbcType=INTEGER},
-      shop_id = #{record.shopId,jdbcType=INTEGER},
-      approve_status = #{record.approveStatus,jdbcType=VARCHAR},
-      list_time = #{record.listTime,jdbcType=INTEGER},
-      delist_time = #{record.delistTime,jdbcType=INTEGER}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
   
   <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.service.catalog.entity.SysitemItemStatus" >
     update sysitem_item_status

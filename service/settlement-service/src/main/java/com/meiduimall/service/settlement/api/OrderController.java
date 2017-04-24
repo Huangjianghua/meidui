@@ -127,7 +127,7 @@ public class OrderController {
 		
 		int statusCode=ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS;
 
-		Boolean isSuccess=true;
+		boolean isSuccess=true;
 		String msg="同步订单审核状态数据到结算系统成功!";
 		try {
 			isSuccess = orderService.syncVerifyStatus(orderStatus);

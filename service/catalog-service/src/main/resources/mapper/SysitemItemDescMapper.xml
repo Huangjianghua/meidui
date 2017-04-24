@@ -79,36 +79,6 @@
     pc_desc, wap_desc, wireless_desc
   </sql>
   
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.meiduimall.service.catalog.entity.SysitemItemDescExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    * 
-    from sysitem_item_desc
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.service.catalog.entity.SysitemItemDescExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    item_id 
-    from sysitem_item_desc
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 
     * 
@@ -119,13 +89,6 @@
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sysitem_item_desc
     where item_id = #{itemId,jdbcType=INTEGER}
-  </delete>
-  
-  <delete id="deleteByExample" parameterType="com.meiduimall.service.catalog.entity.SysitemItemDescExample" >
-    delete from sysitem_item_desc
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
   </delete>
   
   <insert id="insert" parameterType="com.meiduimall.service.catalog.entity.SysitemItemDesc" >
@@ -166,53 +129,6 @@
       </if>
     </trim>
   </insert>
-  
-  <select id="countByExample" parameterType="com.meiduimall.service.catalog.entity.SysitemItemDescExample" resultType="java.lang.Integer" >
-    select count(*) from sysitem_item_desc
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  
-  <update id="updateByExampleSelective" parameterType="map" >
-    update sysitem_item_desc
-    <set >
-      <if test="record.itemId != null" >
-        item_id = #{record.itemId,jdbcType=INTEGER},
-      </if>
-      <if test="record.pcDesc != null" >
-        pc_desc = #{record.pcDesc,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="record.wapDesc != null" >
-        wap_desc = #{record.wapDesc,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="record.wirelessDesc != null" >
-        wireless_desc = #{record.wirelessDesc,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  
-  <update id="updateByExampleWithBLOBs" parameterType="map" >
-    update sysitem_item_desc
-    set item_id = #{record.itemId,jdbcType=INTEGER},
-      pc_desc = #{record.pcDesc,jdbcType=LONGVARCHAR},
-      wap_desc = #{record.wapDesc,jdbcType=LONGVARCHAR},
-      wireless_desc = #{record.wirelessDesc,jdbcType=LONGVARCHAR}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  
-  <update id="updateByExample" parameterType="map" >
-    update sysitem_item_desc
-    set item_id = #{record.itemId,jdbcType=INTEGER}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
   
   <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.service.catalog.entity.SysitemItemDesc" >
     update sysitem_item_desc

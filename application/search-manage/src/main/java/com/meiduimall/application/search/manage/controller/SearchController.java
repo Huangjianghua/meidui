@@ -65,7 +65,7 @@ public class SearchController extends BaseController {
 		QueryIndexResult results = getQueryResult(searchParam);
 		if (results == null) {
 			String sg = request.getParameter("sg1");
-			if (sg == null || sg.equals("")) {
+			if (sg == null ||"".equals(sg)) {
 				return model;
 			}
 			searchParam.setKeyword(sg);

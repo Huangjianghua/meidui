@@ -58,26 +58,36 @@ public class DepositRetryTask {
 			
 			//获取新个代送积分失败日志记录
 			Map<String, Object> result = getAgentRetry();
-			
-			if (result != null && !result.isEmpty()) {
-				String retryType = "";
-				
-				for (Map.Entry<String, Object> entry : result.entrySet()) {
-					String shareProfitJsonObj = RedisUtils.get(ShareProfitConstants.REDIS_KEY_PRIFIX_AGENT + entry.getKey());
-					EcmAgent ecmAgent = JsonUtils.jsonToBean(shareProfitJsonObj, EcmAgent.class);
-					
-					if (ShareProfitConstants.SHARE_PROFIT_RETRY_TYPE_FINAL_ROUND.equals(entry.getValue())) {
-						retryType = ShareProfitConstants.SHARE_PROFIT_RETRY_TYPE_FINAL_ROUND;
-					}
-					
-					//调用新个代送积分方法
-					asyncTaskService.updateScore(ecmAgent, score, ShareProfitConstants.SHARE_PROFIT_SOURCE_CACHE, retryType);
-				}
-			}
+			//调用送积分方法
+			updateScore(score, result);
 		} catch (ServiceException e) {
 			logger.error("新个代重试送积分失败：{}", e);
 		}
 		
+	}
+
+	/**
+	 * 给新个代送积分
+	 * @param score
+	 * @param result
+	 */
+	private void updateScore(int score, Map<String, Object> result) {
+		if (result != null && !result.isEmpty()) {
+			
+			for (Map.Entry<String, Object> entry : result.entrySet()) {
+				String shareProfitJsonObj = RedisUtils.get(ShareProfitConstants.REDIS_KEY_PRIFIX_AGENT + entry.getKey());
+				EcmAgent ecmAgent = JsonUtils.jsonToBean(shareProfitJsonObj, EcmAgent.class);
+				
+				String retryType = "";
+				
+				if (ShareProfitConstants.SHARE_PROFIT_RETRY_TYPE_FINAL_ROUND.equals(entry.getValue())) {
+					retryType = ShareProfitConstants.SHARE_PROFIT_RETRY_TYPE_FINAL_ROUND;
+				}
+				
+				//调用新个代送积分方法
+				asyncTaskService.updateScore(ecmAgent, score, ShareProfitConstants.SHARE_PROFIT_SOURCE_CACHE, retryType);
+			}
+		}
 	}
 	
 	/**

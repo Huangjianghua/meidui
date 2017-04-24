@@ -378,28 +378,6 @@ public class DateUtil {
 		return date <= 0 ? date : date + 1;
 	}
 
-	public static final boolean isBetweenDateS(Date beginDate, Date nowDate, Date endDate) {
-		if (beginDate != null && nowDate != null && endDate != null) {
-			if ((beginDate.getTime() / (24 * 60 * 60 * 1000)) <= (nowDate
-					.getTime() / (24 * 60 * 60 * 1000))
-					&& (nowDate.getTime() / (24 * 60 * 60 * 1000)) <= (endDate
-							.getTime() / (24 * 60 * 60 * 1000))) {
-				return true;
-			}
-		} else if (beginDate != null && nowDate != null) {
-			if ((beginDate.getTime() / (24 * 60 * 60 * 1000)) <= (nowDate
-					.getTime() / (24 * 60 * 60 * 1000))) {
-				return true;
-			}
-		} else if (nowDate != null && endDate != null) {
-			if ((nowDate.getTime() / (24 * 60 * 60 * 1000)) <= (endDate
-					.getTime() / (24 * 60 * 60 * 1000))) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 
 	public static final int subSecond(String str, Date b) {
 		Date a = null;

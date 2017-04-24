@@ -16,11 +16,8 @@ import com.meiduimall.service.catalog.constant.ServiceCatalogApiCode;
 import com.meiduimall.service.catalog.dao.BaseDao;
 import com.meiduimall.service.catalog.entity.SysshopShop;
 import com.meiduimall.service.catalog.entity.SysshopShopCat;
-import com.meiduimall.service.catalog.entity.SysshopShopCatExample;
-import com.meiduimall.service.catalog.entity.SysshopShopExample;
 import com.meiduimall.service.catalog.entity.SysuserAccount;
 import com.meiduimall.service.catalog.entity.SysuserShopFav;
-import com.meiduimall.service.catalog.entity.SysuserShopFavExample;
 import com.meiduimall.service.catalog.request.ShopProductRequest;
 import com.meiduimall.service.catalog.result.ChildShopCat;
 import com.meiduimall.service.catalog.result.JsonItemDetailResultShopData;
@@ -80,11 +77,10 @@ public class ShopServiceImpl implements ShopService {
 		if (isCollect == 1) {
 			/** 收藏店铺 **/
 			// 1.首先判断该用户是否收藏了该店铺--如果已经收藏了，直接提示收藏成功
-			SysuserShopFavExample shopFavExample = new SysuserShopFavExample();
-			SysuserShopFavExample.Criteria criteria = shopFavExample.createCriteria();
-			criteria.andShopIdEqualTo(shopId);
-			criteria.andUserIdEqualTo(userId);
-			int collectCount = baseDao.selectOne(shopFavExample, "SysuserShopFavMapper.countByExample");
+			SysuserShopFav queryShopFav = new SysuserShopFav();
+			queryShopFav.setUserId(userId);
+			queryShopFav.setShopId(shopId);
+			int collectCount = baseDao.selectOne(queryShopFav, "SysuserShopFavMapper.countByShopIdAndUserId");
 			if (collectCount > 0) {
 				result.setStatus(ServiceCatalogApiCode.SUCCESS);
 				result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.COLLECT_SUCCESS));
@@ -93,10 +89,7 @@ public class ShopServiceImpl implements ShopService {
 			}
 
 			// 2.查询店铺信息
-			SysshopShopExample shopExample = new SysshopShopExample();
-			SysshopShopExample.Criteria shopCriteria = shopExample.createCriteria();
-			shopCriteria.andShopIdEqualTo(shopId);
-			List<SysshopShop> shopList = baseDao.selectList(shopExample, "SysshopShopMapper.selectByExample");
+			List<SysshopShop> shopList = baseDao.selectList(shopId, "SysshopShopMapper.selectByPrimaryKey");
 
 			if (shopList == null || shopList.isEmpty()) {
 				// 没有这个店铺
@@ -126,11 +119,10 @@ public class ShopServiceImpl implements ShopService {
 
 		} else {
 			/** 取消收藏 **/
-			SysuserShopFavExample shopFavExample = new SysuserShopFavExample();
-			SysuserShopFavExample.Criteria shopFavCriteria = shopFavExample.createCriteria();
-			shopFavCriteria.andUserIdEqualTo(userId);
-			shopFavCriteria.andShopIdEqualTo(shopId);
-			Integer deleteCount = baseDao.delete(shopFavExample, "SysuserShopFavMapper.deleteByExample");
+			SysuserShopFav queryShopFav = new SysuserShopFav();
+			queryShopFav.setUserId(userId);
+			queryShopFav.setShopId(shopId);
+			Integer deleteCount = baseDao.delete(queryShopFav, "SysuserShopFavMapper.deleteByShopIdAndUserId");
 			if (deleteCount > 0) {
 				result.setStatus(ServiceCatalogApiCode.SUCCESS);
 				result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.CANCEL_COLLECT_SUCCESS));
@@ -147,10 +139,7 @@ public class ShopServiceImpl implements ShopService {
 	public ResBodyData getShopProductCatalog(Integer shopId) {
 		logger.info("获取店铺自定义商品分类，shop_id： " + shopId);
 
-		SysshopShopCatExample example = new SysshopShopCatExample();
-		SysshopShopCatExample.Criteria criteria = example.createCriteria();
-		criteria.andShopIdEqualTo(Integer.valueOf(shopId));
-		List<SysshopShopCat> list = baseDao.selectList(example, "SysshopShopCatMapper.selectByExample");
+		List<SysshopShopCat> list = baseDao.selectList(shopId, "SysshopShopCatMapper.selectByShopId");
 
 		if (list != null && !list.isEmpty()) {
 			ShopCatResult shopCatResult = new ShopCatResult();

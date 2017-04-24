@@ -78,21 +78,6 @@
     view_count, buy_count, vitural_quantity
   </sql>
   
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.service.catalog.entity.SysitemItemCountExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    * 
-    from sysitem_item_count
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     * 
@@ -103,13 +88,6 @@
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sysitem_item_count
     where item_id = #{itemId,jdbcType=INTEGER}
-  </delete>
-  
-  <delete id="deleteByExample" parameterType="com.meiduimall.service.catalog.entity.SysitemItemCountExample" >
-    delete from sysitem_item_count
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
   </delete>
   
   <insert id="insert" parameterType="com.meiduimall.service.catalog.entity.SysitemItemCount" >
@@ -184,65 +162,6 @@
       </if>
     </trim>
   </insert>
-  
-  <select id="countByExample" parameterType="com.meiduimall.service.catalog.entity.SysitemItemCountExample" resultType="java.lang.Integer" >
-    select count(*) from sysitem_item_count
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  
-  <update id="updateByExampleSelective" parameterType="map" >
-    update sysitem_item_count
-    <set >
-      <if test="record.itemId != null" >
-        item_id = #{record.itemId,jdbcType=INTEGER},
-      </if>
-      <if test="record.soldQuantity != null" >
-        sold_quantity = #{record.soldQuantity,jdbcType=INTEGER},
-      </if>
-      <if test="record.rateCount != null" >
-        rate_count = #{record.rateCount,jdbcType=INTEGER},
-      </if>
-      <if test="record.rateGoodCount != null" >
-        rate_good_count = #{record.rateGoodCount,jdbcType=INTEGER},
-      </if>
-      <if test="record.rateNeutralCount != null" >
-        rate_neutral_count = #{record.rateNeutralCount,jdbcType=INTEGER},
-      </if>
-      <if test="record.rateBadCount != null" >
-        rate_bad_count = #{record.rateBadCount,jdbcType=INTEGER},
-      </if>
-      <if test="record.viewCount != null" >
-        view_count = #{record.viewCount,jdbcType=INTEGER},
-      </if>
-      <if test="record.buyCount != null" >
-        buy_count = #{record.buyCount,jdbcType=INTEGER},
-      </if>
-      <if test="record.vituralQuantity != null" >
-        vitural_quantity = #{record.vituralQuantity,jdbcType=INTEGER},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  
-  <update id="updateByExample" parameterType="map" >
-    update sysitem_item_count
-    set item_id = #{record.itemId,jdbcType=INTEGER},
-      sold_quantity = #{record.soldQuantity,jdbcType=INTEGER},
-      rate_count = #{record.rateCount,jdbcType=INTEGER},
-      rate_good_count = #{record.rateGoodCount,jdbcType=INTEGER},
-      rate_neutral_count = #{record.rateNeutralCount,jdbcType=INTEGER},
-      rate_bad_count = #{record.rateBadCount,jdbcType=INTEGER},
-      view_count = #{record.viewCount,jdbcType=INTEGER},
-      buy_count = #{record.buyCount,jdbcType=INTEGER},
-      vitural_quantity = #{record.vituralQuantity,jdbcType=INTEGER}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
   
   <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.service.catalog.entity.SysitemItemCount" >
     update sysitem_item_count

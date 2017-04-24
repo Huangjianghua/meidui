@@ -59,7 +59,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
         resultJson = resultJson.replace("null", "\"\"");
         JSONObject jsonObj = JSONObject.fromObject(resultJson);
         if(jsonObj.get("RESULTS") == null 
-        		|| jsonObj.get("RESULTS").equals("") 
+        		|| "".equals(jsonObj.get("RESULTS")) 
         		|| jsonObj.getJSONArray("RESULTS").isEmpty()) {
         	return null;
         }

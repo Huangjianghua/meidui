@@ -89,45 +89,11 @@
   
   
   <!-- 查询语句 -->
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.meiduimall.service.catalog.entity.SysitemItemRecommendExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    * 
-    from sysitem_item_recommend
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.service.catalog.entity.SysitemItemRecommendExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    id, item_id, reco_time, reco_level, reco_type, opt_user, ip, curr_time 
-    from sysitem_item_recommend
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 
     * 
     from sysitem_item_recommend
     where id = #{id,jdbcType=INTEGER}
-  </select>
-  <select id="countByExample" parameterType="com.meiduimall.service.catalog.entity.SysitemItemRecommendExample" resultType="java.lang.Integer" >
-    select count(*) from sysitem_item_recommend
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
   </select>
   
   <select id="selectLastRecordByType" parameterType="int" resultType="java.lang.Integer">
@@ -140,13 +106,6 @@
     delete from sysitem_item_recommend
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.meiduimall.service.catalog.entity.SysitemItemRecommendExample" >
-    delete from sysitem_item_recommend
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  
   
   <!-- 插入语句 -->
   <insert id="insert" parameterType="com.meiduimall.service.catalog.entity.SysitemItemRecommend" >
@@ -238,70 +197,6 @@
   
   
   <!-- 更新语句 -->
-  <update id="updateByExampleSelective" parameterType="map" >
-    update sysitem_item_recommend
-    <set >
-      <if test="record.id != null" >
-        id = #{record.id,jdbcType=INTEGER},
-      </if>
-      <if test="record.itemId != null" >
-        item_id = #{record.itemId,jdbcType=INTEGER},
-      </if>
-      <if test="record.recoTime != null" >
-        reco_time = #{record.recoTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.recoLevel != null" >
-        reco_level = #{record.recoLevel,jdbcType=INTEGER},
-      </if>
-      <if test="record.recoType != null" >
-        reco_type = #{record.recoType,jdbcType=INTEGER},
-      </if>
-      <if test="record.optUser != null" >
-        opt_user = #{record.optUser,jdbcType=VARCHAR},
-      </if>
-      <if test="record.ip != null" >
-        ip = #{record.ip,jdbcType=VARCHAR},
-      </if>
-      <if test="record.currTime != null" >
-        curr_time = #{record.currTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.recoDesc != null" >
-        reco_desc = #{record.recoDesc,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map" >
-    update sysitem_item_recommend
-    set id = #{record.id,jdbcType=INTEGER},
-      item_id = #{record.itemId,jdbcType=INTEGER},
-      reco_time = #{record.recoTime,jdbcType=TIMESTAMP},
-      reco_level = #{record.recoLevel,jdbcType=INTEGER},
-      reco_type = #{record.recoType,jdbcType=INTEGER},
-      opt_user = #{record.optUser,jdbcType=VARCHAR},
-      ip = #{record.ip,jdbcType=VARCHAR},
-      curr_time = #{record.currTime,jdbcType=TIMESTAMP},
-      reco_desc = #{record.recoDesc,jdbcType=LONGVARCHAR}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map" >
-    update sysitem_item_recommend
-    set id = #{record.id,jdbcType=INTEGER},
-      item_id = #{record.itemId,jdbcType=INTEGER},
-      reco_time = #{record.recoTime,jdbcType=TIMESTAMP},
-      reco_level = #{record.recoLevel,jdbcType=INTEGER},
-      reco_type = #{record.recoType,jdbcType=INTEGER},
-      opt_user = #{record.optUser,jdbcType=VARCHAR},
-      ip = #{record.ip,jdbcType=VARCHAR},
-      curr_time = #{record.currTime,jdbcType=TIMESTAMP}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.service.catalog.entity.SysitemItemRecommend" >
     update sysitem_item_recommend
     <set >

@@ -177,4 +177,26 @@ public class PackageIntegral {
             }  
         }     
 	}
+    
+    @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((pActualPrice == null) ? 0 : pActualPrice.hashCode());
+		result = prime * result + ((pActualSectionE == null) ? 0 : pActualSectionE.hashCode());
+		result = prime * result + ((pActualSectionS == null) ? 0 : pActualSectionS.hashCode());
+		result = prime * result + ((pBackIntegral == null) ? 0 : pBackIntegral.hashCode());
+		result = prime * result + ((pBackProportion == null) ? 0 : pBackProportion.hashCode());
+		result = prime * result + ((pCardIssuer == null) ? 0 : pCardIssuer.hashCode());
+		result = prime * result + ((pCreatedDate == null) ? 0 : pCreatedDate.hashCode());
+		result = prime * result + ((pId == null) ? 0 : pId.hashCode());
+		result = prime * result + ((pInprice == null) ? 0 : pInprice.hashCode());
+		result = prime * result + ((pName == null) ? 0 : pName.hashCode());
+		result = prime * result + ((pProductId == null) ? 0 : pProductId.hashCode());
+		result = prime * result + ((pRemark == null) ? 0 : pRemark.hashCode());
+		result = prime * result + ((pSalePrice == null) ? 0 : pSalePrice.hashCode());
+		result = prime * result + ((pType == null) ? 0 : pType.hashCode());
+		return result;
+	}
+    
 }

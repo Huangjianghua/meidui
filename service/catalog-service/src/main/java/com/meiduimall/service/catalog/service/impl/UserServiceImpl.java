@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.meiduimall.service.catalog.dao.BaseDao;
 import com.meiduimall.service.catalog.entity.SysuserAccount;
-import com.meiduimall.service.catalog.entity.SysuserAccountExample;
 import com.meiduimall.service.catalog.service.UserService;
 
 @Service
@@ -23,10 +22,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public SysuserAccount getUserByMemId(String memId) {
-		SysuserAccountExample userAccountExample = new SysuserAccountExample();
-		SysuserAccountExample.Criteria userAccountCriteria = userAccountExample.createCriteria();
-		userAccountCriteria.andMemIdEqualTo(memId);
-		List<SysuserAccount> list = baseDao.selectList(userAccountExample, "SysuserAccountMapper.selectByExample");
+		List<SysuserAccount> list = baseDao.selectList(memId, "SysuserAccountMapper.selectByMemId");
 		if (list != null && !list.isEmpty()) {
 			return list.get(0);
 		} else {

@@ -308,9 +308,8 @@ public class Pinyin4jUtil {
 		HanyuPinyinOutputFormat format = new HanyuPinyinOutputFormat();
 		format.setCaseType(upperCase ? HanyuPinyinCaseType.UPPERCASE
 				: HanyuPinyinCaseType.LOWERCASE);
-		if (toneType == 0) {
-			format.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
-		} else if (toneType == 1) {
+		
+		if (toneType == 1) {
 			format.setToneType(HanyuPinyinToneType.WITH_TONE_MARK);
 		} else if (toneType == 2) {
 			format.setToneType(HanyuPinyinToneType.WITH_TONE_NUMBER);
@@ -318,9 +317,7 @@ public class Pinyin4jUtil {
 			format.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
 		}
 
-		if (vCharType == 0) {
-			format.setVCharType(HanyuPinyinVCharType.WITH_V);
-		} else if (vCharType == 1) {
+		if (vCharType == 1) {
 			format.setVCharType(HanyuPinyinVCharType.WITH_U_UNICODE);
 		} else if (vCharType == 2) {
 			format.setVCharType(HanyuPinyinVCharType.WITH_U_AND_COLON);
@@ -378,7 +375,7 @@ public class Pinyin4jUtil {
 			for (String s : china) {
 				Integer count = onlyOne.get(s);
 				if (count == null) {
-					onlyOne.put(s, new Integer(1));
+					onlyOne.put(s, 1);
 				} else {
 					onlyOne.remove(s);
 					count++;

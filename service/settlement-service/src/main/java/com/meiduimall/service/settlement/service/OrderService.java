@@ -52,11 +52,11 @@ public interface OrderService {
 	 * 功能描述:  同步订单审核状态接口
 	 * Author: 许彦雄
 	 * Date:   2017年3月14日 下午3:38:26   
-	 * param orderStatus
-	 * return  Boolean
+	 * param   orderStatus
+	 * return
 	 * 
 	 */
-	public Boolean syncVerifyStatus(EcmMzfOrderStatus orderStatus);
+	public boolean syncVerifyStatus(EcmMzfOrderStatus orderStatus);
 	
 
 	/**

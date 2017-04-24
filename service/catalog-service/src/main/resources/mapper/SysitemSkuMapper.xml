@@ -95,37 +95,6 @@
     properties, spec_info, spec_desc
   </sql>
   
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.meiduimall.service.catalog.entity.SysitemSkuExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    * 
-    from sysitem_sku
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.service.catalog.entity.SysitemSkuExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    sku_id, item_id, title, bn, price, cost_price, mkt_price, barcode, weight, created_time, 
-    modified_time, status, outer_id, direct_prices, isdirect, point 
-    from sysitem_sku
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 
     * 
@@ -133,16 +102,16 @@
     where sku_id = #{skuId,jdbcType=INTEGER}
   </select>
   
+  <select id="selectByItemId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+  	select 
+    * 
+    from sysitem_sku
+    where item_id = #{itemId,jdbcType=INTEGER}
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sysitem_sku
     where sku_id = #{skuId,jdbcType=INTEGER}
-  </delete>
-  
-  <delete id="deleteByExample" parameterType="com.meiduimall.service.catalog.entity.SysitemSkuExample" >
-    delete from sysitem_sku
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
   </delete>
   
   <insert id="insert" parameterType="com.meiduimall.service.catalog.entity.SysitemSkuWithBLOBs" >
@@ -283,128 +252,6 @@
       </if>
     </trim>
   </insert>
-  
-  <select id="countByExample" parameterType="com.meiduimall.service.catalog.entity.SysitemSkuExample" resultType="java.lang.Integer" >
-    select count(*) from sysitem_sku
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  
-  <update id="updateByExampleSelective" parameterType="map" >
-    update sysitem_sku
-    <set >
-      <if test="record.skuId != null" >
-        sku_id = #{record.skuId,jdbcType=INTEGER},
-      </if>
-      <if test="record.itemId != null" >
-        item_id = #{record.itemId,jdbcType=INTEGER},
-      </if>
-      <if test="record.title != null" >
-        title = #{record.title,jdbcType=VARCHAR},
-      </if>
-      <if test="record.bn != null" >
-        bn = #{record.bn,jdbcType=VARCHAR},
-      </if>
-      <if test="record.price != null" >
-        price = #{record.price,jdbcType=DECIMAL},
-      </if>
-      <if test="record.costPrice != null" >
-        cost_price = #{record.costPrice,jdbcType=DECIMAL},
-      </if>
-      <if test="record.mktPrice != null" >
-        mkt_price = #{record.mktPrice,jdbcType=DECIMAL},
-      </if>
-      <if test="record.barcode != null" >
-        barcode = #{record.barcode,jdbcType=VARCHAR},
-      </if>
-      <if test="record.weight != null" >
-        weight = #{record.weight,jdbcType=DECIMAL},
-      </if>
-      <if test="record.createdTime != null" >
-        created_time = #{record.createdTime,jdbcType=INTEGER},
-      </if>
-      <if test="record.modifiedTime != null" >
-        modified_time = #{record.modifiedTime,jdbcType=INTEGER},
-      </if>
-      <if test="record.status != null" >
-        status = #{record.status,jdbcType=VARCHAR},
-      </if>
-      <if test="record.outerId != null" >
-        outer_id = #{record.outerId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.directPrices != null" >
-        direct_prices = #{record.directPrices,jdbcType=DECIMAL},
-      </if>
-      <if test="record.isdirect != null" >
-        isdirect = #{record.isdirect,jdbcType=INTEGER},
-      </if>
-      <if test="record.point != null" >
-        point = #{record.point,jdbcType=INTEGER},
-      </if>
-      <if test="record.properties != null" >
-        properties = #{record.properties,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="record.specInfo != null" >
-        spec_info = #{record.specInfo,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="record.specDesc != null" >
-        spec_desc = #{record.specDesc,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  
-  <update id="updateByExampleWithBLOBs" parameterType="map" >
-    update sysitem_sku
-    set sku_id = #{record.skuId,jdbcType=INTEGER},
-      item_id = #{record.itemId,jdbcType=INTEGER},
-      title = #{record.title,jdbcType=VARCHAR},
-      bn = #{record.bn,jdbcType=VARCHAR},
-      price = #{record.price,jdbcType=DECIMAL},
-      cost_price = #{record.costPrice,jdbcType=DECIMAL},
-      mkt_price = #{record.mktPrice,jdbcType=DECIMAL},
-      barcode = #{record.barcode,jdbcType=VARCHAR},
-      weight = #{record.weight,jdbcType=DECIMAL},
-      created_time = #{record.createdTime,jdbcType=INTEGER},
-      modified_time = #{record.modifiedTime,jdbcType=INTEGER},
-      status = #{record.status,jdbcType=VARCHAR},
-      outer_id = #{record.outerId,jdbcType=VARCHAR},
-      direct_prices = #{record.directPrices,jdbcType=DECIMAL},
-      isdirect = #{record.isdirect,jdbcType=INTEGER},
-      point = #{record.point,jdbcType=INTEGER},
-      properties = #{record.properties,jdbcType=LONGVARCHAR},
-      spec_info = #{record.specInfo,jdbcType=LONGVARCHAR},
-      spec_desc = #{record.specDesc,jdbcType=LONGVARCHAR}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  
-  <update id="updateByExample" parameterType="map" >
-    update sysitem_sku
-    set sku_id = #{record.skuId,jdbcType=INTEGER},
-      item_id = #{record.itemId,jdbcType=INTEGER},
-      title = #{record.title,jdbcType=VARCHAR},
-      bn = #{record.bn,jdbcType=VARCHAR},
-      price = #{record.price,jdbcType=DECIMAL},
-      cost_price = #{record.costPrice,jdbcType=DECIMAL},
-      mkt_price = #{record.mktPrice,jdbcType=DECIMAL},
-      barcode = #{record.barcode,jdbcType=VARCHAR},
-      weight = #{record.weight,jdbcType=DECIMAL},
-      created_time = #{record.createdTime,jdbcType=INTEGER},
-      modified_time = #{record.modifiedTime,jdbcType=INTEGER},
-      status = #{record.status,jdbcType=VARCHAR},
-      outer_id = #{record.outerId,jdbcType=VARCHAR},
-      direct_prices = #{record.directPrices,jdbcType=DECIMAL},
-      isdirect = #{record.isdirect,jdbcType=INTEGER},
-      point = #{record.point,jdbcType=INTEGER}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
   
   <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.service.catalog.entity.SysitemSkuWithBLOBs" >
     update sysitem_sku

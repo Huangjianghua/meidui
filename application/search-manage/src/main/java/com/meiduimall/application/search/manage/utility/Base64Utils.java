@@ -1,5 +1,6 @@
 package com.meiduimall.application.search.manage.utility;
 import java.io.BufferedInputStream;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -58,7 +59,7 @@ public class Base64Utils {
 
 	public static byte[] readFile(String filename) throws IOException {
 		File file = new File(filename);
-		if (filename == null || filename.equals("")) {
+		if (filename == null || "".equals(filename)) {
 			throw new NullPointerException("无效的文件路径");
 		}
 		long len = file.length();
