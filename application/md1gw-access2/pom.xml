@@ -10,7 +10,7 @@
 	
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.meiduimall</groupId>
+	<groupId>com.meiduimall.application</groupId>
 	<artifactId>md1gw-access2</artifactId>
 	<!--<version>1.0.0</version>-->
 	<packaging>jar</packaging>

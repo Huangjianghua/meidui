@@ -7,7 +7,7 @@
         <artifactId>application</artifactId>
         <version>1.0.0</version>
    </parent>
-  <groupId>com.first</groupId>
+	<groupId>com.meiduimall.application</groupId>
   <artifactId>search-manage</artifactId>
   <!--<version>1.0.0</version>-->
   <packaging>jar</packaging>
