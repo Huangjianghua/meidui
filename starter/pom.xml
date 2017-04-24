@@ -11,7 +11,7 @@
     <groupId>com.meiduimall</groupId>
     <artifactId>starter</artifactId>
     <name>mall::starter</name>
-    <version>1.0.1</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     		
 	
@@ -32,8 +32,4 @@
             <url>http://maven.meiduimall.com/repository/maven-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
-
-  <scm>
-    <tag>mall-1.0.1</tag>
-  </scm>
 </project>

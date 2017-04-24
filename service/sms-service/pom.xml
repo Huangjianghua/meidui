@@ -3,7 +3,7 @@
     <parent>
         <groupId>com.meiduimall</groupId>
         <artifactId>service</artifactId>
-        <version>1.0.1</version>
+        <version>1.0.1-SNAPSHOT</version>
     </parent>
     
     <modelVersion>4.0.0</modelVersion>
@@ -11,7 +11,7 @@
     <groupId>com.meiduimall.service</groupId>
     <artifactId>sms-service</artifactId>
 	<name>service::sms-service</name>
-	<version>1.0.1</version>
+	<version>1.0.1-SNAPSHOT</version>
 
 	<dependencies>
 
