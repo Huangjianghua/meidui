@@ -117,7 +117,7 @@
                     </providerImplementations>
                     <!--<username></username>-->
                     <!--<password></password>-->
-                    <tagBase>${project.artifactId}-${project.version}</tagBase>
+                    <!--<tagBase>${project.artifactId}-${project.version}</tagBase>-->
                     <goals>-f pom.xml deploy</goals>
                 </configuration>
                 <dependencies>
