@@ -193,7 +193,7 @@ public class AsyncTaskService {
 				String scoreFlow = "EGW" + ecmAgent.getAgentNo() + System.currentTimeMillis();
 				
 				//调用积分接口 更新积分 
-				Boolean result = memberService.addConsumePoints(ecmAgent.getBindPhone(), String.valueOf(score), ShareProfitConstants.DATA_SOURCE_O2O, scoreFlow);
+				boolean result = memberService.addConsumePoints(ecmAgent.getBindPhone(), String.valueOf(score), ShareProfitConstants.DATA_SOURCE_O2O, scoreFlow);
 
 				if(result){
 					//修改分润表中积分状态为已更新

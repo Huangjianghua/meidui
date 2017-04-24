@@ -11,7 +11,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.github.pagehelper.StringUtil;
 import com.google.common.collect.Maps;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.ServiceException;
@@ -49,31 +48,34 @@ public class ShareProfitRetryTask {
 		try {
 			//从ecm_mzf_log_shareprofit_order表中查询需要重新分润的订单
 			Map<String,String> map = getOrders2Retry();
-			
-			if(!map.isEmpty()){
-				for(Map.Entry<String, String> entry : map.entrySet()){
-					String orderSn = entry.getKey();
-					String shareProfitJsonObj = RedisUtils.get(ShareProfitConstants.REDIS_KEY_PREFIX_ORDER + orderSn);
-					if(!StringUtil.isEmpty(shareProfitJsonObj)){ 
-						EcmMzfShareProfit shareProfit = JsonUtils.jsonToBean(shareProfitJsonObj, EcmMzfShareProfit.class);	
-						
-						String retryType = "";
-						if (ShareProfitConstants.SHARE_PROFIT_RETRY_TYPE_FINAL_ROUND.equals(entry.getValue())) {
-							retryType = ShareProfitConstants.SHARE_PROFIT_RETRY_TYPE_FINAL_ROUND;
-						}
-						
-						if (shareProfit != null) {
-							asyncTaskService.updateScore2MemberSystem(shareProfit, ShareProfitConstants.SHARE_PROFIT_SOURCE_CACHE, retryType);
-						}
-					}
-				}
-			}		
+			//调用订单送积分方法
+			updateScore2MemberSystem(map);		
 			
 		} catch (ServiceException e) {
 			log.error("订单分润重试送积分失败：{}", e);
 		}
 		
 
+	}
+
+	/**
+	 * 调用订单送积分方法
+	 * @param map
+	 */
+	private void updateScore2MemberSystem(Map<String, String> map) {
+		if(!map.isEmpty()){
+			for(Map.Entry<String, String> entry : map.entrySet()){
+				String shareProfitJsonObj = RedisUtils.get(ShareProfitConstants.REDIS_KEY_PREFIX_ORDER + entry.getKey());
+				EcmMzfShareProfit shareProfit = JsonUtils.jsonToBean(shareProfitJsonObj, EcmMzfShareProfit.class);	
+				
+				String retryType = "";
+				if (ShareProfitConstants.SHARE_PROFIT_RETRY_TYPE_FINAL_ROUND.equals(entry.getValue())) {
+					retryType = ShareProfitConstants.SHARE_PROFIT_RETRY_TYPE_FINAL_ROUND;
+				}
+				
+				asyncTaskService.updateScore2MemberSystem(shareProfit, ShareProfitConstants.SHARE_PROFIT_SOURCE_CACHE, retryType);
+			}
+		}
 	}
 	
 	private Map<String, String> getOrders2Retry()  {
