@@ -10,21 +10,21 @@
 
 package com.meiduimall.service.sms.service;
 
-import com.meiduimall.service.sms.entity.MessageChannel;
-
 /**
- * 基础数据提供
- * @author pc
+ * 阿里大于短信服务
+ * 
+ * @author yangchang
  *
  */
-public interface IMessageChannelService {
-	
-	//public List<MessageChannel> getChannelList();
-      
-    public void put(MessageChannel channel);
-  
-    public void delete(MessageChannel channel);
-  
-    public String getChannelList(String key);
+public interface AliyunService {
 
+	/**
+	 * 发送短信
+	 * 
+	 * @param mobile
+	 * @param tid
+	 * @param context
+	 * @return
+	 */
+	boolean send(String mobile, String tid, String context);
 }

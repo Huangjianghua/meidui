@@ -15,13 +15,15 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.meiduimall.service.sms.entity.MessageChannel;
+
+
 @Mapper
-public interface MessageChannelMapper {
+public interface SmsMessageChannelMapper {
 
-    int insert(MessageChannel record);
+	int insert(MessageChannel record);
 
-    int insertSelective(MessageChannel record);
-    
-    List<MessageChannel> getChannelList();
-    
+	int insertSelective(MessageChannel record);
+
+	List<MessageChannel> getChannelList();
+
 }

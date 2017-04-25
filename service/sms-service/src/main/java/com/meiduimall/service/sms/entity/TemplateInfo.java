@@ -9,117 +9,118 @@
  */
 
 package com.meiduimall.service.sms.entity;
+
 import java.util.Date;
 
 public class TemplateInfo {
-	
-    private String id;
 
-    private String channelId;
+	private String id;
 
-    private String templateKey;
+	private String channelId;
 
-    private String externalTemplateNo;
+	private String templateKey;
 
-    private String templateName;
+	private String externalTemplateNo;
 
-    private String templateContent;
+	private String templateName;
 
-    private String groupKey;
+	private String templateContent;
 
-    private String remark;
+	private String groupKey;
 
-    private String creater;
+	private String remark;
 
-    private Date createDate;
+	private String creater;
 
-    private String effectiveTime;
+	private Date createDate;
 
-    public String getId() {
-        return id;
-    }
+	private String effectiveTime;
 
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
-    }
+	public String getId() {
+		return id;
+	}
 
-    public String getChannelId() {
-        return channelId;
-    }
+	public void setId(String id) {
+		this.id = id == null ? null : id.trim();
+	}
 
-    public void setChannelId(String channelId) {
-        this.channelId = channelId == null ? null : channelId.trim();
-    }
+	public String getChannelId() {
+		return channelId;
+	}
 
-    public String getTemplateKey() {
-        return templateKey;
-    }
+	public void setChannelId(String channelId) {
+		this.channelId = channelId == null ? null : channelId.trim();
+	}
 
-    public void setTemplateKey(String templateKey) {
-        this.templateKey = templateKey == null ? null : templateKey.trim();
-    }
+	public String getTemplateKey() {
+		return templateKey;
+	}
 
-    public String getExternalTemplateNo() {
-        return externalTemplateNo;
-    }
+	public void setTemplateKey(String templateKey) {
+		this.templateKey = templateKey == null ? null : templateKey.trim();
+	}
 
-    public void setExternalTemplateNo(String externalTemplateNo) {
-        this.externalTemplateNo = externalTemplateNo == null ? null : externalTemplateNo.trim();
-    }
+	public String getExternalTemplateNo() {
+		return externalTemplateNo;
+	}
 
-    public String getTemplateName() {
-        return templateName;
-    }
+	public void setExternalTemplateNo(String externalTemplateNo) {
+		this.externalTemplateNo = externalTemplateNo == null ? null : externalTemplateNo.trim();
+	}
 
-    public void setTemplateName(String templateName) {
-        this.templateName = templateName == null ? null : templateName.trim();
-    }
+	public String getTemplateName() {
+		return templateName;
+	}
 
-    public String getTemplateContent() {
-        return templateContent;
-    }
+	public void setTemplateName(String templateName) {
+		this.templateName = templateName == null ? null : templateName.trim();
+	}
 
-    public void setTemplateContent(String templateContent) {
-        this.templateContent = templateContent == null ? null : templateContent.trim();
-    }
+	public String getTemplateContent() {
+		return templateContent;
+	}
 
-    public String getGroupKey() {
-        return groupKey;
-    }
+	public void setTemplateContent(String templateContent) {
+		this.templateContent = templateContent == null ? null : templateContent.trim();
+	}
 
-    public void setGroupKey(String groupKey) {
-        this.groupKey = groupKey == null ? null : groupKey.trim();
-    }
+	public String getGroupKey() {
+		return groupKey;
+	}
 
-    public String getRemark() {
-        return remark;
-    }
+	public void setGroupKey(String groupKey) {
+		this.groupKey = groupKey == null ? null : groupKey.trim();
+	}
 
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
-    }
+	public String getRemark() {
+		return remark;
+	}
 
-    public String getCreater() {
-        return creater;
-    }
+	public void setRemark(String remark) {
+		this.remark = remark == null ? null : remark.trim();
+	}
 
-    public void setCreater(String creater) {
-        this.creater = creater == null ? null : creater.trim();
-    }
+	public String getCreater() {
+		return creater;
+	}
 
-    public Date getCreateDate() {
-        return createDate;
-    }
+	public void setCreater(String creater) {
+		this.creater = creater == null ? null : creater.trim();
+	}
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
+	public Date getCreateDate() {
+		return createDate;
+	}
 
-    public String getEffectiveTime() {
-        return effectiveTime;
-    }
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
 
-    public void setEffectiveTime(String effectiveTime) {
-        this.effectiveTime = effectiveTime == null ? null : effectiveTime.trim();
-    }
+	public String getEffectiveTime() {
+		return effectiveTime;
+	}
+
+	public void setEffectiveTime(String effectiveTime) {
+		this.effectiveTime = effectiveTime == null ? null : effectiveTime.trim();
+	}
 }
