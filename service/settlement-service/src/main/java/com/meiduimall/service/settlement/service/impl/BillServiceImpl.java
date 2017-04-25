@@ -168,19 +168,24 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 			
 			if(orderToBilledVos!=null && !orderToBilledVos.isEmpty()){
 				for(OrderToBilledVO ob:orderToBilledVos){
-					try {
-						ob.setBillId(bill.getBillId());
-						
-						baseMapper.insert(ob, "EcmBillMapper.createBillAndOrderMapping");
-						
-						log.info("EcmBillMapper.createBillAndOrderMapping success: orderSn:" + ob.getOrderSn() + " | type:"+ob.getType() + " | billId:" + ob.getBillId());
-					} catch (Exception e) {
-						log.error("EcmBillMapper.createBillAndOrderMapping got error for orderSn:" + ob.getOrderSn() + " | type:"+ob.getType() + " | billId:" + ob.getBillId(), e);
-						throw e;
-					}
+					createBillAndOrder(bill, ob);
 				}
 				
 			}
+		}
+	}
+
+
+	private void createBillAndOrder(EcmMzfBillWater bill, OrderToBilledVO ob) {
+		try {
+			ob.setBillId(bill.getBillId());
+			
+			baseMapper.insert(ob, "EcmBillMapper.createBillAndOrderMapping");
+			
+			log.info("EcmBillMapper.createBillAndOrderMapping success: orderSn:" + ob.getOrderSn() + " | type:"+ob.getType() + " | billId:" + ob.getBillId());
+		} catch (Exception e) {
+			log.error("EcmBillMapper.createBillAndOrderMapping got error for orderSn:" + ob.getOrderSn() + " | type:"+ob.getType() + " | billId:" + ob.getBillId(), e);
+			throw e;
 		}
 	}
 	
