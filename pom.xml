@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.meiduimall</groupId>
@@ -8,7 +9,7 @@
     <packaging>pom</packaging>
     <version>1.0.0-SNAPSHOT</version>
     <modules>
-    	<module>support</module>
+        <module>support</module>
         <module>platform</module>
         <module>starter</module>
         <module>service</module>
@@ -27,8 +28,8 @@
         <connection>scm:git:http://git.meiduimall.com/service/meiduimall.git</connection>
         <developerConnection>scm:git:http://git.meiduimall.com/service/meiduimall.git</developerConnection>
         <url>http://git.meiduimall.com/service/meiduimall/tree/develop</url>
-      <tag>mall-1.0.2</tag>
-  </scm>
+        <!--<tag>mall-1.0.2</tag>-->
+    </scm>
 
     <profiles>
         <profile>
@@ -47,7 +48,6 @@
 
     <distributionManagement>
         <repository>
-            <layout />
             <id>nexus</id>
             <name>Nexus Releases</name>
             <url>http://maven.meiduimall.com/repository/maven-releases/</url>
@@ -87,7 +87,7 @@
         </pluginRepository>
     </pluginRepositories>
 
-     <build>
+    <build>
         <plugins>
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -117,7 +117,7 @@
                     </providerImplementations>
                     <!--<username></username>-->
                     <!--<password></password>-->
-                    <!--<tagBase>${project.artifactId}-${project.version}</tagBase>-->
+                    <tagBase>${project.artifactId}-${project.version}</tagBase>
                     <goals>-f pom.xml deploy</goals>
                 </configuration>
                 <dependencies>
