@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Maps;
 import com.meiduimall.core.BaseApiCode;
+import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.SettlementApiCode;
 import com.meiduimall.service.settlement.common.CodeRuleUtil;
@@ -83,6 +84,99 @@ public class DrawServiceImpl implements DrawService {
 	@Override
 	public Map<String, Object> rejectDrawCashById(EcmMzfDraw ecmmzfdraw) {
 		
+		//组装参数
+		Map<String, String> result = builderParams(ecmmzfdraw);
+		EcmMzfDrawWater ecmMzfDrawWater = JsonUtils.jsonToBean(result.get("ecmMzfDrawWater"), EcmMzfDrawWater.class);
+		EcmMzfDraw ecmMzfDraw = JsonUtils.jsonToBean(result.get("ecmMzfDraw"), EcmMzfDraw.class);
+		EcmMzfWater ecmMzfWater = JsonUtils.jsonToBean(result.get("ecmMzfWater"), EcmMzfWater.class);
+		
+		//修改提现记录状态
+		int drawUpdated = baseMapper.update(ecmmzfdraw, "EcmMzfDrawMapper.rejectdrawcashbyid");
+		
+		//插入  提现失败流水
+		int flak = insertDrawWater(ecmMzfDrawWater);
+		
+		//插入  提现失败总流水
+		int flaz = agentService.insertWater(ecmMzfWater);
+		
+		//更新账户余额   总金额 + 提现金额(提现失败退回提现金额)
+		EcmMzfAccount account = new EcmMzfAccount();
+		account.setCode(ecmMzfDraw.getCode());
+		account.setBalance(ecmMzfDraw.getTotalMoney());
+		int updateBalance = agentService.updateAccount(account);
+		
+		Map<String, Object> hashMap = Maps.newHashMap();
+		if (drawUpdated > 0 && flak > 0 && flaz > 0 && updateBalance > 0) {
+			hashMap.put("drawCode", ecmmzfdraw.getDrawCode());
+			hashMap.put("status", DrawCashConstants.STATUS_VERIFIED_REJECTED);
+		} else {
+			log.error("驳回提现申请异常：提现编号{}", ecmmzfdraw.getDrawCode());
+			throw new ServiceException(SettlementApiCode.REJECT_DRAWCASH_FAILURE, BaseApiCode.getZhMsg(SettlementApiCode.REJECT_DRAWCASH_FAILURE));
+		}
+		return hashMap;
+	}
+	
+	
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = ServiceException.class)
+	@Override
+	public Map<String, Object> confirmDrawCashByIdByType(EcmMzfDraw ecmmzfdraw) {
+		
+		Map<String, Object> hashMap = Maps.newHashMap();
+		
+		//提现转账成功或失败都需要更新提现申请记录状态
+		int drawCfm = baseMapper.update(ecmmzfdraw, "EcmMzfDrawMapper.confirmdrawcashbyidbytype");
+		
+		//转账成功    需要更新提现流水状态
+		if (ecmmzfdraw.getStatus().equals(DrawCashConstants.STATUS_TRANSFER_SUCCESS)
+				&& ecmmzfdraw.getFinanceStatus().equals(DrawCashConstants.STATUS_TRANSFER_SUCCESS)) {
+			
+			int drawWaterStatus = DrawCashConstants.STATUS_TRANSFER_SUCCESS == ecmmzfdraw.getStatus()
+					? DrawCashConstants.STATUS_TRANSFER_SUCCESS : DrawCashConstants.STATUS_VERIFIED_SUCDESS;
+			
+			EcmMzfDrawWater drawWater = new EcmMzfDrawWater(ecmmzfdraw.getDrawCode(), String.valueOf(drawWaterStatus));
+			
+			int waterCrm = baseMapper.update(drawWater, "EcmMzfDrawMapper.updDrawWaterStatusById");
+			
+			if(drawCfm > 0 && waterCrm > 0){
+				hashMap.put("drawCode", ecmmzfdraw.getDrawCode());
+				hashMap.put("status", ecmmzfdraw.getStatus());
+			}
+			
+		}else if(ecmmzfdraw.getStatus().equals(DrawCashConstants.STATUS_TRANSFER_FAIL)//转账失败 生成新的提现流水和提现总流水
+				&& ecmmzfdraw.getFinanceStatus().equals(DrawCashConstants.STATUS_TRANSFER_FAIL)){
+			//组装参数
+			Map<String, String> result = builderParams(ecmmzfdraw);
+			EcmMzfDrawWater ecmMzfDrawWater = JsonUtils.jsonToBean(result.get("ecmMzfDrawWater"), EcmMzfDrawWater.class);
+			EcmMzfDraw ecmMzfDraw = JsonUtils.jsonToBean(result.get("ecmMzfDraw"), EcmMzfDraw.class);
+			EcmMzfWater ecmMzfWater = JsonUtils.jsonToBean(result.get("ecmMzfWater"), EcmMzfWater.class);
+			
+			//插入  提现失败流水
+			int flak = insertDrawWater(ecmMzfDrawWater);
+			
+			//插入  提现失败总流水
+			int flaz = agentService.insertWater(ecmMzfWater);
+			
+			//更新账户余额   总金额 + 提现金额(提现失败退回提现金额)
+			EcmMzfAccount account = new EcmMzfAccount();
+			account.setCode(ecmMzfDraw.getCode());
+			account.setBalance(ecmMzfDraw.getTotalMoney());
+			int updateBalance = agentService.updateAccount(account);
+			
+			if (drawCfm > 0 && flak > 0 && flaz > 0 && updateBalance > 0) {
+				hashMap.put("drawCode", ecmmzfdraw.getDrawCode());
+				hashMap.put("status", ecmmzfdraw.getStatus());
+			} else {
+				log.error("确认转账成功或失败操作异常：提现编号{}", ecmmzfdraw.getDrawCode());
+				throw new ServiceException(SettlementApiCode.CONFIRM_DRAWCASH_FAILURE, BaseApiCode.getZhMsg(SettlementApiCode.CONFIRM_DRAWCASH_FAILURE));
+			}
+		}
+		
+		return hashMap;
+	}
+	
+	
+	private Map<String,String> builderParams(EcmMzfDraw ecmmzfdraw){
+		
 		//根据提现编号获取提现信息，目的是将查询出来的数据重新生成提现流水和总流水记录
 		EcmMzfDraw ecmMzfDraw = queryDrawCashById(ecmmzfdraw.getDrawCode());
 
@@ -144,144 +238,12 @@ public class DrawServiceImpl implements DrawService {
 		}
 		ecmMzfWater.setRemark(remark);
 		
-		//修改提现记录状态
-		int drawUpdated = baseMapper.update(ecmmzfdraw, "EcmMzfDrawMapper.rejectdrawcashbyid");
+		Map<String,String> result = Maps.newHashMap();
+		result.put("ecmMzfDrawWater", JsonUtils.beanToJson(ecmMzfDrawWater));
+		result.put("ecmMzfWater", JsonUtils.beanToJson(ecmMzfWater));
+		result.put("ecmMzfDraw", JsonUtils.beanToJson(ecmMzfDraw));
 		
-		//插入  提现失败流水
-		int flak = insertDrawWater(ecmMzfDrawWater);
-		
-		//插入  提现失败总流水
-		int flaz = agentService.insertWater(ecmMzfWater);
-		
-		//更新账户余额   总金额 + 提现金额(提现失败退回提现金额)
-		EcmMzfAccount account = new EcmMzfAccount();
-		account.setCode(ecmMzfDraw.getCode());
-		account.setBalance(ecmMzfDraw.getTotalMoney());
-		int updateBalance = agentService.updateAccount(account);
-		
-		Map<String, Object> hashMap = Maps.newHashMap();
-		if (drawUpdated > 0 && flak > 0 && flaz > 0 && updateBalance > 0) {
-			hashMap.put("drawCode", ecmmzfdraw.getDrawCode());
-			hashMap.put("status", DrawCashConstants.STATUS_VERIFIED_REJECTED);
-		} else {
-			log.error("驳回提现申请异常：提现编号{}", ecmmzfdraw.getDrawCode());
-			throw new ServiceException(SettlementApiCode.REJECT_DRAWCASH_FAILURE, BaseApiCode.getZhMsg(SettlementApiCode.REJECT_DRAWCASH_FAILURE));
-		}
-		return hashMap;
-	}
-
-	
-	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = ServiceException.class)
-	@Override
-	public Map<String, Object> confirmDrawCashByIdByType(EcmMzfDraw ecmmzfdraw) {
-		
-		Map<String, Object> hashMap = Maps.newHashMap();
-		
-		//提现转账成功或失败都需要更新提现申请记录状态
-		int drawCfm = baseMapper.update(ecmmzfdraw, "EcmMzfDrawMapper.confirmdrawcashbyidbytype");
-		
-		//转账成功    需要更新提现流水状态
-		if (ecmmzfdraw.getStatus().equals(DrawCashConstants.STATUS_TRANSFER_SUCCESS)
-				&& ecmmzfdraw.getFinanceStatus().equals(DrawCashConstants.STATUS_TRANSFER_SUCCESS)) {
-			
-			int drawWaterStatus = DrawCashConstants.STATUS_TRANSFER_SUCCESS == ecmmzfdraw.getStatus()
-					? DrawCashConstants.STATUS_TRANSFER_SUCCESS : DrawCashConstants.STATUS_VERIFIED_SUCDESS;
-			
-			EcmMzfDrawWater drawWater = new EcmMzfDrawWater(ecmmzfdraw.getDrawCode(), String.valueOf(drawWaterStatus));
-			
-			int waterCrm = baseMapper.update(drawWater, "EcmMzfDrawMapper.updDrawWaterStatusById");
-			
-			if(drawCfm > 0 && waterCrm > 0){
-				hashMap.put("drawCode", ecmmzfdraw.getDrawCode());
-				hashMap.put("status", ecmmzfdraw.getStatus());
-			}
-			
-		}else if(ecmmzfdraw.getStatus().equals(DrawCashConstants.STATUS_TRANSFER_FAIL)//转账失败 生成新的提现流水和提现总流水
-				&& ecmmzfdraw.getFinanceStatus().equals(DrawCashConstants.STATUS_TRANSFER_FAIL)){
-			//根据提现编号获取提现信息，目的是将查询出来的数据重新生成提现流水和总流水记录
-			EcmMzfDraw ecmMzfDraw = queryDrawCashById(ecmmzfdraw.getDrawCode());
-			
-			//查询当天是否有提现记录，此段代码目的是生成提现编号的后两位 总数+1
-			Map<String, Object> params = Maps.newHashMap();
-			params.put("code", ecmMzfDraw.getCode());
-			params.put("waterType", ShareProfitConstants.WATER_TYPE_DRAW_CASH);
-			params.put("nowTime", DateUtil.formatDate(new Date()));
-			int drawCount = getDrawWaterCount(params);
-			String drawCountStr = String.valueOf(drawCount);
-			
-			//生成流水编号
-			String waterId = "";
-			//重新生成提现编号
-			String drawCode = "";
-			int waterCount = agentService.getCountCreateWaterId(params);
-			String waterCountStr = String.valueOf(waterCount);
-			//根据不同的角色类型生成流水编号
-			if(ecmMzfDraw.getDrawType().equals(ShareProfitConstants.ROLE_TYPE_PERSONAL_AGENT)){//提现角色类型为个代
-				waterId = CodeRuleUtil.getGLWaterId(ecmMzfDraw.getCode(), waterCountStr);
-				drawCode = CodeRuleUtil.getGZDrawCode(ecmMzfDraw.getCode(), drawCountStr);
-			}else if(ecmMzfDraw.getDrawType().equals(ShareProfitConstants.ROLE_TYPE_AREA_AGENT)){//提现角色类型为区代
-				waterId = CodeRuleUtil.getQLWaterId(ecmMzfDraw.getCode(), waterCountStr);
-				drawCode = CodeRuleUtil.getQZDrawCode(ecmMzfDraw.getCode(), drawCountStr);
-			}else if(ecmMzfDraw.getDrawType().equals(ShareProfitConstants.ROLE_TYPE_STORE)){//提现角色类型为商家
-				waterId = CodeRuleUtil.getSLWaterId(ecmMzfDraw.getCode(), waterCountStr);
-				drawCode = CodeRuleUtil.getSTDrawCode(ecmMzfDraw.getCode(), drawCountStr);
-			}
-			
-			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-			
-			//提现流水
-			EcmMzfDrawWater ecmMzfDrawWater = new EcmMzfDrawWater();
-			ecmMzfDrawWater.setDrawCode(drawCode);
-			ecmMzfDrawWater.setCode(ecmMzfDraw.getCode());
-			ecmMzfDrawWater.setStatus(String.valueOf(ecmMzfDraw.getStatus()));
-			ecmMzfDrawWater.setMoney(ecmMzfDraw.getTotalMoney());
-			ecmMzfDrawWater.setRemark(""+ecmMzfDraw.getCashWithdrawalFee());
-			ecmMzfDrawWater.setDrawTime(timestamp);
-			
-			//提现总流水
-			EcmMzfWater ecmMzfWater = new EcmMzfWater();
-			ecmMzfWater.setWaterId(waterId);
-			ecmMzfWater.setCode(ecmMzfDraw.getCode());
-			ecmMzfWater.setMoney(ecmMzfDraw.getTotalMoney());
-			ecmMzfWater.setWaterType(ShareProfitConstants.WATER_TYPE_DRAW_CASH);//流水类型为：1-提现
-			ecmMzfWater.setExtId(drawCode);
-			ecmMzfWater.setOpTime(timestamp);
-			
-			//根据code查询账户余额(2017-04-01)
-			Map<String, Object> accountMap = queryAccoutBalance(ecmMzfDraw.getCode());
-			if(accountMap.get("balance") != null && !"".equals(accountMap.get("balance"))){
-				BigDecimal balance = new BigDecimal(accountMap.get("balance").toString());
-				ecmMzfWater.setBalance(balance);
-			}
-			
-			String remark = "提现失败";
-			if(ecmMzfDraw.getCashWithdrawalFee().compareTo(BigDecimal.ZERO) > 0){
-				remark = remark + "(退" + ecmMzfDraw.getCashWithdrawalFee() + "元手续费)";
-			}
-			ecmMzfWater.setRemark(remark);
-			
-			//插入  提现失败流水
-			int flak = insertDrawWater(ecmMzfDrawWater);
-			
-			//插入  提现失败总流水
-			int flaz = agentService.insertWater(ecmMzfWater);
-			
-			//更新账户余额   总金额 + 提现金额(提现失败退回提现金额)
-			EcmMzfAccount account = new EcmMzfAccount();
-			account.setCode(ecmMzfDraw.getCode());
-			account.setBalance(ecmMzfDraw.getTotalMoney());
-			int updateBalance = agentService.updateAccount(account);
-			
-			if (drawCfm > 0 && flak > 0 && flaz > 0 && updateBalance > 0) {
-				hashMap.put("drawCode", ecmmzfdraw.getDrawCode());
-				hashMap.put("status", ecmmzfdraw.getStatus());
-			} else {
-				log.error("确认转账成功或失败操作异常：提现编号{}", ecmmzfdraw.getDrawCode());
-				throw new ServiceException(SettlementApiCode.CONFIRM_DRAWCASH_FAILURE, BaseApiCode.getZhMsg(SettlementApiCode.CONFIRM_DRAWCASH_FAILURE));
-			}
-		}
-		
-		return hashMap;
+		return result;
 	}
 	
 	

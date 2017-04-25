@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +19,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableMap;
+import com.meiduimall.exception.DaoException;
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.settlement.common.CodeRuleUtil;
 import com.meiduimall.service.settlement.common.SettlementUtil;
 import com.meiduimall.service.settlement.dao.BaseMapper;
@@ -159,18 +161,17 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 	
 
 	@Override
-	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=ServiceException.class)
 	public void createBillAndOrderMapping(EcmMzfBillWater bill, List<OrderToBilledVO> orderToBilledList)  {
 		if(bill!=null && !Strings.isNullOrEmpty(bill.getCode())){
 			final String code=bill.getCode();
 
-			Collection<OrderToBilledVO> orderToBilledVos=Collections2.filter(orderToBilledList, vo -> code.equalsIgnoreCase(vo.getCode()));
+			Collection<OrderToBilledVO> orderToBilledVos = Collections2.filter(orderToBilledList, vo -> code.equalsIgnoreCase(vo.getCode()));
 			
 			if(orderToBilledVos!=null && !orderToBilledVos.isEmpty()){
 				for(OrderToBilledVO ob:orderToBilledVos){
 					createBillAndOrder(bill, ob);
 				}
-				
 			}
 		}
 	}
@@ -179,12 +180,9 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 	private void createBillAndOrder(EcmMzfBillWater bill, OrderToBilledVO ob) {
 		try {
 			ob.setBillId(bill.getBillId());
-			
 			baseMapper.insert(ob, "EcmBillMapper.createBillAndOrderMapping");
-			
-			log.info("EcmBillMapper.createBillAndOrderMapping success: orderSn:" + ob.getOrderSn() + " | type:"+ob.getType() + " | billId:" + ob.getBillId());
-		} catch (Exception e) {
-			log.error("EcmBillMapper.createBillAndOrderMapping got error for orderSn:" + ob.getOrderSn() + " | type:"+ob.getType() + " | billId:" + ob.getBillId(), e);
+		} catch (DaoException e) {
+			log.error("EcmBillMapper.createBillAndOrderMapping got error for orderSn:{},type:{},billId:{},{}",ob.getOrderSn(), ob.getType(), ob.getBillId(), e);
 			throw e;
 		}
 	}
