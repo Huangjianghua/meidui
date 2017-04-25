@@ -168,12 +168,10 @@ public class OrderServiceImpl implements OrderService {
 		ctx.setSystemSetting(systemSetting);
 		ctx.setPersonalAgentType(personalAgentType);
 		
-		if(log.isInfoEnabled()){
-			log.info("个代类型:{}", personalAgentType);
-			log.info("商家收益:${}", merchantRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
-			log.info("平台收益:${}", platformRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
-			log.info("用户返还积分:{}", memberRevenue.setScale(0, BigDecimal.ROUND_DOWN));
-		}
+		log.info("个代类型:{}", personalAgentType);
+		log.info("商家收益:${}", merchantRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
+		log.info("平台收益:${}", platformRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
+		log.info("用户返还积分:{}", memberRevenue.setScale(0, BigDecimal.ROUND_DOWN));
 		
 		if(ShareProfitUtil.PERSONAL_AGENT_TYPE_DIRECT_SALE.equalsIgnoreCase(personalAgentType)){
 			personAgentRevenue = BigDecimal.ZERO;
@@ -186,11 +184,9 @@ public class OrderServiceImpl implements OrderService {
 			//大区个代：此个代无区域性，此个代推广的商家均为本区商家，无论商家的地址在哪儿
 			crossAreaAgentRevenue = BigDecimal.ZERO;
 			
-			if(log.isInfoEnabled()){
-				log.info("--大区个代信息--");
-				log.info("大区个代分账比例:{},大区个代收益:${}", systemSetting.get(ShareProfitUtil.PERSONAL_SCALE_FOR_BIG_REGION), personAgentRevenue);
-				log.info("大区个代商家区代分账比例:{},大区个代商家区代收益:${}", systemSetting.get(ShareProfitUtil.AREA_SCALE), areaAgentRevenue);
-			}
+			log.info("--大区个代信息--");
+			log.info("大区个代分账比例:{},大区个代收益:${}", systemSetting.get(ShareProfitUtil.PERSONAL_SCALE_FOR_BIG_REGION), personAgentRevenue);
+			log.info("大区个代商家区代分账比例:{},大区个代商家区代收益:${}", systemSetting.get(ShareProfitUtil.AREA_SCALE), areaAgentRevenue);
 			
 		}else{
 			// 商家跨区
@@ -200,13 +196,11 @@ public class OrderServiceImpl implements OrderService {
 				personAgentRevenue = memberRevenue.multiply(new BigDecimal(systemSetting.get(ShareProfitUtil.CROSS_PERSONAL_SCALE)).divide(new BigDecimal(100)));
 				crossAreaAgentRevenue = memberRevenue.multiply(new BigDecimal(systemSetting.get(ShareProfitUtil.CROSS_AREA_SCALE)).divide(new BigDecimal(100)));
 			
-				if(log.isInfoEnabled()){
-					log.info("--普通个代信息--");
-					log.info("跨区个代分账比例:{}%;个代收益:${}", systemSetting.get(ShareProfitUtil.CROSS_PERSONAL_SCALE), personAgentRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
-					log.info("区代分账比例是:{}%;区代收益是:${}", systemSetting.get(ShareProfitUtil.AREA_SCALE), areaAgentRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
-					if (crossAreaAgentRevenue!=null) {
-						log.info("跨区区代分账比例:{}%;跨区区代收益:${}", systemSetting.get(ShareProfitUtil.CROSS_AREA_SCALE), crossAreaAgentRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
-					}
+				log.info("--普通个代信息--");
+				log.info("跨区个代分账比例:{}%;个代收益:${}", systemSetting.get(ShareProfitUtil.CROSS_PERSONAL_SCALE), personAgentRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
+				log.info("区代分账比例是:{}%;区代收益是:${}", systemSetting.get(ShareProfitUtil.AREA_SCALE), areaAgentRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
+				if (crossAreaAgentRevenue!=null) {
+					log.info("跨区区代分账比例:{}%;跨区区代收益:${}", systemSetting.get(ShareProfitUtil.CROSS_AREA_SCALE), crossAreaAgentRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
 				}
 			
 			} else {
@@ -229,15 +223,13 @@ public class OrderServiceImpl implements OrderService {
 					isTwoHundreAgentFlag = false;
 				}
 				
-				if(log.isInfoEnabled()){
-					log.info("--普通个代信息--");
-					log.info("个代分账比例:{}%;个代收益:${}", systemSetting.get(ShareProfitUtil.PERSONAL_SCALE), personAgentRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
-					log.info("isTwoHundreAgentFlag:{}",isTwoHundreAgentFlag);
-					if(isTwoHundreAgentFlag){
-						log.info("区代分账比例:{}%;区代收益:${}", systemSetting.get(ShareProfitUtil.TWO_AREA_SCALE), areaAgentRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
-					}else{
-						log.info("区代分账比例:{}%;区代收益:${}", systemSetting.get(ShareProfitUtil.AREA_SCALE),areaAgentRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
-					}
+				log.info("--普通个代信息--");
+				log.info("个代分账比例:{}%;个代收益:${}", systemSetting.get(ShareProfitUtil.PERSONAL_SCALE), personAgentRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
+				log.info("isTwoHundreAgentFlag:{}",isTwoHundreAgentFlag);
+				if(isTwoHundreAgentFlag){
+					log.info("区代分账比例:{}%;区代收益:${}", systemSetting.get(ShareProfitUtil.TWO_AREA_SCALE), areaAgentRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
+				}else{
+					log.info("区代分账比例:{}%;区代收益:${}", systemSetting.get(ShareProfitUtil.AREA_SCALE),areaAgentRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
 				}
 	
 			}
