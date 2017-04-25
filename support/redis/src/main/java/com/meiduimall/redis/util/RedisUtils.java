@@ -9,7 +9,7 @@ public class RedisUtils {
 	 * 功能描述:  删除缓存 
 	 * Author: 陈建宇
 	 * Date:   2017年4月12日 上午10:32:54 
-	 * param   @param cacheKey
+	 * param   cacheKey
 	 * return  boolean
 	 */
 	public static boolean del(final String cacheKey){
@@ -21,8 +21,8 @@ public class RedisUtils {
 	 * 功能描述:  存入缓存值 LRU
 	 * Author: 陈建宇
 	 * Date:   2017年4月12日 上午10:31:51 
-	 * param   @param cacheKey
-	 * param   @param value   
+	 * param   cacheKey
+	 * param   value   
 	 * return  void
 	 */
 	public static void set(final String cacheKey, final String value){
@@ -34,9 +34,9 @@ public class RedisUtils {
 	 * 功能描述: 设置key value  seconds
 	 * Author: 陈建宇
 	 * Date:   2017年4月12日 上午10:31:35 
-	 * param   @param cacheKey
-	 * param   @param seconds
-	 * param   @param value   
+	 * param   cacheKey
+	 * param   seconds
+	 * param   value   
 	 * return  void
 	 */
 	public static void setex(final String cacheKey, final int seconds, final String value){
@@ -48,7 +48,7 @@ public class RedisUtils {
 	 * 功能描述: 通过key获取value
 	 * Author: 陈建宇
 	 * Date:   2017年4月12日 上午10:31:22 
-	 * param   @param cacheKey
+	 * param   cacheKey
 	 * return  String
 	 */
 	public static String get(final String cacheKey){
@@ -59,7 +59,7 @@ public class RedisUtils {
 	 * 功能描述: 是否已经缓存
 	 * Author: 陈建宇
 	 * Date:   2017年4月12日 上午10:31:07 
-	 * param   @param cacheKey
+	 * param   cacheKey
 	 * return  Boolean
 	 */
 	public static Boolean exists(final String cacheKey){
@@ -70,8 +70,8 @@ public class RedisUtils {
 	 * 功能描述:  设置过期时间
 	 * Author: 陈建宇
 	 * Date:   2017年4月12日 上午10:30:54 
-	 * param   @param cacheKey
-	 * param   @param seconds
+	 * param   cacheKey
+	 * param   seconds
 	 * return  Long
 	 */
 	public static Long expire(final String cacheKey, final int seconds){
@@ -83,8 +83,8 @@ public class RedisUtils {
 	 * 功能描述:  SET if Not eXists
 	 * Author: 陈建宇
 	 * Date:   2017年4月12日 上午10:30:13 
-	 * param   @param cacheKey
-	 * param   @param value
+	 * param   cacheKey
+	 * param   value
 	 * return  Long
 	 */
 	public static Long setnx(final String cacheKey, final String value){
@@ -96,8 +96,8 @@ public class RedisUtils {
 	 * 功能描述:  获取keys
 	 * Author: 陈建宇
 	 * Date:   2017年4月12日 上午10:29:57 
-	 * param   @param cacheKey
-	 * return  Set<String>
+	 * param   cacheKey
+	 * return  Set
 	 */
 	public static Set<String> keys(final String cacheKey){
 		return RedisTemplate.getJedisInstance().execKeysFromCache(cacheKey);
@@ -108,7 +108,7 @@ public class RedisUtils {
 	 * 功能描述: 获取key的过期时间
 	 * Author: 陈建宇
 	 * Date:   2017年4月12日 上午10:29:44 
-	 * param   @param cacheKey
+	 * param   cacheKey
 	 * return  Long
 	 */
 	public static Long ttl(final String cacheKey){
@@ -120,8 +120,8 @@ public class RedisUtils {
 	 * 功能描述:  hash操作 存放
 	 * Author: 陈建宇
 	 * Date:   2017年4月12日 上午10:34:43 
-	 * param   @param cacheKey
-	 * param   @param hash
+	 * param   cacheKey
+	 * param   hash
 	 * return  String
 	 */
 	public static String  hmset(final String cacheKey, final Map<String, String> hash){
@@ -132,9 +132,9 @@ public class RedisUtils {
 	 * 功能描述:  返回哈希表 key 中给定域 field 的值
 	 * Author: 陈建宇
 	 * Date:   2017年4月12日 上午10:35:59 
-	 * param   @param cacheKey
-	 * param   @param hashKey
-	 * return  List<String>
+	 * param   cacheKey
+	 * param   hashKey
+	 * return  List
 	 */
 	public static List<String>  hmget(final String cacheKey, final String hashKey){
 		return RedisTemplate.getJedisInstance().execHmgetToCache(cacheKey,hashKey);
@@ -144,8 +144,8 @@ public class RedisUtils {
 	 * 功能描述:  hash操作 读取
 	 * Author: 陈建宇
 	 * Date:   2017年4月12日 上午10:39:12 
-	 * param   @param cacheKey
-	 * param   @param field
+	 * param   cacheKey
+	 * param   field
 	 * return  String
 	 */
 	public static String hget(final String cacheKey, final String field){
@@ -156,9 +156,9 @@ public class RedisUtils {
 	 * 功能描述:  将哈希表 key中的域 field的值设为value
 	 * Author: 陈建宇
 	 * Date:   2017年4月12日 上午10:41:33 
-	 * param   @param cacheKey
-	 * param   @param field
-	 * param   @param value
+	 * param   cacheKey
+	 * param   field
+	 * param   value
 	 * return  Long
 	 */
 	public static Long hset(final String cacheKey, final String field, final String value) {
@@ -170,8 +170,8 @@ public class RedisUtils {
 	 * 功能描述:  返回哈希表 key中,所有的域和值。
 	 * Author: 陈建宇
 	 * Date:   2017年4月12日 上午10:43:05 
-	 * param   @param cacheKey
-	 * return  Map<String,String>
+	 * param   cacheKey
+	 * return  Map
 	 */
 	public static Map<String, String> hgetAll(final String cacheKey) {
 		return RedisTemplate.getJedisInstance().execHgetAllToCache(cacheKey);
@@ -182,9 +182,8 @@ public class RedisUtils {
 	 * 功能描述:  设置到什么时候过期
 	 * Author: 陈建宇
 	 * Date:   2017年4月12日 上午10:45:25 
-	 * param   @param cacheKey
-	 * param   @param unixTime
-	 * param   @return   
+	 * param   cacheKey
+	 * param   unixTime
 	 * return  Long
 	 */
 	public static Long expireAt(final String cacheKey, final Long unixTime){
@@ -195,9 +194,9 @@ public class RedisUtils {
 	 * 功能描述:  将一个或多个 member 元素及其 score 值加入到有序集 key 当中
 	 * Author: 陈建宇
 	 * Date:   2017年4月12日 上午10:47:12 
-	 * param   @param cacheKey
-	 * param   @param score
-	 * param   @param member
+	 * param   cacheKey
+	 * param   score
+	 * param   member
 	 * return  Long
 	 */
 	public static Long zadd(final String cacheKey, final Double score, final String member){
@@ -208,24 +207,13 @@ public class RedisUtils {
 	 * 功能描述:  移除有序集 key 中的一个或多个成员，不存在的成员将被忽略
 	 * Author: 陈建宇
 	 * Date:   2017年4月12日 上午10:48:07 
-	 * param   @param cacheKey
-	 * param   @param members
+	 * param   cacheKey
+	 * param   members
 	 * return  Long
 	 */
 	public Long zrem(final String cacheKey, final String... members){
 		return RedisTemplate.getJedisInstance().execZremToCache(cacheKey, members);
 	}
 	
-	/**
-	 * 功能描述:  返回有序集合key中,所有介于min<=score<=max中的成员,有序集的成员按照score值递增(从小到大)次序排列
-	 * Author: 陈建宇
-	 * Date:   2017年4月12日 上午10:49:24 
-	 * param   @param cacheKey
-	 * param   @param min
-	 * param   @param max
-	 * return  Set<String>
-	 */
-	public Set<String> zrangeByScore(final String cacheKey, final double min, final double max){
-		return RedisTemplate.getJedisInstance().execZrangeByScoreToCache(cacheKey, min, max);
-	}
+	
 }

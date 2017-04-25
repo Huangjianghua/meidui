@@ -30,7 +30,6 @@ public class RedisTemplate {
 	 * Author: 陈建宇
 	 * Date:   2016年12月14日 上午9:36:45
 	 * @return ShardedJedis   
-	 * @throws
 	 */
 	public ShardedJedis getJedis() {
 		return sharedJedisPool.getResource();
@@ -41,7 +40,6 @@ public class RedisTemplate {
 	 * Author: 陈建宇
 	 * Date:   2016年12月14日 上午9:37:06
 	 * @param  shardedJedis    
-	 * @throws
 	 */
 	public void returnJedisResource(ShardedJedis shardedJedis) {
 		if (shardedJedis == null) {
@@ -62,7 +60,6 @@ public class RedisTemplate {
 	 * Author: 陈建宇
 	 * Date:   2016年12月14日 上午9:37:21
 	 * @param  callback    
-	 * @throws
 	 */
 	public void execJedisPipelineOperate(PipelineCallback callback) {
 		for (int index = 1; index <= Constants.CONSTANT_INT_FIVE; index++) {
@@ -84,7 +81,6 @@ public class RedisTemplate {
 	 * Author: 陈建宇
 	 * Date:   2016年12月14日 上午9:37:41
 	 * @param  callback
-	 * @throws
 	 */
 	public <T> T execJedisOperate(RedisCallback<T> callback) {
 		T result = null;
@@ -108,7 +104,6 @@ public class RedisTemplate {
 	 * Author: 陈建宇
 	 * Date:   2016年12月14日 上午9:38:02
 	 * @param  callback    
-	 * @throws
 	 */
 	private void invokePipeline(PipelineCallback callback) {
 		boolean isReturn = true;
@@ -140,7 +135,6 @@ public class RedisTemplate {
 	 * Date:   2016年12月14日 上午9:38:20
 	 * @param  callback
 	 * @return T   
-	 * @throws
 	 */
 	private <T> T invokeJedis(RedisCallback<T> callback) {
 		boolean isReturn = true;
@@ -170,7 +164,6 @@ public class RedisTemplate {
 	 * @param  cacheKey
 	 * @param  num
 	 * @return Long   
-	 * @throws
 	 */
 	public Long execIncrByToCache(final String cacheKey, final int num) {
 		Long pkVal = execJedisOperate(new RedisCallback<Long>() {
@@ -190,7 +183,6 @@ public class RedisTemplate {
 	 * Date:   2016年12月14日 上午9:38:58
 	 * @param  cacheKey
 	 * @return Long   
-	 * @throws
 	 */
 	public Long execIncrToCache(final String cacheKey) {
 		Long pkVal = execJedisOperate(new RedisCallback<Long>() {
@@ -243,7 +235,6 @@ public class RedisTemplate {
 	 * Date:   2016年12月14日 上午9:39:23
 	 * @param  cacheKey
 	 * @return boolean   
-	 * @throws
 	 */
 	public boolean execDelToCache(final String cacheKey) {
 		return execJedisOperate(new RedisCallback<Boolean>() {
@@ -260,7 +251,6 @@ public class RedisTemplate {
 	 * Date:   2016年12月14日 上午9:39:38
 	 * @param  cacheKey
 	 * @param  value    
-	 * @throws
 	 */
 	public void execSetToCache(final String cacheKey, final String value) {
 		execJedisOperate(new RedisCallback<Void>() {
@@ -291,7 +281,8 @@ public class RedisTemplate {
 	/**
 	 * 功能描述:  通过key获取value
 	 * Author: 陈建宇
-	 * Date:   2016年12月29日 下午2:34:19   
+	 * Date:   2017年4月25日 下午4:41:44 
+	 * param   cacheKey
 	 * return  String
 	 */
 	public String execGetFromCache(final String cacheKey) {
@@ -309,7 +300,6 @@ public class RedisTemplate {
 	 * Date:   2016年12月14日 上午9:40:16
 	 * @param  cacheKey
 	 * @return Boolean   
-	 * @throws
 	 */
 	public Boolean execExistsFromCache(final String cacheKey) {
 		return execJedisOperate(new RedisCallback<Boolean>() {
@@ -327,7 +317,6 @@ public class RedisTemplate {
 	 * @param  cacheKey
 	 * @param  seconds
 	 * @return Long   
-	 * @throws
 	 */
 	public Long execExpireToCache(final String cacheKey, final int seconds) {
 		return execJedisOperate(new RedisCallback<Long>() {
@@ -362,8 +351,7 @@ public class RedisTemplate {
 	 * Author: 陈建宇
 	 * Date:   2016年12月14日 上午9:40:45
 	 * @param  cacheKey
-	 * @return Set<String>   
-	 * @throws
+	 * @return Set  
 	 */
 	public Set<String> execKeysFromCache(final String cacheKey) {
 		return execJedisOperate(new RedisCallback<Set<String>>() {
@@ -380,7 +368,6 @@ public class RedisTemplate {
 	 * Date:   2016年12月14日 上午9:40:57
 	 * @param  cacheKey
 	 * @return Long   
-	 * @throws
 	 */
 	public Long execTtlFormCache(final String cacheKey) {
 		return execJedisOperate(new RedisCallback<Long>() {
@@ -398,7 +385,6 @@ public class RedisTemplate {
 	 * @param  cacheKey
 	 * @param  hash
 	 * @return String   
-	 * @throws
 	 */
 	public String execHmsetToCache(final String cacheKey, final Map<String, String> hash) {
 		return execJedisOperate(new RedisCallback<String>() {
@@ -415,8 +401,7 @@ public class RedisTemplate {
 	 * Date:   2016年12月14日 上午9:41:26
 	 * @param  cacheKey
 	 * @param  hashKey
-	 * @return List<String>   
-	 * @throws
+	 * @return List   
 	 */
 	public List<String> execHmgetToCache(final String cacheKey, final String hashKey) {
 		return execJedisOperate(new RedisCallback<List<String>>() {
@@ -434,7 +419,6 @@ public class RedisTemplate {
 	 * @param  cacheKey
 	 * @param  field
 	 * @return String   
-	 * @throws
 	 */
 	public String execHgetToCache(final String cacheKey, final String field) {
 		return execJedisOperate(new RedisCallback<String>() {
@@ -453,7 +437,6 @@ public class RedisTemplate {
 	 * @param  field
 	 * @param  value
 	 * @return Long   
-	 * @throws
 	 */
 	public Long execHsetToCache(final String cacheKey, final String field, final String value) {
 		return execJedisOperate(new RedisCallback<Long>() {
@@ -469,8 +452,7 @@ public class RedisTemplate {
 	 * Author: 陈建宇
 	 * Date:   2016年12月14日 上午9:42:22
 	 * @param  cacheKey
-	 * @return Map<String,String>   
-	 * @throws
+	 * @return Map
 	 */
 	public Map<String, String> execHgetAllToCache(final String cacheKey) {
 		return execJedisOperate(new RedisCallback<Map<String, String>>() {
@@ -488,7 +470,6 @@ public class RedisTemplate {
 	 * @param  cacheKey
 	 * @param  unixTime
 	 * @return Long   
-	 * @throws
 	 */
 	public Long execExpireAtTimeToCache(final String cacheKey, final Long unixTime) {
 		return execJedisOperate(new RedisCallback<Long>() {
@@ -507,7 +488,6 @@ public class RedisTemplate {
 	 * @param  score
 	 * @param  member
 	 * @return Long   
-	 * @throws
 	 */
 	public Long execZaddToCache(final String cacheKey, final Double score, final String member) {
 		return execJedisOperate(new RedisCallback<Long>() {
@@ -527,7 +507,6 @@ public class RedisTemplate {
 	 * @param  cacheKey
 	 * @param  members
 	 * @return Long   
-	 * @throws
 	 */
 	public Long execZremToCache(final String cacheKey, final String... members) {
 		return execJedisOperate(new RedisCallback<Long>() {
@@ -538,23 +517,6 @@ public class RedisTemplate {
 		});
 	}
 
-	/**
-	 * 功能描述: 返回有序集合key中,所有介于min<=score<=max中的成员,有序集的成员按照score值递增(从小到大)次序排列
-	 * Author: 陈建宇
-	 * Date:   2016年12月14日 上午9:43:18
-	 * @param  cacheKey
-	 * @param  min
-	 * @param  max
-	 * @return Set<String>   
-	 * @throws
-	 */
-	public Set<String> execZrangeByScoreToCache(final String cacheKey, final double min, final double max) {
-		return execJedisOperate(new RedisCallback<Set<String>>() {
-			@Override
-			public Set<String> invoke(ShardedJedis jedis) {
-				return jedis.zrangeByScore(cacheKey, min, max);
-			}
-		});
-	}
+	
 
 }

@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.meiduimall.application.search.manage.constant.Constant;
+
 
 
 
@@ -43,18 +45,18 @@ public class ServletFilter implements Filter {
 		String ipAddress = request.getHeader("x-forwarded-for");
 		
 		if (ipAddress == null || ipAddress.length() == 0
-				|| "unknown".equalsIgnoreCase(ipAddress)) {
+				|| Constant.UNKNOWN.equalsIgnoreCase(ipAddress)) {
 			ipAddress = request.getHeader("Proxy-Client-IP");
 		}
 		if (ipAddress == null || ipAddress.length() == 0
-				|| "unknown".equalsIgnoreCase(ipAddress)) {
+				|| Constant.UNKNOWN.equalsIgnoreCase(ipAddress)) {
 			ipAddress = request.getHeader("WL-Proxy-Client-IP");
 		}
 		if (ipAddress == null || ipAddress.length() == 0
-				|| "unknown".equalsIgnoreCase(ipAddress)) {
+				|| Constant.UNKNOWN.equalsIgnoreCase(ipAddress)) {
 			ipAddress = request.getRemoteAddr();
-			if ("127.0.0.1".equals(ipAddress)
-					|| "0:0:0:0:0:0:0:1".equals(ipAddress)) {
+			if (Constant.LOCALHOST_IPV4.equals(ipAddress)
+					|| Constant.LOCALHOST_IPV6.equals(ipAddress)) {
 				// 根据网卡取本机配置的IP
 				InetAddress inet = null;
 				try {

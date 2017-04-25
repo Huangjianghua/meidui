@@ -304,7 +304,7 @@ public class OAuthMessage {
         if (parameters != null) {
             for (Map.Entry parameter : parameters) {
                 String name = toString(parameter.getKey());
-                if (!Strings.isNullOrEmpty(name)&&name.startsWith("oauth_")) {
+                if (name!=null&&name.startsWith("oauth_")) {
                     if (into.length() > 0) into.append(",");
                     into.append(" ");
                     into.append(OAuth.percentEncode(name)).append("=\"");

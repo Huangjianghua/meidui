@@ -1,14 +1,11 @@
 package com.meiduimall.application.search.manage.servlet;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.meiduimall.application.search.manage.utility.VCodeGenerator;
 
 public class GetValidateCodeServlet extends HttpServlet{
