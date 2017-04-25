@@ -448,23 +448,23 @@ public class OrderServiceImpl implements OrderService {
 		
 		PageHelper.startPage(pageNumber, pageSize);
 		
-		List<EcmMzfShareProfit> shareProfitList=baseMapper.selectList(waterId, "EcmMzfWaterMapper.getShareProfitByWaterId");
+		List<EcmMzfShareProfit> shareProfitList = baseMapper.selectList(waterId, "EcmMzfWaterMapper.getShareProfitByWaterId");
 		//loginType:1代理 2商家 3 其他
 		
-		if(CollectionUtils.isNotEmpty(shareProfitList)){
-			for(EcmMzfShareProfit shareProfit:shareProfitList){
-				
-				if(loginType!=null && loginType==1){
-					if(!StringUtil.isEmpty(code) && code.length()==6){  //个代
-						shareProfit.setProfit(shareProfit.getPersonAgentProfit());
-						
-					}else{  //区代
-						shareProfit.setProfit(shareProfit.getAreaAgentProfit().add(shareProfit.getOutareaAgentProfit()));
-					}
+		if(CollectionUtils.isEmpty(shareProfitList)){
+			return shareProfitList; 
+		}
+		
+		for(EcmMzfShareProfit shareProfit:shareProfitList){
+			
+			if(loginType!=null && loginType==1){
+				if(!StringUtil.isEmpty(code) && code.length()==6){  //个代
+					shareProfit.setProfit(shareProfit.getPersonAgentProfit());
+				}else{  //区代
+					shareProfit.setProfit(shareProfit.getAreaAgentProfit().add(shareProfit.getOutareaAgentProfit()));
 				}
 			}
 		}
-		
 		return shareProfitList;
 	}
 

@@ -211,9 +211,9 @@ public class AsyncTaskService {
 							
 						}
 						
-						log.info("代理编码为：" + ecmAgent.getAgentNo()+",手机号码为:"+ecmAgent.getBindPhone()+"的积分更新成功，其状态已修改为 '已更新' "+flag);
+						log.info("代理编码为：{}手机号码为：{}的积分更新成功，其状态已修改为 '已更新'{}", ecmAgent.getAgentNo(), ecmAgent.getBindPhone(), flag);
 					}else{
-						log.error("代理编码为：" + ecmAgent.getAgentNo()+",手机号码为:"+ecmAgent.getBindPhone()+"修改代理流水表积分 '状态' 失败");
+						log.error("代理编码为：{}手机号码为：{}修改代理流水表积分 '状态' 失败", ecmAgent.getAgentNo(), ecmAgent.getBindPhone());
 					}
 				}else{
 					log.error("手机号码为:"+ecmAgent.getBindPhone()+"更新积分失败");
@@ -232,8 +232,7 @@ public class AsyncTaskService {
 					
 					//o2o调用代理保证金分润方法 执行更新积分环节失败时 将代理数据放入redis缓存中 用于定时器执行重试机制
 					if(ShareProfitConstants.SHARE_PROFIT_SOURCE_O2O.equals(dataSource)){
-						RedisUtils.set(ShareProfitConstants.REDIS_KEY_PRIFIX_AGENT + ecmAgent.getAgentNo(),
-								JsonUtils.beanToJson(ecmAgent));
+						RedisUtils.set(ShareProfitConstants.REDIS_KEY_PRIFIX_AGENT + ecmAgent.getAgentNo(), JsonUtils.beanToJson(ecmAgent));
 					}
 					
 					//定时任务从缓存获取数据 执行重试机制出错时 插入异常日志
