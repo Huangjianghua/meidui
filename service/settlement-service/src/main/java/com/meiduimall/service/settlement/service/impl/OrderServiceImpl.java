@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -458,7 +459,7 @@ public class OrderServiceImpl implements OrderService {
 		List<EcmMzfShareProfit> shareProfitList=baseMapper.selectList(waterId, "EcmMzfWaterMapper.getShareProfitByWaterId");
 		//loginType:1代理 2商家 3 其他
 		
-		if(shareProfitList!=null && !shareProfitList.isEmpty()){
+		if(CollectionUtils.isNotEmpty(shareProfitList)){
 			for(EcmMzfShareProfit shareProfit:shareProfitList){
 				
 				if(loginType!=null && loginType==1){

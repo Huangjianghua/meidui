@@ -3,7 +3,6 @@ package com.meiduimall.service.settlement.api;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,11 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ServiceException;
@@ -181,31 +178,6 @@ public class OrderController {
 		return SettlementUtil.success(shareProfitVO);
 	}
 	
-	/**
-	 * 功能描述:  根据流水编号查询分润数据接口 (已经合并到查询账单流水详情接口WaterController.querywaterbyid())
-	 * Author: 许彦 雄
-	 * param waterId
-	 * param loginType
-	 * param code
-	 * param pageNumber
-	 * param pageSize
-	 * return ResBodyData
-	 * 
-	 */
-	@PostMapping("/queryprofitbywaterbytype")
-	public ResBodyData queryProfitByWaterByType(String waterId, Integer loginType, String code,
-			@RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber,
-			@RequestParam(value = "pageSize", defaultValue = "20") int pageSize) {
-		
-		Integer count = orderService.queryProfitCountByWaterId(waterId);
-		List<EcmMzfShareProfit> shareProfitList = orderService.queryProfitByWaterByType(waterId, loginType, code, pageNumber, pageSize);
-		
-		Map<String, Object> map = Maps.newHashMap();
-		map.put("shareProfitList", shareProfitList);
-		map.put("total", count);
-		
-		return SettlementUtil.success(map);
-	}
 	
 	/**
 	 * 功能描述:  根据代理或商家编号查询汇总分润数据接口
