@@ -11,13 +11,7 @@
 package com.meiduimall.exception;
 
 
-/**
- * Copyright (C), 2002-2017, 美兑壹购物
- * FileName: SystemException.java
- * Author:   Administrator
- * Date:     2017年4月19日 下午4:46:43
- * Description: 检查类型异常
- */
+
 public class SystemException extends Exception {
 
 	private static final long serialVersionUID = 522159568098470670L;

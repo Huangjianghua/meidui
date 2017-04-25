@@ -5,10 +5,7 @@ import java.text.DecimalFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * @创建者：yangchangfu @创建时间：2016/3/21
- * @描述：数字小数点操作工具类
- */
+
 public class NumberUtils {
 	
 	private NumberUtils(){}

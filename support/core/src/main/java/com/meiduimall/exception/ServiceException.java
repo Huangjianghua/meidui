@@ -10,13 +10,7 @@
 
 package com.meiduimall.exception;
 
-/**
- * Copyright (C), 2002-2017, 美兑壹购物
- * FileName: ServiceException.java
- * Author:   Administrator
- * Date:     2017年4月19日 下午4:47:53
- * Description: service层统一错误码异常
- */
+
 public class ServiceException extends BizException {
 	
 	private static final long serialVersionUID = 3208750423221347264L;

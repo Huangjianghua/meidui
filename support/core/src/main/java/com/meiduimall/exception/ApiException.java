@@ -11,13 +11,7 @@
 package com.meiduimall.exception;
 
 
-/**
- * Copyright (C), 2002-2017, 美兑壹购物
- * FileName: ApiException.java
- * Author:   Administrator
- * Date:     2017年4月19日 下午4:57:46
- * Description: 控制层统一错误码异常
- */
+
 public class ApiException extends BizException {
 
 

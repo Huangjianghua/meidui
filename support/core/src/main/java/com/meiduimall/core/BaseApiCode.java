@@ -4,13 +4,7 @@ import java.util.HashMap;
 
 import java.util.Map;
 
-/**
- * @Copyright (C), 2002-2017, 美兑壹购
- * @FileName: BaseApiCode.java
- * @Author: 陈建宇
- * @Date:2017年3月14日 上午10:16:57
- * @Description: //模块目的、功能描述
- */
+
 public class BaseApiCode {
 
 	public static final Map<Integer, String> zhMsgMap = new HashMap<Integer, String>(300);
