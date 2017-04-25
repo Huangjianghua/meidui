@@ -3,13 +3,13 @@
 	<parent>
         <groupId>com.meiduimall</groupId>
         <artifactId>support</artifactId>
-        <version>1.0.2-SNAPSHOT</version>
+        <version>1.0.2</version>
     </parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.meiduimall</groupId>
 	<artifactId>meiduimall-support-core</artifactId>
 	<name>support::core</name>
-	<version>1.0.2-SNAPSHOT</version>
+	<version>1.0.2</version>
 	<packaging>jar</packaging>
 	<dependencies>
 
@@ -88,7 +88,7 @@
         <dependency>
             <groupId>com.meiduimall</groupId>
             <artifactId>meiduimall-support-security</artifactId>
-            <version>1.0.2-SNAPSHOT</version>
+            <version>1.0.2</version>
         </dependency>
     </dependencies>
 
