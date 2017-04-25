@@ -3,21 +3,21 @@
     <parent>
         <groupId>com.meiduimall</groupId>
         <artifactId>starter</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.meiduimall.starter</groupId>
     <artifactId>meduimall-service-starter</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
     <properties>
         <aspectjweaver.version>1.8.9</aspectjweaver.version>
         <sonar.language>java</sonar.language>
         <commons-beanutils.version>1.9.3</commons-beanutils.version>
         <commons-lang3.version>3.3.2</commons-lang3.version>
-        <meiduimall-support-core.version>1.0.0-SNAPSHOT</meiduimall-support-core.version>
-        <meiduimall-support-redis.version>1.0.0-SNAPSHOT</meiduimall-support-redis.version>
-        <meiduimall-support-security.version>1.0.0-SNAPSHOT</meiduimall-support-security.version>
+        <meiduimall-support-core.version>1.0.0</meiduimall-support-core.version>
+        <meiduimall-support-redis.version>1.0.0</meiduimall-support-redis.version>
+        <meiduimall-support-security.version>1.0.0</meiduimall-support-security.version>
         <redis.version>2.8.1</redis.version>
         <fastjson.version>1.2.22</fastjson.version>
         <guava.version>21.0</guava.version>
