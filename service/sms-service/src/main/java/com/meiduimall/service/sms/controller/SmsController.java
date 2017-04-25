@@ -43,6 +43,7 @@ public class SmsController {
 	 */
 	@RequestMapping("/send_common_sms_message")
 	public ResBodyData sendSmsMessage(@Validated SendMessageRequest model) {
+		System.out.println("------------------------------" + smsService);
 		return smsService.sendSmsMessage(model);
 	}
 

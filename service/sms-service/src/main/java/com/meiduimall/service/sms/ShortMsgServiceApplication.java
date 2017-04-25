@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableAutoConfiguration
 @EnableTransactionManagement
 @EnableEurekaClient
-@MapperScan("com.meiduimall.service.sms")
+@MapperScan("com.meiduimall.service.sms.mapper")
 public class ShortMsgServiceApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {

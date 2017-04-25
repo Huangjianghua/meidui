@@ -25,4 +25,7 @@ public class SysConstant extends Constants {
 	/** 短信验证码缓存其中的一个标识 */
 	public static final String MESSAGE_CODE_KEY = "code_key";
 
+	private SysConstant() {
+	}
+
 }

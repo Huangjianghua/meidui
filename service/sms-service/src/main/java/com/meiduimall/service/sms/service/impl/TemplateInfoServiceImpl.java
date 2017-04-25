@@ -6,6 +6,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.util.JsonUtils;
@@ -16,6 +17,7 @@ import com.meiduimall.service.sms.entity.TemplateInfo;
 import com.meiduimall.service.sms.mapper.SmsTemplateInfoMapper;
 import com.meiduimall.service.sms.service.TemplateInfoService;
 
+@Service
 public class TemplateInfoServiceImpl implements TemplateInfoService {
 
 	private static Logger logger = LoggerFactory.getLogger(TemplateInfoServiceImpl.class);

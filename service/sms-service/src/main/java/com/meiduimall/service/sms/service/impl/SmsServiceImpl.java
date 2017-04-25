@@ -140,7 +140,7 @@ public class SmsServiceImpl implements SmsService {
 
 		ResBodyData result = new ResBodyData();
 		result.setStatus(SmsApiCode.SUCCESS);
-		result.setData(SmsApiCode.getZhMsg(SmsApiCode.SMS_SEND_SUCCESS));
+		result.setMsg(SmsApiCode.getZhMsg(SmsApiCode.SMS_SEND_SUCCESS));
 		result.setData(JsonUtils.getInstance().createObjectNode());
 		return result;
 	}

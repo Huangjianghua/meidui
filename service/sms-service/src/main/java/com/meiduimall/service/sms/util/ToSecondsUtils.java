@@ -21,6 +21,9 @@ public class ToSecondsUtils {
 	public static final String MN = "mn";
 	public static final String MIN = "min";
 
+	private ToSecondsUtils() {
+	}
+
 	/**
 	 * Parse a duration
 	 * 
