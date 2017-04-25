@@ -77,7 +77,7 @@ public class JsonUtils {
      * 功能描述:  json转list
      * Author: 陈建宇
      * Date:   2017年3月15日 下午6:10:54
-     * return  List<T>
+     * return  List
      */
     public static <T> List<T> jsonToList(String json,Class<T> clazz) {
     	List<T> list =null;
