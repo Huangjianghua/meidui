@@ -19,29 +19,25 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.meiduimall.core.util.HttpUtils;
-import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.password.exception.Md5Exception;
 import com.meiduimall.password.util.MD5;
-import com.meiduimall.service.sms.SmsApiCode;
+import com.meiduimall.service.sms.constant.SmsApiCode;
+import com.meiduimall.service.sms.service.ZucpService;
 
-
-/**
- * 漫道短信服務
- * @author pc
- * @since 2017.01.05
- */
 @Service
-public class ZucpService {
+public class ZucpServiceImpl implements ZucpService {
 
-	private static Logger logger = LoggerFactory.getLogger(ZucpService.class);
-	
+	private static Logger logger = LoggerFactory.getLogger(ZucpServiceImpl.class);
+
 	@Value("${zucpUrl}")
-	private String zucpUrl; 
+	private String zucpUrl;
+
 	@Value("${zucpUser}")
-	private String zucpUser; 
+	private String zucpUser;
+
 	@Value("${zucpPasswd}")
-	private String zucpPasswd; 
+	private String zucpPasswd;
 
 	/**
 	 * 生成请求体
@@ -52,10 +48,10 @@ public class ZucpService {
 	 * @param stime
 	 * @param rrid
 	 * @return
-	 * @throws Md5Exception 
+	 * @throws Md5Exception
 	 * @throws Exception
 	 */
-	String buildBody(String mobile, String content, String ext, String stime, String rrid) throws Md5Exception{
+	private String buildBody(String mobile, String content, String ext, String stime, String rrid) throws Md5Exception {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
 				+ "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">");
@@ -88,17 +84,8 @@ public class ZucpService {
 		return sb.toString();
 	}
 
-	/**
-	 * 發送短信
-	 * 
-	 * @param mobile
-	 * @param content
-	 * @param ext
-	 * @param stime
-	 * @param rrid
-	 * @throws ApiException
-	 */
-	public String send(String mobile, String content, String ext, String stime, String rrid)  {
+	@Override
+	public String send(String mobile, String content, String ext, String stime, String rrid) {
 
 		Map<String, String> headers = new HashMap<String, String>();
 		headers.put("Content-Type", "text/xml;charset=utf-8");
@@ -106,7 +93,8 @@ public class ZucpService {
 
 		try {
 
-			String result = HttpUtils.post(zucpUrl, buildBody(mobile, content, ext, stime, rrid), headers,"UTF-8","UTF-8");
+			String result = HttpUtils.post(zucpUrl, buildBody(mobile, content, ext, stime, rrid), headers, "UTF-8",
+					"UTF-8");
 			logger.info("Zucp::Result -> %s", result);
 
 			String[] array1 = result.split("<mdSmsSend_uResult>");
@@ -115,20 +103,13 @@ public class ZucpService {
 			return array2[0];
 		} catch (Exception e) {
 			logger.error("ZucpService error.", e);
-			throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER,SmsApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
+			throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER, SmsApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
 		}
-		
+
 	}
 
-	/**
-	 * 发送短信
-	 * 
-	 * @param mobile
-	 * @param content
-	 * @return
-	 * @throws ApiException
-	 */
-	public String send(String mobile, String content)  {
+	@Override
+	public String send(String mobile, String content) {
 		return this.send(mobile, content, "", "", "");
 	}
 }

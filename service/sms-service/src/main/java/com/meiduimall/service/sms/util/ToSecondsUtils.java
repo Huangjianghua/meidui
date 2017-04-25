@@ -1,25 +1,26 @@
 package com.meiduimall.service.sms.util;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
  * 日期工具类
+ * 
  * @author yangchang
  *
  */
 public class ToSecondsUtils {
 
-	
-	public static final  Pattern p = Pattern.compile("(([0-9]+?)((d|h|mi|min|mn|s)))+?");
-	public static final  Integer MINUTE = 60;
-	public static final  Integer HOUR = 60 * MINUTE;
-	public static final  Integer DAY = 24 * HOUR;
-	public static final  String D ="d";
-	public static final  String H ="h";
-	public static final  String MI ="mi";
-	public static final  String MN ="mn";
-	public static final  String MIN ="min";
-	
+	public static final Pattern p = Pattern.compile("(([0-9]+?)((d|h|mi|min|mn|s)))+?");
+	public static final Integer MINUTE = 60;
+	public static final Integer HOUR = 60 * MINUTE;
+	public static final Integer DAY = 24 * HOUR;
+	public static final String D = "d";
+	public static final String H = "h";
+	public static final String MI = "mi";
+	public static final String MN = "mn";
+	public static final String MIN = "min";
+
 	/**
 	 * Parse a duration
 	 * 
@@ -42,8 +43,7 @@ public class ToSecondsUtils {
 				seconds += Integer.parseInt(matcher.group(2)) * DAY;
 			} else if (matcher.group(3).equals(H)) {
 				seconds += Integer.parseInt(matcher.group(2)) * HOUR;
-			} else if (matcher.group(3).equals(MI) || matcher.group(3).equals(MIN)
-					|| matcher.group(3).equals(MN)) {
+			} else if (matcher.group(3).equals(MI) || matcher.group(3).equals(MIN) || matcher.group(3).equals(MN)) {
 				seconds += Integer.parseInt(matcher.group(2)) * MINUTE;
 			} else {
 				seconds += Integer.parseInt(matcher.group(2));
@@ -51,6 +51,4 @@ public class ToSecondsUtils {
 		}
 		return seconds;
 	}
-	
-
 }

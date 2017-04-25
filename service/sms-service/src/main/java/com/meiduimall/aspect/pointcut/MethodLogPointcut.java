@@ -15,14 +15,15 @@ import org.aspectj.lang.annotation.Pointcut;
 
 /**
  * AOP配置
+ * 
  * @author chencong
  *
  */
 @Aspect
 public class MethodLogPointcut {
-	
-	@Pointcut("execution(* com.meiduimall.service.*.controller.*.*(..))")
+
+	@Pointcut("execution(* com.meiduimall.service.sms.controller.*.*(..))")
 	public void pointcutLog() {
-		
+
 	}
 }

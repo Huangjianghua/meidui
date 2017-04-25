@@ -10,54 +10,34 @@
 
 package com.meiduimall.service.sms.service;
 
-import com.meiduimall.service.sms.model.message.CommonShortMessageModel;
+import com.meiduimall.core.ResBodyData;
+import com.meiduimall.service.sms.request.CheckCodeRequest;
+import com.meiduimall.service.sms.request.SendCodeRequest;
+import com.meiduimall.service.sms.request.SendMessageRequest;
 
 public interface SmsService {
-//	/**
-//	 * 校验发送短信的参数
-//	 * @param  model
-//	 * @return
-//	 */
-//	ResultBody validSmsMessageParams(CommonShortMessageModel model);
-//
-//	/**
-//	 * 校验发送短信验证码的参数
-//	 * @param  model
-//	 * @return
-//	 */
-//	ResultBody validVerificationCodeParams(CommonShortMessageModel model);
-//
-//	/**
-//	 * 校验验证短信验证码的参数
-//	 * @param  model
-//	 * @return
-//	 */
-//	ResultBody validCheckVerificationCodeParams(CommonShortMessageModel model);
-	
+
 	/**
 	 * 发送短信
 	 * 
 	 * @param model
 	 * @return
-	 * @throws Exception
 	 */
-	void sendSmsMessage(CommonShortMessageModel model) ;
-	
+	ResBodyData sendSmsMessage(SendMessageRequest model);
+
 	/**
 	 * 发送短信验证码
 	 * 
 	 * @param model
 	 * @return
-	 * @throws Exception
 	 */
-	String sendSmsVerificationCode(CommonShortMessageModel model) ;
-	
+	ResBodyData sendSmsVerificationCode(SendCodeRequest model);
+
 	/**
 	 * 校验短信验证码
 	 * 
 	 * @param model
 	 * @return
-	 * @throws Exception
 	 */
-	int checkSmsVerificationCode(CommonShortMessageModel model) ;
+	ResBodyData checkSmsVerificationCode(CheckCodeRequest model);
 }

@@ -9,16 +9,18 @@
  */
 
 package com.meiduimall.service.sms.service.impl;
+
 import java.util.List;
 
 import com.meiduimall.core.util.JsonUtils;
-import com.meiduimall.service.sms.SysConstant;
-import com.meiduimall.service.sms.service.IAliyunService;
+import com.meiduimall.service.sms.service.AliyunService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.meiduimall.service.sms.constant.SysConstant;
 import com.meiduimall.service.sms.entity.MessageChannel;
 import com.taobao.api.DefaultTaobaoClient;
 import com.taobao.api.TaobaoClient;
@@ -27,32 +29,35 @@ import com.taobao.api.response.AlibabaAliqinFcSmsNumSendResponse;
 
 /**
  * 阿里云短信平台
+ * 
  * @author pc
  */
 @Service
-public class AliyunService implements IAliyunService {
-	private static Logger logger= LoggerFactory.getLogger(AliyunService.class);
+public class AliyunServiceImpl implements AliyunService {
+
+	private static Logger logger = LoggerFactory.getLogger(AliyunServiceImpl.class);
 
 	private static String appKey = "23438487";
 	private static String appSecret = "17042e86f2ad304b016d4ed1578f26e7";
 	private static String url = "http://gw.api.taobao.com/router/rest";
 	private static String sign_name = "美兑壹购物";
-	
-	@Autowired
-	private MessageChannelService messageChannelService;
 
-	
+	@Autowired
+	private MessageChannelServiceImpl messageChannelService;
+
 	@Override
-	public boolean send(String mobile, String tid, String context)  {
-		if(StringUtils.isEmpty(tid)){
-			logger.error("模板ID为空,无法发送短消息");
+	public boolean send(String mobile, String tid, String context) {
+
+		if (StringUtils.isEmpty(tid)) {
+			logger.error("模板ID为空,无法使用阿里大于发送短短信！");
 			return false;
 		}
+
 		String channelJsonStr = messageChannelService.getChannelList(SysConstant.MESSAGE_CHANNEL_KEY);
-		if(StringUtils.isNotEmpty(channelJsonStr)){
+		if (StringUtils.isNotEmpty(channelJsonStr)) {
 			List<MessageChannel> channelList = JsonUtils.jsonToList(channelJsonStr, MessageChannel.class);
-			for(MessageChannel c : channelList){
-				if(SysConstant.MESSAGE_TEMPLATE_ALI_KEY.equals(c.getChannelKey())){
+			for (MessageChannel c : channelList) {
+				if (SysConstant.MESSAGE_CHANNEL_ALI_KEY.equals(c.getChannelKey())) {
 					url = c.getRequstUrl();
 					appKey = c.getUserName();
 					appSecret = c.getPassWord();
@@ -72,13 +77,12 @@ public class AliyunService implements IAliyunService {
 		try {
 			rsp = client.execute(req);
 		} catch (com.taobao.api.ApiException e) {
-		    logger.error("阿里云平台短信发送异常:{}",e);
+			logger.error("阿里云平台短信发送异常:{}", e);
 		}
-		if (rsp!=null&&(rsp.getBody().indexOf("\"success\":true") != -1
+		if (rsp != null && (rsp.getBody().indexOf("\"success\":true") != -1
 				|| rsp.getBody().indexOf("isv.BUSINESS_LIMIT_CONTROL") != -1)) {
 			return true;
 		}
 		return false;
 	}
-
 }

@@ -10,8 +10,14 @@
 
 package com.meiduimall.service.sms.service;
 
+public interface MessageChannelService {
 
-public interface IAliyunService {
-	boolean send(String mobile, String tid, String context) ;
+	/**
+	 * 获取短信渠道并转成json字符串
+	 * 
+	 * @param key
+	 * @return
+	 */
+	String getChannelList(String key);
 
 }
