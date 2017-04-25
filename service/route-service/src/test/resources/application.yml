@@ -9,7 +9,7 @@ hystrix:
       execution:
         isolation:
           thread:
-            timeoutInMilliseconds: 7000 #缺省为1000
+            timeoutInMilliseconds: 3000 #缺省为1000
 zuul:
   ignoredServices: '*'
   routes:
