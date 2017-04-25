@@ -35,9 +35,7 @@ public class HttpTooUtils {
 			}
 			read.close();
 			in.close();
-			if (conn != null) {
-				conn.disconnect();
-			}
+			conn.disconnect();
 		} catch (Exception e) {
 			logger.error("get请求异常：{}",e);
 		}

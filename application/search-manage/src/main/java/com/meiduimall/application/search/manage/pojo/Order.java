@@ -169,7 +169,6 @@ public class Order implements Serializable {
 	public String getMchMoney() {
 		// 判断是否是加密的字符串
 		try {
-			Double.valueOf(this.mchMoney==null?"0":this.mchMoney);
 			return this.mchMoney;
 		} catch(NumberFormatException e) {
 			return DESC.firstDeyption(this.mchMoney,this.memId);
@@ -179,7 +178,6 @@ public class Order implements Serializable {
 	public String getMchCosts() {
 		// 判断是否是加密的字符串
 		try {
-			Double.valueOf(this.mchCosts==null?"0":this.mchCosts);
 			return this.mchCosts;
 		} catch(NumberFormatException e) {
 			return DESC.firstDeyption(this.mchCosts,this.memId);
@@ -197,7 +195,6 @@ public class Order implements Serializable {
 	public String getMchBshopGiveIntegral() {
 		// 判断是否是加密的字符串
 		try {
-			Double.valueOf(this.mchBshopGiveIntegral==null?"0":this.mchBshopGiveIntegral);
 			return this.mchBshopGiveIntegral;
 		} catch(NumberFormatException e) {
 			return DESC.firstDeyption(this.mchBshopGiveIntegral,this.memId);
@@ -212,7 +209,6 @@ public class Order implements Serializable {
 	public String getMchTotalIntegral() {
 		// 判断是否是加密的字符串
 		try {
-			Double.valueOf(this.mchTotalIntegral==null?"0":this.mchTotalIntegral);
 			return this.mchTotalIntegral;
 		} catch(NumberFormatException e) {
 			return DESC.firstDeyption(this.mchTotalIntegral,this.memId);
@@ -234,7 +230,6 @@ public class Order implements Serializable {
 	public String getMchCurrentReturnedIntegral() {
 		// 判断是否是加密的字符串
 		try {
-			Double.valueOf(this.mchCurrentReturnedIntegral==null?"0":this.mchCurrentReturnedIntegral);
 			return this.mchCurrentReturnedIntegral;
 		} catch(NumberFormatException e) {
 			return DESC.firstDeyption(this.mchCurrentReturnedIntegral,this.memId);
@@ -247,11 +242,6 @@ public class Order implements Serializable {
 
 	public String getMchNextReturnIntegral() {
 		// 判断是否是加密的字符串
-		try {
-			
-		} catch(NumberFormatException e) {
-			
-		}
 		return DESC.firstDeyption(this.mchNextReturnIntegral,this.memId);
 	}
 
@@ -262,7 +252,6 @@ public class Order implements Serializable {
 	public String getMchReturnProfitIntegral() {
 		// 判断是否是加密的字符串
 		try {
-			Double.valueOf(this.mchReturnProfitIntegral==null?"0":this.mchReturnProfitIntegral);
 			return this.mchReturnProfitIntegral;
 		} catch(NumberFormatException e) {
 			return DESC.firstDeyption(this.mchReturnProfitIntegral,this.memId);
@@ -276,7 +265,6 @@ public class Order implements Serializable {
 	public String getMchFunds() {
 		// 判断是否是加密的字符串
 		try {
-			Double.valueOf(this.mchFunds==null?"0":this.mchFunds);
 			return this.mchFunds;
 		} catch(NumberFormatException e) {
 			return DESC.firstDeyption(this.mchFunds,this.memId);
@@ -290,7 +278,6 @@ public class Order implements Serializable {
 	public String getMchCurrentGetIntegral() {
 		// 判断是否是加密的字符串
 		try {
-			Double.valueOf(this.mchCurrentGetIntegral==null?"0":this.mchCurrentGetIntegral);
 			return this.mchCurrentGetIntegral;
 		} catch(NumberFormatException e) {
 			return DESC.firstDeyption(this.mchCurrentGetIntegral,this.memId);

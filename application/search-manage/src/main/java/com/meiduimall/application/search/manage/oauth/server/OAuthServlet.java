@@ -107,7 +107,7 @@ public class OAuthServlet {
     }
 
 
-    private static final Map<String, Integer> PROBLEM_TO_HTTP_CODE = OAuth.Problems.TO_HTTP_CODE;
+    private static final Map<String, Integer> PROBLEM_TO_HTTP_CODE = OAuth.Problems.getToHttpCode();
 
     /** Send the given parameters as a form-encoded response body. */
     public static void sendForm(HttpServletResponse response,

@@ -143,18 +143,18 @@ public abstract class OAuthSignatureMethod {
     public static String getBaseString(OAuthMessage message)
             throws IOException, URISyntaxException {
         List<Map.Entry<String, String>> parameters;
-        String url = message.URL;
+        String url = message.getURL();
         int q = url.indexOf('?');
         if (q < 0) {
             parameters = message.getParameters();
         } else {
             // Combine the URL query string with the other parameters:
             parameters = new ArrayList<Map.Entry<String, String>>();
-            parameters.addAll(OAuth.decodeForm(message.URL.substring(q + 1)));
+            parameters.addAll(OAuth.decodeForm(message.getURL().substring(q + 1)));
             parameters.addAll(message.getParameters());
             url = url.substring(0, q);
         }
-        return OAuth.percentEncode(message.method.toUpperCase()+"&"+normalizeUrl(url)+"&"+normalizeParameters(parameters));
+        return OAuth.percentEncode(message.getMethod().toUpperCase()+"&"+normalizeUrl(url)+"&"+normalizeParameters(parameters));
     }
 
     public static String normalizeUrl(String url) throws URISyntaxException {
@@ -288,7 +288,7 @@ public abstract class OAuthSignatureMethod {
         message.requireParameters(OAuth.OAUTH_SIGNATURE_METHOD);
         OAuthSignatureMethod signer = newMethod(message.getSignatureMethod(),
                 accessor);
-        signer.setTokenSecret(accessor.tokenSecret);
+        signer.setTokenSecret(accessor.getAccessToken());
         signer.setSignature(accessor.getProperty(OAuth.OAUTH_SIGNATURE).toString());
         return signer;
     }

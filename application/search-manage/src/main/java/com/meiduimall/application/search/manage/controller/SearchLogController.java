@@ -42,7 +42,7 @@ public class SearchLogController {
 		calendar.setTime(date);
 		calendar.add(Calendar.DAY_OF_MONTH, -7);
 		date = calendar.getTime();
-		startTime = DateUtils.format(date);
+		startTime =   DateUtils.format(date);
 	}
 
 	@RequestMapping(value = "listSearchLog")
@@ -99,7 +99,7 @@ public class SearchLogController {
 		String url = "redirect:/searchLog/statisticSearchLog.do";
 		QueryResult result = searchLogService.queryStatisticLogs(logParam);
 		List data = result.getDateList();
-		if (result != null && data != null && !data.isEmpty()) {
+		if (data != null && !data.isEmpty()) {
 			StatisticLog log = (StatisticLog) data.get(0);
 			String keyword = log.getKeyword();
 			SuggestWord suggestWord = suggestWordService.querySuggestWordByKey(keyword);

@@ -96,7 +96,7 @@ public class MenuServiceImpl implements IMenuService{
 				menuDao.updateMenu(menu);
 
 				// 新增子菜单
-				if (menu != null && !"".equals(menu.getSubItem().getName())) {
+				if (!"".equals(menu.getSubItem().getName())) {
 					Menu submenu = menu.getSubItem();
 					submenu.setPid(menu.getId());
 					menuDao.insertMenu(submenu);

@@ -1,6 +1,7 @@
 package com.meiduimall.application.search.manage.controller;
 
 import java.net.InetAddress;
+
 import java.net.UnknownHostException;
 import java.util.Iterator;
 import java.util.Map;
@@ -8,9 +9,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import net.sf.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * Action基本方法
@@ -19,7 +20,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class BaseController {
 	
-	private static final Log log = LogFactory.getLog(BaseController.class);
+	private Logger log = LoggerFactory.getLogger(BaseController.class);
 	
 	/**
 	 * 获取当前网络ip
@@ -47,10 +48,10 @@ public class BaseController {
 				InetAddress inet = null;
 				try {
 					inet = InetAddress.getLocalHost();
+					ipAddress = inet.getHostAddress();
 				} catch (UnknownHostException e) {
-					e.printStackTrace();
+					log.error("获取ip地址异常:{}",e);
 				}
-				ipAddress = inet.getHostAddress();
 			}
 		}
 		// 对于通过多个代理的情况，第一个IP为客户端真实IP,多个IP按照','分割
@@ -73,7 +74,7 @@ public class BaseController {
 				jsonObject.accumulate(key, values[0]);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("解析封装json异常:{}",e);
 			return null;
 		}
 

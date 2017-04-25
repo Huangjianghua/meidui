@@ -101,9 +101,13 @@ public class OAuth {
          * href="http://wiki.oauth.net/ProblemReporting">oauth_problem</a> value to
          * the appropriate HTTP response code.
          */
-        public static final Map<String, Integer> TO_HTTP_CODE = mapToHttpCode();
+        private  static final  Map<String, Integer> TO_HTTP_CODE = mapToHttpCode();
 
-        private static Map<String, Integer> mapToHttpCode() {
+        public static Map<String, Integer> getToHttpCode() {
+			return TO_HTTP_CODE;
+		}
+
+		private static Map<String, Integer> mapToHttpCode() {
             Integer badRequest = 400;
             Integer unauthorized = 401;
             Integer serviceUnavailable = 503;
@@ -170,7 +174,7 @@ public class OAuth {
         }
         int semi = contentType.indexOf(';');
         if (semi >= 0) {
-            contentType = contentType.substring(0, semi);
+        	return FORM_ENCODED.equalsIgnoreCase(contentType.substring(0, semi));
         }
         return FORM_ENCODED.equalsIgnoreCase(contentType.trim());
     }

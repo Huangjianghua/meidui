@@ -112,7 +112,6 @@ public class OAuthProblemException extends OAuthException {
     @Override
     public String toString() {
         final StringBuilder s = new StringBuilder(super.toString());
-        try {
             final String eol = System.getProperty("line.separator", "\n");
             final Map<String, Object> parameters = getParameters();
             for (String key : new String[] { OAuth.Problems.OAUTH_PROBLEM_ADVICE, URL,
@@ -137,8 +136,6 @@ public class OAuthProblemException extends OAuthException {
                     s.append(eol + key + ": " + parameter.getValue());
                 }
             }
-        } catch (Exception ignored) {
-        }
         return s.toString();
     }
 

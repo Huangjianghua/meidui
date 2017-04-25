@@ -15,10 +15,8 @@
  */
 
 package com.meiduimall.application.search.manage.oauth;
-
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Serializable;
 import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.HashMap;
@@ -29,14 +27,13 @@ import java.util.Map;
  * e.g. to support extensions.
  * 
  */
-public class OAuthAccessor implements Cloneable, Serializable {
+public class OAuthAccessor implements Cloneable{
 
-    private static final long serialVersionUID = 5590788443138352999L;
 
     public final OAuthConsumer consumer;
-    public String requestToken;
-    public String accessToken;
-    public String tokenSecret;
+    private String requestToken;
+    private String accessToken;
+    private String tokenSecret;
 
     public OAuthAccessor(OAuthConsumer consumer) {
         this.consumer = consumer;
@@ -91,9 +88,38 @@ public class OAuthAccessor implements Cloneable, Serializable {
         return message;
     }
 
-    public OAuthMessage newRequestMessage(String method, String url, Collection<? extends Map.Entry> parameters)
+    public String getAccessToken() {
+		return accessToken;
+	}
+
+
+	public OAuthMessage newRequestMessage(String method, String url, Collection<? extends Map.Entry> parameters)
             throws OAuthException, IOException, URISyntaxException {
         return newRequestMessage(method, url, parameters, null);
     }
+
+	public String getRequestToken() {
+		return requestToken;
+	}
+
+	public String getTokenSecret() {
+		return tokenSecret;
+	}
+
+	public void setTokenSecret(String tokenSecret) {
+		this.tokenSecret = tokenSecret;
+	}
+
+	public void setRequestToken(String requestToken) {
+		this.requestToken = requestToken;
+	}
+
+	public void setAccessToken(String accessToken) {
+		this.accessToken = accessToken;
+	}
+
+
+    
+    
 
 }

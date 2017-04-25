@@ -14,7 +14,12 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class LogReaderUtil {
+	
+	 private static Logger logger = LoggerFactory.getLogger(LogReaderUtil.class);
 	
 	private static Date LAST_DATE = new Date();
 	
@@ -60,14 +65,14 @@ public class LogReaderUtil {
 				return results;
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error("读取日志文件报错:{}",e);
 		} finally {
 			if (is != null) {
 				try {
 					is.close();
 					is = null;
 				} catch (IOException e) {
-					e.printStackTrace();
+					logger.error("读取日志文件InputStream关闭报错:{}",e);
 				}
 			}
 		}
@@ -104,20 +109,20 @@ public class LogReaderUtil {
 				}
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error("读取日志文件报错:{}",e);
 		} finally {
 			if (reader != null) {
 				try {
 					reader.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					logger.error("读取日志文件BufferedReader关闭报错:{}",e);
 				}
 			}
 			if (in != null) {
 				try {
 					in.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					logger.error("读取日志文件InputStreamReader关闭报错:{}",e);
 				}
 			}
 		}

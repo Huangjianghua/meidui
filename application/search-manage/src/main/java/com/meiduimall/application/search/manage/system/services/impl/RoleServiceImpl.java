@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +23,10 @@ import com.meiduimall.application.search.manage.system.services.IUserService;
 @Service
 @Transactional(readOnly=true) //定义类级别事物为只读事物
 public class RoleServiceImpl implements IRoleService {
+	
+	
+	private Logger log = LoggerFactory.getLogger(RoleServiceImpl.class);
+	
 	@Resource
 	private RoleMapper  roleDao;
 	@Resource
@@ -60,6 +66,7 @@ public class RoleServiceImpl implements IRoleService {
 			}
 			privilegeDao.insertPrivilegeBatch(list);
 		}catch (Exception e){
+			log.error("新增角色异常:{}",e);
 			bl= false ;
 		}
 		return  bl;
@@ -98,6 +105,7 @@ public class RoleServiceImpl implements IRoleService {
 				privilegeDao.insertPrivilegeBatch(list);
 			}
 		} catch (Exception e) {
+			log.error("修改角色异常:{}",e);
 			bl = false;
 		}
 		return bl;

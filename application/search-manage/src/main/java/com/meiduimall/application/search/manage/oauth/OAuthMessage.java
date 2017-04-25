@@ -15,7 +15,6 @@
  */
 
 package com.meiduimall.application.search.manage.oauth;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -31,6 +30,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.google.common.base.Strings;
 import com.meiduimall.application.search.manage.oauth.signature.OAuthSignatureMethod;
 
 /**
@@ -43,7 +43,7 @@ import com.meiduimall.application.search.manage.oauth.signature.OAuthSignatureMe
  * 
  */
 public class OAuthMessage {
-
+	
     public OAuthMessage(String method, String URL, Collection<? extends Map.Entry> parameters) {
         this(method, URL, parameters, null);
     }
@@ -64,8 +64,8 @@ public class OAuthMessage {
         }
     }
 
-    public String method;
-    public String URL;
+    private  String method;
+    private String URL;
 
 	private final List<Map.Entry<String, String>> parameters;
     private Map<String, String> parameterMap;
@@ -216,10 +216,7 @@ public class OAuthMessage {
     protected void dump(Map<String, Object> into) throws IOException {
         into.put(OAuthProblemException.URL, URL);
         if (parametersAreComplete) {
-            try {
                 into.putAll(getParameterMap());
-            } catch (Exception ignored) {
-            }
         }
     }
 
@@ -257,8 +254,8 @@ public class OAuthMessage {
     public void addRequiredParameters(OAuthAccessor accessor)
             throws OAuthException, IOException, URISyntaxException {
         final Map<String, String> pMap = OAuth.newMap(parameters);
-        if (pMap.get(OAuth.OAUTH_TOKEN) == null && accessor.accessToken != null) {
-            addParameter(OAuth.OAUTH_TOKEN, accessor.accessToken);
+        if (pMap.get(OAuth.OAUTH_TOKEN) == null && accessor.getAccessToken() != null) {
+            addParameter(OAuth.OAUTH_TOKEN, accessor.getAccessToken());
         }
         final OAuthConsumer consumer = accessor.consumer;
         if (pMap.get(OAuth.OAUTH_CONSUMER_KEY) == null) {
@@ -273,10 +270,10 @@ public class OAuthMessage {
             addParameter(OAuth.OAUTH_SIGNATURE_METHOD, signatureMethod);
         }
         if (pMap.get(OAuth.OAUTH_TIMESTAMP) == null) {
-            addParameter(OAuth.OAUTH_TIMESTAMP, (System.currentTimeMillis() / 1000) + "");
+            addParameter(OAuth.OAUTH_TIMESTAMP, Long.toString((System.currentTimeMillis() / 1000)));
         }
         if (pMap.get(OAuth.OAUTH_NONCE) == null) {
-            addParameter(OAuth.OAUTH_NONCE, System.nanoTime() + "");
+            addParameter(OAuth.OAUTH_NONCE, Long.toString(System.nanoTime()));
         }
         if (pMap.get(OAuth.OAUTH_VERSION) == null) {
         	addParameter(OAuth.OAUTH_VERSION, OAuth.VERSION_1_0);
@@ -307,7 +304,7 @@ public class OAuthMessage {
         if (parameters != null) {
             for (Map.Entry parameter : parameters) {
                 String name = toString(parameter.getKey());
-                if (name.startsWith("oauth_")) {
+                if (!Strings.isNullOrEmpty(name)&&name.startsWith("oauth_")) {
                     if (into.length() > 0) into.append(",");
                     into.append(" ");
                     into.append(OAuth.percentEncode(name)).append("=\"");
@@ -381,4 +378,21 @@ public class OAuthMessage {
         return (from == null) ? null : from.toString();
     }
 
+	public String getURL() {
+		return URL;
+	}
+
+	public void setURL(String uRL) {
+		URL = uRL;
+	}
+
+	public String getMethod() {
+		return method;
+	}
+
+	public void setMethod(String method) {
+		this.method = method;
+	}
+
+    
 }
