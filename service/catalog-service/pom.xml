@@ -4,14 +4,14 @@
 	<parent>
         <groupId>com.meiduimall</groupId>
         <artifactId>service</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1-SNAPSHOT</version>
     </parent>
     
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.meiduimall.service</groupId>
 	<artifactId>catalog-service</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>catalog-service</name>
 	<description>catalog-service</description>

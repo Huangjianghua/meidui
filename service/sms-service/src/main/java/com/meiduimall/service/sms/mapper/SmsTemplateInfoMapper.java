@@ -10,14 +10,19 @@
 
 package com.meiduimall.service.sms.mapper;
 
-import com.meiduimall.service.sms.entity.SendSmsHistory;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
+import com.meiduimall.service.sms.entity.TemplateInfo;
+
 @Mapper
-public interface SendSmsHistoryMapper {
+public interface SmsTemplateInfoMapper {
 
-    int insert(SendSmsHistory record);
+	int insert(TemplateInfo record);
 
-    int insertSelective(SendSmsHistory record);
+	int insertSelective(TemplateInfo record);
+
+	List<TemplateInfo> getTemplateInfoList();
 
 }

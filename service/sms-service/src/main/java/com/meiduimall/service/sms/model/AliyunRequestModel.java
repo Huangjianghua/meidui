@@ -8,7 +8,7 @@
  *  注意：本内容仅限于美兑壹购物公司内部传阅，禁止外泄以及用于其他的商业目的
  */
 
-package com.meiduimall.service.sms.model.aliyun;
+package com.meiduimall.service.sms.model;
 
 public class AliyunRequestModel {
 
