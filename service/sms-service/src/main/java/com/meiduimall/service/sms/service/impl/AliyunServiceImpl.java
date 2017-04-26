@@ -28,11 +28,7 @@ import com.taobao.api.TaobaoClient;
 import com.taobao.api.request.AlibabaAliqinFcSmsNumSendRequest;
 import com.taobao.api.response.AlibabaAliqinFcSmsNumSendResponse;
 
-/**
- * 阿里云短信平台
- * 
- * @author pc
- */
+
 @Service
 public class AliyunServiceImpl implements AliyunService {
 
@@ -47,9 +43,9 @@ public class AliyunServiceImpl implements AliyunService {
 	@Override
 	public boolean send(String mobile, String tid, String context) {
 
+		String url = env.getProperty("aliyun.url");
 		String appKey = env.getProperty("aliyun.appKey");
 		String appSecret = env.getProperty("aliyun.appSecret");
-		String url = env.getProperty("aliyun.url");
 		String signName = env.getProperty("aliyun.signName");
 
 		if (StringUtils.isEmpty(tid)) {

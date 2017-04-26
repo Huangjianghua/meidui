@@ -42,12 +42,7 @@ import com.meiduimall.service.sms.service.TemplateInfoService;
 import com.meiduimall.service.sms.service.ZucpService;
 import com.meiduimall.service.sms.util.ToSecondsUtils;
 
-/**
- * 短信接口
- *
- * @author pc
- * @since 2017.01.05
- */
+
 @Service
 public class SmsServiceImpl implements SmsService {
 
@@ -103,8 +98,8 @@ public class SmsServiceImpl implements SmsService {
 		}
 
 		/**
-		 * 首先阿里云发送发送短信，如果发送失败则调用漫道发送 </br>
-		 * 全部失败则返回失败信息
+		 * 首先阿里云发送发送短信，如果发送失败则调用漫道发送。
+		 * 全部失败则返回失败信息。
 		 */
 		boolean flag = aliyunService.send(model.getPhones(), ti.getExternalTemplateNo(), params);
 		logger.info("阿里大于发送短信结果flag：" + flag);
@@ -125,8 +120,10 @@ public class SmsServiceImpl implements SmsService {
 		}
 
 		try {
-			// 发送成功，缓存到redis
-			RedisUtils.setex(redisKey, ToSecondsUtils.parseDuration(ti.getEffectiveTime()), content);
+			// 发送成功，缓存到redis，设置缓存时间
+			int expire = ToSecondsUtils
+					.parseDuration(model.getTimeout() == null ? ti.getEffectiveTime() : model.getTimeout());
+			RedisUtils.setex(redisKey, expire, content);
 
 			// 发送成功,设置发送历史记录值,数据库保留历史记录
 			SendSmsHistory ssh = setHistory(model);

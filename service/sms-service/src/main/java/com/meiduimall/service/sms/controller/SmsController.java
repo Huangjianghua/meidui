@@ -1,13 +1,3 @@
-/*
- *  @项目名称: ${project_name}
- *
- *  @文件名称: ${file_name}
- *  @Date: ${date}
- *  @Copyright: ${year} www.meiduimall.com Inc. All rights reserved.
- *
- *  注意：本内容仅限于美兑壹购物公司内部传阅，禁止外泄以及用于其他的商业目的
- */
-
 package com.meiduimall.service.sms.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +15,6 @@ import com.meiduimall.service.sms.service.SmsService;
  * 公共短信发送服务
  *
  * @author lin
- * @date 2017-01-12
  */
 
 @RestController
@@ -36,10 +25,11 @@ public class SmsController {
 	private SmsService smsService;
 
 	/**
-	 * 发送短消息
+	 * 发送普通短信
 	 *
 	 * @param model
-	 * @return
+	 *            请求参数封装的SendMessageRequest对象
+	 * @return 发送结果
 	 */
 	@RequestMapping("/send_common_sms_message")
 	public ResBodyData sendSmsMessage(@Validated SendMessageRequest model) {
@@ -50,7 +40,8 @@ public class SmsController {
 	 * 发送短信验证码
 	 *
 	 * @param model
-	 * @return
+	 *            请求参数封装的SendCodeRequest对象
+	 * @return 发送结果和验证码
 	 */
 	@RequestMapping("/send_sms_verification_code")
 	public ResBodyData sendSmsVerificationCode(@Validated SendCodeRequest model) {
@@ -61,7 +52,8 @@ public class SmsController {
 	 * 校验短信验证码
 	 *
 	 * @param model
-	 * @return
+	 *            请求参数封装的CheckCodeRequest对象
+	 * @return 校验结果
 	 */
 	@RequestMapping("/check_sms_verification_code")
 	public ResBodyData checkSmsVerificationCode(@Validated CheckCodeRequest model) {

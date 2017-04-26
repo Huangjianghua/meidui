@@ -87,7 +87,7 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 	}
 
 	@Override
-	public ResBodyData getFirstRecommendItems(int type, int count, int sourceId) {
+	public ResBodyData getFirstRecommendItems(int type, int sourceId) {
 		logger.info("获取指定类型的推荐商品： " + type);
 
 		ResBodyData result = new ResBodyData();
@@ -137,8 +137,8 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 	}
 
 	@Override
-	public ResBodyData getFirstRecommendItemsAllType(int count) {
-		logger.info("获取各个类型的推荐商品,count=" + count);
+	public ResBodyData getFirstRecommendItemsAllType() {
+		logger.info("获取各个类型的推荐商品");
 
 		ResBodyData result = new ResBodyData();
 

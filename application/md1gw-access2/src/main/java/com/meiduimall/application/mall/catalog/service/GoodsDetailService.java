@@ -11,7 +11,7 @@ public interface GoodsDetailService {
 	 *            商品ID
 	 * @param memId
 	 *            会员系统ID
-	 * @return
+	 * @return 商品详情
 	 */
 	public ResBodyData getItemDetailHttp(int itemId, String memId);
 }
