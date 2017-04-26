@@ -1,30 +1,19 @@
 package com.meiduimall.payment.api.service;
 
-import com.google.gson.Gson;
-import com.meiduimall.exception.ApiException;
-import com.meiduimall.exception.ServiceException;
-import com.meiduimall.payment.api.constant.ServicePaymentApiCode;
-import com.meiduimall.payment.api.controller.PaymentController;
-import com.meiduimall.payment.api.dao.DaoTemplate;
-import com.meiduimall.payment.api.enums.CacheKey;
-import com.meiduimall.payment.api.model.api.PaymentNotifyModel;
-import com.meiduimall.payment.api.model.api.PaymentResultModel;
-import com.meiduimall.payment.api.model.api.PaymenttTradeModel;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
-import javax.annotation.PostConstruct;
+import com.meiduimall.exception.ServiceException;
+import com.meiduimall.payment.api.constant.ServicePaymentApiCode;
+import com.meiduimall.payment.api.dao.DaoTemplate;
+import com.meiduimall.payment.api.model.api.PaymentNotifyModel;
+import com.meiduimall.payment.api.model.api.PaymentResultModel;
 
 /**
  * Created by xj on 2017/2/20.
@@ -39,7 +28,8 @@ public class PaymentDataService {
    
     
     /**
-     * 描述：插入日志、回调数据
+     * 
+     * @param resultModel 支付结果对象
      */
      public void updTrade(PaymentResultModel resultModel){
     	

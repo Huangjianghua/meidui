@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -56,12 +58,12 @@ public class HandlerService {
     @Autowired
     PaymentLogsService logsService;
 
-
+    private static Logger log = LoggerFactory.getLogger(HandlerService.class);
     /**
      * 微信APP支付
      *
-     * @param paramModel
-     * @return
+     * @param paramModel 支付参数对象
+     * @return  结果对象
      */
     public ResBodyData handleWeChatAppSign(PaymentParamModel paramModel){
     	ResBodyData result = null;
@@ -75,10 +77,10 @@ public class HandlerService {
         //签名获取预支付单
         WeChatResponeModel responeModel = weChatClient.getAppSign(requestModel,paramModel.getAccountType());
         
-        if(!responeModel.getReturn_code().equalsIgnoreCase("SUCCESS")){
+        if(!"SUCCESS".equalsIgnoreCase(responeModel.getReturn_code())){
         	result= new ResBodyData(ServicePaymentApiCode.OPERAT_FAIL,responeModel.getReturn_msg());
         }else{
-        	if(!responeModel.getResult_code().equalsIgnoreCase("SUCCESS")){
+        	if(!"SUCCESS".equalsIgnoreCase(responeModel.getResult_code())){
         		result= new ResBodyData(ServicePaymentApiCode.OPERAT_FAIL,responeModel.getErr_code_des());
         	}else{
         		//获取请求参数
@@ -93,18 +95,18 @@ public class HandlerService {
         		Map map = new LinkedHashMap();
         		 Class<?> clazz = rweChatAppModel.getClass();
         	     Field[] fields = clazz.getDeclaredFields();
-        	     List<String> list = new ArrayList<String>();
         	        for (Field f : fields) {
         	            f.setAccessible(true);
         	            try {
 							if (f.get(rweChatAppModel) != null && f.get(rweChatAppModel) != "") {
-								if(f.getName().equalsIgnoreCase("pkg")){
+								if("pkg".equals(f.getName())){
 									map.put("package",f.get(rweChatAppModel));
 									continue;
 								}
 								map.put(f.getName(),f.get(rweChatAppModel));
 							}
 						} catch (IllegalArgumentException | IllegalAccessException e) {
+							log.info("Exception: \n{}",e);
 							throw new ServiceException(ServicePaymentApiCode.CLASS_REFLECT_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.CLASS_REFLECT_ERROR));
 						}
         	        }
@@ -120,9 +122,9 @@ public class HandlerService {
 
 
     /** 支付宝APP支付参数
-     * @param paramModel
-     * @return
-     * @throws Exception
+     * @param paramModel 支付参数对象
+     * @return 接口对象
+     * 
      */
     public ResBodyData handleAlipayAppSign(PaymentParamModel paramModel){
     	ResBodyData result = new ResBodyData(ServicePaymentApiCode.OPERAT_SUCCESS ,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.OPERAT_SUCCESS));
@@ -149,15 +151,15 @@ public class HandlerService {
     /**
      * 汇卡APP微信支付
      *
-     * @param paramModel
-     * @return
-     * @throws Exception
+     * @param paramModel  支付参数对象
+     * @return 返回结果对象
+     * 
      */
     public ResBodyData handleHiCardWeChatAppPay(PaymentParamModel paramModel){
     	ResBodyData result = null;
         HiCardRequestModel requestModel = hiCardClient.buildBody(paramModel, "006");//微信APP
         HiCardResponeModel responeModel = hiCardClient.hiCardAppTrade(requestModel);
-        if(!responeModel.getRespCode().equalsIgnoreCase("00")){
+        if(!"00".equalsIgnoreCase(responeModel.getRespCode())){
         	result=new ResBodyData(ServicePaymentApiCode.OPERAT_FAIL,responeModel.getRespMsg());
         }else{
         	result=new ResBodyData(ServicePaymentApiCode.OPERAT_SUCCESS,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.OPERAT_SUCCESS));
@@ -171,9 +173,9 @@ public class HandlerService {
     /**
      * 手机支付宝H5支付
      *
-     * @param paramModel
-     * @return
-     * @throws Exception
+     * @param paramModel 支付对象
+     * @return  返回结果对象
+     * @throws Exception 支付异常
      */
     public ResBodyData handleHiCardAlipayH5Pay(PaymentParamModel paramModel) throws Exception {
     	ResBodyData result = new ResBodyData(ServicePaymentApiCode.OPERAT_SUCCESS, ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.OPERAT_SUCCESS));
@@ -189,10 +191,7 @@ public class HandlerService {
     
     
     
-    /**
-     * 描述：流水、日志记录操作
-     * @throws ParseException 
-     */
+    
     public void  handlePayRecord(PaymentParamModel paramModel,String sign){
     	 PaymenttTradeModel paymenttTradeModel = new PaymenttTradeModel();
          paymenttTradeModel.setMemId(String.valueOf((paramModel.getMemId())));
@@ -202,6 +201,7 @@ public class HandlerService {
          	try {
 				paymenttTradeModel.setOrderTime(sdf.parse(paramModel.getOrderTime()));
 			} catch (ParseException e) {
+				log.info("时间转换异常：、\n{}",e);
 				throw new ServiceException(ServicePaymentApiCode.DATE_PARES_ERROR, ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.DATE_PARES_ERROR));
 			}
          }

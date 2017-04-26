@@ -20,17 +20,10 @@ public class PaymentLogsService {
     @Autowired
     private DaoTemplate daoTemplate;
 
+   
     /**
-     * 添加日志
-     *
-     * @param tradeNo
-     * @param payChannel
-     * @param payType
-     * @param payTotal
-     * @param payData
-     * @param orderId
-     * @param paymentId
-     * @throws Exception 
+     * 描述：添加日志
+     * @param model 日志参数对象
      */
     public void insertLog(PaymentLogsModel model){
         

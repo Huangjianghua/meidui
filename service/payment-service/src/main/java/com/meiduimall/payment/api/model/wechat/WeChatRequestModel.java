@@ -210,7 +210,7 @@ public class WeChatRequestModel extends XmlSupport {
 	/**
 	 * 转换XML
 	 * 
-	 * @return
+	 * @return 返回xml字符串
 	 */
 	public String toXml() {
 		xstream.processAnnotations(this.getClass());

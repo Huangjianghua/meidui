@@ -1,10 +1,17 @@
 package com.meiduimall.payment.api.model.hicardpay;
 
 
+import java.io.Serializable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class HiCardPayInfo {
+public class HiCardPayInfo implements Serializable{
 	
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4373566725358944658L;
 
 	private String appid;
 	
