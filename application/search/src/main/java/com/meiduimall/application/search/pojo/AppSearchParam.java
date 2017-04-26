@@ -1,17 +1,19 @@
 package com.meiduimall.application.search.pojo;
-import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.NotBlank;
 
 
 /**
- * 搜索参数
- * @date 2016年4月25日
+ * 
+ * @author:   jianhua.huang 
+ * @version:  2017年4月26日 下午2:16:01 0.1 
+ * Description:搜索参数
  */
 public class AppSearchParam {
 	/**
 	 * 搜索词
 	 */
+	@NotNull
 	private String keyword;
 	
 	/**

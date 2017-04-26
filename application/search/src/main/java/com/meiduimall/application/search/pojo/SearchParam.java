@@ -3,8 +3,10 @@ package com.meiduimall.application.search.pojo;
 import com.meiduimall.application.search.constant.SolrConstant;
 
 /**
- * 搜索参数
- * @date 2016年4月25日
+ * 
+ * @author:   jianhua.huang 
+ * @version:  2017年4月26日 下午2:17:13 0.1 
+ * Description:搜索参数
  */
 public class SearchParam {
 

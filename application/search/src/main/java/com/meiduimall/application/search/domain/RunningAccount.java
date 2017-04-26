@@ -6,9 +6,10 @@ import com.meiduimall.application.search.page.PageView;
 import com.meiduimall.application.search.utility.DESC;
 
 /**
- * 流水帐实体
- * @author Liujun
- * @date 2016年4月12日
+ * 
+ * @author:   jianhua.huang 
+ * @version:  2017年4月26日 下午2:15:24 0.1 
+ * Description:流水帐实体
  */
 public class RunningAccount extends PageView implements Serializable {
 

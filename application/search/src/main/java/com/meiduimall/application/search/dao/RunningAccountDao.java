@@ -7,8 +7,9 @@ import com.meiduimall.application.search.domain.RunningAccount;
 
 /**
  * 
- * @author Liujun
- * @date 2016年4月12日
+ * @author:   jianhua.huang 
+ * @version:  2017年4月26日 下午2:11:31 0.1 
+ * Description:
  */
 public interface RunningAccountDao extends BaseDao<RunningAccount> {
 	

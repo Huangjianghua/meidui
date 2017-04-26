@@ -13,7 +13,7 @@ public interface UserMapper {
 	/**
 	 * 查询所有用户
 	 * @param user
-	 * @return List<User>
+	 * @return 
 	 */
 	public  List<User> selectUserList(User user);
 
