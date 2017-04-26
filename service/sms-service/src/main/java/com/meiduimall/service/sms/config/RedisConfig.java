@@ -28,7 +28,7 @@ public class RedisConfig {
 	@Bean(name = "shardedJedisPool")
 	public ShardedJedisPool shardedJedisPool(@Qualifier("jedis.config") JedisPoolConfig config,
 			@Qualifier("jedisShardInfo") JedisDBShardInfo jedisShardInfo) {
-		List<JedisShardInfo> list = new ArrayList<JedisShardInfo>();
+		List<JedisShardInfo> list = new ArrayList<>();
 		list.add(jedisShardInfo);
 		return new ShardedJedisPool(config, list);
 	}

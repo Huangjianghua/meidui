@@ -48,7 +48,7 @@ public class MessageChannelServiceImpl implements MessageChannelService {
 					RedisUtils.setex(key, Constants.REDIS_NINETY, channelListJsonStr);
 				}
 			} catch (Exception e) {
-				logger.error("获取第三方短信发送渠道列表异常：{}", e);
+				logger.error("获取第三方短信发送渠道列表异常： " + e);
 				throw new ServiceException(SmsApiCode.EXCEPTION_ACCESS_CHANNEL,
 						SmsApiCode.getZhMsg(SmsApiCode.EXCEPTION_ACCESS_CHANNEL));
 			}

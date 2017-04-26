@@ -39,10 +39,15 @@ config:
     maxWaitMillis: 2000
     testOnBorrow: true
     testOnReturn: true
+# 阿里大于短信发送API参数
+aliyun : 
+  appKey : 23438487
+  appSecret : 17042e86f2ad304b016d4ed1578f26e7
+  url : http://gw.api.taobao.com/router/rest
+  signName : 美兑壹购物
 
 
 ---
-
 spring:
   profiles: pro
 # HikariConfig
@@ -79,8 +84,14 @@ config:
     maxWaitMillis: 2000
     testOnBorrow: true
     testOnReturn: true
+# 阿里大于短信发送API参数
+aliyun : 
+  appKey : 23438487
+  appSecret : 17042e86f2ad304b016d4ed1578f26e7
+  url : http://gw.api.taobao.com/router/rest
+  signName : 美兑壹购物
 
-  
+
 ---  
 spring:
   profiles: test
@@ -118,3 +129,9 @@ config:
     maxWaitMillis: 2000
     testOnBorrow: true
     testOnReturn: true
+# 阿里大于短信发送API参数
+aliyun : 
+  appKey : 23438487
+  appSecret : 17042e86f2ad304b016d4ed1578f26e7
+  url : http://gw.api.taobao.com/router/rest
+  signName : 美兑壹购物
