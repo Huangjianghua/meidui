@@ -19,7 +19,7 @@ public interface O2oCallbackService {
 	 * Date:   2017年3月14日 下午3:38:26   
 	 * @param orderSns
 	 * @param statusCode
-	 * return  boolean
+	 * @return  boolean
 	 * 
 	 */
 	public boolean informSettlementStatus(Collection<String> orderSns,Integer statusCode);
@@ -30,7 +30,7 @@ public interface O2oCallbackService {
 	 * Date:   2017年3月14日 下午3:38:26   
 	 * @param areaAgent
 	 * @param amount
-	 * return  boolean
+	 * @return  boolean
 	 * 
 	 */
 	public String addProxyFee(EcmAgent areaAgent, double amount);

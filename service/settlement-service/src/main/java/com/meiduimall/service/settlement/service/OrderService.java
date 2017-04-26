@@ -21,9 +21,9 @@ public interface OrderService {
 	 * 功能描述:  构建订单分润数据模型
 	 * Author: 许彦 雄
 	 * Date:   2017年3月14日 下午3:38:26   
-	 * param ecmOrder
-	 * param errors
-	 * return  EcmMzfShareProfit
+	 * @param ecmOrder
+	 * @param errors
+	 * @return  EcmMzfShareProfit
 	 * 
 	 */
 	public EcmMzfShareProfit buildShareProfit(EcmOrder ecmOrder);
@@ -32,8 +32,8 @@ public interface OrderService {
 	 * 功能描述:  根据订单号列表查询订单状态
 	 * Author: 许彦雄
 	 * Date:   2017年3月14日 下午3:38:26   
-	 * param   orderSns
-	 * return  EcmMzfOrderStatus
+	 * @param   orderSns
+	 * @return  EcmMzfOrderStatus
 	 * 
 	 */
 	public List<EcmMzfOrderStatus> queryOrderStatus(List<String> orderSns);
@@ -42,7 +42,7 @@ public interface OrderService {
 	 * 功能描述:  保存分润数据(为了解决 Spring声明式事务 同一类内该方法被saveShareProfit方法调用事务失效,需要抽出为接口)
 	 * Author: 许彦雄
 	 * Date:   2017年3月14日 下午3:38:26   
-	 * param   shareProfit
+	 * @param   shareProfit
 	 * 
 	 */
 	public void saveShareProfit(EcmMzfShareProfit shareProfit);
@@ -51,8 +51,8 @@ public interface OrderService {
 	 * 功能描述:  同步订单审核状态接口
 	 * Author: 许彦雄
 	 * Date:   2017年3月14日 下午3:38:26   
-	 * param   orderStatus
-	 * return
+	 * @param   orderStatus
+	 * @return
 	 * 
 	 */
 	public boolean syncVerifyStatus(EcmMzfOrderStatus orderStatus);
@@ -62,8 +62,8 @@ public interface OrderService {
 	 * 功能描述:  根据订单号列表查询订单分润数据
 	 * Author: 许彦雄
 	 * Date:   2017年3月14日 下午3:38:26   
-	 * param   orderSns
-	 * return  EcmMzfShareProfit
+	 * @param   orderSns
+	 * @return  EcmMzfShareProfit
 	 * 
 	 */
 	public List<EcmMzfShareProfit> queryShareProfit(Collection<String> orderSns);
@@ -72,9 +72,9 @@ public interface OrderService {
 	 * 功能描述:  按登陆的个代或区代查询今日佣金金额和待结算金额
 	 * Author: 许彦雄
 	 * Date:   2017年3月14日 下午3:38:26   
-	 * param code
-	 * param accountRoleType
-	 * return  ShareProfitVO
+	 * @param code
+	 * @param accountRoleType
+	 * @return  ShareProfitVO
 	 * 
 	 */
 	public ShareProfitVO queryProfitByRole(String code, Integer accountRoleType);
@@ -83,12 +83,12 @@ public interface OrderService {
 	 * 功能描述:  按登陆的个代或区代以及流水编号查询分润数据
 	 * Author: 许彦雄
 	 * Date:   2017年3月14日 下午3:38:26   
-	 * param waterId
-	 * param loginType
-	 * param code
-	 * param pageNumber
-	 * param pageSize
-	 * return  List<EcmMzfShareProfit>
+	 * @param waterId
+	 * @param loginType
+	 * @param code
+	 * @param pageNumber
+	 * @param pageSize
+	 * @return  List<EcmMzfShareProfit>
 	 * 
 	 */
 	public List<EcmMzfShareProfit> queryProfitByWaterByType(String waterId, Integer loginType, String code,Integer pageNumber,Integer pageSize);
@@ -97,8 +97,8 @@ public interface OrderService {
 	 * 功能描述:  按流水编号查询分润数据记录数
 	 * Author: 许彦雄
 	 * Date:   2017年3月14日 下午3:38:26   
-	 * param waterId
-	 * return  int
+	 * @param waterId
+	 * @return  int
 	 * 
 	 */
 	public int queryProfitCountByWaterId(String waterId);
@@ -107,8 +107,8 @@ public interface OrderService {
 	 * 功能描述:  根据订单号查询分润数据是否存在
 	 * Author: 许彦雄
 	 * Date:   2017年3月14日 下午3:38:26   
-	 * param orderSn
-	 * return  boolean
+	 * @param orderSn
+	 * @return  boolean
 	 * 
 	 */
 	public boolean checkShareProfitExisted(String orderSn);
@@ -117,10 +117,10 @@ public interface OrderService {
 	 * 功能描述:  根据代理或商家编号查询分润数据接口
 	 * Author: 许彦 雄
 	 * Date:   2017年3月28日 下午14:25:02
-	 * param codes
-	 * param billStartDate
-	 * param billEndDate
-	 * return  ResBodyData
+	 * @param codes
+	 * @param billStartDate
+	 * @param billEndDate
+	 * @return  ResBodyData
 	 * 
 	 */
 	public List<ShareProfitVO> queryTotalProfit(Collection<String> codes, Integer billStartDate, Integer billEndDate);
