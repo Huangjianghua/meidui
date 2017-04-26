@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class BaseApiCode {
 
-	public static final Map<Integer, String> zhMsgMap = new HashMap<Integer, String>(300);
+	public static final Map<Integer, String> zhMsgMap = new HashMap<>(300);
 	
 	/** 正常 **/
 	public static final Integer SUCCESS = 0;
