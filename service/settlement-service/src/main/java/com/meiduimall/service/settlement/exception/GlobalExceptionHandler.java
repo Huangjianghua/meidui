@@ -27,12 +27,12 @@ public class GlobalExceptionHandler {
 	
 	/**
 	 * 请求参数验证，返回异常
-	 * @param request
-	 * @param exception
-	 * @return
+	 * @param  request 客户端发出请求
+	 * @param  exception 绑定异常
+	 * @return ResBodyData
 	 */
 	@ExceptionHandler(value = BindException.class)
-	public Object methodArgumentNotValidHandler(HttpServletRequest request, BindException exception) {
+	public ResBodyData methodArgumentNotValidHandler(HttpServletRequest request, BindException exception) {
 		StringBuilder sb = new StringBuilder();
 		exception.getBindingResult().getFieldErrors().forEach(error -> sb.append(error.getDefaultMessage()).append(";"));
 		return new ResBodyData(ShareProfitConstants.RESPONSE_STATUS_CODE_FAILURE, sb.toString());
@@ -40,9 +40,9 @@ public class GlobalExceptionHandler {
 	
 	/**
 	 * 业务逻辑处理，返回异常
-	 * @param request
-	 * @param exception
-	 * @return
+	 * @param  request 客户端发出请求
+	 * @param  exception 绑定异常
+	 * @return ResBodyData
 	 */
 	@ExceptionHandler(value = ServiceException.class)
 	public ResBodyData serviceExceptionHandler(HttpServletRequest request, ServiceException exception) {

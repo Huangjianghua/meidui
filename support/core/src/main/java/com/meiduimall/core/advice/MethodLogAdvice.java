@@ -15,7 +15,9 @@ public class MethodLogAdvice {
 	/**
 	 * 功能描述:  定义切入点allMethod()的环绕通知,环绕通知方法一定要按照下面的形式定义(只可以修改方法名和参数名)
 	 * Author: 陈建宇
-	 * Date:   2017年1月18日 下午2:52:56   
+	 * Date:   2017年4月25日 上午10:04:06 
+	 * param   @param point
+	 * param   @return
 	 * return  Object
 	 */
 	@Around("com.meiduimall.aspect.pointcut.MethodLogPointcut.pointcutLog()")

@@ -1,6 +1,7 @@
 package com.meiduimall.application.search.manage.controller;
 
 import java.io.IOException;
+
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -68,20 +69,20 @@ public class UserController extends BaseController {
 				write.println(1);
 				return ;
 			}
-			user =  userService.validateUser(user);
-			if(user ==null){
+			User u =  userService.validateUser(user);
+			if(u ==null){
 				write.println(1);
 				log.setRemark("用户名密码错误");
 				return ;
 			}
 			//用户帐号冻结
-			if(user.getStatus().equals(SysConstant.USER_STATUS_N)){
+			if(u.getStatus().equals(SysConstant.USER_STATUS_N)){
 				write.print(2);
 				log.setRemark("账号禁用");
 				return ;
 			}
 			//保存用户信息到session当中
-			request.getSession().setAttribute(SysConstant.USER_SESSSION_INFO, user);
+			request.getSession().setAttribute(SysConstant.USER_SESSSION_INFO, u);
 			write.print(3);
 			write.close();
 			log.setRemark("登入成功");
@@ -217,7 +218,7 @@ public class UserController extends BaseController {
 				write.write("{\"ok\":\"账号可以使用!\"}");
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error("检查账号是否已经被注册异常:{}",e);
 		}finally{
 			if(write !=null){
 			 write.close();

@@ -64,14 +64,10 @@ public abstract class OAuthSignatureMethod {
         message.requireParameters("oauth_signature");
         String signature = message.getSignature();
         String baseString = getBaseString(message);
-        
-        //String baseString = "GET&http%3A%2F%2Flocalhost%3A8080%2FWebApp3%2Foauth%2Fsign&sign_in%3Dtrue%26oauth_signature_method%3DHMAC-SHA1%26oauth_accessor_secret%3DAAA%26oauth_consumer_key%3DBBB%26oauth_timestamp%3D1444054933%26oauth_nonce%3D235%26user_id%3Dmichael%26oauth_callback%3Dhttp%253A%252F%252Fwww.baidu.com%26oauth_version%3D1.0";
-        
         if (!isValid(signature, baseString)) {
             OAuthProblemException problem = new OAuthProblemException(
                     "signature_invalid");
             problem.setParameter("oauth_signature", signature);
-            //problem.setParameter("oauth_signature_base_string", baseString);
             problem.setParameter("oauth_signature_method", message
                     .getSignatureMethod());
             throw problem;
@@ -82,10 +78,6 @@ public abstract class OAuthSignatureMethod {
     throws OAuthException, IOException, URISyntaxException {
         String baseString = getBaseString(message);
         String signature = getSignature(baseString);
-        // Logger log = Logger.getLogger(getClass().getName());
-        // if (log.isLoggable(Level.FINE)) {
-        // log.fine(signature + "=getSignature(" + baseString + ")");
-        // }
         return signature;
     }
 
@@ -94,8 +86,6 @@ public abstract class OAuthSignatureMethod {
             throws OAuthException {
         String secret = accessor.consumer.consumerSecret;
         if (name.endsWith(_ACCESSOR)) {
-            // This code supports the 'Accessor Secret' extensions
-            // described in http://oauth.pbwiki.com/AccessorSecret
             final String key = OAuthConsumer.ACCESSOR_SECRET;
             Object accessorSecret = accessor.getProperty(key);
             if (accessorSecret == null) {
@@ -153,26 +143,26 @@ public abstract class OAuthSignatureMethod {
     public static String getBaseString(OAuthMessage message)
             throws IOException, URISyntaxException {
         List<Map.Entry<String, String>> parameters;
-        String url = message.URL;
+        String url = message.getURL();
         int q = url.indexOf('?');
         if (q < 0) {
             parameters = message.getParameters();
         } else {
             // Combine the URL query string with the other parameters:
             parameters = new ArrayList<Map.Entry<String, String>>();
-            parameters.addAll(OAuth.decodeForm(message.URL.substring(q + 1)));
+            parameters.addAll(OAuth.decodeForm(message.getURL().substring(q + 1)));
             parameters.addAll(message.getParameters());
             url = url.substring(0, q);
         }
-        return OAuth.percentEncode(message.method.toUpperCase()+"&"+normalizeUrl(url)+"&"+normalizeParameters(parameters));
+        return OAuth.percentEncode(message.getMethod().toUpperCase()+"&"+normalizeUrl(url)+"&"+normalizeParameters(parameters));
     }
 
     public static String normalizeUrl(String url) throws URISyntaxException {
         URI uri = new URI(url);
         String scheme = uri.getScheme().toLowerCase();
         String authority = uri.getAuthority().toLowerCase();
-        boolean dropPort = (scheme.equals("http") && uri.getPort() == 80)
-                           || (scheme.equals("https") && uri.getPort() == 443);
+        boolean dropPort = ("http".equals(scheme) && uri.getPort() == 80)
+                           || ("https".equals(scheme)&& uri.getPort() == 443);
         if (dropPort) {
             // find the last : in the authority
             int index = authority.lastIndexOf(':');
@@ -298,7 +288,7 @@ public abstract class OAuthSignatureMethod {
         message.requireParameters(OAuth.OAUTH_SIGNATURE_METHOD);
         OAuthSignatureMethod signer = newMethod(message.getSignatureMethod(),
                 accessor);
-        signer.setTokenSecret(accessor.tokenSecret);
+        signer.setTokenSecret(accessor.getAccessToken());
         signer.setSignature(accessor.getProperty(OAuth.OAUTH_SIGNATURE).toString());
         return signer;
     }

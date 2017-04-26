@@ -3,6 +3,7 @@ package com.meiduimall.application.search.manage.filter;
 import java.io.IOException;
 
 
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import javax.servlet.Filter;
@@ -14,8 +15,12 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.meiduimall.application.search.manage.constant.Constant;
+
+
 
 
 public class ServletFilter implements Filter {
@@ -26,7 +31,7 @@ public class ServletFilter implements Filter {
 	public static final int WIDTH = 172;// 生成的图片的宽度
 	public static final int HEIGHT = 50;// 生成的图片的高度
 	
-	private static final Log log = LogFactory.getLog(ServletFilter.class);
+	private static Logger logger = LoggerFactory.getLogger(ServletFilter.class);
 
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
@@ -40,32 +45,32 @@ public class ServletFilter implements Filter {
 		String ipAddress = request.getHeader("x-forwarded-for");
 		
 		if (ipAddress == null || ipAddress.length() == 0
-				|| "unknown".equalsIgnoreCase(ipAddress)) {
+				|| Constant.UNKNOWN.equalsIgnoreCase(ipAddress)) {
 			ipAddress = request.getHeader("Proxy-Client-IP");
 		}
 		if (ipAddress == null || ipAddress.length() == 0
-				|| "unknown".equalsIgnoreCase(ipAddress)) {
+				|| Constant.UNKNOWN.equalsIgnoreCase(ipAddress)) {
 			ipAddress = request.getHeader("WL-Proxy-Client-IP");
 		}
 		if (ipAddress == null || ipAddress.length() == 0
-				|| "unknown".equalsIgnoreCase(ipAddress)) {
+				|| Constant.UNKNOWN.equalsIgnoreCase(ipAddress)) {
 			ipAddress = request.getRemoteAddr();
-			if ("127.0.0.1".equals(ipAddress)
-					|| "0:0:0:0:0:0:0:1".equals(ipAddress)) {
+			if (Constant.LOCALHOST_IPV4.equals(ipAddress)
+					|| Constant.LOCALHOST_IPV6.equals(ipAddress)) {
 				// 根据网卡取本机配置的IP
 				InetAddress inet = null;
 				try {
 					inet = InetAddress.getLocalHost();
+					ipAddress = inet.getHostAddress();
 				} catch (UnknownHostException e) {
-					e.printStackTrace();
+					logger.error("获取ip地址异常:{}",e);
 				}
-				ipAddress = inet.getHostAddress();
+			
 			}
 		}
 		// 对于通过多个代理的情况，第一个IP为客户端真实IP,多个IP按照','分割
 		if (ipAddress != null && ipAddress.length() > 15) { // "***.***.***.***".length()
-			log.info("当前请求多IP="+ipAddress);												// = 15
-			if (ipAddress.indexOf(',') > 0) {
+			if (ipAddress.indexOf(',') > -1) {
 				ipAddress = ipAddress.substring(0, ipAddress.indexOf(','));
 			}
 		}

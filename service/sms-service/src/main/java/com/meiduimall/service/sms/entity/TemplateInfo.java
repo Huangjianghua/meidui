@@ -1,125 +1,119 @@
-/*
- *  @项目名称: ${project_name}
- *
- *  @文件名称: ${file_name}
- *  @Date: ${date}
- *  @Copyright: ${year} www.meiduimall.com Inc. All rights reserved.
- *
- *  注意：本内容仅限于美兑壹购物公司内部传阅，禁止外泄以及用于其他的商业目的
- */
-
 package com.meiduimall.service.sms.entity;
+
+import java.io.Serializable;
 import java.util.Date;
 
-public class TemplateInfo {
-	
-    private String id;
+public class TemplateInfo implements Serializable {
 
-    private String channelId;
+	private static final long serialVersionUID = -7636461159238284256L;
 
-    private String templateKey;
+	private String id;
 
-    private String externalTemplateNo;
+	private String channelId;
 
-    private String templateName;
+	private String templateKey;
 
-    private String templateContent;
+	private String externalTemplateNo;
 
-    private String groupKey;
+	private String templateName;
 
-    private String remark;
+	private String templateContent;
 
-    private String creater;
+	private String groupKey;
 
-    private Date createDate;
+	private String remark;
 
-    private String effectiveTime;
+	private String creater;
 
-    public String getId() {
-        return id;
-    }
+	private Date createDate;
 
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
-    }
+	private String effectiveTime;
 
-    public String getChannelId() {
-        return channelId;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public void setChannelId(String channelId) {
-        this.channelId = channelId == null ? null : channelId.trim();
-    }
+	public void setId(String id) {
+		this.id = id == null ? null : id.trim();
+	}
 
-    public String getTemplateKey() {
-        return templateKey;
-    }
+	public String getChannelId() {
+		return channelId;
+	}
 
-    public void setTemplateKey(String templateKey) {
-        this.templateKey = templateKey == null ? null : templateKey.trim();
-    }
+	public void setChannelId(String channelId) {
+		this.channelId = channelId == null ? null : channelId.trim();
+	}
 
-    public String getExternalTemplateNo() {
-        return externalTemplateNo;
-    }
+	public String getTemplateKey() {
+		return templateKey;
+	}
 
-    public void setExternalTemplateNo(String externalTemplateNo) {
-        this.externalTemplateNo = externalTemplateNo == null ? null : externalTemplateNo.trim();
-    }
+	public void setTemplateKey(String templateKey) {
+		this.templateKey = templateKey == null ? null : templateKey.trim();
+	}
 
-    public String getTemplateName() {
-        return templateName;
-    }
+	public String getExternalTemplateNo() {
+		return externalTemplateNo;
+	}
 
-    public void setTemplateName(String templateName) {
-        this.templateName = templateName == null ? null : templateName.trim();
-    }
+	public void setExternalTemplateNo(String externalTemplateNo) {
+		this.externalTemplateNo = externalTemplateNo == null ? null : externalTemplateNo.trim();
+	}
 
-    public String getTemplateContent() {
-        return templateContent;
-    }
+	public String getTemplateName() {
+		return templateName;
+	}
 
-    public void setTemplateContent(String templateContent) {
-        this.templateContent = templateContent == null ? null : templateContent.trim();
-    }
+	public void setTemplateName(String templateName) {
+		this.templateName = templateName == null ? null : templateName.trim();
+	}
 
-    public String getGroupKey() {
-        return groupKey;
-    }
+	public String getTemplateContent() {
+		return templateContent;
+	}
 
-    public void setGroupKey(String groupKey) {
-        this.groupKey = groupKey == null ? null : groupKey.trim();
-    }
+	public void setTemplateContent(String templateContent) {
+		this.templateContent = templateContent == null ? null : templateContent.trim();
+	}
 
-    public String getRemark() {
-        return remark;
-    }
+	public String getGroupKey() {
+		return groupKey;
+	}
 
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
-    }
+	public void setGroupKey(String groupKey) {
+		this.groupKey = groupKey == null ? null : groupKey.trim();
+	}
 
-    public String getCreater() {
-        return creater;
-    }
+	public String getRemark() {
+		return remark;
+	}
 
-    public void setCreater(String creater) {
-        this.creater = creater == null ? null : creater.trim();
-    }
+	public void setRemark(String remark) {
+		this.remark = remark == null ? null : remark.trim();
+	}
 
-    public Date getCreateDate() {
-        return createDate;
-    }
+	public String getCreater() {
+		return creater;
+	}
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
+	public void setCreater(String creater) {
+		this.creater = creater == null ? null : creater.trim();
+	}
 
-    public String getEffectiveTime() {
-        return effectiveTime;
-    }
+	public Date getCreateDate() {
+		return createDate;
+	}
 
-    public void setEffectiveTime(String effectiveTime) {
-        this.effectiveTime = effectiveTime == null ? null : effectiveTime.trim();
-    }
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public String getEffectiveTime() {
+		return effectiveTime;
+	}
+
+	public void setEffectiveTime(String effectiveTime) {
+		this.effectiveTime = effectiveTime == null ? null : effectiveTime.trim();
+	}
 }

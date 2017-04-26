@@ -15,23 +15,22 @@ public interface MemberService {
 	
 	/**
 	 * 功能描述:  更新用户积分（对接的壹购物那边的）
-	 * Author: 
-	 * Date:   2016年12月14日 下午3:38:26
-	 * param phone
-	 * param credit
-	 * param source 数据来源：1gw-壹购物，o2o-线下O2O，app-手机APP，md-美兑系统,md1gw-美兑壹购物
-	 * param order_id 流水号: 系统简称+代理编号+当前时间秒值，比如：DL+b001+1478260021
-	 * return  boolean
-	 * 
+	 * Author: 许彦雄
+	 * Date:   2016年12月14日 下午3:38:26 
+	 * @param  phone 电话号码
+	 * @param  credit 积分
+	 * @param  source 来源
+	 * @param  orderId 订单号
+	 * @return boolean
 	 */
-    public Boolean addConsumePoints(String phone,String credit,String source,String orderId);
+    public boolean addConsumePoints(String phone,String credit,String source,String orderId);
 
 	/**
 	 * 功能描述:  给会员系统送积分
 	 * Author: 许彦雄
 	 * Date:   2017年2月20日 下午3:38:26
-	 * param shareProfit
-	 * return  List<String>
+	 * @param  shareProfit 订单分润结果信息
+	 * @return String
 	 */
     public List<String> sendScore(EcmMzfShareProfit shareProfit);
 
@@ -39,8 +38,6 @@ public interface MemberService {
 	 * 功能描述:  更新一级推荐人1%现金余额到会员系统
 	 * Author: 许彦雄
 	 * Date:   2017年2月20日 下午3:38:26
-	 * return  
-	 * 
 	 */
     public void updateReferrerCash();
 }

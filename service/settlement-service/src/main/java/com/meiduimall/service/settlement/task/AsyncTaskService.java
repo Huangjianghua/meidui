@@ -36,7 +36,7 @@ import com.meiduimall.service.settlement.util.DateUtil;
 
 
 /**
- * Copyright (C), 2002-2017, 美兑壹购
+ * Copyright (C), 2002-2017, 美兑壹购物
  * FileName: AsyncTaskService.java
  * Author:   许彦雄
  * Date:     2016年12月26日 下午6:15:47
@@ -75,12 +75,10 @@ public class AsyncTaskService {
 	/**
 	 * 功能描述:  异步执行送订单所获积分到会员系统
 	 * Author: 许彦 雄
-	 * Date:   2017年3月14日 下午3:38:26   
-	 * param shareProfit
-	 * param shareProfitSource
-	 * param retryType
-	 * return  
-	 * 
+	 * Date:   2017年3月14日 下午3:38:26 
+	 * @param  shareProfit 订单分润结果信息
+	 * @param  shareProfitSource 数据来源:o2o,Cache
+	 * @param  retryType 重试标识
 	 */
 	@Async
 	public void updateScore2MemberSystem(EcmMzfShareProfit shareProfit, String shareProfitSource, String retryType) {
@@ -173,14 +171,12 @@ public class AsyncTaskService {
 
 	/**
 	 * 功能描述:  异步执行送新个代奖励积分到会员系统
-	 * Author: 许彦 雄
-	 * Date:   2017年3月14日 下午3:38:26   
-	 * param ecmAgent 代理对象
-	 * param score 积分
-	 * param dataSource 数据来源:o2o,Cache
-	 * param retryType
-	 * return  
-	 * 
+	 * Author: guidl
+	 * Date:   2017年3月14日 下午3:38:26 
+	 * @param ecmAgent 个代相关信息
+	 * @param score 积分
+	 * @param dataSource 数据来源:o2o,Cache
+	 * @param retryType 重试标识
 	 */
 	@Async
 	public void updateScore(EcmAgent ecmAgent, int score, String dataSource, String retryType) {
@@ -193,7 +189,7 @@ public class AsyncTaskService {
 				String scoreFlow = "EGW" + ecmAgent.getAgentNo() + System.currentTimeMillis();
 				
 				//调用积分接口 更新积分 
-				Boolean result = memberService.addConsumePoints(ecmAgent.getBindPhone(), String.valueOf(score), ShareProfitConstants.DATA_SOURCE_O2O, scoreFlow);
+				boolean result = memberService.addConsumePoints(ecmAgent.getBindPhone(), String.valueOf(score), ShareProfitConstants.DATA_SOURCE_O2O, scoreFlow);
 
 				if(result){
 					//修改分润表中积分状态为已更新
@@ -211,9 +207,9 @@ public class AsyncTaskService {
 							
 						}
 						
-						log.info("代理编码为：" + ecmAgent.getAgentNo()+",手机号码为:"+ecmAgent.getBindPhone()+"的积分更新成功，其状态已修改为 '已更新' "+flag);
+						log.info("代理编码为：{}手机号码为：{}的积分更新成功，其状态已修改为 '已更新'{}", ecmAgent.getAgentNo(), ecmAgent.getBindPhone(), flag);
 					}else{
-						log.error("代理编码为：" + ecmAgent.getAgentNo()+",手机号码为:"+ecmAgent.getBindPhone()+"修改代理流水表积分 '状态' 失败");
+						log.error("代理编码为：{}手机号码为：{}修改代理流水表积分 '状态' 失败", ecmAgent.getAgentNo(), ecmAgent.getBindPhone());
 					}
 				}else{
 					log.error("手机号码为:"+ecmAgent.getBindPhone()+"更新积分失败");
@@ -232,8 +228,7 @@ public class AsyncTaskService {
 					
 					//o2o调用代理保证金分润方法 执行更新积分环节失败时 将代理数据放入redis缓存中 用于定时器执行重试机制
 					if(ShareProfitConstants.SHARE_PROFIT_SOURCE_O2O.equals(dataSource)){
-						RedisUtils.set(ShareProfitConstants.REDIS_KEY_PRIFIX_AGENT + ecmAgent.getAgentNo(),
-								JsonUtils.beanToJson(ecmAgent));
+						RedisUtils.set(ShareProfitConstants.REDIS_KEY_PRIFIX_AGENT + ecmAgent.getAgentNo(), JsonUtils.beanToJson(ecmAgent));
 					}
 					
 					//定时任务从缓存获取数据 执行重试机制出错时 插入异常日志

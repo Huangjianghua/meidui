@@ -38,7 +38,7 @@ public class GoodsRecommendController {
 	 *            推荐类型
 	 * @param sourceId
 	 *            请求来源
-	 * @return
+	 * @return 推荐商品列表
 	 */
 	@RequestMapping("/getRecommend")
 	public ResBodyData getFirstRecommendGoods(String type,

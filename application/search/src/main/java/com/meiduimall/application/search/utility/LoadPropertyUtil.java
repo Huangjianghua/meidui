@@ -9,9 +9,9 @@ public class LoadPropertyUtil {
 
 	/**
 	 * Properties 读取公共方法
-	 * @param fileName
+	 * @param config
 	 * properties文件名称
-	 * @return Map<String, String>
+	 * @return 
 	 * @throws Exception
 	 */
 	public static Map<String, String> getPropertyValues(String config)

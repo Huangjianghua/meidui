@@ -20,6 +20,7 @@ import org.springframework.util.CollectionUtils;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.meiduimall.core.BaseApiCode;
+import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.SettlementApiCode;
 import com.meiduimall.service.settlement.common.CodeRuleUtil;
@@ -209,26 +210,21 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 		}
 		
 		//更新账户余额（个代或区代账户，个代、区代账户由o2o平台创建）
-		boolean flag = updateAccountBalance(ecmAgent,remark,ShareProfitConstants.WATER_TYPE_AGENT_PROFIT);
-		if(flag){
+		updateAccountBalance(ecmAgent,remark,ShareProfitConstants.WATER_TYPE_AGENT_PROFIT);
 			
-			//当区代公司名称不为'美兑壹购物'
-			if(!ecmAgent.getAddCompanyName().equals(ShareProfitConstants.COMPANY_NAME)){
-				
-				//区代保证金余款不等于0大于或小于30%（区代所获30%代理费抵扣保证金）
-				offsetDeposit(personToPersonAreaDeposit, ecmAgent);
-				
-			}else{
-				logger.info("区代公司名称是'美兑壹购物'不执行代理费抵扣保证金业务");
-			}
+		//当区代公司名称不为'美兑壹购物'
+		if(!ecmAgent.getAddCompanyName().equals(ShareProfitConstants.COMPANY_NAME)){
 			
-			//给新个代送积分
-			asyncTaskService.updateScore(ecmAgent, score, ShareProfitConstants.SHARE_PROFIT_SOURCE_O2O, null);
+			//区代保证金余款不等于0大于或小于30%（区代所获30%代理费抵扣保证金）
+			offsetDeposit(personToPersonAreaDeposit, ecmAgent);
 			
 		}else{
-			logger.error("更新账户余额失败");
-			throw new ServiceException(SettlementApiCode.UPD_BALANCE_FAILD, BaseApiCode.getZhMsg(SettlementApiCode.UPD_BALANCE_FAILD));
+			logger.info("区代公司名称是'美兑壹购物'不执行代理费抵扣保证金业务");
 		}
+		
+		//给新个代送积分
+		asyncTaskService.updateScore(ecmAgent, score, ShareProfitConstants.SHARE_PROFIT_SOURCE_O2O, null);
+			
 	}
 
 	
@@ -296,74 +292,72 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 	 * Date:   2017年3月24日 上午11:25:02
 	 * param   code-代理编码、remark-备注、type-流水类型 1：提现、2：账单、3：代理费
 	 */
-	private boolean updateAccountBalance(EcmAgent ecmAgent, String remark, String type) {
+	private void updateAccountBalance(EcmAgent ecmAgent, String remark, String type) {
 		
-		boolean flag = false;
-			
 		//当区代推荐个代时，创建人和推荐人都为当前区代  若区代公司名称为"美兑壹购物"时不产生任何代理流水，所以无需更新账户 (为满足区代30%代理费抵扣保证金 新增的判断)
 		if(ecmAgent.getRecommenderCode().length() == 6 && ecmAgent.getAddCompanyName().equals(ShareProfitConstants.COMPANY_NAME)){
-
 			logger.info("创建人区代公司名称是'美兑壹购物'不生成ecm_mzf_water流水，不更新账户余额");
-			return true;
-		}
-		
-		//根据code和id查询代理流水表（ecm_mzf_agent_water）中的记录
-		List<EcmMzfAgentWater> agentWaters = agentService.findAgentWaterByAgentCode(ecmAgent.getId());
-		
-		if (!CollectionUtils.isEmpty(agentWaters)) {
+		}else{
+			//根据code和id查询代理流水表（ecm_mzf_agent_water）中的记录
+			List<EcmMzfAgentWater> agentWaters = agentService.findAgentWaterByAgentCode(ecmAgent.getId());
 			
-			int updateCount = 0;
-			int insertCount = 0;
-			
-			for (int i = 0; i < agentWaters.size(); i++) {
-				EcmMzfAgentWater agentWater = agentWaters.get(i);
+			if (!CollectionUtils.isEmpty(agentWaters)) {
 				
-				if(agentWater.getMoney() > 0){
+				for (int i = 0; i < agentWaters.size(); i++) {
+					EcmMzfAgentWater agentWater = agentWaters.get(i);
 					
-					//根据code查询account是否存在
-					EcmMzfAccount ecmMzfAccount = agentService.findAccountByCode(agentWater.getCode());
-					
-					if(ecmMzfAccount != null){
-						//更新账户余额（ecm_mzf_account）
-						EcmMzfAccount account = new EcmMzfAccount();
-						account.setCode(agentWater.getCode());
-						account.setBalance(BigDecimal.valueOf(agentWater.getMoney()));
-						updateCount = agentService.updateAccount(account);
-						updateCount++;
-						logger.info("更新账户余额参数：{},{}", agentWater.getCode(), agentWater.getMoney());
-						
-						//插入代理流水（ecm_mzf_water）
-						EcmMzfWater water = new EcmMzfWater();
-						
-						String flowCode = CodeRuleUtil.getPersonalAgentFlowCode(agentWater.getCode());//生成个代流水编号
-						if(agentWater.getType() == ShareProfitConstants.ROLE_TYPE_AREA_AGENT){//角色类型 1-区代、2-个代
-							flowCode = CodeRuleUtil.getAreaAgentFlowCode(agentWater.getCode());//生成区代流水编号
-						}
-						water.setWaterId(flowCode);
-						water.setCode(agentWater.getCode());
-						water.setMoney(BigDecimal.valueOf(agentWater.getMoney()));
-						water.setRemark(remark);
-						water.setWaterType(type);
-						water.setExtId(agentWater.getAgentWaterId());
-						water.setOpTime(ecmAgent.getOpTime());
-						water.setBalance(ecmMzfAccount.getBalance());//变更前可提现金额(2017-04-01)
-						insertCount = agentService.insertWater(water);
-						insertCount++;
-						logger.info("插入代理流水参数：" + water.toString());
-					}else{
-						logger.error("代理编号为：{}的账户不存在,无法更新账户余额", agentWater.getCode());
-						throw new ServiceException(SettlementApiCode.AGENCY_ACCOUNT_NOT_FOUND, BaseApiCode.getZhMsg(SettlementApiCode.AGENCY_ACCOUNT_NOT_FOUND));
-					}
-					
+					//更新账户余额，生成总流水记录
+					operateAccount(ecmAgent, remark, type, agentWater);
 				}
 			}
+		}
+	}
 
-			if(updateCount > 0 && insertCount > 0){
-				logger.info("更新账户余额成功");
-				flag = true;
+
+	private void operateAccount(EcmAgent ecmAgent, String remark, String type, EcmMzfAgentWater agentWater) {
+		if(agentWater.getMoney() > 0){
+			
+			//根据code查询account是否存在
+			EcmMzfAccount ecmMzfAccount = agentService.findAccountByCode(agentWater.getCode());
+			
+			if(ecmMzfAccount != null){
+				//更新账户余额（ecm_mzf_account）
+				EcmMzfAccount account = new EcmMzfAccount();
+				account.setCode(agentWater.getCode());
+				account.setBalance(BigDecimal.valueOf(agentWater.getMoney()));
+				
+				
+				//插入代理流水（ecm_mzf_water）
+				EcmMzfWater water = new EcmMzfWater();
+				
+				String flowCode = CodeRuleUtil.getPersonalAgentFlowCode(agentWater.getCode());//生成个代流水编号
+				if(agentWater.getType() == ShareProfitConstants.ROLE_TYPE_AREA_AGENT){//角色类型 1-区代、2-个代
+					flowCode = CodeRuleUtil.getAreaAgentFlowCode(agentWater.getCode());//生成区代流水编号
+				}
+				water.setWaterId(flowCode);
+				water.setCode(agentWater.getCode());
+				water.setMoney(BigDecimal.valueOf(agentWater.getMoney()));
+				water.setRemark(remark);
+				water.setWaterType(type);
+				water.setExtId(agentWater.getAgentWaterId());
+				water.setOpTime(ecmAgent.getOpTime());
+				water.setBalance(ecmMzfAccount.getBalance());//变更前可提现金额(2017-04-01)
+				
+				try {
+					agentService.updateAccount(account);
+					logger.info("更新账户余额参数：{},{}", agentWater.getCode(), agentWater.getMoney());
+					
+					agentService.insertWater(water);
+					logger.info("插入代理流水参数：" + water.toString());
+				} catch (DaoException e) {
+					logger.error("更新账户余额失败:{}", e);
+					throw new ServiceException(SettlementApiCode.UPD_BALANCE_FAILD, BaseApiCode.getZhMsg(SettlementApiCode.UPD_BALANCE_FAILD));
+				}
+			}else{
+				logger.error("代理编号为：{}的账户不存在,无法更新账户余额", agentWater.getCode());
+				throw new ServiceException(SettlementApiCode.AGENCY_ACCOUNT_NOT_FOUND, BaseApiCode.getZhMsg(SettlementApiCode.AGENCY_ACCOUNT_NOT_FOUND));
 			}
 		}
-		return flag;
 	}
 	
 	
@@ -401,7 +395,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 			//商家积分流水号
 			String scoreFlow = "EGW" + ecmStore.getStoreNo() + System.currentTimeMillis();
 			//调用积分接口 更新积分 
-			Boolean result = scoreService.addConsumePoints(ecmStore.getUsername(), score, ShareProfitConstants.DATA_SOURCE_O2O,scoreFlow);
+			boolean result = scoreService.addConsumePoints(ecmStore.getUsername(), score, ShareProfitConstants.DATA_SOURCE_O2O,scoreFlow);
 			
 			//插入商家送积分记录
 			EcmMzfStoreRecord ecmMzfStoreRecord = new EcmMzfStoreRecord();

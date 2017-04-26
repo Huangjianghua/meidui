@@ -81,36 +81,6 @@
     tally_dsr, attitude_dsr, delivery_speed_dsr
   </sql>
   
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.meiduimall.service.catalog.entity.SysrateDsrExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    * 
-    from sysrate_dsr
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.service.catalog.entity.SysrateDsrExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    shop_id, cat_id, modified_time 
-    from sysrate_dsr
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
     select 
     * 
@@ -121,13 +91,6 @@
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from sysrate_dsr
     where shop_id = #{shopId,jdbcType=BIGINT}
-  </delete>
-  
-  <delete id="deleteByExample" parameterType="com.meiduimall.service.catalog.entity.SysrateDsrExample" >
-    delete from sysrate_dsr
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
   </delete>
   
   <insert id="insert" parameterType="com.meiduimall.service.catalog.entity.SysrateDsrWithBLOBs" >
@@ -182,63 +145,6 @@
       </if>
     </trim>
   </insert>
-  
-  <select id="countByExample" parameterType="com.meiduimall.service.catalog.entity.SysrateDsrExample" resultType="java.lang.Integer" >
-    select count(*) from sysrate_dsr
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  
-  <update id="updateByExampleSelective" parameterType="map" >
-    update sysrate_dsr
-    <set >
-      <if test="record.shopId != null" >
-        shop_id = #{record.shopId,jdbcType=BIGINT},
-      </if>
-      <if test="record.catId != null" >
-        cat_id = #{record.catId,jdbcType=INTEGER},
-      </if>
-      <if test="record.modifiedTime != null" >
-        modified_time = #{record.modifiedTime,jdbcType=INTEGER},
-      </if>
-      <if test="record.tallyDsr != null" >
-        tally_dsr = #{record.tallyDsr,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="record.attitudeDsr != null" >
-        attitude_dsr = #{record.attitudeDsr,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="record.deliverySpeedDsr != null" >
-        delivery_speed_dsr = #{record.deliverySpeedDsr,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  
-  <update id="updateByExampleWithBLOBs" parameterType="map" >
-    update sysrate_dsr
-    set shop_id = #{record.shopId,jdbcType=BIGINT},
-      cat_id = #{record.catId,jdbcType=INTEGER},
-      modified_time = #{record.modifiedTime,jdbcType=INTEGER},
-      tally_dsr = #{record.tallyDsr,jdbcType=LONGVARCHAR},
-      attitude_dsr = #{record.attitudeDsr,jdbcType=LONGVARCHAR},
-      delivery_speed_dsr = #{record.deliverySpeedDsr,jdbcType=LONGVARCHAR}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  
-  <update id="updateByExample" parameterType="map" >
-    update sysrate_dsr
-    set shop_id = #{record.shopId,jdbcType=BIGINT},
-      cat_id = #{record.catId,jdbcType=INTEGER},
-      modified_time = #{record.modifiedTime,jdbcType=INTEGER}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
   
   <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.service.catalog.entity.SysrateDsrWithBLOBs" >
     update sysrate_dsr

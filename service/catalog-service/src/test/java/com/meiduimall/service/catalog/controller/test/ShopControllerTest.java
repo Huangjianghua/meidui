@@ -212,6 +212,25 @@ public class ShopControllerTest extends BaseTest {
 	}
 	
 	/**
+	 * 测试getShopProductCatalog---正常测试
+	 * @throws Exception
+	 */
+	@Test
+	public void getShopProductCatalog_test_04() throws Exception {
+		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
+				.post("/mall/catalog-service/v1/shopInfo/getShopCatalog")
+				.param("shop_id", "611"))
+				.andExpect(status().isOk());
+		
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+	
+	/**
 	 * 测试getShopProductList---没有shop_id测试
 	 * @throws Exception
 	 */

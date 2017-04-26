@@ -19,7 +19,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.pagehelper.StringUtil;
-import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableMap;
@@ -111,11 +110,9 @@ public class ShareProfitUtil {
 	private ShareProfitUtil(){}
 
 	/**
-	 * Description : 查询分润数据配置
-	 * Created By : Fkx 
-	 * Creation Time : 2016-10-19 上午10:58:37 
-	 * 
-	 * @return
+	 * 查询分润数据配置
+	 * @param systemSettings 系统设置相关信息
+	 * @return shareProfit
 	 */
 	public static Map<String, String> queryShareProfit(List<EcmSystemSetting> systemSettings) {
 		Map<String, String> shareProfit = Maps.newHashMap();
@@ -159,29 +156,22 @@ public class ShareProfitUtil {
 	}
 
 	public static BigDecimal getShareProfitByType(String roleType, List<ShareProfitVO> shareProfitVOs,String profitType) {
-		BigDecimal value=null;
-		if(shareProfitVOs!=null && !shareProfitVOs.isEmpty() && !StringUtil.isEmpty(roleType)){
-			Collection<ShareProfitVO> col=Collections2.filter(shareProfitVOs, new Predicate<ShareProfitVO>(){
-				
-				@Override
-				public boolean apply(ShareProfitVO soVo) {
-					return roleType.equals(soVo.getType());
-				}});
+		BigDecimal value = null;
+		if (shareProfitVOs != null && !shareProfitVOs.isEmpty() && !StringUtil.isEmpty(roleType)) {
 			
-			if(col!=null){
+			Collection<ShareProfitVO> col = Collections2.filter(shareProfitVOs, soVo -> roleType.equals(soVo.getType()));
+			
+			if (col != null) {
 				final List<ShareProfitVO> list = new ArrayList<>(col);
-				ShareProfitVO spVO=list.get(0);
-				if(spVO!=null){
-					if("Today".equals(profitType)){
-						return spVO.getProfitToday();
-					}
-					
-					if("Settlement".equals(profitType)){
-						return spVO.getProfit4Settlement();
-					}
+				ShareProfitVO spVO = list.get(0);
+				if ("Today".equals(profitType)) {
+					return spVO.getProfitToday();
+				}
+
+				if ("Settlement".equals(profitType)) {
+					return spVO.getProfit4Settlement();
 				}
 			}
-
 		}
 		return value;
 	}
@@ -206,13 +196,11 @@ public class ShareProfitUtil {
 		}
 	}
 
+	
 	/**
-	 * Description : 获取请求接口后的数据提取推荐人手机号
-	 * Created By : Fkx 
-	 * Creation Time : 2016-10-27 下午5:31:00 
-	 * 
-	 * @param arrStr
-	 * @return
+	 * 获取请求接口后的数据提取推荐人手机号
+	 * @param list 推荐人信息
+	 * @return retMap
 	 */
 	public static Map<String, String> getlvlAndPhone(List<Map<String, String>> list) {
 		Map<String, String> retMap = new HashMap<>();
@@ -248,8 +236,8 @@ public class ShareProfitUtil {
 	}
 		
 	/**
-	 * 描述:  生成不重复随机数，生成方式：毫秒+5位随机数<br>
-	 * @return
+	 * 生成不重复随机数，生成方式：毫秒+5位随机数
+	 * @return String
 	 */
 	public static final String getRandomNum() {
 		//当前秒数
@@ -278,13 +266,11 @@ public class ShareProfitUtil {
 		return sb1.toString();
 	}
 		
+	
 	/**
-	 * Description : 加载配置文件
-	 * Created By : Fkx 
-	 * Creation Time : 2016-10-28 上午11:34:07 
-	 * 
-	 * @param config
-	 * @return
+	 * 加载配置文件
+	 * @param config 配置文件名称
+	 * @return map
 	 */
 	public static Map<String, String> loadProperty(String config) {
 		Map<String, String> map = new HashMap<>();
@@ -303,11 +289,12 @@ public class ShareProfitUtil {
 		return map;
 	}
 		
+	
 	/**
-	 * @param str
-	 * @param charset
-	 * @return
-	 * @author alex.xu
+	 * 字符转码
+	 * @param str 字符串
+	 * @param charset 转码类型
+	 * @return String
 	 */
 	public static String encodeStr(String str,String charset){
 		

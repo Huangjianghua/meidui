@@ -9,13 +9,7 @@ import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.password.exception.Md5Exception;
 import com.meiduimall.password.util.MD5;
 
-/**
- * Copyright (C), 2002-2017, 美兑壹购物
- * FileName: Component.java
- * Author:   陈建宇
- * Date:     2017年4月13日 下午6:40:05
- * Description: 访问微服务
- */
+
 public final class GateWayComponent {
 	
 	private GateWayRequest req;

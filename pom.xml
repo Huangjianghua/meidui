@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.meiduimall</groupId>
     <artifactId>mall</artifactId>
     <name>mall</name>
     <packaging>pom</packaging>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <modules>
-    	<module>support</module>
+        <module>support</module>
         <module>platform</module>
         <module>starter</module>
         <module>service</module>
@@ -25,10 +23,13 @@
         <jacoco.version>0.7.9</jacoco.version>
     </properties>
 
-<!--     <scm>
+    <scm>
         <connection>scm:git:http://git.meiduimall.com/service/meiduimall.git</connection>
         <developerConnection>scm:git:http://git.meiduimall.com/service/meiduimall.git</developerConnection>
-    </scm> -->
+        <url>http://git.meiduimall.com/service/meiduimall/tree/develop</url>
+        <!--<tag>mall-1.0.2</tag>-->
+      <tag>mall-1.0.0</tag>
+  </scm>
 
     <profiles>
         <profile>
@@ -45,7 +46,48 @@
         </profile>
     </profiles>
 
-   <!--  <build>
+    <distributionManagement>
+        <repository>
+            <id>nexus</id>
+            <name>Nexus Releases</name>
+            <url>http://maven.meiduimall.com/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus</id>
+            <name>Nexus Snapshot</name>
+            <url>http://maven.meiduimall.com/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <repositories>
+        <repository>
+            <id>maven-public</id>
+            <name>maven-public</name>
+            <url>http://maven.meiduimall.com/repository/maven-public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>maven-public</id>
+            <name>maven-public</name>
+            <url>http://maven.meiduimall.com/repository/maven-public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <build>
         <plugins>
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -68,11 +110,25 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>2.5.2</version>
+                <version>2.5.3</version>
                 <configuration>
-                    <tagBase>http://git.meiduimall.com/service/meiduimall.git</tagBase>
+                    <providerImplementations>
+                        <git>jgit</git>
+                    </providerImplementations>
+                    <!--<username></username>-->
+                    <!--<password></password>-->
+                    <tagBase>${project.artifactId}-${project.version}</tagBase>
+                    <goals>-f pom.xml deploy</goals>
                 </configuration>
+                <dependencies>
+                    <!-- https://mvnrepository.com/artifact/org.apache.maven.scm/maven-scm-provider-jgit -->
+                    <dependency>
+                        <groupId>org.apache.maven.scm</groupId>
+                        <artifactId>maven-scm-provider-jgit</artifactId>
+                        <version>1.9.5</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
-    </build> -->
+    </build>
 </project>

@@ -11,13 +11,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 
-/**
- * Copyright (C), 2002-2017, 美兑壹购物
- * FileName: JsonUtils.java
- * Author:   Administrator
- * Date:     2017年3月15日 下午6:15:47
- * Description: json工具类
- */
+
 public class JsonUtils {
 
 	private static final Logger logger = LoggerFactory.getLogger(JsonUtils.class);
@@ -83,7 +77,7 @@ public class JsonUtils {
      * 功能描述:  json转list
      * Author: 陈建宇
      * Date:   2017年3月15日 下午6:10:54
-     * return  List<T>
+     * return  List
      */
     public static <T> List<T> jsonToList(String json,Class<T> clazz) {
     	List<T> list =null;

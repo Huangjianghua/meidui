@@ -60,8 +60,8 @@ public class DrawController {
 	 * 功能描述:  根据代理编号获取区代、个代或商家可提现金额
 	 * Author: guidl
 	 * Date:   2017年3月24日 下午14:14:28
-	 * param   code
-	 * return  ResBodyData
+	 * @param  code 代理编号
+	 * @return ResBodyData
 	 */
 	@PostMapping(value="/queryaccoutbalance")
 	public ResBodyData queryAccoutBalance(String code) {
@@ -78,8 +78,8 @@ public class DrawController {
 	 * 功能描述:  新增提现申请
 	 * Author: guidl
 	 * Date:   2017年3月24日 下午14:14:28
-	 * param   ecmMzfDraw
-	 * return  ResBodyData
+	 * @param  ecmMzfDraw 提现信息
+	 * @return ResBodyData
 	 */
 	@PostMapping(value = "/drawcash")
 	public ResBodyData drawCash(@Validated EcmMzfDraw ecmMzfDraw) {
@@ -128,10 +128,12 @@ public class DrawController {
 	/**
 	 * 功能描述:  获取提现管理列表
 	 * Author: guidl
-	 * Date:   2017年3月24日 下午14:14:28
-	 * param   pageNumber-页数、pageSize-每页显示条数、type(list,export)
-	 * param   params(drawCode,code,drawType,realname,userType,addTime,status,drawName)
-	 * return  ResBodyData
+	 * Date:   2017年3月24日 下午14:14:28 
+	 * @param  pageNumber 页数
+	 * @param  pageSize 每页显示条数
+	 * @param  type (list,export)
+	 * @param  params params(drawCode,code,drawType,realname,userType,addTime,status,drawName)
+	 * @return ResBodyData
 	 */
 	@PostMapping(value = "/querydrawcash")
 	public ResBodyData queryDrawCash(
@@ -157,8 +159,8 @@ public class DrawController {
 	 * 功能描述:  根据提现编号获取提现详情
 	 * Author: guidl
 	 * Date:   2017年3月24日 下午14:14:28
-	 * param   drawCode-提现编号
-	 * return  ResBodyData
+	 * @param  drawCode-提现编号
+	 * @return ResBodyData
 	 */
 	@PostMapping(value="/querydrawcashbyid")
 	public ResBodyData queryDrawCashById(String drawCode) {
@@ -171,8 +173,8 @@ public class DrawController {
 	 * 功能描述:  审核提现申请
 	 * Author: guidl
 	 * Date:   2017年3月24日 下午14:14:28
-	 * param   ecmmzfdraw
-	 * return  ResBodyData
+	 * @param  ecmmzfdraw 提现信息
+	 * @return ResBodyData
 	 */
 	@PostMapping(value="/verifydrawcashbyid")
 	public ResBodyData verifyDrawCashById(EcmMzfDraw ecmmzfdraw) {
@@ -195,8 +197,8 @@ public class DrawController {
 	 * 功能描述:  驳回提现申请
 	 * Author: guidl
 	 * Date:   2017年3月24日 下午14:14:28
-	 * param   ecmmzfdraw
-	 * return  ResBodyData
+	 * @param  ecmmzfdraw 提现信息
+	 * @return ResBodyData
 	 */
 	@PostMapping(value="/rejectdrawcashbyid")
 	public ResBodyData rejectDrawCashById(EcmMzfDraw ecmmzfdraw) {
@@ -220,8 +222,8 @@ public class DrawController {
 	 * 功能描述:  确认提现转账成功或失败（更改提现状态）
 	 * Author: guidl
 	 * Date:   2017年3月24日 下午14:14:28
-	 * param   ecmmzfdraw
-	 * return  ResBodyData
+	 * @param  ecmmzfdraw 提现信息
+	 * @return ResBodyData
 	 */
 	@PostMapping(value="/confirmdrawcashbyidbytype")
 	public ResBodyData confirmDrawCashByIdByType(EcmMzfDraw ecmmzfdraw) {

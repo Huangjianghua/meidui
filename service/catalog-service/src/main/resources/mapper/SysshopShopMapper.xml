@@ -98,38 +98,6 @@
     shop_descript, shop_addr
   </sql>
   
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.meiduimall.service.catalog.entity.SysshopShopExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    * 
-    from sysshop_shop
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.service.catalog.entity.SysshopShopExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    shop_id, shop_name, shop_type, seller_id, status, open_time, close_time, close_reason, 
-    shop_logo, shopuser_name, qq, wangwang, email, mobile, shopuser_identity, shopuser_identity_img, 
-    shop_area, bulletin, check_goods 
-    from sysshop_shop
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 
     * 
@@ -140,13 +108,6 @@
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sysshop_shop
     where shop_id = #{shopId,jdbcType=INTEGER}
-  </delete>
-  
-  <delete id="deleteByExample" parameterType="com.meiduimall.service.catalog.entity.SysshopShopExample" >
-    delete from sysshop_shop
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
   </delete>
   
   <insert id="insert" parameterType="com.meiduimall.service.catalog.entity.SysshopShopWithBLOBs" >
@@ -301,139 +262,6 @@
       </if>
     </trim>
   </insert>
-  
-  <select id="countByExample" parameterType="com.meiduimall.service.catalog.entity.SysshopShopExample" resultType="java.lang.Integer" >
-    select count(*) from sysshop_shop
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  
-  <update id="updateByExampleSelective" parameterType="map" >
-    update sysshop_shop
-    <set >
-      <if test="record.shopId != null" >
-        shop_id = #{record.shopId,jdbcType=INTEGER},
-      </if>
-      <if test="record.shopName != null" >
-        shop_name = #{record.shopName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.shopType != null" >
-        shop_type = #{record.shopType,jdbcType=VARCHAR},
-      </if>
-      <if test="record.sellerId != null" >
-        seller_id = #{record.sellerId,jdbcType=INTEGER},
-      </if>
-      <if test="record.status != null" >
-        status = #{record.status,jdbcType=VARCHAR},
-      </if>
-      <if test="record.openTime != null" >
-        open_time = #{record.openTime,jdbcType=INTEGER},
-      </if>
-      <if test="record.closeTime != null" >
-        close_time = #{record.closeTime,jdbcType=INTEGER},
-      </if>
-      <if test="record.closeReason != null" >
-        close_reason = #{record.closeReason,jdbcType=VARCHAR},
-      </if>
-      <if test="record.shopLogo != null" >
-        shop_logo = #{record.shopLogo,jdbcType=VARCHAR},
-      </if>
-      <if test="record.shopuserName != null" >
-        shopuser_name = #{record.shopuserName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.qq != null" >
-        qq = #{record.qq,jdbcType=VARCHAR},
-      </if>
-      <if test="record.wangwang != null" >
-        wangwang = #{record.wangwang,jdbcType=VARCHAR},
-      </if>
-      <if test="record.email != null" >
-        email = #{record.email,jdbcType=VARCHAR},
-      </if>
-      <if test="record.mobile != null" >
-        mobile = #{record.mobile,jdbcType=VARCHAR},
-      </if>
-      <if test="record.shopuserIdentity != null" >
-        shopuser_identity = #{record.shopuserIdentity,jdbcType=CHAR},
-      </if>
-      <if test="record.shopuserIdentityImg != null" >
-        shopuser_identity_img = #{record.shopuserIdentityImg,jdbcType=VARCHAR},
-      </if>
-      <if test="record.shopArea != null" >
-        shop_area = #{record.shopArea,jdbcType=VARCHAR},
-      </if>
-      <if test="record.bulletin != null" >
-        bulletin = #{record.bulletin,jdbcType=VARCHAR},
-      </if>
-      <if test="record.checkGoods != null" >
-        check_goods = #{record.checkGoods,jdbcType=INTEGER},
-      </if>
-      <if test="record.shopDescript != null" >
-        shop_descript = #{record.shopDescript,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="record.shopAddr != null" >
-        shop_addr = #{record.shopAddr,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  
-  <update id="updateByExampleWithBLOBs" parameterType="map" >
-    update sysshop_shop
-    set shop_id = #{record.shopId,jdbcType=INTEGER},
-      shop_name = #{record.shopName,jdbcType=VARCHAR},
-      shop_type = #{record.shopType,jdbcType=VARCHAR},
-      seller_id = #{record.sellerId,jdbcType=INTEGER},
-      status = #{record.status,jdbcType=VARCHAR},
-      open_time = #{record.openTime,jdbcType=INTEGER},
-      close_time = #{record.closeTime,jdbcType=INTEGER},
-      close_reason = #{record.closeReason,jdbcType=VARCHAR},
-      shop_logo = #{record.shopLogo,jdbcType=VARCHAR},
-      shopuser_name = #{record.shopuserName,jdbcType=VARCHAR},
-      qq = #{record.qq,jdbcType=VARCHAR},
-      wangwang = #{record.wangwang,jdbcType=VARCHAR},
-      email = #{record.email,jdbcType=VARCHAR},
-      mobile = #{record.mobile,jdbcType=VARCHAR},
-      shopuser_identity = #{record.shopuserIdentity,jdbcType=CHAR},
-      shopuser_identity_img = #{record.shopuserIdentityImg,jdbcType=VARCHAR},
-      shop_area = #{record.shopArea,jdbcType=VARCHAR},
-      bulletin = #{record.bulletin,jdbcType=VARCHAR},
-      check_goods = #{record.checkGoods,jdbcType=INTEGER},
-      shop_descript = #{record.shopDescript,jdbcType=LONGVARCHAR},
-      shop_addr = #{record.shopAddr,jdbcType=LONGVARCHAR}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  
-  <update id="updateByExample" parameterType="map" >
-    update sysshop_shop
-    set shop_id = #{record.shopId,jdbcType=INTEGER},
-      shop_name = #{record.shopName,jdbcType=VARCHAR},
-      shop_type = #{record.shopType,jdbcType=VARCHAR},
-      seller_id = #{record.sellerId,jdbcType=INTEGER},
-      status = #{record.status,jdbcType=VARCHAR},
-      open_time = #{record.openTime,jdbcType=INTEGER},
-      close_time = #{record.closeTime,jdbcType=INTEGER},
-      close_reason = #{record.closeReason,jdbcType=VARCHAR},
-      shop_logo = #{record.shopLogo,jdbcType=VARCHAR},
-      shopuser_name = #{record.shopuserName,jdbcType=VARCHAR},
-      qq = #{record.qq,jdbcType=VARCHAR},
-      wangwang = #{record.wangwang,jdbcType=VARCHAR},
-      email = #{record.email,jdbcType=VARCHAR},
-      mobile = #{record.mobile,jdbcType=VARCHAR},
-      shopuser_identity = #{record.shopuserIdentity,jdbcType=CHAR},
-      shopuser_identity_img = #{record.shopuserIdentityImg,jdbcType=VARCHAR},
-      shop_area = #{record.shopArea,jdbcType=VARCHAR},
-      bulletin = #{record.bulletin,jdbcType=VARCHAR},
-      check_goods = #{record.checkGoods,jdbcType=INTEGER}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
   
   <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.service.catalog.entity.SysshopShopWithBLOBs" >
     update sysshop_shop

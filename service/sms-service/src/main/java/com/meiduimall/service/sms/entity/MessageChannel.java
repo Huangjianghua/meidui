@@ -1,92 +1,85 @@
-/*
- *  @项目名称: ${project_name}
- *
- *  @文件名称: ${file_name}
- *  @Date: ${date}
- *  @Copyright: ${year} www.meiduimall.com Inc. All rights reserved.
- *
- *  注意：本内容仅限于美兑壹购物公司内部传阅，禁止外泄以及用于其他的商业目的
- */
-
 package com.meiduimall.service.sms.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class MessageChannel {
-    private String id;
+public class MessageChannel implements Serializable {
+	
+	private static final long serialVersionUID = 8335204252208315272L;
 
-    private String channelKey;
+	private String id;
 
-    private String channelName;
+	private String channelKey;
 
-    private String requstUrl;
+	private String channelName;
 
-    private String userName;
+	private String requstUrl;
 
-    private String passWord;
+	private String userName;
 
-    private String effectiveTime;
+	private String passWord;
 
-    private String isEnabled;
+	private String effectiveTime;
 
-    private String remark;
+	private String isEnabled;
 
-    private String creater;
+	private String remark;
 
-    private Date createDate;
-    
-    private int sortNo;
+	private String creater;
 
+	private Date createDate;
 
-    public String getId() {
-        return id;
-    }
+	private int sortNo;
 
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
-    }
+	public String getId() {
+		return id;
+	}
 
-    public String getChannelKey() {
-        return channelKey;
-    }
+	public void setId(String id) {
+		this.id = id == null ? null : id.trim();
+	}
 
-    public void setChannelKey(String channelKey) {
-        this.channelKey = channelKey == null ? null : channelKey.trim();
-    }
+	public String getChannelKey() {
+		return channelKey;
+	}
 
-    public String getChannelName() {
-        return channelName;
-    }
+	public void setChannelKey(String channelKey) {
+		this.channelKey = channelKey == null ? null : channelKey.trim();
+	}
 
-    public void setChannelName(String channelName) {
-        this.channelName = channelName == null ? null : channelName.trim();
-    }
+	public String getChannelName() {
+		return channelName;
+	}
 
-    public String getRequstUrl() {
-        return requstUrl;
-    }
+	public void setChannelName(String channelName) {
+		this.channelName = channelName == null ? null : channelName.trim();
+	}
 
-    public void setRequstUrl(String requstUrl) {
-        this.requstUrl = requstUrl == null ? null : requstUrl.trim();
-    }
+	public String getRequstUrl() {
+		return requstUrl;
+	}
 
-    public String getUserName() {
-        return userName;
-    }
+	public void setRequstUrl(String requstUrl) {
+		this.requstUrl = requstUrl == null ? null : requstUrl.trim();
+	}
 
-    public void setUserName(String userName) {
-        this.userName = userName == null ? null : userName.trim();
-    }
+	public String getUserName() {
+		return userName;
+	}
 
-    public String getPassWord() {
-        return passWord;
-    }
+	public void setUserName(String userName) {
+		this.userName = userName == null ? null : userName.trim();
+	}
 
-    public void setPassWord(String passWord) {
-        this.passWord = passWord == null ? null : passWord.trim();
-    }
+	public String getPassWord() {
+		return passWord;
+	}
 
-    public String getEffectiveTime() {
+	public void setPassWord(String passWord) {
+		this.passWord = passWord == null ? null : passWord.trim();
+	}
+
+	public String getEffectiveTime() {
 		return effectiveTime;
 	}
 
@@ -95,36 +88,36 @@ public class MessageChannel {
 	}
 
 	public String getIsEnabled() {
-        return isEnabled;
-    }
+		return isEnabled;
+	}
 
-    public void setIsEnabled(String isEnabled) {
-        this.isEnabled = isEnabled == null ? null : isEnabled.trim();
-    }
+	public void setIsEnabled(String isEnabled) {
+		this.isEnabled = isEnabled == null ? null : isEnabled.trim();
+	}
 
-    public String getRemark() {
-        return remark;
-    }
+	public String getRemark() {
+		return remark;
+	}
 
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
-    }
+	public void setRemark(String remark) {
+		this.remark = remark == null ? null : remark.trim();
+	}
 
-    public String getCreater() {
-        return creater;
-    }
+	public String getCreater() {
+		return creater;
+	}
 
-    public void setCreater(String creater) {
-        this.creater = creater == null ? null : creater.trim();
-    }
+	public void setCreater(String creater) {
+		this.creater = creater == null ? null : creater.trim();
+	}
 
-    public Date getCreateDate() {
-        return createDate;
-    }
+	public Date getCreateDate() {
+		return createDate;
+	}
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
 
 	public int getSortNo() {
 		return sortNo;
@@ -133,5 +126,5 @@ public class MessageChannel {
 	public void setSortNo(int sortNo) {
 		this.sortNo = sortNo;
 	}
-    
+
 }

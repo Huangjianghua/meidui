@@ -11,17 +11,14 @@
 package com.meiduimall.exception;
 
 
-/**
- * Copyright (C), 2002-2017, 美兑壹购物
- * FileName: DaoException.java
- * Author:   Administrator
- * Date:     2017年4月19日 下午4:49:13
- * Description: dao层统一错误码异常
- */
+
 public class DaoException extends BizException {
 
 	private static final long serialVersionUID = -2400481044433310559L;
 
+	public DaoException(Integer code) {
+		super(code);
+	}
 
 	public DaoException(Integer code, String msg) {
 		super(code,msg);

@@ -17,9 +17,9 @@ public interface O2oCallbackService {
 	 * 功能描述:  通知订单结算各阶段状态给O2O
 	 * Author: 吴军
 	 * Date:   2017年3月14日 下午3:38:26   
-	 * @param orderSns
-	 * @param statusCode
-	 * return  boolean
+	 * @param  orderSns 订单号
+	 * @param  statusCode 状态码
+	 * @return boolean
 	 * 
 	 */
 	public boolean informSettlementStatus(Collection<String> orderSns,Integer statusCode);
@@ -28,9 +28,9 @@ public interface O2oCallbackService {
 	 * 功能描述:  回调O2O接口 更新代理表中区代的余款  插入抵扣保证金到缴费记录表中
 	 * Author: 吴军
 	 * Date:   2017年3月14日 下午3:38:26   
-	 * @param areaAgent
-	 * @param amount
-	 * return  boolean
+	 * @param  areaAgent 代理相关信息
+	 * @param  amount 金额
+	 * @return boolean
 	 * 
 	 */
 	public String addProxyFee(EcmAgent areaAgent, double amount);

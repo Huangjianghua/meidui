@@ -298,18 +298,6 @@ public class JedisUtilTest {
 	}
 	
 	
-	/**
-	 * 功能描述:  测试有序集合查询
-	 * Author: 陈建宇
-	 * Date:   2017年3月31日 上午11:31:11 
-	 * return  void
-	 */
-	@Test
-	public void testExecZrangeByScoreToCache(){
-		
-		Set<String> set=RedisTemplate.getJedisInstance().execZrangeByScoreToCache("testExecZrangeByScoreToCache", 1d, 20d);
-		assertEquals(0,set.size());
-	}
-	
+
 	
 }

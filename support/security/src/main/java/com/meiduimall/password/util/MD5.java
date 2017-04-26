@@ -29,7 +29,16 @@ public class MD5 {
 		int d2 = n % 16;
 		return hexDigits[d1] + hexDigits[d2];
 	}
-
+	
+	
+	/**
+	 * 功能描述:  MD5加密
+	 * Date:   2017年4月25日 下午4:46:47 
+	 * param   @param origin
+	 * param   @return
+	 * param   @throws Md5Exception   
+	 * return  String
+	 */
 	public static String encode(String origin) throws Md5Exception {
 		String resultString = null;
 		try {
@@ -42,6 +51,15 @@ public class MD5 {
 		return resultString;
 	}
 	
+	
+	/**
+	 * 功能描述:  先按照utf8编码MD5加密
+	 * Date:   2017年4月25日 下午4:47:23 
+	 * param   @param origin
+	 * param   @return
+	 * param   @throws Md5Exception   
+	 * return  String
+	 */
 	public static String getMD5EncodeUTF8(String origin) throws Md5Exception {
 		String resultString = null;
 		try {

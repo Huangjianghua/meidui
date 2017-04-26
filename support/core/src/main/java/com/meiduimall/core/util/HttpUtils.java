@@ -24,13 +24,7 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * Copyright (C), 2002-2017, 美兑壹购物
- * FileName: HttpUtils.java
- * Author:   陈建宇
- * Date:     2017年3月24日 下午2:21:16
- * Description: http请求工具类
- */
+
 public class HttpUtils {
 
 	private static Logger logger = LoggerFactory.getLogger(HttpUtils.class);

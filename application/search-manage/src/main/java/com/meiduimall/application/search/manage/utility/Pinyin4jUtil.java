@@ -1,13 +1,16 @@
 package com.meiduimall.application.search.manage.utility;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
@@ -308,9 +311,8 @@ public class Pinyin4jUtil {
 		HanyuPinyinOutputFormat format = new HanyuPinyinOutputFormat();
 		format.setCaseType(upperCase ? HanyuPinyinCaseType.UPPERCASE
 				: HanyuPinyinCaseType.LOWERCASE);
-		if (toneType == 0) {
-			format.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
-		} else if (toneType == 1) {
+		
+		if (toneType == 1) {
 			format.setToneType(HanyuPinyinToneType.WITH_TONE_MARK);
 		} else if (toneType == 2) {
 			format.setToneType(HanyuPinyinToneType.WITH_TONE_NUMBER);
@@ -318,9 +320,7 @@ public class Pinyin4jUtil {
 			format.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
 		}
 
-		if (vCharType == 0) {
-			format.setVCharType(HanyuPinyinVCharType.WITH_V);
-		} else if (vCharType == 1) {
+		if (vCharType == 1) {
 			format.setVCharType(HanyuPinyinVCharType.WITH_U_UNICODE);
 		} else if (vCharType == 2) {
 			format.setVCharType(HanyuPinyinVCharType.WITH_U_AND_COLON);
@@ -378,7 +378,7 @@ public class Pinyin4jUtil {
 			for (String s : china) {
 				Integer count = onlyOne.get(s);
 				if (count == null) {
-					onlyOne.put(s, new Integer(1));
+					onlyOne.put(s, 1);
 				} else {
 					onlyOne.remove(s);
 					count++;
@@ -401,7 +401,7 @@ public class Pinyin4jUtil {
 		// 遍历每一组集合
 		for (int i = 0; i < list.size(); i++) {
 			// 每一组集合与上一次组合的Map
-			Map<String, Integer> temp = new Hashtable<String, Integer>();
+			Map<String, Integer> temp = new HashMap<String, Integer>();
 			// 第一次循环，first为空
 			if (first != null) {
 				// 取出上次组合与此次集合的字符，并保存
@@ -426,17 +426,17 @@ public class Pinyin4jUtil {
 				first = temp;
 			}
 		}
-		String returnStr = "";
+		StringBuilder returnStr = new StringBuilder();
 		if (first != null) {
 			// 遍历取出组合字符串
 			for (String str : first.keySet()) {
-				returnStr += (str + seperator);
+				returnStr.append(str + seperator);
 			}
 		}
 		if (returnStr.length() > 0) {
-			returnStr = returnStr.substring(0, returnStr.length() - 1);
+			return returnStr.substring(0, returnStr.length() - 1);
 		}
-		return returnStr;
+		return returnStr.toString();
 	}
 
 

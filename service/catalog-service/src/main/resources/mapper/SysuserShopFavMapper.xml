@@ -74,6 +74,13 @@
     snotify_id, shop_id, user_id, shop_name, shop_logo, create_time
   </sql>
   
+  <select id="countByShopIdAndUserId" resultType="int" parameterType="com.meiduimall.service.catalog.entity.SysuserShopFav">
+  	SELECT 
+  	COUNT(*) 
+  	FROM sysuser_shop_fav 
+  	WHERE shop_id=#{shopId} AND user_id=#{userId}
+  </select>
+  
   <!-- 根据token和shop_id，查找该用户是否收藏了该商品 -->
   <select id="selectCountByItemIdAndMemId" resultType="int" parameterType="com.meiduimall.service.catalog.entity.IdAndMemId">
   	SELECT COUNT(*) FROM sysuser_shop_fav 
@@ -81,21 +88,6 @@
   	user_id=(SELECT user_id FROM sysuser_account WHERE mem_id=#{memId} LIMIT 1) 
   	AND 
   	shop_id=#{id};
-  </select>
-  
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.service.catalog.entity.SysuserShopFavExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    * 
-    from sysuser_shop_fav
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
   </select>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -110,11 +102,8 @@
     where snotify_id = #{snotifyId,jdbcType=INTEGER}
   </delete>
   
-  <delete id="deleteByExample" parameterType="com.meiduimall.service.catalog.entity.SysuserShopFavExample" >
-    delete from sysuser_shop_fav
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
+  <delete id="deleteByShopIdAndUserId" parameterType="com.meiduimall.service.catalog.entity.SysuserShopFav">
+  	DELETE FROM sysuser_shop_fav WHERE shop_id=#{shopId} AND user_id=#{userId}
   </delete>
   
   <insert id="insert" parameterType="com.meiduimall.service.catalog.entity.SysuserShopFav" >
@@ -169,53 +158,6 @@
       </if>
     </trim>
   </insert>
-  
-  <select id="countByExample" parameterType="com.meiduimall.service.catalog.entity.SysuserShopFavExample" resultType="java.lang.Integer" >
-    select count(*) from sysuser_shop_fav
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  
-  <update id="updateByExampleSelective" parameterType="map" >
-    update sysuser_shop_fav
-    <set >
-      <if test="record.snotifyId != null" >
-        snotify_id = #{record.snotifyId,jdbcType=INTEGER},
-      </if>
-      <if test="record.shopId != null" >
-        shop_id = #{record.shopId,jdbcType=INTEGER},
-      </if>
-      <if test="record.userId != null" >
-        user_id = #{record.userId,jdbcType=INTEGER},
-      </if>
-      <if test="record.shopName != null" >
-        shop_name = #{record.shopName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.shopLogo != null" >
-        shop_logo = #{record.shopLogo,jdbcType=VARCHAR},
-      </if>
-      <if test="record.createTime != null" >
-        create_time = #{record.createTime,jdbcType=INTEGER},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  
-  <update id="updateByExample" parameterType="map" >
-    update sysuser_shop_fav
-    set snotify_id = #{record.snotifyId,jdbcType=INTEGER},
-      shop_id = #{record.shopId,jdbcType=INTEGER},
-      user_id = #{record.userId,jdbcType=INTEGER},
-      shop_name = #{record.shopName,jdbcType=VARCHAR},
-      shop_logo = #{record.shopLogo,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=INTEGER}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
   
   <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.service.catalog.entity.SysuserShopFav" >
     update sysuser_shop_fav

@@ -11,5 +11,5 @@ public interface SuggestService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<String> querySuggest(String keyword, Integer limit) throws Exception;
+	public List<String> querySuggest(String keyword, Integer limit) ;
 }

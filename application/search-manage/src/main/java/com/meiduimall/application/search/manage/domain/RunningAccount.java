@@ -174,7 +174,6 @@ public class RunningAccount extends PageView implements Serializable {
 
 	public void setMchMoney(String mchMoney) {
 		try {
-			Double.valueOf(mchMoney);
 			this.mchMoney = DESC.firstEncryption(mchMoney);
 		} catch(NumberFormatException e) {
 			this.mchMoney = mchMoney;
@@ -198,7 +197,6 @@ public class RunningAccount extends PageView implements Serializable {
 
 	public void setMchCosts(String mchCosts) {
 		try {
-			Double.valueOf(mchCosts);
 			this.mchCosts = DESC.firstDeyption(mchCosts);
 		} catch(NumberFormatException e) {
 			this.mchCosts = mchCosts;

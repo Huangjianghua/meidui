@@ -100,37 +100,6 @@
   	item_id=#{id};
   </select>
   
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.meiduimall.service.catalog.entity.SysuserUserFavExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    * 
-    from sysuser_user_fav
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.service.catalog.entity.SysuserUserFavExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    gnotify_id, item_id, user_id, sku_id, cat_id, goods_name, goods_price, image_default_id, 
-    email, cellphone, send_time, create_time, disabled, object_type 
-    from sysuser_user_fav
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 
     * 
@@ -141,13 +110,6 @@
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sysuser_user_fav
     where gnotify_id = #{gnotifyId,jdbcType=INTEGER}
-  </delete>
-  
-  <delete id="deleteByExample" parameterType="com.meiduimall.service.catalog.entity.SysuserUserFavExample" >
-    delete from sysuser_user_fav
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
   </delete>
   
   <insert id="insert" parameterType="com.meiduimall.service.catalog.entity.SysuserUserFav" >
@@ -262,110 +224,6 @@
       </if>
     </trim>
   </insert>
-  
-  <select id="countByExample" parameterType="com.meiduimall.service.catalog.entity.SysuserUserFavExample" resultType="java.lang.Integer" >
-    select count(*) from sysuser_user_fav
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  
-  <update id="updateByExampleSelective" parameterType="map" >
-    update sysuser_user_fav
-    <set >
-      <if test="record.gnotifyId != null" >
-        gnotify_id = #{record.gnotifyId,jdbcType=INTEGER},
-      </if>
-      <if test="record.itemId != null" >
-        item_id = #{record.itemId,jdbcType=INTEGER},
-      </if>
-      <if test="record.userId != null" >
-        user_id = #{record.userId,jdbcType=INTEGER},
-      </if>
-      <if test="record.skuId != null" >
-        sku_id = #{record.skuId,jdbcType=INTEGER},
-      </if>
-      <if test="record.catId != null" >
-        cat_id = #{record.catId,jdbcType=INTEGER},
-      </if>
-      <if test="record.goodsName != null" >
-        goods_name = #{record.goodsName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.goodsPrice != null" >
-        goods_price = #{record.goodsPrice,jdbcType=DECIMAL},
-      </if>
-      <if test="record.imageDefaultId != null" >
-        image_default_id = #{record.imageDefaultId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.email != null" >
-        email = #{record.email,jdbcType=VARCHAR},
-      </if>
-      <if test="record.cellphone != null" >
-        cellphone = #{record.cellphone,jdbcType=VARCHAR},
-      </if>
-      <if test="record.sendTime != null" >
-        send_time = #{record.sendTime,jdbcType=INTEGER},
-      </if>
-      <if test="record.createTime != null" >
-        create_time = #{record.createTime,jdbcType=INTEGER},
-      </if>
-      <if test="record.disabled != null" >
-        disabled = #{record.disabled,jdbcType=INTEGER},
-      </if>
-      <if test="record.objectType != null" >
-        object_type = #{record.objectType,jdbcType=VARCHAR},
-      </if>
-      <if test="record.remark != null" >
-        remark = #{record.remark,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  
-  <update id="updateByExampleWithBLOBs" parameterType="map" >
-    update sysuser_user_fav
-    set gnotify_id = #{record.gnotifyId,jdbcType=INTEGER},
-      item_id = #{record.itemId,jdbcType=INTEGER},
-      user_id = #{record.userId,jdbcType=INTEGER},
-      sku_id = #{record.skuId,jdbcType=INTEGER},
-      cat_id = #{record.catId,jdbcType=INTEGER},
-      goods_name = #{record.goodsName,jdbcType=VARCHAR},
-      goods_price = #{record.goodsPrice,jdbcType=DECIMAL},
-      image_default_id = #{record.imageDefaultId,jdbcType=VARCHAR},
-      email = #{record.email,jdbcType=VARCHAR},
-      cellphone = #{record.cellphone,jdbcType=VARCHAR},
-      send_time = #{record.sendTime,jdbcType=INTEGER},
-      create_time = #{record.createTime,jdbcType=INTEGER},
-      disabled = #{record.disabled,jdbcType=INTEGER},
-      object_type = #{record.objectType,jdbcType=VARCHAR},
-      remark = #{record.remark,jdbcType=LONGVARCHAR}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  
-  <update id="updateByExample" parameterType="map" >
-    update sysuser_user_fav
-    set gnotify_id = #{record.gnotifyId,jdbcType=INTEGER},
-      item_id = #{record.itemId,jdbcType=INTEGER},
-      user_id = #{record.userId,jdbcType=INTEGER},
-      sku_id = #{record.skuId,jdbcType=INTEGER},
-      cat_id = #{record.catId,jdbcType=INTEGER},
-      goods_name = #{record.goodsName,jdbcType=VARCHAR},
-      goods_price = #{record.goodsPrice,jdbcType=DECIMAL},
-      image_default_id = #{record.imageDefaultId,jdbcType=VARCHAR},
-      email = #{record.email,jdbcType=VARCHAR},
-      cellphone = #{record.cellphone,jdbcType=VARCHAR},
-      send_time = #{record.sendTime,jdbcType=INTEGER},
-      create_time = #{record.createTime,jdbcType=INTEGER},
-      disabled = #{record.disabled,jdbcType=INTEGER},
-      object_type = #{record.objectType,jdbcType=VARCHAR}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
   
   <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.service.catalog.entity.SysuserUserFav" >
     update sysuser_user_fav

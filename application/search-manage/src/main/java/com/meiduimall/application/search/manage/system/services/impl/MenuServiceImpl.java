@@ -1,17 +1,12 @@
 package com.meiduimall.application.search.manage.system.services.impl;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.annotation.Resource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.meiduimall.application.search.manage.IDao.MenuMapper;
 import com.meiduimall.application.search.manage.system.domain.Menu;
 import com.meiduimall.application.search.manage.system.domain.Privilege;
@@ -93,7 +88,7 @@ public class MenuServiceImpl implements IMenuService{
     @Transactional(propagation=Propagation.REQUIRED,readOnly=false)
 	public void addOrUpdateMenu(Menu menu) {
 		   //是否添加顶级菜单
-			if (null == menu.getId() ||menu.getId().equals("")) {
+			if (null == menu.getId() ||"".equals(menu.getId())) {
 				menu.setPid(0);
 				menuDao.insertMenu(menu);
 			} else {
@@ -101,7 +96,7 @@ public class MenuServiceImpl implements IMenuService{
 				menuDao.updateMenu(menu);
 
 				// 新增子菜单
-				if (menu != null && !menu.getSubItem().getName().equals("")) {
+				if (!"".equals(menu.getSubItem().getName())) {
 					Menu submenu = menu.getSubItem();
 					submenu.setPid(menu.getId());
 					menuDao.insertMenu(submenu);

@@ -45,7 +45,9 @@ public class PageView {
 	 */
 	private  int offset ;
 	
-	public PageView(){};
+	public PageView(){
+		
+	}
 	
 	public  PageView(int currentPage){
 		//this.pageSize = pageSize;

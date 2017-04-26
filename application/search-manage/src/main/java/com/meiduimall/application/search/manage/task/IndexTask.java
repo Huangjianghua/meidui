@@ -31,8 +31,8 @@ public class IndexTask {
 		logger.info("开始同步数据库数据到索引库，开始时间： " + sdf.format(new Date()));
 		Map<String, Object> addProductIndex = indexService.addProductIndex(SysConstant.PAGE_LIMIT_INDEX);
 		Map<String, Object> addSuggestIndex = indexService.addSuggestIndex(SysConstant.PAGE_LIMIT_INDEX);
-		boolean addProductSuccess = addProductIndex.get(SysConstant.STATUS_CODE).equals("0");
-		boolean addSuggestSuccess = addSuggestIndex.get(SysConstant.STATUS_CODE).equals("0");
+		boolean addProductSuccess = "0".equals(addProductIndex.get(SysConstant.STATUS_CODE));
+		boolean addSuggestSuccess = "0".equals(addSuggestIndex.get(SysConstant.STATUS_CODE));
 		if (addProductSuccess && addSuggestSuccess) {
 			logger.info("完成同步数据库数据到索引库，结束时间：" + sdf.format(new Date()));
 		}
@@ -46,7 +46,7 @@ public class IndexTask {
 	//@Scheduled(cron = "0 45 3 ? * MON")
 	public void startCatIndex() {
 		Map<String, Object> addCatIndex = indexService.addCatlogIndex(SysConstant.PAGE_LIMIT_INDEX);
-		boolean addCatSuccess = addCatIndex.get(SysConstant.STATUS_CODE).equals("0");
+		boolean addCatSuccess ="0".equals(addCatIndex.get(SysConstant.STATUS_CODE));
 		if (addCatSuccess) {
 			logger.info("完成同步数据库数据到索引库，结束时间：" + sdf.format(new Date()));
 		}

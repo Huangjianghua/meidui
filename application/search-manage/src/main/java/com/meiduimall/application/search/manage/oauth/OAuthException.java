@@ -48,6 +48,5 @@ public class OAuthException extends Exception {
         super(message, cause);
     }
 
-    private static final long serialVersionUID = 1L;
 
 }

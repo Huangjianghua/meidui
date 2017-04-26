@@ -25,9 +25,8 @@ import java.util.Map;
  * support extensions.
  * 
  */
-public class OAuthConsumer implements Serializable {
+public class OAuthConsumer {
 
-    private static final long serialVersionUID = -2258581186977818580L;
 
     public final String callbackURL;
     public final String consumerKey;

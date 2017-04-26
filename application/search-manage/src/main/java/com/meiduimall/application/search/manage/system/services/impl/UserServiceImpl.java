@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,8 @@ import com.meiduimall.application.search.manage.utility.MD5Tool;
 @Service("UserServiceImpl")
 @Transactional(readOnly=true) //定义类级别事物为只读事物
 public class UserServiceImpl implements IUserService{
+	
+	 private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 	
 	@Resource
 	private UserMapper userDao;
@@ -44,6 +48,7 @@ public class UserServiceImpl implements IUserService{
 			user.setPassword(MD5Tool.encrypeString(user.getPassword()));
 			user.setUserName(DESC.firstEncryption(user.getUserName()));
 		} catch (Exception e) {
+			logger.error("检查用户是否存在异常:{}",e);
 			return null ;
 		}
 		List<User> users = userDao.selectUserList(user);
@@ -78,7 +83,7 @@ public class UserServiceImpl implements IUserService{
 			user.setUserName(DESC.firstEncryption(user.getUserName()));
 			userDao.insertUser(user);		
 		} catch (Exception e) {
-			//e.printStackTrace();
+			logger.error("新增用户报错:{}",e);
 		}
 		
 	}

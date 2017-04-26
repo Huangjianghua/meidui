@@ -10,20 +10,21 @@
 
 package com.meiduimall.exception;
 
+import com.meiduimall.core.BaseApiCode;
 
-/**
- * Copyright (C), 2002-2017, 美兑壹购物
- * FileName: SystemException.java
- * Author:   Administrator
- * Date:     2017年4月19日 下午4:46:43
- * Description: 检查类型异常
- */
 public class SystemException extends Exception {
 
 	private static final long serialVersionUID = 522159568098470670L;
 	private Integer code;
 
-
+	public SystemException(Integer code) {
+		this.code = code;
+	}
+	
+    public String getLocalizedMessage() {
+        return BaseApiCode.getZhMsg(code);
+    }
+	
 	public SystemException(Integer code, String msg) {
 		super(msg);
 		this.code = code;

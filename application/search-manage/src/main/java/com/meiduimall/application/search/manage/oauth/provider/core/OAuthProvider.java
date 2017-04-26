@@ -15,7 +15,6 @@
  */
 
 package com.meiduimall.application.search.manage.oauth.provider.core;
-
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
@@ -46,11 +45,11 @@ public class OAuthProvider {
 
 	public static final OAuthValidator VALIDATOR = new SimpleOAuthValidator();
 
-	public static final Map<String, OAuthConsumer> ALL_CONSUMERS = Collections
+	private static  Map<String, OAuthConsumer> ALL_CONSUMERS = Collections
 			.synchronizedMap(new HashMap<String, OAuthConsumer>(10));
 
 	
-	public static final Collection<OAuthAccessor> ALL_TOKENS = new HashSet<>();
+	private static  Collection<OAuthAccessor> ALL_TOKENS = new HashSet<>();
 
 
 
@@ -63,7 +62,7 @@ public class OAuthProvider {
 		// try to load from local cache if not throw exception
 		String consumer_key = requestMessage.getConsumerKey();
 
-		if (ALL_CONSUMERS != null ||  !ALL_CONSUMERS.isEmpty()) {
+		if (ALL_CONSUMERS != null &&  !ALL_CONSUMERS.isEmpty()) {
 			consumer = ALL_CONSUMERS.get(consumer_key);
 		} 
 		
@@ -87,13 +86,13 @@ public class OAuthProvider {
 		String consumer_token = requestMessage.getToken();
 		OAuthAccessor accessor = null;
 		for (OAuthAccessor a : OAuthProvider.ALL_TOKENS) {
-			if (a.requestToken != null) {
-				if (a.requestToken.equals(consumer_token)) {
+			if (a.getRequestToken() != null) {
+				if (a.getRequestToken().equals(consumer_token)) {
 					accessor = a;
 					break;
 				}
-			} else if (a.accessToken != null) {
-				if (a.accessToken.equals(consumer_token)) {
+			} else if (a.getAccessToken() != null) {
+				if (a.getAccessToken().equals(consumer_token)) {
 					accessor = a;
 					break;
 				}
@@ -101,8 +100,7 @@ public class OAuthProvider {
 		}
 
 		if (accessor == null) {
-			OAuthProblemException problem = new OAuthProblemException(
-					"token_expired");
+			OAuthProblemException problem = new OAuthProblemException("token_expired");
 			throw problem;
 		}
 
@@ -153,10 +151,9 @@ public class OAuthProvider {
 		String secret_data = consumer_key + System.nanoTime() + token;
 		String secret = DigestUtils.md5Hex(secret_data);
 
-		accessor.requestToken = token;
-		accessor.tokenSecret = secret;
-		accessor.accessToken = null;
-
+		accessor.setRequestToken(token);
+		accessor.setTokenSecret(secret);
+		accessor.setAccessToken(null);
 		// add to the local cache
 		ALL_TOKENS.add(accessor);
 
@@ -180,8 +177,8 @@ public class OAuthProvider {
 		// first remove the accessor from cache
 		ALL_TOKENS.remove(accessor);
 
-		accessor.requestToken = null;
-		accessor.accessToken = token;
+		accessor.setRequestToken(null);
+		accessor.setAccessToken(token);
 
 		// update token in local cache
 		ALL_TOKENS.add(accessor);

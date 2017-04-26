@@ -1,5 +1,6 @@
 package com.meiduimall.application.search.manage.controller;
 import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -109,7 +110,7 @@ public class IndexController {
 	 * @throws Exception 
 	 */
 	@RequestMapping(value = "suggestIndex", method = RequestMethod.POST, produces = {"application/json;charset=UTF-8"})
-	public Object suggestIndex(@Validated IndexRequest request) throws Exception {
+	public Object suggestIndex(@Validated IndexRequest request) {
 		Map<String, Object> result = null;
 		switch (request.getOpt()) {
 		case "a":

@@ -62,7 +62,7 @@ public class SimpleOAuthValidator implements OAuthValidator {
      * This limitation is specified by OAuth Core <a
      * href="http://oauth.net/core/1.0#anchor7">section 5</a>.
      */
-    public static final Set<String> SINGLE_PARAMETERS = constructSingleParameters();
+    protected static final Set<String> SINGLE_PARAMETERS = constructSingleParameters();
 
     private static Set<String> constructSingleParameters() {
         Set<String> s = new HashSet<String>();

@@ -85,6 +85,28 @@ public class GoodsRecommendControllerTest extends BaseTest {
 	}
 	
 	/**
+	 * insertBatchItems---商品不存在
+	 * @throws Exception
+	 */
+	@Test
+	public void insertBatchItems_test_04() throws Exception {
+		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
+				.post("/mall/catalog-service/v1/goodsRecommend/insertBatch")
+				.param("item_ids", "35550")
+				.param("type", "2")
+				.param("level", "200")
+				.param("opt_user", "张三"))
+				.andExpect(status().isOk());
+		
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("insertBatchItems_test_04*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+	
+	/**
 	 * getFirstRecommendItems---正常测试
 	 * @throws Exception
 	 */
@@ -119,6 +141,26 @@ public class GoodsRecommendControllerTest extends BaseTest {
 			@Override
 			public void handle(MvcResult result) throws Exception {
 				System.out.println("getFirstRecommendItems_test_02*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+	
+	/**
+	 * getFirstRecommendItems---推荐类型不存在
+	 * @throws Exception
+	 */
+	@Test
+	public void getFirstRecommendItems_test_03() throws Exception {
+		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
+				.post("/mall/catalog-service/v1/goodsRecommend/getFirstRecommend")
+				.param("type", "3")
+				.param("sourceId", "1"))
+				.andExpect(status().isOk());
+		
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("getFirstRecommendItems_test_03*********" + result.getResponse().getContentAsString());
 			}
 		});
 	}

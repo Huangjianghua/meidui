@@ -169,7 +169,6 @@ public class Order implements Serializable {
 	public String getMchMoney() {
 		// 判断是否是加密的字符串
 		try {
-			Double.valueOf(this.mchMoney==null?"0":this.mchMoney);
 			return this.mchMoney;
 		} catch(NumberFormatException e) {
 			return DESC.firstDeyption(this.mchMoney,this.memId);
@@ -179,7 +178,6 @@ public class Order implements Serializable {
 	public String getMchCosts() {
 		// 判断是否是加密的字符串
 		try {
-			Double.valueOf(this.mchCosts==null?"0":this.mchCosts);
 			return this.mchCosts;
 		} catch(NumberFormatException e) {
 			return DESC.firstDeyption(this.mchCosts,this.memId);
@@ -197,7 +195,6 @@ public class Order implements Serializable {
 	public String getMchBshopGiveIntegral() {
 		// 判断是否是加密的字符串
 		try {
-			Double.valueOf(this.mchBshopGiveIntegral==null?"0":this.mchBshopGiveIntegral);
 			return this.mchBshopGiveIntegral;
 		} catch(NumberFormatException e) {
 			return DESC.firstDeyption(this.mchBshopGiveIntegral,this.memId);
@@ -212,7 +209,6 @@ public class Order implements Serializable {
 	public String getMchTotalIntegral() {
 		// 判断是否是加密的字符串
 		try {
-			Double.valueOf(this.mchTotalIntegral==null?"0":this.mchTotalIntegral);
 			return this.mchTotalIntegral;
 		} catch(NumberFormatException e) {
 			return DESC.firstDeyption(this.mchTotalIntegral,this.memId);
@@ -234,7 +230,6 @@ public class Order implements Serializable {
 	public String getMchCurrentReturnedIntegral() {
 		// 判断是否是加密的字符串
 		try {
-			Double.valueOf(this.mchCurrentReturnedIntegral==null?"0":this.mchCurrentReturnedIntegral);
 			return this.mchCurrentReturnedIntegral;
 		} catch(NumberFormatException e) {
 			return DESC.firstDeyption(this.mchCurrentReturnedIntegral,this.memId);
@@ -247,11 +242,6 @@ public class Order implements Serializable {
 
 	public String getMchNextReturnIntegral() {
 		// 判断是否是加密的字符串
-		try {
-			
-		} catch(NumberFormatException e) {
-			
-		}
 		return DESC.firstDeyption(this.mchNextReturnIntegral,this.memId);
 	}
 
@@ -262,7 +252,6 @@ public class Order implements Serializable {
 	public String getMchReturnProfitIntegral() {
 		// 判断是否是加密的字符串
 		try {
-			Double.valueOf(this.mchReturnProfitIntegral==null?"0":this.mchReturnProfitIntegral);
 			return this.mchReturnProfitIntegral;
 		} catch(NumberFormatException e) {
 			return DESC.firstDeyption(this.mchReturnProfitIntegral,this.memId);
@@ -276,7 +265,6 @@ public class Order implements Serializable {
 	public String getMchFunds() {
 		// 判断是否是加密的字符串
 		try {
-			Double.valueOf(this.mchFunds==null?"0":this.mchFunds);
 			return this.mchFunds;
 		} catch(NumberFormatException e) {
 			return DESC.firstDeyption(this.mchFunds,this.memId);
@@ -290,7 +278,6 @@ public class Order implements Serializable {
 	public String getMchCurrentGetIntegral() {
 		// 判断是否是加密的字符串
 		try {
-			Double.valueOf(this.mchCurrentGetIntegral==null?"0":this.mchCurrentGetIntegral);
 			return this.mchCurrentGetIntegral;
 		} catch(NumberFormatException e) {
 			return DESC.firstDeyption(this.mchCurrentGetIntegral,this.memId);
@@ -414,6 +401,44 @@ public class Order implements Serializable {
         }     
 	}
 	
+	
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((bcLevel == null) ? 0 : bcLevel.hashCode());
+		result = prime * result + ((mchBshopGiveIntegral == null) ? 0 : mchBshopGiveIntegral.hashCode());
+		result = prime * result + ((mchConsumeCouponCount == null) ? 0 : mchConsumeCouponCount.hashCode());
+		result = prime * result + ((mchCosts == null) ? 0 : mchCosts.hashCode());
+		result = prime * result + ((mchCreatedDate == null) ? 0 : mchCreatedDate.hashCode());
+		result = prime * result + ((mchCurrentGetIntegral == null) ? 0 : mchCurrentGetIntegral.hashCode());
+		result = prime * result + ((mchCurrentReturnedIntegral == null) ? 0 : mchCurrentReturnedIntegral.hashCode());
+		result = prime * result + ((mchFunds == null) ? 0 : mchFunds.hashCode());
+		result = prime * result + ((mchId == null) ? 0 : mchId.hashCode());
+		result = prime * result + ((mchIssueStatus == null) ? 0 : mchIssueStatus.hashCode());
+		result = prime * result + ((mchMoney == null) ? 0 : mchMoney.hashCode());
+		result = prime * result + ((mchNextReturnIntegral == null) ? 0 : mchNextReturnIntegral.hashCode());
+		result = prime * result + ((mchOrginCategory == null) ? 0 : mchOrginCategory.hashCode());
+		result = prime * result + ((mchOrginMemId == null) ? 0 : mchOrginMemId.hashCode());
+		result = prime * result + ((mchOrginType == null) ? 0 : mchOrginType.hashCode());
+		result = prime * result + ((mchPayType == null) ? 0 : mchPayType.hashCode());
+		result = prime * result + ((mchProductName == null) ? 0 : mchProductName.hashCode());
+		result = prime * result + ((mchRemark == null) ? 0 : mchRemark.hashCode());
+		result = prime * result + ((mchReturnProfitIntegral == null) ? 0 : mchReturnProfitIntegral.hashCode());
+		result = prime * result + ((mchSettingStatus == null) ? 0 : mchSettingStatus.hashCode());
+		result = prime * result + ((mchStatus == null) ? 0 : mchStatus.hashCode());
+		result = prime * result + ((mchTotalIntegral == null) ? 0 : mchTotalIntegral.hashCode());
+		result = prime * result + ((mchType == null) ? 0 : mchType.hashCode());
+		result = prime * result + ((mchUpdatedBy == null) ? 0 : mchUpdatedBy.hashCode());
+		result = prime * result + ((mchUpdatedDate == null) ? 0 : mchUpdatedDate.hashCode());
+		result = prime * result + ((memId == null) ? 0 : memId.hashCode());
+		result = prime * result + ((orderId == null) ? 0 : orderId.hashCode());
+		result = prime * result + ((pId == null) ? 0 : pId.hashCode());
+		return result;
+	}
+
+
 	public String getMchType() {
 		return mchType;
 	}

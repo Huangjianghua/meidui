@@ -21,8 +21,8 @@ public class CodeRuleUtil {
 	
 	/**
 	 * 保证金分润  生成区代流水编号
-	 * @param agentCode 代理编号
-	 * @return
+	 * @param  agentCode 代理编号
+	 * @return String
 	 */
 	public static String getAreaAgentFlowCode(String agentCode){
 		return CodeRuleUtil.flowCode("QL", agentCode, 2);
@@ -30,8 +30,8 @@ public class CodeRuleUtil {
 	
 	/**
 	 * 保证金分润  生成个代流水编号
-	 * @param agentCode
-	 * @return
+	 * @param  agentCode 代理编号
+	 * @return String
 	 */
 	public static String getPersonalAgentFlowCode(String agentCode) {
 		return CodeRuleUtil.flowCode("GL", agentCode, 2);
@@ -39,8 +39,8 @@ public class CodeRuleUtil {
 	
 	/**
 	 * 保证金分润  生成商家流水编号
-	 * @param code
-	 * @return
+	 * @param  code 代理编号
+	 * @return String
 	 */
 	public static String getSLFlowCode(String code){
 		return CodeRuleUtil.flowCode("SL", code, 2);
@@ -48,8 +48,9 @@ public class CodeRuleUtil {
 	
 	/**
 	 * 生成区代流水编号
-	 * @param agentCode 代理编号
-	 * @return
+	 * @param  agentCode 代理编号
+	 * @param  count 流水总数
+	 * @return String
 	 */
 	public static String getQLWaterId(String agentCode, String count){
 		return CodeRuleUtil.createDrawCode("QL", agentCode, count);
@@ -57,8 +58,9 @@ public class CodeRuleUtil {
 	
 	/**
 	 * 生成个代流水编号
-	 * @param agentCode
-	 * @return
+	 * @param  agentCode 代理编号
+	 * @param  count 流水总数
+	 * @return String
 	 */
 	public static String getGLWaterId(String agentCode, String count) {
 		return CodeRuleUtil.createDrawCode("GL", agentCode, count);
@@ -66,8 +68,9 @@ public class CodeRuleUtil {
 	
 	/**
 	 * 生成商家流水编号
-	 * @param code
-	 * @return
+	 * @param  code 代理编号
+	 * @param  count 流水总数
+	 * @return String
 	 */
 	public static String getSLWaterId(String code, String count){
 		return CodeRuleUtil.createDrawCode("SL", code, count);
@@ -75,8 +78,9 @@ public class CodeRuleUtil {
 	
 	/**
 	 * 生成区代提现编号
-	 * @param code
-	 * @return
+	 * @param  code 代理编号
+	 * @param  count 流水总数
+	 * @return String
 	 */
 	public static String getQZDrawCode(String code, String count){
 		return CodeRuleUtil.createDrawCode("QT", code, count);
@@ -84,8 +88,9 @@ public class CodeRuleUtil {
 	
 	/**
 	 * 生成个代提现编号
-	 * @param code
-	 * @return
+	 * @param  code 代理编号
+	 * @param  count 流水总数
+	 * @return String
 	 */
 	public static String getGZDrawCode(String code, String count){
 		return CodeRuleUtil.createDrawCode("GT", code, count);
@@ -93,8 +98,9 @@ public class CodeRuleUtil {
 	
 	/**
 	 * 生成商家提现编号
-	 * @param code
-	 * @return
+	 * @param  code 代理编号
+	 * @param  count 流水总数
+	 * @return String
 	 */
 	public static String getSTDrawCode(String code, String count){
 		return CodeRuleUtil.createDrawCode("ST", code, count);
@@ -102,15 +108,23 @@ public class CodeRuleUtil {
 	
 	/**
 	 * 获取流水编号
-	 * @param prefix 商家-SL，个代-GL，区代-QL
-	 * @param code 商家编码、个代编码、区代编码
-	 * @return
+	 * @param  prefix 商家-SL，个代-GL，区代-QL
+	 * @param  code 商家编码、个代编码、区代编码
+	 * @param  length 随机数长度
+	 * @return String
 	 */
 	private static String flowCode(String prefix,String code,int length){
 		SimpleDateFormat fmt = new SimpleDateFormat(DAY_PATTERN);
 		return prefix + code + fmt.format(new Date()) + getRandomNumber(length);
 	}
 	
+	/**
+	 * 生成提现编号
+	 * @param  prefix 前缀
+	 * @param  code 代理编号
+	 * @param  count 提现次数
+	 * @return String
+	 */
 	private static String createDrawCode(String prefix,String code,String count){
 		SimpleDateFormat fmt = new SimpleDateFormat(DAY_PATTERN);
 		String random = count;
@@ -122,8 +136,8 @@ public class CodeRuleUtil {
 	
 	/**
 	 * 获得0-9,a-z,A-Z范围的随机数
-	 * @param length 随机数长度
-	 * @return
+	 * @param  length 随机数长度
+	 * @return String
 	 */
 	public static String getRandomChar(int length) {
 		char[] chr = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a',
@@ -146,8 +160,8 @@ public class CodeRuleUtil {
 
 	/**
 	 * 获得0-9的随机数
-	 * @param length 随机数长度
-	 * @return
+	 * @param  length 随机数长度
+	 * @return String
 	 */
 	public static String getRandomNumber(int length) {
 		Random random = new Random();
@@ -160,9 +174,9 @@ public class CodeRuleUtil {
 	
 	/**
 	 * 账单编号生成规则
-	 * @param type 角色类型
-	 * @param code 角色编号
-	 * @return
+	 * @param  type 角色类型
+	 * @param  code 角色编号
+	 * @return String
 	 */
 	public static String getBillid(int type, String code) {
 		
@@ -187,9 +201,9 @@ public class CodeRuleUtil {
 	
 	/**
 	 * 获取账单流水汇总表编号，特殊处理
-	 * @param type 角色类型
-	 * @param code 角色编号
-	 * @return
+	 * @param  type 角色类型
+	 * @param  code 角色编号
+	 * @return String
 	 */
 	public static String getBillFlowCode(int type, String code) {
 		
@@ -214,8 +228,8 @@ public class CodeRuleUtil {
 	
 	/**
 	 * 由于账户表和账单流水表类型不对应，为了代码简洁，做特殊处理
-	 * @param type 原始类型编号
-	 * @return
+	 * @param  type 原始类型编号
+	 * @return String
 	 */
 	public static int getAccountRoleType(int type) {
 		int newtype = 0;

@@ -1,6 +1,5 @@
 package com.meiduimall.service.settlement.task;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,8 +10,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.github.pagehelper.StringUtil;
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.redis.util.RedisUtils;
@@ -49,25 +47,8 @@ public class ShareProfitRetryTask {
 		try {
 			//从ecm_mzf_log_shareprofit_order表中查询需要重新分润的订单
 			Map<String,String> map = getOrders2Retry();
-			
-			if(!map.isEmpty()){
-				for(Map.Entry<String, String> entry : map.entrySet()){
-					String orderSn = entry.getKey();
-					String shareProfitJsonObj = RedisUtils.get(ShareProfitConstants.REDIS_KEY_PREFIX_ORDER + orderSn);
-					if(!StringUtil.isEmpty(shareProfitJsonObj)){ 
-						EcmMzfShareProfit shareProfit = JsonUtils.jsonToBean(shareProfitJsonObj, EcmMzfShareProfit.class);	
-						
-						String retryType = "";
-						if (ShareProfitConstants.SHARE_PROFIT_RETRY_TYPE_FINAL_ROUND.equals(entry.getValue())) {
-							retryType = ShareProfitConstants.SHARE_PROFIT_RETRY_TYPE_FINAL_ROUND;
-						}
-						
-						if (shareProfit != null) {
-							asyncTaskService.updateScore2MemberSystem(shareProfit, ShareProfitConstants.SHARE_PROFIT_SOURCE_CACHE, retryType);
-						}
-					}
-				}
-			}		
+			//调用订单送积分方法
+			updateScore2MemberSystem(map);		
 			
 		} catch (ServiceException e) {
 			log.error("订单分润重试送积分失败：{}", e);
@@ -75,15 +56,36 @@ public class ShareProfitRetryTask {
 		
 
 	}
+
+	/**
+	 * 调用订单送积分方法
+	 * @param map
+	 */
+	private void updateScore2MemberSystem(Map<String, String> map) {
+		if(!map.isEmpty()){
+			for(Map.Entry<String, String> entry : map.entrySet()){
+				String shareProfitJsonObj = RedisUtils.get(ShareProfitConstants.REDIS_KEY_PREFIX_ORDER + entry.getKey());
+				EcmMzfShareProfit shareProfit = JsonUtils.jsonToBean(shareProfitJsonObj, EcmMzfShareProfit.class);	
+				
+				String retryType = "";
+				if (ShareProfitConstants.SHARE_PROFIT_RETRY_TYPE_FINAL_ROUND.equals(entry.getValue())) {
+					retryType = ShareProfitConstants.SHARE_PROFIT_RETRY_TYPE_FINAL_ROUND;
+				}
+				
+				asyncTaskService.updateScore2MemberSystem(shareProfit, ShareProfitConstants.SHARE_PROFIT_SOURCE_CACHE, retryType);
+			}
+		}
+	}
 	
 	private Map<String, String> getOrders2Retry()  {
-		Integer currentTimestampSec = DateUtil.getCurrentTimeSec();
-		log.info("current timestamp sec:{},Date:{}",currentTimestampSec,DateUtil.getCurrentTime());
-		List<ShareProfitOrderLog> shareProfit5MinOrder2Retry = baseMapper.selectList(ImmutableMap.of("currentTimestamp",currentTimestampSec), "ShareProfitOrderLogMapper.get5MinOrders2Retry");
-		List<ShareProfitOrderLog> shareProfit30MinOrder2Retry = baseMapper.selectList(ImmutableMap.of("currentTimestamp",currentTimestampSec), "ShareProfitOrderLogMapper.get30MinOrders2Retry");
-		List<ShareProfitOrderLog> shareProfit12HOrder2Retry = baseMapper.selectList(ImmutableMap.of("currentTimestamp",currentTimestampSec), "ShareProfitOrderLogMapper.get12HOrders2Retry");
+		int currentTimestamp = DateUtil.getCurrentTimeSec();
+		log.info("current timestamp sec:{},Date:{}",currentTimestamp,DateUtil.getCurrentTime());
 		
-		final Map<String, String> retryOrders = new HashMap<>();
+		List<ShareProfitOrderLog> shareProfit5MinOrder2Retry = baseMapper.selectList(currentTimestamp, "ShareProfitOrderLogMapper.get5MinOrders2Retry");
+		List<ShareProfitOrderLog> shareProfit30MinOrder2Retry = baseMapper.selectList(currentTimestamp, "ShareProfitOrderLogMapper.get30MinOrders2Retry");
+		List<ShareProfitOrderLog> shareProfit12HOrder2Retry = baseMapper.selectList(currentTimestamp, "ShareProfitOrderLogMapper.get12HOrders2Retry");
+		
+		final Map<String, String> retryOrders = Maps.newHashMap();
 		//注意retryOrders存放orderSn数据要安装这样的顺序:12H->30Min->5Min,因为要过滤掉已经重试过但失败的orderSn。
 		if (shareProfit12HOrder2Retry != null && !shareProfit12HOrder2Retry.isEmpty()) {
 			for (ShareProfitOrderLog orderLog : shareProfit12HOrder2Retry) {

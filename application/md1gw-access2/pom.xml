@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	
 	<parent>
 		<groupId>com.meiduimall</groupId>
 		<artifactId>application</artifactId>
-		<version>1.0.0</version>
+		<version>1.0.1-SNAPSHOT</version>
 	</parent>
 	
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.meiduimall</groupId>
+	<groupId>com.meiduimall.application</groupId>
 	<artifactId>md1gw-access2</artifactId>
-	<!--<version>1.0.0</version>-->
+	<version>1.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>md1gw-access2</name>
 	<description>md1gw-access2</description>
@@ -26,7 +25,7 @@
 
 
 	<properties>
-		<sonar.projectKey>${artifactId}</sonar.projectKey>
+		<sonar.projectKey>${project.artifactId}</sonar.projectKey>
 	</properties>
 
 	<dependencies>
@@ -34,12 +33,10 @@
 		<dependency>
             <groupId>com.meiduimall</groupId>
             <artifactId>meiduimall-support-security</artifactId>
-            <version>${meiduimall-support-security.version}</version>
         </dependency>
         <dependency>
             <groupId>com.meiduimall</groupId>
             <artifactId>meiduimall-support-core</artifactId>
-            <version>${meiduimall-support-core.version}</version>
         </dependency>
 	
 	    <!-- meiduimall-common-->
@@ -148,4 +145,18 @@
 			</plugin>
 		</plugins>
 	</build>
+
+
+	<distributionManagement>
+		<repository>
+			<id>nexus</id>
+			<name>Nexus Releases</name>
+			<url>http://maven.meiduimall.com/repository/maven-releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>nexus</id>
+			<name>Nexus Snapshot</name>
+			<url>http://maven.meiduimall.com/repository/maven-snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
 </project>

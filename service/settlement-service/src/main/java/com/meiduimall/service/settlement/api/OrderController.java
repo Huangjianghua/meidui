@@ -3,7 +3,6 @@ package com.meiduimall.service.settlement.api;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,11 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ServiceException;
@@ -53,9 +50,8 @@ public class OrderController {
 	 * 功能描述:  订单分润接口
 	 * Author: 许彦 雄
 	 * Date:   2017年3月14日 下午3:38:26   
-	 * param ecmOrder
-	 * return  ResBodyData
-	 * 
+	 * @param  ecmOrder 订单信息
+	 * @return ResBodyData
 	 */
 	@PostMapping("/shareprofit")
 	public ResBodyData shareProfit(@Validated EcmOrder ecmOrder){
@@ -97,9 +93,8 @@ public class OrderController {
 	 * 功能描述:  根据订单号列表查询订单状态接口
 	 * Author: 许彦 雄
 	 * Date:   2017年3月14日 下午3:38:26   
-	 * param orderSns
-	 * return  ResBodyData
-	 * 
+	 * @param  orderSns 订单号
+	 * @return ResBodyData
 	 */
 	@PostMapping(value="/queryorderstatus")
 	public ResBodyData queryOrderStatus(String[] orderSns) {
@@ -113,13 +108,13 @@ public class OrderController {
 		
 	}
 	
+	
 	/**
-	 * 功能描述:同步订单审核状态接口(bill_status状态改为1, status_desc改为待结算)
-	 * Author: 吴军
-	 * Date:   2017年3月14日 下午3:38:26   
-	 * param input
-	 * return ResBodyData
-	 * 
+	 * 功能描述:  同步订单审核状态接口(bill_status状态改为1, status_desc改为待结算)
+	 * Author: 许彦 雄
+	 * Date:   2017年3月14日 下午3:38:26
+	 * @param  orderStatus 订单相关状态
+	 * @return ResBodyData
 	 */
 	@PostMapping(value="/syncverifystatus")
 	public ResBodyData syncVerifyStatus(@Validated EcmMzfOrderStatus orderStatus) {
@@ -127,7 +122,7 @@ public class OrderController {
 		
 		int statusCode=ShareProfitConstants.RESPONSE_STATUS_CODE_SUCCESS;
 
-		Boolean isSuccess=true;
+		boolean isSuccess=true;
 		String msg="同步订单审核状态数据到结算系统成功!";
 		try {
 			isSuccess = orderService.syncVerifyStatus(orderStatus);
@@ -151,9 +146,8 @@ public class OrderController {
 	 * 功能描述:  根据订单号列表查询订单分润接口
 	 * Author: 许彦 雄
 	 * Date:   2017年3月14日 下午3:38:26   
-	 * param orderSns
-	 * return  ResBodyData
-	 * 
+	 * @param  orderSns 订单号
+	 * @return ResBodyData
 	 */
 	@PostMapping("/queryshareprofit")
 	public ResBodyData queryShareProfit(String[] orderSns) {
@@ -170,10 +164,9 @@ public class OrderController {
 	 * 功能描述:  根据区代/个代查询今日订单佣金和待结算金额接口
 	 * Author: 许彦 雄
 	 * Date:   2017年3月14日 下午3:38:26 
-	 * param code
-	 * param accountRoleType
-	 * return ResBodyData
-	 * 
+	 * @param  code 代理编号
+	 * @param  accountRoleType 账号类型
+	 * @return ResBodyData
 	 */
 	@PostMapping("/queryprofitbyrole")
 	public ResBodyData queryProfitByRole(String code,Integer accountRoleType) {
@@ -181,41 +174,15 @@ public class OrderController {
 		return SettlementUtil.success(shareProfitVO);
 	}
 	
-	/**
-	 * 功能描述:  根据流水编号查询分润数据接口 (已经合并到查询账单流水详情接口WaterController.querywaterbyid())
-	 * Author: 许彦 雄
-	 * param waterId
-	 * param loginType
-	 * param code
-	 * param pageNumber
-	 * param pageSize
-	 * return ResBodyData
-	 * 
-	 */
-	@PostMapping("/queryprofitbywaterbytype")
-	public ResBodyData queryProfitByWaterByType(String waterId, Integer loginType, String code,
-			@RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber,
-			@RequestParam(value = "pageSize", defaultValue = "20") int pageSize) {
-		
-		Integer count = orderService.queryProfitCountByWaterId(waterId);
-		List<EcmMzfShareProfit> shareProfitList = orderService.queryProfitByWaterByType(waterId, loginType, code, pageNumber, pageSize);
-		
-		Map<String, Object> map = Maps.newHashMap();
-		map.put("shareProfitList", shareProfitList);
-		map.put("total", count);
-		
-		return SettlementUtil.success(map);
-	}
 	
 	/**
 	 * 功能描述:  根据代理或商家编号查询汇总分润数据接口
 	 * Author: 许彦 雄
 	 * Date:   2017年3月28日 下午14:41:02
-	 * param codes
-	 * param billStartDate
-	 * param billEndDate
-	 * return  ResBodyData
-	 * 
+	 * @param  codes 代理编号
+	 * @param  billStartDate 账单开始时间
+	 * @param  billEndDate 账单结束时间
+	 * @return ResBodyData
 	 */
 	@PostMapping("/querytotalprofit")
 	public ResBodyData queryTotalProfit(String[] codes,Integer billStartDate,Integer billEndDate) {

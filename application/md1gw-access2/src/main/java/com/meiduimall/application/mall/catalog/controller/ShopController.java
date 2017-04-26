@@ -33,7 +33,7 @@ public class ShopController {
 	 * 
 	 * @param shopId
 	 *            店铺ID
-	 * @return
+	 * @return 店铺详情
 	 */
 	@RequestMapping(value = "/getShopDetail")
 	public ResBodyData getShopDetail(String shopId) {
@@ -56,7 +56,7 @@ public class ShopController {
 	 *            店铺ID
 	 * @param isCollect
 	 *            收藏1，取消收藏0
-	 * @return
+	 * @return 收藏/取消收藏结果
 	 */
 	@HasToken
 	@RequestMapping(value = "/collectShop")
@@ -80,7 +80,7 @@ public class ShopController {
 	 * 
 	 * @param shopId
 	 *            店铺ID
-	 * @return
+	 * @return 商品分类列表
 	 */
 	@RequestMapping(value = "/getShopCatalog")
 	public ResBodyData getShopProductCatalog(String shopId) {
@@ -99,7 +99,8 @@ public class ShopController {
 	 * 获取店铺的商品列表
 	 * 
 	 * @param param
-	 * @return
+	 *            请求参数封装ShopProductRequest对象
+	 * @return 商品列表
 	 */
 	@RequestMapping(value = "/getProductList")
 	public ResBodyData getShopProductList(@Validated ShopProductRequest param) {

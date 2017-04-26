@@ -5,6 +5,14 @@ import com.google.common.base.CharMatcher;
 public class ExceptionUtils {
 
 
+	
+  /**
+   * 功能描述:  将异常栈转成json
+   * Author: 陈建宇
+   * Date:   2017年4月25日 上午10:28:04 
+   * param   @param throwable
+   * return  String
+   */
   public static String getFullStackTrace(Throwable throwable) {
     StackTraceElement[] stackElements = throwable.getStackTrace();
     StringBuilder sb = new StringBuilder("[");

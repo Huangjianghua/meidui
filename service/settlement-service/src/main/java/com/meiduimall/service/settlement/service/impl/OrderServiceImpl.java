@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,10 +91,10 @@ public class OrderServiceImpl implements OrderService {
 			log.error("商家收益比例为空!略过该条数据");
 			throw new ServiceException(SettlementApiCode.SERVICE_RATE_ISNULL, BaseApiCode.getZhMsg(SettlementApiCode.SERVICE_RATE_ISNULL));
 		}
-		log.info("个代编号:" + ecmOrder.getAgentNoPersonal());
-		log.info("订单编号:" + ecmOrder.getOrderSn());
-		log.info("商家编号:" + ecmOrder.getSellerName());
-		log.info("平台服务费:" + serviceRate);
+		log.info("个代编号:{}", ecmOrder.getAgentNoPersonal());
+		log.info("订单编号:{}", ecmOrder.getOrderSn());
+		log.info("商家编号:{}", ecmOrder.getSellerName());
+		log.info("平台服务费:{}", serviceRate);
 		BigDecimal discount = new BigDecimal(100).subtract(serviceRate);
 		if (null == ecmOrder.getOrderAmount() || ecmOrder.getOrderAmount().compareTo(new BigDecimal(0)) <= 0) {
 			log.error("支付金额为空或为0!略过该条数据");
@@ -103,7 +104,7 @@ public class OrderServiceImpl implements OrderService {
 			log.info("该订单区代为空!");
 			throw new ServiceException(SettlementApiCode.AGENT_NO_REGION_ISNULL, BaseApiCode.getZhMsg(SettlementApiCode.AGENT_NO_REGION_ISNULL));
 		}
-		log.info("订单支付金额:" + ecmOrder.getOrderAmount());
+		log.info("订单支付金额:{}", ecmOrder.getOrderAmount());
 		
 		// 获取推荐人信息		
 		String resultStr = ConnectionUrlUtil.httpRequest(getBelongInfoUrl(ecmOrder.getBuyerName()), ShareProfitUtil.REQUEST_METHOD_POST, null);
@@ -120,9 +121,9 @@ public class OrderServiceImpl implements OrderService {
 //				List<Map<String, String>> map = resultJson.getRESULT();
 //				belongMap = ShareProfitUtil.getlvlAndPhone(map);
 				
-				log.info("推荐人信息:" + resultJson.getData());
+				log.info("推荐人信息:{}", resultJson.getData());
 			} else {
-				log.error("errcode:" + resultJson.getStatus() + ";errmsg:" + resultJson.getMsg());
+				log.error("errcode:{};errmsg:{}", resultJson.getStatus(), resultJson.getMsg());
 			}
 		}
 		
@@ -133,7 +134,7 @@ public class OrderServiceImpl implements OrderService {
 		
 		//商家收益 = 订单支付金额 -平台分账(即服务费) 
 		BigDecimal merchantRevenue = ecmOrder.getOrderAmount().subtract(platformRevenue);
-		log.info("商家收益 = 订单支付金额 -平台分账(即服务费):"+merchantRevenue);
+		log.info("商家收益 = 订单支付金额 -平台分账(即服务费):{}", merchantRevenue);
 		
 		//一级推荐人获得金额:参与让利金额 * 1%
 		BigDecimal firstReferrerCash=ecmOrder.getRebateAmount().multiply(new BigDecimal(systemSetting.get(ShareProfitUtil.FIRST_REFERRER_CASH_RATE)).divide(new BigDecimal(100)));
@@ -151,7 +152,7 @@ public class OrderServiceImpl implements OrderService {
 		// 个代分账 = 消费者返积分 * 个代分账比例
 		BigDecimal personAgentRevenue = null;
 		// 是否是前200区代
-		Boolean isTwoHundreAgentFlag = Boolean.FALSE;
+		boolean isTwoHundreAgentFlag = false;
 		
 		String personalAgentNo=ecmOrder.getAgentNoPersonal();
 		String personalAgentType= ShareProfitUtil.getPersonalAgentType(personalAgentNo);
@@ -167,12 +168,10 @@ public class OrderServiceImpl implements OrderService {
 		ctx.setSystemSetting(systemSetting);
 		ctx.setPersonalAgentType(personalAgentType);
 		
-		if(log.isInfoEnabled()){
-			log.info("个代类型:"+personalAgentType);
-			log.info("商家收益:$" + merchantRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
-			log.info("平台收益:$" + platformRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
-			log.info("用户返还积分:" + memberRevenue.setScale(0, BigDecimal.ROUND_DOWN));
-		}
+		log.info("个代类型:{}", personalAgentType);
+		log.info("商家收益:${}", merchantRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
+		log.info("平台收益:${}", platformRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
+		log.info("用户返还积分:{}", memberRevenue.setScale(0, BigDecimal.ROUND_DOWN));
 		
 		if(ShareProfitUtil.PERSONAL_AGENT_TYPE_DIRECT_SALE.equalsIgnoreCase(personalAgentType)){
 			personAgentRevenue = BigDecimal.ZERO;
@@ -185,11 +184,9 @@ public class OrderServiceImpl implements OrderService {
 			//大区个代：此个代无区域性，此个代推广的商家均为本区商家，无论商家的地址在哪儿
 			crossAreaAgentRevenue = BigDecimal.ZERO;
 			
-			if(log.isInfoEnabled()){
-				log.info("--大区个代信息--");
-				log.info("大区个代分账比例:" + systemSetting.get(ShareProfitUtil.PERSONAL_SCALE_FOR_BIG_REGION) +"大区个代收益:$" + personAgentRevenue);
-				log.info("大区个代商家区代分账比例:" + systemSetting.get(ShareProfitUtil.AREA_SCALE) +"大区个代商家区代收益:$" + areaAgentRevenue);
-			}
+			log.info("--大区个代信息--");
+			log.info("大区个代分账比例:{},大区个代收益:${}", systemSetting.get(ShareProfitUtil.PERSONAL_SCALE_FOR_BIG_REGION), personAgentRevenue);
+			log.info("大区个代商家区代分账比例:{},大区个代商家区代收益:${}", systemSetting.get(ShareProfitUtil.AREA_SCALE), areaAgentRevenue);
 			
 		}else{
 			// 商家跨区
@@ -199,13 +196,11 @@ public class OrderServiceImpl implements OrderService {
 				personAgentRevenue = memberRevenue.multiply(new BigDecimal(systemSetting.get(ShareProfitUtil.CROSS_PERSONAL_SCALE)).divide(new BigDecimal(100)));
 				crossAreaAgentRevenue = memberRevenue.multiply(new BigDecimal(systemSetting.get(ShareProfitUtil.CROSS_AREA_SCALE)).divide(new BigDecimal(100)));
 			
-				if(log.isInfoEnabled()){
-					log.info("--普通个代信息--");
-					log.info("跨区个代分账比例:" + systemSetting.get(ShareProfitUtil.CROSS_PERSONAL_SCALE) + "%;个代收益:$" + personAgentRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
-					log.info("区代分账比例:" + systemSetting.get(ShareProfitUtil.AREA_SCALE) + "%;区代收益:$" + areaAgentRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
-					if (crossAreaAgentRevenue!=null) {
-						log.info("跨区区代分账比例:" + systemSetting.get(ShareProfitUtil.CROSS_AREA_SCALE) + "%;跨区区代收益:$" + crossAreaAgentRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
-					}
+				log.info("--普通个代信息--");
+				log.info("跨区个代分账比例:{}%;个代收益:${}", systemSetting.get(ShareProfitUtil.CROSS_PERSONAL_SCALE), personAgentRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
+				log.info("区代分账比例是:{}%;区代收益是:${}", systemSetting.get(ShareProfitUtil.AREA_SCALE), areaAgentRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
+				if (crossAreaAgentRevenue!=null) {
+					log.info("跨区区代分账比例:{}%;跨区区代收益:${}", systemSetting.get(ShareProfitUtil.CROSS_AREA_SCALE), crossAreaAgentRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
 				}
 			
 			} else {
@@ -217,7 +212,7 @@ public class OrderServiceImpl implements OrderService {
 					log.info("前二百区代标识为空!略过该条数据");
 					throw new ServiceException(SettlementApiCode.IS_TWO_HUNDRED_AGENT_ISNULL, BaseApiCode.getZhMsg(SettlementApiCode.IS_TWO_HUNDRED_AGENT_ISNULL));
 				}else{
-					log.info("前二百区代:"+isTwoHundredAgent.toString());
+					log.info("前二百区代:{}", isTwoHundredAgent.toString());
 				}
 				// 判断区代是否为前200区代
 				if (isTwoHundredAgent.equals(Integer.valueOf(1))) {
@@ -228,15 +223,13 @@ public class OrderServiceImpl implements OrderService {
 					isTwoHundreAgentFlag = false;
 				}
 				
-				if(log.isInfoEnabled()){
-					log.info("--普通个代信息--");
-					log.info("个代分账比例:" + systemSetting.get(ShareProfitUtil.PERSONAL_SCALE) + "%;个代收益:$" + personAgentRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
-					log.info("isTwoHundreAgentFlag:{}",isTwoHundreAgentFlag);
-					if(isTwoHundreAgentFlag){
-						log.info("区代分账比例:" + systemSetting.get(ShareProfitUtil.TWO_AREA_SCALE) + "%;区代收益:$" + areaAgentRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
-					}else{
-						log.info("区代分账比例:" + systemSetting.get(ShareProfitUtil.AREA_SCALE) + "%;区代收益:$" + areaAgentRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
-					}
+				log.info("--普通个代信息--");
+				log.info("个代分账比例:{}%;个代收益:${}", systemSetting.get(ShareProfitUtil.PERSONAL_SCALE), personAgentRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
+				log.info("isTwoHundreAgentFlag:{}",isTwoHundreAgentFlag);
+				if(isTwoHundreAgentFlag){
+					log.info("区代分账比例:{}%;区代收益:${}", systemSetting.get(ShareProfitUtil.TWO_AREA_SCALE), areaAgentRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
+				}else{
+					log.info("区代分账比例:{}%;区代收益:${}", systemSetting.get(ShareProfitUtil.AREA_SCALE),areaAgentRevenue.setScale(2, BigDecimal.ROUND_HALF_UP));
 				}
 	
 			}
@@ -278,7 +271,7 @@ public class OrderServiceImpl implements OrderService {
 		BigDecimal firstReferrerCash = ctx.getFirstReferrerCash();
 
 		BigDecimal discount = ctx.getDiscount();
-		Boolean isTwoHundreAgentFlag = ctx.getIsTwoHundreAgentFlag();
+		boolean isTwoHundreAgentFlag = ctx.getIsTwoHundreAgentFlag();
 		Map<String, String> systemSetting = ctx.getSystemSetting();
 		Map<String, String> belongMap = ctx.getBelongMap();
 		String personalAgentType = ctx.getPersonalAgentType();
@@ -317,7 +310,7 @@ public class OrderServiceImpl implements OrderService {
 		ecmMzfShareProfit.setOrderFee(ecmOrder.getTotalFee());
 		ecmMzfShareProfit.setPoint(memberRevenue.setScale(0, BigDecimal.ROUND_DOWN));
 		ecmMzfShareProfit.setSellerShareprofitRate(discount);
-		ecmMzfShareProfit.setAreaShareprofitRate((isTwoHundreAgentFlag != null && isTwoHundreAgentFlag) ? new BigDecimal(systemSetting.get(ShareProfitUtil.TWO_AREA_SCALE)) : new BigDecimal(systemSetting.get(ShareProfitUtil.AREA_SCALE)));
+		ecmMzfShareProfit.setAreaShareprofitRate(isTwoHundreAgentFlag ? new BigDecimal(systemSetting.get(ShareProfitUtil.TWO_AREA_SCALE)) : new BigDecimal(systemSetting.get(ShareProfitUtil.AREA_SCALE)));
 		ecmMzfShareProfit.setSellerPointRate(new BigDecimal(systemSetting.get(ShareProfitUtil.SELLER_POINT_RATE)));
 		if (null != belongMap && belongMap.size() > 0) {
 			if(!Strings.isNullOrEmpty(belongMap.get("1"))){  //Alex:fix the bug:belongMap={1=} @2016 Dec 13
@@ -381,11 +374,11 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
-	public Boolean syncVerifyStatus(EcmMzfOrderStatus input)  {
+	public boolean syncVerifyStatus(EcmMzfOrderStatus input)  {
 		input.setBillStatus(1);
 		input.setStatusDesc("待结算");
 		Integer update = baseMapper.update(input, "EcmMzfOrderStatusMapper.syncverifystatus");
-		log.info("OrderServiceImpl-->syncverifystatus-->EcmMzfOrderStatusMapper.syncverifystatus-->同步订单审核状态:"+update+"条记录");
+		log.info("OrderServiceImpl-->syncverifystatus-->EcmMzfOrderStatusMapper.syncverifystatus-->同步订单审核状态:{}条记录", update);
 		return update>0?true:false;
 	}
 
@@ -455,23 +448,23 @@ public class OrderServiceImpl implements OrderService {
 		
 		PageHelper.startPage(pageNumber, pageSize);
 		
-		List<EcmMzfShareProfit> shareProfitList=baseMapper.selectList(waterId, "EcmMzfWaterMapper.getShareProfitByWaterId");
+		List<EcmMzfShareProfit> shareProfitList = baseMapper.selectList(waterId, "EcmMzfWaterMapper.getShareProfitByWaterId");
 		//loginType:1代理 2商家 3 其他
 		
-		if(shareProfitList!=null && !shareProfitList.isEmpty()){
-			for(EcmMzfShareProfit shareProfit:shareProfitList){
-				
-				if(loginType!=null && loginType==1){
-					if(!StringUtil.isEmpty(code) && code.length()==6){  //个代
-						shareProfit.setProfit(shareProfit.getPersonAgentProfit());
-						
-					}else{  //区代
-						shareProfit.setProfit(shareProfit.getAreaAgentProfit().add(shareProfit.getOutareaAgentProfit()));
-					}
+		if(CollectionUtils.isEmpty(shareProfitList)){
+			return shareProfitList; 
+		}
+		
+		for(EcmMzfShareProfit shareProfit:shareProfitList){
+			
+			if(loginType!=null && loginType==1){
+				if(!StringUtil.isEmpty(code) && code.length()==6){  //个代
+					shareProfit.setProfit(shareProfit.getPersonAgentProfit());
+				}else{  //区代
+					shareProfit.setProfit(shareProfit.getAreaAgentProfit().add(shareProfit.getOutareaAgentProfit()));
 				}
 			}
 		}
-		
 		return shareProfitList;
 	}
 

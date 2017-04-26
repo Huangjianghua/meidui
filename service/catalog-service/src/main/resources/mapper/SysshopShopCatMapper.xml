@@ -79,21 +79,6 @@
     disabled
   </sql>
   
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.meiduimall.service.catalog.entity.SysshopShopCatExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    * 
-    from sysshop_shop_cat
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     * 
@@ -101,16 +86,16 @@
     where cat_id = #{catId,jdbcType=INTEGER}
   </select>
   
+  <select id="selectByShopId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  	select 
+    * 
+    from sysshop_shop_cat
+    where shop_id = #{shopId,jdbcType=INTEGER}
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from sysshop_shop_cat
     where cat_id = #{catId,jdbcType=INTEGER}
-  </delete>
-  
-  <delete id="deleteByExample" parameterType="com.meiduimall.service.catalog.entity.SysshopShopCatExample" >
-    delete from sysshop_shop_cat
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
   </delete>
   
   <insert id="insert" parameterType="com.meiduimall.service.catalog.entity.SysshopShopCat" >
@@ -191,69 +176,6 @@
       </if>
     </trim>
   </insert>
-  
-  <select id="countByExample" parameterType="com.meiduimall.service.catalog.entity.SysshopShopCatExample" resultType="java.lang.Integer" >
-    select count(*) from sysshop_shop_cat
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  
-  <update id="updateByExampleSelective" parameterType="map" >
-    update sysshop_shop_cat
-    <set >
-      <if test="record.catId != null" >
-        cat_id = #{record.catId,jdbcType=INTEGER},
-      </if>
-      <if test="record.shopId != null" >
-        shop_id = #{record.shopId,jdbcType=INTEGER},
-      </if>
-      <if test="record.parentId != null" >
-        parent_id = #{record.parentId,jdbcType=INTEGER},
-      </if>
-      <if test="record.catPath != null" >
-        cat_path = #{record.catPath,jdbcType=VARCHAR},
-      </if>
-      <if test="record.level != null" >
-        level = #{record.level,jdbcType=VARCHAR},
-      </if>
-      <if test="record.isLeaf != null" >
-        is_leaf = #{record.isLeaf,jdbcType=INTEGER},
-      </if>
-      <if test="record.catName != null" >
-        cat_name = #{record.catName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.orderSort != null" >
-        order_sort = #{record.orderSort,jdbcType=INTEGER},
-      </if>
-      <if test="record.modifiedTime != null" >
-        modified_time = #{record.modifiedTime,jdbcType=INTEGER},
-      </if>
-      <if test="record.disabled != null" >
-        disabled = #{record.disabled,jdbcType=INTEGER},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  
-  <update id="updateByExample" parameterType="map" >
-    update sysshop_shop_cat
-    set cat_id = #{record.catId,jdbcType=INTEGER},
-      shop_id = #{record.shopId,jdbcType=INTEGER},
-      parent_id = #{record.parentId,jdbcType=INTEGER},
-      cat_path = #{record.catPath,jdbcType=VARCHAR},
-      level = #{record.level,jdbcType=VARCHAR},
-      is_leaf = #{record.isLeaf,jdbcType=INTEGER},
-      cat_name = #{record.catName,jdbcType=VARCHAR},
-      order_sort = #{record.orderSort,jdbcType=INTEGER},
-      modified_time = #{record.modifiedTime,jdbcType=INTEGER},
-      disabled = #{record.disabled,jdbcType=INTEGER}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
   
   <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.service.catalog.entity.SysshopShopCat" >
     update sysshop_shop_cat

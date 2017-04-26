@@ -16,21 +16,20 @@ public interface SettingService {
 	/**
 	 * 功能描述:  更新分润比例配置接口
 	 * Author: 许彦 雄
-	 * Date:   2017年3月14日 下午3:38:26   
-	 * param systemSetting
-	 * return  EcmSystemSetting
-	 * 
+	 * Date:   2017年3月14日 下午3:38:26
+	 * @param  systemSetting 系统设置信息
+	 * @return EcmSystemSetting
 	 */
 	public EcmSystemSetting updatesystemsetting(EcmSystemSetting systemSetting);
 
+	
 	/**
 	 * 功能描述:  查询分润比例配置列表接口
 	 * Author: 许彦 雄
-	 * Date:   2017年3月14日 下午3:38:26   
-	 * param systemSetting
-	 * return  List<EcmSystemSetting>
-	 * 
+	 * Date:   2017年3月14日 下午3:38:26
+	 * @param  systemSetting 系统设置信息
+	 * @return EcmSystemSetting
 	 */
-	public List<EcmSystemSetting> listsystemsetting(EcmSystemSetting input);
+	public List<EcmSystemSetting> listsystemsetting(EcmSystemSetting systemSetting);
 	
 }

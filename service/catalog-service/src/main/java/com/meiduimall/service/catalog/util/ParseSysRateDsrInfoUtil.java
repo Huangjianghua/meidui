@@ -16,15 +16,16 @@ import org.slf4j.LoggerFactory;
 public class ParseSysRateDsrInfoUtil {
 
 	private static Logger logger = LoggerFactory.getLogger(ParseSysRateDsrInfoUtil.class);
-	
-	private ParseSysRateDsrInfoUtil(){}
+
+	private ParseSysRateDsrInfoUtil() {
+	}
 
 	/**
 	 * 反序列化表sysrate_dsr中的序列化数据，并计算店铺评分 {1=0, 2=0, 3=0, 4=1, 5=3}
 	 * 
 	 * @param content
 	 *            评分内容，格式：a:5:{i:1;i:0;i:2;i:0;i:3;i:0;i:4;i:11;i:5;i:118;}
-	 * @return
+	 * @return 分值
 	 */
 	public static float getValue(String content) {
 
@@ -41,7 +42,7 @@ public class ParseSysRateDsrInfoUtil {
 			logger.error("计算店铺评分异常： " + e);
 			return 5.0f;
 		}
-		
+
 		if (array == null || array.isEmpty()) {
 			return 5.0f;
 		}

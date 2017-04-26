@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>meduimall-service-starter</artifactId>
         <groupId>com.meiduimall.starter</groupId>
-        <version>1.0.0</version>
+        <version>1.0.1-SNAPSHOT</version>
         <relativePath>../starter/meduimall-service-starter</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -14,14 +12,14 @@
     <artifactId>service</artifactId>
     <name>mall::service</name>
     <packaging>pom</packaging>
-    <!--<version>1.0.0</version>-->
+    <version>1.0.1-SNAPSHOT</version>
     <modules>
-        <module>route-service</module>
         <module>payment-service</module>
         <module>sms-service</module>
         <module>settlement-service</module>
 		<module>catalog-service</module>
 		<module>financial-service</module>
+	    <module>member-service</module>
     </modules>
 
     <dependencyManagement>
@@ -33,6 +31,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
     <dependencies>
@@ -63,4 +62,18 @@
 
 
     </dependencies>
+
+
+    <distributionManagement>
+        <repository>
+            <id>nexus</id>
+            <name>Nexus Releases</name>
+            <url>http://maven.meiduimall.com/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus</id>
+            <name>Nexus Snapshot</name>
+            <url>http://maven.meiduimall.com/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>

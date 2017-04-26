@@ -50,7 +50,7 @@ public class DESC {
 
 	private static String encrypt(String data, String key) throws Exception {
 		Key deskey = keyGenerator(key);
-		Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
+		Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
 		SecureRandom random = new SecureRandom();
 		cipher.init(Cipher.ENCRYPT_MODE, deskey, random);
 		return Base64.encodeBase64String(cipher.doFinal(data.getBytes()));
@@ -58,7 +58,7 @@ public class DESC {
 
 	private static String decrypt(String data, String key) throws Exception {
 		Key deskey = keyGenerator(key);
-		Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
+		Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
 		cipher.init(Cipher.DECRYPT_MODE, deskey);
 		return new String(cipher.doFinal(Base64.decodeBase64(data)));
 	}

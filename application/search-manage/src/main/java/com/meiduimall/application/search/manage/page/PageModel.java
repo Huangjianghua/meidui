@@ -5,7 +5,7 @@ import java.util.List;
 public class PageModel { 
     private int page = 1; // 当前页 
 
-    public int totalPages = 0; // 总页数 
+    private int totalPages = 0; // 总页数 
 
     private int pageRecorders;// 每页显示数据条数 
 
