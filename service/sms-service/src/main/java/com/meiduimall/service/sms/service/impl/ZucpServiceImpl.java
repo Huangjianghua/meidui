@@ -87,7 +87,7 @@ public class ZucpServiceImpl implements ZucpService {
 	@Override
 	public String send(String mobile, String content, String ext, String stime, String rrid) {
 
-		Map<String, String> headers = new HashMap<String, String>();
+		Map<String, String> headers = new HashMap<>();
 		headers.put("Content-Type", "text/xml;charset=utf-8");
 		headers.put("SOAPAction", "http://tempuri.org/mdSmsSend_u");
 
@@ -95,14 +95,14 @@ public class ZucpServiceImpl implements ZucpService {
 
 			String result = HttpUtils.post(zucpUrl, buildBody(mobile, content, ext, stime, rrid), headers, "UTF-8",
 					"UTF-8");
-			logger.info("Zucp::Result -> %s", result);
+			logger.info("Zucp::Result : " + result);
 
 			String[] array1 = result.split("<mdSmsSend_uResult>");
 			String[] array2 = array1[1].split("</mdSmsSend_uResult>");
 
 			return array2[0];
 		} catch (Exception e) {
-			logger.error("ZucpService error.", e);
+			logger.error("ZucpService error. " + e);
 			throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER, SmsApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
 		}
 

@@ -20,7 +20,9 @@ import redis.clients.jedis.JedisShardInfo;
  * http://blog.csdn.net/zhoujintangjob/article/details/42121451
  */
 public class JedisDBShardInfo extends JedisShardInfo {
-	private static final Logger log = LoggerFactory.getLogger(JedisDBShardInfo.class);
+	
+	private static final Logger logger = LoggerFactory.getLogger(JedisDBShardInfo.class);
+	
 	private int database;
 
 	public JedisDBShardInfo(String host, int database) {
@@ -55,14 +57,14 @@ public class JedisDBShardInfo extends JedisShardInfo {
 
 	@Override
 	public Jedis createResource() {
-		Jedis jedis = new Jedis(this);
 		try {
-			if (this.database != 0 && jedis.ping().equals("PONG")) {
+			Jedis jedis = new Jedis(this);
+			if (this.database != 0 && "PONG".equals(jedis.ping())) {
 				jedis.select(this.database);
 				return jedis;
 			}
 		} catch (Exception e) {
-			log.error("连接异常=>" + getHost() + ":" + getPort() + ":" + getDatabase() + ";error msg:{}", e);
+			logger.error("连接异常=>" + getHost() + ":" + getPort() + ":" + getDatabase() + ";error msg: " + e);
 		}
 		return null;
 	}
