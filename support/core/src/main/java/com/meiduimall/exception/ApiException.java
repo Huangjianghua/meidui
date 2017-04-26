@@ -11,11 +11,15 @@
 package com.meiduimall.exception;
 
 
-
 public class ApiException extends BizException {
 
 
 	private static final long serialVersionUID = -2704857873923117602L;
+	
+	public ApiException(Integer code) {
+		super(code);
+	}
+	
 	
 	public ApiException(Integer code, String msg) {
 		super(code,msg);
@@ -24,5 +28,7 @@ public class ApiException extends BizException {
 	public ApiException(Integer code, String msg, Throwable cause) {
 		super(code, msg,cause);
 	}
+	
+	
 
 }
