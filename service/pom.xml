@@ -20,6 +20,7 @@
         <module>settlement-service</module>
 		<module>catalog-service</module>
 		<module>financial-service</module>
+	    <module>member-service</module>
     </modules>
 
     <dependencyManagement>

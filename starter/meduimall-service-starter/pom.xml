@@ -19,7 +19,6 @@
         <meiduimall-support-redis.version>1.0.0</meiduimall-support-redis.version>
         <meiduimall-support-security.version>1.0.0</meiduimall-support-security.version>
         <redis.version>2.8.1</redis.version>
-        <fastjson.version>1.2.22</fastjson.version>
         <guava.version>21.0</guava.version>
         <httpclient.version>4.5.2</httpclient.version>
         <jackson.version>2.8.3</jackson.version>
