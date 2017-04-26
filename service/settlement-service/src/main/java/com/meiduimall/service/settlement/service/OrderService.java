@@ -30,10 +30,10 @@ public interface OrderService {
 
 	/**
 	 * 功能描述:  根据订单号列表查询订单状态
-	 * Author: 吴军
+	 * Author: 许彦雄
 	 * Date:   2017年3月14日 下午3:38:26   
-	 * param orderSns
-	 * return  List<EcmMzfOrderStatus>
+	 * param   orderSns
+	 * return  EcmMzfOrderStatus
 	 * 
 	 */
 	public List<EcmMzfOrderStatus> queryOrderStatus(List<String> orderSns);
@@ -42,8 +42,7 @@ public interface OrderService {
 	 * 功能描述:  保存分润数据(为了解决 Spring声明式事务 同一类内该方法被saveShareProfit方法调用事务失效,需要抽出为接口)
 	 * Author: 许彦雄
 	 * Date:   2017年3月14日 下午3:38:26   
-	 * param shareProfit
-	 * return 
+	 * param   shareProfit
 	 * 
 	 */
 	public void saveShareProfit(EcmMzfShareProfit shareProfit);
@@ -63,8 +62,8 @@ public interface OrderService {
 	 * 功能描述:  根据订单号列表查询订单分润数据
 	 * Author: 许彦雄
 	 * Date:   2017年3月14日 下午3:38:26   
-	 * param orderSns
-	 * return  List<EcmMzfShareProfit>
+	 * param   orderSns
+	 * return  EcmMzfShareProfit
 	 * 
 	 */
 	public List<EcmMzfShareProfit> queryShareProfit(Collection<String> orderSns);

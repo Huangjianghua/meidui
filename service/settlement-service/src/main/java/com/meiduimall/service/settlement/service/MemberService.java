@@ -31,7 +31,7 @@ public interface MemberService {
 	 * Author: 许彦雄
 	 * Date:   2017年2月20日 下午3:38:26
 	 * param shareProfit
-	 * return  List<String>
+	 * return  String
 	 */
     public List<String> sendScore(EcmMzfShareProfit shareProfit);
 

@@ -50,8 +50,8 @@ public class OrderController {
 	 * 功能描述:  订单分润接口
 	 * Author: 许彦 雄
 	 * Date:   2017年3月14日 下午3:38:26   
-	 * param ecmOrder
-	 * return  ResBodyData
+	 * @param  ecmOrder
+	 * @return ResBodyData
 	 * 
 	 */
 	@PostMapping("/shareprofit")
@@ -94,8 +94,8 @@ public class OrderController {
 	 * 功能描述:  根据订单号列表查询订单状态接口
 	 * Author: 许彦 雄
 	 * Date:   2017年3月14日 下午3:38:26   
-	 * param orderSns
-	 * return  ResBodyData
+	 * @param orderSns
+	 * @return  ResBodyData
 	 * 
 	 */
 	@PostMapping(value="/queryorderstatus")
@@ -111,11 +111,11 @@ public class OrderController {
 	}
 	
 	/**
-	 * 功能描述:同步订单审核状态接口(bill_status状态改为1, status_desc改为待结算)
-	 * Author: 吴军
+	 * 功能描述:  同步订单审核状态接口(bill_status状态改为1, status_desc改为待结算)
+	 * Author: 许彦 雄
 	 * Date:   2017年3月14日 下午3:38:26   
-	 * param input
-	 * return ResBodyData
+	 * @param  input
+	 * @return ResBodyData
 	 * 
 	 */
 	@PostMapping(value="/syncverifystatus")
@@ -148,8 +148,8 @@ public class OrderController {
 	 * 功能描述:  根据订单号列表查询订单分润接口
 	 * Author: 许彦 雄
 	 * Date:   2017年3月14日 下午3:38:26   
-	 * param orderSns
-	 * return  ResBodyData
+	 * @param  orderSns
+	 * @return ResBodyData
 	 * 
 	 */
 	@PostMapping("/queryshareprofit")
@@ -167,9 +167,9 @@ public class OrderController {
 	 * 功能描述:  根据区代/个代查询今日订单佣金和待结算金额接口
 	 * Author: 许彦 雄
 	 * Date:   2017年3月14日 下午3:38:26 
-	 * param code
-	 * param accountRoleType
-	 * return ResBodyData
+	 * @param  code
+	 * @param  accountRoleType
+	 * @return ResBodyData
 	 * 
 	 */
 	@PostMapping("/queryprofitbyrole")
@@ -183,10 +183,10 @@ public class OrderController {
 	 * 功能描述:  根据代理或商家编号查询汇总分润数据接口
 	 * Author: 许彦 雄
 	 * Date:   2017年3月28日 下午14:41:02
-	 * param codes
-	 * param billStartDate
-	 * param billEndDate
-	 * return  ResBodyData
+	 * @param  codes
+	 * @param  billStartDate
+	 * @param  billEndDate
+	 * @return ResBodyData
 	 * 
 	 */
 	@PostMapping("/querytotalprofit")

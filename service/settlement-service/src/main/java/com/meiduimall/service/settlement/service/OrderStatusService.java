@@ -18,7 +18,7 @@ public interface OrderStatusService {
 	 * 功能描述:  更新是否分润成功状态
 	 * Author: 许彦 雄
 	 * Date:   2017年3月14日 下午3:38:26
-	 * param orderSn
+	 * param   orderSn
 	 * return  boolean
 	 * 
 	 */
@@ -27,8 +27,7 @@ public interface OrderStatusService {
 	/**
 	 * 更新订单积分是否成功送出
 	 * @param orderSn
-	 * @return
-	 * @
+	 * @return boolean
 	 */
 	public boolean updateScoreStatus(String orderSn);
 	
@@ -46,7 +45,7 @@ public interface OrderStatusService {
 	 * 功能描述:  更新一级推荐人1%现金余额是否成功送出状态
 	 * Author: 许彦雄
 	 * Date:   2017年3月14日 下午3:38:26
-	 * param orderSn
+	 * param   orderSn
 	 * return  boolean
 	 * 
 	 */
