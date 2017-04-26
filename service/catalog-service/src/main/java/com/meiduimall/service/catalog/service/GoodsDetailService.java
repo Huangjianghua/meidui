@@ -15,7 +15,7 @@ public interface GoodsDetailService {
 	 * 
 	 * @param itemId
 	 *            商品ID
-	 * @return
+	 * @return 查询结果和url
 	 */
 	ResBodyData checkItemIsExistById(int itemId);
 
@@ -26,7 +26,7 @@ public interface GoodsDetailService {
 	 *            会员系统ID
 	 * @param itemId
 	 *            商品ID
-	 * @return
+	 * @return 详情信息
 	 */
 	ResBodyData getItemDetailById(String memId, Integer itemId);
 }

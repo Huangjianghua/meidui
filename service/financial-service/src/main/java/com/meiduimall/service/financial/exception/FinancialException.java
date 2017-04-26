@@ -3,12 +3,9 @@ package com.meiduimall.service.financial.exception;
 import com.meiduimall.exception.ServiceException;
 
 /**
- * @项目名称: 美兑商城-商品微服务
- *
- * @文件名称: CatalogException.java
- * @Date: 2017-04-19
- * @Copyright: 2017-2022 www.meiduimall.com Inc. All rights reserved.
- * @描述: 统一异常处理
+ * 自定义异常
+ * 
+ * @author yangchang
  */
 public class FinancialException extends ServiceException {
 

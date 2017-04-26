@@ -37,7 +37,7 @@ public class DownloadStatisticsController {
 	 * 
 	 * @param portal
 	 *            渠道编号，必须要传
-	 * @return
+	 * @return 操作结果
 	 */
 	@RequestMapping(value = "/insert")
 	public ResBodyData insertPortal(String portal) {
@@ -77,7 +77,7 @@ public class DownloadStatisticsController {
 	 *            开始时间，传递之前需要进行URL编码，格式'2017-03-08 09:30:25' 或者 '2017-03-08'
 	 * @param endDate
 	 *            结束时间，传递之前需要进行URL编码，格式'2017-03-08 09:30:25' 或者 '2017-03-08'
-	 * @return
+	 * @return 统计列表
 	 */
 	@RequestMapping(value = "/query")
 	public ResBodyData queryByDate(String beginDate, String endDate) {

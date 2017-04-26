@@ -12,27 +12,22 @@ import org.phprpc.util.PHPSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.meiduimall.service.catalog.exception.CatalogException;
 import com.meiduimall.service.catalog.util.ParseItemSpecDescBean.PropValueBean;
 
 public class ParseItemSpecDesUtil {
 
 	private static Logger logger = LoggerFactory.getLogger(ParseItemSpecDesUtil.class);
-	
-	private ParseItemSpecDesUtil(){}
+
+	private ParseItemSpecDesUtil() {
+	}
 
 	/**
 	 * 解析：表sysitem_sku，字段spec_desc序列化数据,格式字符串
 	 * 
-		{
-			4={
-					64={spec_value_id=64, spec_value=1号自然棕色, private_spec_value_id=}, 
-					43={spec_value_id=43, spec_value=2号浅棕色, spec_private_value_id=[], private_spec_value_id=}
-			}, 
-			25={
-					245={spec_value_id=245, spec_value=CLIOCLIO珂莱欧, private_spec_value_id=}
-			}
-		}
+	 * { 4={ 64={spec_value_id=64, spec_value=1号自然棕色, private_spec_value_id=},
+	 * 43={spec_value_id=43, spec_value=2号浅棕色, spec_private_value_id=[],
+	 * private_spec_value_id=} }, 25={ 245={spec_value_id=245,
+	 * spec_value=CLIOCLIO珂莱欧, private_spec_value_id=} } }
 	 * 
 	 * @param content
 	 *            数据格式:
@@ -42,8 +37,7 @@ public class ParseItemSpecDesUtil {
 	 *            "spec_private_value_id";a:0:{}}}i:25;a:1:{i:245;a:3:{s:13:"spec_value_id";s:3:"245
 	 *            ";s:10:"spec_value";s:17:"CLIOCLIO珂莱欧";s:21:"private_spec_value_id";s:0:"";}}}
 	 * 
-	 * @return
-	 * @throws CatalogException
+	 * @return 规格列表
 	 */
 	public static List<ParseItemSpecDescBean> parse(String content) {
 		if (content == null || "null".equals(content) || content.trim().length() == 0) {

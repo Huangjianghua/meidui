@@ -23,7 +23,7 @@ public interface GoodsRecommendService {
 	 *            操作IP
 	 * @param recoLevel
 	 *            推荐等级
-	 * @return
+	 * @return 状态信息
 	 */
 	ResBodyData insertBatchItems(int[] itemIds, int type, String optUser, String ip, int recoLevel);
 
@@ -32,18 +32,15 @@ public interface GoodsRecommendService {
 	 * 
 	 * @param type
 	 *            推荐类型
-	 * @param count
-	 *            推荐个数
 	 * @param sourceId
 	 *            客户端编号
-	 * @return
+	 * @return 推荐商品详细信息
 	 */
-	ResBodyData getFirstRecommendItems(int type, int count, int sourceId);
+	ResBodyData getFirstRecommendItems(int type, int sourceId);
 
 	/**
 	 * 获取所有类型，优先推荐的商品
-	 * @param count 推荐个数
-	 * @return
+	 * @return 推荐商品的ID和url
 	 */
-	ResBodyData getFirstRecommendItemsAllType(int count);
+	ResBodyData getFirstRecommendItemsAllType();
 }

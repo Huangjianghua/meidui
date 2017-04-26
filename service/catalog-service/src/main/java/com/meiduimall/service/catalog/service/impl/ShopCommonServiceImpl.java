@@ -1,9 +1,11 @@
-package com.meiduimall.service.catalog.service.common;
+package com.meiduimall.service.catalog.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.meiduimall.core.util.NumberUtils;
 import com.meiduimall.exception.ServiceException;
@@ -13,6 +15,7 @@ import com.meiduimall.service.catalog.entity.IdAndMemId;
 import com.meiduimall.service.catalog.entity.SysrateDsrWithBLOBs;
 import com.meiduimall.service.catalog.entity.SysshopShopWithBLOBs;
 import com.meiduimall.service.catalog.result.JsonItemDetailResultShopData;
+import com.meiduimall.service.catalog.service.ShopCommonService;
 import com.meiduimall.service.catalog.util.ParseSysRateDsrInfoUtil;
 
 /**
@@ -21,20 +24,16 @@ import com.meiduimall.service.catalog.util.ParseSysRateDsrInfoUtil;
  * @author yangchang
  *
  */
-public class ShopCommonService {
+@Service
+public class ShopCommonServiceImpl implements ShopCommonService {
 
-	private static Logger logger = LoggerFactory.getLogger(ShopCommonService.class);
+	private static Logger logger = LoggerFactory.getLogger(ShopCommonServiceImpl.class);
+	
+	@Autowired
+	private BaseDao baseDao;
 
-	/**
-	 * 获取店铺详情
-	 * 
-	 * @param baseDao
-	 * @param shopId
-	 * @param token
-	 * @return
-	 * @throws Exception
-	 */
-	public static JsonItemDetailResultShopData getJsonItemDetailResult_ShopData(BaseDao baseDao, Integer shopId,
+	@Override
+	public JsonItemDetailResultShopData getJsonItemDetailResult_ShopData(Integer shopId,
 			String memId) {
 
 		// 查询店铺信息

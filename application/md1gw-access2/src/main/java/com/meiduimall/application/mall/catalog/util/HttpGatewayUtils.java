@@ -33,10 +33,14 @@ public class HttpGatewayUtils {
 	 * GET请求
 	 * 
 	 * @param url
+	 *            请求地址
 	 * @param clientID
+	 *            接入层的clientID
 	 * @param signKey
+	 *            接入层的签名key
 	 * @param params
-	 * @return
+	 *            请求参数
+	 * @return 请求结果
 	 */
 	public static ResBodyData sendGet(String url, String clientID, String signKey, Map<String, String> params) {
 
@@ -58,10 +62,14 @@ public class HttpGatewayUtils {
 	 * POST请求
 	 * 
 	 * @param url
+	 *            请求地址
 	 * @param clientID
+	 *            接入层的clientID
 	 * @param signKey
+	 *            接入层的签名key
 	 * @param params
-	 * @return
+	 *            请求参数
+	 * @return 请求结果
 	 */
 	public static ResBodyData sendPost(String url, String clientID, String signKey, Map<String, String> params) {
 		try {
@@ -86,9 +94,12 @@ public class HttpGatewayUtils {
 	 * 将请求参数签名，并组拼成key1=value1&key2=value2的形式
 	 * 
 	 * @param clientID
+	 *            接入层的clientID
 	 * @param signKey
+	 *            接入层的签名key
 	 * @param params
-	 * @return
+	 *            请求参数
+	 * @return 签名串
 	 * @throws Md5Exception
 	 */
 	private static String getParamsContent(String clientID, String signKey, Map<String, String> params)

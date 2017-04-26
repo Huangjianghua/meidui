@@ -15,22 +15,24 @@ import org.slf4j.LoggerFactory;
 public class ParseSkuSpecDescUtil {
 
 	private static Logger logger = LoggerFactory.getLogger(ParseSkuSpecDescUtil.class);
-	
-	private ParseSkuSpecDescUtil(){}
+
+	private ParseSkuSpecDescUtil() {
+	}
 
 	/**
 	 * 解析表sysitem_sku，字段spec_desc(商品SKU序列化数据),格式如下：
-	 * {spec_value_id={43=437, 44=440, 45=447, 46=450}, 
-	 * spec_private_value_id={43=, 44=, 45=, 46=}, 
-	 * spec_value={43=茅台葡萄酒, 44=12度, 45=干红, 46=贵州}}
+	 * 
+	 * {spec_value_id={43=437, 44=440, 45=447, 46=450},
+	 * spec_private_value_id={43=, 44=, 45=, 46=}, spec_value={43=茅台葡萄酒, 44=12度,
+	 * 45=干红, 46=贵州}}
 	 * 
 	 * @param content
-	 *            数据格式如下：a:3:{s:13:"spec_value_id";a:4:
+	 *            数据格式如下： a:3:{s:13:"spec_value_id";a:4:
 	 *            {i:46;s:3:"450";i:43;s:3:"437";i:44;s:3:"440";i:45;s:3:"447";}
 	 *            s:10:"spec_value";a:4:{i:46;s:6:"贵州";i:43;s:15:"茅台葡萄酒";i:44;
 	 *            s:5:"12度";i:45;s:6:"干红";}s:21:"spec_private_value_id";a:4:{i:46;s:
 	 *            0:"";i:43;s:0:"";i:44;s:0:"";i:45;s:0:"";}}
-	 * @return
+	 * @return SKU信息列表
 	 */
 	public static List<ParseSkuSpecDescBean> parse(String content) {
 

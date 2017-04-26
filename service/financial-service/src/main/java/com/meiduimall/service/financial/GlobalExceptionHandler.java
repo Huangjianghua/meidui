@@ -18,11 +18,9 @@ import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.financial.constant.ServiceFinancialApiCode;
 
 /**
- * @Copyright (C), 2002-2017, 美兑壹购物
- * @FileName: GlobalExceptionHandler.java
- * @Author: yangchangfu
- * @Date: 2017年3月17日 下午4:11:30
- * @Description: 全局异常处理
+ * 全局异常处理
+ * 
+ * @author yangchang
  */
 @ControllerAdvice(basePackages = "com.meiduimall.service.financial.controller")
 @ResponseBody

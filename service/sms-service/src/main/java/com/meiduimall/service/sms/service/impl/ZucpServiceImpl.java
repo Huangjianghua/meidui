@@ -39,18 +39,6 @@ public class ZucpServiceImpl implements ZucpService {
 	@Value("${zucpPasswd}")
 	private String zucpPasswd;
 
-	/**
-	 * 生成请求体
-	 * 
-	 * @param mobile
-	 * @param content
-	 * @param ext
-	 * @param stime
-	 * @param rrid
-	 * @return
-	 * @throws Md5Exception
-	 * @throws Exception
-	 */
 	private String buildBody(String mobile, String content, String ext, String stime, String rrid) throws Md5Exception {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
