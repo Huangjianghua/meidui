@@ -33,10 +33,9 @@ public class PaymentController {
     
 
     /**
-     * 支付
-     *
-     * @param model
-     * @return
+     * 
+     * @param model 支付接收对象
+     * @return resultBody 支付结果返回对象
      */
     @PostMapping(value ="/payment")
     public ResBodyData pay(@RequestBody PaymentParamModel model) {
