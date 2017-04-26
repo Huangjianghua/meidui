@@ -54,10 +54,10 @@ public class DateUtil {
 	
 	private static final int CONSTDATESUB = -36500;
 	
-	private static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-	private static DateFormat dateFormatInput = new SimpleDateFormat("yyyyMMdd");
-	private static DateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-	private static DateFormat dateTimeFormatInput = new SimpleDateFormat("yyyyMMddHHmm");
+	private static DateFormat dateFormat = new SimpleDateFormat(YYYY_MM_DD);
+	private static DateFormat dateFormatInput = new SimpleDateFormat(YYYYMMDD);
+	private static DateFormat dateTimeFormat = new SimpleDateFormat(YYYY_MM_DD_HH_MM);
+	private static DateFormat dateTimeFormatInput = new SimpleDateFormat(YYYYMMDDHHMM);
 	
 	private static DateFormat timeFormat = new SimpleDateFormat("HH:mm");
 	
@@ -132,7 +132,7 @@ public class DateUtil {
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT_WITH_MS);
 		
-		SimpleDateFormat dateYMDFormat = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat dateYMDFormat = new SimpleDateFormat(YYYY_MM_DD);
 		
 		String beginTimeOneDay="00:00:00:000";
 		
@@ -156,7 +156,7 @@ public class DateUtil {
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT_WITH_MS);
 		
-		SimpleDateFormat dateYMDFormat = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat dateYMDFormat = new SimpleDateFormat(YYYY_MM_DD);
 		
 		String beginTimeOneDay="00:00:00:000";
 		
@@ -807,7 +807,7 @@ public class DateUtil {
 	 * @throws ParseException 转换异常
 	 */
 	public static boolean compareDate(String date1, String date2) throws ParseException {
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		DateFormat df = new SimpleDateFormat(YYYY_MM_DD);
 		java.util.Date d1 = df.parse(date1);
 		java.util.Date d2 = df.parse(date2);
 		return d1.getTime() < d2.getTime();
@@ -889,7 +889,7 @@ public class DateUtil {
 	 * @return String
 	 */
 	public static String getFirstDateNow(){
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd"); 
+		SimpleDateFormat format = new SimpleDateFormat(YYYY_MM_DD); 
 	 	Calendar c = Calendar.getInstance();    
         c.add(Calendar.MONTH, 0);
         c.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天 
@@ -901,7 +901,7 @@ public class DateUtil {
 	 * @return String
 	 */
 	public static String getLastDateNow(){
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd"); 
+		SimpleDateFormat format = new SimpleDateFormat(YYYY_MM_DD); 
 		Calendar ca = Calendar.getInstance();    
 		ca.set(Calendar.DAY_OF_MONTH, ca.getActualMaximum(Calendar.DAY_OF_MONTH));  
 		return format.format(ca.getTime());
@@ -965,7 +965,7 @@ public class DateUtil {
 	 * @return String
 	 */
 	public static String getCurrentDay() {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat dateFormat = new SimpleDateFormat(YYYY_MM_DD);
 		return dateFormat.format(Calendar.getInstance().getTime());
 	}
 
@@ -975,7 +975,7 @@ public class DateUtil {
 	 * @return String
 	 */
 	public static String getUpDAY() {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat dateFormat = new SimpleDateFormat(YYYY_MM_DD);
 		Calendar c = Calendar.getInstance();
 		c.add(Calendar.DAY_OF_MONTH, -1);
 		return dateFormat.format(c.getTime());
@@ -987,7 +987,7 @@ public class DateUtil {
 	 * @return Date
 	 */
 	public static Date getParseDate(String date){
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DD);
 		try {
 			return sdf.parse(date);
 		} catch (ParseException e) {
