@@ -26,7 +26,7 @@ public interface AgentService {
 	 * Author: guidl
 	 * Date:   2017年3月24日 上午11:25:02
 	 * @param  agentWater 代理流水信息
-	 * @return  
+	 * @return int
 	 */
 	public int insertAgentWater(EcmMzfAgentWater agentWater);
 	
@@ -36,7 +36,7 @@ public interface AgentService {
 	 * Author: guidl
 	 * Date:   2017年3月24日 上午11:25:02
 	 * @param  account 账户信息
-	 * @return  
+	 * @return int
 	 */
 	public int updateAccount(EcmMzfAccount account);
 	
@@ -46,7 +46,7 @@ public interface AgentService {
 	 * Author: guidl
 	 * Date:   2017年3月24日 上午11:25:02
 	 * @param  account 账户信息
-	 * @return  
+	 * @return int
 	 */
 	public int insertAccount(EcmMzfAccount account);
 	
@@ -56,7 +56,7 @@ public interface AgentService {
 	 * Author: guidl
 	 * Date:   2017年3月24日 上午11:25:02
 	 * @param  code 代理编号
-	 * @return  
+	 * @return EcmMzfAccount  
 	 */
 	public EcmMzfAccount findAccountByCode(String code);
 
@@ -66,7 +66,7 @@ public interface AgentService {
 	 * Author: guidl
 	 * Date:   2017年3月24日 上午11:25:02
 	 * @param  water 总流水信息
-	 * @return  
+	 * @return int
 	 */
 	public int insertWater(EcmMzfWater water);
 	
@@ -78,7 +78,7 @@ public interface AgentService {
 	 * @param  id 代理唯一标识id
 	 * @param  code 代理编号
 	 * @param  score 积分
-	 * @return
+	 * @return int
 	 */
 	public int updateScoreStatusByCode(int id, String code, int score);
 	
@@ -88,7 +88,7 @@ public interface AgentService {
 	 * Author: guidl
 	 * Date:   2017年3月24日 上午11:25:02
 	 * @param  code 代理编号
-	 * @return  
+	 * @return EcmMzfAgentWater
 	 */
 	public EcmMzfAgentWater findAgentWaterByCode(String code);
 	
@@ -117,7 +117,7 @@ public interface AgentService {
 	 * Author: guidl
 	 * Date:   2017年3月24日 上午11:25:02
 	 * @param  ecmMzfStoreRecord 商家送积分记录信息
-	 * @return  
+	 * @return int
 	 */
 	public int insertStoreRecord(EcmMzfStoreRecord ecmMzfStoreRecord);
 	
@@ -126,7 +126,7 @@ public interface AgentService {
 	 * 功能描述:  查询基本分润配置
 	 * Author: guidl
 	 * Date:   2017年3月24日 上午11:25:02
-	 * @return  
+	 * @return EcmSystemSetting 
 	 */
 	public List<EcmSystemSetting> quertSharefit();
 	
@@ -136,7 +136,7 @@ public interface AgentService {
 	 * Author: guidl
 	 * Date:   2017年3月24日 上午11:25:02 
 	 * @param  params 获取流水列表相关参数
-	 * @return
+	 * @return EcmMzfWater
 	 */
 	public List<EcmMzfWater> getWaterList(Map<String,Object> params);
 	
@@ -146,7 +146,7 @@ public interface AgentService {
 	 * Author: guidl
 	 * Date:   2017年3月24日 上午11:25:02
 	 * @param  params 获取流水数量相关参数  
-	 * @return  
+	 * @return int  
 	 */
 	public int getWaterCount(Map<String,Object> params);
 	
@@ -167,7 +167,7 @@ public interface AgentService {
 	 * Author: guidl
 	 * Date:   2017年3月24日 上午11:25:02
 	 * @param  shareProfitAgentLog 保证金分润异常日志
-	 * @return  
+	 * @return int
 	 */
 	public int insertShareProfitAgentLog(ShareProfitAgentLog shareProfitAgentLog);
 	
@@ -177,7 +177,7 @@ public interface AgentService {
 	 * Author: guidl
 	 * Date:   2017年3月24日 上午11:25:02
 	 * @param  agentNo 代理编号
-	 * @return  
+	 * @return int  
 	 */
 	public int updateRetryFlag(String agentNo);
 	
@@ -187,7 +187,7 @@ public interface AgentService {
 	 * Author: guidl
 	 * Date:   2017年3月24日 上午11:25:02
 	 * @param  agentNo 代理编号
-	 * @return  
+	 * @return int
 	 */
 	public int updateStatusFlag(String agentNo);
 	
@@ -239,7 +239,7 @@ public interface AgentService {
 	 * Author: guidl
 	 * Date:   2017年3月24日 上午11:25:02
 	 * @param  params(code、waterType、nowTime)
-	 * @return  
+	 * @return int
 	 */
 	public int getCountCreateWaterId(Map<String,Object> params);
 	

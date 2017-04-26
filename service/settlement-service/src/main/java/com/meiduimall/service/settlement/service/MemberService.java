@@ -38,7 +38,6 @@ public interface MemberService {
 	 * 功能描述:  更新一级推荐人1%现金余额到会员系统
 	 * Author: 许彦雄
 	 * Date:   2017年2月20日 下午3:38:26
-	 * @return  
 	 */
     public void updateReferrerCash();
 }

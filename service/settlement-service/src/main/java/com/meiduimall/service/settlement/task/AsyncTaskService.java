@@ -75,12 +75,10 @@ public class AsyncTaskService {
 	/**
 	 * 功能描述:  异步执行送订单所获积分到会员系统
 	 * Author: 许彦 雄
-	 * Date:   2017年3月14日 下午3:38:26   
-	 * param shareProfit
-	 * param shareProfitSource
-	 * param retryType
-	 * return  
-	 * 
+	 * Date:   2017年3月14日 下午3:38:26 
+	 * @param  shareProfit 订单分润结果信息
+	 * @param  shareProfitSource 数据来源:o2o,Cache
+	 * @param  retryType 重试标识
 	 */
 	@Async
 	public void updateScore2MemberSystem(EcmMzfShareProfit shareProfit, String shareProfitSource, String retryType) {
@@ -173,14 +171,12 @@ public class AsyncTaskService {
 
 	/**
 	 * 功能描述:  异步执行送新个代奖励积分到会员系统
-	 * Author: 许彦 雄
-	 * Date:   2017年3月14日 下午3:38:26   
-	 * param ecmAgent 代理对象
-	 * param score 积分
-	 * param dataSource 数据来源:o2o,Cache
-	 * param retryType
-	 * return  
-	 * 
+	 * Author: guidl
+	 * Date:   2017年3月14日 下午3:38:26 
+	 * @param ecmAgent 个代相关信息
+	 * @param score 积分
+	 * @param dataSource 数据来源:o2o,Cache
+	 * @param retryType 重试标识
 	 */
 	@Async
 	public void updateScore(EcmAgent ecmAgent, int score, String dataSource, String retryType) {

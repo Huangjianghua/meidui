@@ -33,10 +33,10 @@ public interface BillService {
 	 * 功能描述:  生成账单流水
 	 * Author: 许彦 雄
 	 * Date:   2017年3月14日 下午3:38:26
-	 * @param  bill
-	 * @param  billCreatedtime
-	 * @param  billtime
-	 * @param  opTime
+	 * @param  bill 账单流水信息
+	 * @param  billCreatedtime 账单创建日期
+	 * @param  billtime 账单日期
+	 * @param  opTime 操作时间
 	 */
 	public void handleBill(EcmMzfBillWater bill,Date billCreatedtime,Date billtime,Timestamp opTime) ;
 	
@@ -44,8 +44,8 @@ public interface BillService {
 	 * 功能描述:  生成billId和orderSn关系表
 	 * Author: 许彦 雄
 	 * Date:   2017年3月14日 下午3:38:26
-	 * @param  bill
-	 * @param  orderToBilledList
+	 * @param  bill 账单流水信息
+	 * @param  orderToBilledList 账单对应订单信息
 	 */
 	public void createBillAndOrderMapping(EcmMzfBillWater bill,List<OrderToBilledVO> orderToBilledList) ;
 	
@@ -53,7 +53,7 @@ public interface BillService {
 	 * 功能描述:  更新订单结算状态
 	 * Author: 许彦 雄
 	 * Date:   2017年3月14日 下午3:38:26
-	 * @param orderSnList
+	 * @param  orderSnList 订单号列表
 	 */
 	public void updateOrderBillStatus(Collection<String> orderSnList) ;
 	
@@ -61,7 +61,7 @@ public interface BillService {
 	 * 功能描述:  合并账单流水
 	 * Author: 许彦 雄
 	 * Date:   2017年3月14日 下午3:38:26 
-	 * @param waterVOList
+	 * @param  waterVOList 账单流水
 	 */
 	public void mergeBilledWaters(List<BilledWaterVO2Merge> waterVOList) ;
 }

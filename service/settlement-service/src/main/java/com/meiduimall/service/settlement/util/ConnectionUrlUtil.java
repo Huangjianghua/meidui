@@ -25,14 +25,11 @@ public class ConnectionUrlUtil {
 	private ConnectionUrlUtil(){}
 	
 	/**
-	 * Description : Http请求
-	 * Created By : Fkx 
-	 * Creation Time : 2016-6-15 上午10:29:25 
-	 * 
-	 * @param requestUrl
-	 * @param requestMethod
-	 * @param outputStr
-	 * @return
+	 * Http请求
+	 * @param requestUrl 请求url
+	 * @param requestMethod 请求方式POST或GET
+	 * @param outputStr 输出数据
+	 * @return String
 	 */
 	public static String httpRequest(String requestUrl, String requestMethod, String outputStr) {
 		HttpURLConnection httpConn = null;
@@ -94,8 +91,6 @@ public class ConnectionUrlUtil {
 		}
 		return buffer.toString();
 	}
-	
-	
 	
 	
 }
