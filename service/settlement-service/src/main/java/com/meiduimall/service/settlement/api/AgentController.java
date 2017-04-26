@@ -48,8 +48,8 @@ public class AgentController {
 	 * 功能描述:  保证金分润
 	 * Author: guidl
 	 * Date:   2017年3月24日 下午11:25:02
-	 * param   ecmAgent
-	 * return  ResBodyData
+	 * @param  ecmAgent
+	 * @return ResBodyData
 	 */
 	@PostMapping("/sharedeposit")
 	public ResBodyData shareDeposit(@Validated EcmAgent ecmAgent) {
@@ -83,8 +83,8 @@ public class AgentController {
 	 * 功能描述:  新商家送积分
 	 * Author: guidl
 	 * Date:   2017年3月24日 下午11:25:02   
-	 * param   ecmStore(手机号,商家编号)
-	 * return  ResBodyData
+	 * @param  ecmStore(手机号,商家编号)
+	 * @return ResBodyData
 	 */
 	@PostMapping("/sendscore")
 	public ResBodyData sendScore(@Validated EcmStore ecmStore) {
@@ -100,8 +100,8 @@ public class AgentController {
 	 * 功能描述:  创建区代、个代和商家账号
 	 * Author: guidl
 	 * Date:   2017年3月24日 下午11:25:02   
-	 * param   ecmMzfAccount(code-代理编号)
-	 * return  ResBodyData
+	 * @param  ecmMzfAccount(code-代理编号)
+	 * @return ResBodyData
 	 */
 	@PostMapping("/createaccoutbalance")
 	public ResBodyData createAccoutBalance(@Validated EcmMzfAccount ecmMzfAccount) {

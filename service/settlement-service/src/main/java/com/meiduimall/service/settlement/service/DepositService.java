@@ -22,8 +22,8 @@ public interface DepositService {
 	 * 功能描述:  保证金分账 业务逻辑方法
 	 * Author: guidl
 	 * Date:   2017年3月24日 上午11:25:02
-	 * param   ecmAgent
-	 * return  
+	 * @param   ecmAgent
+	 * @return  
 	 */
 	public List<Map<String, Object>> shareDeposit(EcmAgent ecmAgent);
 	
@@ -32,8 +32,8 @@ public interface DepositService {
 	 * 功能描述:  新商家送积分
 	 * Author: guidl
 	 * Date:   2017年3月24日 上午11:25:02
-	 * param   ecmStore
-	 * return  
+	 * @param   ecmStore
+	 * @return  
 	 */
 	public List<Map<String, Object>> updateStoreScore(EcmStore ecmStore);
 	
@@ -42,8 +42,8 @@ public interface DepositService {
 	 * 功能描述:  创建账户
 	 * Author: guidl
 	 * Date:   2017年3月24日 上午11:25:02
-	 * param   ecmMzfAccount
-	 * return  
+	 * @param   ecmMzfAccount
+	 * @return  
 	 */
 	public int createAccount(EcmMzfAccount ecmMzfAccount);
 	
@@ -52,7 +52,7 @@ public interface DepositService {
 	 * 功能描述:  保证金分润主方法
 	 * Author: guidl
 	 * Date:   2017年3月24日 上午11:25:02
-	 * param   ecmAgent、systemSetting
+	 * @param   ecmAgent、systemSetting
 	 */
 	public void shareDepositMain(EcmAgent ecmAgent, Map<String, String> systemSetting);
 	
@@ -61,7 +61,7 @@ public interface DepositService {
 	 * 功能描述:  插入保证金分润异常日志
 	 * Author: guidl
 	 * Date:   2017年3月24日 上午11:25:02
-	 * param   agentLog、retryType
+	 * @param   agentLog、retryType
 	 */
 	public void shareProfitAgentLog(ShareProfitAgentLog agentLog, String retryType);
 	

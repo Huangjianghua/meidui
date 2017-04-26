@@ -1,18 +1,12 @@
-/*
- *  @项目名称: ${project_name}
- *
- *  @文件名称: ${file_name}
- *  @Date: ${date}
- *  @Copyright: ${year} www.meiduimall.com Inc. All rights reserved.
- *
- *  注意：本内容仅限于美兑壹购物公司内部传阅，禁止外泄以及用于其他的商业目的
- */
-
 package com.meiduimall.service.sms.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class MessageChannel {
+public class MessageChannel implements Serializable {
+	
+	private static final long serialVersionUID = 8335204252208315272L;
+
 	private String id;
 
 	private String channelKey;

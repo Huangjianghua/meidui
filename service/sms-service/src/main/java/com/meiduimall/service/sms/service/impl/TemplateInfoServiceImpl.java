@@ -40,7 +40,7 @@ public class TemplateInfoServiceImpl implements TemplateInfoService {
 					RedisUtils.setex(key, Constants.REDIS_TENMINUTE, templateListJsonStr);
 				}
 			} catch (Exception e) {
-				logger.error("获取所有的短信模板信息列表异常：{}", e);
+				logger.error("获取所有的短信模板信息列表异常：" + e);
 				throw new ServiceException(SmsApiCode.EXCEPTION_ACCESS_TEMPLATE,
 						SmsApiCode.getZhMsg(SmsApiCode.EXCEPTION_ACCESS_TEMPLATE));
 			}

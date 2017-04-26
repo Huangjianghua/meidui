@@ -20,8 +20,8 @@ public interface WaterService {
 	 * 功能描述:  根据流水编号获取提现流水详情（主要用于提现的流水详情）
 	 * Author: guidl
 	 * Date:   2017年3月24日 下午14:14:28
-	 * param   waterId、waterType
-	 * return  
+	 * @param   waterId、waterType
+	 * @return  
 	 */
 	public Map<String,Object> getWaterType1Detail(String waterId, String waterType) ;
 	
@@ -30,8 +30,8 @@ public interface WaterService {
 	 * 功能描述:  获取流水详情（主要用于代理、保证金的流水详情）
 	 * Author: guidl
 	 * Date:   2017年3月24日 下午14:14:28
-	 * param   waterId、waterType
-	 * return  
+	 * @param   waterId、waterType
+	 * @return  
 	 */
 	public Map<String,Object> getWaterDetail(String waterId, String waterType) ;
 	
@@ -40,7 +40,7 @@ public interface WaterService {
 	 * 功能描述:  合并流水表中同一用户重复流水金额
 	 * Author: 
 	 * Date:   2017年3月24日 下午14:14:28
-	 * return  
+	 * @return  
 	 */
 	public List<BilledWaterVO2Merge> getBilledWatersToMerge() ;
 	

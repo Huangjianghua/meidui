@@ -110,11 +110,9 @@ public class ShareProfitUtil {
 	private ShareProfitUtil(){}
 
 	/**
-	 * Description : 查询分润数据配置
-	 * Created By : Fkx 
-	 * Creation Time : 2016-10-19 上午10:58:37 
-	 * 
-	 * @return
+	 * 查询分润数据配置
+	 * @param systemSettings
+	 * @return shareProfit
 	 */
 	public static Map<String, String> queryShareProfit(List<EcmSystemSetting> systemSettings) {
 		Map<String, String> shareProfit = Maps.newHashMap();
@@ -198,13 +196,11 @@ public class ShareProfitUtil {
 		}
 	}
 
+	
 	/**
-	 * Description : 获取请求接口后的数据提取推荐人手机号
-	 * Created By : Fkx 
-	 * Creation Time : 2016-10-27 下午5:31:00 
-	 * 
-	 * @param arrStr
-	 * @return
+	 * 获取请求接口后的数据提取推荐人手机号
+	 * @param list
+	 * @return retMap
 	 */
 	public static Map<String, String> getlvlAndPhone(List<Map<String, String>> list) {
 		Map<String, String> retMap = new HashMap<>();
@@ -240,8 +236,8 @@ public class ShareProfitUtil {
 	}
 		
 	/**
-	 * 描述:  生成不重复随机数，生成方式：毫秒+5位随机数<br>
-	 * @return
+	 * 生成不重复随机数，生成方式：毫秒+5位随机数
+	 * @return String
 	 */
 	public static final String getRandomNum() {
 		//当前秒数
@@ -270,13 +266,11 @@ public class ShareProfitUtil {
 		return sb1.toString();
 	}
 		
+	
 	/**
-	 * Description : 加载配置文件
-	 * Created By : Fkx 
-	 * Creation Time : 2016-10-28 上午11:34:07 
-	 * 
+	 * 加载配置文件
 	 * @param config
-	 * @return
+	 * @return map
 	 */
 	public static Map<String, String> loadProperty(String config) {
 		Map<String, String> map = new HashMap<>();
@@ -295,11 +289,12 @@ public class ShareProfitUtil {
 		return map;
 	}
 		
+	
 	/**
+	 * 字符转码
 	 * @param str
 	 * @param charset
-	 * @return
-	 * @author alex.xu
+	 * @return String
 	 */
 	public static String encodeStr(String str,String charset){
 		
