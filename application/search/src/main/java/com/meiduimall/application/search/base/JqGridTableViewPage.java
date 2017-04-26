@@ -6,10 +6,10 @@ import org.codehaus.jackson.annotate.JsonPropertyOrder;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 /**
- * jqGrid分页实体
- * @author Liujun
- * @date 2016-04-12
- * @param <T>
+ * 
+ * @author:   jianhua.huang 
+ * @version:  2017年4月26日 下午2:06:37 0.1 
+ * Description:jqGrid分页实体 
  */
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 @JsonPropertyOrder( { "currentPage", "maxResults", "total", "records", "rows" })

@@ -13,9 +13,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Action基本方法
- * @author Liujun
- * @date 2016年4月25日
+ * 
+ * @author:   jianhua.huang 
+ * @version:  2017年4月26日 下午2:08:20 0.1 
+ * Description:Action基本方法
  */
 public class BaseController {
 	

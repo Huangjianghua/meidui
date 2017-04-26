@@ -1,8 +1,10 @@
 package com.meiduimall.application.search.domain;
 
 /**
- * 搜索词典
- * @date 2016年5月4日
+ * 
+ * @author:   jianhua.huang 
+ * @version:  2017年4月26日 下午2:12:07 0.1 
+ * Description:搜索词典
  */
 public class SearchDic {
 

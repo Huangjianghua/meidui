@@ -11,6 +11,7 @@
 package com.meiduimall.platform.route.filter;
 
 import com.google.common.base.Splitter;
+
 import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.util.ExceptionUtils;
 import com.meiduimall.platform.route.Constants;
@@ -85,11 +86,16 @@ public class AccessFilter extends ZuulFilter {
       }
       chain.addProcesser(blackListValidateHandler);
       if (header != null && Constants.CONTENTTYPE_JSON.equalsIgnoreCase(header.get(0))) {
+    	  
         chain.addProcesser(praseJsonHandler);
+        
       } else if (header != null && (Constants.CONTENTTYPE_FORM.equalsIgnoreCase(header.get(0))
           || Constants.CONTENTTYPE_MULTIPART.equalsIgnoreCase(header.get(0)))) {
+    	  
         chain.addProcesser(formParseHandler);
+        
       } else {
+    	  
         chain.addProcesser(paramPraseHandler);
       }
       chain.addProcesser(requiredValidateHandler);

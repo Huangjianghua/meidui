@@ -48,7 +48,7 @@ public class AgentController {
 	 * 功能描述:  保证金分润
 	 * Author: guidl
 	 * Date:   2017年3月24日 下午11:25:02
-	 * @param  ecmAgent
+	 * @param  ecmAgent 新个代相关信息
 	 * @return ResBodyData
 	 */
 	@PostMapping("/sharedeposit")

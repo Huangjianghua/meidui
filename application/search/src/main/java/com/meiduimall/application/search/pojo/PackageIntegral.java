@@ -144,8 +144,9 @@ public class PackageIntegral {
     }
     
     /**
-     * @author Liujun
-     * @date 2016-04-18
+     * 
+     * @param obj
+     * @return
      */
     @Override
 	public boolean equals(Object obj) {

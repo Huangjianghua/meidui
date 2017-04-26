@@ -1,9 +1,12 @@
 package com.meiduimall.application.search.controller;
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.meiduimall.application.search.SearchApiCode;
 import com.meiduimall.application.search.constant.SolrConstant;
 import com.meiduimall.application.search.pojo.AppSearchParam;
@@ -13,8 +16,10 @@ import com.meiduimall.application.search.utility.StringUtil;
 import com.meiduimall.core.ResBodyData;
 
 /**
- * 搜索
- * @date 2016年4月22日
+ * 
+ * @author:   jianhua.huang 
+ * @version:  2017年4月26日 下午2:05:27 0.1 
+ * Description:搜索
  */
 @RestController
 public class AppSearchController extends BaseController {
@@ -27,19 +32,19 @@ public class AppSearchController extends BaseController {
 
 	/**
 	 * 搜索
-	 * @param request
 	 * @param searchParam
 	 * @return
+	 * @author: jianhua.huang  2017年4月26日 下午2:05:07
 	 */
 	@RequestMapping(value = "appSearch")
-	public ResBodyData search(AppSearchParam searchParam) {
-		ResBodyData res=new ResBodyData(1, "success");
+	public ResBodyData search(@Valid AppSearchParam searchParam) {
+		ResBodyData res=new ResBodyData(0, "success");
 		if (searchParam.getRows() == 0){
 			searchParam.setRows(SolrConstant.APP_PAGE_LIMIT_FORTY);
 		}	
-		if (searchParam.getKeyword() != null) {
+		/*if (searchParam.getKeyword() != null) {
 			searchParam.setKeyword(searchParam.getKeyword().trim());
-		}
+		}*/
 		QueryIndexResult qir=null;
 		try {
 			String page = searchParam.getPage();

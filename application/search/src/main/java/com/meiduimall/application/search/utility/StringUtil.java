@@ -209,11 +209,10 @@ public class StringUtil {
 	}
 
 	/**
-	 * 所有特殊字符
-	 * 
-	 * @param st
-	 *            过滤前的字符
-	 * @return 过滤之后的字符
+	 * 滤之后的字符
+	 * @param str
+	 * @return
+	 * @author: jianhua.huang  2017年4月26日 下午2:20:39
 	 */
 	public static String stringFilters(String str) {
 		// 判断是否为空
@@ -230,10 +229,9 @@ public class StringUtil {
 
 	/**
 	 * 判断是否含有特殊字符
-	 * 
-	 * @param st
-	 *            过滤前的字符
+	 * @param str
 	 * @return 过滤之后的字符
+	 * @author: jianhua.huang  2017年4月26日 下午2:21:01
 	 */
 	public static boolean isExistingSpecial(String str) {
 		// 特殊字符
@@ -405,25 +403,23 @@ public class StringUtil {
 		return sb.toString();
 	}
 
-	/**
-	 * 正则表达式验证
-	 */
+	
 	/**
 	 * 判断是否为邮箱格式正则表达式验证
-	 * 
-	 * @param value要验证的字符
+	 * @param value
 	 * @return true表示正确
+	 * @author: jianhua.huang  2017年4月26日 下午2:21:35
 	 */
 	public static boolean isEmailToRegex(String value) {
 		return getRegex(StringValidate.EMAIL, value);
 	}
 
 	/**
-	 * 验证
 	 * 
-	 * @param regex正则表达式字符串
-	 * @param value要验证的字符串
+	 * @param regex 正则表达式字符串
+	 * @param value 要验证的字符串
 	 * @return 为真表示符合，为假表示不符合
+	 * @author: jianhua.huang  2017年4月26日 下午2:22:08
 	 */
 	public static boolean getRegex(String regex, String value) {
 		return Pattern.compile(regex).matcher(value).matches();
@@ -431,9 +427,9 @@ public class StringUtil {
 
 	/**
 	 * 判断手机号码
-	 * 
-	 * @param value要判断的字符
-	 * @return true正确
+	 * @param value 要判断的字符
+	 * @return 正确
+	 * @author: jianhua.huang  2017年4月26日 下午2:22:27
 	 */
 	public static boolean isPhoneToRegex(String value) {
 		if (isEmptyByString(value)) {

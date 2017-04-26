@@ -21,22 +21,18 @@ public interface ShareProfitLogService {
 	 * 功能描述:  订单分润相关日志
 	 * Author: 许彦雄
 	 * Date:   2017年2月28日 下午3:38:26   
-	 * @param orderLog
-	 * @param retryType
-	 * @param retryStatus
-	 * @return  
-	 * 
+	 * @param  orderLog 订单日志信息
+	 * @param  retryType 重试类型
+	 * @param  retryStatus 重试状态
 	 */
-	
 	public void logShareProfitOrder(ShareProfitOrderLog orderLog, String retryType, Integer retryStatus);
 	
 	/**
 	 * 功能描述:  账单生成相关日志
 	 * Author: 许彦雄
 	 * Date:   2017年2月28日 下午3:38:26   
-	 * @param createBillLog
-	 * @return  boolean
-	 * 
+	 * @param  createBillLog 账单日志信息
+	 * @return boolean
 	 */
 	public boolean logCreateBillLog(CreateBillLog createBillLog);
 	
@@ -44,9 +40,8 @@ public interface ShareProfitLogService {
 	 * 功能描述:  移除重试标识
 	 * Author: 许彦雄
 	 * Date:   2017年2月28日 下午3:38:26   
-	 * @param orderSn
-	 * @return  boolean
-	 * 
+	 * @param  orderSn 订单号
+	 * @return boolean
 	 */
 	public boolean removeRetryFlag(String orderSn);
 	

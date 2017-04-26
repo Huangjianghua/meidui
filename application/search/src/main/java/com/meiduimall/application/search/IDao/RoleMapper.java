@@ -11,15 +11,16 @@ import com.meiduimall.application.search.system.domain.Role;
 public interface RoleMapper {
 
 	/**
-	 * 查询用户列表
+	 * 
 	 * @param role
-	 * @return List<Role>
+	 * @return
+	 * @author: jianhua.huang  2017年4月26日 下午2:12:52
 	 */
    public List<Role> selectRoleList(Role role);
 
    /**
 	 * 新增角色
-	 * @param user 
+	 * @param role 
 	 */
 	public void insertRole(Role  role);
 	

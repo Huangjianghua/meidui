@@ -3,8 +3,10 @@ package com.meiduimall.application.search.domain;
 import java.util.Date;
 
 /**
- * 用户搜索词
- * @date 2016年5月4日
+ * 
+ * @author:   jianhua.huang 
+ * @version:  2017年4月26日 下午2:12:21 0.1 
+ * Description:用户搜索词
  */
 public class SearchWord {
 

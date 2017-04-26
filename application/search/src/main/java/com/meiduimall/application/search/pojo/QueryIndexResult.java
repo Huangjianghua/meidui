@@ -5,8 +5,10 @@ import java.util.List;
 import com.meiduimall.application.search.domain.Item;
 
 /**
- * 索引查询结果
- * @date 2016年4月27日
+ * 
+ * @author:   jianhua.huang 
+ * @version:  2017年4月26日 下午2:16:54 0.1 
+ * Description:索引查询结果
  */
 public class QueryIndexResult {
 
