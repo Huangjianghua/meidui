@@ -46,7 +46,7 @@ public class MyBatisConfig implements TransactionManagementConfigurer{
 
     /**
      * 可以通过这个类,详细配置mybatis
-     * @return
+     * @return configuration
      */
     @Bean
     public org.apache.ibatis.session.Configuration mybatisSetting(){

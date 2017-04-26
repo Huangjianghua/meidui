@@ -13,13 +13,11 @@ public class RandomCodeGenerator {
 	
 	private RandomCodeGenerator(){}
 	
-	/** 
-	 * 随机码生成 
-	 * @author Mo 
-	 *  
-	 * @param length 随机码长度 
-	 * @return 
-	 */  
+	/**
+	 * 生成随机数
+	 * @param length 随机数长度
+	 * @return String
+	 */
 	public static String random1(int length){  
 	    /* 
 	     * 这里直接数字代替，没用uuid.length() 
@@ -66,13 +64,12 @@ public class RandomCodeGenerator {
 	    return random.toString();  
 	} 
 	
-	/** 
-	 * 随机码生成 
-	 * @author Mo 
-	 *  
-	 * @param length 
-	 * @return 
-	 */  
+	 
+	/**
+	 * 生成随机数
+	 * @param length 随机数长度
+	 * @return String
+	 */
 	public static String random2(int length){  
 	    StringBuilder random = new StringBuilder();  
 	    /*随机数函数*/  

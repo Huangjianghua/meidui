@@ -38,7 +38,7 @@ public interface BaseMapper {
 	 * @param ts 参数
 	 * @param sqlTag 对应Mapper.xml文件中的sql id
 	 * @return Integer
-	 */
+	 */ 
 	public <T> Integer insertBatch(List<T> ts, String sqlTag);
 
 	/**

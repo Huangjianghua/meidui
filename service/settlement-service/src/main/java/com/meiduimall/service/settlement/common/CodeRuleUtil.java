@@ -68,7 +68,7 @@ public class CodeRuleUtil {
 	
 	/**
 	 * 生成商家流水编号
-	 * @param  agentCode 代理编号
+	 * @param  code 代理编号
 	 * @param  count 流水总数
 	 * @return String
 	 */
@@ -78,7 +78,7 @@ public class CodeRuleUtil {
 	
 	/**
 	 * 生成区代提现编号
-	 * @param  agentCode 代理编号
+	 * @param  code 代理编号
 	 * @param  count 流水总数
 	 * @return String
 	 */
@@ -88,7 +88,7 @@ public class CodeRuleUtil {
 	
 	/**
 	 * 生成个代提现编号
-	 * @param  agentCode 代理编号
+	 * @param  code 代理编号
 	 * @param  count 流水总数
 	 * @return String
 	 */
@@ -98,7 +98,7 @@ public class CodeRuleUtil {
 	
 	/**
 	 * 生成商家提现编号
-	 * @param  agentCode 代理编号
+	 * @param  code 代理编号
 	 * @param  count 流水总数
 	 * @return String
 	 */

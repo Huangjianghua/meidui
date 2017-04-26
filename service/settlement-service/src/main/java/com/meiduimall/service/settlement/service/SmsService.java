@@ -6,7 +6,7 @@ public interface SmsService {
 	
 	/**
 	 * 发送短信 采用RestTemplate请求http
-	 * @param smsReqDTO
+	 * @param  smsReqDTO 短信相关信息
 	 * @return boolean
 	 */
 	public boolean sendMsm(SmsReqDTO smsReqDTO);
@@ -14,7 +14,7 @@ public interface SmsService {
 	
 	/**
 	 * 发送短信 采用httpClient请求http
-	 * @param smsReqDTO
+	 * @param  smsReqDTO 短信相关信息
 	 * @return boolean
 	 */
 	public boolean sendMessage(SmsReqDTO smsReqDTO);

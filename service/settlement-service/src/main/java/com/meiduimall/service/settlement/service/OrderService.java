@@ -90,7 +90,7 @@ public interface OrderService {
 	 * Author: 许彦雄
 	 * Date:   2017年3月14日 下午3:38:26   
 	 * @param  waterId 流水编号
-	 * @return 
+	 * @return int
 	 */
 	public int queryProfitCountByWaterId(String waterId);
 
