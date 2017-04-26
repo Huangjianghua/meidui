@@ -94,7 +94,7 @@ public class MyBatisConfig implements TransactionManagementConfigurer{
 
     /**
      * 用于实际查询的sql工具,传统dao开发形式可以使用这个,基于mapper代理则不需要注入
-     * @param sqlSessionFactory
+     * @param sqlSessionFactory 用于产生连接池
      * @return SqlSessionTemplate
      */ 
     @Bean(name = "sqlSessionTemplate")

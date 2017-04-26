@@ -316,7 +316,6 @@ public class DateUtil {
 
 	/**
 	 * 在一个已知时间的基础上增加指定的时间
-	 * 
 	 * @param oleDate
 	 * @param year
 	 * @param month
@@ -672,11 +671,11 @@ public class DateUtil {
 		return sdf.format(new Date());
 	}
 
+	
 	/**
 	 * 时间格式转换 yyyy-MM-dd,yyyy年MM月dd日 这两个日期互转
-	 * @param date Old Date
-	 * @return New Date To String
-	 * @
+	 * @param date 字符串日期
+	 * @return
 	 */
 	public static String replaceFormat(String date)  {
 		String str = date.trim().replace("/", "-");

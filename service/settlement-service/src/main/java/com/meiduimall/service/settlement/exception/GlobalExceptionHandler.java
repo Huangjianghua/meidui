@@ -27,8 +27,8 @@ public class GlobalExceptionHandler {
 	
 	/**
 	 * 请求参数验证，返回异常
-	 * @param request
-	 * @param exception
+	 * @param request 客户端发出请求
+	 * @param exception 绑定异常
 	 * @return
 	 */
 	@ExceptionHandler(value = BindException.class)
@@ -40,8 +40,8 @@ public class GlobalExceptionHandler {
 	
 	/**
 	 * 业务逻辑处理，返回异常
-	 * @param request
-	 * @param exception
+	 * @param request 客户端发出请求
+	 * @param exception 绑定异常
 	 * @return
 	 */
 	@ExceptionHandler(value = ServiceException.class)

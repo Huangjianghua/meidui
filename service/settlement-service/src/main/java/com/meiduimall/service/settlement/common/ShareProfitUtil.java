@@ -111,7 +111,7 @@ public class ShareProfitUtil {
 
 	/**
 	 * 查询分润数据配置
-	 * @param systemSettings
+	 * @param systemSettings 系统设置相关信息
 	 * @return shareProfit
 	 */
 	public static Map<String, String> queryShareProfit(List<EcmSystemSetting> systemSettings) {
@@ -199,7 +199,7 @@ public class ShareProfitUtil {
 	
 	/**
 	 * 获取请求接口后的数据提取推荐人手机号
-	 * @param list
+	 * @param list 推荐人信息
 	 * @return retMap
 	 */
 	public static Map<String, String> getlvlAndPhone(List<Map<String, String>> list) {
@@ -269,7 +269,7 @@ public class ShareProfitUtil {
 	
 	/**
 	 * 加载配置文件
-	 * @param config
+	 * @param config 配置文件名称
 	 * @return map
 	 */
 	public static Map<String, String> loadProperty(String config) {
@@ -292,8 +292,8 @@ public class ShareProfitUtil {
 	
 	/**
 	 * 字符转码
-	 * @param str
-	 * @param charset
+	 * @param str 字符串
+	 * @param charset 转码类型
 	 * @return String
 	 */
 	public static String encodeStr(String str,String charset){

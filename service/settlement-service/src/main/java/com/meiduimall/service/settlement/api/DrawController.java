@@ -60,7 +60,7 @@ public class DrawController {
 	 * 功能描述:  根据代理编号获取区代、个代或商家可提现金额
 	 * Author: guidl
 	 * Date:   2017年3月24日 下午14:14:28
-	 * @param  code
+	 * @param  code 代理编号
 	 * @return ResBodyData
 	 */
 	@PostMapping(value="/queryaccoutbalance")
@@ -78,7 +78,7 @@ public class DrawController {
 	 * 功能描述:  新增提现申请
 	 * Author: guidl
 	 * Date:   2017年3月24日 下午14:14:28
-	 * @param  ecmMzfDraw
+	 * @param  ecmMzfDraw 提现信息
 	 * @return ResBodyData
 	 */
 	@PostMapping(value = "/drawcash")
@@ -171,7 +171,7 @@ public class DrawController {
 	 * 功能描述:  审核提现申请
 	 * Author: guidl
 	 * Date:   2017年3月24日 下午14:14:28
-	 * @param  ecmmzfdraw
+	 * @param  ecmmzfdraw 提现信息
 	 * @return ResBodyData
 	 */
 	@PostMapping(value="/verifydrawcashbyid")
@@ -195,7 +195,7 @@ public class DrawController {
 	 * 功能描述:  驳回提现申请
 	 * Author: guidl
 	 * Date:   2017年3月24日 下午14:14:28
-	 * @param  ecmmzfdraw
+	 * @param  ecmmzfdraw 提现信息
 	 * @return ResBodyData
 	 */
 	@PostMapping(value="/rejectdrawcashbyid")
@@ -220,7 +220,7 @@ public class DrawController {
 	 * 功能描述:  确认提现转账成功或失败（更改提现状态）
 	 * Author: guidl
 	 * Date:   2017年3月24日 下午14:14:28
-	 * @param  ecmmzfdraw
+	 * @param  ecmmzfdraw 提现信息
 	 * @return ResBodyData
 	 */
 	@PostMapping(value="/confirmdrawcashbyidbytype")
