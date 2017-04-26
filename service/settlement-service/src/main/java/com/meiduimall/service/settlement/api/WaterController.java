@@ -55,9 +55,12 @@ public class WaterController {
 	 * 功能描述:  获取流水列表
 	 * Author: guidl
 	 * Date:   2017年3月24日 下午14:14:28
-	 * param   params(waterId,code,waterType,opTimeStart,opTimeEnd)
-	 * param   type:list,export 主要用于获取流水列表和导出功能（导出流水列表不需要分页）
-	 * return  ResBodyData
+	 * @param  pageNumber 第几页
+	 * @param  pageSize 每页条数
+	 * @param  type (list,export 主要用于获取流水列表和导出功能,导出流水列表不需要分页)
+	 * @param  params(waterId,code,waterType,opTimeStart,opTimeEnd)
+	 * @param  waterType 流水类型
+	 * @return ResBodyData
 	 */
 	@PostMapping("/querywater")
 	public ResBodyData queryWater(@RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber,
@@ -89,10 +92,14 @@ public class WaterController {
 	/**
 	 * 功能描述:  根据流水编号获取流水详情
 	 * Author: guidl
-	 * Date:   2017年3月24日 下午14:14:28
-	 * param   waterId、waterType
-	 * param   loginType、code、pageNumber、pageSize 查询账单流水详情数据才需要的参数
-	 * return  ResBodyData
+	 * Date:   2017年3月24日 下午14:14:28 
+	 * @param  waterId 流水编号
+	 * @param  waterType 流水类型
+	 * @param  loginType 登录类型
+	 * @param  code 代理编号
+	 * @param  pageNumber 第几页
+	 * @param  pageSize 每页条数
+	 * @return ResBodyData
 	 */
 	@PostMapping("/querywaterbyid")
 	public ResBodyData queryWaterById(String waterId, String waterType, Integer loginType, String code,
@@ -138,9 +145,9 @@ public class WaterController {
 	/**
 	 * 功能描述:  获取推荐人推荐费
 	 * Author: guidl
-	 * Date:   2017年3月24日 下午14:14:28
-	 * param   code-推荐人编号,recNo-推荐单号
-	 * return  ResBodyData
+	 * Date:   2017年3月24日 下午14:14:28 
+	 * @param  params(code-推荐人编号,recNo-推荐单号)
+	 * @return ResBodyData
 	 */
 	@PostMapping("/getrecmoney")
 	public ResBodyData getRecMoney(@RequestParam Map<String, Object> params){

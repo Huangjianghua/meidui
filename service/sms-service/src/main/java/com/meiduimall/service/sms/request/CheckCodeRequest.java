@@ -1,13 +1,3 @@
-/*
- *  @项目名称: ${project_name}
- *
- *  @文件名称: ${file_name}
- *  @Date: ${date}
- *  @Copyright: ${year} www.meiduimall.com Inc. All rights reserved.
- *
- *  注意：本内容仅限于美兑壹购物公司内部传阅，禁止外泄以及用于其他的商业目的
- */
-
 package com.meiduimall.service.sms.request;
 
 import java.io.Serializable;
@@ -29,7 +19,7 @@ public class CheckCodeRequest implements Serializable {
 	private String phones;
 
 	@NotNull
-	private String templateId; // 模板id
+	private String templateKey; // 模板id
 
 	@NotNull
 	private String verificationCode; // 验证码，用户输入验证码校验时使用
@@ -42,12 +32,12 @@ public class CheckCodeRequest implements Serializable {
 		this.phones = phones;
 	}
 
-	public String getTemplateId() {
-		return templateId;
+	public String getTemplateKey() {
+		return templateKey;
 	}
 
-	public void setTemplateId(String templateId) {
-		this.templateId = templateId;
+	public void setTemplateKey(String templateKey) {
+		this.templateKey = templateKey;
 	}
 
 	public String getVerificationCode() {

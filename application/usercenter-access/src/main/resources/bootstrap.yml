@@ -1,0 +1,11 @@
+#AOP和编码设置（启用默认编码UTF-8）
+spring:
+  application:
+    name: usercenter-access
+  aop:
+    auto: true
+    proxy-target-class: true
+  http:
+    encoding:
+      force: true
+  

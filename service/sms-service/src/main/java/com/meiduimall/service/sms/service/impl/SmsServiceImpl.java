@@ -107,11 +107,11 @@ public class SmsServiceImpl implements SmsService {
 		 * 全部失败则返回失败信息
 		 */
 		boolean flag = aliyunService.send(model.getPhones(), ti.getExternalTemplateNo(), params);
-		logger.info("阿里大于发送短信结果（flag）：", flag);
+		logger.info("阿里大于发送短信结果flag：" + flag);
 		String res = "-1";
 		if (!flag) {
 			res = zucpService.send(model.getPhones(), content);
-			logger.info("漫道发送短信结果（res）：", res);
+			logger.info("漫道发送短信结果res：" + res);
 			try {
 				if (Long.parseLong(res) < 0) {
 					throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER,
@@ -158,7 +158,7 @@ public class SmsServiceImpl implements SmsService {
 
 		// 生成6位随机数
 		String randomNumber = String.valueOf((Math.random() * 9 + 1) * 100000).substring(0, 6);
-		logger.info("发送短信生成的验证码为：", randomNumber);
+		logger.info("发送短信生成的验证码为：" + randomNumber);
 
 		// 获取消息模板--这里获取到的是所有的模板信息的json数据
 		String templateListJsonStr = templateInfoService.getTemplateList(SysConstant.MESSAGE_TEMPLATE_KEY);
@@ -194,10 +194,10 @@ public class SmsServiceImpl implements SmsService {
 		 */
 		String res = "-1";
 		boolean flag = aliyunService.send(model.getPhones(), ti.getExternalTemplateNo(), params);
-		logger.info("阿里大于发送短信结果(flag):{}", flag);
+		logger.info("阿里大于发送短信结果(flag): " + flag);
 		if (!flag) {
 			res = zucpService.send(model.getPhones(), content);
-			logger.info("漫道发送短信结果（res）:{}", res);
+			logger.info("漫道发送短信结果（res）:{}" + res);
 			try {
 				if (Long.parseLong(res) < 0) {
 					throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER,
@@ -238,14 +238,16 @@ public class SmsServiceImpl implements SmsService {
 	@Override
 	public ResBodyData checkSmsVerificationCode(CheckCodeRequest model) {
 
-		String redisKey = model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId();
+		String redisKey = model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateKey();
 		String tempVerificationCode = RedisUtils.get(redisKey);
 
 		if (StringUtils.isEmpty(tempVerificationCode)) {
+			logger.info(model.getPhones() + "验证码已过期: " + model.getVerificationCode());
 			throw new ServiceException(SmsApiCode.SMS_VALID_CODE_EXPIRED,
 					BaseApiCode.getZhMsg(SmsApiCode.SMS_VALID_CODE_EXPIRED));
 		}
 		if (!StringUtils.equalsIgnoreCase(model.getVerificationCode().trim(), tempVerificationCode)) {
+			logger.info(model.getPhones() + "验证码不匹配: " + model.getVerificationCode());
 			throw new ServiceException(SmsApiCode.SMS_VALID_CODE_UNMATCHED,
 					BaseApiCode.getZhMsg(SmsApiCode.SMS_VALID_CODE_UNMATCHED));
 		}
@@ -291,22 +293,23 @@ public class SmsServiceImpl implements SmsService {
 	 * @return
 	 */
 	private String replacesContent(String params, String content) {
+		String result = content;
 		if (StringUtils.isNotEmpty(params)) {
 			String[] replaces = params.split(",");
 			if (replaces != null && replaces.length > 0) {
-				int count = StringUtils.countMatches(content, "{");
+				int count = StringUtils.countMatches(result, "{");
 				if (replaces.length < count) {
-					logger.info("替换短信模板内容异常：%s", "替换内容与替换参数不匹配，replaces=" + replaces + ",count=" + count);
+					logger.info("替换短信模板内容异常," + "替换内容与替换参数不匹配, replaces=" + replaces + ",count=" + count);
 					throw new ServiceException(SmsApiCode.PARAM_ERROR, SmsApiCode.getZhMsg(SmsApiCode.PARAM_ERROR));
 				}
 				for (int index = 0; index < replaces.length; index++) {
 					// 需要检查参数 add by simon
-					content = content.replace("{" + index + "}", replaces[index]);
+					result = result.replace("{" + index + "}", replaces[index]);
 				}
-				return content;
+				return result;
 			}
 		}
-		return content;
+		return result;
 	}
 
 	/**

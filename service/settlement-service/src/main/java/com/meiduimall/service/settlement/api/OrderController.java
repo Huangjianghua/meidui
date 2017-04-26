@@ -50,9 +50,8 @@ public class OrderController {
 	 * 功能描述:  订单分润接口
 	 * Author: 许彦 雄
 	 * Date:   2017年3月14日 下午3:38:26   
-	 * param ecmOrder
-	 * return  ResBodyData
-	 * 
+	 * @param  ecmOrder 订单信息
+	 * @return ResBodyData
 	 */
 	@PostMapping("/shareprofit")
 	public ResBodyData shareProfit(@Validated EcmOrder ecmOrder){
@@ -94,9 +93,8 @@ public class OrderController {
 	 * 功能描述:  根据订单号列表查询订单状态接口
 	 * Author: 许彦 雄
 	 * Date:   2017年3月14日 下午3:38:26   
-	 * param orderSns
-	 * return  ResBodyData
-	 * 
+	 * @param  orderSns 订单号
+	 * @return ResBodyData
 	 */
 	@PostMapping(value="/queryorderstatus")
 	public ResBodyData queryOrderStatus(String[] orderSns) {
@@ -110,13 +108,13 @@ public class OrderController {
 		
 	}
 	
+	
 	/**
-	 * 功能描述:同步订单审核状态接口(bill_status状态改为1, status_desc改为待结算)
-	 * Author: 吴军
-	 * Date:   2017年3月14日 下午3:38:26   
-	 * param input
-	 * return ResBodyData
-	 * 
+	 * 功能描述:  同步订单审核状态接口(bill_status状态改为1, status_desc改为待结算)
+	 * Author: 许彦 雄
+	 * Date:   2017年3月14日 下午3:38:26
+	 * @param  orderStatus 订单相关状态
+	 * @return ResBodyData
 	 */
 	@PostMapping(value="/syncverifystatus")
 	public ResBodyData syncVerifyStatus(@Validated EcmMzfOrderStatus orderStatus) {
@@ -148,9 +146,8 @@ public class OrderController {
 	 * 功能描述:  根据订单号列表查询订单分润接口
 	 * Author: 许彦 雄
 	 * Date:   2017年3月14日 下午3:38:26   
-	 * param orderSns
-	 * return  ResBodyData
-	 * 
+	 * @param  orderSns 订单号
+	 * @return ResBodyData
 	 */
 	@PostMapping("/queryshareprofit")
 	public ResBodyData queryShareProfit(String[] orderSns) {
@@ -167,10 +164,9 @@ public class OrderController {
 	 * 功能描述:  根据区代/个代查询今日订单佣金和待结算金额接口
 	 * Author: 许彦 雄
 	 * Date:   2017年3月14日 下午3:38:26 
-	 * param code
-	 * param accountRoleType
-	 * return ResBodyData
-	 * 
+	 * @param  code 代理编号
+	 * @param  accountRoleType 账号类型
+	 * @return ResBodyData
 	 */
 	@PostMapping("/queryprofitbyrole")
 	public ResBodyData queryProfitByRole(String code,Integer accountRoleType) {
@@ -183,11 +179,10 @@ public class OrderController {
 	 * 功能描述:  根据代理或商家编号查询汇总分润数据接口
 	 * Author: 许彦 雄
 	 * Date:   2017年3月28日 下午14:41:02
-	 * param codes
-	 * param billStartDate
-	 * param billEndDate
-	 * return  ResBodyData
-	 * 
+	 * @param  codes 代理编号
+	 * @param  billStartDate 账单开始时间
+	 * @param  billEndDate 账单结束时间
+	 * @return ResBodyData
 	 */
 	@PostMapping("/querytotalprofit")
 	public ResBodyData queryTotalProfit(String[] codes,Integer billStartDate,Integer billEndDate) {

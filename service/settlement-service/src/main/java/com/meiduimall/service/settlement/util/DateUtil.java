@@ -198,13 +198,7 @@ public class DateUtil {
 		return endDayTimeStamp.getTime();
 	}
 	
-	/**
-	 * {@link LocalTime}は{@link java.sql.Time}を変換する
-	 * 
-	 * @param time
-	 *            a time
-	 * @return {@link java.sql.Time}
-	 */
+	
 	public static java.sql.Time convert(LocalTime time) {
 		return new java.sql.Time(time.toDateTimeToday().getMillis());
 	}
@@ -215,32 +209,32 @@ public class DateUtil {
 	
 	
 	/**
-	 * 获取时间格式化对象 "yyyy-MM-dd"
-	 * @return
+	 * 获取时间格式化对象
+	 * @return DateFormat
 	 */
 	public static final DateFormat getDateFormat() {
 		return dateFormat;
 	}
 
 	/**
-	 * 日期输入格式采用"yyyyMMdd"
-	 * @return
+	 * 日期输入格式采用
+	 * @return DateFormat
 	 */
 	public static final DateFormat getDateFormatInput() {
 		return dateFormatInput;
 	}
 
 	/**
-	 * 获取时间日期格式化对象 "yyyy-MM-dd HH:mm"
-	 * @return
-	 */
+	 * 获取时间日期格式化对象
+	 * @return DateFormat
+	 */ 
 	public static final DateFormat getDateTimeFormat() {
 		return dateTimeFormat;
 	}
 
 	/**
 	 * 系统最小时间
-	 * @return
+	 * @return Date
 	 */
 	public static final Date minDate() {
 		return dateBegin(getDate(1900, 1, 1));
@@ -248,7 +242,7 @@ public class DateUtil {
 
 	/**
 	 * 系统最大时间
-	 * @return
+	 * @return Date
 	 */
 	public static final Date maxDate() {
 		return dateEnd(getDate(2079, 1, 1));
@@ -257,7 +251,7 @@ public class DateUtil {
 	/**
 	 * 获取指定时间的年
 	 * @param date
-	 * @return
+	 * @return int
 	 */
 	public static final int year(Date date) {
 		if (date == null){
@@ -322,7 +316,6 @@ public class DateUtil {
 
 	/**
 	 * 在一个已知时间的基础上增加指定的时间
-	 * 
 	 * @param oleDate
 	 * @param year
 	 * @param month
@@ -539,14 +532,12 @@ public class DateUtil {
 		return calendar.getTime();
 	}
 
+	
 	/**
-	 * Method：时间格式化，一般在页面上显示比较多，用户可以自定义格式化格式<br>
-	 * Remark：把数据库里的DATE格式转换成HTML页面需要的时间字符串格式：
-	 * <code>DateUtil.format(date, DateUtil.YYYY_MM_DD);</code><br>
-	 * <br>
-	 * @param date 时间Date
-	 * @param format 时间格式
-	 * @return 时间字符串
+	 * 日期格式化
+	 * @param date
+	 * @param format 
+	 * @return String
 	 */
 	public static final String format(Date date, String format) {
 		String newFormat = YYYY_MM_DD;
@@ -566,14 +557,11 @@ public class DateUtil {
 		return sdf.format(date);
 	}
 
+	
 	/**
-	 * Method：时间格式化系统当前时间，一般在页面上显示比较多，用户可以自定义格式化。
-	 * <code>DateUtil.format(DateUtil.YYYY_MM_DD);</code><br>
-	 * <br>
-	 * Author：HF-JWinder(2008-10-6 下午04:04:12)
-	 * 
-	 * @param format 时间格式
-	 * @return 时间字符串
+	 * 系统当前时间格式化
+	 * @param format
+	 * @return
 	 */
 	public static final String format(String format) {
 		String newFormat = YYYY_MM_DD;
@@ -586,10 +574,8 @@ public class DateUtil {
 	}
 
 
-
 	/**
-	 * 格式化输出（只读的时候） 默认格式为 "yyyy-MM-dd"
-	 * 
+	 * 格式化输出
 	 * @param date
 	 * @return
 	 */
@@ -608,9 +594,9 @@ public class DateUtil {
 		return dateFormat.format(date1);
 	}
 
+	
 	/**
-	 * 格式化输出显示（填写的时候） yyyyMMdd
-	 * 
+	 * 格式化输出显示
 	 * @param date
 	 * @return
 	 */
@@ -621,9 +607,9 @@ public class DateUtil {
 		return dateFormatInput.format(date);
 	}
 
+	
 	/**
-	 * 格式化输出 默认格式为 "yyyy-MM-dd HH:mm"
-	 * 
+	 * 格式化输出 默认格式为
 	 * @param date
 	 * @return
 	 */
@@ -648,9 +634,9 @@ public class DateUtil {
 		return dateTimeFormatInput.format(date);
 	}
 
+	
 	/**
 	 * 判断是否是闰年
-	 * 
 	 * @param yearInt
 	 * @return
 	 */
@@ -663,7 +649,8 @@ public class DateUtil {
 	}
 
 	/**
-	 *
+	 * 获取当天日期的下一天日期
+	 * @param date
 	 * @param days
 	 * @return
 	 */
@@ -684,11 +671,11 @@ public class DateUtil {
 		return sdf.format(new Date());
 	}
 
+	
 	/**
-	 * 时间格式转换 <li>yyyy-MM-dd 转 yyyy年MM月dd日</li> <li>yyyy年MM月dd日 转 yyyy-MM-dd</li>
-	 * @param date Old Date
-	 * @return New Date To String
-	 * @
+	 * 时间格式转换 yyyy-MM-dd,yyyy年MM月dd日 这两个日期互转
+	 * @param date 字符串日期
+	 * @return
 	 */
 	public static String replaceFormat(String date)  {
 		String str = date.trim().replace("/", "-");
@@ -742,7 +729,7 @@ public class DateUtil {
 	}
 
 	/**
-	 * 返回当前日期时间字符串<br>
+	 * 返回当前日期时间字符串
 	 * 默认格式:yyyy-mm-dd hh:mm:ss
 	 * @return 返回当前字符串型日期时间
 	 */
@@ -870,13 +857,12 @@ public class DateUtil {
 		return Integer.parseInt(String.valueOf(betweenDays));
 	}
 	
+
 	/**
-	 * 方法名: findDates
-	 * 描述: 获取两个日期段内的每一天list
-	 * 编写者: lyq 
-	 * 创建时间: 2016年6月3日
-	 * @param Date dBegin, Date dEnd
-	 * @return list
+	 * 获取两个日期段内的每一天list
+	 * @param dBegin
+	 * @param dEnd
+	 * @return
 	 */
 	public static List<Date> findDates(Date dBegin, Date dEnd) {  
         List<Date> lDate = new ArrayList<>();  

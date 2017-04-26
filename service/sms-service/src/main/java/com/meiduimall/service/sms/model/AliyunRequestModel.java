@@ -10,20 +10,24 @@
 
 package com.meiduimall.service.sms.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class AliyunRequestModel {
 
 	public class Result {
 
-		private String err_code;
+		@JsonProperty("err_code")
+		private String errCode;
+
 		private String model;
 		private String success;
 
-		public String getErr_code() {
-			return err_code;
+		public String getErrCode() {
+			return errCode;
 		}
 
-		public void setErr_code(String err_code) {
-			this.err_code = err_code;
+		public void setErrCode(String errCode) {
+			this.errCode = errCode;
 		}
 
 		public String getModel() {
@@ -45,7 +49,9 @@ public class AliyunRequestModel {
 	}
 
 	private Result result;
-	private String request_id;
+
+	@JsonProperty("request_id")
+	private String requestId;
 
 	public Result getResult() {
 		return result;
@@ -55,12 +61,11 @@ public class AliyunRequestModel {
 		this.result = result;
 	}
 
-	public String getRequest_id() {
-		return request_id;
+	public String getRequestId() {
+		return requestId;
 	}
 
-	public void setRequest_id(String request_id) {
-		this.request_id = request_id;
+	public void setRequestId(String requestId) {
+		this.requestId = requestId;
 	}
-
 }
