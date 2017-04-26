@@ -26,7 +26,9 @@ import com.meiduimall.application.search.utility.StringUtil;
 
 /**
  * 搜索
- * @date 2016年4月22日
+ * @author:   jianhua.huang 
+ * @version:  2017年4月26日 下午2:09:56 0.1 
+ * Description:
  */
 @Controller
 public class SearchController extends BaseController {
@@ -42,9 +44,9 @@ public class SearchController extends BaseController {
 	
 	/**
 	 * 列表
-	 * @param request
 	 * @param searchParam
 	 * @return
+	 * @author: jianhua.huang  2017年4月26日 下午2:08:54
 	 */
 	@RequestMapping(value = "list")
 	public ModelAndView list(SearchParam searchParam) {
@@ -171,9 +173,9 @@ public class SearchController extends BaseController {
 
 	/**
 	 * 搜索
-	 * @param request
 	 * @param searchParam
 	 * @return
+	 * @author: jianhua.huang  2017年4月26日 下午2:09:25
 	 */
 	@RequestMapping(value = "search")
 	public ModelAndView search(SearchParam searchParam) {

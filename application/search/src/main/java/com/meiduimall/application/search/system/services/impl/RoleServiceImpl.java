@@ -26,7 +26,7 @@ public class RoleServiceImpl implements IRoleService {
 	/**
 	 * 查询角色列表
 	 * @param role
-	 * @return List<Role>
+	 * @return 
 	 */
 	public List<Role> selectRoleList(Role role) {
 		return roleDao.selectRoleList(role);

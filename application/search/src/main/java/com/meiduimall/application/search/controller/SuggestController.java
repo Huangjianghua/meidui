@@ -11,8 +11,10 @@ import com.meiduimall.application.search.services.SuggestService;
 import com.meiduimall.application.search.utility.Pinyin4jUtil;
 
 /**
- * 输入提示
- * @date 2016年4月26日
+ * 
+ * @author:   jianhua.huang 
+ * @version:  2017年4月26日 下午2:11:00 0.1 
+ * Description:输入提示
  */
 @RestController
 public class SuggestController {

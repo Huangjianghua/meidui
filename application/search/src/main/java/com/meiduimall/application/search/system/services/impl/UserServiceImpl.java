@@ -26,7 +26,7 @@ public class UserServiceImpl implements IUserService{
 	/**
      * 查询用户列表
      * @param user
-     * @return List<User>
+     * @return 
     */
 	public List<User> selectUserList(User user) {
 		return userDao.selectUserList(user);

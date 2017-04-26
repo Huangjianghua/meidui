@@ -291,8 +291,7 @@ public class SUtil {
 	 * 将时间戳转换为日期
 	 * @param timeStampStr
 	 * @return 返回日期
-	 * @author Liujun
-	 * @date 2015-08-06
+	 * @author: jianhua.huang  2017年4月26日 下午2:22:53
 	 */
 	public static Date getDateFromTimeStamp(String timeStampStr) {
 		Date convertTime = null;
