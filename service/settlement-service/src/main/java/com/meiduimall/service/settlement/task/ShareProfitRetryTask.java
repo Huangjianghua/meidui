@@ -1,6 +1,5 @@
 package com.meiduimall.service.settlement.task;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -79,17 +78,14 @@ public class ShareProfitRetryTask {
 	}
 	
 	private Map<String, String> getOrders2Retry()  {
-		Integer currentTimestampSec = DateUtil.getCurrentTimeSec();
-		log.info("current timestamp sec:{},Date:{}",currentTimestampSec,DateUtil.getCurrentTime());
+		int currentTimestamp = DateUtil.getCurrentTimeSec();
+		log.info("current timestamp sec:{},Date:{}",currentTimestamp,DateUtil.getCurrentTime());
 		
-		Map<String, Object> params = Maps.newHashMap();
-		params.put("currentTimestamp", currentTimestampSec);
+		List<ShareProfitOrderLog> shareProfit5MinOrder2Retry = baseMapper.selectList(currentTimestamp, "ShareProfitOrderLogMapper.get5MinOrders2Retry");
+		List<ShareProfitOrderLog> shareProfit30MinOrder2Retry = baseMapper.selectList(currentTimestamp, "ShareProfitOrderLogMapper.get30MinOrders2Retry");
+		List<ShareProfitOrderLog> shareProfit12HOrder2Retry = baseMapper.selectList(currentTimestamp, "ShareProfitOrderLogMapper.get12HOrders2Retry");
 		
-		List<ShareProfitOrderLog> shareProfit5MinOrder2Retry = baseMapper.selectList(params, "ShareProfitOrderLogMapper.get5MinOrders2Retry");
-		List<ShareProfitOrderLog> shareProfit30MinOrder2Retry = baseMapper.selectList(params, "ShareProfitOrderLogMapper.get30MinOrders2Retry");
-		List<ShareProfitOrderLog> shareProfit12HOrder2Retry = baseMapper.selectList(params, "ShareProfitOrderLogMapper.get12HOrders2Retry");
-		
-		final Map<String, String> retryOrders = new HashMap<>();
+		final Map<String, String> retryOrders = Maps.newHashMap();
 		//注意retryOrders存放orderSn数据要安装这样的顺序:12H->30Min->5Min,因为要过滤掉已经重试过但失败的orderSn。
 		if (shareProfit12HOrder2Retry != null && !shareProfit12HOrder2Retry.isEmpty()) {
 			for (ShareProfitOrderLog orderLog : shareProfit12HOrder2Retry) {

@@ -36,7 +36,7 @@ import com.meiduimall.service.settlement.util.DateUtil;
 
 
 /**
- * Copyright (C), 2002-2017, 美兑壹购
+ * Copyright (C), 2002-2017, 美兑壹购物
  * FileName: AsyncTaskService.java
  * Author:   许彦雄
  * Date:     2016年12月26日 下午6:15:47
