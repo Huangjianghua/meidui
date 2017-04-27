@@ -1,13 +1,3 @@
-/*
- *  @项目名称: ${project_name}
- *
- *  @文件名称: ${file_name}
- *  @Date: ${date}
- *  @Copyright: ${year} www.meiduimall.com Inc. All rights reserved.
- *
- *  注意：本内容仅限于美兑壹购物公司内部传阅，禁止外泄以及用于其他的商业目的
- */
-
 package com.meiduimall.service.sms.service.impl;
 
 import java.util.Date;
@@ -26,6 +16,7 @@ import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.ServiceException;
+import com.meiduimall.exception.SystemException;
 import com.meiduimall.redis.util.RedisUtils;
 import com.meiduimall.service.sms.constant.SmsApiCode;
 import com.meiduimall.service.sms.constant.SysConstant;
@@ -41,7 +32,6 @@ import com.meiduimall.service.sms.service.SmsService;
 import com.meiduimall.service.sms.service.TemplateInfoService;
 import com.meiduimall.service.sms.service.ZucpService;
 import com.meiduimall.service.sms.util.ToSecondsUtils;
-
 
 @Service
 public class SmsServiceImpl implements SmsService {
@@ -98,14 +88,19 @@ public class SmsServiceImpl implements SmsService {
 		}
 
 		/**
-		 * 首先阿里云发送发送短信，如果发送失败则调用漫道发送。
-		 * 全部失败则返回失败信息。
+		 * 首先阿里云发送发送短信，如果发送失败则调用漫道发送。 全部失败则返回失败信息。
 		 */
 		boolean flag = aliyunService.send(model.getPhones(), ti.getExternalTemplateNo(), params);
 		logger.info("阿里大于发送短信结果flag：" + flag);
-		String res = "-1";
+		String res = "-1000";
 		if (!flag) {
-			res = zucpService.send(model.getPhones(), content);
+			try {
+				res = zucpService.send(model.getPhones(), content);
+			} catch (SystemException e) {
+				logger.info("漫道发送短信结果异常：" + e);
+				throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER,
+						BaseApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
+			}
 			logger.info("漫道发送短信结果res：" + res);
 			try {
 				if (Long.parseLong(res) < 0) {
@@ -113,7 +108,7 @@ public class SmsServiceImpl implements SmsService {
 							BaseApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
 				}
 			} catch (NumberFormatException e) {
-				logger.info("漫道发送短信结果: " + e);
+				logger.info("漫道发送短信结果res异常：" + e);
 				throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER,
 						BaseApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
 			}
@@ -189,21 +184,27 @@ public class SmsServiceImpl implements SmsService {
 		 * 首先阿里云发送发送短信，如果发送失败则调用漫道发送 </br>
 		 * 全部失败则返回失败信息
 		 */
-		String res = "-1";
+		String res = "-1000";
 		boolean flag = aliyunService.send(model.getPhones(), ti.getExternalTemplateNo(), params);
-		logger.info("阿里大于发送短信结果(flag): " + flag);
+		logger.info("阿里大于发送验证码短信结果(flag): " + flag);
 		if (!flag) {
-			res = zucpService.send(model.getPhones(), content);
-			logger.info("漫道发送短信结果（res）:{}" + res);
+			try {
+				res = zucpService.send(model.getPhones(), content);
+			} catch (SystemException e) {
+				logger.info("漫道发送验证码结果异常：" + e);
+				throw new ServiceException(SmsApiCode.SEND_CODE_FAILUER,
+						BaseApiCode.getZhMsg(SmsApiCode.SEND_CODE_FAILUER));
+			}
+			logger.info("漫道发送验证码短信结果（res）:" + res);
 			try {
 				if (Long.parseLong(res) < 0) {
-					throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER,
-							BaseApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
+					throw new ServiceException(SmsApiCode.SEND_CODE_FAILUER,
+							BaseApiCode.getZhMsg(SmsApiCode.SEND_CODE_FAILUER));
 				}
 			} catch (NumberFormatException e) {
-				logger.info("漫道发送短信结果: " + e);
-				throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER,
-						BaseApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
+				logger.info("漫道发送验证码短信结果（res）异常：" + e);
+				throw new ServiceException(SmsApiCode.SEND_CODE_FAILUER,
+						BaseApiCode.getZhMsg(SmsApiCode.SEND_CODE_FAILUER));
 			}
 		}
 
@@ -219,7 +220,7 @@ public class SmsServiceImpl implements SmsService {
 			ssh.setResultMsg("ali result, flag: " + flag + " ; mandao result, res: " + res);
 			smsSendHistoryMapper.insert(ssh);
 		} catch (Exception e) {
-			logger.info("短信发送成功，保存到数据库历史记录异常：" + e);
+			logger.info("验证码发送成功，保存到数据库历史记录异常：" + e);
 		}
 
 		// 返回验证码
@@ -227,7 +228,7 @@ public class SmsServiceImpl implements SmsService {
 		data.setVerificationCode(randomNumber);
 		ResBodyData result = new ResBodyData();
 		result.setStatus(SmsApiCode.SUCCESS);
-		result.setMsg(SmsApiCode.getZhMsg(SmsApiCode.SMS_SEND_SUCCESS));
+		result.setMsg(SmsApiCode.getZhMsg(SmsApiCode.SEND_CODE_SUCCESS));
 		result.setData(data);
 		return result;
 	}

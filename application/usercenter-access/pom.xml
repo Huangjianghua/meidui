@@ -10,7 +10,7 @@
 
 	<groupId>com.meiduimall.application</groupId>
     <artifactId>usercenter-access</artifactId>
-	<name>service::usercenter-access</name>
+	<name>usercenter-access</name>
 	<packaging>jar</packaging>
 
 	<dependencies>

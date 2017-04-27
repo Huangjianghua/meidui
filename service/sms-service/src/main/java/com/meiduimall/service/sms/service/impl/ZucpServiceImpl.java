@@ -1,13 +1,3 @@
-/*
- *  @项目名称: ${project_name}
- *
- *  @文件名称: ${file_name}
- *  @Date: ${date}
- *  @Copyright: ${year} www.meiduimall.com Inc. All rights reserved.
- *
- *  注意：本内容仅限于美兑壹购物公司内部传阅，禁止外泄以及用于其他的商业目的
- */
-
 package com.meiduimall.service.sms.service.impl;
 
 import java.util.HashMap;
@@ -19,7 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.meiduimall.core.util.HttpUtils;
-import com.meiduimall.exception.ServiceException;
+import com.meiduimall.exception.SystemException;
 import com.meiduimall.password.exception.Md5Exception;
 import com.meiduimall.password.util.MD5;
 import com.meiduimall.service.sms.constant.SmsApiCode;
@@ -49,7 +39,7 @@ public class ZucpServiceImpl implements ZucpService {
 		sb.append(zucpUser);
 		sb.append("</sn>");
 		sb.append("<pwd>");
-		sb.append(MD5.getMD5EncodeUTF8(zucpUser + zucpPasswd));
+		sb.append(MD5.getMD5EncodeUTF8(zucpUser + zucpPasswd).toUpperCase());
 		sb.append("</pwd>");
 		sb.append("<mobile>");
 		sb.append(mobile);
@@ -73,7 +63,7 @@ public class ZucpServiceImpl implements ZucpService {
 	}
 
 	@Override
-	public String send(String mobile, String content, String ext, String stime, String rrid) {
+	public String send(String mobile, String content, String ext, String stime, String rrid) throws SystemException {
 
 		Map<String, String> headers = new HashMap<>();
 		headers.put("Content-Type", "text/xml;charset=utf-8");
@@ -81,9 +71,12 @@ public class ZucpServiceImpl implements ZucpService {
 
 		try {
 
-			String result = HttpUtils.post(zucpUrl, buildBody(mobile, content, ext, stime, rrid), headers, "UTF-8",
-					"UTF-8");
-			logger.info("Zucp::Result : " + result);
+			String buildBody = buildBody(mobile, content, ext, stime, rrid);
+			logger.info("短信发送，漫道发送内容 : " + buildBody);
+
+			String result = HttpUtils.post(zucpUrl, buildBody, headers, "UTF-8", "UTF-8");
+
+			logger.info("短信发送，漫道返回 : " + result);
 
 			String[] array1 = result.split("<mdSmsSend_uResult>");
 			String[] array2 = array1[1].split("</mdSmsSend_uResult>");
@@ -91,13 +84,13 @@ public class ZucpServiceImpl implements ZucpService {
 			return array2[0];
 		} catch (Exception e) {
 			logger.error("ZucpService error. " + e);
-			throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER, SmsApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
+			throw new SystemException(SmsApiCode.SMS_SEND_FAILUER, SmsApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
 		}
 
 	}
 
 	@Override
-	public String send(String mobile, String content) {
+	public String send(String mobile, String content) throws SystemException {
 		return this.send(mobile, content, "", "", "");
 	}
 }
