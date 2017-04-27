@@ -1,27 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <groupId>com.meiduimall</groupId>
-        <artifactId>service</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
-    </parent>
-    
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<groupId>com.meiduimall</groupId>
+		<artifactId>service</artifactId>
+		<version>1.0.1-SNAPSHOT</version>
+	</parent>
 
-    <groupId>com.meiduimall.service</groupId>
-    <artifactId>sms-service</artifactId>
-	<name>service::sms-service</name>
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.meiduimall.service</groupId>
+	<artifactId>sms-service</artifactId>
 	<version>1.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<name>service::sms-service</name>
+	<description>service::sms-service</description>
 
 	<dependencies>
-
+	
 		<dependency>
-			<groupId>com.meiduimall</groupId>
-			<artifactId>meiduimall-support-core</artifactId>
-			<version>${meiduimall-support-core.version}</version>
-			<!--<scope>provided</scope>-->
-		</dependency>
-
+            <groupId>org.mock-server</groupId>
+            <artifactId>mockserver-netty</artifactId>
+            <version>3.10.4</version>
+            <scope>test</scope>
+        </dependency>
+	
 		<dependency>
 			<groupId>com.taobao</groupId>
 			<artifactId>taobao-sdk-java-auto</artifactId>
@@ -44,16 +47,16 @@
 			</exclusions>
 		</dependency>
 
-        <dependency>
-            <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper</artifactId>
+		</dependency>
 
-        <!-- 数据连接池hikari -->
-        <dependency>
-            <groupId>com.zaxxer</groupId>
-            <artifactId>HikariCP</artifactId>
-        </dependency>
+		<!-- 数据连接池hikari -->
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>mysql</groupId>
@@ -75,21 +78,21 @@
 			</plugin>
 		</plugins>
 		<resources>
-	       <resource> 
-	            <directory>src/main/java/</directory> 
-	            <filtering>false</filtering> 
-	            <includes>  
-	                <include>com/meiduimall/service/sms/mapper/*.xml</include> 
-	            </includes> 
-	       </resource> 
-	       <resource> 
-	            <directory>src/main/resources/</directory> 
-	            <filtering>false</filtering> 
-	            <includes>  
-	                <include>*</include> 
-	            </includes> 
-	       </resource> 
-	       
+			<resource>
+				<directory>src/main/java/</directory>
+				<filtering>false</filtering>
+				<includes>
+					<include>com/meiduimall/service/sms/mapper/*.xml</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources/</directory>
+				<filtering>false</filtering>
+				<includes>
+					<include>*</include>
+				</includes>
+			</resource>
+
 		</resources>
 	</build>
 

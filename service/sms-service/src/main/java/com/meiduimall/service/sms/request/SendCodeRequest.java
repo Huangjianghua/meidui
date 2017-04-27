@@ -15,6 +15,7 @@ public class SendCodeRequest implements Serializable {
 
 	@NotNull
 	private String phones; // 手机号
+	@NotNull
 	private String templateKey; // 模板id
 	private String channelId;// 渠道编号
 	private String params;// 替换短信中的参数

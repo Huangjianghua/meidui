@@ -1,13 +1,3 @@
-/*
- *  @项目名称: ${project_name}
- *
- *  @文件名称: ${file_name}
- *  @Date: ${date}
- *  @Copyright: ${year} www.meiduimall.com Inc. All rights reserved.
- *
- *  注意：本内容仅限于美兑壹购物公司内部传阅，禁止外泄以及用于其他的商业目的
- */
-
 package com.meiduimall.service.sms.service.impl;
 
 import java.util.List;
@@ -19,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
+import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.util.JsonUtils;
+import com.meiduimall.exception.ServiceException;
+import com.meiduimall.service.sms.constant.SmsApiCode;
 import com.meiduimall.service.sms.constant.SysConstant;
 import com.meiduimall.service.sms.entity.MessageChannel;
 import com.meiduimall.service.sms.service.AliyunService;
@@ -27,7 +20,6 @@ import com.taobao.api.DefaultTaobaoClient;
 import com.taobao.api.TaobaoClient;
 import com.taobao.api.request.AlibabaAliqinFcSmsNumSendRequest;
 import com.taobao.api.response.AlibabaAliqinFcSmsNumSendResponse;
-
 
 @Service
 public class AliyunServiceImpl implements AliyunService {
@@ -41,15 +33,15 @@ public class AliyunServiceImpl implements AliyunService {
 	private MessageChannelServiceImpl messageChannelService;
 
 	@Override
-	public boolean send(String mobile, String tid, String context) {
+	public boolean send(String phones, String externalTemplateNo, String params) {
 
 		String url = env.getProperty("aliyun.url");
 		String appKey = env.getProperty("aliyun.appKey");
 		String appSecret = env.getProperty("aliyun.appSecret");
 		String signName = env.getProperty("aliyun.signName");
 
-		if (StringUtils.isEmpty(tid)) {
-			logger.error("模板ID为空,无法使用阿里大于发送短短信！");
+		if (StringUtils.isEmpty(externalTemplateNo)) {
+			logger.error("模板external_template_no字段为空,无法使用阿里大于发送短短信！");
 			return false;
 		}
 
@@ -70,16 +62,29 @@ public class AliyunServiceImpl implements AliyunService {
 		AlibabaAliqinFcSmsNumSendRequest req = new AlibabaAliqinFcSmsNumSendRequest();
 		req.setSmsType("normal");
 		req.setSmsFreeSignName(signName);
-		req.setSmsParamString(context);
-		req.setRecNum(mobile);
-		req.setSmsTemplateCode(tid);
+		req.setSmsParamString(params);
+		req.setRecNum(phones);
+		req.setSmsTemplateCode(externalTemplateNo);
 		AlibabaAliqinFcSmsNumSendResponse rsp = null;
 		try {
 			rsp = client.execute(req);
 		} catch (com.taobao.api.ApiException e) {
-			logger.error("阿里云平台短信发送异常: " + e);
+			logger.error("短信发送，阿里云平台短信发送异常: " + e);
 		}
-		return rsp != null && (rsp.getBody().indexOf("\"success\":true") != -1
-				|| rsp.getBody().indexOf("isv.BUSINESS_LIMIT_CONTROL") != -1);
+		if (rsp != null) {
+			String resultBody = rsp.getBody();
+			logger.error("短信发送，阿里云平台返回: " + resultBody);
+			if(resultBody.indexOf("\"success\":true") != -1){
+				return true;
+			} else if(resultBody.indexOf("isv.BUSINESS_LIMIT_CONTROL") != -1){
+				// 短信验证码，使用同一个签名，对同一个手机号码发送短信验证码，允许每分钟1条，累计每小时7条。 短信通知，使用同一签名、同一模板，对同一手机号发送短信通知，允许每天50条（自然日）。
+				logger.error("短信发送，阿里云平台返回错误码: isv.BUSINESS_LIMIT_CONTROL");
+				throw new ServiceException(SmsApiCode.REPEATING, BaseApiCode.getZhMsg(SmsApiCode.REPEATING));
+			} else{
+				return false;
+			}
+		} else {
+			return false;
+		}
 	}
 }
