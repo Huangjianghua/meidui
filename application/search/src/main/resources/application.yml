@@ -2,9 +2,9 @@ spring:
   datasource:
     type : com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://192.168.4.195:3306/sqldb?useUnicode=true&characterEncoding=utf-8
-    username: test
-    password: 111
+    url: jdbc:mysql://192.168.4.236:3306/sqldb?useUnicode=true&characterEncoding=utf-8
+    username: meidui
+    password: meiduishop
     hikari:
       connection-init-sql: SELECT 1
       connection-test-query: SELECT 1 FROM DUAL
@@ -16,4 +16,4 @@ spring:
       minimumIdle : 10
       pool-name: harika-cp
       
-search_server_url: http://127.0.0.1:8081/solr      
+search_server_url: http://192.168.4.241:8050/solr     
