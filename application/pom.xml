@@ -22,15 +22,15 @@
     </modules>
 
 
-    <distributionManagement>
+     <distributionManagement>
         <repository>
-            <id>nexus</id>
-            <name>Nexus Releases</name>
+            <id>maven-releases</id>
+            <name>maven-releases</name>
             <url>http://maven.meiduimall.com/repository/maven-releases/</url>
         </repository>
         <snapshotRepository>
-            <id>nexus</id>
-            <name>Nexus Snapshot</name>
+            <id>maven-snapshots</id>
+            <name>maven-snapshots</name>
             <url>http://maven.meiduimall.com/repository/maven-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
