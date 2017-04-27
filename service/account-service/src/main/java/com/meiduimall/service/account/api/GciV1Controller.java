@@ -42,6 +42,7 @@ public class GciV1Controller {
 		String  message = null;
 		try {
 			JSONObject jsonObject = null;
+				
 			logger.info("充值美兑积分，外部请求IP=" + jsonObject.getString("ip") + "开始");
 			message=mdmallService.addMallPoints(jsonObject, request, response);
 			request.getQueryString();		
