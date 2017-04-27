@@ -198,6 +198,9 @@ public class WeChatClient {
      * @param tradeType 交易类型
      * @param productId 产品ID
      * @param openId 用户openid
+     * @param notifyUrl 回调地址
+     * @param accountType 账号类型
+     * 
      * @return 签名对象
      */
     public WeChatResponeModel handler(String body, String tradeNo, int totalFee, String spbillCreateIp,
@@ -254,6 +257,7 @@ public class WeChatClient {
      * 获取APP预支付单签名
      *
      * @param model 签名参数对象
+     * @param accountType 账号类型
      * @return  获取签名对象
      * @throws ApiException 接口异常
      */
