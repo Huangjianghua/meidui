@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Maps;
+import com.meiduimall.service.settlement.common.ShareProfitUtil;
 import com.meiduimall.service.settlement.dao.BaseMapper;
 import com.meiduimall.service.settlement.model.EcmMzfAccount;
 import com.meiduimall.service.settlement.model.EcmMzfAgentWater;
@@ -99,8 +100,9 @@ public class AgentServiceImpl implements AgentService {
 	
 	
 	@Override
-	public List<EcmSystemSetting> quertSharefit() {
-		return baseMapper.selectList(null, "ShareProfitMapper.quertSharefit");
+	public Map<String, String> quertSharefit() {
+		List<EcmSystemSetting> settingList = baseMapper.selectList(null, "ShareProfitMapper.quertSharefit");
+		return ShareProfitUtil.queryShareProfit(settingList);
 	}
 	
 

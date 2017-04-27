@@ -36,7 +36,7 @@ import com.meiduimall.service.settlement.dao.BaseMapper;
 import com.meiduimall.service.settlement.model.EcmMzfOrderStatus;
 import com.meiduimall.service.settlement.model.EcmMzfShareProfit;
 import com.meiduimall.service.settlement.model.EcmOrder;
-import com.meiduimall.service.settlement.model.EcmSystemSetting;
+import com.meiduimall.service.settlement.service.AgentService;
 import com.meiduimall.service.settlement.service.OrderService;
 import com.meiduimall.service.settlement.util.ConnectionUrlUtil;
 import com.meiduimall.service.settlement.util.DateUtil;
@@ -50,6 +50,9 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Autowired
 	private BaseMapper baseMapper;
+	
+	@Autowired
+	private AgentService agentService;
 	
 	@Autowired
 	private MyProps myProps;
@@ -76,8 +79,7 @@ public class OrderServiceImpl implements OrderService {
 
 		log.info("buildShareProfit start:Current Date:" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 		// 查询基本分润配置
-		List<EcmSystemSetting> list = baseMapper.selectList(null, "ShareProfitMapper.quertSharefit");
-		Map<String, String> systemSetting = ShareProfitUtil.queryShareProfit(list);
+		Map<String, String> systemSetting = agentService.quertSharefit();
 		
 		ShareProfitContext ctx = new ShareProfitContext();
 		
@@ -101,31 +103,13 @@ public class OrderServiceImpl implements OrderService {
 			throw new ServiceException(SettlementApiCode.ORDER_AMOUNT_ISNULL, BaseApiCode.getZhMsg(SettlementApiCode.ORDER_AMOUNT_ISNULL));
 		}
 		if (null == ecmOrder.getAgentNoRegion() || "".equals(ecmOrder.getAgentNoRegion())) {
-			log.info("该订单区代为空!");
+			log.error("该订单区代为空!");
 			throw new ServiceException(SettlementApiCode.AGENT_NO_REGION_ISNULL, BaseApiCode.getZhMsg(SettlementApiCode.AGENT_NO_REGION_ISNULL));
 		}
 		log.info("订单支付金额:{}", ecmOrder.getOrderAmount());
 		
-		// 获取推荐人信息		
-		String resultStr = ConnectionUrlUtil.httpRequest(getBelongInfoUrl(ecmOrder.getBuyerName()), ShareProfitUtil.REQUEST_METHOD_POST, null);
-		ResBodyData resultJson= JsonUtils.jsonToBean(resultStr, ResBodyData.class);
-		
-		Map<String, String> belongMap = null;
-		
-		if (null == resultJson) { 
-			log.info("会员系统连接失败!略过该条数据");
-			throw new ServiceException(SettlementApiCode.GET_RECOMMENDER_INFO_FAILURE, BaseApiCode.getZhMsg(SettlementApiCode.GET_RECOMMENDER_INFO_FAILURE));
-		}else{
-			// 判断返回是否成功,如果不成功则不理会
-			if (resultJson.getStatus()==0) {
-//				List<Map<String, String>> map = resultJson.getRESULT();
-//				belongMap = ShareProfitUtil.getlvlAndPhone(map);
-				
-				log.info("推荐人信息:{}", resultJson.getData());
-			} else {
-				log.error("errcode:{};errmsg:{}", resultJson.getStatus(), resultJson.getMsg());
-			}
-		}
+		//获取推荐人信息
+		Map<String, String> belongMap = getRecommenderInfo(ecmOrder.getBuyerName());
 		
 		// 平台分账(即服务费) = 参与让利金额 * 店铺服务费率
 		//因为PHP部门已经根据全额返利和部分返利这两种情况，经参与让利金额计算到ecm_order.rebate_amount字段，所以结算这边无需再判断是全额返利还是部分返利。
@@ -251,6 +235,36 @@ public class OrderServiceImpl implements OrderService {
 		
 		return buildShareProfitModel(ecmOrder, ctx, meiduiCompanyAgentNos);
 	}
+
+
+	/**
+	 * 获取推荐人信息
+	 * @param buyerName 消费用户手机号
+	 * @return Map
+	 */
+	private Map<String, String> getRecommenderInfo(String buyerName) {
+		// 获取推荐人信息		
+		String resultStr = ConnectionUrlUtil.httpRequest(getBelongInfoUrl(buyerName), ShareProfitUtil.REQUEST_METHOD_POST, null);
+		ResBodyData resultJson= JsonUtils.jsonToBean(resultStr, ResBodyData.class);
+		
+		Map<String, String> belongMap = null;
+		
+		if (null == resultJson) { 
+			log.info("会员系统连接失败!略过该条数据");
+			throw new ServiceException(SettlementApiCode.GET_RECOMMENDER_INFO_FAILURE, BaseApiCode.getZhMsg(SettlementApiCode.GET_RECOMMENDER_INFO_FAILURE));
+		}else{
+			// 判断返回是否成功,如果不成功则不理会
+			if (resultJson.getStatus()==0) {
+//				List<Map<String, String>> map = resultJson.getRESULT();
+//				belongMap = ShareProfitUtil.getlvlAndPhone(map);
+				
+				log.info("推荐人信息:{}", resultJson.getData());
+			} else {
+				log.error("errcode:{};errmsg:{}", resultJson.getStatus(), resultJson.getMsg());
+			}
+		}
+		return belongMap;
+	}
 	
 
 	@Override
@@ -312,7 +326,7 @@ public class OrderServiceImpl implements OrderService {
 		ecmMzfShareProfit.setSellerShareprofitRate(discount);
 		ecmMzfShareProfit.setAreaShareprofitRate(isTwoHundreAgentFlag ? new BigDecimal(systemSetting.get(ShareProfitUtil.TWO_AREA_SCALE)) : new BigDecimal(systemSetting.get(ShareProfitUtil.AREA_SCALE)));
 		ecmMzfShareProfit.setSellerPointRate(new BigDecimal(systemSetting.get(ShareProfitUtil.SELLER_POINT_RATE)));
-		if (null != belongMap && belongMap.size() > 0) {
+		if (null != belongMap && !belongMap.isEmpty()) {
 			if(!Strings.isNullOrEmpty(belongMap.get("1"))){  //Alex:fix the bug:belongMap={1=} @2016 Dec 13
 				ecmMzfShareProfit.setBelongOnePhone(belongMap.get("1"));
 				ecmMzfShareProfit.setBelongOnePoint(belongRevenue.setScale(0, BigDecimal.ROUND_DOWN));
@@ -403,42 +417,44 @@ public class OrderServiceImpl implements OrderService {
 		Integer todayStart=DateUtil.getDayBeginBySecond(0).intValue();
 		Integer todayEnd=DateUtil.getDayEndBySecond(0).intValue();
 		
-		final Map<String,Object> params=new HashMap<>();
+		final Map<String,Object> params = Maps.newHashMap();
 		params.put("startDate",todayStart);
 		params.put("endDate",todayEnd);
 		
-		if(accountRoleType!=null){
-			if(ShareProfitConstants.ROLE_TYPE_AREA_AGENT==accountRoleType){
-				params.put("areaAgentNo", code);
-				List<ShareProfitVO> spVOs4Today=baseMapper.selectList(params, "ShareProfitMapper.getAreaAgentShareProfit4Period");
-				//一个区代，即可能是区代，也有可能是跨区代。
-				BigDecimal areaAgentProfit4Today=ShareProfitUtil.getShareProfitByType("areaAgent",spVOs4Today,"Today");
-				BigDecimal outareaAgentProfit4Today=ShareProfitUtil.getShareProfitByType("outAreaAgent",spVOs4Today,"Today");
-				
-				BigDecimal totalAreaAgentProfit4Today=(areaAgentProfit4Today==null?BigDecimal.ZERO:areaAgentProfit4Today).add(outareaAgentProfit4Today==null?BigDecimal.ZERO:outareaAgentProfit4Today);
-				
-				//合并汇总today arerAgent and outAreaAgent
-				List<ShareProfitVO> spVOs4Settlement=baseMapper.selectList(params, "ShareProfitMapper.getAreaAgentShareProfit4Settlement");
-				BigDecimal areaAgentProfit4Settlement=ShareProfitUtil.getShareProfitByType("areaAgent",spVOs4Settlement,"Settlement");
-				BigDecimal outareaAgentProfit4Settlement=ShareProfitUtil.getShareProfitByType("outAreaAgent",spVOs4Settlement,"Settlement");
-				
-				BigDecimal totalAreaAgentProfit4Settlement=(areaAgentProfit4Settlement==null?BigDecimal.ZERO:areaAgentProfit4Settlement).add(outareaAgentProfit4Settlement==null?BigDecimal.ZERO:outareaAgentProfit4Settlement);
-				
-				//合并汇总settlemt arerAgent and outAreaAgent
-				spVO=new ShareProfitVO("AreaAgent",code,totalAreaAgentProfit4Today,totalAreaAgentProfit4Settlement);
-				
-			}else if(ShareProfitConstants.ROLE_TYPE_PERSONAL_AGENT==accountRoleType){
-				params.put("personalAgentNo", code);
-				ShareProfitVO spVOs4Today=baseMapper.selectOne(params, "ShareProfitMapper.getPersonalAgentShareProfit4Period");
-				ShareProfitVO spVOs4Settlement=baseMapper.selectOne(params, "ShareProfitMapper.getPersonalAgentShareProfit4Settlement");
-				
-				BigDecimal personalAgentProfit4Today=spVOs4Today.getProfitToday();
-				BigDecimal personalAgentProfit4Settlement=spVOs4Settlement.getProfit4Settlement();
-				spVO=new ShareProfitVO("PersonalAgent",code,personalAgentProfit4Today,personalAgentProfit4Settlement);
-				
-			}
+		if(accountRoleType==null){
+			return spVO;
 		}
-
+		
+		if(ShareProfitConstants.ROLE_TYPE_AREA_AGENT==accountRoleType){
+			params.put("areaAgentNo", code);
+			List<ShareProfitVO> spVOs4Today=baseMapper.selectList(params, "ShareProfitMapper.getAreaAgentShareProfit4Period");
+			//一个区代，即可能是区代，也有可能是跨区代。
+			BigDecimal areaAgentProfit4Today=ShareProfitUtil.getShareProfitByType("areaAgent",spVOs4Today,"Today");
+			BigDecimal outareaAgentProfit4Today=ShareProfitUtil.getShareProfitByType("outAreaAgent",spVOs4Today,"Today");
+			
+			BigDecimal totalAreaAgentProfit4Today=(areaAgentProfit4Today==null?BigDecimal.ZERO:areaAgentProfit4Today).add(outareaAgentProfit4Today==null?BigDecimal.ZERO:outareaAgentProfit4Today);
+			
+			//合并汇总today arerAgent and outAreaAgent
+			List<ShareProfitVO> spVOs4Settlement=baseMapper.selectList(params, "ShareProfitMapper.getAreaAgentShareProfit4Settlement");
+			BigDecimal areaAgentProfit4Settlement=ShareProfitUtil.getShareProfitByType("areaAgent",spVOs4Settlement,"Settlement");
+			BigDecimal outareaAgentProfit4Settlement=ShareProfitUtil.getShareProfitByType("outAreaAgent",spVOs4Settlement,"Settlement");
+			
+			BigDecimal totalAreaAgentProfit4Settlement=(areaAgentProfit4Settlement==null?BigDecimal.ZERO:areaAgentProfit4Settlement).add(outareaAgentProfit4Settlement==null?BigDecimal.ZERO:outareaAgentProfit4Settlement);
+			
+			//合并汇总settlemt arerAgent and outAreaAgent
+			spVO=new ShareProfitVO("AreaAgent",code,totalAreaAgentProfit4Today,totalAreaAgentProfit4Settlement);
+			
+		}else if(ShareProfitConstants.ROLE_TYPE_PERSONAL_AGENT==accountRoleType){
+			params.put("personalAgentNo", code);
+			ShareProfitVO spVOs4Today=baseMapper.selectOne(params, "ShareProfitMapper.getPersonalAgentShareProfit4Period");
+			ShareProfitVO spVOs4Settlement=baseMapper.selectOne(params, "ShareProfitMapper.getPersonalAgentShareProfit4Settlement");
+			
+			BigDecimal personalAgentProfit4Today=spVOs4Today.getProfitToday();
+			BigDecimal personalAgentProfit4Settlement=spVOs4Settlement.getProfit4Settlement();
+			spVO=new ShareProfitVO("PersonalAgent",code,personalAgentProfit4Today,personalAgentProfit4Settlement);
+			
+		}
+		
 		return spVO;
 
 	}

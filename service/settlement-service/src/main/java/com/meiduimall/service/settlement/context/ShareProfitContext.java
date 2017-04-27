@@ -1,7 +1,6 @@
 package com.meiduimall.service.settlement.context;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
@@ -36,7 +35,7 @@ public class ShareProfitContext {
 	
 	private BigDecimal discount =BigDecimal.ZERO;
 	
-	private Map<String, String> systemSetting=new HashMap<>();
+	private Map<String, String> systemSetting = Maps.newHashMap();
 	
 	Map<String, String> belongMap = Maps.newHashMap();
 	

@@ -25,14 +25,12 @@ import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.SettlementApiCode;
 import com.meiduimall.service.settlement.common.CodeRuleUtil;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
-import com.meiduimall.service.settlement.common.ShareProfitUtil;
 import com.meiduimall.service.settlement.model.EcmAgent;
 import com.meiduimall.service.settlement.model.EcmMzfAccount;
 import com.meiduimall.service.settlement.model.EcmMzfAgentWater;
 import com.meiduimall.service.settlement.model.EcmMzfStoreRecord;
 import com.meiduimall.service.settlement.model.EcmMzfWater;
 import com.meiduimall.service.settlement.model.EcmStore;
-import com.meiduimall.service.settlement.model.EcmSystemSetting;
 import com.meiduimall.service.settlement.model.ShareProfitAgentLog;
 import com.meiduimall.service.settlement.service.AgentService;
 import com.meiduimall.service.settlement.service.BeanSelfAware;
@@ -84,8 +82,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 		logger.info("分账开始时间:"+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 
 		//查询基本分润配置
-		List<EcmSystemSetting> settingList = agentService.quertSharefit();
-		Map<String, String> systemSetting = ShareProfitUtil.queryShareProfit(settingList);
+		Map<String, String> systemSetting = agentService.quertSharefit();
 		
 		//返回结果
 		List<Map<String,Object>> resultList = new ArrayList<>();
@@ -386,8 +383,8 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 		List<Map<String,Object>> resultList = new ArrayList<>();
 			
 		//查询基本分润配置
-		List<EcmSystemSetting> settingList = agentService.quertSharefit();
-		Map<String, String> systemSetting = ShareProfitUtil.queryShareProfit(settingList);
+		Map<String, String> systemSetting = agentService.quertSharefit();
+		
 		//获取商家初始积分
 		String score = systemSetting.get(ShareProfitConstants.STORE_INIT_POINT);
 		

@@ -16,9 +16,7 @@ import com.meiduimall.exception.ServiceException;
 import com.meiduimall.redis.util.RedisUtils;
 import com.meiduimall.service.settlement.common.CronExpression;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
-import com.meiduimall.service.settlement.common.ShareProfitUtil;
 import com.meiduimall.service.settlement.model.EcmAgent;
-import com.meiduimall.service.settlement.model.EcmSystemSetting;
 import com.meiduimall.service.settlement.model.ShareProfitAgentLog;
 import com.meiduimall.service.settlement.service.AgentService;
 import com.meiduimall.service.settlement.util.DateUtil;
@@ -55,8 +53,7 @@ public class DepositRetryTask {
 		try {
 			
 			//查询基本分润配置
-			List<EcmSystemSetting> settingList = agentService.quertSharefit();
-			Map<String, String> systemSetting = ShareProfitUtil.queryShareProfit(settingList);
+			Map<String, String> systemSetting = agentService.quertSharefit();
 			int score = Integer.parseInt(systemSetting.get(ShareProfitConstants.NEWBIE_PERSON_POINT));//新加盟个代获得积分 6500
 			
 			//获取新个代送积分失败日志记录

@@ -8,7 +8,6 @@ import com.meiduimall.service.settlement.model.EcmMzfAgentWater;
 import com.meiduimall.service.settlement.model.EcmMzfDrawWater;
 import com.meiduimall.service.settlement.model.EcmMzfStoreRecord;
 import com.meiduimall.service.settlement.model.EcmMzfWater;
-import com.meiduimall.service.settlement.model.EcmSystemSetting;
 import com.meiduimall.service.settlement.model.ShareProfitAgentLog;
 
 /**
@@ -128,7 +127,7 @@ public interface AgentService {
 	 * Date:   2017年3月24日 上午11:25:02
 	 * @return EcmSystemSetting 
 	 */
-	public List<EcmSystemSetting> quertSharefit();
+	public Map<String, String> quertSharefit();
 	
 	
 	/**

@@ -25,9 +25,7 @@ import com.meiduimall.service.SettlementApiCode;
 import com.meiduimall.service.settlement.common.DrawCashConstants;
 import com.meiduimall.service.settlement.common.SettlementUtil;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
-import com.meiduimall.service.settlement.common.ShareProfitUtil;
 import com.meiduimall.service.settlement.model.EcmMzfDraw;
-import com.meiduimall.service.settlement.model.EcmSystemSetting;
 import com.meiduimall.service.settlement.service.AgentService;
 import com.meiduimall.service.settlement.service.DrawService;
 import com.meiduimall.service.settlement.util.DateUtil;
@@ -84,8 +82,7 @@ public class DrawController {
 	@PostMapping(value = "/drawcash")
 	public ResBodyData drawCash(@Validated EcmMzfDraw ecmMzfDraw) {
 		//提现手续费从配置表获取
-		List<EcmSystemSetting> settingList = agentService.quertSharefit();
-		Map<String, String> systemSetting = ShareProfitUtil.queryShareProfit(settingList);
+		Map<String, String> systemSetting = agentService.quertSharefit();
 		BigDecimal cashWithdrawalFee = new BigDecimal(systemSetting.get(ShareProfitConstants.CASH_WITHDRAWAL_FEE));
 		
 		//查询当天是否有提现记录

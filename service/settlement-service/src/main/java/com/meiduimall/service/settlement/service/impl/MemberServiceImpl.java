@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,7 +74,9 @@ public class MemberServiceImpl implements MemberService {
 			//略过该条数据，因为没法 更新积分。
 			return errors;
 		}
+		
 		log.info("开始更新订单分润的各受益相关人所获积分到会员系统,orderSn:{}", shareProfit.getOrderSn());
+		
 		boolean updateMemberScore = this.addConsumePoints(shareProfit.getPhone(), shareProfit.getPoint().toString(), ShareProfitConstants.DATA_SOURCE_O2O, shareProfit.getOrderSn());
 		if(updateMemberScore){
 			log.info("更新订单分润用户所获积分到会员系统成功,用户手机号:{}", shareProfit.getPhone());
@@ -92,7 +95,7 @@ public class MemberServiceImpl implements MemberService {
 		
 		boolean updateOneScore = true;
 		boolean updateTwoScore = true;
-		if (!StringUtil.isEmpty(shareProfit.getBelongOnePhone())) {
+		if (StringUtil.isNotEmpty(shareProfit.getBelongOnePhone())) {
 			
 			updateOneScore = this.addConsumePoints(shareProfit.getBelongOnePhone(), shareProfit.getBelongOnePoint().toString(), ShareProfitConstants.DATA_SOURCE_O2O, shareProfit.getOrderSn());
 			
@@ -104,7 +107,7 @@ public class MemberServiceImpl implements MemberService {
 			}
 		
 		}
-		if (null != shareProfit.getBelongTwoPhone() && !"".equals(shareProfit.getBelongTwoPhone())) {
+		if (StringUtil.isNotEmpty(shareProfit.getBelongTwoPhone())) {
 			updateTwoScore = this.addConsumePoints(shareProfit.getBelongTwoPhone(), shareProfit.getBelongTwoPoint().toString(), ShareProfitConstants.DATA_SOURCE_O2O, shareProfit.getOrderSn());
 		
 			if(updateTwoScore){
@@ -115,14 +118,6 @@ public class MemberServiceImpl implements MemberService {
 			}
 		
 		}
-
-		if (updateMemberScore && updateSellerScore && updateOneScore && updateTwoScore) {
-			log.info("分润订单更积分成功!orderSn:{}", shareProfit.getOrderSn());
-		} else {
-			log.error("updateScore 订单分润更新积分到会员系统失败!!orderSn:{}", shareProfit.getOrderSn());
-			log.error("OrderServiceImpl-->updateScore-->更新积分失败!商家/会员/推荐人积分更新失败!");
-		}
-			
 		return errors;
 	}
 
@@ -170,8 +165,14 @@ public class MemberServiceImpl implements MemberService {
 	
 			}
 		}
+		//更新推荐人金额到会员系统是否成功，做如下操作
+		batchUpdCashStatus(orderSnList, orderSnList4Err);
 		
-		if(orderSnList!=null && !orderSnList.isEmpty()){
+	}
+
+
+	private void batchUpdCashStatus(final List<String> orderSnList, final List<String> orderSnList4Err) {
+		if(CollectionUtils.isNotEmpty(orderSnList)){
 			
 			boolean isCashStatusUpdated=orderStatusService.batchUpdCashStatus(orderSnList);
 				
@@ -187,24 +188,21 @@ public class MemberServiceImpl implements MemberService {
 				}
 			}
 			
-		}
-		
-		if(orderSnList4Err!=null && !orderSnList4Err.isEmpty()){
-			log.error("updateReferrerCash() in MemberServiceImpl got error:更新推荐人1%金额到会员系统失败!order size:{},orderSns:{}",orderSnList4Err.size(),Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSnList4Err));
-			CreateBillLog cbl=new CreateBillLog("updateReferrerCash() in MemberServiceImpl got error:更新推荐人1%金额到会员系统失败!失败订单数量:{}:"+orderSnList4Err.size(),DateUtil.getCurrentTimeSec(),null);
-			boolean isSuccess=shareProfitLogService.logCreateBillLog(cbl);
-			if(!isSuccess){
-				log.error("updateReferrerCash() in MemberServiceImpl:shareProfitLogService.logCreateBillLog()失败!");
-			}
-		}
-		
-	
-		if(orderSnList!=null && !orderSnList.isEmpty()){
 			//inform o2o 结算状态
 			boolean isSuccess=o2oCallbackService.informSettlementStatus(orderSnList, ShareProfitConstants.O2O_SETTLEMENT_STATUS_CODE_CASH);		
 			if(!isSuccess){
 				CreateBillLog cbl=new CreateBillLog("通知O2O结算状态:更新一级推荐人1%金额到会员系统失败!失败订单数量:"+orderSnList.size(),DateUtil.getCurrentTimeSec(),null);
 				shareProfitLogService.logCreateBillLog(cbl);
+			}
+			
+		}
+		
+		if(CollectionUtils.isNotEmpty(orderSnList4Err)){
+			log.error("updateReferrerCash() in MemberServiceImpl got error:更新推荐人1%金额到会员系统失败!order size:{},orderSns:{}",orderSnList4Err.size(),Joiner.on(Constants.SEPARATOR_COMMA).skipNulls().join(orderSnList4Err));
+			CreateBillLog cbl=new CreateBillLog("updateReferrerCash() in MemberServiceImpl got error:更新推荐人1%金额到会员系统失败!失败订单数量:{}:"+orderSnList4Err.size(),DateUtil.getCurrentTimeSec(),null);
+			boolean isSuccess=shareProfitLogService.logCreateBillLog(cbl);
+			if(!isSuccess){
+				log.error("updateReferrerCash() in MemberServiceImpl:shareProfitLogService.logCreateBillLog()失败!");
 			}
 		}
 	}
@@ -235,6 +233,7 @@ public class MemberServiceImpl implements MemberService {
 		
 	}
 	
+	//更新推荐人金额到会员系统
 	public boolean updateAmout2MemberSystem(MemberSystemDataContext ctx) {
 		
 		String userId=ctx.getUserId();
