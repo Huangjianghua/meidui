@@ -29,8 +29,8 @@ import com.meiduimall.service.account.model.MSAccountDetailGet;
 import com.meiduimall.service.account.model.MSAccountList;
 import com.meiduimall.service.account.model.MSDict;
 import com.meiduimall.service.account.model.ResBodyData;
-import com.meiduimall.service.account.model.request.AccountReviseDetailRequest;
-import com.meiduimall.service.account.model.request.MSAccountListRequest;
+import com.meiduimall.service.account.model.request.RequestAccountReviseDetail;
+import com.meiduimall.service.account.model.request.RequestMSAccountList;
 import com.meiduimall.service.account.service.MSAccountDetailService;
 import com.meiduimall.service.account.util.DateUtil;
 import com.meiduimall.service.account.util.DoubleCalculate;
@@ -78,7 +78,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 	}
 
 	@Override
-	public List<MSAccountList> listMSAccount(MSAccountListRequest msAccountListRequest) throws Exception {
+	public List<MSAccountList> listMSAccount(RequestMSAccountList msAccountListRequest) throws Exception {
 		List<MSAccountList> selectList=null;
 		try {
 			selectList=baseDao.selectList(msAccountListRequest, "MSAccountMapper.queryListMSAccount");
@@ -124,7 +124,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 	}
 
 	@Override
-	public List<AccountReviseDetail> queryMSAccountReviseDetailList(AccountReviseDetailRequest dto) throws Exception {
+	public List<AccountReviseDetail> queryMSAccountReviseDetailList(RequestAccountReviseDetail dto) throws Exception {
 		List<AccountReviseDetail> list=null;
 		try {
 			list=baseDao.selectList(dto, "AccountReviseDetailMapper.queryAccountReviseDetailList");

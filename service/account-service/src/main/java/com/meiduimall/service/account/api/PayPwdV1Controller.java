@@ -6,6 +6,9 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,6 +17,7 @@ import com.meiduimall.exception.BizException;
 import com.meiduimall.service.account.constant.ApiStatusConst;
 import com.meiduimall.service.account.model.MSMembersPaypwd;
 import com.meiduimall.service.account.model.ResBodyData;
+import com.meiduimall.service.account.model.request.RequestUpdatePaypwd;
 import com.meiduimall.service.account.service.PaypwdService;
 
 @RestController
@@ -59,7 +63,7 @@ public class PayPwdV1Controller {
 	
 	
 	/**根据memId查询是否存在支付密码*/
-	@RequestMapping(value = "/is_exist_paypwd")
+	@GetMapping(value = "/is_exist_paypwd")
 	ResBodyData  isExistPaypwd(String memId) {
 		logger.info("收到根据memId查询是否存在支付密码API请求:{}",request.getQueryString());
 		try {
@@ -69,6 +73,20 @@ public class PayPwdV1Controller {
 		} catch (BizException e) {
 			logger.error("根据memId查询是否存在支付密码API请求异常：{}",e.toString());
 			throw new ApiException(ApiStatusConst.SET_PAYPWD_EXCEPTION,ApiStatusConst.getZhMsg(ApiStatusConst.SET_PAYPWD_EXCEPTION));
+		}
+	}
+	
+	/**修改支付密码*/
+	@PostMapping(value = "/update_pay_pwd")
+	public ResBodyData updatePaypwd(@RequestBody @Valid RequestUpdatePaypwd requestUpdatePaypwd) {
+		logger.info("收到修改支付密码API请求  ：{}",requestUpdatePaypwd.toString());
+		try {
+			ResBodyData resBodyData = paypwdService.updatePaypwd(requestUpdatePaypwd);
+			logger.info("修改支付密码API请求结果  ：{}",resBodyData.toString());
+			return resBodyData;
+		} catch (Exception e) {
+			logger.error("修改支付密码API请求异常：{}",e.toString());
+			throw new ApiException(ApiStatusConst.UPDATE_PAYPWD_EXCEPTION);
 		}
 	}
 	

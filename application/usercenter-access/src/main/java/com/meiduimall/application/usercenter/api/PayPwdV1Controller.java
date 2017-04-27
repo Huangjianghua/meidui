@@ -12,6 +12,7 @@ import com.meiduimall.application.usercenter.interceptor.ValInterceptor;
 import com.meiduimall.application.usercenter.interceptor.ValRequest;	
 import com.meiduimall.application.usercenter.service.PayPwdService;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.ServiceException;
 
 /**
  * 支付密码
@@ -70,6 +71,26 @@ public class PayPwdV1Controller {
 		logger.info("收到设置支付密码开关API请求：{}",reqJson.toString());
 		resBodyData=payPwdService.setPaypwdStatus(reqJson);
 		logger.info("验证设置支付密码开关API请求结果：{}",resBodyData.toString());
+		return resBodyData;
+	}
+	
+	/**设置支付密码开关*/
+	@HasToken
+	@RequestMapping(value="/update_paypwd")
+	ResBodyData updatePaypwd(){
+		ResBodyData resBodyData=null;
+		JSONObject reqJson=ValRequest.apiReqData.get();
+		resBodyData=ValInterceptor.apiValResult.get();
+		if(resBodyData.getStatus()!=0)
+			return resBodyData;
+		logger.info("收到修改支付密码开关API请求：{}",reqJson.toString());
+		try {
+			resBodyData=payPwdService.updatePaypwd(reqJson);
+		} catch (ServiceException e) {
+			logger.error("");
+			// TODO: handle exception
+		}
+		logger.info("验证修改支付密码开关API请求结果：{}",resBodyData.toString());
 		return resBodyData;
 	}
 
