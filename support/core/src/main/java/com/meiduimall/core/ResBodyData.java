@@ -47,6 +47,11 @@ public class ResBodyData {
 	public void setData(Object data) {
 		this.data = data;
 	}
-	
+
+
+	@Override
+	public String toString() {
+		return "ResBodyData [status=" + status + ", msg=" + msg + ", data=" + data + "]";
+	}
 	
 }
