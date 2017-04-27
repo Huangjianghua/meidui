@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import net.sf.json.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.meiduimall.service.account.constant.ApiStatusConst;
@@ -28,6 +29,7 @@ import com.meiduimall.service.account.model.request.MSAccountListRequest;
 import com.meiduimall.service.account.service.BankWithdrawDepositService;
 import com.meiduimall.service.account.service.MSAccountDetailService;
 import com.meiduimall.service.account.util.DESC;
+
 
 
 /**
@@ -117,10 +119,11 @@ public class MoneyV1Controller {
 	 * @return
 	 */
 	@PostMapping(value="/list_msdict")
-	public ResBodyData  listMSDict(@RequestParam String dicparentid){
+	public ResBodyData  listMSDict(@RequestBody String dicparentid){
 		List<MSDict> listMSDict= null;
 		try{
-			listMSDict=mSAccountDetailService.listMSDict(dicparentid);
+			JSONObject jb= JSONObject.fromObject(dicparentid);
+			listMSDict=mSAccountDetailService.listMSDict(jb.getString("dicparentid"));
 		}catch(Exception e){
 			logger.error("服务器错误:%s", e.getMessage());
 			return new ResBodyData(1,"服务器错误");
