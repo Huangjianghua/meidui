@@ -22,7 +22,6 @@
         <sonar.language>java</sonar.language>
         <jacoco.version>0.7.9</jacoco.version>
     </properties>
-
 <!--     <scm>
         <connection>scm:git:http://git.meiduimall.com/service/meiduimall.git</connection>
         <developerConnection>scm:git:http://git.meiduimall.com/service/meiduimall.git</developerConnection>
