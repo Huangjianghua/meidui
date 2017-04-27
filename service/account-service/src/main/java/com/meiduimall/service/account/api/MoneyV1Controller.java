@@ -24,8 +24,8 @@ import com.meiduimall.service.account.model.MSAccountList;
 import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
 import com.meiduimall.service.account.model.MSDict;
 import com.meiduimall.service.account.model.ResBodyData;
-import com.meiduimall.service.account.model.request.AccountReviseDetailRequest;
-import com.meiduimall.service.account.model.request.MSAccountListRequest;
+import com.meiduimall.service.account.model.request.RequestAccountReviseDetail;
+import com.meiduimall.service.account.model.request.RequestMSAccountList;
 import com.meiduimall.service.account.service.BankWithdrawDepositService;
 import com.meiduimall.service.account.service.MSAccountDetailService;
 import com.meiduimall.service.account.util.DESC;
@@ -138,7 +138,7 @@ public class MoneyV1Controller {
 	 * @Date:   2017年4月18日 上午11:44:54
 	 */
 	@RequestMapping(value="/list_account")
-	public ResBodyData  listMSAccount(@RequestBody MSAccountListRequest msAccountListRequest){
+	public ResBodyData  listMSAccount(@RequestBody RequestMSAccountList msAccountListRequest){
 		List<MSAccountList> msAccountLists = null;
 		try{
 			//分页查询
@@ -259,7 +259,7 @@ public class MoneyV1Controller {
 	 * @Date:   2017年4月20日 下午2:45:30
 	 */
 	@PostMapping(value="/query_account_revision_detail_list")
-	public ResBodyData  queryMSAccountRevisionDetailList(@RequestBody AccountReviseDetailRequest detailRequest){
+	public ResBodyData  queryMSAccountRevisionDetailList(@RequestBody RequestAccountReviseDetail detailRequest){
 		List<AccountReviseDetail> list = null;
 		try {
 			//分页查询

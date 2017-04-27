@@ -22,8 +22,8 @@ import com.meiduimall.service.account.model.MSBankAccount;
 import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
 import com.meiduimall.service.account.model.MSMemberConsumeHistory;
 import com.meiduimall.service.account.model.ResBodyData;
-import com.meiduimall.service.account.model.request.FreezeUnFreezeRequest;
-import com.meiduimall.service.account.model.request.UnfreezeDecutRequest;
+import com.meiduimall.service.account.model.request.RequestFreezeUnFreeze;
+import com.meiduimall.service.account.model.request.RequestUnfreezeDecut;
 import com.meiduimall.service.account.service.AccountServices;
 import com.meiduimall.service.account.service.BankAccountService;
 import com.meiduimall.service.account.service.BankWithdrawDepositService;
@@ -58,7 +58,7 @@ public class OrderServicesImpl implements OrderService {
 	private BankAccountService bankAccountService;
 	
 	@Override
-	public ResBodyData freezeUnfreeze(FreezeUnFreezeRequest param){
+	public ResBodyData freezeUnfreeze(RequestFreezeUnFreeze param){
 		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
 		String memId=param.getMemId();
 		Double consumePoints=param.getConsume_points();
@@ -84,7 +84,7 @@ public class OrderServicesImpl implements OrderService {
 	}
 	
 	@Override
-	public ResBodyData unfreezeDeduct(UnfreezeDecutRequest param) throws SystemException{
+	public ResBodyData unfreezeDeduct(RequestUnfreezeDecut param) throws SystemException{
 		ResBodyData resBodyData=new ResBodyData(null,null);
 		String memId=param.getMemId();
 		Double consumePoints=param.getConsume_points();

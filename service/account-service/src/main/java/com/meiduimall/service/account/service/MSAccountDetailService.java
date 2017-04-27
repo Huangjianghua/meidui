@@ -10,8 +10,8 @@ import com.meiduimall.service.account.model.MSAccountDetailGet;
 import com.meiduimall.service.account.model.MSAccountList;
 import com.meiduimall.service.account.model.MSDict;
 import com.meiduimall.service.account.model.ResBodyData;
-import com.meiduimall.service.account.model.request.AccountReviseDetailRequest;
-import com.meiduimall.service.account.model.request.MSAccountListRequest;
+import com.meiduimall.service.account.model.request.RequestAccountReviseDetail;
+import com.meiduimall.service.account.model.request.RequestMSAccountList;
 
 public interface MSAccountDetailService {
 
@@ -36,15 +36,15 @@ public interface MSAccountDetailService {
 	
 	/**
 	 * @Description: 查询根据条件查询会员列表 
-	 * @param MSAccountListRequest
+	 * @param RequestMSAccountList
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月18日 下午12:18:16
 	 */
-	public List<MSAccountList> listMSAccount(MSAccountListRequest msAccountListRequest)throws Exception;
+	public List<MSAccountList> listMSAccount(RequestMSAccountList msAccountListRequest)throws Exception;
 	
 	/**
 	 * @Description: 添加调整会员余额明细
-     * @param AccountReviseDetailRequest
+     * @param RequestAccountReviseDetail
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月20日 下午12:00:07
 	 */
@@ -70,7 +70,7 @@ public interface MSAccountDetailService {
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月20日 下午12:18:30
 	 */
-	public List<AccountReviseDetail> queryMSAccountReviseDetailList(AccountReviseDetailRequest reviseDetailRequest)throws Exception;
+	public List<AccountReviseDetail> queryMSAccountReviseDetailList(RequestAccountReviseDetail reviseDetailRequest)throws Exception;
 	
 	/**
 	 * @Description: 审核会员余额调整

@@ -5,28 +5,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.math.BigDecimal;
 import java.util.Date;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.context.WebApplicationContext;
 
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.service.account.model.AccountReviseDetail;
-import com.meiduimall.service.account.model.request.AccountReviseDetailRequest;
+import com.meiduimall.service.account.model.request.RequestAccountReviseDetail;
 import com.meiduimall.service.account.util.DateUtil;
 
 
@@ -37,25 +26,10 @@ import com.meiduimall.service.account.util.DateUtil;
  * @Date:     2017年4月18日 下午3:39:45
  * @Description: 测试新会员列表接口
  */
-
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest
-@WebAppConfiguration
-@ActiveProfiles(value="dev")
-@EnableTransactionManagement
-public class MoneyV1ControllerTests  {
-
-	@Autowired
-	private WebApplicationContext webApplicationContext; 
-	
-	private MockMvc mockMvc;
+public class MoneyV1ControllerTests extends BaseControllerTest {
 	
 	private AccountReviseDetail dto;
-	
-	@Before
-	public void setUp() throws Exception {
-		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-	}
+
 	
 	/**
 	 * @Description: 不加条件查询
@@ -143,7 +117,7 @@ public class MoneyV1ControllerTests  {
 	@Test
 	public void queryMSAccountRevisionDetailListTest() throws Exception {
 		 String url = "/member/account_service/v1/query_account_revision_detail_list";
-		 AccountReviseDetailRequest request=new AccountReviseDetailRequest();
+		 RequestAccountReviseDetail request=new RequestAccountReviseDetail();
 		 request.setFlg("1");
 		/* request.setMemId("72063681-7408-435c-88fd-cd837c95c66e");
 		 request.setMemLoginName("wXyd8CZLYBIU1TE+FgtHrw==");

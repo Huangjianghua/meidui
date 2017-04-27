@@ -3,11 +3,11 @@ package com.meiduimall.service.account.model.request;
 import java.io.Serializable;
 
 /**
- * 解冻扣减积分和余额API请求映射model
+ * 冻结解冻API请求映射model
  * @author chencong
  *
  */
-public class UnfreezeDecutRequest implements Serializable {
+public class RequestFreezeUnFreeze implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -25,6 +25,9 @@ public class UnfreezeDecutRequest implements Serializable {
 	
 	/**支付方式（积分、其他支付方式（比如支付宝，网银支付等等）） 1：表示单独使用积分支付 2：混合支付 3:其他第三方支付*/
 	private String pay_type;
+	
+	/**订单状态1表示已支付退单，2表示未支付退单，3表示下单未支付*/
+	private String status;
 	
 	/**余额支付金额*/
 	private Double consume_money;
@@ -62,6 +65,12 @@ public class UnfreezeDecutRequest implements Serializable {
 	public void setPay_type(String pay_type) {
 		this.pay_type = pay_type;
 	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	public Double getConsume_money() {
 		return consume_money;
@@ -75,12 +84,12 @@ public class UnfreezeDecutRequest implements Serializable {
 	public void setConsume_points(Double consume_points) {
 		this.consume_points = consume_points;
 	}
-	
 	@Override
 	public String toString() {
-		return "UnfreezeDecutRequest [memId=" + memId + ", orderID=" + orderID + ", product_name=" + product_name
-				+ ", order_source=" + order_source + ", pay_type=" + pay_type + ", consume_money=" + consume_money
-				+ ", consume_points=" + consume_points + "]";
+		return "FreezeUnFreezeRequest [memId=" + memId + ", orderID=" + orderID + ", product_name=" + product_name
+				+ ", order_source=" + order_source + ", pay_type=" + pay_type + ", status=" + status
+				+ ", consume_money=" + consume_money + ", consume_points=" + consume_points + "]";
 	}
+	
 	
 }
