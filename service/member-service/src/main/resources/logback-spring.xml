@@ -41,15 +41,6 @@
     	</encoder>
   </appender>
   
-  <!-- 
-	  <logger name="org.apache.ibatis" level="ERROR">
-	      <appender-ref ref="SQL_FILE_APPENDER" />
-	  </logger>
-	  
-	   <logger name="org.hibernate" level="ERROR">
-	      <appender-ref ref="SQL_FILE_APPENDER" />
-	  </logger> 
-  -->
   
    <logger name="org.springframework.data" level="INFO">
       <appender-ref ref="SQL_FILE_APPENDER" />

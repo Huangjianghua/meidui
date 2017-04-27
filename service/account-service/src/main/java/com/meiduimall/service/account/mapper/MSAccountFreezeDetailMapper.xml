@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--会员账户冻结解冻记录表ms_account_freeze_detail相关操作 -->
+<mapper namespace="MSAccountFreezeDetailMapper">
+
+	<!-- 根据订单号查询是否存在余额冻结解冻记录 -->
+	<select id="getRecordByOrderId" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT count(1) 
+		FROM ms_account_freeze_detail
+		WHERE business_no = #{orderId}
+	</select>
+	
+	<insert id="insertAccountFreezeDetail" parameterType="java.util.Map">
+		insert into ms_account_freeze_detail 
+		values(
+			#{id},
+			#{accountId},
+			#{accountType},
+			#{memId},
+			#{tradeType},
+			#{tradeAmount},
+			#{tradeDate},
+			#{inOrOut},
+			#{freezeBalance},
+			#{orderId},
+			#{remark},
+			now(),
+			unix_timestamp()
+			)
+	</insert>
+	
+</mapper>

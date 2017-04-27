@@ -3,7 +3,6 @@ package com.meiduimall.service.member.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.exception.SystemException;
 
 /**
  * 会员信息操作接口
@@ -12,8 +11,12 @@ import com.meiduimall.exception.SystemException;
  */
 public interface UserInfoService {
 
-
-	 ResBodyData getBasicInfoByMemId(String memId) throws SystemException;
+	/**
+	 * 获取
+	 * @param memId
+	 * @return
+	 */
+	 ResBodyData getBasicInfoByMemId(String memId);
 	 
 	 public JSONObject getMemberInfoByPhone(String phone) throws Exception;
 	 

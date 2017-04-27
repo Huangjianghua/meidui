@@ -16,6 +16,7 @@ import com.meiduimall.service.member.constant.ApiStatusConst;
 import com.meiduimall.service.member.constant.SysParamsConst;
 import com.meiduimall.service.member.dao.BaseDao;
 import com.meiduimall.service.member.model.MSMembersGet;
+import com.meiduimall.service.member.model.request.RequestSetPaypwdStatus;
 import com.meiduimall.service.member.service.SecurityService;
 import com.meiduimall.service.member.util.DESC;
 

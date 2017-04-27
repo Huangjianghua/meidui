@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.redis.util.RedisTemplate;
 import com.meiduimall.service.member.config.ServiceUrlProfileConfig;
 import com.meiduimall.service.member.constant.ApiStatusConst;
@@ -56,36 +56,23 @@ public class UserInfoServiceImpl implements UserInfoService {
 	ServiceUrlProfileConfig serviceUrlProfileConfig;
 
 	@Override
-	public ResBodyData getBasicInfoByMemId(String memId) throws SystemException {
-		ResBodyData resBodyData=new ResBodyData(null,null);
-		/**根据memId查询会员基本信息*/
-		ResponseMemberBasicInfo memberBasicInfoDTO=baseDao.selectOne(memId,"MSMembersMapper.getRespMemberBasicInfoByMemId");
-		/**判断是否存在这个会员*/
-		if(memberBasicInfoDTO==null)
-		{
-			resBodyData.setStatus(ApiStatusConst.MEMBER_NOT_EXIST);
-			return resBodyData;
+	public ResBodyData getBasicInfoByMemId(String memId) {
+		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		ResponseMemberBasicInfo memberBasicInfo=baseDao.selectOne(memId,"MSMembersMapper.getRespMemberBasicInfoByMemId");//根据memId查询会员基本信息
+		if(memberBasicInfo==null){//如果不存在这个会员
+			throw new ServiceException(ApiStatusConst.MEMBER_NOT_EXIST);
 		}
-		/**根据memId查询会员详细地址*/
-		MSMemberAddresses addresses=baseDao.selectOne(memId,"MSMemberAddressesMapper.getMemberAddressByMemId");
-		/**会员基本信息添加地址信息*/
-		if(addresses!=null)
-		{
-			/**添加省市区地址信息，分号隔开*/
-			if(null!=addresses.getDictIdProvince()&&null!=addresses.getDictIdCity()&&null!=addresses.getDictIdArea())
-			{
+
+		MSMemberAddresses addresses=baseDao.selectOne(memId,"MSMemberAddressesMapper.getMemberAddressByMemId");//根据memId查询会员详细地址
+		if(addresses!=null){
+			if(null!=addresses.getDictIdProvince()&&null!=addresses.getDictIdCity()&&null!=addresses.getDictIdArea()){//添加省市区地址信息，分号隔开
 				StringBuffer addressShengShiQu = new StringBuffer();
 				addressShengShiQu.append(baseDao.selectOne(addresses.getDictIdProvince().toString(),"MSCityMapper.getNameByNo").toString());
 				addressShengShiQu.append(";");
 				addressShengShiQu.append(baseDao.selectOne(addresses.getDictIdCity().toString(),"MSCityMapper.getNameByNo").toString());
 				addressShengShiQu.append(";");
 				addressShengShiQu.append(baseDao.selectOne(addresses.getDictIdArea().toString(),"MSCityMapper.getNameByNo").toString());
-				memberBasicInfoDTO.setMemAddressShengShiQu(addressShengShiQu.toString());
-			}
-			/**如果详细地址信息有值，就添加详细地址信息*/
-			if(!StringUtil.isEmptyByString(addresses.getMemaDetails()))
-			{
-				memberBasicInfoDTO.setMemAddressDetail(addresses.getMemaDetails());
+				memberBasicInfo.setMemAddressShengShiQu(addressShengShiQu.toString());
 			}
 		}
 		/**调用账户服务>根据memId查询是否存在支付密码*/
@@ -94,22 +81,20 @@ public class UserInfoServiceImpl implements UserInfoService {
 			result=HttpUtils.get(serviceUrlProfileConfig.getAccountServiceUrl()+"/member/account_service/v1/is_exist_paypwd?memId="+memId);
 		} catch (Exception e) {
 			logger.error("调用账户服务http请求异常：{}",e.toString());
-			throw new SystemException(ApiStatusConst.HTTP_EXCEPTION,ApiStatusConst.getZhMsg(ApiStatusConst.HTTP_EXCEPTION));
 		}
 		JSONObject j=JSONObject.parseObject(result);
 		
 		/**会员基本信息添加是否设置支付密码和支付密码开关状态*/
-		memberBasicInfoDTO.setPaypwd_isopen("Y".equals(memberBasicInfoDTO.getPaypwd_isopen())?"1":"0");
+		memberBasicInfo.setPaypwd_isopen("Y".equals(memberBasicInfo.getPaypwd_isopen())?"1":"0");
 		if(!"0".equals(j.getString(SysParamsConst.STATUS)))
-			memberBasicInfoDTO.setPaypwd_isset("0");
-		memberBasicInfoDTO.setPaypwd_isset("1");
+			memberBasicInfo.setPaypwd_isset("0");
+		memberBasicInfo.setPaypwd_isset("1");
 		
 		/**会员基本信息添加积分总额（包含冻结解冻的积分）和余额总额*/
-		memberBasicInfoDTO.setTotalmoney(moneyService.getTotalMoney(memId));
-		memberBasicInfoDTO.setTotalpoints(pointsService.getTotalPoints(memId,memberBasicInfoDTO.getCurrentpoints()));
+		memberBasicInfo.setTotalmoney(moneyService.getTotalMoney(memId));
+		memberBasicInfo.setTotalpoints(pointsService.getTotalPoints(memId,memberBasicInfo.getCurrentpoints()));
 		
-		resBodyData.setStatus(ApiStatusConst.SUCCESS);
-		resBodyData.setData(memberBasicInfoDTO);
+		resBodyData.setData(memberBasicInfo);
 		return resBodyData;
 	}
 

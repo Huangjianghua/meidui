@@ -3,11 +3,6 @@ package com.meiduimall.service.member.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.format.annotation.NumberFormat;
-import org.springframework.format.annotation.NumberFormat.Style;
-
 import com.meiduimall.exception.SystemException;
 import com.meiduimall.service.member.util.DESC;
 
@@ -19,19 +14,16 @@ import com.meiduimall.service.member.util.DESC;
 public class MSMembersGet implements Serializable {
 
 	private static final long serialVersionUID = 5700495965716385250L;
-
+	
 	/** 会员系统ID **/
-	@NotEmpty(message="memId不能为空")
 	private String memId;
 	
+	/**是否启用支付密码*/
+	private String enable;
+
 	/**会员姓名*/
 	private String memName;
 	
-	/**是否启用支付密码*/
-	@Length(min=1,max=1,message="enable参数长度不正确")
-	@NumberFormat(style=Style.NUMBER)
-	private String enable;
-
 	/** 会员登录名 **/
 	private String memLoginName;
 
@@ -162,10 +154,7 @@ public class MSMembersGet implements Serializable {
 	private String memLoginNameIsdefaultIschanged;
 	
 	private String memParentIsdefaultIschanged;
-	
-	public String getEnable() {
-		return enable;
-	}
+
 	
 	public String getMemLockCount() {
 		return memLockCount;
@@ -175,9 +164,6 @@ public class MSMembersGet implements Serializable {
 		this.memLockCount = memLockCount;
 	}
 
-	public void setEnable(String enable) {
-		this.enable = enable;
-	}
 	
 	public Date getMemLoginTime() {
 		return memLoginTime;
@@ -259,6 +245,14 @@ public class MSMembersGet implements Serializable {
 
 	public void setMemSignSource(String memSignSource) {
 		this.memSignSource = memSignSource;
+	}
+	
+	public String getEnable() {
+		return enable;
+	}
+
+	public void setEnable(String enable) {
+		this.enable = enable;
 	}
 
 	public String getMemName() throws SystemException  {

@@ -18,6 +18,7 @@ public class SendMessageRequest implements Serializable {
 	private String phones;
 
 	// 模板id
+	@NotNull
 	private String templateKey;
 
 	// 渠道编号

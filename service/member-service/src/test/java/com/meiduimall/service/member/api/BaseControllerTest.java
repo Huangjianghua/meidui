@@ -1,4 +1,4 @@
-/*package com.meiduimall.service.member.api;
+package com.meiduimall.service.member.api;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,8 +23,12 @@ public class BaseControllerTest {
 	
 	protected MockMvc mockMvc;
 	
-	public  final String memId="72063681-7408-435c-88fd-cd837c95c66e";
-	private final String baseUrl="/member/account_service/v1";
+	protected final String memId="72063681-7408-435c-88fd-cd837c95c66e";
+	protected final String phone="18898447755";
+	protected final static String payPwd="123456";
+	protected final static String token="0638c790f06d1def1c45512c65e9463c";
+	
+	protected final String baseUrl="/member/member_service/v1";
 	
 	@Autowired
 	private WebApplicationContext webApplicationContext;
@@ -39,4 +43,3 @@ public class BaseControllerTest {
 		
 	}
 }
-*/

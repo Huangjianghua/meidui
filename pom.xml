@@ -22,14 +22,13 @@
         <sonar.language>java</sonar.language>
         <jacoco.version>0.7.9</jacoco.version>
     </properties>
-
-    <scm>
+<!--     <scm>
         <connection>scm:git:http://git.meiduimall.com/service/meiduimall.git</connection>
         <developerConnection>scm:git:http://git.meiduimall.com/service/meiduimall.git</developerConnection>
         <url>http://git.meiduimall.com/service/meiduimall/tree/develop</url>
-        <!--<tag>mall-1.0.2</tag>-->
+        <tag>mall-1.0.2</tag>
       <tag>mall-1.0.0</tag>
-  </scm>
+  </scm> -->
 
     <profiles>
         <profile>
@@ -48,16 +47,17 @@
 
     <distributionManagement>
         <repository>
-            <id>nexus</id>
-            <name>Nexus Releases</name>
+            <id>maven-releases</id>
+            <name>maven-releases</name>
             <url>http://maven.meiduimall.com/repository/maven-releases/</url>
         </repository>
         <snapshotRepository>
-            <id>nexus</id>
-            <name>Nexus Snapshot</name>
+            <id>maven-snapshots</id>
+            <name>maven-snapshots</name>
             <url>http://maven.meiduimall.com/repository/maven-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
+
 
     <repositories>
         <repository>
@@ -107,7 +107,7 @@
                 </executions>
             </plugin>
 
-            <plugin>
+            <!-- <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
                 <version>2.5.3</version>
@@ -115,20 +115,20 @@
                     <providerImplementations>
                         <git>jgit</git>
                     </providerImplementations>
-                    <!--<username></username>-->
-                    <!--<password></password>-->
+                    <username></username>
+                    <password></password>
                     <tagBase>${project.artifactId}-${project.version}</tagBase>
                     <goals>-f pom.xml deploy</goals>
                 </configuration>
                 <dependencies>
-                    <!-- https://mvnrepository.com/artifact/org.apache.maven.scm/maven-scm-provider-jgit -->
+                    https://mvnrepository.com/artifact/org.apache.maven.scm/maven-scm-provider-jgit
                     <dependency>
                         <groupId>org.apache.maven.scm</groupId>
                         <artifactId>maven-scm-provider-jgit</artifactId>
                         <version>1.9.5</version>
                     </dependency>
                 </dependencies>
-            </plugin>
+            </plugin> -->
         </plugins>
     </build>
 </project>

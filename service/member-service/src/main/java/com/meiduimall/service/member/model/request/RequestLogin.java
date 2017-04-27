@@ -10,7 +10,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  * @author chencong
  *
  */
-public class RequestLogin implements Serializable {
+public class RequestLogin  implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

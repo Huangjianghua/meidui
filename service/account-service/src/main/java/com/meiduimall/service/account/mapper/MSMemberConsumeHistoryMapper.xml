@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 会员消费记录表ms_member_consume_history相关操作 -->
+<mapper namespace="MSMemberConsumeHistoryMapper">
+
+	<!-- 插入会员消费记录 -->
+	<insert id="insertMemberConsumeHistory" parameterType="com.meiduimall.service.account.model.MSMemberConsumeHistory">
+		INSERT INTO ms_member_consume_history
+			VALUES(
+				#{mchId},
+				#{memId},
+				#{orderId},
+				'',
+				#{mchMoney},
+				'',
+				'',
+				#{mchTotalIntegral},
+				'',
+				'',
+				'',
+				'',
+				'',
+				'',
+				#{mchCreatedDate},
+				'',
+				'',
+				#{mchOrginCategory},
+				#{mchProductName},
+				#{mchOrginType},
+				#{mchOrginMemId},
+				#{mchRemark},
+				#{mchSettingStatus},
+				#{mchPayType},
+				#{mchStatus},
+				0,
+				0,
+				#{mchShoppingCouponCount},
+				#{mchConsumePointsCount}
+				)
+	</insert>
+
+</mapper>
