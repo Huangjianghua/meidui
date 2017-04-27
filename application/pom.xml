@@ -16,7 +16,7 @@
     <modules>
 		<module>md1gw-access2</module>
  		<module>md1gw-access</module>
- 	<!-- 	<module>usercenter-access</module> -->
+ 		<module>usercenter-access</module> 
  		<module>search</module>
  		<module>search-manage</module>
     </modules>

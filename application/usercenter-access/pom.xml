@@ -4,7 +4,7 @@
 	 <parent>
         <groupId>com.meiduimall</groupId>
         <artifactId>application</artifactId>
-        <version>1.0.0</version>
+       <version>1.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -14,18 +14,18 @@
 	<packaging>jar</packaging>
 
 	<dependencies>
-	        <dependency>
-                <groupId>com.meiduimall</groupId>
-                <artifactId>meiduimall-support-redis</artifactId>
-            </dependency>
-            <dependency>
-                <groupId>com.meiduimall</groupId>
-                <artifactId>meiduimall-support-security</artifactId>
-            </dependency>
-            <dependency>
-                <groupId>com.meiduimall</groupId>
-                <artifactId>meiduimall-support-core</artifactId>
-            </dependency>
+       	<dependency>
+              <groupId>com.meiduimall</groupId>
+              <artifactId>meiduimall-support-redis</artifactId>
+          </dependency>
+          <dependency>
+              <groupId>com.meiduimall</groupId>
+              <artifactId>meiduimall-support-security</artifactId>
+          </dependency>
+          <dependency>
+              <groupId>com.meiduimall</groupId>
+              <artifactId>meiduimall-support-core</artifactId>
+          </dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
