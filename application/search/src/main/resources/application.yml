@@ -16,4 +16,4 @@ spring:
       minimumIdle : 10
       pool-name: harika-cp
       
-search_server_url: http://192.168.4.241:8050/solr      
+search_server_url: http://192.168.4.241:8050/solr     
