@@ -4,6 +4,7 @@ import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.BizException;
 import com.meiduimall.service.member.constant.ApiStatusConst;
 import com.meiduimall.service.member.model.MSMembersGet;
+import com.meiduimall.service.member.model.request.RequestSetPaypwdStatus;
 import com.meiduimall.service.member.service.SecurityService;
 
 /**
@@ -35,13 +37,16 @@ public class SecurityV1Controller {
 	
 	/**设置支付密码开关*/
 	@PostMapping(value = "/set_paypwd_status")
-	ResBodyData setPaypwdStatus(@RequestBody @Valid MSMembersGet msMembersGet) {
-		logger.info("收到设置支付密码开关API请求：",msMembersGet.toString());
+	ResBodyData setPaypwdStatus(@RequestBody @Valid RequestSetPaypwdStatus requestSetPaypwdStatus) {
+		logger.info("收到设置支付密码开关API请求：",requestSetPaypwdStatus.toString());
 		try {
+			MSMembersGet msMembersGet=new MSMembersGet();
+			BeanUtils.copyProperties(requestSetPaypwdStatus,msMembersGet);
 			ResBodyData resBodyData = securityService.setPaypwdStatus(msMembersGet);
 			logger.info("设置支付密码开关API请求结果  ：{}",resBodyData.toString());
 			return resBodyData;
-		} catch (BizException e) {
+		}
+		catch (BizException e) {
 			logger.error("设置支付密码开关API请求异常：{}",e.toString());
 			throw new ApiException(ApiStatusConst.SET_PAYPWD_STATUS_EXCEPTION,ApiStatusConst.getZhMsg(ApiStatusConst.SET_PAYPWD_STATUS_EXCEPTION));
 		}

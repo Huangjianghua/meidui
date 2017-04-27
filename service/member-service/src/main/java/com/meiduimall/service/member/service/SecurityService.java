@@ -12,7 +12,7 @@ public interface SecurityService {
 	
 	/***
 	 * 设置支付密码开关状态
-	 * @param msMembers
+	 * @param RequestSetPaypwdStatus
 	 * @return 1：开   0：关
 	 * @throws Exception
 	 */

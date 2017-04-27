@@ -23,8 +23,6 @@
 		m.mem_reg_day AS memRegDay,
 		m.enable AS paypwd_isopen
 		FROM ms_members AS m 
-		LEFT JOIN ms_members_paypwd AS p
-		ON m.mem_id=p.mem_id
 		WHERE m.mem_id=#{memid}
 	</select>
 	
