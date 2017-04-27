@@ -1,4 +1,4 @@
-package com.meiduimall.application.usercenter.config;
+package com.meiduimall.service.account.config;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -10,13 +10,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.meiduimall.application.usercenter.constant.ApiStatusConst;
-import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.BizException;
 import com.meiduimall.exception.SystemException;
-
-
-
+import com.meiduimall.service.account.model.ResBodyData;
 
 /**
  * 全局异常处理
@@ -30,13 +26,13 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(value = BizException.class)
   public ResBodyData bizeExceptionHandler(HttpServletRequest request, BizException exception) {
-    logger.error(request.getContextPath()+request.getRequestURI()+" "+ApiStatusConst.getZhMsg(exception.getCode()));
+    logger.error(request.getContextPath()+request.getRequestURI()+" "+exception.getLocalizedMessage());
     return new ResBodyData(exception.getCode(),exception.getLocalizedMessage());
   }
   
   @ExceptionHandler(value = SystemException.class)
   public ResBodyData systemExceptionHandler(HttpServletRequest request, SystemException exception) {
-    logger.error(request.getContextPath()+request.getRequestURI()+" "+ApiStatusConst.getZhMsg(exception.getCode()));
+    logger.error(request.getContextPath()+request.getRequestURI()+" "+exception.getLocalizedMessage());
     return new ResBodyData(exception.getCode(),exception.getLocalizedMessage());
   }
 
