@@ -18,15 +18,15 @@ public interface OrderStatusService {
 	 * 功能描述:  更新是否分润成功状态
 	 * Author: 许彦 雄
 	 * Date:   2017年3月14日 下午3:38:26
-	 * @param   orderSn
-	 * @return  boolean
+	 * @param  orderSn 订单号
+	 * @return boolean
 	 * 
 	 */
 	public boolean updateShareStatus(String orderSn);
 	
 	/**
 	 * 更新订单积分是否成功送出
-	 * @param orderSn
+	 * @param  orderSn 订单号
 	 * @return boolean
 	 */
 	public boolean updateScoreStatus(String orderSn);
@@ -35,8 +35,8 @@ public interface OrderStatusService {
 	 * 功能描述:  更新账单是否创建成功状态
 	 * Author: 许彦雄
 	 * Date:   2017年3月14日 下午3:38:26
-	 * @param orderStatus
-	 * @return  boolean
+	 * @param  orderStatus 订单状态
+	 * @return boolean
 	 * 
 	 */
 	public boolean updateBillStatus(EcmMzfOrderStatus orderStatus);
@@ -45,8 +45,8 @@ public interface OrderStatusService {
 	 * 功能描述:  更新一级推荐人1%现金余额是否成功送出状态
 	 * Author: 许彦雄
 	 * Date:   2017年3月14日 下午3:38:26
-	 * @param   orderSn
-	 * @return  boolean
+	 * @param  orderSn 订单号
+	 * @return boolean
 	 * 
 	 */
 	public boolean updateCashStatus(String orderSn);
@@ -56,8 +56,8 @@ public interface OrderStatusService {
 	 * 功能描述:  批量更新一级推荐人1%现金余额是否成功送出状态
 	 * Author: 许彦雄
 	 * Date:   2017年3月14日 下午3:38:26
-	 * @param orderSns
-	 * @return  boolean
+	 * @param  orderSns 订单号
+	 * @return boolean
 	 * 
 	 */
 	//注意：好像如果orderSns.size()>5000, in update 语句好像或报错。将来最好把orderSns进行分割，使每次orderSns小于5000

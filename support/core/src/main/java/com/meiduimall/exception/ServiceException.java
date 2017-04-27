@@ -14,6 +14,10 @@ package com.meiduimall.exception;
 public class ServiceException extends BizException {
 	
 	private static final long serialVersionUID = 3208750423221347264L;
+	
+	public ServiceException(Integer code) {
+		super(code);
+	}
 
 
 	public ServiceException(Integer code, String msg) {

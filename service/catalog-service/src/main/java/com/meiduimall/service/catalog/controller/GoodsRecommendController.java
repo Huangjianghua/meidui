@@ -45,7 +45,7 @@ public class GoodsRecommendController {
 	 *            操作人
 	 * @param level
 	 *            推荐等级
-	 * @return
+	 * @return 状态信息
 	 */
 	@RequestMapping(value = "/insertBatch")
 	public ResBodyData insertBatchItems(
@@ -108,23 +108,18 @@ public class GoodsRecommendController {
 	 * 
 	 * @param type
 	 *            推荐类型，不能为空，1代表支付成功推荐，2代表注册成功推荐
-	 * @param count
-	 *            推荐个数，默认是4
 	 * @param sourceId
 	 *            客户端编号，1为手机，2为PC，默认是1
-	 * @return
+	 * @return 推荐商品详细信息
 	 */
 	@RequestMapping(value = "/getFirstRecommend")
 	public ResBodyData getFirstRecommendItems(String type,
-			@RequestParam(value = "count", required = false, defaultValue = "4") String count,
 			@RequestParam(value = "sourceId", required = false, defaultValue = "1") String sourceId) {
 
 		int recoType = 0;
-		int recoCount = 0;
 		int recoSourceId = 0;
 		try {
 			recoType = Integer.parseInt(type);
-			recoCount = Integer.parseInt(count);
 			recoSourceId = Integer.parseInt(sourceId);
 		} catch (NumberFormatException e) {
 			logger.error("获取推荐商品: " + e);
@@ -132,16 +127,16 @@ public class GoodsRecommendController {
 					ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR));
 		}
 
-		return goodsRecommendService.getFirstRecommendItems(recoType, recoCount, recoSourceId);
+		return goodsRecommendService.getFirstRecommendItems(recoType, recoSourceId);
 	}
 
 	/**
 	 * 获取正在推荐的商品
 	 * 
-	 * @return
+	 * @return 推荐商品的ID和url
 	 */
 	@RequestMapping(value = "/getFirstRecommendItemId")
 	public ResBodyData getFirstRecommendItemsAllType() {
-		return goodsRecommendService.getFirstRecommendItemsAllType(4);
+		return goodsRecommendService.getFirstRecommendItemsAllType();
 	}
 }

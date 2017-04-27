@@ -49,17 +49,14 @@ public class XmlSupport {
 
 	@SuppressWarnings("unchecked")
 	public static <T> T outputBean(String xmlData, Class<T> clazz) throws JAXBException {
-		try {
+		
 			JAXBContext context = JAXBContext.newInstance(clazz);
 			Marshaller m = context.createMarshaller();
 			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			m.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
 			Unmarshaller unmarshaller = context.createUnmarshaller();
 			return (T) unmarshaller.unmarshal(new StringReader(xmlData));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
+		
 	}
 
 	@SuppressWarnings("unchecked")
@@ -74,11 +71,10 @@ public class XmlSupport {
 			map.put(e.getName(), e.getText());
 		}
 		inputStream.close();
-		inputStream = null;
 		return map;
 	}
 
-	public static XStream xstream = new XStream(new XppDriver() {
+	public static final XStream xstream = new XStream(new XppDriver() {
 		public HierarchicalStreamWriter createWriter(Writer out) {
 			return new PrettyPrintWriter(out) {
 				boolean cdata = true;
@@ -102,7 +98,9 @@ public class XmlSupport {
 	
 	
 	/**
-	 * 描述：hashmap 装json
+	 * 
+	 * @param map 要转换的map对象
+	 * @return  返回字符串
 	 */
 	
 	public static String hashMapToJson(HashMap map) { 

@@ -5,7 +5,7 @@ import com.meiduimall.core.Constants;
 /**
  * system constant
  *
- * @author pc
+ * @author yangchangfu
  *
  */
 public class SysConstant extends Constants {

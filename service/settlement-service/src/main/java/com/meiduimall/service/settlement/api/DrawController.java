@@ -128,9 +128,11 @@ public class DrawController {
 	/**
 	 * 功能描述:  获取提现管理列表
 	 * Author: guidl
-	 * Date:   2017年3月24日 下午14:14:28
-	 * @param  pageNumber-页数、pageSize-每页显示条数、type(list,export)
-	 * @param  params(drawCode,code,drawType,realname,userType,addTime,status,drawName)
+	 * Date:   2017年3月24日 下午14:14:28 
+	 * @param  pageNumber 页数
+	 * @param  pageSize 每页显示条数
+	 * @param  type (list,export)
+	 * @param  params params(drawCode,code,drawType,realname,userType,addTime,status,drawName)
 	 * @return ResBodyData
 	 */
 	@PostMapping(value = "/querydrawcash")

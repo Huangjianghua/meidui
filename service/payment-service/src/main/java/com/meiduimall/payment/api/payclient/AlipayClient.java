@@ -47,11 +47,11 @@ public class AlipayClient {
 
 	private String CHARSET = "UTF-8";
 
+	
 	/**
-	 * 組裝簽名需要的參數
 	 * 
-	 * @param alipayAppModel
-	 * @throws ApiException
+	 * @param model 支付宝支付对象
+	 * @param service 客户端IP
 	 */
 	protected void buildBody(AlipayRequestModel model, String service){
 		model.setPartner(partner);
@@ -64,8 +64,8 @@ public class AlipayClient {
 	/**
 	 * 构建请求参数
 	 * 
-	 * @param param
-	 * @return
+	 * @param param 请求参数
+	 * @return 请求参数字符串
 	 */
 	protected String buildParam(Map<String, String> param) {
 		Set<String> keys = param.keySet();
@@ -79,11 +79,10 @@ public class AlipayClient {
 	}
 
 	/**
-	 * 签名
 	 * 
-	 * @param obj
-	 * @return
-	 * @throws Exception
+	 * @param obj 需签名对象
+	 * @param output 存放签名map
+	 * @return 签名字符串
 	 */
 	protected String buildSign(Object obj, Map<String, String> output){
 		Class<?> clazz = obj.getClass();
@@ -99,6 +98,7 @@ public class AlipayClient {
 					list.add(f.getName() + "=" + f.get(obj) + "&");
 				}
 			} catch (IllegalArgumentException | IllegalAccessException e) {
+				log.info("error: /n{}",e);
 				throw new ServiceException(ServicePaymentApiCode.CLASS_REFLECT_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.CLASS_REFLECT_ERROR));
 			}
 		}
@@ -121,11 +121,9 @@ public class AlipayClient {
 	}
 
 	/**
-	 * APP 支付
 	 * 
-	 * @param model
-	 * @return
-	 * @throws Exception
+	 * @param model 支付对象
+	 * @return 签名字符串
 	 */
 	public String alipayTradeApp(AlipayRequestModel model){
 		buildBody(model, "mobile.securitypay.pay");
@@ -135,12 +133,14 @@ public class AlipayClient {
 		try {
 			sign = buildSign(model, param);
 		} catch (Exception e) {
+			log.info("AlipayClient:\n{}",e);
 			throw new DaoException(ServicePaymentApiCode.ALIPAY_SIGN_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.ALIPAY_SIGN_ERROR));
 		}
 		StringBuffer result = new StringBuffer(buildParam(param));
 		try {
 			result.append("sign=" + URLEncoder.encode(sign, CHARSET));
 		} catch (UnsupportedEncodingException e) {
+			log.info("AlipayClient:\n{}",e);
 			throw new DaoException(ServicePaymentApiCode.SIGN_ENCODE_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.SIGN_ENCODE_ERROR));
 		}
 		result.append("&sign_type=RSA");
@@ -150,11 +150,9 @@ public class AlipayClient {
 	}
 
 	/**
-	 * 支付宝H5支付
 	 * 
-	 * @param model
-	 * @return
-	 * @throws Exception
+	 * @param model 支付对象
+	 * @return 签名字符串
 	 */
 	public String alipayTradeWap(AlipayRequestModel model){
 		buildBody(model, "alipay.wap.create.direct.pay.by.user");

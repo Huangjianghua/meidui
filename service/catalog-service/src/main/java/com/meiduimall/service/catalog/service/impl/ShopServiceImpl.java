@@ -25,8 +25,8 @@ import com.meiduimall.service.catalog.result.ParentShopCat;
 import com.meiduimall.service.catalog.result.ShopCatResult;
 import com.meiduimall.service.catalog.result.ShopGoodsDetailResult;
 import com.meiduimall.service.catalog.result.ShopProductList;
+import com.meiduimall.service.catalog.service.ShopCommonService;
 import com.meiduimall.service.catalog.service.ShopService;
-import com.meiduimall.service.catalog.service.common.ShopCommonService;
 
 @Service
 public class ShopServiceImpl implements ShopService {
@@ -36,12 +36,14 @@ public class ShopServiceImpl implements ShopService {
 	@Autowired
 	private BaseDao baseDao;
 
+	@Autowired
+	private ShopCommonService shopCommonService;
+
 	@Override
 	public ResBodyData getShopDetail(Integer shopId, String memId) {
 		logger.info("根据商品编号，获取店铺详情，ID=" + shopId);
 
-		JsonItemDetailResultShopData shopData = ShopCommonService.getJsonItemDetailResult_ShopData(baseDao, shopId,
-				memId);
+		JsonItemDetailResultShopData shopData = shopCommonService.getJsonItemDetailResult_ShopData(shopId, memId);
 
 		if (shopData == null) {
 			/** 没有这个店铺 */

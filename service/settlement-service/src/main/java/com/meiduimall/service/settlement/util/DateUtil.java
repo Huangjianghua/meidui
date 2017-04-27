@@ -54,10 +54,10 @@ public class DateUtil {
 	
 	private static final int CONSTDATESUB = -36500;
 	
-	private static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-	private static DateFormat dateFormatInput = new SimpleDateFormat("yyyyMMdd");
-	private static DateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-	private static DateFormat dateTimeFormatInput = new SimpleDateFormat("yyyyMMddHHmm");
+	private static DateFormat dateFormat = new SimpleDateFormat(YYYY_MM_DD);
+	private static DateFormat dateFormatInput = new SimpleDateFormat(YYYYMMDD);
+	private static DateFormat dateTimeFormat = new SimpleDateFormat(YYYY_MM_DD_HH_MM);
+	private static DateFormat dateTimeFormatInput = new SimpleDateFormat(YYYYMMDDHHMM);
 	
 	private static DateFormat timeFormat = new SimpleDateFormat("HH:mm");
 	
@@ -132,7 +132,7 @@ public class DateUtil {
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT_WITH_MS);
 		
-		SimpleDateFormat dateYMDFormat = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat dateYMDFormat = new SimpleDateFormat(YYYY_MM_DD);
 		
 		String beginTimeOneDay="00:00:00:000";
 		
@@ -156,7 +156,7 @@ public class DateUtil {
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT_WITH_MS);
 		
-		SimpleDateFormat dateYMDFormat = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat dateYMDFormat = new SimpleDateFormat(YYYY_MM_DD);
 		
 		String beginTimeOneDay="00:00:00:000";
 		
@@ -250,7 +250,7 @@ public class DateUtil {
 
 	/**
 	 * 获取指定时间的年
-	 * @param date
+	 * @param date 日期
 	 * @return int
 	 */
 	public static final int year(Date date) {
@@ -264,8 +264,8 @@ public class DateUtil {
 
 	/**
 	 * 获取指定时间的月
-	 * @param date
-	 * @return
+	 * @param date 日期
+	 * @return int
 	 */
 	public static final int month(Date date) {
 		Calendar calendar = Calendar.getInstance();
@@ -275,8 +275,8 @@ public class DateUtil {
 
 	/**
 	 * 获取指定时间的日
-	 * @param date
-	 * @return
+	 * @param date 日期
+	 * @return int
 	 */
 	public static final int day(Date date) {
 		Calendar calendar = Calendar.getInstance();
@@ -289,7 +289,7 @@ public class DateUtil {
 	 * @param year 格式为：2004
 	 * @param month 从1开始
 	 * @param date 从1开始
-	 * @return
+	 * @return Date
 	 */
 	public static final Date getDate(int year, int month, int date) {
 		Calendar calendar = Calendar.getInstance();
@@ -302,10 +302,10 @@ public class DateUtil {
 	 * @param year 格式为：2004
 	 * @param month 从1开始
 	 * @param date 从1开始
-	 * @param hour
-	 * @param minute
-	 * @param second
-	 * @return
+	 * @param hour 时
+	 * @param minute 分
+	 * @param second 秒
+	 * @return Date
 	 */
 	public static final Date getDateTime(int year, int month, int date,
 			int hour, int minute, int second) {
@@ -316,11 +316,11 @@ public class DateUtil {
 
 	/**
 	 * 在一个已知时间的基础上增加指定的时间
-	 * @param oleDate
-	 * @param year
-	 * @param month
-	 * @param date
-	 * @return
+	 * @param oldDate 日期
+	 * @param year 年
+	 * @param month 月
+	 * @param date 指定时间
+	 * @return Date
 	 */
 	public static final Date addDate(Date oldDate, int year, int month, int date) {
 		Calendar calendar = Calendar.getInstance();
@@ -335,8 +335,8 @@ public class DateUtil {
 	 * 计算两个日期间的天数
 	 * @param fromDate 起始日期
 	 * @param toDate 结束日期
-	 * @return
-	 * @throws ParseException
+	 * @return int
+	 * @throws ParseException 转换异常
 	 */
 	public static int dateDiff(String fromDate, String toDate) throws ParseException {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy/M/d");
@@ -347,9 +347,9 @@ public class DateUtil {
 
 	/**
 	 * 返回两个时间相差的天数
-	 * @param a
-	 * @param b
-	 * @return
+	 * @param a 日期
+	 * @param b 日期 
+	 * @return int
 	 */
 	public static final int dateSub(Date a, Date b) {
 		if (a == null || b == null) {
@@ -386,8 +386,8 @@ public class DateUtil {
 
 	/**
 	 * 一天的开始时间
-	 * @param date
-	 * @return
+	 * @param date 日期
+	 * @return Date
 	 */
 	public static final Date dateBegin(Date date) {
 		if (date == null){
@@ -401,8 +401,8 @@ public class DateUtil {
 
 	/**
 	 * 一天的结束时间
-	 * @param date
-	 * @return
+	 * @param date 日期
+	 * @return Date
 	 */
 	public static final Date dateEnd(Date date) {
 		if (date == null){
@@ -416,8 +416,8 @@ public class DateUtil {
 
 	/**
 	 * 一天的结束时间
-	 * @param calendar
-	 * @return
+	 * @param calendar 日期
+	 * @return Calendar
 	 */
 	public static final Calendar dateEnd(Calendar calendar) {
 		if (calendar == null){
@@ -432,8 +432,8 @@ public class DateUtil {
 
 	/**
 	 * 一天的开始时间
-	 * @param calendar
-	 * @return
+	 * @param calendar 日期
+	 * @return Calendar
 	 */
 	public static final Calendar dateBegin(Calendar calendar) {
 		if (calendar == null){
@@ -448,8 +448,8 @@ public class DateUtil {
 
 	/**
 	 * 一月的开始时间
-	 * @param date
-	 * @return
+	 * @param date 日期
+	 * @return Date
 	 */
 	public static final Date monthBegin(Date date) {
 		if (date == null){
@@ -474,8 +474,8 @@ public class DateUtil {
 
 	/**
 	 * 一月的结束时间
-	 * @param date
-	 * @return
+	 * @param date 日期
+	 * @return Date
 	 */
 	public static final Date monthEnd(Date date) {
 		if (date == null){
@@ -500,8 +500,8 @@ public class DateUtil {
 
 	/**
 	 * 一年的开始时间
-	 * @param date
-	 * @return
+	 * @param date 日期
+	 * @return Date
 	 */
 	public static final Date yearBegin(Date date) {
 		if (date == null){
@@ -517,8 +517,8 @@ public class DateUtil {
 
 	/**
 	 * 一年的结束时间
-	 * @param date
-	 * @return
+	 * @param date 日期
+	 * @return Date
 	 */
 	public static final Date yearEnd(Date date) {
 		if (date == null){
@@ -535,8 +535,8 @@ public class DateUtil {
 	
 	/**
 	 * 日期格式化
-	 * @param date
-	 * @param format 
+	 * @param date 日期
+	 * @param format 日期格式
 	 * @return String
 	 */
 	public static final String format(Date date, String format) {
@@ -560,8 +560,8 @@ public class DateUtil {
 	
 	/**
 	 * 系统当前时间格式化
-	 * @param format
-	 * @return
+	 * @param format 日期格式
+	 * @return String
 	 */
 	public static final String format(String format) {
 		String newFormat = YYYY_MM_DD;
@@ -576,8 +576,8 @@ public class DateUtil {
 
 	/**
 	 * 格式化输出
-	 * @param date
-	 * @return
+	 * @param date 日期
+	 * @return String
 	 */
 	public static String formatDate(Date date) {
 		if (date == null) {
@@ -597,8 +597,8 @@ public class DateUtil {
 	
 	/**
 	 * 格式化输出显示
-	 * @param date
-	 * @return
+	 * @param date 日期
+	 * @return String
 	 */
 	public static String formatDateInput(Date date) {
 		if (date == null){
@@ -610,8 +610,8 @@ public class DateUtil {
 	
 	/**
 	 * 格式化输出 默认格式为
-	 * @param date
-	 * @return
+	 * @param date 日期
+	 * @return String
 	 */
 	public static String formatDateTime(Date date) {
 		if (date == null){
@@ -637,8 +637,8 @@ public class DateUtil {
 	
 	/**
 	 * 判断是否是闰年
-	 * @param yearInt
-	 * @return
+	 * @param yearInt 年份
+	 * @return boolean
 	 */
 	public static boolean isLeapYear(int yearInt) {
 		boolean flag = false;
@@ -650,9 +650,9 @@ public class DateUtil {
 
 	/**
 	 * 获取当天日期的下一天日期
-	 * @param date
-	 * @param days
-	 * @return
+	 * @param date 日期
+	 * @param days 追加的天数
+	 * @return Date
 	 */
 	public static Date addDays(Date date, int days) {
 		Calendar calendar = Calendar.getInstance();
@@ -675,7 +675,7 @@ public class DateUtil {
 	/**
 	 * 时间格式转换 yyyy-MM-dd,yyyy年MM月dd日 这两个日期互转
 	 * @param date 字符串日期
-	 * @return
+	 * @return String
 	 */
 	public static String replaceFormat(String date)  {
 		String str = date.trim().replace("/", "-");
@@ -700,10 +700,10 @@ public class DateUtil {
 
 	/**
 	 * 返回两个日期相差的天数
-	 * @param date1
-	 * @param date2
-	 * @return
-	 */
+	 * @param date1 日期
+	 * @param date2 日期
+	 * @return int
+	 */ 
 	public static final int compareDay(Date date1, Date date2) {
 		Calendar c1 = Calendar.getInstance();
 		c1.setTime(date1);
@@ -753,7 +753,7 @@ public class DateUtil {
 	 * 判断两个日期分钟数相差
 	 * @param date 比对日期
 	 * @param now 当前时间
-	 * @return
+	 * @return long
 	 */
 	public static long dateDiff(Date date, Date now) {
 		long l = date.getTime() - now.getTime();
@@ -767,9 +767,9 @@ public class DateUtil {
 
 	/**
 	 * 计算百分比
-	 * @param x
-	 * @param total
-	 * @return
+	 * @param x 参数1
+	 * @param total 参数2
+	 * @return String
 	 */
 	public static String getPercent(int x, int total) {
 		if (x <= 0 && total <= 0){
@@ -784,9 +784,9 @@ public class DateUtil {
 
 	/**
 	 * 计算百分比
-	 * @param x
-	 * @param total
-	 * @return
+	 * @param x 参数1
+	 * @param total 参数2
+	 * @return String
 	 */
 	public static String getPercent(double x, double total) {
 		if (x <= 0 && total <= 0){
@@ -800,23 +800,25 @@ public class DateUtil {
 	}
 	
 	/**
-	 * 日期比较
+	 * 日期比较  开始时间少于结束时间，false开始时间大于结束时间 
 	 * @param date1 开始时间
 	 * @param date2 结束时间
-	 * @return true开始时间少于结束时间，false开始时间大于结束时间 
+	 * @return boolean
+	 * @throws ParseException 转换异常
 	 */
 	public static boolean compareDate(String date1, String date2) throws ParseException {
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		DateFormat df = new SimpleDateFormat(YYYY_MM_DD);
 		java.util.Date d1 = df.parse(date1);
 		java.util.Date d2 = df.parse(date2);
 		return d1.getTime() < d2.getTime();
 	}
 	
 	/**
-	 * 日期+时间比较
-	 * @param date1 开始时间
-	 * @param date2 结束时间
-	 * @return true开始时间少于结束时间，false开始时间大于结束时间 
+	 * 日期+时间比较 开始时间少于结束时间，false开始时间大于结束时间 
+	 * @param date1  开始时间
+	 * @param date2  结束时间
+	 * @return boolean 
+	 * @throws ParseException 转换异常
 	 */
 	public static boolean compareDateTime(String date1, String date2) throws ParseException {
 		DateFormat df = new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS);
@@ -836,9 +838,9 @@ public class DateUtil {
 	
 	/**
 	 * 获取时间段相隔的天数
-	 * @param date1
-	 * @param date2
-	 * @return
+	 * @param date1 时间1
+	 * @param date2 时间2
+	 * @return int
 	 */
 	public static int daysBetween(Date date1, Date date2){
 
@@ -860,9 +862,9 @@ public class DateUtil {
 
 	/**
 	 * 获取两个日期段内的每一天list
-	 * @param dBegin
-	 * @param dEnd
-	 * @return
+	 * @param dBegin 开始时间
+	 * @param dEnd 结束时间
+	 * @return Date
 	 */
 	public static List<Date> findDates(Date dBegin, Date dEnd) {  
         List<Date> lDate = new ArrayList<>();  
@@ -884,10 +886,10 @@ public class DateUtil {
 
 	/**
 	 * 获取当前月第一天
-	 * @return
+	 * @return String
 	 */
 	public static String getFirstDateNow(){
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd"); 
+		SimpleDateFormat format = new SimpleDateFormat(YYYY_MM_DD); 
 	 	Calendar c = Calendar.getInstance();    
         c.add(Calendar.MONTH, 0);
         c.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天 
@@ -896,10 +898,10 @@ public class DateUtil {
 	
 	/**
 	 * 获取当前月最后一天
-	 * @return
+	 * @return String
 	 */
 	public static String getLastDateNow(){
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd"); 
+		SimpleDateFormat format = new SimpleDateFormat(YYYY_MM_DD); 
 		Calendar ca = Calendar.getInstance();    
 		ca.set(Calendar.DAY_OF_MONTH, ca.getActualMaximum(Calendar.DAY_OF_MONTH));  
 		return format.format(ca.getTime());
@@ -907,7 +909,7 @@ public class DateUtil {
 	
 	/**
 	 * 获取当前时间的时间对象
-	 * @return
+	 * @return Date
 	 */
 	public static final Date nowDate() {
 		return new Date();
@@ -915,10 +917,10 @@ public class DateUtil {
 
 	/**
 	 * 计算两个日期间的天数（精确到毫秒）
-	 * @param fromDate
-	 * @param toDate
-	 * @return
-	 * @throws ParseException
+	 * @param fromDate 开始时间
+	 * @param toDate 结束时间
+	 * @return int
+	 * @throws ParseException 转换异常
 	 */
 	public static int dateDiffMilli(String fromDate, String toDate) throws ParseException {
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmssSSS");
@@ -929,7 +931,7 @@ public class DateUtil {
 	
 	/**
 	 * 获取第二天的日期
-	 * @return
+	 * @return Date
 	 */
 	public static Date getNextDAY() {
 		Calendar c = Calendar.getInstance();
@@ -939,19 +941,19 @@ public class DateUtil {
 	
 	/**
 	 * 返回两个时间相差多少分钟
-	 * @param a
-	 * @param b
-	 * @return
+	 * @param date1  时间1
+	 * @param date2  时间2
+	 * @return int
 	 */
-	public static final int subSecond(Date a, Date b) {
-		return (int) (a.getTime() / (1000) - b.getTime() / (1000));
+	public static final int subSecond(Date date1, Date date2) {
+		return (int) (date1.getTime() / (1000) - date2.getTime() / (1000));
 	}
 	
 	/**
 	 * 将时间戳转换为日期
-	 * @param timestampString
-	 * @param formats
-	 * @return
+	 * @param timestampString 时间戳
+	 * @param formats 日期格式
+	 * @return String
 	 */
 	public static String timeStamp2Date(String timestampString, String formats) {
 		Long timestamp = Long.parseLong(timestampString) * 1000;
@@ -960,20 +962,20 @@ public class DateUtil {
 	
 	/**
 	 * 获取今天的日期
-	 * @return
+	 * @return String
 	 */
 	public static String getCurrentDay() {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat dateFormat = new SimpleDateFormat(YYYY_MM_DD);
 		return dateFormat.format(Calendar.getInstance().getTime());
 	}
 
 	
 	/**
 	 * 获取昨天的日期
-	 * @return
+	 * @return String
 	 */
 	public static String getUpDAY() {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat dateFormat = new SimpleDateFormat(YYYY_MM_DD);
 		Calendar c = Calendar.getInstance();
 		c.add(Calendar.DAY_OF_MONTH, -1);
 		return dateFormat.format(c.getTime());
@@ -981,11 +983,11 @@ public class DateUtil {
 	
 	/**
 	 * 将字符串日期转换为Date类型
-	 * @param date
-	 * @return
+	 * @param date 日期
+	 * @return Date
 	 */
 	public static Date getParseDate(String date){
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DD);
 		try {
 			return sdf.parse(date);
 		} catch (ParseException e) {
@@ -995,8 +997,8 @@ public class DateUtil {
 	}
 
 	/**
-	 * 获取六位年月日
-	 * @return
+	 * 获取六位年月日 
+	 * @return String
 	 */
 	public static String getCurrentSixDay() {
 		return new SimpleDateFormat("yyMMdd").format(new Date());

@@ -32,7 +32,7 @@ public class GoodsDetailController {
 	 * 
 	 * @param itemId
 	 *            商品编号，必须
-	 * @return
+	 * @return 查询结果和url
 	 */
 	@RequestMapping(value = "/isExist")
 	public ResBodyData checkItemIsExist(
@@ -55,7 +55,7 @@ public class GoodsDetailController {
 	 *            会员系统ID
 	 * @param itemId
 	 *            商品编号，必须
-	 * @return
+	 * @return 详情信息
 	 */
 	@RequestMapping(value = "/getItem")
 	public ResBodyData getItemDetail(String memId, String itemId) {

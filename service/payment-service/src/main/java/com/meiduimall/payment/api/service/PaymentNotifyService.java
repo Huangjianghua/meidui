@@ -16,10 +16,10 @@ public class PaymentNotifyService {
     /**
      * 添加回调数据
      *
-     * @param orderId
-     * @param notifyData
-     * @param notifyStatus
-     * @throws Exception 
+     * @param orderId 订单号
+     * @param notifyData 回调报文
+     * @param notifyStatus 支付回调状态
+     * @throws Exception  异常
      */
     public void insertNotify(String orderId, String notifyData, Integer notifyStatus) throws Exception {
 
@@ -34,8 +34,8 @@ public class PaymentNotifyService {
     /**
      * 更新回调数据的状态
      *
-     * @param model
-     * @throws Exception 
+     * @param model 通知对象
+     * @throws Exception 异常
      */
     public void updateStatus(PaymentNotifyModel model) throws Exception {
         daoTemplate.update("paymentNotify.updateStatus", model);

@@ -69,14 +69,12 @@ public class WeChatClient {
     @Autowired
     PaymentLogsService logsService;
 
-    /**
-     * 獲取簽名
-     *
-     * @param obj
-     * @param key
-     * @return
-     * @throws Exception
-     */
+   /**
+    * 
+    * @param obj 签名对象
+    * @param key 签名key
+    * @return  签名字符串
+    */
     protected String getSign(Object obj, String key){
         Class<?> clazz = obj.getClass();
         Field[] fields = clazz.getDeclaredFields();
@@ -85,13 +83,14 @@ public class WeChatClient {
             f.setAccessible(true);
             try {
 				if (f.get(obj) != null && f.get(obj) != "") {
-					if(f.getName().equalsIgnoreCase("pkg")){
+					if("pkg".equalsIgnoreCase(f.getName())){
 						 list.add("package" + "=" + f.get(obj) + "&");
 						 continue;
 					}
 				    list.add(f.getName() + "=" + f.get(obj) + "&");
 				}
 			} catch (IllegalArgumentException | IllegalAccessException e) {
+				log.info("WeChatClient:\n{}", e);
 				throw new DaoException(ServicePaymentApiCode.CLASS_REFLECT_ERROR, ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.CLASS_REFLECT_ERROR));
 			}
         }
@@ -108,7 +107,7 @@ public class WeChatClient {
         try {
         	md5= MD5.getMD5EncodeUTF8(result);
 		} catch (Md5Exception e) {
-		
+			log.info("WeChatClient:\n{}", e);
 			throw new DaoException(SecurityBaseApiCode.EXCEPTION_MD5,SecurityBaseApiCode.getZhMsg(SecurityBaseApiCode.EXCEPTION_MD5));
 		}
         
@@ -118,7 +117,7 @@ public class WeChatClient {
     /**
      * 随机32位字符串
      *
-     * @return
+     * @return 32位随机数
      */
     protected String getNonceStr() {
         String base = "abcdefghijklmnopqrstuvwxyz0123456789";
@@ -131,18 +130,8 @@ public class WeChatClient {
         return sb.toString();
     }
 
-    /**
-     * 公共请求体
-     *
-     * @param body
-     * @param tradeNo
-     * @param totalFee
-     * @param spbillCreateIp
-     * @param tradeType
-     * @param productId
-     * @param openId
-     * @return
-     */
+   
+    
     WeChatRequestModel buildBody(String body, String tradeNo, int totalFee, String spbillCreateIp, String tradeType,
                                  String productId, String openId, String notifyUrl,String accountType) {
         WeChatRequestModel model = new WeChatRequestModel();
@@ -151,7 +140,7 @@ public class WeChatClient {
             model.setMch_id(WECHAT_MCHID_WEB);
         } else if ("APP".equals(tradeType)) {
         	//使用壹购物账号
-        	if(accountType != null && accountType.equals("1")){
+        	if(accountType != null && "1".equals(accountType)){
         		model.setAppid(WECHAT_APPID_1GW_APP);
                 model.setMch_id(WECHAT_MCHID_1GW_APP);
         	}else{//使用美兑账号
@@ -182,7 +171,7 @@ public class WeChatClient {
     		String sign;
     		weChatAppModel.setNoncestr(this.getNonceStr());
     		//壹购物账号
-    		if(accountType != null && accountType.equals("1")){
+    		if(accountType != null && "1".equals(accountType)){
     			weChatAppModel.setAppid(WECHAT_APPID_1GW_APP);
             	weChatAppModel.setPartnerid(WECHAT_MCHID_1GW_APP);
             	sign =this.getSign(weChatAppModel, WECHAT_1GW_KEY);
@@ -202,14 +191,14 @@ public class WeChatClient {
     /**
      * 公共请求處理
      *
-     * @param body
-     * @param tradeNo
-     * @param totalFee
-     * @param spbillCreateIp
-     * @param tradeType
-     * @param productId
-     * @param openId
-     * @return
+     * @param body 请求体
+     * @param tradeNo 业务单号
+     * @param totalFee 支付金额
+     * @param spbillCreateIp 客户端
+     * @param tradeType 交易类型
+     * @param productId 产品ID
+     * @param openId 用户openid
+     * @return 签名对象
      */
     public WeChatResponeModel handler(String body, String tradeNo, int totalFee, String spbillCreateIp,
                                       String tradeType, String productId, String openId, String notifyUrl,String accountType) {
@@ -218,7 +207,7 @@ public class WeChatClient {
        
         	String signStr;
         	//壹购物账号
-        	if(accountType !=null && accountType.equals("1")){
+        	if(accountType !=null && "1".equals(accountType)){
         		  signStr = this.getSign(model, WECHAT_1GW_KEY);
         	}else{
         		  signStr = this.getSign(model, WECHAT_KEY);
@@ -229,6 +218,7 @@ public class WeChatClient {
 			try {
 				xmlData = XmlSupport.outputXml(model, WeChatRequestModel.class);
 			} catch (JAXBException e) {
+				log.info("xml转换异常: \n{}",e);
 				throw new DaoException(ServicePaymentApiCode.XML_OBJECT_TRANS_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.XML_OBJECT_TRANS_ERROR));
 			}
             log.info("getWeChatPayQrCode::request data: \n{}", xmlData);
@@ -239,6 +229,7 @@ public class WeChatClient {
 			try {
 				result = HttpUtils.post(WECHAT_URL_PAY, xmlData, map);
 			} catch (IOException e) {
+				log.info("接口调用异常: \n{}",e);
 				throw new DaoException(ServicePaymentApiCode.WEBCHAT_API_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.WEBCHAT_API_ERROR));
 			}
             log.info("getWeChatPayQrCode::result data: \n{}", result);
@@ -248,6 +239,7 @@ public class WeChatClient {
 			try {
 				resultModel = XmlSupport.outputBean(result, WeChatResponeModel.class);
 			} catch (JAXBException e) {
+				log.info("xml转换异常: \n{}",e);
 				throw new DaoException(ServicePaymentApiCode.XML_OBJECT_TRANS_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.XML_OBJECT_TRANS_ERROR));
 			}
            
@@ -261,9 +253,9 @@ public class WeChatClient {
     /**
      * 获取APP预支付单签名
      *
-     * @param model
-     * @return
-     * @throws ApiException
+     * @param model 签名参数对象
+     * @return  获取签名对象
+     * @throws ApiException 接口异常
      */
     public WeChatResponeModel getAppSign(WeChatRequestModel model,String accountType) throws ApiException {
 

@@ -33,7 +33,7 @@ import com.meiduimall.service.catalog.result.JsonItemDetailResultProps;
 import com.meiduimall.service.catalog.result.JsonItemDetailResultShopData;
 import com.meiduimall.service.catalog.result.JsonItemDetailResultSku;
 import com.meiduimall.service.catalog.service.GoodsDetailService;
-import com.meiduimall.service.catalog.service.common.ShopCommonService;
+import com.meiduimall.service.catalog.service.ShopCommonService;
 import com.meiduimall.service.catalog.util.ParseItemSpecDesUtil;
 import com.meiduimall.service.catalog.util.ParseItemSpecDescBean;
 import com.meiduimall.service.catalog.util.ParseItemSpecDescBean.PropValueBean;
@@ -50,6 +50,9 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 
 	@Autowired
 	private BaseDao baseDao;
+
+	@Autowired
+	private ShopCommonService shopCommonService;
 
 	@Override
 	public ResBodyData checkItemIsExistById(int itemId) {
@@ -321,8 +324,7 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 		List<JsonItemDetailResultSku> skuList = new ArrayList<JsonItemDetailResultSku>();
 
 		// 查sysitem_sku表，根据item_id查找该商品对应的SKU列表
-		List<SysitemSkuWithBLOBs> itemSkuWithBLOBsList = baseDao.selectList(itemId,
-				"SysitemSkuMapper.selectByItemId");
+		List<SysitemSkuWithBLOBs> itemSkuWithBLOBsList = baseDao.selectList(itemId, "SysitemSkuMapper.selectByItemId");
 
 		if (itemSkuWithBLOBsList != null && !itemSkuWithBLOBsList.isEmpty()) {
 			for (int i = 0; i < itemSkuWithBLOBsList.size(); i++) {
@@ -390,8 +392,7 @@ public class GoodsDetailServiceImpl implements GoodsDetailService {
 
 		// -------------4、开始拼接商家数据-----------
 		Integer shopId = itemWithBLOBs.getShopId();
-		JsonItemDetailResultShopData shopData = ShopCommonService.getJsonItemDetailResult_ShopData(baseDao, shopId,
-				memId);
+		JsonItemDetailResultShopData shopData = shopCommonService.getJsonItemDetailResult_ShopData(shopId, memId);
 
 		jsonResult.setShopData(shopData);
 

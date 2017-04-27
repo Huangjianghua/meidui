@@ -16,6 +16,9 @@ public class DaoException extends BizException {
 
 	private static final long serialVersionUID = -2400481044433310559L;
 
+	public DaoException(Integer code) {
+		super(code);
+	}
 
 	public DaoException(Integer code, String msg) {
 		super(code,msg);

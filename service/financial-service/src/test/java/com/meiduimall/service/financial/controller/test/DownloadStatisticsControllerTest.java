@@ -18,6 +18,10 @@ import com.meiduimall.service.financial.test.BaseTest;
  */
 public class DownloadStatisticsControllerTest extends BaseTest {
 
+	/**
+	 * insertPortal插入下载渠道---正常测试
+	 * @throws Exception
+	 */
 	@Test
 	public void insertPortal_test_01() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -33,6 +37,10 @@ public class DownloadStatisticsControllerTest extends BaseTest {
 		});
 	}
 	
+	/**
+	 * insertPortal插入下载渠道---请求参数错误测试
+	 * @throws Exception
+	 */
 	@Test
 	public void insertPortal_test_02() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -48,6 +56,10 @@ public class DownloadStatisticsControllerTest extends BaseTest {
 		});
 	}
 	
+	/**
+	 * queryByDate统计下载渠道---没有请求参数
+	 * @throws Exception
+	 */
 	@Test
 	public void queryByDate_test_01() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -65,6 +77,10 @@ public class DownloadStatisticsControllerTest extends BaseTest {
 		});
 	}
 	
+	/**
+	 * queryByDate统计下载渠道---指定日期
+	 * @throws Exception
+	 */
 	@Test
 	public void queryByDate_test_02() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -82,12 +98,58 @@ public class DownloadStatisticsControllerTest extends BaseTest {
 		});
 	}
 	
+	/**
+	 * queryByDate统计下载渠道---只有开始日期
+	 * @throws Exception
+	 */
 	@Test
 	public void queryByDate_test_03() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/financial/financial-system-service/v1/statistics/query")
 				.param("beginDate", "2017-03-03")
 				.param("endDate", "")
+				)
+				.andExpect(status().isOk());
+
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+	
+	/**
+	 * queryByDate统计下载渠道---只有结束日期
+	 * @throws Exception
+	 */
+	@Test
+	public void queryByDate_test_04() throws Exception {
+		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
+				.post("/financial/financial-system-service/v1/statistics/query")
+				.param("beginDate", "")
+				.param("endDate", "2017-04-16")
+				)
+				.andExpect(status().isOk());
+
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+	
+	/**
+	 * queryByDate统计下载渠道---日期格式错误
+	 * @throws Exception
+	 */
+	@Test
+	public void queryByDate_test_05() throws Exception {
+		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
+				.post("/financial/financial-system-service/v1/statistics/query")
+				.param("beginDate", "aaaa-bb-cc")
+				.param("endDate", "ee-ee-ee")
 				)
 				.andExpect(status().isOk());
 

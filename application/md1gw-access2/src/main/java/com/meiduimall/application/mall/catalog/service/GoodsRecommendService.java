@@ -11,7 +11,7 @@ public interface GoodsRecommendService {
 	 *            推荐类型
 	 * @param sourceId
 	 *            请求来源
-	 * @return
+	 * @return 推荐商品列表
 	 */
 	public ResBodyData getFirstRecommendGoodsHttp(int type, int sourceId);
 }

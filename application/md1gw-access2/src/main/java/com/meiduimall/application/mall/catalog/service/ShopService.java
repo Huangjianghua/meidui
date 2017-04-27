@@ -12,7 +12,7 @@ public interface ShopService {
 	 *            店铺ID
 	 * @param memId
 	 *            会员系统ID
-	 * @return
+	 * @return 店铺详情
 	 */
 	public ResBodyData getShopDetailHttp(int shopId, String memId);
 
@@ -25,7 +25,7 @@ public interface ShopService {
 	 *            收藏1，取消收藏0
 	 * @param memId
 	 *            会员系统ID
-	 * @return
+	 * @return 收藏/取消收藏结果
 	 */
 	public ResBodyData collectOrCancelShopHttp(int shopId, int isCollect, String memId);
 
@@ -34,7 +34,7 @@ public interface ShopService {
 	 * 
 	 * @param shopId
 	 *            店铺ID
-	 * @return
+	 * @return 商品分类列表
 	 */
 	public ResBodyData getShopProductCatalogHttp(int shopId);
 
@@ -42,7 +42,8 @@ public interface ShopService {
 	 * 请求微服务，获取店铺的商品列表
 	 * 
 	 * @param param
-	 * @return
+	 *            请求参数封装ShopProductRequest对象
+	 * @return 商品列表
 	 */
 	public ResBodyData getShopProductList(ShopProductRequest param);
 }

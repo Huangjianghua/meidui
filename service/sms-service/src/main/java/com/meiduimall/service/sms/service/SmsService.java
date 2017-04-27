@@ -1,13 +1,3 @@
-/*
- *  @项目名称: ${project_name}
- *
- *  @文件名称: ${file_name}
- *  @Date: ${date}
- *  @Copyright: ${year} www.meiduimall.com Inc. All rights reserved.
- *
- *  注意：本内容仅限于美兑壹购物公司内部传阅，禁止外泄以及用于其他的商业目的
- */
-
 package com.meiduimall.service.sms.service;
 
 import com.meiduimall.core.ResBodyData;
@@ -18,10 +8,11 @@ import com.meiduimall.service.sms.request.SendMessageRequest;
 public interface SmsService {
 
 	/**
-	 * 发送短信
+	 * 发送普通短信
 	 * 
 	 * @param model
-	 * @return
+	 *            请求参数封装的SendMessageRequest对象
+	 * @return 发送结果
 	 */
 	ResBodyData sendSmsMessage(SendMessageRequest model);
 
@@ -29,7 +20,8 @@ public interface SmsService {
 	 * 发送短信验证码
 	 * 
 	 * @param model
-	 * @return
+	 *            请求参数封装的SendCodeRequest对象
+	 * @return 发送结果和验证码
 	 */
 	ResBodyData sendSmsVerificationCode(SendCodeRequest model);
 
@@ -37,7 +29,8 @@ public interface SmsService {
 	 * 校验短信验证码
 	 * 
 	 * @param model
-	 * @return
+	 *            请求参数封装的CheckCodeRequest对象
+	 * @return 校验结果
 	 */
 	ResBodyData checkSmsVerificationCode(CheckCodeRequest model);
 }

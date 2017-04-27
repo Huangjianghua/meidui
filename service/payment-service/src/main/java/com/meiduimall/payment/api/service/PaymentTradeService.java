@@ -20,15 +20,14 @@ public class PaymentTradeService {
     @Autowired
     DaoTemplate daoTemplate;
 
+    
     /**
-     * 添加流水
-     *
-     * @param model
-     * @throws Exception 
+     * 描述：添加流水
+     * @param model 流水对象
      */
     public void insertTrade(PaymenttTradeModel model){
         try {
-			daoTemplate.insert("paymentTrade.insert", model);
+			daoTemplate.insert("paymentTra	de.insert", model);
 		} catch (Exception e) {
 			throw new ServiceException(ServicePaymentApiCode.UNKNOWN_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.UNKNOWN_ERROR),e);
 		}

@@ -8,24 +8,16 @@ package com.meiduimall.service.sms.service;
  */
 public interface ZucpService {
 
-	/**
-	 * 发送短信
-	 * 
-	 * @param mobile
-	 * @param content
-	 * @param ext
-	 * @param stime
-	 * @param rrid
-	 * @return
-	 */
 	String send(String mobile, String content, String ext, String stime, String rrid);
 
 	/**
 	 * 发送短信
 	 * 
 	 * @param mobile
+	 *            手机号
 	 * @param content
-	 * @return
+	 *            发送内容
+	 * @return 发送结果
 	 */
 	String send(String mobile, String content);
 }

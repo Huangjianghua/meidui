@@ -20,8 +20,8 @@ public interface DrawService {
 	 * 功能描述:  获取区代、个代或商家可提现金额
 	 * Author: guidl
 	 * Date:   2017年3月24日 上午11:25:02
-	 * param   code 代理编号
-	 * return  
+	 * @param  code 代理编号
+	 * @return Map
 	 */
 	public Map<String, Object> queryAccoutBalance(String code);
 
@@ -31,7 +31,7 @@ public interface DrawService {
 	 * Author: guidl
 	 * Date:   2017年3月24日 上午11:25:02
 	 * @param  params 条件参数
-	 * @return  
+	 * @return EcmMzfDraw
 	 */
 	public List<EcmMzfDraw> queryDrawCash(Map<String, Object> params);
 	
@@ -41,7 +41,7 @@ public interface DrawService {
 	 * Author: guidl
 	 * Date:   2017年3月24日 上午11:25:02
 	 * @param  params 条件参数
-	 * @return  
+	 * @return int
 	 */
 	public int getDrawCount(Map<String,Object> params);
 
@@ -51,7 +51,7 @@ public interface DrawService {
 	 * Author: guidl
 	 * Date:   2017年3月24日 上午11:25:02
 	 * @param  drawCode 提现编号
-	 * @return  
+	 * @return EcmMzfDraw
 	 */
 	public EcmMzfDraw queryDrawCashById(String drawCode);
 
@@ -61,7 +61,7 @@ public interface DrawService {
 	 * Author: guidl
 	 * Date:   2017年3月24日 上午11:25:02
 	 * @param  ecmmzfdraw 提现相关信息
-	 * @return  
+	 * @return Map
 	 */
 	public Map<String, Object> verifyDrawCashById(EcmMzfDraw ecmmzfdraw);
 
@@ -71,7 +71,7 @@ public interface DrawService {
 	 * Author: guidl
 	 * Date:   2017年3月24日 上午11:25:02
 	 * @param  ecmmzfdrawinput 提现相关信息
-	 * @return  
+	 * @return Map 
 	 */
 	public Map<String, Object> rejectDrawCashById(EcmMzfDraw ecmmzfdrawinput);
 
@@ -81,7 +81,7 @@ public interface DrawService {
 	 * Author: guidl
 	 * Date:   2017年3月24日 上午11:25:02
 	 * @param  ecmmzfdrawinput 提现相关信息
-	 * @return  
+	 * @return Map
 	 */
 	public Map<String, Object> confirmDrawCashByIdByType(EcmMzfDraw ecmmzfdrawinput);
 	
@@ -91,7 +91,7 @@ public interface DrawService {
 	 * Author: guidl
 	 * Date:   2017年3月24日 上午11:25:02
 	 * @param  ecmMzfDraw 提现相关信息
-	 * @return  
+	 * @return boolean 
 	 */
 	public boolean insertDrawInfo(EcmMzfDraw ecmMzfDraw);
 	
@@ -101,7 +101,7 @@ public interface DrawService {
 	 * Author: guidl
 	 * Date:   2017年3月24日 上午11:25:02
 	 * @param  ecmMzfDraw 提现相关信息
-	 * @return  
+	 * @return int  
 	 */
 	public int insertDraw(EcmMzfDraw ecmMzfDraw);
  
@@ -111,7 +111,7 @@ public interface DrawService {
 	 * Author: guidl
 	 * Date:   2017年3月24日 上午11:25:02
 	 * @param  ecmMzfDrawWater 提现流水信息
-	 * @return  
+	 * @return int 
 	 */
 	public int insertDrawWater(EcmMzfDrawWater ecmMzfDrawWater);
 	
@@ -121,7 +121,7 @@ public interface DrawService {
 	 * Author: guidl
 	 * Date:   2017年3月24日 上午11:25:02
 	 * @param  params(code、nowTime)
-	 * @return  
+	 * @return int  
 	 */
 	public int getDrawWaterCount(Map<String, Object> params);
 	
@@ -131,7 +131,7 @@ public interface DrawService {
 	 * Author: guidl
 	 * Date:   2017年3月24日 上午11:25:02
 	 * @param  params 条件参数
-	 * @return  
+	 * @return int  
 	 */
 	public int getCountByCode(Map<String,Object> params);
 	

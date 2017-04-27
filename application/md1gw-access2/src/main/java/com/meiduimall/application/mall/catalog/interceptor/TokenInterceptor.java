@@ -63,7 +63,8 @@ public class TokenInterceptor implements HandlerInterceptor {
 
 				if (StringUtils.isBlank(token)) {
 					// token为空，不通过
-					return outPut(response, ApplMallApiCode.NO_LOGIN);
+					outPut(response, ApplMallApiCode.NO_LOGIN);
+					return false;
 				}
 
 				// 调用会员系统，验证token
@@ -72,7 +73,8 @@ public class TokenInterceptor implements HandlerInterceptor {
 					return true;
 				} else {
 					// 验证不通过，不放行
-					return outPut(response, ApplMallApiCode.NO_LOGIN);
+					outPut(response, ApplMallApiCode.NO_LOGIN);
+					return false;
 				}
 
 			} else {
@@ -85,7 +87,8 @@ public class TokenInterceptor implements HandlerInterceptor {
 			}
 		} catch (Exception e) {
 			logger.info("验证token，拦截器出现异常：" + e);
-			return outPut(response, ApplMallApiCode.TOKEN_VALIDATE_ERROR);
+			outPut(response, ApplMallApiCode.TOKEN_VALIDATE_ERROR);
+			return false;
 		}
 	}
 
@@ -129,11 +132,12 @@ public class TokenInterceptor implements HandlerInterceptor {
 	 * 拦截请求，并输出错误信息
 	 * 
 	 * @param response
+	 *            HttpServletResponse对象
 	 * @param status
-	 * @return
+	 *            状态码
 	 * @throws IOException
 	 */
-	private boolean outPut(HttpServletResponse response, Integer status) throws IOException {
+	private void outPut(HttpServletResponse response, Integer status) throws IOException {
 		ResBodyData result = new ResBodyData(status, ApplMallApiCode.getZhMsg(status),
 				JsonUtils.getInstance().createObjectNode());
 		try {
@@ -143,6 +147,5 @@ public class TokenInterceptor implements HandlerInterceptor {
 			throw new ServiceException(ApplMallApiCode.OUT_PUT_EXCEPTION,
 					ApplMallApiCode.getZhMsg(ApplMallApiCode.OUT_PUT_EXCEPTION));
 		}
-		return false;
 	}
 }

@@ -40,17 +40,18 @@ public class HiCardClient {
     private  String hiCard_gateway;
 	@Value("${pay.huik.key}")
     private  String key;
-    /**
-     * 生成签名
-     *
-     * @param object
-     * @return
-     */
+   
+	
+	/**
+	 * 描述：生成签名
+	 * @param object 签名对象
+	 * @return 签名字符串
+	 */
     public String buildSign(Object object){
 
         Class<?> clazz = object.getClass();
         Field[] fields = clazz.getDeclaredFields();
-        StringBuffer sb = new StringBuffer();
+        StringBuilder  sb = new StringBuilder();
 
         for (Field f : fields) {
             f.setAccessible(true);
@@ -59,6 +60,7 @@ public class HiCardClient {
 				    sb.append(f.getName() + "=" + f.get(object) + "&");
 				}
 			} catch (IllegalArgumentException | IllegalAccessException e) {
+				log.info("HiCardClient:{}",e);
 				throw new DaoException(ServicePaymentApiCode.CLASS_REFLECT_ERROR, ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.CLASS_REFLECT_ERROR));
 			}
         }
@@ -66,7 +68,6 @@ public class HiCardClient {
         String str = sb.toString();
         log.info("buildSign::Sign data -> {}", str);
        return DigestUtils.md5Hex(str);
-       //return Md5Encrypt.md5Digest(str);
     }
 
 
@@ -82,7 +83,6 @@ public class HiCardClient {
         requestModel.setMerchOrderNo(paramModel.getOrderNo());
         requestModel.setShowPage("0");
         requestModel.setAmount(paramModel.getOrderAmount());
-        // requestModel.setFrontEndUrl(hiCard_return_url);
         requestModel.setBackEndUrl(paramModel.getNotifyUrl());
         requestModel.setSign(buildSign(requestModel));
         requestModel.setGoodsName(paramModel.getBody());
@@ -90,12 +90,7 @@ public class HiCardClient {
     }
 
 
-    /**
-     * 汇卡支付接口
-     *
-     * @param requestModel
-     * @throws Exception
-     */
+   
     public HiCardResponeModel hiCardAppTrade(HiCardRequestModel requestModel){
 
         HiCardResponeModel responeModel;
@@ -109,6 +104,7 @@ public class HiCardClient {
 			try {
 				result = HttpUtils.post(hiCard_gateway, json, rmap);
 			} catch (IOException e) {
+				log.info("HiCardClient:{}",e);
 				throw new DaoException(ServicePaymentApiCode.HIKA_API_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.HIKA_API_ERROR));
 			}
             log.info("hiCardTrade::result data: \n{}", result);
@@ -116,6 +112,7 @@ public class HiCardClient {
 			try {
 				map = new ObjectMapper().readValue(result, HashMap.class);
 			} catch (IOException e) {
+				log.info("HiCardClient:{}",e);
 				throw new DaoException(ServicePaymentApiCode.HIKA_API_TRANS_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.HIKA_API_TRANS_ERROR));
 			}
             result =XmlSupport.hashMapToJson(map);

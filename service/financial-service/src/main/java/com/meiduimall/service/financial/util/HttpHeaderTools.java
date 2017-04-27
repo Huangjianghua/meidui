@@ -19,7 +19,8 @@ public class HttpHeaderTools {
 	 * 获取当前请求的IP地址
 	 * 
 	 * @param request
-	 * @return
+	 *            HttpServletRequest对象
+	 * @return IP地址
 	 */
 	public static String getIpAddr(HttpServletRequest request) {
 		String ipAddress = "";

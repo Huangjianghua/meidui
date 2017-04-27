@@ -58,13 +58,15 @@ public class MemIdInterceptor implements HandlerInterceptor {
 				String memId = request.getParameter("memId");
 				if (StringUtils.isBlank(memId)) {
 					// memId为空，不通过
-					return outPut(response, ServiceCatalogApiCode.NO_LOGIN);
+					outPut(response, ServiceCatalogApiCode.NO_LOGIN);
+					return false;
 				}
 
 				SysuserAccount sysuserAccount = userService.getUserByMemId(memId);
 				if (sysuserAccount == null) {
 					// 验证不通过
-					return outPut(response, ServiceCatalogApiCode.NO_LOGIN);
+					outPut(response, ServiceCatalogApiCode.NO_LOGIN);
+					return false;
 				} else {
 					// 验证通过，放行
 					request.setAttribute("sysuserAccount", sysuserAccount);
@@ -76,12 +78,22 @@ public class MemIdInterceptor implements HandlerInterceptor {
 			}
 		} catch (Exception e) {
 			logger.error("验证memId，拦截器报异常： " + e);
-			return outPut(response, ServiceCatalogApiCode.MEMID_VALIDATE_ERROR);
+			outPut(response, ServiceCatalogApiCode.MEMID_VALIDATE_ERROR);
+			return false;
 		}
 	}
 
-	private boolean outPut(HttpServletResponse response, Integer code) {
-		ResBodyData result = new ResBodyData(code, ServiceCatalogApiCode.getZhMsg(code),
+	/**
+	 * 拦截请求，并输出错误信息
+	 * 
+	 * @param response
+	 *            HttpServletResponse对象
+	 * @param status
+	 *            状态码
+	 * @throws IOException
+	 */
+	private void outPut(HttpServletResponse response, Integer status) {
+		ResBodyData result = new ResBodyData(status, ServiceCatalogApiCode.getZhMsg(status),
 				JsonUtils.getInstance().createObjectNode());
 		try {
 			response.getWriter().write(JsonUtils.beanToJson(result));
@@ -90,6 +102,5 @@ public class MemIdInterceptor implements HandlerInterceptor {
 			throw new ServiceException(ServiceCatalogApiCode.OUT_PUT_EXCEPTION,
 					ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.OUT_PUT_EXCEPTION));
 		}
-		return false;
 	}
 }

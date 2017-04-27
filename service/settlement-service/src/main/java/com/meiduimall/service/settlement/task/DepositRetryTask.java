@@ -1,6 +1,5 @@
 package com.meiduimall.service.settlement.task;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +35,10 @@ import com.meiduimall.service.settlement.util.DateUtil;
 public class DepositRetryTask {
 	
 	private static final Logger logger = LoggerFactory.getLogger(DepositRetryTask.class);
+	
+	private static final String SHARE_5MIN_RETRY = "share5MinRetry";
+	private static final String SHARE_30MIN_RETRY = "share30MinRetry";
+	private static final String SHARE_12HOURS_RETRY = "share12HoursRetry";
 	
 	@Autowired
 	private AgentService agentService;
@@ -90,37 +93,20 @@ public class DepositRetryTask {
 		}
 	}
 	
+	
 	/**
 	 * 获取新个代送积分失败日志记录
-	 * @return
-	 * @
+	 * @return Map
 	 */
 	private Map<String, Object> getAgentRetry() {
 		
 		int currentTimestamp = DateUtil.getCurrentTimeSec();
 		
-		List<String> list = new ArrayList<>();
-		list.add("share5MinRetry");
-		list.add("share30MinRetry");
-		list.add("share12HoursRetry");
-		
-		List<ShareProfitAgentLog> share5MinRetry = new ArrayList<>();//获取5分钟后重新送积分的个代
-		List<ShareProfitAgentLog> share30MinRetry = new ArrayList<>();//获取30分钟后重新送积分的个代
-		List<ShareProfitAgentLog> share12HoursRetry = new ArrayList<>();//获取12小时后重新送积分的个代
-		
 		final Map<String, Object> retryAgents = Maps.newHashMap();
 		
-		
-		for (int i = 0; i < list.size(); i++) {
-			String key = list.get(i);
-			if("share5MinRetry".equals(key)){
-				share5MinRetry = agentService.getAgentsRetry(currentTimestamp, key);
-			}else if("share30MinRetry".equals(key)){
-				share30MinRetry = agentService.getAgentsRetry(currentTimestamp, key);
-			}else if("share12HoursRetry".equals(key)){
-				share12HoursRetry = agentService.getAgentsRetry(currentTimestamp, key);
-			}
-		}
+		List<ShareProfitAgentLog> share5MinRetry = agentService.getAgentsRetry(currentTimestamp, SHARE_5MIN_RETRY);//获取5分钟后重新送积分的个代
+		List<ShareProfitAgentLog> share30MinRetry = agentService.getAgentsRetry(currentTimestamp, SHARE_30MIN_RETRY);//获取30分钟后重新送积分的个代
+		List<ShareProfitAgentLog> share12HoursRetry = agentService.getAgentsRetry(currentTimestamp, SHARE_12HOURS_RETRY);//获取12小时后重新送积分的个代
 		
 		if (share12HoursRetry != null && !share12HoursRetry.isEmpty()) {
 			for (ShareProfitAgentLog agentLog : share12HoursRetry) {
