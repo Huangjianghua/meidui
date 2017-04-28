@@ -25,6 +25,8 @@ public class ApiStatusConst extends BaseApiCode {
 	public final static Integer GET_SIGN_EX=9014;
 	
 	public final static Integer EXIT_EXCEPTION=9015;
+	public final static Integer UPDATE_PAYPWD_EXCEPTION=9016;
+	public final static Integer GET_VALIDATE_CODE_EXCEPTION=9017;
 	
 	static {
 		zhMsgMap.put(REQUEST_GATEWAY_EX, "网关HTTP请求程序异常");
@@ -42,6 +44,8 @@ public class ApiStatusConst extends BaseApiCode {
 		zhMsgMap.put(SIGN_ERROR, "签名错误");
 		zhMsgMap.put(GET_SIGN_EX, "生成签名程序异常");
 		
-		zhMsgMap.put(EXIT_EXCEPTION, "退出失败，请联系客服");
+		zhMsgMap.put(EXIT_EXCEPTION, "退出登录失败，请联系客服");
+		zhMsgMap.put(UPDATE_PAYPWD_EXCEPTION, "修改支付密码失败，请联系客服");
+		zhMsgMap.put(GET_VALIDATE_CODE_EXCEPTION, "获取短信验证码失败，请联系客服");
 	}
 }

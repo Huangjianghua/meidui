@@ -20,6 +20,9 @@ service:
     url: http://192.168.4.240:9050/member/account_service/
   member:
     url: http://192.168.4.240:9050/member/member_service/
+  sms:
+    url: http://192.168.4.240:9050/notify/short_msg_service/
+    
 
 route:
   clientID: member_java

@@ -20,6 +20,8 @@ service:
     url: http://10.116.21.93:9050/member/account_service/
   member:
     url: http://10.116.21.93:9050/member/member_service/
+  sms:
+    url: http://10.116.21.93:9050/notify/short_msg_service/
 
 route:
   clientID: member_java
