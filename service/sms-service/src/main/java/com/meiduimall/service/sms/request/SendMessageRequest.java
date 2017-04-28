@@ -54,10 +54,6 @@ public class SendMessageRequest implements Serializable {
 		this.supplierId = supplierId;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
 	public String getParams() {
 		return params;
 	}
