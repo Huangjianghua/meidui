@@ -60,7 +60,10 @@ public class MSAccountList implements Serializable {
 	}
 
 	public String getMemParentIdPhone() throws SystemException {
-		return DESC.deyption(this.memParentIdPhone);
+		if(StringUtils.isNotBlank(this.memParentIdPhone)){
+			return DESC.deyption(this.memParentIdPhone);
+		}
+		return this.memParentIdPhone;
 	}
 
 	public void setMemParentIdPhone(String memParentIdPhone) {

@@ -16,7 +16,7 @@ import com.meiduimall.service.account.util.PageHelp;
  * @Date: 2017年4月18日 上午11:47:22
  * @Description: 会员余额查询 model request
  */
-public class MSAccountListRequest extends PageHelp implements Serializable {
+public class RequestMSAccountList extends PageHelp implements Serializable {
 	/**
 	 * serialVersionUID
 	 */

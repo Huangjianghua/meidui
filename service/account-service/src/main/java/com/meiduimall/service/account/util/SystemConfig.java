@@ -7,23 +7,27 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
- * 系统配置文件读取类
+ * 系统配置文件读取工具类
  * @author chencong
  *
  */
 public class SystemConfig {
+	
+	private final static Logger logger=LoggerFactory.getLogger(SystemConfig.class);
 
 	private static final SystemConfig systemConfig = new SystemConfig();
 	public static Map<String, String> configMap;
-	@SuppressWarnings("static-access")
+	
 	private SystemConfig() {
 		if (configMap == null) {
 			try {
-				this.configMap = loadProperty("config.properties");
+				SystemConfig.configMap = loadProperty("config.properties");
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.error("exec SystemConfig() error:{}",e.toString());
 			}
 		}
 	};
@@ -31,14 +35,12 @@ public class SystemConfig {
 		return systemConfig;
 	}
 	public static String get(String key) { 
-			return systemConfig.configMap.get(key);
+			return SystemConfig.configMap.get(key);
 	}
 	
 	/**
-	 * Description : 加载配置文件 Created By : Kaixuan.Feng Creation Time :
-	 * 2016年12月14日 下午3:02:49
-	 * 
-	 * @param config
+	 * 加载配置文件config.properties
+	 * @param config 配置文件路径
 	 * @return
 	 */
 	public static Map<String, String> loadProperty(String config) {
@@ -61,7 +63,7 @@ public class SystemConfig {
 				if (is != null)
 					is.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				logger.error("exec loadProperty() error:{}",e.toString());
 			}
 		}
 		return map;

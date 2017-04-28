@@ -78,7 +78,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 		/**调用账户服务>根据memId查询是否存在支付密码*/
 		String result=null;
 		try {
-			result=HttpUtils.get(serviceUrlProfileConfig.getAccountServiceUrl()+"/member/account_service/v1/is_exist_paypwd?memId="+memId);
+			result=HttpUtils.get(serviceUrlProfileConfig.getAccountServiceUrl()+"/v1/is_exist_paypwd?memId="+memId);
 		} catch (Exception e) {
 			logger.error("调用账户服务http请求异常：{}",e.toString());
 		}

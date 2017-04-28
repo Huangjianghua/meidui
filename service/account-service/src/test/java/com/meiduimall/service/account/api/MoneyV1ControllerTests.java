@@ -1,80 +1,55 @@
-package com.meiduimall.service.account.api;
+/*package com.meiduimall.service.account.api;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.context.WebApplicationContext;
 
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.service.account.model.AccountReviseDetail;
-import com.meiduimall.service.account.model.request.AccountReviseDetailRequest;
+import com.meiduimall.service.account.model.request.RequestAccountReviseDetail;
+import com.meiduimall.service.account.util.DESC;
 import com.meiduimall.service.account.util.DateUtil;
 
 
-/**
+*//**
  * @Copyright (C), 2002-2017, 美兑壹购物
  * @FileName: MoneyV1ControllerTests.java
  * @Author:   jianhua.huang 
  * @Date:     2017年4月18日 下午3:39:45
  * @Description: 测试新会员列表接口
- */
-
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest
-@WebAppConfiguration
-@ActiveProfiles(value="dev")
-@EnableTransactionManagement
-public class MoneyV1ControllerTests  {
-
-	@Autowired
-	private WebApplicationContext webApplicationContext; 
-	
-	private MockMvc mockMvc;
+ *//*
+public class MoneyV1ControllerTests extends BaseControllerTest {
 	
 	private AccountReviseDetail dto;
+
 	
-	@Before
-	public void setUp() throws Exception {
-		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-	}
-	
-	/**
+	*//**
 	 * @Description: 不加条件查询
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月18日 下午3:46:31
-	 */
+	 *//*
 	@Test
 	public void queryAccountListTest() throws Exception {
 		 String url = "/member/account_service/v1/list_account";
-		 String json = "{\"memPhone\":\"13418786965\",\"flg\":\"1\"}";
+		 String json = "{\"flg\":\"1\"}";
 		 
 		 resultSystemOutPut(url,json);
 	}
 	
-	/**
+	*//**
 	 * @Description: 添加测试
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月20日 下午2:18:31
-	 */
+	 *//*
 	@Test
 	public void addMSAccountRevisionDetailTest() throws Exception {
 		 String url = "/member/account_service/v1/add_account_revision_detail";
@@ -94,11 +69,11 @@ public class MoneyV1ControllerTests  {
 		 resultSystemOutPut(url,json);
 	}
 	
-	/**
+	*//**
 	 * @Description: 修改测试
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月20日 下午2:48:31
-	 */
+	 *//*
 	@Test
 	public void updateMSAccountRevisionDetailTest() throws Exception {
 		 String url = "/member/account_service/v1/update_account_revision_detail";
@@ -122,11 +97,11 @@ public class MoneyV1ControllerTests  {
 		 resultSystemOutPut(url,json);
 	}
 	
-	/**
+	*//**
 	 * @Description: 查看会员余额明细
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月20日 下午3:02:44
-	 */
+	 *//*
 	@Test
 	public void getMSAccountRevisionDetailTest() throws Exception {
 		 String url = "/member/account_service/v1/get_account_revision_detail";
@@ -135,35 +110,35 @@ public class MoneyV1ControllerTests  {
 		 resultSystemOutPut(url,id);
 	}
 	
-	/**
+	*//**
 	 * @Description: 查看会员余额明细集合
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月20日 下午3:22:44
-	 */
+	 *//*
 	@Test
 	public void queryMSAccountRevisionDetailListTest() throws Exception {
 		 String url = "/member/account_service/v1/query_account_revision_detail_list";
-		 AccountReviseDetailRequest request=new AccountReviseDetailRequest();
+		 RequestAccountReviseDetail request=new RequestAccountReviseDetail();
 		 request.setFlg("1");
-		/* request.setMemId("72063681-7408-435c-88fd-cd837c95c66e");
+		 request.setMemId("72063681-7408-435c-88fd-cd837c95c66e");
 		 request.setMemLoginName("wXyd8CZLYBIU1TE+FgtHrw==");
 		 request.setStatus("WR");
 		 request.setCreatedDateBegin("2017-04-17 00:00:00");
 		 request.setCreatedDateEnd("2017-04-19 23:59:00");
 		 
 		 request.setUpdatedDateBegin("2017-04-17 00:00:00");
-		 request.setUpdatedDateEnd("2017-04-21 23:59:00");*/
+		 request.setUpdatedDateEnd("2017-04-21 23:59:00");
 		 String json=JsonUtils.beanToJson(request);
 		 
 		 resultSystemOutPut(url,json);
 	}
 	
-	/**
+	*//**
 	 * 审核同意
 	 * @Description: 
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月21日 上午10:17:38
-	 */
+	 *//*
 	@Test
 	@Rollback
 	public void agreeExamineMSAccountReviseDetailTest() throws Exception {
@@ -177,12 +152,12 @@ public class MoneyV1ControllerTests  {
 		 resultSystemOutPut(url,json);
 	}
 	
-	/**
+	*//**
 	 * 审核驳回
 	 * @Description: 
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月21日 上午10:17:47
-	 */
+	 *//*
 	@Test
 	public void examineMSAccountReviseDetailTest() throws Exception {
 		 String url = "/member/account_service/v1/examine_account_revision_detail";
@@ -213,5 +188,9 @@ public class MoneyV1ControllerTests  {
 		}
 	}
 	
-	
+	public static void main(String[] args) {
+		String s="13418786965";
+		System.out.println(DESC.encryption(s));
+	}
 }
+*/

@@ -29,7 +29,7 @@ public class MD5Util {
 		StringBuffer buf = new StringBuffer();
 		MessageDigest md=null;
 		try {
-			md = MessageDigest.getInstance("MD5");
+			md = MessageDigest.getInstance("MD5");	
 		} catch (NoSuchAlgorithmException e) {
 			logger.error("执行MD5EncryptBy32()方法异常：{}",e.toString());
 			throw new SystemException(ApiStatusConst.MD5_EXCEPTION,ApiStatusConst.getZhMsg(ApiStatusConst.MD5_EXCEPTION));

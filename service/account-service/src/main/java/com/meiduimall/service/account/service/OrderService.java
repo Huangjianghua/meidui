@@ -3,8 +3,8 @@ package com.meiduimall.service.account.service;
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.exception.SystemException;
 import com.meiduimall.service.account.model.ResBodyData;
-import com.meiduimall.service.account.model.request.FreezeUnFreezeRequest;
-import com.meiduimall.service.account.model.request.UnfreezeDecutRequest;
+import com.meiduimall.service.account.model.request.RequestFreezeUnFreeze;
+import com.meiduimall.service.account.model.request.RequestUnfreezeDecut;
 
 /**
  * 订单交易相关
@@ -18,7 +18,7 @@ public interface OrderService {
 	 * @param param 冻结解冻API请求映射model
 	 * @return 统一数据返回格式
 	 */
-	ResBodyData freezeUnfreeze(FreezeUnFreezeRequest param);
+	ResBodyData freezeUnfreeze(RequestFreezeUnFreeze param);
 	
 	/**
 	 * 会员支付成功，解冻并扣减积分和余额
@@ -26,7 +26,7 @@ public interface OrderService {
 	 * @return 统一数据返回格式
 	 * @throws SystemException 
 	 */
-	ResBodyData unfreezeDeduct(UnfreezeDecutRequest param) throws SystemException;	
+	ResBodyData unfreezeDeduct(RequestUnfreezeDecut param) throws SystemException;	
 	
 	/**
 	 * 交易取消，解冻积分与余额

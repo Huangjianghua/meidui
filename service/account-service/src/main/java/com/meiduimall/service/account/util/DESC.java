@@ -1,22 +1,24 @@
 package com.meiduimall.service.account.util;
 
+import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.meiduimall.exception.SystemException;
-import com.meiduimall.service.account.constant.ApiStatusConst;
+import com.meiduimall.service.account.constant.SysParamsConst;
 
 /**
  * 数据库加密解密类
@@ -25,9 +27,7 @@ import com.meiduimall.service.account.constant.ApiStatusConst;
  */
 public class DESC {
 	
-	private final static Logger logger=LoggerFactory.getLogger(DESC.class);
-	
-	private static boolean IS_OPEN = true;
+	private final static String key=SystemConfig.configMap.get(SysParamsConst.DESC_KEY);//加密解密需要的key
 	
 	/**
 	 * 字符串加密 系统默认方式
@@ -35,17 +35,8 @@ public class DESC {
 	 * @return
 	 * @throws SystemException 
 	 */
-	public static String encryption(String str) throws SystemException{
-		if (StringUtil.isEmptyByString(str) || "null".equals(str)) {
-			return null;
-		} else {
-			if (IS_OPEN) {
-				//加密key在config文件中,config文件不在member_common工程中
-				return encrypt(str, SystemConfig.configMap.get("API_KEY_NAME"));
-			} else {
-				return str;
-			}
-		}
+	public static String encryption(String str){
+		return encrypt(str,key);
 	}
 
 	/**
@@ -55,15 +46,7 @@ public class DESC {
 	 * @throws SystemException 
 	 */
 	public static String deyption(String str) throws SystemException {
-		if (StringUtil.isEmptyByString(str) || "null".equals(str)) {
-			return null;
-		} else {
-			if (IS_OPEN) {
-				return decrypt(str, SystemConfig.configMap.get("API_KEY_NAME"));
-			} else {
-				return str;
-			}
-		}
+		return decrypt(str,key);
 	}
 
 	/**
@@ -74,15 +57,7 @@ public class DESC {
 	 * @throws SystemException 
 	 */
 	public static String encryption(String str, String memberId) throws SystemException {
-		if (StringUtil.isEmptyByString(memberId) || StringUtil.isEmptyByString(str) || "null".equals(str)) {
-			return null;
-		} else {
-			if (IS_OPEN) {
-				return encrypt(str, MD5Util.encrypeString(memberId));
-			} else {
-				return str;
-			}
-		}
+		return encrypt(str, MD5Util.encrypeString(memberId));
 	}
 
 	/**
@@ -92,22 +67,108 @@ public class DESC {
 	 * @return
 	 * @throws SystemException 
 	 */
-	public static String deyption(String str, String memberId) throws SystemException {
-		if (StringUtil.isEmptyByString(memberId) || StringUtil.isEmptyByString(str) || "null".equals(str)) {
-			return null;
-		} else {
-			if (IS_OPEN) {
-				return decrypt(str, MD5Util.encrypeString(memberId));
-			} else {
-				return str;
-			}
-		}
+	public static String deyption(String str, String memberId) throws SystemException{
+		return decrypt(str, MD5Util.encrypeString(memberId));
 	}
 
-	private static SecretKey keyGenerator(String keyStr) throws InvalidKeyException, NoSuchAlgorithmException, InvalidKeySpecException {
+	private static String encrypt(String data, String key) {
+		String result=null;
+		Key deskey=null;
+		try {
+			deskey = keyGenerator(key);
+		} catch (InvalidKeyException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (NoSuchAlgorithmException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (InvalidKeySpecException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		Cipher cipher=null;
+		try {
+			cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchPaddingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		SecureRandom random = new SecureRandom();
+		try {
+			cipher.init(Cipher.ENCRYPT_MODE, deskey, random);
+		} catch (InvalidKeyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			result=Base64.encodeBase64String(cipher.doFinal(data.getBytes(SysParamsConst.GBK)));
+		} catch (IllegalBlockSizeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (BadPaddingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	private static String decrypt(String data, String key) throws SystemException {
+		String result=null;
+		Key deskey=null;
+		try {
+			deskey = keyGenerator(key);
+		} catch (InvalidKeyException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (NoSuchAlgorithmException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (InvalidKeySpecException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		Cipher cipher=null;
+		try {
+			cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchPaddingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			cipher.init(Cipher.DECRYPT_MODE, deskey);
+		} catch (InvalidKeyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			result=new String(cipher.doFinal(Base64.decodeBase64(data)),SysParamsConst.GBK);
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalBlockSizeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (BadPaddingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	private static SecretKey keyGenerator(String keyStr) throws InvalidKeyException, NoSuchAlgorithmException, InvalidKeySpecException{
 		byte input[] = HexString2Bytes(keyStr);
-		DESKeySpec desKey = new DESKeySpec(input);
-		SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
+		DESKeySpec desKey;
+		desKey = new DESKeySpec(input);
+		SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(SysParamsConst.DES);
 		SecretKey securekey = keyFactory.generateSecret(desKey);
 		return securekey;
 	}
@@ -129,35 +190,6 @@ public class DESC {
 			b[i] = (byte) ((parse(c0) << 4) | parse(c1));
 		}
 		return b;
-	}
-
-	private static String encrypt(String data, String key) throws SystemException  {
-		String result=null;
-		try {
-			Key deskey=keyGenerator(key);
-			Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
-			SecureRandom random = new SecureRandom();
-			cipher.init(Cipher.ENCRYPT_MODE, deskey, random);
-			result=Base64.encodeBase64String(cipher.doFinal(data.getBytes("GBK")));
-		} catch (Exception e) {
-			logger.error("执行encrypt()方法程序异常：{}",e.toString());
-			throw new SystemException(ApiStatusConst.ENCRYPTION_EXCEPTION,ApiStatusConst.getZhMsg(ApiStatusConst.ENCRYPTION_EXCEPTION));
-		}
-		return result;
-	}
-
-	private static String decrypt(String data, String key) throws SystemException {
-		String result=null;
-		try {
-			Key deskey = keyGenerator(key);
-			Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
-			cipher.init(Cipher.DECRYPT_MODE, deskey);
-			result=new String(cipher.doFinal(Base64.decodeBase64(data)), "GBK");
-		} catch (Exception e) {
-			logger.error("执行decrypt()方法程序异常：{}",e.toString());
-			throw new SystemException(ApiStatusConst.DECRYPTION_EXCEPTION,ApiStatusConst.getZhMsg(ApiStatusConst.DECRYPTION_EXCEPTION));
-		}
-		return result;
 	}
 
 }

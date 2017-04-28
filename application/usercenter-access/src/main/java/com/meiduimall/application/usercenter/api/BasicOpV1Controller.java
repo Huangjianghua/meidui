@@ -14,12 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.usercenter.annotation.HasToken;
+import com.meiduimall.application.usercenter.constant.ApiStatusConst;
 import com.meiduimall.application.usercenter.constant.ResBodyDataShiPei;
 import com.meiduimall.application.usercenter.constant.SysParamsConst;
 import com.meiduimall.application.usercenter.interceptor.ValInterceptor;
 import com.meiduimall.application.usercenter.interceptor.ValRequest;
 import com.meiduimall.application.usercenter.service.BaseOpService;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.ApiException;
 import com.meiduimall.redis.util.RedisTemplate;
 
 /**
@@ -63,9 +65,10 @@ public class BasicOpV1Controller {
 		try {
 			RedisTemplate.getJedisInstance().execDelToCache(reqJson.getString(SysParamsConst.TOKEN));
 		} catch (Exception e) {
-			// TODO: handle exception
+			logger.error("删除token异常：{}",e.toString());
+			throw new ApiException(ApiStatusConst.EXIT_EXCEPTION);
 		}
-		logger.info("会员登出API请求结果：{}",resBodyData.toString());
+		logger.info("会员退出登录成功");
 		return resBodyData;
 	}
 	

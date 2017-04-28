@@ -114,5 +114,13 @@ public class SysParamsConst {
 		scoreOpType.put("F6BDCD07-B540-11E6-A063-FCAA149389FF", "附近消费");
 		scoreOpType.put("FB739AD7-B540-11E6-A063-FCAA149389FF", "全民推广");
 	}
+	
+	/**加密解密的key*/
+	public static final String DESC_KEY="DESC_KEY";
+	/**加密方式*/
+	public static final String DES="DES";
+	public static final String MD5="MD5";
+	/**编码方式*/
+	public static final String GBK="GBK";
 
 }

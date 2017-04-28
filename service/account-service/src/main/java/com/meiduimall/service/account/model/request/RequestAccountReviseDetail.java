@@ -16,7 +16,7 @@ import com.meiduimall.service.account.util.PageHelp;
  * @Date: 2017年4月20日 上午11:48:30
  * @Description: 会员余额调整明细Model Request
  */
-public class AccountReviseDetailRequest extends PageHelp implements Serializable {
+public class RequestAccountReviseDetail extends PageHelp implements Serializable {
 
 	private static final long serialVersionUID = -7221481053458274360L;
 	
