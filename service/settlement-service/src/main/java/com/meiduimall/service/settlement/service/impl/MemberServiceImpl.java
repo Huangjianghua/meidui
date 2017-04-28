@@ -42,6 +42,12 @@ public class MemberServiceImpl implements MemberService {
 
 	protected final Logger log = LoggerFactory.getLogger(MemberServiceImpl.class);
 	
+	private static final String USER_ID = "user_id";
+	private static final String CONSUME_POINTS_COUNT = "consume_points_count";
+	private static final String ORDER_SOURCE = "order_source";
+	private static final String URL = "url";
+	private static final String ORDER_ID = "order_id";
+	
 	@Autowired
 	private BaseMapper baseMapper;
 	
@@ -207,7 +213,6 @@ public class MemberServiceImpl implements MemberService {
 		}
 	}
 	
-	
 	@Override
 	public boolean addConsumePoints(String phone, String credit,String source,String orderId){
 		
@@ -216,11 +221,11 @@ public class MemberServiceImpl implements MemberService {
 			return true;
 		}
 		Map<String, String> hashMap = Maps.newHashMap();
-		hashMap.put("user_id", phone);
-		hashMap.put("consume_points_count",credit);
-		hashMap.put("order_source",source);
-		hashMap.put("url","Authorized/addConsumePoints");
-		hashMap.put("order_id",orderId);
+		hashMap.put(USER_ID, phone);
+		hashMap.put(CONSUME_POINTS_COUNT,credit);
+		hashMap.put(ORDER_SOURCE,source);
+		hashMap.put(URL,"Authorized/addConsumePoints");
+		hashMap.put(ORDER_ID,orderId);
 		String resultJsonStr = ConnectionUrlUtil.httpRequest(belongInfoUrl(hashMap), ShareProfitUtil.REQUEST_METHOD_POST, null);
 		ResBodyData resultJson = JsonUtils.jsonToBean(resultJsonStr, ResBodyData.class);
 		// 判断返回是否成功,如果不成功则不理会
@@ -289,23 +294,17 @@ public class MemberServiceImpl implements MemberService {
 				+ "&oauth_nonce=" + nonce 
 				+ "&oauth_version=" + version;
 		
-		String dataParams = "&user_id=" + userId
+		String params = "&user_id=" + userId
 				+ "&source=" + source
 				+ "&trade_type=" + tradeType
 		        + "&order_id=" + orderId 
 		        + "&direction=" + direction 
 		        + "&trade_amount=" + tradeAmount 
-		        + "&trade_time=" + tradeTime
-		        + "&remark=" + remarkEncoded;
+		        + "&trade_time=" + tradeTime;
 		
-		String dataParams4Sign = "&user_id=" + userId
-				+ "&source=" + source
-				+ "&trade_type=" + tradeType
-		        + "&order_id=" + orderId 
-		        + "&direction=" + direction 
-		        + "&trade_amount=" + tradeAmount 
-		        + "&trade_time=" + tradeTime
-		        + "&remark=" + remark;
+		String dataParams = params + "&remark=" + remarkEncoded;
+		
+		String dataParams4Sign = params + "&remark=" + remark;
 				
 		String signature = "&oauth_signature=" + ShareProfitUtil.mD5Encrypt(ShareProfitUtil.encodeStr("get&"+api+"&"+oauthParams+dataParams4Sign, Constants.ENCODE_UTF8)); 
 		
@@ -320,11 +319,11 @@ public class MemberServiceImpl implements MemberService {
 		map.put("timeStamp", timeStamp);
 		map.put("nonce", nonce);
 		
-		String url =  map.get("url")!=null?map.get("url"):"";
-		String userId =  map.get("user_id")!=null?map.get("user_id"):"";
-		String consumePointsCount =  map.get("consume_points_count")!=null?map.get("consume_points_count"):"";
-		String orderSource =  map.get("order_source")!=null?map.get("order_source"):"";
-		String orderId =  map.get("order_id")!=null?map.get("order_id"):"";
+		String url =  map.get(URL)!=null?map.get(URL):"";
+		String userId =  map.get(USER_ID)!=null?map.get(USER_ID):"";
+		String consumePointsCount =  map.get(CONSUME_POINTS_COUNT)!=null?map.get(CONSUME_POINTS_COUNT):"";
+		String orderSource =  map.get(ORDER_SOURCE)!=null?map.get(ORDER_SOURCE):"";
+		String orderId =  map.get(ORDER_ID)!=null?map.get(ORDER_ID):"";
 			
 		String belongInfoUrl = myProps.getUrl() + url;
 			 

@@ -33,14 +33,21 @@ import com.meiduimall.service.settlement.util.DateUtil;
 @Service
 public class DrawServiceImpl implements DrawService {
 	
+	private static final Logger log = LoggerFactory.getLogger(DrawServiceImpl.class);
+	
+	private static final String ECM_MZF_DRAW_WATER = "ecmMzfDrawWater";
+	private static final String ECM_MZF_DRAW = "ecmMzfDraw";
+	private static final String ECM_MZF_WATER = "ecmMzfWater";
+	private static final String DRAW_CODE = "drawCode";
+	private static final String STATUS = "status";
+	private static final String BALANCE = "balance";
+	
 	@Autowired
 	private BaseMapper baseMapper;
 	
 	@Autowired
 	private AgentService agentService;
 
-	private static final Logger log = LoggerFactory.getLogger(DrawServiceImpl.class);
-	
 	@Override
 	public Map<String, Object> queryAccoutBalance(String code) {
 		return baseMapper.selectOne(code, "EcmMzfAccountMapper.queryaccoutbalance");
@@ -70,8 +77,8 @@ public class DrawServiceImpl implements DrawService {
 		Map<String, Object> hashMap = Maps.newHashMap();
 		Integer update = baseMapper.update(ecmmzfdraw, "EcmMzfDrawMapper.verifydrawcashbyid");
 		if (update > 0) {
-			hashMap.put("drawCode", ecmmzfdraw.getDrawCode());
-			hashMap.put("status", DrawCashConstants.STATUS_VERIFIED_SUCDESS);
+			hashMap.put(DRAW_CODE, ecmmzfdraw.getDrawCode());
+			hashMap.put(STATUS, DrawCashConstants.STATUS_VERIFIED_SUCDESS);
 		} else {
 			log.error("审核提现申请异常：提现编号{}", ecmmzfdraw.getDrawCode());
 			throw new ServiceException(SettlementApiCode.VERIFY_DRAWCASH_FAILURE, BaseApiCode.getZhMsg(SettlementApiCode.VERIFY_DRAWCASH_FAILURE));
@@ -86,9 +93,9 @@ public class DrawServiceImpl implements DrawService {
 		
 		//组装参数
 		Map<String, String> result = builderParams(ecmmzfdraw);
-		EcmMzfDrawWater ecmMzfDrawWater = JsonUtils.jsonToBean(result.get("ecmMzfDrawWater"), EcmMzfDrawWater.class);
-		EcmMzfDraw ecmMzfDraw = JsonUtils.jsonToBean(result.get("ecmMzfDraw"), EcmMzfDraw.class);
-		EcmMzfWater ecmMzfWater = JsonUtils.jsonToBean(result.get("ecmMzfWater"), EcmMzfWater.class);
+		EcmMzfDrawWater ecmMzfDrawWater = JsonUtils.jsonToBean(result.get(ECM_MZF_DRAW_WATER), EcmMzfDrawWater.class);
+		EcmMzfDraw ecmMzfDraw = JsonUtils.jsonToBean(result.get(ECM_MZF_DRAW), EcmMzfDraw.class);
+		EcmMzfWater ecmMzfWater = JsonUtils.jsonToBean(result.get(ECM_MZF_WATER), EcmMzfWater.class);
 		
 		//修改提现记录状态
 		int drawUpdated = baseMapper.update(ecmmzfdraw, "EcmMzfDrawMapper.rejectdrawcashbyid");
@@ -107,8 +114,8 @@ public class DrawServiceImpl implements DrawService {
 		
 		Map<String, Object> hashMap = Maps.newHashMap();
 		if (drawUpdated > 0 && flak > 0 && flaz > 0 && updateBalance > 0) {
-			hashMap.put("drawCode", ecmmzfdraw.getDrawCode());
-			hashMap.put("status", DrawCashConstants.STATUS_VERIFIED_REJECTED);
+			hashMap.put(DRAW_CODE, ecmmzfdraw.getDrawCode());
+			hashMap.put(STATUS, DrawCashConstants.STATUS_VERIFIED_REJECTED);
 		} else {
 			log.error("驳回提现申请异常：提现编号{}", ecmmzfdraw.getDrawCode());
 			throw new ServiceException(SettlementApiCode.REJECT_DRAWCASH_FAILURE, BaseApiCode.getZhMsg(SettlementApiCode.REJECT_DRAWCASH_FAILURE));
@@ -138,17 +145,17 @@ public class DrawServiceImpl implements DrawService {
 			int waterCrm = baseMapper.update(drawWater, "EcmMzfDrawMapper.updDrawWaterStatusById");
 			
 			if(drawCfm > 0 && waterCrm > 0){
-				hashMap.put("drawCode", ecmmzfdraw.getDrawCode());
-				hashMap.put("status", ecmmzfdraw.getStatus());
+				hashMap.put(DRAW_CODE, ecmmzfdraw.getDrawCode());
+				hashMap.put(STATUS, ecmmzfdraw.getStatus());
 			}
 			
 		}else if(ecmmzfdraw.getStatus().equals(DrawCashConstants.STATUS_TRANSFER_FAIL)//转账失败 生成新的提现流水和提现总流水
 				&& ecmmzfdraw.getFinanceStatus().equals(DrawCashConstants.STATUS_TRANSFER_FAIL)){
 			//组装参数
 			Map<String, String> result = builderParams(ecmmzfdraw);
-			EcmMzfDrawWater ecmMzfDrawWater = JsonUtils.jsonToBean(result.get("ecmMzfDrawWater"), EcmMzfDrawWater.class);
-			EcmMzfDraw ecmMzfDraw = JsonUtils.jsonToBean(result.get("ecmMzfDraw"), EcmMzfDraw.class);
-			EcmMzfWater ecmMzfWater = JsonUtils.jsonToBean(result.get("ecmMzfWater"), EcmMzfWater.class);
+			EcmMzfDrawWater ecmMzfDrawWater = JsonUtils.jsonToBean(result.get(ECM_MZF_DRAW_WATER), EcmMzfDrawWater.class);
+			EcmMzfDraw ecmMzfDraw = JsonUtils.jsonToBean(result.get(ECM_MZF_DRAW), EcmMzfDraw.class);
+			EcmMzfWater ecmMzfWater = JsonUtils.jsonToBean(result.get(ECM_MZF_WATER), EcmMzfWater.class);
 			
 			//插入  提现失败流水
 			int flak = insertDrawWater(ecmMzfDrawWater);
@@ -163,8 +170,8 @@ public class DrawServiceImpl implements DrawService {
 			int updateBalance = agentService.updateAccount(account);
 			
 			if (drawCfm > 0 && flak > 0 && flaz > 0 && updateBalance > 0) {
-				hashMap.put("drawCode", ecmmzfdraw.getDrawCode());
-				hashMap.put("status", ecmmzfdraw.getStatus());
+				hashMap.put(DRAW_CODE, ecmmzfdraw.getDrawCode());
+				hashMap.put(STATUS, ecmmzfdraw.getStatus());
 			} else {
 				log.error("确认转账成功或失败操作异常：提现编号{}", ecmmzfdraw.getDrawCode());
 				throw new ServiceException(SettlementApiCode.CONFIRM_DRAWCASH_FAILURE, BaseApiCode.getZhMsg(SettlementApiCode.CONFIRM_DRAWCASH_FAILURE));
@@ -227,7 +234,7 @@ public class DrawServiceImpl implements DrawService {
 		
 		//根据code查询账户余额(2017-04-01)
 		Map<String, Object> accountMap = queryAccoutBalance(ecmMzfDraw.getCode());
-		if(accountMap.get("balance") != null && !"".equals(accountMap.get("balance"))){
+		if(accountMap.get(BALANCE) != null && !"".equals(accountMap.get(BALANCE))){
 			BigDecimal balance = new BigDecimal(accountMap.get("balance").toString());
 			ecmMzfWater.setBalance(balance);
 		}
@@ -239,9 +246,9 @@ public class DrawServiceImpl implements DrawService {
 		ecmMzfWater.setRemark(remark);
 		
 		Map<String,String> result = Maps.newHashMap();
-		result.put("ecmMzfDrawWater", JsonUtils.beanToJson(ecmMzfDrawWater));
-		result.put("ecmMzfWater", JsonUtils.beanToJson(ecmMzfWater));
-		result.put("ecmMzfDraw", JsonUtils.beanToJson(ecmMzfDraw));
+		result.put(ECM_MZF_DRAW_WATER, JsonUtils.beanToJson(ecmMzfDrawWater));
+		result.put(ECM_MZF_WATER, JsonUtils.beanToJson(ecmMzfWater));
+		result.put(ECM_MZF_DRAW, JsonUtils.beanToJson(ecmMzfDraw));
 		
 		return result;
 	}
