@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Copyright (C), 2002-2017, 美兑壹购
+ * Copyright (C), 2002-2017, 美兑壹购物
  * FileName: ConnectionUrlUtil.java
  * Author:   不详
  * Date:     2016年12月26日 下午6:15:47
