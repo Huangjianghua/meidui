@@ -4,7 +4,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- * 发送普通短信参数模板
+ * 发送验证码短信参数模板
  * 
  * @author pc
  *
@@ -19,6 +19,9 @@ public class SendCodeRequest implements Serializable {
 	private String templateId; // 模板id
 	private String supplierId;// 渠道编号
 	private String params;// 替换短信中的参数
+	
+	@NotNull
+	private String type;// 验证码类型：注册使用的验证码/找回密码使用的验证码...
 
 	// 发动验证码短信，验证码过期时间
 	/*
@@ -50,16 +53,20 @@ public class SendCodeRequest implements Serializable {
 		this.supplierId = supplierId;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
 	public String getParams() {
 		return params;
 	}
 
 	public void setParams(String params) {
 		this.params = params;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public String getTimeout() {
