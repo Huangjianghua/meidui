@@ -9,6 +9,9 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.meiduimall.exception.SystemException;
+
+
 @EnableHystrix
 @SpringBootApplication
 @EnableTransactionManagement
@@ -16,7 +19,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableEurekaClient
 public class MemberServiceApplication extends SpringBootServletInitializer{
 	
-	public static void main(String[] args){
+	public static void main(String[] args) throws SystemException{
 		SpringApplication.run(MemberServiceApplication.class, args);
 	}
 }
