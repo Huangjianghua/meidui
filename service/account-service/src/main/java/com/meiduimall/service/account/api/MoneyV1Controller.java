@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.sf.json.JSONObject;
@@ -65,7 +64,7 @@ public class MoneyV1Controller {
 				listMSAccountDetail = mSAccountDetailService.listMSAccountDetail(mSAccountDetail);
 			}
 		} catch (Exception e) {
-			logger.error("服务器错误:%s", e.getMessage());
+			logger.error("服务器错误:{}",e.toString());
 			return new ResBodyData(1,"服务器错误");
 		}
 		return new ResBodyData(ApiStatusConst.SUCCESS,"成功",new PageInfo<>(listMSAccountDetail));
