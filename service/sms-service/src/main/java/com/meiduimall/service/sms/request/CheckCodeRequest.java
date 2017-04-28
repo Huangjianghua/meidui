@@ -5,7 +5,7 @@ import java.io.Serializable;
 import javax.validation.constraints.NotNull;
 
 /**
- * 发送普通短信参数模板
+ * 校验验证码参数模板
  * 
  * @author pc
  *
@@ -23,6 +23,9 @@ public class CheckCodeRequest implements Serializable {
 
 	@NotNull
 	private String verificationCode; // 验证码，用户输入验证码校验时使用
+	
+	@NotNull
+	private String type;// 验证码类型：注册使用的验证码/找回密码使用的验证码...
 
 	public String getPhones() {
 		return phones;
@@ -40,15 +43,19 @@ public class CheckCodeRequest implements Serializable {
 		this.templateId = templateId;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
 	public String getVerificationCode() {
 		return verificationCode;
 	}
 
 	public void setVerificationCode(String verificationCode) {
 		this.verificationCode = verificationCode;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 }

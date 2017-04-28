@@ -27,9 +27,9 @@ import org.springframework.web.context.WebApplicationContext;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @WebAppConfiguration
-@ActiveProfiles(value = "dev")
+@ActiveProfiles(value = "junit")
 @Transactional
-public class SmsControllerMockTest {
+public class OldSmsControllerTest {
 
 	public MockMvc mockMvc;
 
@@ -86,7 +86,7 @@ public class SmsControllerMockTest {
 		ResultActions results = mockMvc.perform(
 				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/send_common_sms_message")
 				.param("phones", phone)
-				.param("templateKey", "1GW_1001")
+				.param("templateId", "1GW_1001")
 				.param("params", "188000000,DW123456789"))
 				.andExpect(status().isOk());
 
@@ -104,7 +104,7 @@ public class SmsControllerMockTest {
 		ResultActions results = mockMvc.perform(
 				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/send_common_sms_message")
 				.param("phones", phone)
-				.param("templateKey", "O2O_1111")
+				.param("templateId", "O2O_1111")
 				.param("params", "DD201704271103111,666.66"))
 				.andExpect(status().isOk());
 
@@ -122,7 +122,7 @@ public class SmsControllerMockTest {
 		ResultActions results = mockMvc.perform(
 				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/send_common_sms_message")
 				.param("phones", phone)
-				.param("templateKey", "1GW_1004")
+				.param("templateId", "1GW_1004")
 				.param("params", "88.88,66元购物券"))
 				.andExpect(status().isOk());
 
@@ -140,7 +140,8 @@ public class SmsControllerMockTest {
 		ResultActions results = mockMvc.perform(
 				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/send_sms_verification_code")
 				.param("phones", phone)
-				.param("templateKey", "MEM_1002")
+				.param("templateId", "MEM_1002")
+				.param("type", "regist")
 				.param("timeout", "1mn30s"))
 				.andExpect(status().isOk());
 
@@ -158,7 +159,8 @@ public class SmsControllerMockTest {
 		ResultActions results = mockMvc.perform(
 				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/send_sms_verification_code")
 				.param("phones", phone)
-				.param("templateKey", "O2O_1002")
+				.param("templateId", "O2O_1002")
+				.param("type", "regist")
 				.param("timeout", "3mn"))
 				.andExpect(status().isOk());
 
@@ -176,7 +178,8 @@ public class SmsControllerMockTest {
 		ResultActions results = mockMvc.perform(
 				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/send_sms_verification_code")
 				.param("phones", phone)
-				.param("templateKey", "O2O_1002")
+				.param("templateId", "O2O_1002")
+				.param("type", "regist")
 				.param("timeout", "3mn"))
 				.andExpect(status().isOk());
 
@@ -192,9 +195,10 @@ public class SmsControllerMockTest {
 	@Test
 	public void checkSmsVerificationCode_test_01() throws Exception {
 		ResultActions results = mockMvc.perform(
-				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/check_sms_verification_code")
+				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/new/check_sms_verification_code")
 				.param("phones", phone)
-				.param("templateKey", "O2O_1002")
+				.param("templateId", "O2O_1002")
+				.param("type", "regist")
 				.param("verificationCode", "111222"))
 				.andExpect(status().isOk());
 
@@ -210,9 +214,10 @@ public class SmsControllerMockTest {
 	@Test
 	public void checkSmsVerificationCode_test_02() throws Exception {
 		ResultActions results = mockMvc.perform(
-				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/check_sms_verification_code")
+				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/new/check_sms_verification_code")
 				.param("phones", phone)
-				.param("templateKey", "O2O_1111")
+				.param("templateId", "O2O_1111")
+				.param("type", "regist")
 				.param("verificationCode", "111222"))
 				.andExpect(status().isOk());
 
@@ -228,9 +233,10 @@ public class SmsControllerMockTest {
 	@Test
 	public void checkSmsVerificationCode_test_03() throws Exception {
 		ResultActions results = mockMvc.perform(
-				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/check_sms_verification_code")
+				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/new/check_sms_verification_code")
 				.param("phones", phone)
-				.param("templateKey", "O2O_1002"))
+				.param("type", "regist")
+				.param("templateId", "O2O_1002"))
 				.andExpect(status().isOk());
 
 		results.andDo(new ResultHandler() {

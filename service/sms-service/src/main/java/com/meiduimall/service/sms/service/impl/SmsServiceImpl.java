@@ -140,7 +140,7 @@ public class SmsServiceImpl implements SmsService {
 	@Override
 	public ResBodyData sendSmsVerificationCode(SendCodeRequest model) {
 
-		String redisKey = model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId();
+		String redisKey = model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId() + model.getType();
 
 		// 检查是否已在超时时间内，给该手机发送了短信
 		String tempMsg = RedisUtils.get(redisKey);
@@ -236,7 +236,7 @@ public class SmsServiceImpl implements SmsService {
 	@Override
 	public ResBodyData checkSmsVerificationCode(CheckCodeRequest model) {
 
-		String redisKey = model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId();
+		String redisKey = model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId() + model.getType();
 		String tempVerificationCode = RedisUtils.get(redisKey);
 
 		if (StringUtils.isEmpty(tempVerificationCode)) {
