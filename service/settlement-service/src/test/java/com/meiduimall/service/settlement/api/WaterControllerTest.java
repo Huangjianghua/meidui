@@ -57,6 +57,25 @@ public class WaterControllerTest extends BaseTest {
 			}
 		});
 	}
+	
+	/**
+	 * 功能描述:  获取账单流水详情
+	 * Author: guidl
+	 */
+	@Test
+	public void testQueryWaterById1() throws Exception {
+		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
+				.post("/settlementservice/revenueservice/v1/querywaterbyid").param("waterId", "SL44051100000116121277")
+				.param("loginType", "2").param("code", "1871477642660").param("pageNumber", "1").param("pageSize", "10"))
+				.andExpect(status().isOk());
+		
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("*********"+result.getResponse().getContentAsString());
+			}
+		});
+	}
 
 	/**
 	 * 功能描述:  获取推荐人推荐费
