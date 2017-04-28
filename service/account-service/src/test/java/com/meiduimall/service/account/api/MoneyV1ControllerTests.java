@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.service.account.model.AccountReviseDetail;
 import com.meiduimall.service.account.model.request.RequestAccountReviseDetail;
+import com.meiduimall.service.account.util.DESC;
 import com.meiduimall.service.account.util.DateUtil;
 
 
@@ -39,7 +40,7 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 	@Test
 	public void queryAccountListTest() throws Exception {
 		 String url = "/member/account_service/v1/list_account";
-		 String json = "{\"memPhone\":\"13418786965\",\"flg\":\"1\"}";
+		 String json = "{\"flg\":\"1\"}";
 		 
 		 resultSystemOutPut(url,json);
 	}
@@ -187,5 +188,8 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 		}
 	}
 	
-	
+	public static void main(String[] args) {
+		String s="13418786965";
+		System.out.println(DESC.encryption(s));
+	}
 }
