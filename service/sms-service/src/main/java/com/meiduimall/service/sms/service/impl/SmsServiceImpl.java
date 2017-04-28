@@ -93,6 +93,7 @@ public class SmsServiceImpl implements SmsService {
 		boolean flag = aliyunService.send(model.getPhones(), ti.getExternalTemplateNo(), params);
 		logger.info("阿里大于发送短信结果flag：" + flag);
 		String res = "-1000";
+		String channelId = "1";
 		if (!flag) {
 			try {
 				res = zucpService.send(model.getPhones(), content);
@@ -112,6 +113,7 @@ public class SmsServiceImpl implements SmsService {
 				throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER,
 						BaseApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
 			}
+			channelId = "2";
 		}
 
 		try {
@@ -121,7 +123,7 @@ public class SmsServiceImpl implements SmsService {
 			RedisUtils.setex(redisKey, expire, content);
 
 			// 发送成功,设置发送历史记录值,数据库保留历史记录
-			SendSmsHistory ssh = setHistory(model);
+			SendSmsHistory ssh = setHistory(model, channelId);
 			ssh.setRequestParams(model.getPhones() + " ; ali_send_external_template_no: " + ti.getExternalTemplateNo()
 					+ " ; ali_send_param:" + params + " ; mandao_send_content: " + content);
 			ssh.setResultMsg("ali result, flag: " + flag + " ; mandao result, res: " + res);
@@ -140,7 +142,8 @@ public class SmsServiceImpl implements SmsService {
 	@Override
 	public ResBodyData sendSmsVerificationCode(SendCodeRequest model) {
 
-		String redisKey = model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId() + model.getType();
+		String redisKey = model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId() + model.getType()
+				+ model.getClientId();
 
 		// 检查是否已在超时时间内，给该手机发送了短信
 		String tempMsg = RedisUtils.get(redisKey);
@@ -185,6 +188,7 @@ public class SmsServiceImpl implements SmsService {
 		 * 全部失败则返回失败信息
 		 */
 		String res = "-1000";
+		String channelId = "1";
 		boolean flag = aliyunService.send(model.getPhones(), ti.getExternalTemplateNo(), params);
 		logger.info("阿里大于发送验证码短信结果(flag): " + flag);
 		if (!flag) {
@@ -206,6 +210,7 @@ public class SmsServiceImpl implements SmsService {
 				throw new ServiceException(SmsApiCode.SEND_CODE_FAILUER,
 						BaseApiCode.getZhMsg(SmsApiCode.SEND_CODE_FAILUER));
 			}
+			channelId = "2";
 		}
 
 		try {
@@ -214,7 +219,7 @@ public class SmsServiceImpl implements SmsService {
 					.parseDuration(model.getTimeout() == null ? ti.getEffectiveTime() : model.getTimeout());
 			RedisUtils.setex(redisKey, expire, randomNumber);
 			// 发送成功,设置发送历史记录值,数据库保留历史记录
-			SendSmsHistory ssh = setHistory(model);
+			SendSmsHistory ssh = setHistory(model, channelId);
 			ssh.setRequestParams(model.getPhones() + " ; ali_send_external_template_no: " + ti.getExternalTemplateNo()
 					+ " ; ali_send_param:" + params + " ; mandao_send_content: " + content);
 			ssh.setResultMsg("ali result, flag: " + flag + " ; mandao result, res: " + res);
@@ -236,7 +241,8 @@ public class SmsServiceImpl implements SmsService {
 	@Override
 	public ResBodyData checkSmsVerificationCode(CheckCodeRequest model) {
 
-		String redisKey = model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId() + model.getType();
+		String redisKey = model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId() + model.getType()
+				+ model.getClientId();
 		String tempVerificationCode = RedisUtils.get(redisKey);
 
 		if (StringUtils.isEmpty(tempVerificationCode)) {
@@ -339,7 +345,7 @@ public class SmsServiceImpl implements SmsService {
 	 * @param model
 	 * @return
 	 */
-	private SendSmsHistory setHistory(SendMessageRequest model) {
+	private SendSmsHistory setHistory(SendMessageRequest model, String channelId) {
 		SendSmsHistory ssh = new SendSmsHistory();
 		ssh.setId(UUID.randomUUID().toString());
 		ssh.setTemplateKey(model.getTemplateId());
@@ -347,6 +353,8 @@ public class SmsServiceImpl implements SmsService {
 		ssh.setCreater(model.getPhones());
 		ssh.setPhone(model.getPhones());
 		ssh.setRemark(model.getParams());
+		ssh.setChannelId(channelId);
+		ssh.setClientId(model.getClientId());
 		return ssh;
 	}
 
@@ -356,7 +364,7 @@ public class SmsServiceImpl implements SmsService {
 	 * @param model
 	 * @return
 	 */
-	private SendSmsHistory setHistory(SendCodeRequest model) {
+	private SendSmsHistory setHistory(SendCodeRequest model, String channelId) {
 		SendSmsHistory ssh = new SendSmsHistory();
 		ssh.setId(UUID.randomUUID().toString());
 		ssh.setTemplateKey(model.getTemplateId());
@@ -364,6 +372,8 @@ public class SmsServiceImpl implements SmsService {
 		ssh.setCreater(model.getPhones());
 		ssh.setPhone(model.getPhones());
 		ssh.setRemark(model.getParams());
+		ssh.setChannelId(channelId);
+		ssh.setClientId(model.getClientId());
 		return ssh;
 	}
 }
