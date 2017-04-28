@@ -149,8 +149,7 @@ public class DrawServiceImpl implements DrawService {
 				hashMap.put(STATUS, ecmmzfdraw.getStatus());
 			}
 			
-		}else if(ecmmzfdraw.getStatus().equals(DrawCashConstants.STATUS_TRANSFER_FAIL)//转账失败 生成新的提现流水和提现总流水
-				&& ecmmzfdraw.getFinanceStatus().equals(DrawCashConstants.STATUS_TRANSFER_FAIL)){
+		} else { //转账失败 生成新的提现流水和提现总流水 ecmmzfdraw.getStatus().equals(DrawCashConstants.STATUS_TRANSFER_FAIL)&& ecmmzfdraw.getFinanceStatus().equals(DrawCashConstants.STATUS_TRANSFER_FAIL)
 			//组装参数
 			Map<String, String> result = builderParams(ecmmzfdraw);
 			EcmMzfDrawWater ecmMzfDrawWater = JsonUtils.jsonToBean(result.get(ECM_MZF_DRAW_WATER), EcmMzfDrawWater.class);
