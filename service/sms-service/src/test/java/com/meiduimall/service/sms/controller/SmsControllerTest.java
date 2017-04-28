@@ -137,6 +137,46 @@ public class SmsControllerTest {
 		});
 	}
 	
+	// 指定发送渠道---使用阿里大于发送短信
+	@Test
+	public void sendSmsMessage_test_04() throws Exception {
+		ResultActions results = mockMvc.perform(
+				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/new/send_common_sms_message")
+				.param("phones", phone)
+				.param("clientId", "junit")
+				.param("supplierId", "1")
+				.param("templateId", "1GW_1004")
+				.param("params", "88.88,66元购物券"))
+				.andExpect(status().isOk());
+
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("sendSmsMessage_test_03*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+	
+	// 指定发送渠道---使用漫道发送短信
+	@Test
+	public void sendSmsMessage_test_05() throws Exception {
+		ResultActions results = mockMvc.perform(
+				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/new/send_common_sms_message")
+				.param("phones", phone)
+				.param("clientId", "junit")
+				.param("supplierId", "2")
+				.param("templateId", "1GW_1004")
+				.param("params", "88.88,66元购物券"))
+				.andExpect(status().isOk());
+
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("sendSmsMessage_test_03*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+	
 	// 阿里大于模板未注册，通过漫道发送验证码
 	@Test
 	public void sendSmsVerificationCode_test_01() throws Exception {
@@ -193,6 +233,48 @@ public class SmsControllerTest {
 			@Override
 			public void handle(MvcResult result) throws Exception {
 				System.out.println("sendSmsVerificationCode_test_03*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+	
+	// 指定发送渠道---通过阿里大于发送验证码
+	@Test
+	public void sendSmsVerificationCode_test_04() throws Exception {
+		ResultActions results = mockMvc.perform(
+				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/new/send_sms_verification_code")
+				.param("phones", phone)
+				.param("templateId", "O2O_1002")
+				.param("clientId", "junit")
+				.param("supplierId", "1")
+				.param("type", "regist")
+				.param("timeout", "3mn"))
+				.andExpect(status().isOk());
+
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("sendSmsVerificationCode_test_02*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+	
+	// 指定发送渠道---通过漫道发送验证码
+	@Test
+	public void sendSmsVerificationCode_test_05() throws Exception {
+		ResultActions results = mockMvc.perform(
+				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/new/send_sms_verification_code")
+				.param("phones", phone)
+				.param("templateId", "O2O_1002")
+				.param("clientId", "junit")
+				.param("supplierId", "1")
+				.param("type", "regist")
+				.param("timeout", "3mn"))
+				.andExpect(status().isOk());
+
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("sendSmsVerificationCode_test_02*********" + result.getResponse().getContentAsString());
 			}
 		});
 	}

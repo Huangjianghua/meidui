@@ -33,14 +33,17 @@ public class SmsApiCode extends BaseApiCode {
 	public static final Integer EXCEPTION_ACCESS_CHANNEL = 7011;
 	/** 获取短信模板列表异常 **/
 	public static final Integer EXCEPTION_ACCESS_TEMPLATE = 7012;
-	
+
 	/** 请求参数错误 */
 	public static final Integer REQUEST_PARAMS_ERROR = 7013;
 	/** 请勿频繁重复发送短信 **/
 	public static final Integer REPEATING = 7014;
 
 	/** 数据库异常 **/
-	public static final Integer DB_EXCEPTION = 7777;
+	public static final Integer DB_EXCEPTION = 7500;
+
+	/** 未知错误 **/
+	public static final Integer UNKNOW_ERROR = 7777;
 
 	static {
 		zhMsgMap.put(SMS_SEND_SUCCESS, "短信发送成功");
@@ -58,6 +61,7 @@ public class SmsApiCode extends BaseApiCode {
 		zhMsgMap.put(REQUEST_PARAMS_ERROR, "请求参数错误");
 		zhMsgMap.put(REPEATING, "请勿频繁重复发送短信");
 		zhMsgMap.put(DB_EXCEPTION, "数据库异常");
+		zhMsgMap.put(UNKNOW_ERROR, "未知错误");
 	}
 
 	private SmsApiCode() {

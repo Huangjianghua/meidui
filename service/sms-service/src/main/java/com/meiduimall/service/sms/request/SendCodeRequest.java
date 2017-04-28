@@ -22,15 +22,15 @@ public class SendCodeRequest implements Serializable {
 	
 	@NotNull
 	private String type;// 验证码类型：注册使用的验证码/找回密码使用的验证码...
+	
+	@NotNull
+	private String clientId;// 客户端来源
 
 	// 发动验证码短信，验证码过期时间
 	/*
 	 * 验证码过期时间，即timeout缓存保存时长：格式:3h, 2mn, 7s or combination 2d4h10s, 1w2d3h10s
 	 */
 	private String timeout;
-	
-	@NotNull
-	private String clientId;// 客户端来源
 
 	public String getPhones() {
 		return phones;
