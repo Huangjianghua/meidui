@@ -8,6 +8,8 @@ public class SendSmsHistory implements Serializable {
 	private static final long serialVersionUID = 196254383573433465L;
 
 	private String id;
+	
+	private String clientId;
 
 	private String channelId;
 
@@ -35,6 +37,14 @@ public class SendSmsHistory implements Serializable {
 
 	public String getChannelId() {
 		return channelId;
+	}
+	
+	public String getClientId() {
+		return clientId;
+	}
+
+	public void setClientId(String clientId) {
+		this.clientId = clientId;
 	}
 
 	public void setChannelId(String channelId) {

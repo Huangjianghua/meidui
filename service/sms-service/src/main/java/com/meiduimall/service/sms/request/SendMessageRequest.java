@@ -29,6 +29,9 @@ public class SendMessageRequest implements Serializable {
 
 	// 短信过期时间，即timeout缓存保存时长：格式:3h, 2mn, 7s or combination 2d4h10s, 1w2d3h10s
 	private String timeout;
+	
+	@NotNull
+	private String clientId;// 客户端来源
 
 	public String getPhones() {
 		return phones;
@@ -68,5 +71,13 @@ public class SendMessageRequest implements Serializable {
 
 	public void setTimeout(String timeout) {
 		this.timeout = timeout;
+	}
+	
+	public String getClientId() {
+		return clientId;
+	}
+
+	public void setClientId(String clientId) {
+		this.clientId = clientId;
 	}
 }
