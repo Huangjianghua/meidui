@@ -16,8 +16,8 @@ public class SendCodeRequest implements Serializable {
 	@NotNull
 	private String phones; // 手机号
 	@NotNull
-	private String templateKey; // 模板id
-	private String channelId;// 渠道编号
+	private String templateId; // 模板id
+	private String supplierId;// 渠道编号
 	private String params;// 替换短信中的参数
 
 	// 发动验证码短信，验证码过期时间
@@ -34,20 +34,20 @@ public class SendCodeRequest implements Serializable {
 		this.phones = phones;
 	}
 
-	public String getTemplateKey() {
-		return templateKey;
+	public String getTemplateId() {
+		return templateId;
 	}
 
-	public void setTemplateKey(String templateKey) {
-		this.templateKey = templateKey;
+	public void setTemplateId(String templateId) {
+		this.templateId = templateId;
 	}
 
-	public String getChannelId() {
-		return channelId;
+	public String getSupplierId() {
+		return supplierId;
 	}
 
-	public void setChannelId(String channelId) {
-		this.channelId = channelId;
+	public void setSupplierId(String supplierId) {
+		this.supplierId = supplierId;
 	}
 
 	public static long getSerialversionuid() {

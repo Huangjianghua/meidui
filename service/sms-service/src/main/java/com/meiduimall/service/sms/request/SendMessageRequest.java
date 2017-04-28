@@ -19,10 +19,10 @@ public class SendMessageRequest implements Serializable {
 
 	// 模板id
 	@NotNull
-	private String templateKey;
+	private String templateId;
 
 	// 渠道编号
-	private String channelId;
+	private String supplierId;
 
 	// 替换短信中的参数
 	private String params;
@@ -38,20 +38,24 @@ public class SendMessageRequest implements Serializable {
 		this.phones = phones;
 	}
 
-	public String getTemplateKey() {
-		return templateKey;
+	public String getTemplateId() {
+		return templateId;
 	}
 
-	public void setTemplateKey(String templateKey) {
-		this.templateKey = templateKey;
+	public void setTemplateId(String templateId) {
+		this.templateId = templateId;
 	}
 
-	public String getChannelId() {
-		return channelId;
+	public String getSupplierId() {
+		return supplierId;
 	}
 
-	public void setChannelId(String channelId) {
-		this.channelId = channelId;
+	public void setSupplierId(String supplierId) {
+		this.supplierId = supplierId;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public String getParams() {

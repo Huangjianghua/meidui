@@ -19,7 +19,7 @@ public class CheckCodeRequest implements Serializable {
 	private String phones;
 
 	@NotNull
-	private String templateKey; // 模板id
+	private String templateId; // 模板id
 
 	@NotNull
 	private String verificationCode; // 验证码，用户输入验证码校验时使用
@@ -32,12 +32,16 @@ public class CheckCodeRequest implements Serializable {
 		this.phones = phones;
 	}
 
-	public String getTemplateKey() {
-		return templateKey;
+	public String getTemplateId() {
+		return templateId;
 	}
 
-	public void setTemplateKey(String templateKey) {
-		this.templateKey = templateKey;
+	public void setTemplateId(String templateId) {
+		this.templateId = templateId;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public String getVerificationCode() {
