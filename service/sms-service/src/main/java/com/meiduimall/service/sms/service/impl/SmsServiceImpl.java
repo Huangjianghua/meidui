@@ -54,7 +54,7 @@ public class SmsServiceImpl implements SmsService {
 	public ResBodyData sendSmsMessage(SendMessageRequest model) {
 
 		// redis存取数据时，使用的key
-		String redisKey = model.getPhones() + model.getTemplateKey() + model.getParams();
+		String redisKey = model.getPhones() + model.getTemplateId() + model.getParams();
 
 		// 检查是否已在超时时间内，给该手机发送了短信
 		String tempMsg = RedisUtils.get(redisKey);
@@ -70,7 +70,7 @@ public class SmsServiceImpl implements SmsService {
 		}
 
 		// 根据模板ID获取短信模板
-		TemplateInfo ti = getTemplateByKey(model.getTemplateKey(), templateListJsonStr);
+		TemplateInfo ti = getTemplateByKey(model.getTemplateId(), templateListJsonStr);
 		if (ti == null || StringUtils.isEmpty(ti.getTemplateKey()) || StringUtils.isEmpty(ti.getTemplateContent())) {
 			// 如果没有模板编号，或者模板内容，则抛异常
 			throw new ServiceException(SmsApiCode.NOT_FOUND_TEMPLATE,
@@ -140,7 +140,7 @@ public class SmsServiceImpl implements SmsService {
 	@Override
 	public ResBodyData sendSmsVerificationCode(SendCodeRequest model) {
 
-		String redisKey = model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateKey();
+		String redisKey = model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId();
 
 		// 检查是否已在超时时间内，给该手机发送了短信
 		String tempMsg = RedisUtils.get(redisKey);
@@ -160,7 +160,7 @@ public class SmsServiceImpl implements SmsService {
 		}
 
 		// 根据模板ID获取短信模板
-		TemplateInfo ti = getTemplateByKey(model.getTemplateKey(), templateListJsonStr);
+		TemplateInfo ti = getTemplateByKey(model.getTemplateId(), templateListJsonStr);
 		if (ti == null || StringUtils.isEmpty(ti.getTemplateKey()) || StringUtils.isEmpty(ti.getTemplateContent())) {
 			// 如果没有模板编号，或者模板内容，则抛异常
 			throw new ServiceException(SmsApiCode.NOT_FOUND_TEMPLATE,
@@ -236,7 +236,7 @@ public class SmsServiceImpl implements SmsService {
 	@Override
 	public ResBodyData checkSmsVerificationCode(CheckCodeRequest model) {
 
-		String redisKey = model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateKey();
+		String redisKey = model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId();
 		String tempVerificationCode = RedisUtils.get(redisKey);
 
 		if (StringUtils.isEmpty(tempVerificationCode)) {
@@ -342,7 +342,7 @@ public class SmsServiceImpl implements SmsService {
 	private SendSmsHistory setHistory(SendMessageRequest model) {
 		SendSmsHistory ssh = new SendSmsHistory();
 		ssh.setId(UUID.randomUUID().toString());
-		ssh.setTemplateKey(model.getTemplateKey());
+		ssh.setTemplateKey(model.getTemplateId());
 		ssh.setCreateDate(new Date());
 		ssh.setCreater(model.getPhones());
 		ssh.setPhone(model.getPhones());
@@ -359,7 +359,7 @@ public class SmsServiceImpl implements SmsService {
 	private SendSmsHistory setHistory(SendCodeRequest model) {
 		SendSmsHistory ssh = new SendSmsHistory();
 		ssh.setId(UUID.randomUUID().toString());
-		ssh.setTemplateKey(model.getTemplateKey());
+		ssh.setTemplateKey(model.getTemplateId());
 		ssh.setCreateDate(new Date());
 		ssh.setCreater(model.getPhones());
 		ssh.setPhone(model.getPhones());

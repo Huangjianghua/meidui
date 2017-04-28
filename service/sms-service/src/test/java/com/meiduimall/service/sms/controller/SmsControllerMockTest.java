@@ -62,7 +62,6 @@ public class SmsControllerMockTest {
 		mockClient.when(
 		        request()
 		            .withPath("/aliyun/test")
-		                       
 		    ).respond(
 		        response()
 		            .withStatusCode(200)
@@ -117,14 +116,14 @@ public class SmsControllerMockTest {
 		});
 	}
 	
-	// 阿里大于模板注册，通过阿里大于发送短信
+	// 通过阿里大于发送短信
 	@Test
 	public void sendSmsMessage_test_03() throws Exception {
 		ResultActions results = mockMvc.perform(
 				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/send_common_sms_message")
 				.param("phones", phone)
 				.param("templateKey", "1GW_1004")
-				.param("params", "88.88,12元购物券"))
+				.param("params", "88.88,66元购物券"))
 				.andExpect(status().isOk());
 
 		results.andDo(new ResultHandler() {
@@ -153,7 +152,7 @@ public class SmsControllerMockTest {
 		});
 	}
 	
-	// 阿里大于模板未注册，通过阿里大于发送验证码
+	// 通过阿里大于发送验证码
 	@Test
 	public void sendSmsVerificationCode_test_02() throws Exception {
 		ResultActions results = mockMvc.perform(
