@@ -44,12 +44,15 @@ public class ValRequest {
 		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,null);
 		/**解析请求参数，三种：get,post json,post表单*/
 		try {
-			if(RequestMethod.GET.equals(method))
+			if("GET".equals(method)){
 				reqJson=HttpResolveUtils.readGetStringToJsonObject(request);
-			if(RequestMethod.POST.equals(method)&&contentType.contains(MediaType.APPLICATION_JSON_VALUE))
+			}				
+			if("POST".equals(method)&&contentType.contains(MediaType.APPLICATION_JSON_VALUE)){
 				reqJson=HttpResolveUtils.readStreamToJsonObject(request);
-			if(RequestMethod.POST.equals(method)&&contentType.contains(MediaType.APPLICATION_FORM_URLENCODED_VALUE))
+			}				
+			if("POST".equals(method)&&MediaType.APPLICATION_FORM_URLENCODED_VALUE.equals(contentType)){
 				reqJson=HttpResolveUtils.readPostFormToJsonObject(request);
+			}
 		} catch (Exception e) {
 			resBodyData.setStatus(ApiStatusConst.RESOLVE_REQUEST_EX);
 			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.RESOLVE_REQUEST_EX));

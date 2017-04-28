@@ -65,9 +65,10 @@ public class BasicOpV1Controller {
 		try {
 			RedisTemplate.getJedisInstance().execDelToCache(reqJson.getString(SysParamsConst.TOKEN));
 		} catch (Exception e) {
+			logger.error("删除token异常：{}",e.toString());
 			throw new ApiException(ApiStatusConst.EXIT_EXCEPTION);
 		}
-		logger.info("会员登出API请求结果：{}",resBodyData.toString());
+		logger.info("会员退出登录成功");
 		return resBodyData;
 	}
 	

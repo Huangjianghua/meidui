@@ -4,44 +4,33 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import com.meiduimall.core.util.JsonUtils;
-
-
 *//**
- * 会员基本操作
+ * 短信相关
  * @author chencong
  *
  *//*
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class BaseOpV1ControllerTest extends BaseControllerTest {
+public class SmsV1ControllerTest extends BaseControllerTest {
 	
-	private final static Logger logger=LoggerFactory.getLogger(BaseOpV1ControllerTest.class);
+	private final static Logger logger=LoggerFactory.getLogger(SmsV1ControllerTest.class);
 	 
 
     
-    *//**会员登出 
+    *//**获取短信验证码
 	 * @throws Exception *//*
     @Test
     public void exit () throws Exception{
-    	Map<String, Object> mapCondition=new HashMap<>();
-    	mapCondition.put("token",token);
-    	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/exit")
-    			.contentType(MediaType.APPLICATION_JSON_UTF8)
-    			.content(JsonUtils.beanToJson(mapCondition)))
+    	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/get_validate_code?token="+token+"&phone="+phone))
     			.andExpect(status().isOk())
     			.andExpect(jsonPath("$.status",is(0)));
     	
