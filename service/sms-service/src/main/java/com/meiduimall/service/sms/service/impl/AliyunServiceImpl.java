@@ -67,7 +67,7 @@ public class AliyunServiceImpl implements AliyunService {
 		req.setSmsTemplateCode(externalTemplateNo);
 		AlibabaAliqinFcSmsNumSendResponse rsp = null;
 		try {
-			rsp = client.execute(req);  
+			rsp = client.execute(req);
 		} catch (com.taobao.api.ApiException e) {
 			logger.error("短信发送，阿里云平台短信发送异常: " + e);
 		}
