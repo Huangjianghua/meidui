@@ -15,6 +15,7 @@
         <module>application</module>
     </modules>
 
+
     <properties>
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
