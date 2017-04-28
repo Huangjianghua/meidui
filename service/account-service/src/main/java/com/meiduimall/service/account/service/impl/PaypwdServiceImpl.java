@@ -1,6 +1,8 @@
 package com.meiduimall.service.account.service.impl;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +21,7 @@ import com.meiduimall.service.account.model.request.RequestRetrievePaypwd;
 import com.meiduimall.service.account.model.request.RequestUpdatePaypwd;
 import com.meiduimall.service.account.service.PaypwdService;
 import com.meiduimall.service.account.util.BCrypt;
+import com.meiduimall.service.account.util.HttpUtils;
 import com.meiduimall.service.account.util.MD5Util;
 import com.meiduimall.service.account.util.StringUtil;
 
@@ -132,15 +135,20 @@ public class PaypwdServiceImpl implements PaypwdService {
 		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
 		
 		/**调用短信服务获取短信验证码*/
-		String url=serviceUrlProfileConfig.getSmsServiceUrl()+"/v1/send_sms_verification_code";
+	/*	String url=serviceUrlProfileConfig.getSmsServiceUrl()+"/v1/send_sms_verification_code";
+		Map<String, Object> mapParams=new HashMap<>();
+		mapParams.put("","");
+		mapParams.put("","");
+		mapParams.put("","");
+		HttpUtils.form(url,)
 		if(resBodyData.getStatus()!=0){
 			logger.warn("旧支付密码校验不通过");
 			throw new ServiceException(ApiStatusConst.PAYPWD_NOT_RIGHT);
 		}
 		logger.info("旧支付密码校验通过");
 		
-		/**设置支付密码*/
-		setNewPaypwd(requestRetrievePaypwd.getMemId(),requestRetrievePaypwd.getPay_pwd());
+		*//**设置支付密码*//*
+		setNewPaypwd(requestRetrievePaypwd.getMemId(),requestRetrievePaypwd.getPay_pwd());*/
 		return resBodyData;
 	}
 	

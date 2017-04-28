@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.BizException;
+import com.meiduimall.exception.ServiceException;
+import com.meiduimall.exception.SystemException;
 import com.meiduimall.service.account.constant.ApiStatusConst;
 import com.meiduimall.service.account.model.MSMembersPaypwd;
 import com.meiduimall.service.account.model.ResBodyData;
@@ -85,7 +87,12 @@ public class PayPwdV1Controller {
 			ResBodyData resBodyData = paypwdService.updatePaypwd(requestUpdatePaypwd);
 			logger.info("修改支付密码API请求结果  ：{}",resBodyData.toString());
 			return resBodyData;
-		} catch (Exception e) {
+		} 
+		catch (ServiceException e) {
+			logger.error("修改支付密码API请求异常：{}",e.toString());
+			throw new ApiException(ApiStatusConst.OLD_PAYPWD_NOT_RIGHT);
+		}
+		catch (SystemException e) {
 			logger.error("修改支付密码API请求异常：{}",e.toString());
 			throw new ApiException(ApiStatusConst.UPDATE_PAYPWD_EXCEPTION);
 		}
