@@ -24,9 +24,9 @@ import com.meiduimall.service.account.util.StringUtil;
 
 
 @Service
-public class PaypwdServiceImpl implements PaypwdService {
+public class SmsServiceImpl implements PaypwdService {
 	
-	private final static Logger logger=LoggerFactory.getLogger(PaypwdServiceImpl.class);
+	private final static Logger logger=LoggerFactory.getLogger(SmsServiceImpl.class);
 	
 	@Autowired
 	private  BaseDao  baseDao;

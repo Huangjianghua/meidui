@@ -39,6 +39,7 @@ public abstract class ApiStatusConst extends BaseApiCode {
 		public final static Integer VALIDATE_PAYPWD_EXCEPTION=7013;
 		public final static Integer PAYPWD_NOT_RIGHT=7014;
 		public final static Integer UPDATE_PAYPWD_EXCEPTION=7015;
+		public final static Integer RETRIEVE_PAYPWD_EXCEPTION=7016;
 		
 		static {
 			zhMsgMap.put(OPERATION_DB_EX, "操作数据库程序异常");
@@ -64,6 +65,7 @@ public abstract class ApiStatusConst extends BaseApiCode {
 			zhMsgMap.put(SET_PAYPWD_STATUS_EXCEPTION, "设置支付密码开关程序异常");
 			zhMsgMap.put(VALIDATE_PAYPWD_EXCEPTION, "验证支付密码程序异常");
 			zhMsgMap.put(UPDATE_PAYPWD_EXCEPTION, "更新支付密码失败，请联系客服");
+			zhMsgMap.put(RETRIEVE_PAYPWD_EXCEPTION, "找回支付密码失败，请联系客服");
 		}
 		
 		/**

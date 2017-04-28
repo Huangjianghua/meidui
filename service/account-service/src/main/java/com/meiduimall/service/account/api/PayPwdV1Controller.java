@@ -17,6 +17,7 @@ import com.meiduimall.exception.BizException;
 import com.meiduimall.service.account.constant.ApiStatusConst;
 import com.meiduimall.service.account.model.MSMembersPaypwd;
 import com.meiduimall.service.account.model.ResBodyData;
+import com.meiduimall.service.account.model.request.RequestRetrievePaypwd;
 import com.meiduimall.service.account.model.request.RequestUpdatePaypwd;
 import com.meiduimall.service.account.service.PaypwdService;
 
@@ -87,6 +88,20 @@ public class PayPwdV1Controller {
 		} catch (Exception e) {
 			logger.error("修改支付密码API请求异常：{}",e.toString());
 			throw new ApiException(ApiStatusConst.UPDATE_PAYPWD_EXCEPTION);
+		}
+	}
+	
+	/**找回支付密码*/
+	@PostMapping(value = "/retrieve_pay_pwd")
+	public ResBodyData retrievePaypwd(@RequestBody @Valid RequestRetrievePaypwd requestRetrievePaypwd) {
+		logger.info("收到找回支付密码API请求  ：{}",requestRetrievePaypwd.toString());
+		try {
+			ResBodyData resBodyData = paypwdService.retrievePaypwd(requestRetrievePaypwd);
+			logger.info("找回支付密码API请求结果  ：{}",resBodyData.toString());
+			return resBodyData;
+		} catch (Exception e) {
+			logger.error("找回支付密码API请求异常：{}",e.toString());
+			throw new ApiException(ApiStatusConst.RETRIEVE_PAYPWD_EXCEPTION);
 		}
 	}
 	
