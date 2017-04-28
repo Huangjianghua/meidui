@@ -19,7 +19,6 @@ public class RequestLogin  implements Serializable {
 	private String user_name;
 	
 	@NotEmpty(message="密码不能为空")
-	@Length(min=32,max=32,message="密码长度不正确")
 	private String password;
 	
 	private String ip;
