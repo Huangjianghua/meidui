@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--会员账户表ms_account相关操作 -->
+<mapper namespace="MSAccountMapper">
+	
+	<!--  根据会员ID查询当前积分 -->
+	<select id="getCurrentPointsByMemId" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT m.mem_basic_account_total_quantity 
+		FROM ms_members m 
+		WHERE m.mem_id=#{memId}
+	</select>
+	
+	<!-- 根据会员ID查询账户信息 -->
+	<select id="getAccountByMemId" parameterType="java.util.Map" resultType="com.meiduimall.service.account.model.MSAccount">
+		SELECT id AS id,
+		mem_id AS memId,
+		type AS type,
+		balance AS balance,
+		freeze_balance AS freezeBalance,
+		create_date AS createDate,
+		update_date AS updateDate
+		FROM ms_account 
+		WHERE mem_id = #{memId} 
+		AND type = #{accountType}
+	</select>
+	
+	<!-- 根据会员ID和账户类型修改余额账户冻结金额 -->
+	<update id="updateFreezeBalanceByMemIdAndType" parameterType="java.util.Map">
+		UPDATE ms_account
+		SET freeze_balance = #{freezeBalance},update_date = now()
+		WHERE id = #{id}
+		AND type = #{accountType}
+	</update>
+	
+	<!-- 根据会员ID修改当前积分 -->
+	<update id="updateCurrentPointsByMemId" parameterType="java.util.Map">
+		UPDATE ms_members
+		SET mem_basic_account_total_quantity=#{newCurrentPoints}
+		WHERE mem_id=#{memId}
+	</update>
+	
+	
+	<!-- 根据userid查询会员ID 2017-02-23 dengbibo  -->
+	<select id="getMemIdByUserId" parameterType="java.util.Map" resultType="java.lang.String">
+		SELECT ms.mem_id FROM ms_members ms 
+		 WHERE ms.mem_id = #{memId} OR ms.mem_login_name = #{userId} 
+		 	OR ms.mem_email = #{userId} OR ms.mem_phone = #{userId}
+	</select>
+	
+	<!--  根据memId与账户类型修改账户当前余额  2017-02-23 dengbibo  -->
+	<update id="updateAccountBalance" parameterType="java.util.Map">
+		update ms_account
+		   set balance = #{balance},
+		       update_date = now()
+		 where id = #{id}
+		   and type = #{accountType}
+	</update>
+	
+	<!--  根据memId与账户类型修改账户余额，包含冻结与非冻结的  2017-02-23 dengbibo  -->
+	<update id="updateAccount" parameterType="java.util.Map">
+		update ms_account
+		   set balance = #{balance},
+		       freeze_balance = #{freezeBalance},
+		       update_date = now()
+		 where id = #{id}
+		   and type = #{accountType}
+	</update>
+	
+	<!--  根据订单编号查询订单记录  2017-02-28 dengbibo  -->
+	<select id="getConsumeHistoryByOrderId" parameterType="map" resultType="String">
+		select t1.mch_id as id,
+			   t1.mch_money as totalMoney,
+			   t1.mch_shopping_coupon_count as money,
+			   t1.mch_consume_points_count as point,
+			   t1.mch_status as status
+		  from ms_member_consume_history t1 
+		 where t1.order_id = #{orderId}
+	</select>
+
+
+	<!-- 根据条件查询订单记录 -->
+	<select id="queryListMSAccount" parameterType="map" resultType="com.meiduimall.service.account.model.MSAccountList">
+		SELECT * from (
+			SELECT
+				msm.mem_id AS memId,
+				msm.mem_login_name as memLoginName,/**会员账号*/
+				msm.mem_phone AS memPhone,/**会员手机*/
+				(select mem_phone from ms_members where mem_id=msm.mem_parent_id) memParentIdPhone,/**推荐人手机号 */
+				msm.mem_sign_source AS memSignSource, /**注册来源 */
+				DATE_FORMAT(msm.mem_created_date,'%Y-%m-%d %H:%i:%s') as memRegTime,/**会员注册时间  */
+				DATE_FORMAT(msm.mem_last_login_time,'%Y-%m-%d %H:%i:%s') as pfLastLoginTime,/**会员最近一次登陆时间  */
+				ROUND(IFNULL(msa.balance,0.0)-IFNULL(msa.freeze_balance,0.0),2) as mchBalanceCount, /**可用余额  */
+	  			IFNULL(msa.freeze_balance,0.0)  as mchFreezeBalanceCount,   /**冻结余额  */
+	  			IFNULL(msm.mem_basic_account_total_quantity,0.0) as mchPointsBalanceCount,/**可用积分=总积分-冻结积分  */
+	  			(select mcpf_consume_points_balance from ms_consume_points_freeze_info where mem_id=msm.mem_id ORDER BY mcpf_updated_date DESC,mcpf_order_id DESC LIMIT 1) as mchFreezePointsCount /**冻结积分  */
+			FROM
+				ms_members msm,ms_account msa
+		<where>
+		     msa.mem_id=msm.mem_id and msa.type='AT02'  /**取类型为现金账号的数据  */
+		    <if test="memId !=null and memId !=''">
+				AND msm.mem_id=#{memId}
+			</if>
+			<if test="memLoginName !=null and memLoginName !=''">
+				AND msm.mem_login_name=#{memLoginName}
+			</if>
+			<if test="memPhone !=null and memPhone !=''">
+				AND msm.mem_phone=#{memPhone}
+			</if>
+			<if test="memSignSource !=null and memSignSource !=''">
+				AND mem_sign_source=#{memSignSource}
+			</if>
+			<if test="memRegTimeBegin !=null and memRegTimeBegin !=''">
+				AND msm.mem_created_date &gt;= #{memRegTimeBegin}
+			</if>
+			<if test="memRegTimeEnd !=null and memRegTimeEnd !=''">
+				AND msm.mem_created_date &lt;= #{memRegTimeEnd}
+			</if>
+			<if test="lastLoginTimeBegin !=null and lastLoginTimeBegin !=''">
+				AND msm.mem_last_login_time &gt;= #{lastLoginTimeBegin}
+			</if>
+			<if test="lastLoginTimeEnd !=null and lastLoginTimeEnd !=''">
+				AND msm.mem_last_login_time &lt;= #{lastLoginTimeEnd}
+			</if>
+		 </where>
+		 ) r
+		 <where>
+		  <if test="memParentIdPhone !=null and memParentIdPhone !=''">
+				AND r.memParentIdPhone=#{memParentIdPhone}
+			</if>
+		 </where>
+	</select>
+	
+</mapper>

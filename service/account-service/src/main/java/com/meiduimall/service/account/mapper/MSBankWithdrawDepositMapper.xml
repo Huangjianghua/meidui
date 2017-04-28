@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MSBankWithdrawDepositMapper">
+	
+	<!--  写入提现申请记录ms_bank_withdraw_deposit 2017-03-24 dengbibo   -->	
+	<insert id="insertBankWithdrawDeposit" parameterType="com.meiduimall.service.account.model.MSBankWithdrawDeposit">
+		insert into ms_bank_withdraw_deposit
+			   (id,
+				business_no,
+				mem_id,
+				bank_account_id,
+				account_idcard,
+				account_no,
+				account_name,
+				account_bank,
+				account_province,
+				account_city,
+				account_area,
+				account_sub_bank,
+				apply_carry_cash,
+				counter_fee,
+				actual_carry_cash,
+				apply_date,
+				audit_by,
+				audit_date,
+				status,
+				audit_state,
+				remark,
+				create_date
+				)
+	 	 values(#{id},
+				#{businessNo},
+				#{memId},
+				#{bankAccountId},
+				#{accountIdcard},
+				#{accountNo},
+				#{accountName},
+				#{accountBank},
+				#{accountProvince},
+				#{accountCity},
+				#{accountArea},
+				#{accountSubBank},
+				#{applyCarryCash},
+				#{counterFee},
+				#{actualCarryCash},
+				#{applyDate},
+				null,
+				null,
+				#{status},
+				null,
+				#{remark},
+				now()
+			   )
+	</insert>
+	
+	<!--  修改提现申请状态ms_bank_withdraw_deposit 2017-03-24 dengbibo   -->	
+	<update id="updateBankWithdrawDeposit" parameterType="java.util.Map">
+		update ms_bank_withdraw_deposit
+		   set status = #{status},
+		       audit_by = #{auditBy},
+		       audit_date = #{auditDate},
+		       audit_state = #{auditState}
+		 where id = #{id}
+	</update>
+	
+	<!--  查询提现申请记录ms_bank_withdraw_deposit 2017-03-24 dengbibo -->
+	<select id="selectBankWithdrawDeposit" parameterType="java.util.Map" resultType="com.meiduimall.service.account.model.MSBankWithdrawDeposit">
+		 select id as id,
+				business_no as businessNo,
+				mem_id as memId,
+				bank_account_id as bankAccountId,
+				account_idcard as accountIdcard,
+				account_no as accountNo,
+				account_name as accountName,
+				account_bank as accountBank,
+				account_province as accountProvince,
+				account_city as accountCity,
+				account_area as accountArea,
+				account_sub_bank as accountSubBank,
+				apply_carry_cash as applyCarryCash,
+				counter_fee as counterFee,
+				actual_carry_cash as actualCarryCash,
+				apply_date as applyDate,
+				audit_by as auditBy,
+				audit_date as auditDate,
+				status as status,
+				audit_state as auditState,
+				remark as remark,
+				create_date as createDate
+		  from ms_bank_withdraw_deposit
+		 where mem_id = #{memId}
+		 <if test="id != null and id != ''"> and id = #{id} </if>
+		 <if test="businessNo != null and businessNo != ''"> and business_no = #{businessNo} </if>
+		 <if test="status != null and status != ''"> and status = #{status} </if>
+		 order by applyDate desc
+	</select>
+	
+	
+	<select id="listwidthdrawCondition" resultType="com.meiduimall.service.account.model.MSBankWithdrawDeposit" parameterType="com.meiduimall.service.account.model.MSAccountDetailCondition" >
+    		select  a.id as id,
+				a.business_no as businessNo,
+				a.mem_id as memId,
+				a.bank_account_id as bankAccountId,
+				a.account_idcard as accountIdcard,
+				a.account_no as accountNo,
+				a.account_name as accountName,
+				a.account_bank as accountBank,
+				a.account_province as accountProvince,
+				a.account_city as accountCity,
+				a.account_area as accountArea,
+				a.account_sub_bank as accountSubBank,
+				a.apply_carry_cash as applyCarryCash,
+				a.counter_fee as counterFee,
+				a.actual_carry_cash as actualCarryCash,
+				a.apply_date as applyDate,
+				a.audit_by as auditBy,
+				a.audit_date as auditDate,
+				a.status as status,
+				a.audit_state as auditState,
+				a.remark as remark,
+				a.create_date as createDate,b.mem_phone as phone, b.mem_login_name as loginName 
+				from ms_bank_withdraw_deposit a, ms_members b 
+   
+   				where a.mem_id = b.mem_id 
+     <if test="memLoginName !=null and memLoginName !=''">
+         	and b.mem_login_name = #{memLoginName}
+     </if> 
+     <if test="memPhone !=null and memPhone !=''">
+         	and b.mem_phone = #{memPhone}
+     </if> 	
+     <if test="businNo !=null and businNo !=''">
+         	and a.business_no like CONCAT('%',#{businNo},'%')
+     </if> 
+     <if test="status !=null and status !=''">
+	        and a.status =#{status}
+     </if>
+      <if test="beginDate !=null and beginDate !=''">
+	        and a.apply_date >=#{beginDate}
+     </if>
+      <if test="endDate !=null and endDate !=''">
+	        and  #{endDate} >= a.apply_date
+     </if>
+  </select>
+	
+</mapper>

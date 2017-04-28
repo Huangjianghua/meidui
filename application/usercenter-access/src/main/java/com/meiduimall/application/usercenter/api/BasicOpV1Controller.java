@@ -6,18 +6,23 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.usercenter.annotation.HasToken;
+import com.meiduimall.application.usercenter.constant.ApiStatusConst;
 import com.meiduimall.application.usercenter.constant.ResBodyDataShiPei;
 import com.meiduimall.application.usercenter.constant.SysParamsConst;
 import com.meiduimall.application.usercenter.interceptor.ValInterceptor;
 import com.meiduimall.application.usercenter.interceptor.ValRequest;
 import com.meiduimall.application.usercenter.service.BaseOpService;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.ApiException;
+import com.meiduimall.redis.util.RedisTemplate;
 
 /**
  * 用户常规操作
@@ -43,7 +48,26 @@ public class BasicOpV1Controller {
 			return resBodyData;
 		logger.info("收到登录API请求：{}",reqJson.toString());
 		resBodyData=baseOpService.login(reqJson);
-		logger.info("用户登录API请求结果：{}",resBodyData.toString());
+		logger.info("会员登录API请求结果：{}",resBodyData.toString());
+		return resBodyData;
+	}
+	
+	/**登出*/
+	@HasToken
+	@PostMapping(value = "/exit")
+	ResBodyData exit(){
+		ResBodyData resBodyData=null;
+		JSONObject reqJson=ValRequest.apiReqData.get();
+		resBodyData=ValInterceptor.apiValResult.get();
+		if(resBodyData.getStatus()!=0)
+			return resBodyData;
+		logger.info("收到登出API请求：{}",reqJson.toString());
+		try {
+			RedisTemplate.getJedisInstance().execDelToCache(reqJson.getString(SysParamsConst.TOKEN));
+		} catch (Exception e) {
+			throw new ApiException(ApiStatusConst.EXIT_EXCEPTION);
+		}
+		logger.info("会员登出API请求结果：{}",resBodyData.toString());
 		return resBodyData;
 	}
 	
@@ -60,7 +84,7 @@ public class BasicOpV1Controller {
 	
 	/**校验token*/
 	@HasToken
-	@RequestMapping(value = "/checktoken",method=RequestMethod.GET)
+	@GetMapping(value = "/checktoken")
 	ResBodyData checkToken(){
 		ResBodyData resBodyData=ValInterceptor.apiValResult.get();
 		resBodyData.setData(resBodyData.getData().toString());

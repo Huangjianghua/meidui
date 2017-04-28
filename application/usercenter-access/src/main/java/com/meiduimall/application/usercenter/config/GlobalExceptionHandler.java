@@ -10,6 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.meiduimall.application.usercenter.constant.ApiStatusConst;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.BizException;
 import com.meiduimall.exception.SystemException;
@@ -29,14 +30,14 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(value = BizException.class)
   public ResBodyData bizeExceptionHandler(HttpServletRequest request, BizException exception) {
-    logger.error(request.getContextPath()+request.getRequestURI()+" "+exception.getLocalizedMessage());
-    return new ResBodyData(exception.getCode(),exception.getLocalizedMessage());
+    logger.error(request.getContextPath()+request.getRequestURI()+" "+ApiStatusConst.getZhMsg(exception.getCode()));
+    return new ResBodyData(exception.getCode(),ApiStatusConst.getZhMsg(exception.getCode()));
   }
   
   @ExceptionHandler(value = SystemException.class)
   public ResBodyData systemExceptionHandler(HttpServletRequest request, SystemException exception) {
-    logger.error(request.getContextPath()+request.getRequestURI()+" "+exception.getLocalizedMessage());
-    return new ResBodyData(exception.getCode(),exception.getLocalizedMessage());
+    logger.error(request.getContextPath()+request.getRequestURI()+" "+ApiStatusConst.getZhMsg(exception.getCode()));
+    return new ResBodyData(exception.getCode(),ApiStatusConst.getZhMsg(exception.getCode()));
   }
 
 

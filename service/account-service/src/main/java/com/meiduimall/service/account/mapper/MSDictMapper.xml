@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--系统字典表ms_dict相关操作 -->
+<mapper namespace="MSDictMapper">
+
+<resultMap id="DictResultMap" type="com.meiduimall.service.account.model.MSDict" >
+    <id column="dict_id" property="dictId" jdbcType="CHAR" />
+    <result column="dict_no" property="dictNo" jdbcType="BIGINT" />
+    <result column="dict_name" property="dictName" jdbcType="VARCHAR" />
+    <result column="dic_parent_id" property="dicParentId" jdbcType="CHAR" />
+    <result column="dict_key" property="dictKey" jdbcType="VARCHAR" />
+    <result column="dict_value" property="dictValue" jdbcType="VARCHAR" />
+    <result column="dict_value2" property="dictValue2" jdbcType="VARCHAR" />
+    <result column="dict_value3" property="dictValue3" jdbcType="VARCHAR" />
+    <result column="dict_value4" property="dictValue4" jdbcType="VARCHAR" />
+    <result column="dict_value5" property="dictValue5" jdbcType="VARCHAR" />
+    <result column="dict_created_by" property="dictCreatedBy" jdbcType="CHAR" />
+    <result column="dict_created_date" property="dictCreatedDate" jdbcType="TIMESTAMP" />
+    <result column="dict_updated_by" property="dictUpdatedBy" jdbcType="CHAR" />
+    <result column="dict_updated_date" property="dictUpdatedDate" jdbcType="TIMESTAMP" />
+    <result column="dict_category" property="dictCategory" jdbcType="VARCHAR" />
+    <result column="dict_remark" property="dictRemark" jdbcType="LONGVARCHAR" />
+  </resultMap>
+
+<!--查询系统配置字典父节点-->
+	<select id="queryMsDictByParentId" resultMap="DictResultMap"  parameterType="java.lang.String" >
+	SELECT d.* FROM ms_dict d WHERE d.`dic_parent_id`=#{dicparentid} ORDER BY d.`dict_no`
+	</select>
+	
+</mapper>

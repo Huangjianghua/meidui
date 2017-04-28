@@ -57,7 +57,11 @@ public class BasicOpServiceImpl implements BasicOpService {
 	public Map<String, Object> handlesignout(JSONObject jsonObject) throws Exception {
 		Map<String, Object> map=new HashMap<String, Object>();//返回结果
 		String userid=jsonObject.getString("user_id");
-		String memid=  baseDao.selectOne(DESC.encryption(userid),"MSMembersMapper.getMemberInfoByCondition");
+		MSMembersGet msMembersGet=null;
+		Map<String, Object> mapCondition=new HashMap<>();
+		mapCondition.put("userid",DESC.encryption(userid));
+		msMembersGet=  baseDao.selectOne(mapCondition,"MSMembersMapper.getMemberBasicInfoByCondition");
+		String memid=msMembersGet.getMemId();
 		//如果不存在这个memid
 		if(StringUtil.isEmptyByString(memid)){
 			map.put("status_code", ApiStatusConst.MEMBER_NOT_EXIST);
@@ -72,6 +76,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 				{
 					if(rt.execDelToCache(memid))
 					{
+						logger.info("要删除的token值：{}",token);
 						if(rt.execDelToCache(token))
 						{
 							map.put("status_code","0");
@@ -128,13 +133,17 @@ public class BasicOpServiceImpl implements BasicOpService {
 		}
 		else {
 			/**通过userid获取memid并判断该memid是否存在**/
-			String memid=null;
+			MSMembersGet msMembersGet=null;
 			String userid=null;
 			String token=null;
+			String memid=null;
+			Map<String, Object> mapCondition=new HashMap<>();
 			if(jsonObject.containsKey("user_id"))
-			{
+			{				
 				userid=jsonObject.getString("user_id");
-				memid=  baseDao.selectOne(DESC.encryption(userid),"MSMembersMapper.getMemberInfoByCondition");
+				mapCondition.put("userid",DESC.encryption(userid));
+				msMembersGet=  baseDao.selectOne(mapCondition,"MSMembersMapper.getMemberBasicInfoByCondition");
+				memid=msMembersGet.getMemId();
 				//如果不存在这个memid
 				if(StringUtil.isEmptyByString(memid)){
 					map.put("status_code", ApiStatusConst.MEMBER_NOT_EXIST);
@@ -618,22 +627,27 @@ public class BasicOpServiceImpl implements BasicOpService {
 	/**校验是否有推荐人*/
 	private final String  validShareMan(String share_man_id) throws Exception
 	{
-		String memid=null;
+		String memId=null;
+		Map<String, Object> mapCondition=new HashMap<>();
+		MSMembersGet msMembersGet=null;
 		try {
-			memid=baseDao.selectOne(share_man_id,"MSMembersMapper.getMemberInfoByCondition");
+			mapCondition.put("memId",DESC.encryption(share_man_id));
+			msMembersGet=baseDao.selectOne(mapCondition,"MSMembersMapper.getMemberBasicInfoByCondition");
+			memId=msMembersGet.getMemId();
 		} catch (Exception e) {
 			throw e;
 		}
-		return memid;
+		return memId;
 	}
 	
 	/**校验user_id是否已经被注册*/
 	private final boolean validUserId(String phone) throws Exception
 	{
-		String memid=null;
+		MSMembersGet msMembersGet=null;
 		String pfid=null;
 		try {
-			memid=baseDao.selectOne(phone,"MSMembersMapper.getMemberInfoByCondition");//根据手机号查询会员表是否存在记录
+			msMembersGet=baseDao.selectOne(phone,"MSMembersMapper.getMemberBasicInfoByCondition");//根据手机号查询会员表是否存在记录
+			String memid=msMembersGet.getMemId();
 			pfid=baseDao.selectOne(phone,"MSPlatFormsMapper.getPfRecordByUserId");//根据手机号查询是否是平台人员注册
 			if(StringUtil.isEmptyByString(memid)&&StringUtil.isEmptyByString(pfid))
 				return true;

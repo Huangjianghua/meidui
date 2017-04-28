@@ -20,6 +20,7 @@
 		<module>catalog-service</module>
 		<module>financial-service</module>
 	    <module>member-service</module>
+	    <module>account-service</module>
     </modules>
 
     <dependencyManagement>
@@ -64,16 +65,4 @@
     </dependencies>
 
 
-    <distributionManagement>
-        <repository>
-            <id>nexus</id>
-            <name>Nexus Releases</name>
-            <url>http://maven.meiduimall.com/repository/maven-releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>nexus</id>
-            <name>Nexus Snapshot</name>
-            <url>http://maven.meiduimall.com/repository/maven-snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
 </project>

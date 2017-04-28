@@ -16,10 +16,5 @@ public class ServiceUrlProfileConfig {
 	public String getAccountServiceUrl() {
 		return accountServiceUrl;
 	}
-
-	public void setAccountServiceUrl(String accountServiceUrl) {
-		this.accountServiceUrl = accountServiceUrl;
-	}
-
 	
 }

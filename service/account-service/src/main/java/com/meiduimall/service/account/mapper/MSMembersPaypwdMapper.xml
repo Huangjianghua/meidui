@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--会员支付密码表ms_members_paypwd相关操作 -->
+<mapper namespace="MSMembersPaypwdMapper">
+	<!--根据会员ID查询支付密码-->
+	<select id="getPaypwdByMemIdAndPaypwd" parameterType="com.meiduimall.service.account.model.MSMembersPaypwd" resultType="com.meiduimall.service.account.model.MSMembersPaypwd">
+		SELECT 
+		t.mem_id AS memId, 
+		t.pwd AS pay_pwd, 
+		t.md5_pwd AS md5Pwd, 
+		t.update_date AS updateDate 
+		FROM ms_members_paypwd t 
+		WHERE 1=1
+		AND t.mem_id = #{memId} 
+		<if test="pay_pwd != null and pay_pwd != ''">AND t.pwd = #{pay_pwd}</if>
+		<if test="md5Pwd != null and md5Pwd != ''">AND t.md5_pwd = #{md5Pwd}</if>
+	</select>
+	
+	<!-- 根据会员ID查询是否存在支付密码 -->
+	<select id="getIsExistPaypwdByMemId" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT COUNT(1) 
+		FROM  ms_members_paypwd m 
+		WHERE  m.mem_id=#{memId} 
+	</select>
+	
+	<!-- 根据会员ID设置支付密码(不存在) -->
+	<insert id="insertPaypwd" parameterType="com.meiduimall.service.account.model.MSMembersPaypwd">
+		INSERT INTO ms_members_paypwd 
+		(
+		  mem_id
+		  <if test="pay_pwd != null and pay_pwd != ''">,pwd</if>
+		  ,md5_pwd
+		  ,update_date
+		) VALUES (
+		  #{memId}
+		  <if test="pay_pwd != null and pay_pwd != ''">,#{pay_pwd}</if>
+		  ,#{md5Pwd}
+		  ,#{updateDate}
+		)
+	</insert>
+	
+	<!-- 根据会员ID设置支付密码(已存在) -->
+	<update id="updatePaypwdByMemId" parameterType="com.meiduimall.service.account.model.MSMembersPaypwd">
+		UPDATE ms_members_paypwd 
+		SET md5_pwd = #{md5Pwd}
+		<if test="updateDate != null">, update_date = #{updateDate}</if>
+		WHERE mem_id = #{memId} 
+	</update>
+	
+	<!-- 根据会员ID查询支付密码操作记录 -->
+	<select id="getPaypwdRecordByMemId" parameterType="java.lang.String" resultType="com.meiduimall.service.account.model.MSMembersPaypwdRecord">
+		SELECT 
+		t.mem_id AS memId, 
+		t.update_pwd1 AS updatePwd1, 
+		t.update_pwd2 AS updatePwd2, 
+		t.update_pwd3 AS updatePwd3, 
+		t.update_pwd4 AS updatePwd4, 
+		t.update_pwd5 AS updatePwd5, 
+		t.update_index AS updateIndex, 
+		t.update_date AS updateDate
+		FROM ms_members_paypwd_record t 
+		WHERE t.mem_id = #{memId}
+	</select>
+	
+	<!-- 新增修改密码记录信息 -->
+	<insert id="insertPaypwdRecord" parameterType="com.meiduimall.service.account.model.MSMembersPaypwdRecord">
+		INSERT INTO ms_members_paypwd_record (
+		  mem_id
+		  <if test="updatePwd1 != null and updatePwd1 != ''">,update_pwd1</if>
+		  <if test="updatePwd2 != null and updatePwd2 != ''">,update_pwd2</if>
+		  <if test="updatePwd3 != null and updatePwd3 != ''">,update_pwd3</if>
+		  <if test="updatePwd4 != null and updatePwd4 != ''">,update_pwd4</if>
+		  <if test="updatePwd5 != null and updatePwd5 != ''">,update_pwd5</if>
+		  ,update_index
+		  ,update_date
+		) VALUES (
+		  #{memId}
+		  <if test="updatePwd1 != null and updatePwd1 != ''">,#{updatePwd1}</if>
+		  <if test="updatePwd2 != null and updatePwd2 != ''">,#{updatePwd2}</if>
+		  <if test="updatePwd3 != null and updatePwd3 != ''">,#{updatePwd3}</if>
+		  <if test="updatePwd4 != null and updatePwd4 != ''">,#{updatePwd4}</if>
+		  <if test="updatePwd5 != null and updatePwd5 != ''">,#{updatePwd5}</if>
+		  ,#{updateIndex}
+		  ,#{updateDate}
+		  )
+	</insert>
+	
+	<!-- 更新修改密码记录信息 -->
+	<update id="updatePaypwdRecordByMemId" parameterType="com.meiduimall.service.account.model.MSMembersPaypwd">
+		UPDATE ms_members_paypwd_record SET
+		  update_index = #{updateIndex}
+		  ,update_date = #{updateDate}
+		  <if test="updatePwd1 != null and updatePwd1 != ''">,update_pwd1 = #{updatePwd1}</if>
+		  <if test="updatePwd2 != null and updatePwd2 != ''">,update_pwd2 = #{updatePwd2}</if>
+		  <if test="updatePwd3 != null and updatePwd3 != ''">,update_pwd3 = #{updatePwd3}</if>
+		  <if test="updatePwd4 != null and updatePwd4 != ''">,update_pwd4 = #{updatePwd4}</if>
+		  <if test="updatePwd5 != null and updatePwd5 != ''">,update_pwd5 = #{updatePwd5}</if>
+		WHERE mem_id = #{memId}
+	</update>
+	
+</mapper>

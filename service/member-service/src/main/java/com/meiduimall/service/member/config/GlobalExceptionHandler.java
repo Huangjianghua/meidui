@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(value = BizException.class)
   public ResBodyData bizeExceptionHandler(HttpServletRequest request, BizException exception) {
     logger.error(request.getContextPath()+request.getRequestURI()+" "+ApiStatusConst.getZhMsg(exception.getCode()));
-    return new ResBodyData(exception.getCode(),exception.getLocalizedMessage());
+    return new ResBodyData(exception.getCode(),ApiStatusConst.getZhMsg(exception.getCode()));
   }
   
   @ExceptionHandler(value = SystemException.class)

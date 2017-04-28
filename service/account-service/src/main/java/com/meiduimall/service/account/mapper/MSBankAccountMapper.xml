@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MSBankAccountMapper">
+	
+	<!--  写入银行账户ms_bank_account 2017-03-24 dengbibo   -->
+	<insert id="insertBankAccount" parameterType="com.meiduimall.service.account.model.MSBankAccount">
+		insert into ms_bank_account
+		   (id,
+			mem_id,
+			account_idcard,
+			account_no,
+			account_name,
+			account_bank,
+			account_province,
+			account_city,
+			account_area,
+			account_sub_bank,
+			is_default,
+			remark,
+			create_date,
+			update_date
+			 )
+		values(
+			#{id},
+			#{memId},
+			#{accountIdcard},
+			#{accountNo},
+			#{accountName},
+			#{accountBank},
+			#{accountProvince},
+			#{accountCity},
+			#{accountArea},
+			#{accountSubBank},
+			#{isDefault},
+			#{remark},
+			now(),
+			now()
+			)
+	</insert>
+	
+	<!--  修改会员银行账户ms_bank_account 2017-03-24 dengbibo   -->			
+	<update id="updateBankAccount" parameterType="java.util.Map">
+		update ms_bank_account
+		   set update_date = now()
+		<if test="account_idcard != null and account_idcard != ''">,account_idcard = #{account_idcard}</if>
+		<if test="account_no != null and account_no != ''">,account_no = #{account_no}</if>
+		<if test="account_name != null and account_name != ''">,account_name = #{account_name}</if>
+		<if test="account_bank != null and account_bank != ''">,account_bank = #{account_bank}</if>
+		<if test="account_province != null and account_province != ''">,account_province = #{account_province}</if>
+		<if test="account_city != null and account_city != ''">,account_city = #{account_city}</if>
+		<if test="account_area != null and account_area != ''">,account_area = #{account_area}</if>
+		<if test="account_sub_bank != null and account_sub_bank != ''">,account_sub_bank = #{account_sub_bank}</if>
+		<if test="is_default != null and is_default != ''">,is_default = #{is_default}</if>
+		<if test="remark != null and remark != ''">,remark = #{remark}</if>
+		 where id = #{id}
+	</update>
+	
+	<!--  删除会员银行账户ms_bank_account 2017-03-24 dengbibo   -->	
+	<delete id="deleteBankAccount" parameterType="java.util.Map">
+		delete from ms_bank_account where id = #{id}
+	</delete>
+	
+	<!--  查询会员银行账户ms_bank_account 2017-03-24 dengbibo   -->	
+	<select id="selectMemberBankAccount" parameterType="java.util.Map" resultType="com.meiduimall.service.account.model.MSBankAccount">
+		 select id as id,
+				mem_id as memId,
+				account_idcard as accountIdcard,
+				account_no as accountNo,
+				account_name as accountName,
+				account_bank as accountBank,
+				account_province as accountProvince,
+				account_city as accountCity,
+				account_area as accountArea,
+				account_sub_bank as accountSubBank,
+				is_default as isDefault,
+				remark as remark,
+				create_date as createDate,
+				update_date as updateDate
+		   from ms_bank_account
+		  where mem_id = #{memId}
+		  <if test="accountNo != null and accountNo != ''"> and account_no = #{accountNo}</if>
+	</select>
+	
+	<!--  修改系统中银行信息ms_bank_info 2017-03-24 dengbibo   -->
+	<select id="selectBankInfo" resultType="com.meiduimall.service.account.model.MSBankInfo">
+		 select id as id,
+				bank_id as bankId,
+				bank_short as bankShort,
+				bank_english_name as bankEnglishName,
+				bank_chine_name as bankChineName,
+				bank_phone as bankPhone,
+				bank_net as bankNet,
+				data_status as dataStatus,
+				bank_sort as bankSort,
+				remark as remark
+		   from ms_bank_info
+		  where data_status = '1'
+		   order by bank_sort desc  
+	</select>	
+	
+</mapper>

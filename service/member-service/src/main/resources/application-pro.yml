@@ -43,4 +43,4 @@ config :
     
 # other service url
 service : 
-   account : http://10.116.21.93:8096
+   account : http://10.116.21.93:8096/member/account_service
