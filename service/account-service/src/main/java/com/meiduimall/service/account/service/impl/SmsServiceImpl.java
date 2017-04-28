@@ -1,4 +1,4 @@
-package com.meiduimall.service.account.service.impl;
+/*package com.meiduimall.service.account.service.impl;
 
 import java.util.Date;
 
@@ -43,7 +43,7 @@ public class SmsServiceImpl implements PaypwdService {
 		MSMembersPaypwd existPaypwd = baseDao.selectOne(msMembersPaypwd, "MSMembersPaypwdMapper.getPaypwdByMemIdAndPaypwd");
 		if(existPaypwd!=null){
 			String md5Paypwd=existPaypwd.getMd5Pwd();
-			/**校验PHP迁移过来的原始密码*/
+			*//**校验PHP迁移过来的原始密码*//*
 			if(StringUtil.isEmptyByString(md5Paypwd)){
 				boolean blowPwd = BCrypt.checkpw(paypwd,existPaypwd.getPay_pwd());
 				if(blowPwd){
@@ -55,7 +55,7 @@ public class SmsServiceImpl implements PaypwdService {
 					resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.PAYPWD_NOT_RIGHT));
 				}
 			}
-			/**校验MD5密码*/
+			*//**校验MD5密码*//*
 			else{
 				if(!MD5Util.MD5EncryptBy32(paypwd).toLowerCase().equals(md5Paypwd)){
 					resBodyData.setStatus(ApiStatusConst.PAYPWD_NOT_RIGHT);
@@ -91,7 +91,7 @@ public class SmsServiceImpl implements PaypwdService {
 			baseDao.insert(msMembersPaypwd,"MSMembersPaypwdMapper.insertPaypwd");
 			logger.info("会员ID：{}不存在原始支付密码记录,插入成功!", memId);
 		}
-		/**记录日志*/
+		*//**记录日志*//*
 		operateRecord(memId, msMembersPaypwd.getMd5Pwd());
 		return resBodyData;
 	}	
@@ -111,7 +111,7 @@ public class SmsServiceImpl implements PaypwdService {
 	public ResBodyData updatePaypwd(RequestUpdatePaypwd requestUpdatePaypwd) throws SystemException {
 		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
 		
-		/**先验证旧支付密码*/
+		*//**先验证旧支付密码*//*
 		MSMembersPaypwd msMembersPaypwd=new MSMembersPaypwd();
 		msMembersPaypwd.setMemId(requestUpdatePaypwd.getMemId());
 		msMembersPaypwd.setPay_pwd(requestUpdatePaypwd.getOld_paypwd());
@@ -122,7 +122,7 @@ public class SmsServiceImpl implements PaypwdService {
 		}
 		logger.info("旧支付密码校验通过");
 		
-		/**设置支付密码*/
+		*//**设置支付密码*//*
 		setNewPaypwd(requestUpdatePaypwd.getMemId(),requestUpdatePaypwd.getNew_paypwd());		
 		return resBodyData;
 	}
@@ -131,7 +131,7 @@ public class SmsServiceImpl implements PaypwdService {
 	public ResBodyData retrievePaypwd(RequestRetrievePaypwd requestRetrievePaypwd) throws SystemException {
 		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
 		
-		/**调用短信服务获取短信验证码*/
+		*//**调用短信服务获取短信验证码*//*
 		String url=serviceUrlProfileConfig.getSmsServiceUrl()+"/v1/send_sms_verification_code";
 		if(resBodyData.getStatus()!=0){
 			logger.warn("旧支付密码校验不通过");
@@ -139,17 +139,17 @@ public class SmsServiceImpl implements PaypwdService {
 		}
 		logger.info("旧支付密码校验通过");
 		
-		/**设置支付密码*/
+		*//**设置支付密码*//*
 		setNewPaypwd(requestRetrievePaypwd.getMemId(),requestRetrievePaypwd.getPay_pwd());
 		return resBodyData;
 	}
 	
-	/**
+	*//**
 	 * 添加设置支付密码日志
 	 * @param memId 会员ID
 	 * @param pwd 支付密码（明文）
 	 * @throws Exception
-	 */
+	 *//*
 	private void operateRecord(String memId, String pwd){
 		MSMembersPaypwdRecord operateRecord = baseDao.selectOne(memId, "MSMembersPaypwdMapper.getPaypwdRecordByMemId");
 		if (StringUtil.checkObj(operateRecord)) {
@@ -189,12 +189,12 @@ public class SmsServiceImpl implements PaypwdService {
 		}
 	}
 
-	/**
+	*//**
 	 * 设置新支付密码
 	 * @param memId 会员ID
 	 * @param paypwd 新支付密码
 	 * @throws SystemException 检查类型异常
-	 */
+	 *//*
 	private void setNewPaypwd(String memId,String paypwd) throws SystemException{
 		MSMembersPaypwd msMembersPaypwd=new MSMembersPaypwd();
 		msMembersPaypwd.setMemId(memId);
@@ -207,4 +207,4 @@ public class SmsServiceImpl implements PaypwdService {
 		logger.info("设置新支付密码成功");	
 	}
 
-}
+}*/
