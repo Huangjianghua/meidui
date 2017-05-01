@@ -26,7 +26,6 @@ import com.meiduimall.service.sms.mapper.SmsSendHistoryMapper;
 import com.meiduimall.service.sms.request.CheckCodeRequest;
 import com.meiduimall.service.sms.request.SendCodeRequest;
 import com.meiduimall.service.sms.request.SendMessageRequest;
-import com.meiduimall.service.sms.result.VerificationCodeResult;
 import com.meiduimall.service.sms.service.AliyunService;
 import com.meiduimall.service.sms.service.SmsService;
 import com.meiduimall.service.sms.service.TemplateInfoService;
@@ -87,33 +86,36 @@ public class SmsServiceImpl implements SmsService {
 			params = aliDaYuParamsToJson(false, model.getParams());
 		}
 
-		/**
-		 * 首先阿里云发送发送短信，如果发送失败则调用漫道发送。 全部失败则返回失败信息。
-		 */
-		boolean flag = aliyunService.send(model.getPhones(), ti.getExternalTemplateNo(), params);
-		logger.info("阿里大于发送短信结果flag：" + flag);
+		// 开始发送短信
 		String res = "-1000";
-		String channelId = "1";
-		if (!flag) {
-			try {
-				res = zucpService.send(model.getPhones(), content);
-			} catch (SystemException e) {
-				logger.info("漫道发送短信结果异常：" + e);
+		String channelId = "";
+		boolean flag = false;
+		if ("1".equals(model.getSupplierId())) {
+			// 只使用阿里大于发送
+			flag = aliyunService.send(model.getPhones(), ti.getExternalTemplateNo(), params);
+			logger.info("只使用阿里大于发送--阿里大于发送短信结果flag：" + flag);
+			if (!flag) {
+				// 发送失败，直接抛出异常
 				throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER,
 						BaseApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
 			}
-			logger.info("漫道发送短信结果res：" + res);
-			try {
-				if (Long.parseLong(res) < 0) {
-					throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER,
-							BaseApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
-				}
-			} catch (NumberFormatException e) {
-				logger.info("漫道发送短信结果res异常：" + e);
-				throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER,
-						BaseApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
-			}
+			channelId = "1";
+
+		} else if ("2".equals(model.getSupplierId())) {
+			// 只使用漫道发送
+			res = sendMessageByZucp(model, content, res);
 			channelId = "2";
+
+		} else {
+			// 首先阿里云发送发送短信，如果发送失败则调用漫道发送。 全部失败则返回失败信息。
+			flag = aliyunService.send(model.getPhones(), ti.getExternalTemplateNo(), params);
+			logger.info("不指定--阿里大于发送短信结果flag：" + flag);
+			if (flag) {
+				channelId = "1";
+			} else {
+				res = sendMessageByZucp(model, content, res);
+				channelId = "2";
+			}
 		}
 
 		try {
@@ -139,6 +141,34 @@ public class SmsServiceImpl implements SmsService {
 		return result;
 	}
 
+	/**
+	 * 调用漫道发送普通短信
+	 * 
+	 * @param model
+	 * @param content
+	 * @param res
+	 * @return
+	 */
+	private String sendMessageByZucp(SendMessageRequest model, String content, String res) {
+		try {
+			res = zucpService.send(model.getPhones(), content);
+		} catch (SystemException e) {
+			logger.info("漫道普通短信发送异常：" + e);
+			throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER, BaseApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
+		}
+		logger.info("漫道普通短信发送结果：" + res);
+		try {
+			if (Long.parseLong(res) < 0) {
+				throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER,
+						BaseApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
+			}
+		} catch (NumberFormatException e) {
+			logger.info("漫道发送普通短信结果异常：" + e);
+			throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER, BaseApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
+		}
+		return res;
+	}
+
 	@Override
 	public ResBodyData sendSmsVerificationCode(SendCodeRequest model) {
 
@@ -153,7 +183,7 @@ public class SmsServiceImpl implements SmsService {
 
 		// 生成6位随机数
 		String randomNumber = String.valueOf((Math.random() * 9 + 1) * 100000).substring(0, 6);
-		logger.info("发送短信生成的验证码为：" + randomNumber);
+		logger.info("生成6位随机数为：" + randomNumber);
 
 		// 获取消息模板--这里获取到的是所有的模板信息的json数据
 		String templateListJsonStr = templateInfoService.getTemplateList(SysConstant.MESSAGE_TEMPLATE_KEY);
@@ -183,34 +213,36 @@ public class SmsServiceImpl implements SmsService {
 			params = aliDaYuParamsToJson(true, randomNumber + "," + model.getParams());
 		}
 
-		/**
-		 * 首先阿里云发送发送短信，如果发送失败则调用漫道发送 </br>
-		 * 全部失败则返回失败信息
-		 */
+		// 开始发送短信
 		String res = "-1000";
-		String channelId = "1";
-		boolean flag = aliyunService.send(model.getPhones(), ti.getExternalTemplateNo(), params);
-		logger.info("阿里大于发送验证码短信结果(flag): " + flag);
-		if (!flag) {
-			try {
-				res = zucpService.send(model.getPhones(), content);
-			} catch (SystemException e) {
-				logger.info("漫道发送验证码结果异常：" + e);
-				throw new ServiceException(SmsApiCode.SEND_CODE_FAILUER,
-						BaseApiCode.getZhMsg(SmsApiCode.SEND_CODE_FAILUER));
+		String channelId = "";
+		boolean flag = false;
+		if ("1".equals(model.getSupplierId())) {
+			// 只使用阿里大于发送
+			flag = aliyunService.send(model.getPhones(), ti.getExternalTemplateNo(), params);
+			logger.info("只使用阿里大于发送---阿里大于发送验证码短信结果flag：" + flag);
+			if (!flag) {
+				// 发送失败，直接抛出异常
+				throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER,
+						BaseApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
 			}
-			logger.info("漫道发送验证码短信结果（res）:" + res);
-			try {
-				if (Long.parseLong(res) < 0) {
-					throw new ServiceException(SmsApiCode.SEND_CODE_FAILUER,
-							BaseApiCode.getZhMsg(SmsApiCode.SEND_CODE_FAILUER));
-				}
-			} catch (NumberFormatException e) {
-				logger.info("漫道发送验证码短信结果（res）异常：" + e);
-				throw new ServiceException(SmsApiCode.SEND_CODE_FAILUER,
-						BaseApiCode.getZhMsg(SmsApiCode.SEND_CODE_FAILUER));
-			}
+			channelId = "1";
+
+		} else if ("2".equals(model.getSupplierId())) {
+			// 只使用漫道发送
+			res = sendCodeByZucp(model, content, res);
 			channelId = "2";
+
+		} else {
+			// 首先阿里云发送发送短信，如果发送失败则调用漫道发送。 全部失败则返回失败信息。
+			flag = aliyunService.send(model.getPhones(), ti.getExternalTemplateNo(), params);
+			logger.info("不指定发送--阿里大于发送验证码短信结果flag：" + flag);
+			if (flag) {
+				channelId = "1";
+			} else {
+				res = sendCodeByZucp(model, content, res);
+				channelId = "2";
+			}
 		}
 
 		try {
@@ -228,14 +260,42 @@ public class SmsServiceImpl implements SmsService {
 			logger.info("验证码发送成功，保存到数据库历史记录异常：" + e);
 		}
 
-		// 返回验证码
-		VerificationCodeResult data = new VerificationCodeResult();
-		data.setVerificationCode(randomNumber);
+		// 发送成功，返回结果
 		ResBodyData result = new ResBodyData();
 		result.setStatus(SmsApiCode.SUCCESS);
 		result.setMsg(SmsApiCode.getZhMsg(SmsApiCode.SEND_CODE_SUCCESS));
-		result.setData(data);
+		result.setData(JsonUtils.getInstance().createObjectNode());
 		return result;
+	}
+
+	/**
+	 * 调用漫道发送验证码短信
+	 * 
+	 * @param model
+	 * @param content
+	 * @param res
+	 * @return
+	 */
+	private String sendCodeByZucp(SendCodeRequest model, String content, String res) {
+		try {
+			res = zucpService.send(model.getPhones(), content);
+		} catch (SystemException e) {
+			logger.info("漫道发送验证码短信异常：" + e);
+			throw new ServiceException(SmsApiCode.SEND_CODE_FAILUER,
+					BaseApiCode.getZhMsg(SmsApiCode.SEND_CODE_FAILUER));
+		}
+		logger.info("漫道发送验证码短信结果：" + res);
+		try {
+			if (Long.parseLong(res) < 0) {
+				throw new ServiceException(SmsApiCode.SEND_CODE_FAILUER,
+						BaseApiCode.getZhMsg(SmsApiCode.SEND_CODE_FAILUER));
+			}
+		} catch (NumberFormatException e) {
+			logger.info("漫道发送验证码短信结果异常：" + e);
+			throw new ServiceException(SmsApiCode.SEND_CODE_FAILUER,
+					BaseApiCode.getZhMsg(SmsApiCode.SEND_CODE_FAILUER));
+		}
+		return res;
 	}
 
 	@Override

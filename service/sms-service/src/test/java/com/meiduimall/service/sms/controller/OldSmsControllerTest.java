@@ -201,7 +201,7 @@ public class OldSmsControllerTest {
 	@Test
 	public void checkSmsVerificationCode_test_01() throws Exception {
 		ResultActions results = mockMvc.perform(
-				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/new/check_sms_verification_code")
+				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/check_sms_verification_code")
 				.param("phones", phone)
 				.param("templateId", "O2O_1002")
 				.param("clientId", "junit")
@@ -221,7 +221,7 @@ public class OldSmsControllerTest {
 	@Test
 	public void checkSmsVerificationCode_test_02() throws Exception {
 		ResultActions results = mockMvc.perform(
-				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/new/check_sms_verification_code")
+				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/check_sms_verification_code")
 				.param("phones", phone)
 				.param("templateId", "O2O_1111")
 				.param("clientId", "junit")
@@ -241,7 +241,7 @@ public class OldSmsControllerTest {
 	@Test
 	public void checkSmsVerificationCode_test_03() throws Exception {
 		ResultActions results = mockMvc.perform(
-				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/new/check_sms_verification_code")
+				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/check_sms_verification_code")
 				.param("phones", phone)
 				.param("type", "regist")
 				.param("clientId", "junit")
