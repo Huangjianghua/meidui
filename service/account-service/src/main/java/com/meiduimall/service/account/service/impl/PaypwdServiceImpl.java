@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.exception.SystemException;
@@ -110,6 +112,7 @@ public class PaypwdServiceImpl implements PaypwdService {
 		return resBodyData;
 	}
 	
+	@Transactional
 	@Override
 	public ResBodyData updatePaypwd(RequestUpdatePaypwd requestUpdatePaypwd) throws SystemException {
 		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
@@ -126,7 +129,7 @@ public class PaypwdServiceImpl implements PaypwdService {
 		logger.info("旧支付密码校验通过");
 		
 		/**设置支付密码*/
-		setNewPaypwd(requestUpdatePaypwd.getMemId(),requestUpdatePaypwd.getNew_paypwd());		
+		this.setNewPaypwd(requestUpdatePaypwd.getMemId(),requestUpdatePaypwd.getNew_paypwd());		
 		return resBodyData;
 	}
 	
@@ -207,12 +210,13 @@ public class PaypwdServiceImpl implements PaypwdService {
 		MSMembersPaypwd msMembersPaypwd=new MSMembersPaypwd();
 		msMembersPaypwd.setMemId(memId);
 		msMembersPaypwd.setPay_pwd(paypwd);
-		ResBodyData resBodyData=setPaypwd(msMembersPaypwd);
+		ResBodyData resBodyData=null;
+		resBodyData = setPaypwd(msMembersPaypwd);
 		if(resBodyData.getStatus()!=0){
 			logger.warn("设置新支付密码失败");
 			throw new ServiceException(ApiStatusConst.SET_PAYPWD_EXCEPTION);
 		}
-		logger.info("设置新支付密码成功");	
+		logger.info("设置新支付密码成功");
 	}
 
 }

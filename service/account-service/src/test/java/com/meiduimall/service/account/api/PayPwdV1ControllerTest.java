@@ -1,4 +1,4 @@
-/*package com.meiduimall.service.account.api;
+package com.meiduimall.service.account.api;
 
 
 import static org.hamcrest.CoreMatchers.is;
@@ -17,16 +17,16 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.service.account.model.request.RequestUpdatePaypwd;
 
-*//**
+/**
  * 支付密码相关接口单元测试
  * @author chencong
  *
- *//*
+ */
 public class PayPwdV1ControllerTest extends BaseControllerTest {
 	
 	private final static Logger logger=LoggerFactory.getLogger(PayPwdV1ControllerTest.class);
 	   
-	*//**修改支付密码*//*
+	/**修改支付密码*/
     @Test
     public void setPaypwdStatus() throws Exception{
     	RequestUpdatePaypwd requestUpdatePaypwd=new RequestUpdatePaypwd();
@@ -47,4 +47,4 @@ public class PayPwdV1ControllerTest extends BaseControllerTest {
 		});
     }
 	      
-}*/
+}

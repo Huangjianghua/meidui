@@ -1,11 +1,15 @@
-/*package com.meiduimall.service.account.api;
+package com.meiduimall.service.account.api;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MvcResult;
@@ -15,28 +19,50 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.service.account.model.AccountReviseDetail;
+import com.meiduimall.service.account.model.MSAccountDetailGet;
 import com.meiduimall.service.account.model.request.RequestAccountReviseDetail;
-import com.meiduimall.service.account.util.DESC;
 import com.meiduimall.service.account.util.DateUtil;
 
 
-*//**
+/**
  * @Copyright (C), 2002-2017, 美兑壹购物
  * @FileName: MoneyV1ControllerTests.java
  * @Author:   jianhua.huang 
  * @Date:     2017年4月18日 下午3:39:45
  * @Description: 测试新会员列表接口
- *//*
+ */
 public class MoneyV1ControllerTests extends BaseControllerTest {
 	
 	private AccountReviseDetail dto;
+	
+	private final static Logger logger=LoggerFactory.getLogger(MoneyV1ControllerTests.class);
+	
+	
+	/**余额流水分页*/
+    @Test
+    public void listMSAccountDetail() throws Exception{
+    	MSAccountDetailGet model=new MSAccountDetailGet();
+    	model.setMemId(memId);
+    	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/list_account_detail")
+    			.contentType(MediaType.APPLICATION_JSON_UTF8)
+    			.content(JsonUtils.beanToJson(model)))
+    			.andExpect(status().isOk())
+    			.andExpect(jsonPath("$.status",is(0)));
+    	
+    	postResultAction.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				logger.info("单元测试>>余额流水分页API>>执行结果:{}",result.getResponse().getContentAsString());;
+			}
+		});
+    }
 
 	
-	*//**
+	/**
 	 * @Description: 不加条件查询
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月18日 下午3:46:31
-	 *//*
+	 */
 	@Test
 	public void queryAccountListTest() throws Exception {
 		 String url = "/member/account_service/v1/list_account";
@@ -45,11 +71,11 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 		 resultSystemOutPut(url,json);
 	}
 	
-	*//**
+	/**
 	 * @Description: 添加测试
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月20日 下午2:18:31
-	 *//*
+	 */
 	@Test
 	public void addMSAccountRevisionDetailTest() throws Exception {
 		 String url = "/member/account_service/v1/add_account_revision_detail";
@@ -69,11 +95,11 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 		 resultSystemOutPut(url,json);
 	}
 	
-	*//**
+	/**
 	 * @Description: 修改测试
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月20日 下午2:48:31
-	 *//*
+	 */
 	@Test
 	public void updateMSAccountRevisionDetailTest() throws Exception {
 		 String url = "/member/account_service/v1/update_account_revision_detail";
@@ -97,11 +123,11 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 		 resultSystemOutPut(url,json);
 	}
 	
-	*//**
+	/**
 	 * @Description: 查看会员余额明细
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月20日 下午3:02:44
-	 *//*
+	 */
 	@Test
 	public void getMSAccountRevisionDetailTest() throws Exception {
 		 String url = "/member/account_service/v1/get_account_revision_detail";
@@ -110,11 +136,11 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 		 resultSystemOutPut(url,id);
 	}
 	
-	*//**
+	/**
 	 * @Description: 查看会员余额明细集合
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月20日 下午3:22:44
-	 *//*
+	 */
 	@Test
 	public void queryMSAccountRevisionDetailListTest() throws Exception {
 		 String url = "/member/account_service/v1/query_account_revision_detail_list";
@@ -133,12 +159,12 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 		 resultSystemOutPut(url,json);
 	}
 	
-	*//**
+	/**
 	 * 审核同意
 	 * @Description: 
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月21日 上午10:17:38
-	 *//*
+	 */
 	@Test
 	@Rollback
 	public void agreeExamineMSAccountReviseDetailTest() throws Exception {
@@ -152,12 +178,12 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 		 resultSystemOutPut(url,json);
 	}
 	
-	*//**
+	/**
 	 * 审核驳回
 	 * @Description: 
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月21日 上午10:17:47
-	 *//*
+	 */
 	@Test
 	public void examineMSAccountReviseDetailTest() throws Exception {
 		 String url = "/member/account_service/v1/examine_account_revision_detail";
@@ -188,9 +214,4 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 		}
 	}
 	
-	public static void main(String[] args) {
-		String s="13418786965";
-		System.out.println(DESC.encryption(s));
-	}
 }
-*/
