@@ -19,7 +19,8 @@ import org.springframework.web.client.RestTemplate;
 @EnableTransactionManagement
 @EnableAsync
 public class AccountServiceApplication extends SpringBootServletInitializer {
-	  
+
+	    
     @Autowired  
     private RestTemplateBuilder builder;  
   
@@ -31,6 +32,6 @@ public class AccountServiceApplication extends SpringBootServletInitializer {
 	public static void main(String[] args){
 		SpringApplication.run(AccountServiceApplication.class, args);
 	}
-	
+	   
 }
 

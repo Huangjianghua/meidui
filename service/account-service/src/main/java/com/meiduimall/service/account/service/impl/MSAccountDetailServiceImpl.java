@@ -54,7 +54,8 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			}
 			mSAccountDetail.setTradeTypeList(arrayList);
 		}
-		List<MSAccountDetail> selectList = baseDao.selectList(mSAccountDetail, "MSAccountDetailMapper.listMSAccountDetail");
+
+		List<MSAccountDetail> selectList = baseDao.selectList(mSAccountDetail, "listMSAccountDetail");
 		return selectList;
 	}
 	

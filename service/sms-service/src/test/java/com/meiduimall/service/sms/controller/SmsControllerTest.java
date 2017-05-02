@@ -187,7 +187,7 @@ public class SmsControllerTest {
 				.param("templateId", "MEM_1002")
 				.param("type", "regist")
 				.param("clientId", "junit")
-				.param("timeout", "1mn30s"))
+				.param("timeout", "180"))
 				.andExpect(status().isOk());
 
 		results.andDo(new ResultHandler() {
@@ -207,7 +207,7 @@ public class SmsControllerTest {
 				.param("templateId", "O2O_1002")
 				.param("clientId", "junit")
 				.param("type", "regist")
-				.param("timeout", "3mn"))
+				.param("timeout", "180"))
 				.andExpect(status().isOk());
 
 		results.andDo(new ResultHandler() {
@@ -227,7 +227,7 @@ public class SmsControllerTest {
 				.param("templateId", "O2O_1002")
 				.param("type", "regist")
 				.param("clientId", "junit")
-				.param("timeout", "3mn"))
+				.param("timeout", "180"))
 				.andExpect(status().isOk());
 
 		results.andDo(new ResultHandler() {
@@ -248,7 +248,7 @@ public class SmsControllerTest {
 				.param("clientId", "junit")
 				.param("supplierId", "1")
 				.param("type", "regist")
-				.param("timeout", "3mn"))
+				.param("timeout", "180"))
 				.andExpect(status().isOk());
 
 		results.andDo(new ResultHandler() {
@@ -267,9 +267,9 @@ public class SmsControllerTest {
 				.param("phones", phone)
 				.param("templateId", "O2O_1002")
 				.param("clientId", "junit")
-				.param("supplierId", "1")
+				.param("supplierId", "2")
 				.param("type", "regist")
-				.param("timeout", "3mn"))
+				.param("timeout", "180"))
 				.andExpect(status().isOk());
 
 		results.andDo(new ResultHandler() {

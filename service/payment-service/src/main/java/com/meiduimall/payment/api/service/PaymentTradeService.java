@@ -27,7 +27,7 @@ public class PaymentTradeService {
      */
     public void insertTrade(PaymenttTradeModel model){
         try {
-			daoTemplate.insert("paymentTra	de.insert", model);
+			daoTemplate.insert("paymentTrade.insert", model);
 		} catch (Exception e) {
 			throw new ServiceException(ServicePaymentApiCode.UNKNOWN_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.UNKNOWN_ERROR),e);
 		}
