@@ -51,7 +51,7 @@ public class OldSmsController {
 
 			// 结果校验
 			ResBodyData data = smsService.sendSmsMessage(model);
-			if (data != null && data.getStatus() != 0) {
+			if (data.getStatus() != 0) {
 				// can not reach
 				return new ResultBody(ResultBody.FAILED, data.getMsg());
 			} else {
@@ -88,7 +88,7 @@ public class OldSmsController {
 
 			// 结果校验
 			ResBodyData data = smsService.sendSmsVerificationCode(model);
-			if (data != null && data.getStatus() != 0) {
+			if (data.getStatus() != 0) {
 				// can not reach
 				return new ResultBody(ResultBody.FAILED, data.getMsg());
 			} else {
@@ -126,7 +126,7 @@ public class OldSmsController {
 
 			// 结果校验
 			ResBodyData data = smsService.checkSmsVerificationCode(model);
-			if (data != null && data.getStatus() != 0) {
+			if (data.getStatus() != 0) {
 				// can not reach
 				return new ResultBody(ResultBody.FAILED, data.getMsg());
 			} else {
