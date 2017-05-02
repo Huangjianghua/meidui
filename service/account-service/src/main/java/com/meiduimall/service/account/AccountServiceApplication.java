@@ -20,7 +20,7 @@ import org.springframework.web.client.RestTemplate;
 @EnableAsync
 public class AccountServiceApplication extends SpringBootServletInitializer {
 
-	  
+	    
     @Autowired  
     private RestTemplateBuilder builder;  
   
