@@ -163,11 +163,11 @@ public class MSConsumePointsDetail implements Serializable{
 	}
 
 	public String getMemLoginName() throws SystemException{
-		return DESC.deyption(memLoginName);
+		return memLoginName!=null?DESC.deyption(memLoginName):memLoginName;
 	}
 
 	public void setMemLoginName(String memLoginName) throws SystemException{
-		this.memLoginName = DESC.encryption(memLoginName);
+		this.memLoginName = memLoginName!=null?DESC.encryption(memLoginName):memLoginName;
 	}
 	
 }
