@@ -3,6 +3,8 @@ package com.meiduimall.service.account.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.meiduimall.exception.SystemException;
 import com.meiduimall.service.account.util.DESC;
 
@@ -177,7 +179,8 @@ public class AddOrUpdateAccountReviseDetail implements Serializable {
 	}
 
 	public String getMemLoginName() throws SystemException {
-		return  DESC.deyption(memLoginName);
+		if(StringUtils.isNotBlank(this.memLoginName)) DESC.deyption(memLoginName);
+		return  memLoginName;
 	}
 
 	public void setMemLoginName(String memLoginName) {
@@ -185,7 +188,8 @@ public class AddOrUpdateAccountReviseDetail implements Serializable {
 	}
 
 	public String getMemPhone() throws SystemException {
-		return DESC.deyption(memPhone);
+		if(StringUtils.isNotBlank(this.memLoginName)) DESC.deyption(memLoginName);
+		return memPhone;
 	}
 
 	public void setMemPhone(String memPhone) {
