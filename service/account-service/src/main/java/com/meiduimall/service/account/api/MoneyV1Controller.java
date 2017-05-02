@@ -104,7 +104,7 @@ public class MoneyV1Controller {
 			}
 			
 		}catch(Exception e){
-			logger.info("服务器错误:%s", e.getMessage());
+			logger.info("服务器错误:{}", e.getMessage());
 			return new ResBodyData(1,"服务器错误");
 		}
 		
