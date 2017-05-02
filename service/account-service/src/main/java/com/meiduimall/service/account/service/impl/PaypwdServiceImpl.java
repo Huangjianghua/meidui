@@ -1,14 +1,11 @@
 package com.meiduimall.service.account.service.impl;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.meiduimall.exception.ServiceException;
@@ -23,7 +20,6 @@ import com.meiduimall.service.account.model.request.RequestUpdatePaypwd;
 import com.meiduimall.service.account.service.PaypwdService;
 import com.meiduimall.service.account.service.SmsService;
 import com.meiduimall.service.account.util.BCrypt;
-import com.meiduimall.service.account.util.HttpUtils;
 import com.meiduimall.service.account.util.MD5Util;
 import com.meiduimall.service.account.util.StringUtil;
 
@@ -35,9 +31,6 @@ public class PaypwdServiceImpl implements PaypwdService {
 	
 	@Autowired
 	private  BaseDao  baseDao;
-	
-	@Autowired
-	private SmsService smsService;
 
 	@Override
 	public ResBodyData validePaypwd(MSMembersPaypwd msMembersPaypwd) throws SystemException{
