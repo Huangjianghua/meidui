@@ -220,7 +220,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 	
 	
 	public ResBodyData login(RequestLogin requestLogin) throws SystemException {
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		ResBodyData resBodyData=new ResBodyData(1,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
 
 		String userid=requestLogin.getUser_name();
 		String password=requestLogin.getPassword();
