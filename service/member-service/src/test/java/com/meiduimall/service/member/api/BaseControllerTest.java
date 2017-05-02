@@ -1,4 +1,4 @@
-/*package com.meiduimall.service.member.api;
+package com.meiduimall.service.member.api;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -43,4 +43,3 @@ public class BaseControllerTest {
 		
 	}
 }
-*/

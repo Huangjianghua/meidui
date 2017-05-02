@@ -13,15 +13,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.exception.SystemException;
-import com.meiduimall.service.account.config.ServiceUrlProfileConfig;
 import com.meiduimall.service.account.constant.ApiStatusConst;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSMembersPaypwd;
 import com.meiduimall.service.account.model.MSMembersPaypwdRecord;
 import com.meiduimall.service.account.model.ResBodyData;
+import com.meiduimall.service.account.model.request.RequestCheckPhoneValidateCode;
 import com.meiduimall.service.account.model.request.RequestRetrievePaypwd;
 import com.meiduimall.service.account.model.request.RequestUpdatePaypwd;
 import com.meiduimall.service.account.service.PaypwdService;
+import com.meiduimall.service.account.service.SmsService;
 import com.meiduimall.service.account.util.BCrypt;
 import com.meiduimall.service.account.util.HttpUtils;
 import com.meiduimall.service.account.util.MD5Util;
@@ -37,7 +38,7 @@ public class PaypwdServiceImpl implements PaypwdService {
 	private  BaseDao  baseDao;
 	
 	@Autowired
-	ServiceUrlProfileConfig serviceUrlProfileConfig;
+	private SmsService smsService;
 
 	@Override
 	public ResBodyData validePaypwd(MSMembersPaypwd msMembersPaypwd) throws SystemException{
@@ -124,7 +125,8 @@ public class PaypwdServiceImpl implements PaypwdService {
 		resBodyData=validePaypwd(msMembersPaypwd);
 		if(resBodyData.getStatus()!=0){
 			logger.warn("旧支付密码校验不通过");
-			throw new ServiceException(ApiStatusConst.PAYPWD_NOT_RIGHT);
+			resBodyData.setStatus(ApiStatusConst.OLD_PAYPWD_NOT_RIGHT);
+			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.OLD_PAYPWD_NOT_RIGHT));
 		}
 		logger.info("旧支付密码校验通过");
 		
@@ -137,21 +139,6 @@ public class PaypwdServiceImpl implements PaypwdService {
 	public ResBodyData retrievePaypwd(RequestRetrievePaypwd requestRetrievePaypwd) throws SystemException {
 		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
 		
-		/**调用短信服务获取短信验证码*/
-	/*	String url=serviceUrlProfileConfig.getSmsServiceUrl()+"/v1/send_sms_verification_code";
-		Map<String, Object> mapParams=new HashMap<>();
-		mapParams.put("","");
-		mapParams.put("","");
-		mapParams.put("","");
-		HttpUtils.form(url,)
-		if(resBodyData.getStatus()!=0){
-			logger.warn("旧支付密码校验不通过");
-			throw new ServiceException(ApiStatusConst.PAYPWD_NOT_RIGHT);
-		}
-		logger.info("旧支付密码校验通过");
-		
-		*//**设置支付密码*//*
-		setNewPaypwd(requestRetrievePaypwd.getMemId(),requestRetrievePaypwd.getPay_pwd());*/
 		return resBodyData;
 	}
 	

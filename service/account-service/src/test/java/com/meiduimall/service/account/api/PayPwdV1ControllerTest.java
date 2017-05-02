@@ -42,7 +42,23 @@ public class PayPwdV1ControllerTest extends BaseControllerTest {
     	postResultAction.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				logger.info("单元测试>>修改支付密码API>>执行结果:{}",result.getResponse().getContentAsString());;
+				logger.info("单元测试>>修改支付密码API>>旧密码正确的情况>>执行结果:{}",result.getResponse().getContentAsString());;
+			}
+		});
+    	
+    	requestUpdatePaypwd.setMemId(memId);
+    	requestUpdatePaypwd.setOld_paypwd("1233456");
+    	requestUpdatePaypwd.setNew_paypwd("123456");
+        postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/update_pay_pwd")
+    			.contentType(MediaType.APPLICATION_JSON_UTF8)
+    			.content(JsonUtils.beanToJson(requestUpdatePaypwd)))
+    			.andExpect(status().isOk())
+    			.andExpect(jsonPath("$.status",is(7016)));
+    	
+    	postResultAction.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				logger.info("单元测试>>修改支付密码API>>旧密码不正确的情况>>执行结果:{}",result.getResponse().getContentAsString());;
 			}
 		});
     }
