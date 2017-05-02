@@ -96,11 +96,18 @@ public class MoneyV1Controller {
 			
 			
 			for(int i=0;i<listMSAccountDetail.size();i++){
-				String phone= DESC.deyption(listMSAccountDetail.get(i).getPhone());
-				listMSAccountDetail.get(i).setPhone(phone);
+				if(null !=listMSAccountDetail.get(i).getPhone()){
+					
+					String phone= DESC.deyption(listMSAccountDetail.get(i).getPhone());
+					listMSAccountDetail.get(i).setPhone(phone);
+				}
 				
-				String loginName = DESC.deyption(listMSAccountDetail.get(i).getLoginName());
-				listMSAccountDetail.get(i).setLoginName(loginName);
+				if(null !=listMSAccountDetail.get(i).getLoginName()){
+
+					String loginName = DESC.deyption(listMSAccountDetail.get(i).getLoginName());
+					listMSAccountDetail.get(i).setLoginName(loginName);
+				}
+				
 			}
 			
 		}catch(Exception e){
