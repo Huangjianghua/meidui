@@ -40,7 +40,7 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {
     			.contentType(MediaType.APPLICATION_JSON_UTF8)
     			.content(JsonUtils.beanToJson(requestLogin)))
     			.andExpect(status().isOk())
-    			.andExpect(jsonPath("$.status",is(0)));
+    			.andExpect(jsonPath("$.status",is(1)));
     	
     	resultActions.andDo(new ResultHandler() {
 			@Override
