@@ -27,9 +27,9 @@ import org.springframework.web.context.WebApplicationContext;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @WebAppConfiguration
-@ActiveProfiles(value = "dev")
+@ActiveProfiles(value = "junit")
 @Transactional
-public class SmsControllerMockTest {
+public class SmsControllerTest {
 
 	public MockMvc mockMvc;
 
@@ -62,7 +62,6 @@ public class SmsControllerMockTest {
 		mockClient.when(
 		        request()
 		            .withPath("/aliyun/test")
-		                       
 		    ).respond(
 		        response()
 		            .withStatusCode(200)
@@ -85,9 +84,11 @@ public class SmsControllerMockTest {
 	@Test
 	public void sendSmsMessage_test_01() throws Exception {
 		ResultActions results = mockMvc.perform(
-				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/send_common_sms_message")
+				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/new/send_common_sms_message")
 				.param("phones", phone)
-				.param("templateKey", "1GW_1001")
+				.param("templateId", "1GW_1001")
+				.param("clientId", "junit")
+				.param("timeout", "90")
 				.param("params", "188000000,DW123456789"))
 				.andExpect(status().isOk());
 
@@ -103,9 +104,10 @@ public class SmsControllerMockTest {
 	@Test
 	public void sendSmsMessage_test_02() throws Exception {
 		ResultActions results = mockMvc.perform(
-				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/send_common_sms_message")
+				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/new/send_common_sms_message")
 				.param("phones", phone)
-				.param("templateKey", "O2O_1111")
+				.param("templateId", "O2O_1111")
+				.param("clientId", "junit")
 				.param("params", "DD201704271103111,666.66"))
 				.andExpect(status().isOk());
 
@@ -117,14 +119,55 @@ public class SmsControllerMockTest {
 		});
 	}
 	
-	// 阿里大于模板注册，通过阿里大于发送短信
+	// 通过阿里大于发送短信
 	@Test
 	public void sendSmsMessage_test_03() throws Exception {
 		ResultActions results = mockMvc.perform(
-				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/send_common_sms_message")
+				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/new/send_common_sms_message")
 				.param("phones", phone)
-				.param("templateKey", "1GW_1004")
-				.param("params", "88.88,12元购物券"))
+				.param("clientId", "junit")
+				.param("templateId", "1GW_1004")
+				.param("params", "88.88,66元购物券"))
+				.andExpect(status().isOk());
+
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("sendSmsMessage_test_03*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+	
+	// 指定发送渠道---使用阿里大于发送短信
+	@Test
+	public void sendSmsMessage_test_04() throws Exception {
+		ResultActions results = mockMvc.perform(
+				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/new/send_common_sms_message")
+				.param("phones", phone)
+				.param("clientId", "junit")
+				.param("supplierId", "1")
+				.param("templateId", "1GW_1004")
+				.param("params", "88.88,66元购物券"))
+				.andExpect(status().isOk());
+
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("sendSmsMessage_test_03*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+	
+	// 指定发送渠道---使用漫道发送短信
+	@Test
+	public void sendSmsMessage_test_05() throws Exception {
+		ResultActions results = mockMvc.perform(
+				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/new/send_common_sms_message")
+				.param("phones", phone)
+				.param("clientId", "junit")
+				.param("supplierId", "2")
+				.param("templateId", "1GW_1004")
+				.param("params", "88.88,66元购物券"))
 				.andExpect(status().isOk());
 
 		results.andDo(new ResultHandler() {
@@ -139,9 +182,11 @@ public class SmsControllerMockTest {
 	@Test
 	public void sendSmsVerificationCode_test_01() throws Exception {
 		ResultActions results = mockMvc.perform(
-				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/send_sms_verification_code")
+				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/new/send_sms_verification_code")
 				.param("phones", phone)
-				.param("templateKey", "MEM_1002")
+				.param("templateId", "MEM_1002")
+				.param("type", "regist")
+				.param("clientId", "junit")
 				.param("timeout", "1mn30s"))
 				.andExpect(status().isOk());
 
@@ -153,13 +198,15 @@ public class SmsControllerMockTest {
 		});
 	}
 	
-	// 阿里大于模板未注册，通过阿里大于发送验证码
+	// 通过阿里大于发送验证码
 	@Test
 	public void sendSmsVerificationCode_test_02() throws Exception {
 		ResultActions results = mockMvc.perform(
-				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/send_sms_verification_code")
+				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/new/send_sms_verification_code")
 				.param("phones", phone)
-				.param("templateKey", "O2O_1002")
+				.param("templateId", "O2O_1002")
+				.param("clientId", "junit")
+				.param("type", "regist")
 				.param("timeout", "3mn"))
 				.andExpect(status().isOk());
 
@@ -175,9 +222,11 @@ public class SmsControllerMockTest {
 	@Test
 	public void sendSmsVerificationCode_test_03() throws Exception {
 		ResultActions results = mockMvc.perform(
-				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/send_sms_verification_code")
+				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/new/send_sms_verification_code")
 				.param("phones", phone)
-				.param("templateKey", "O2O_1002")
+				.param("templateId", "O2O_1002")
+				.param("type", "regist")
+				.param("clientId", "junit")
 				.param("timeout", "3mn"))
 				.andExpect(status().isOk());
 
@@ -189,13 +238,57 @@ public class SmsControllerMockTest {
 		});
 	}
 	
+	// 指定发送渠道---通过阿里大于发送验证码
+	@Test
+	public void sendSmsVerificationCode_test_04() throws Exception {
+		ResultActions results = mockMvc.perform(
+				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/new/send_sms_verification_code")
+				.param("phones", phone)
+				.param("templateId", "O2O_1002")
+				.param("clientId", "junit")
+				.param("supplierId", "1")
+				.param("type", "regist")
+				.param("timeout", "3mn"))
+				.andExpect(status().isOk());
+
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("sendSmsVerificationCode_test_02*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+	
+	// 指定发送渠道---通过漫道发送验证码
+	@Test
+	public void sendSmsVerificationCode_test_05() throws Exception {
+		ResultActions results = mockMvc.perform(
+				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/new/send_sms_verification_code")
+				.param("phones", phone)
+				.param("templateId", "O2O_1002")
+				.param("clientId", "junit")
+				.param("supplierId", "1")
+				.param("type", "regist")
+				.param("timeout", "3mn"))
+				.andExpect(status().isOk());
+
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("sendSmsVerificationCode_test_02*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+	
 	// 校验验证码--验证码错误
 	@Test
 	public void checkSmsVerificationCode_test_01() throws Exception {
 		ResultActions results = mockMvc.perform(
-				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/check_sms_verification_code")
+				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/new/check_sms_verification_code")
 				.param("phones", phone)
-				.param("templateKey", "O2O_1002")
+				.param("templateId", "O2O_1002")
+				.param("clientId", "junit")
+				.param("type", "regist")
 				.param("verificationCode", "111222"))
 				.andExpect(status().isOk());
 
@@ -211,9 +304,11 @@ public class SmsControllerMockTest {
 	@Test
 	public void checkSmsVerificationCode_test_02() throws Exception {
 		ResultActions results = mockMvc.perform(
-				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/check_sms_verification_code")
+				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/new/check_sms_verification_code")
 				.param("phones", phone)
-				.param("templateKey", "O2O_1111")
+				.param("templateId", "O2O_1111")
+				.param("clientId", "junit")
+				.param("type", "regist")
 				.param("verificationCode", "111222"))
 				.andExpect(status().isOk());
 
@@ -229,9 +324,11 @@ public class SmsControllerMockTest {
 	@Test
 	public void checkSmsVerificationCode_test_03() throws Exception {
 		ResultActions results = mockMvc.perform(
-				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/check_sms_verification_code")
+				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/new/check_sms_verification_code")
 				.param("phones", phone)
-				.param("templateKey", "O2O_1002"))
+				.param("type", "regist")
+				.param("clientId", "junit")
+				.param("templateId", "O2O_1002"))
 				.andExpect(status().isOk());
 
 		results.andDo(new ResultHandler() {
