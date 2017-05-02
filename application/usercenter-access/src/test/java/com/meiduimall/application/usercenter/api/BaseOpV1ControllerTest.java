@@ -1,4 +1,4 @@
-package com.meiduimall.application.usercenter.api;
+/*package com.meiduimall.application.usercenter.api;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -21,11 +21,11 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.meiduimall.core.util.JsonUtils;
 
 
-/**
+*//**
  * 会员基本操作
  * @author chencong
  *
- */
+ *//*
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class BaseOpV1ControllerTest extends BaseControllerTest {
 	
@@ -33,8 +33,8 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {
 	 
 
     
-    /**会员登出 
-	 * @throws Exception */
+    *//**会员登出 
+	 * @throws Exception *//*
     @Test
     public void exit () throws Exception{
     	Map<String, Object> mapCondition=new HashMap<>();
@@ -53,4 +53,4 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {
 		});
     }
 	      
-}
+}*/
