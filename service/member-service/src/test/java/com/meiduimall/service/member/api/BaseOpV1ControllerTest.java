@@ -49,21 +49,6 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {
 			}
 		});
     	
-    	/**错误的账号和密码*/
-    	requestLogin.setUser_name("12345678910");
-    	resultActions=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/login")
-    			.contentType(MediaType.APPLICATION_JSON_UTF8)
-    			.content(JsonUtils.beanToJson(requestLogin)))
-    			.andExpect(status().isOk())
-    			.andExpect(jsonPath("$.status",is(8005)));
-    	
-    	resultActions.andDo(new ResultHandler() {
-			@Override
-			public void handle(MvcResult result) throws Exception {
-				logger.info("单元测试>>登录API>>错误的账号和密码>>执行结果:{}",result.getResponse().getContentAsString());;
-			}
-		});
-    	
     }
     
     /**getput

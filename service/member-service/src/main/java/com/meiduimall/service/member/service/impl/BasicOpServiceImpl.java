@@ -265,7 +265,8 @@ public class BasicOpServiceImpl implements BasicOpService {
 			}
 			msMembersGet.setMemLoginTime(new Date());
 			msMembersGet.setDictMemStatus(SysEncrypParamsConst.MEMBER_STATUS_OK);
-		    baseDao.update(msMembersGet,"MSMembersMapper.updateMemberBasicInfoByCondition");
+			/*msMembersGet.setMemBasicAccountTotalQuantity(msMembersGet.getMemBasicAccountTotalQuantity());*/
+		    /*baseDao.update(msMembersGet,"MSMembersMapper.updateMemberBasicInfoByCondition");*/
 			
 		    RedisTemplate.getJedisInstance().execSetexToCache(redisToken,Constants.REDIS_ONEMONTH,msMembersGet.getMemId());//把token存储到redis，并设置失效时间一个月
 		    RedisTemplate.getJedisInstance().execSetexToCache(msMembersGet.getMemId(),Constants.REDIS_ONEMONTH,redisToken);//临时代码，兼容旧会员系统
