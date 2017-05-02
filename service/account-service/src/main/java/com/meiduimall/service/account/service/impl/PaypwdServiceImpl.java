@@ -18,7 +18,6 @@ import com.meiduimall.service.account.model.ResBodyData;
 import com.meiduimall.service.account.model.request.RequestRetrievePaypwd;
 import com.meiduimall.service.account.model.request.RequestUpdatePaypwd;
 import com.meiduimall.service.account.service.PaypwdService;
-import com.meiduimall.service.account.service.SmsService;
 import com.meiduimall.service.account.util.BCrypt;
 import com.meiduimall.service.account.util.MD5Util;
 import com.meiduimall.service.account.util.StringUtil;
