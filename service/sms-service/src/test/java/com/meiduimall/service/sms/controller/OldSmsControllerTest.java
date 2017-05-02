@@ -146,7 +146,7 @@ public class OldSmsControllerTest {
 				.param("templateId", "MEM_1002")
 				.param("clientId", "junit")
 				.param("type", "regist")
-				.param("timeout", "1mn30s"))
+				.param("timeout", "90"))
 				.andExpect(status().isOk());
 
 		results.andDo(new ResultHandler() {
@@ -166,7 +166,7 @@ public class OldSmsControllerTest {
 				.param("templateId", "O2O_1002")
 				.param("clientId", "junit")
 				.param("type", "regist")
-				.param("timeout", "3mn"))
+				.param("timeout", "180"))
 				.andExpect(status().isOk());
 
 		results.andDo(new ResultHandler() {
@@ -186,7 +186,7 @@ public class OldSmsControllerTest {
 				.param("templateId", "O2O_1002")
 				.param("clientId", "junit")
 				.param("type", "regist")
-				.param("timeout", "3mn"))
+				.param("timeout", "180"))
 				.andExpect(status().isOk());
 
 		results.andDo(new ResultHandler() {
