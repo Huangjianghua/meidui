@@ -1,4 +1,4 @@
-/*package com.meiduimall.application.usercenter.api;
+package com.meiduimall.application.usercenter.api;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -14,11 +14,11 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-*//**
+/**
  * 短信相关
  * @author chencong
  *
- *//*
+ */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SmsV1ControllerTest extends BaseControllerTest {
 	
@@ -26,8 +26,8 @@ public class SmsV1ControllerTest extends BaseControllerTest {
 	 
 
     
-    *//**获取短信验证码
-	 * @throws Exception *//*
+    /**获取短信验证码
+	 * @throws Exception */
     @Test
     public void exit () throws Exception{
     	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/get_validate_code?token="+token+"&phone="+phone))
@@ -42,4 +42,4 @@ public class SmsV1ControllerTest extends BaseControllerTest {
 		});
     }
 	      
-}*/
+}
