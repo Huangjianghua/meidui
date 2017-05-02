@@ -2,6 +2,7 @@ package com.meiduimall.service.sms.service.impl;
 
 import java.util.List;
 
+import com.meiduimall.exception.ServiceException;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.util.JsonUtils;
-import com.meiduimall.exception.ServiceException;
 import com.meiduimall.redis.util.RedisUtils;
 import com.meiduimall.service.sms.constant.SmsApiCode;
 import com.meiduimall.service.sms.entity.MessageChannel;
@@ -39,8 +39,7 @@ public class MessageChannelServiceImpl implements MessageChannelService {
 				}
 			} catch (Exception e) {
 				logger.error("获取第三方短信发送渠道列表异常： " + e);
-				throw new ServiceException(SmsApiCode.EXCEPTION_ACCESS_CHANNEL,
-						SmsApiCode.getZhMsg(SmsApiCode.EXCEPTION_ACCESS_CHANNEL));
+				throw new ServiceException(SmsApiCode.EXCEPTION_ACCESS_CHANNEL);
 			}
 		}
 		return channelListJsonStr;

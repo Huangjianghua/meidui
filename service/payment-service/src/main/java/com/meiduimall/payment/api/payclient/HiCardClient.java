@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.meiduimall.exception.DaoException;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.meiduimall.core.util.HttpUtils;
-import com.meiduimall.exception.DaoException;
 import com.meiduimall.payment.api.constant.ServicePaymentApiCode;
 import com.meiduimall.payment.api.model.api.PaymentParamModel;
 import com.meiduimall.payment.api.model.hicardpay.HiCardRequestModel;
@@ -61,7 +61,7 @@ public class HiCardClient {
 				}
 			} catch (IllegalArgumentException | IllegalAccessException e) {
 				log.info("HiCardClient:{}",e);
-				throw new DaoException(ServicePaymentApiCode.CLASS_REFLECT_ERROR, ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.CLASS_REFLECT_ERROR));
+				throw new DaoException(ServicePaymentApiCode.CLASS_REFLECT_ERROR);
 			}
         }
         sb.append(key);
@@ -105,7 +105,7 @@ public class HiCardClient {
 				result = HttpUtils.post(hiCard_gateway, json, rmap);
 			} catch (IOException e) {
 				log.info("HiCardClient:{}",e);
-				throw new DaoException(ServicePaymentApiCode.HIKA_API_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.HIKA_API_ERROR));
+				throw new DaoException(ServicePaymentApiCode.HIKA_API_ERROR);
 			}
             log.info("hiCardTrade::result data: \n{}", result);
             HashMap map = null;
@@ -113,7 +113,7 @@ public class HiCardClient {
 				map = new ObjectMapper().readValue(result, HashMap.class);
 			} catch (IOException e) {
 				log.info("HiCardClient:{}",e);
-				throw new DaoException(ServicePaymentApiCode.HIKA_API_TRANS_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.HIKA_API_TRANS_ERROR));
+				throw new DaoException(ServicePaymentApiCode.HIKA_API_TRANS_ERROR);
 			}
             result =XmlSupport.hashMapToJson(map);
             responeModel=new Gson().fromJson(result, HiCardResponeModel.class);

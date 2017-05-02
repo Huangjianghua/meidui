@@ -96,7 +96,7 @@ public class O2oCallbackServiceImpl implements O2oCallbackService{
 			return (String) resultObj.getData();
 		} else {
 			log.error("回调o2o更新余款、抵扣保证金插入缴费记录失败,agentNo:{}", areaAgent.getAddAgentNo());
-			throw new ServiceException(SettlementApiCode.CALLBACK_O2O_UPD_BALANCE_FAILD, BaseApiCode.getZhMsg(SettlementApiCode.CALLBACK_O2O_UPD_BALANCE_FAILD));
+			throw new ServiceException(SettlementApiCode.CALLBACK_O2O_UPD_BALANCE_FAILD);
 		}
 
 	}

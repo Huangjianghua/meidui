@@ -2,6 +2,7 @@ package com.meiduimall.service.catalog.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.meiduimall.exception.ApiException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.exception.ApiException;
 import com.meiduimall.service.catalog.constant.ServiceCatalogApiCode;
 import com.meiduimall.service.catalog.service.GoodsRecommendService;
 import com.meiduimall.service.catalog.util.HttpHeaderTools;
@@ -65,20 +65,17 @@ public class GoodsRecommendController {
 
 			if (recoType != 1 && recoType != 2) {
 				logger.error("批量插入，或者单个插入推荐商品，请求参数错误，type= " + recoType);
-				throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR,
-						ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR));
+				throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
 			}
 
 		} catch (NumberFormatException e) {
 			logger.error("批量插入，或者单个插入推荐商品，请求参数错误: " + e);
-			throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR,
-					ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR));
+			throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
 		}
 
 		if (StringUtils.isBlank(itemIds)) {
 			logger.error("批量插入，或者单个插入推荐商品，请求参数错误，item_ids: " + itemIds);
-			throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR,
-					ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR));
+			throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
 		} else {
 			String[] strIds = itemIds.split(",");
 			if (strIds != null && strIds.length > 0) {
@@ -89,16 +86,14 @@ public class GoodsRecommendController {
 					}
 				} catch (NumberFormatException e) {
 					logger.error("批量插入，或者单个插入推荐商品，请求参数错误，item_ids: " + itemIds);
-					throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR,
-							ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR));
+					throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
 				}
 
 				// 插入数据
 				return goodsRecommendService.insertBatchItems(ids, recoType, optUser, ip, recoLevel);
 			} else {
 				logger.error("批量插入，或者单个插入推荐商品，请求参数错误，item_ids: " + itemIds);
-				throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR,
-						ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR));
+				throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
 			}
 		}
 	}
@@ -123,8 +118,7 @@ public class GoodsRecommendController {
 			recoSourceId = Integer.parseInt(sourceId);
 		} catch (NumberFormatException e) {
 			logger.error("获取推荐商品: " + e);
-			throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR,
-					ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR));
+			throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
 		}
 
 		return goodsRecommendService.getFirstRecommendItems(recoType, recoSourceId);

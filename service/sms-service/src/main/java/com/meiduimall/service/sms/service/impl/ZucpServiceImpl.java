@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.meiduimall.core.util.HttpUtils;
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.password.exception.Md5Exception;
 import com.meiduimall.password.util.MD5;
 import com.meiduimall.service.sms.constant.SmsApiCode;
@@ -63,7 +63,7 @@ public class ZucpServiceImpl implements ZucpService {
 	}
 
 	@Override
-	public String send(String mobile, String content, String ext, String stime, String rrid) throws SystemException {
+	public String send(String mobile, String content, String ext, String stime, String rrid) throws MdSysException {
 
 		Map<String, String> headers = new HashMap<>();
 		headers.put("Content-Type", "text/xml;charset=utf-8");
@@ -84,13 +84,13 @@ public class ZucpServiceImpl implements ZucpService {
 			return array2[0];
 		} catch (Exception e) {
 			logger.error("ZucpService error. " + e);
-			throw new SystemException(SmsApiCode.SMS_SEND_FAILUER, SmsApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
+			throw new MdSysException(SmsApiCode.SMS_SEND_FAILUER, SmsApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
 		}
 
 	}
 
 	@Override
-	public String send(String mobile, String content) throws SystemException {
+	public String send(String mobile, String content) throws MdSysException {
 		return this.send(mobile, content, "", "", "");
 	}
 }

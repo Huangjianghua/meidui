@@ -10,22 +10,22 @@
 
 package com.meiduimall.exception;
 
+/**
+ * 统一错误码异常
+ * <p>
+ * Created by simon on 14/03/2017.
+ */
+public class ServiceException extends MdBizException {
 
-public class ServiceException extends BizException {
-	
-	private static final long serialVersionUID = 3208750423221347264L;
-	
-	public ServiceException(Integer code) {
-		super(code);
-	}
+  public ServiceException(Throwable cause) {
+    super(cause);
+  }
 
+  public ServiceException(Throwable cause, int code, String... params) {
+    super(cause, code, params);
+  }
 
-	public ServiceException(Integer code, String msg) {
-		super(code,msg);
-	}
-
-
-	public ServiceException(Integer code, String msg, Throwable cause) {
-		super(code, msg,cause);
-	}
+  public ServiceException(int code, String... params) {
+    super(code, params);
+  }
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.meiduimall.exception.DaoException;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.slf4j.Logger;
@@ -11,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.meiduimall.core.BaseApiCode;
-import com.meiduimall.exception.DaoException;
 import com.meiduimall.service.settlement.dao.BaseMapper;
 
 @Repository
@@ -33,7 +33,7 @@ public class BaseMapperImpl extends SqlSessionDaoSupport implements BaseMapper {
 			return getSqlSession().selectOne(sqlTag, params);
 		} catch (RuntimeException e) {
 			log.error(LOG_TAG, sqlTag, params, e);
-			throw new DaoException(BaseApiCode.EXCEPTION_UNKNOWN,BaseApiCode.getZhMsg(BaseApiCode.EXCEPTION_UNKNOWN));
+			throw new DaoException(BaseApiCode.EXCEPTION_UNKNOWN);
 		}
 	}
 
@@ -43,7 +43,7 @@ public class BaseMapperImpl extends SqlSessionDaoSupport implements BaseMapper {
 			return getSqlSession().selectList(sqlTag, params);
 		} catch (RuntimeException e) {
 			log.error(LOG_TAG, sqlTag, params, e);
-			throw new DaoException(BaseApiCode.EXCEPTION_UNKNOWN,BaseApiCode.getZhMsg(BaseApiCode.EXCEPTION_UNKNOWN));
+			throw new DaoException(BaseApiCode.EXCEPTION_UNKNOWN);
 		}
 	}
 	
@@ -53,7 +53,7 @@ public class BaseMapperImpl extends SqlSessionDaoSupport implements BaseMapper {
 			return getSqlSession().insert(sqlTag, params);
 		} catch (RuntimeException e) {
 			log.error(LOG_TAG, sqlTag, params, e);
-			throw new DaoException(BaseApiCode.EXCEPTION_UNKNOWN,BaseApiCode.getZhMsg(BaseApiCode.EXCEPTION_UNKNOWN));
+			throw new DaoException(BaseApiCode.EXCEPTION_UNKNOWN);
 		}
 	}
 
@@ -63,7 +63,7 @@ public class BaseMapperImpl extends SqlSessionDaoSupport implements BaseMapper {
 			return getSqlSession().insert(sqlTag + "." + sqlTag, params);
 		} catch (RuntimeException e) {
 			log.error(LOG_TAG, sqlTag, params, e);
-			throw new DaoException(BaseApiCode.EXCEPTION_UNKNOWN,BaseApiCode.getZhMsg(BaseApiCode.EXCEPTION_UNKNOWN));
+			throw new DaoException(BaseApiCode.EXCEPTION_UNKNOWN);
 		}
 	}
 
@@ -73,7 +73,7 @@ public class BaseMapperImpl extends SqlSessionDaoSupport implements BaseMapper {
 			return getSqlSession().update(sqlTag, params);
 		} catch (RuntimeException e) {
 			log.error(LOG_TAG, sqlTag, params, e);
-			throw new DaoException(BaseApiCode.EXCEPTION_UNKNOWN,BaseApiCode.getZhMsg(BaseApiCode.EXCEPTION_UNKNOWN));
+			throw new DaoException(BaseApiCode.EXCEPTION_UNKNOWN);
 		}
 	}
 
@@ -83,7 +83,7 @@ public class BaseMapperImpl extends SqlSessionDaoSupport implements BaseMapper {
 			return getSqlSession().delete(sqlTag, params);
 		} catch (RuntimeException e) {
 			log.error(LOG_TAG, sqlTag, params, e);
-			throw new DaoException(BaseApiCode.EXCEPTION_UNKNOWN,BaseApiCode.getZhMsg(BaseApiCode.EXCEPTION_UNKNOWN));
+			throw new DaoException(BaseApiCode.EXCEPTION_UNKNOWN);
 		}
 	}
 
@@ -93,7 +93,7 @@ public class BaseMapperImpl extends SqlSessionDaoSupport implements BaseMapper {
 			return getSqlSession().delete(sqlTag, params);
 		} catch (RuntimeException e) {
 			log.error(LOG_TAG, sqlTag, params, e);
-			throw new DaoException(BaseApiCode.EXCEPTION_UNKNOWN,BaseApiCode.getZhMsg(BaseApiCode.EXCEPTION_UNKNOWN));
+			throw new DaoException(BaseApiCode.EXCEPTION_UNKNOWN);
 		}
 	}
 

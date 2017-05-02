@@ -4,7 +4,7 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.member.model.request.RequestLogin;
 
 /**
@@ -19,7 +19,7 @@ public interface BasicOpService {
 	public Map<String, Object> handlesignout(JSONObject jsonObject) throws Exception;
 	
 	public Map<String, Object> register(JSONObject jsonObject);
-	public ResBodyData login(RequestLogin requestLogin) throws SystemException;
+	public ResBodyData login(RequestLogin requestLogin) throws MdSysException;
 	public Map<String, Object> exit(JSONObject jsonObject);
 	public Map<String, Object> checktoken(JSONObject jsonObject);
 	public Map<String, Object> createValidateCode(JSONObject jsonObject) throws Exception;

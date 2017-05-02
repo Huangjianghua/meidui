@@ -2,7 +2,7 @@ package com.meiduimall.service.member.model;
 
 import java.io.Serializable;
 
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.member.util.DESC;
 
 /**
@@ -73,7 +73,7 @@ public class MemberAddressesGet implements Serializable {
 		this.memaDetails = memaDetails;
 	}
 
-	public String getMemaDetails() throws SystemException {
+	public String getMemaDetails() throws MdSysException {
 		return DESC.deyption(this.memaDetails,this.memId);
 	}
 
@@ -81,7 +81,7 @@ public class MemberAddressesGet implements Serializable {
 		this.memaPost = memaPost;
 	}
 
-	public String getMemaPost() throws SystemException {
+	public String getMemaPost() throws MdSysException {
 		return DESC.deyption(this.memaPost, this.memId);
 	}
 
@@ -97,7 +97,7 @@ public class MemberAddressesGet implements Serializable {
 		this.memaContactPhone = memaContactPhone;
 	}
 
-	public String getMemaContactPhone() throws SystemException {
+	public String getMemaContactPhone() throws MdSysException {
 		return DESC.deyption(this.memaContactPhone, this.memId);
 	}
 
@@ -105,7 +105,7 @@ public class MemberAddressesGet implements Serializable {
 		this.memaContactEmail = memaContactEmail;
 	}
 
-	public String getMemaContactEmail() throws SystemException {
+	public String getMemaContactEmail() throws MdSysException {
 		return  DESC.deyption(this.memaContactEmail, this.memId);
 	}
 
@@ -113,7 +113,7 @@ public class MemberAddressesGet implements Serializable {
 		this.memaContactName = memaContactName;
 	}
 
-	public String getMemaContactName() throws SystemException {
+	public String getMemaContactName() throws MdSysException {
 		return DESC.deyption(this.memaContactName, this.memId);
 	}
 

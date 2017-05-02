@@ -6,6 +6,7 @@ import java.util.Properties;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
+import com.meiduimall.exception.ServiceException;
 import org.apache.ibatis.io.VFS;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -24,7 +25,6 @@ import org.springframework.transaction.annotation.TransactionManagementConfigure
 
 import com.github.pagehelper.PageHelper;
 import com.meiduimall.core.BaseApiCode;
-import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.SettlementApiCode;
 
 
@@ -88,7 +88,7 @@ public class MyBatisConfig implements TransactionManagementConfigurer{
             return bean.getObject();
         } catch (Exception e) {
         	logger.error("sqlSessionFactory init fail", e);
-        	throw new ServiceException(SettlementApiCode.SQLSESSIONFACTORY_INIT_FAIL, BaseApiCode.getZhMsg(SettlementApiCode.SQLSESSIONFACTORY_INIT_FAIL));
+        	throw new ServiceException(SettlementApiCode.SQLSESSIONFACTORY_INIT_FAIL);
         }
     }
 

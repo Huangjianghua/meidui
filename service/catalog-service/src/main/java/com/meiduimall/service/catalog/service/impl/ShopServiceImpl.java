@@ -3,6 +3,7 @@ package com.meiduimall.service.catalog.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.meiduimall.exception.ServiceException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
-import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.catalog.constant.ServiceCatalogApiCode;
 import com.meiduimall.service.catalog.dao.BaseDao;
 import com.meiduimall.service.catalog.entity.SysshopShop;

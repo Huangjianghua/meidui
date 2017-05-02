@@ -2,6 +2,7 @@ package com.meiduimall.application.mall.catalog.controller;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.meiduimall.exception.ApiException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.meiduimall.application.mall.catalog.constant.ApplMallApiCode;
 import com.meiduimall.application.mall.catalog.service.GoodsRecommendService;
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.exception.ApiException;
 
 /**
  * 商品推荐相关类

@@ -48,7 +48,7 @@ public class Des {
 			throw new ServiceException(MallApiCode.DECRYPT_ERROR,MallApiCode.getZhMsg(MallApiCode.DECRYPT_ERROR));
 		} catch (Exception e) {
 			Logger.error("解密错误: %s", e);
-			throw new  ServiceException(MallApiCode.DECRYPT_ERROR,MallApiCode.getZhMsg(MallApiCode.DECRYPT_ERROR));
+			throw new ServiceException(MallApiCode.DECRYPT_ERROR,MallApiCode.getZhMsg(MallApiCode.DECRYPT_ERROR));
 		}
 	}
 

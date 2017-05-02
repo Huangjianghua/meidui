@@ -2,7 +2,7 @@ package com.meiduimall.service.member.model;
 
 import java.io.Serializable;
 
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.member.util.DESC;
 
 
@@ -153,36 +153,36 @@ public class MSMemberConsumeHistory  implements Serializable{
 		this.pId = pId;
 	}
 
-	public void setMchMoney(String mchMoney)  throws SystemException {
+	public void setMchMoney(String mchMoney)  throws MdSysException {
 		this.mchMoney = DESC.encryption(mchMoney,this.memId);
 	}
 
-	public String getMchMoney()  throws SystemException {
+	public String getMchMoney()  throws MdSysException {
 		return DESC.deyption(this.mchMoney,this.memId);
 	}
 
-	public String getMchCosts()  throws SystemException {
+	public String getMchCosts()  throws MdSysException {
 		return DESC.deyption(this.mchCosts,this.memId);
 		
 	}
 
-	public void setMchCosts(String mchCosts)  throws SystemException {
+	public void setMchCosts(String mchCosts)  throws MdSysException {
 		this.mchCosts = DESC.encryption(mchCosts,this.memId);
 	}
 
-	public void setMchBshopGiveIntegral(String mchBshopGiveIntegral) throws SystemException  {
+	public void setMchBshopGiveIntegral(String mchBshopGiveIntegral) throws MdSysException {
 		this.mchBshopGiveIntegral = DESC.encryption(mchBshopGiveIntegral,this.memId);
 	}
 
-	public String getMchBshopGiveIntegral()  throws SystemException {
+	public String getMchBshopGiveIntegral()  throws MdSysException {
 		return DESC.deyption(this.mchBshopGiveIntegral,this.memId);
 	}
 
-	public void setMchTotalIntegral(String mchTotalIntegral)  throws SystemException {
+	public void setMchTotalIntegral(String mchTotalIntegral)  throws MdSysException {
 		this.mchTotalIntegral = DESC.encryption(mchTotalIntegral,this.memId);
 	}
 
-	public String getMchTotalIntegral() throws SystemException  {
+	public String getMchTotalIntegral() throws MdSysException {
 		return DESC.deyption(this.mchTotalIntegral,this.memId);
 	}
 
@@ -194,43 +194,43 @@ public class MSMemberConsumeHistory  implements Serializable{
 		return this.bcLevel;
 	}
 
-	public void setMchCurrentReturnedIntegral(String mchCurrentReturnedIntegral)  throws SystemException {
+	public void setMchCurrentReturnedIntegral(String mchCurrentReturnedIntegral)  throws MdSysException {
 		this.mchCurrentReturnedIntegral = DESC.encryption(mchCurrentReturnedIntegral,this.memId);
 	}
 
-	public String getMchCurrentReturnedIntegral() throws SystemException  {
+	public String getMchCurrentReturnedIntegral() throws MdSysException {
 		return DESC.deyption(this.mchCurrentReturnedIntegral,this.memId);
 	}
 
-	public void setMchNextReturnIntegral(String mchNextReturnIntegral)  throws SystemException {
+	public void setMchNextReturnIntegral(String mchNextReturnIntegral)  throws MdSysException {
 		this.mchNextReturnIntegral = DESC.encryption(mchNextReturnIntegral,this.memId);
 	}
 
-	public String getMchNextReturnIntegral() throws SystemException  {
+	public String getMchNextReturnIntegral() throws MdSysException {
 		return DESC.deyption(this.mchNextReturnIntegral,this.memId);
 	}
 
-	public void setMchReturnProfitIntegral(String mchReturnProfitIntegral)  throws SystemException {
+	public void setMchReturnProfitIntegral(String mchReturnProfitIntegral)  throws MdSysException {
 		this.mchReturnProfitIntegral = DESC.encryption(mchReturnProfitIntegral,this.memId);
 	}
 
-	public String getMchReturnProfitIntegral() throws SystemException  {
+	public String getMchReturnProfitIntegral() throws MdSysException {
 		return DESC.deyption(this.mchReturnProfitIntegral,this.memId);
 	}
 
-	public void setMchFunds(String mchFunds) throws SystemException  {
+	public void setMchFunds(String mchFunds) throws MdSysException {
 		this.mchFunds = DESC.encryption(mchFunds,this.memId);
 	}
 
-	public String getMchFunds() throws SystemException  {
+	public String getMchFunds() throws MdSysException {
 		return DESC.deyption(this.mchFunds,this.memId);
 	}
 
-	public void setMchCurrentGetIntegral(String mchCurrentGetIntegral) throws SystemException  {
+	public void setMchCurrentGetIntegral(String mchCurrentGetIntegral) throws MdSysException {
 		this.mchCurrentGetIntegral = DESC.encryption(mchCurrentGetIntegral,this.memId);
 	}
 
-	public String getMchCurrentGetIntegral()  throws SystemException {
+	public String getMchCurrentGetIntegral()  throws MdSysException {
 		return DESC.deyption(this.mchCurrentGetIntegral,this.memId);
 	}
 

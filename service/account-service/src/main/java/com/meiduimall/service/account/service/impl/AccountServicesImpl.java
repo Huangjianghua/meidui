@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.constant.ApplicationConstant;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSAccount;
@@ -45,9 +45,9 @@ public class AccountServicesImpl implements AccountServices {
 	 * @param memId
 	 * @param accountPoint
 	 * @return
-	 * @throws SystemException 
+	 * @throws MdSysException
 	 */
-	private boolean updateAccountPoint(String memId, Double accountPoint) throws SystemException{
+	private boolean updateAccountPoint(String memId, Double accountPoint) throws MdSysException {
 		Map<String,String> paramsMap = new HashMap<String,String>();
 		paramsMap.put("memId", memId);
 		paramsMap.put("accountPoint", DESC.encryption(String.valueOf(accountPoint), memId));
@@ -203,7 +203,7 @@ public class AccountServicesImpl implements AccountServices {
 	}
 
 	@Override
-	public boolean addMDConsumePoints(String memId, String consumePoints, boolean isLock) throws SystemException {
+	public boolean addMDConsumePoints(String memId, String consumePoints, boolean isLock) throws MdSysException {
 		boolean returnBool = false;
 		//增加基本账户总额
 		double addAtq = DoubleCalculate.add(getTotalConsumePoints(memId),
@@ -216,7 +216,7 @@ public class AccountServicesImpl implements AccountServices {
 	}
 
 	@Override
-	public boolean cutMDConsumePoints(String memId, String consumePoints, boolean isLock) throws SystemException {
+	public boolean cutMDConsumePoints(String memId, String consumePoints, boolean isLock) throws MdSysException {
 		boolean returnBool = false;
 		//扣除基本账户总额
 		double cutAtq = DoubleCalculate.sub(getTotalConsumePoints(memId),
@@ -231,7 +231,7 @@ public class AccountServicesImpl implements AccountServices {
 	@Override
 	public boolean addMDConsumePointsAndDetail(String memId,
 			String consumePoints, String orderId, String orderSource,
-			String operatorType, String operator, String remark) throws SystemException {
+			String operatorType, String operator, String remark) throws MdSysException {
 		//增加基本账户总额
 		double addAtq = DoubleCalculate.add(getTotalConsumePoints(memId),
 				Double.valueOf(consumePoints));
@@ -249,7 +249,7 @@ public class AccountServicesImpl implements AccountServices {
 	@Override
 	public boolean cutMDConsumePointsAndDetail(String memId,
 			String consumePoints, String orderId, String orderSource,
-			String operatorType, String operator, String remark) throws SystemException {
+			String operatorType, String operator, String remark) throws MdSysException {
 		//计算扣除后基本账户总额
 		double cutAtq = DoubleCalculate.sub(getTotalConsumePoints(memId),
 				Double.valueOf(consumePoints));

@@ -2,7 +2,7 @@ package com.meiduimall.service.member.model;
 
 import java.io.Serializable;
 
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.member.util.DESC;
 
 /**
@@ -44,7 +44,7 @@ public class MSMemberBasicAccount implements Serializable{
 	/** 备注 **/
 	private String mbaRemark;
 	
-	public String getMbaConsumeProfit() throws SystemException  {
+	public String getMbaConsumeProfit() throws MdSysException {
 		if(this.mbaConsumeProfit!=null && !"".equals(this.mbaConsumeProfit)) {
 			return DESC.deyption(this.mbaConsumeProfit, this.memId);
 		} else {
@@ -52,11 +52,11 @@ public class MSMemberBasicAccount implements Serializable{
 		}
 	}
 
-	public void setMbaConsumeProfit(String mbaConsumeProfit) throws SystemException  {
+	public void setMbaConsumeProfit(String mbaConsumeProfit) throws MdSysException {
 		this.mbaConsumeProfit = DESC.encryption(mbaConsumeProfit,this.memId);
 	}
 
-	public String getMbaShoppingCoupon() throws SystemException  {
+	public String getMbaShoppingCoupon() throws MdSysException {
 		if(this.mbaShoppingCoupon!=null && !"".equals(this.mbaShoppingCoupon)) {
 			return DESC.deyption(this.mbaShoppingCoupon, this.memId);
 		} else {
@@ -64,7 +64,7 @@ public class MSMemberBasicAccount implements Serializable{
 		}
 	}
 
-	public void setMbaShoppingCoupon(String mbaShoppingCoupon) throws SystemException  {
+	public void setMbaShoppingCoupon(String mbaShoppingCoupon) throws MdSysException {
 		this.mbaShoppingCoupon = DESC.encryption(mbaShoppingCoupon,this.memId);
 	}
 
@@ -84,11 +84,11 @@ public class MSMemberBasicAccount implements Serializable{
 		return this.memId;
 	}
 
-	public void setMbaTotalQuantity(String mbaTotalQuantity)  throws SystemException {
+	public void setMbaTotalQuantity(String mbaTotalQuantity)  throws MdSysException {
 		this.mbaTotalQuantity = DESC.encryption(mbaTotalQuantity,this.memId);
 	}
 
-	public String getMbaTotalQuantity()  throws SystemException {
+	public String getMbaTotalQuantity()  throws MdSysException {
 		return DESC.deyption(this.mbaTotalQuantity,this.memId);
 	}
 

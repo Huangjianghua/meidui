@@ -3,7 +3,7 @@ package com.meiduimall.service.account.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.constant.AccountReviseStatusEnum;
 import com.meiduimall.service.account.constant.AccountReviseTypeEnum;
 import com.meiduimall.service.account.util.DESC;
@@ -178,7 +178,7 @@ public class AccountReviseDetail implements Serializable {
 		this.isDelete = isDelete;
 	}
 
-	public String getMemLoginName() throws SystemException {
+	public String getMemLoginName() throws MdSysException {
 		return  DESC.deyption(memLoginName);
 	}
 
@@ -186,7 +186,7 @@ public class AccountReviseDetail implements Serializable {
 		this.memLoginName = memLoginName;
 	}
 
-	public String getMemPhone() throws SystemException {
+	public String getMemPhone() throws MdSysException {
 		return DESC.deyption(memPhone);
 	}
 

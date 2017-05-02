@@ -2,6 +2,7 @@ package com.meiduimall.application.usercenter.config;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.meiduimall.exception.MdBizException;
 import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,8 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.meiduimall.application.usercenter.constant.ApiStatusConst;
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.exception.BizException;
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.MdSysException;
 
 
 
@@ -28,14 +28,14 @@ public class GlobalExceptionHandler {
 
   private static Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-  @ExceptionHandler(value = BizException.class)
-  public ResBodyData bizeExceptionHandler(HttpServletRequest request, BizException exception) {
+  @ExceptionHandler(value = MdBizException.class)
+  public ResBodyData bizeExceptionHandler(HttpServletRequest request, MdBizException exception) {
     logger.error(request.getContextPath()+request.getRequestURI()+" "+ApiStatusConst.getZhMsg(exception.getCode()));
     return new ResBodyData(exception.getCode(),ApiStatusConst.getZhMsg(exception.getCode()));
   }
   
-  @ExceptionHandler(value = SystemException.class)
-  public ResBodyData systemExceptionHandler(HttpServletRequest request, SystemException exception) {
+  @ExceptionHandler(value = MdSysException.class)
+  public ResBodyData systemExceptionHandler(HttpServletRequest request, MdSysException exception) {
     logger.error(request.getContextPath()+request.getRequestURI()+" "+ApiStatusConst.getZhMsg(exception.getCode()));
     return new ResBodyData(exception.getCode(),ApiStatusConst.getZhMsg(exception.getCode()));
   }

@@ -19,7 +19,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.member.constant.SysParamsConst;
 
 /**
@@ -37,7 +37,7 @@ public class DESC {
 	 * 字符串加密 系统默认方式
 	 * @param str 需要加密的字符串
 	 * @return
-	 * @throws SystemException 
+	 * @throws MdSysException
 	 */
 	public static String encryption(String str){
 		return encrypt(str,key);
@@ -47,9 +47,9 @@ public class DESC {
 	 * 字符串解密 系统默认方式
 	 * @param str 需要解密的字符串
 	 * @return
-	 * @throws SystemException 
+	 * @throws MdSysException
 	 */
-	public static String deyption(String str) throws SystemException {
+	public static String deyption(String str) throws MdSysException {
 		return decrypt(str,key);
 	}
 
@@ -58,9 +58,9 @@ public class DESC {
 	 * @param str 需要加密的字符串
 	 * @param memberId 会员编号
 	 * @return
-	 * @throws SystemException 
+	 * @throws MdSysException
 	 */
-	public static String encryption(String str, String memberId) throws SystemException {
+	public static String encryption(String str, String memberId) throws MdSysException {
 		return encrypt(str, MD5Util.encrypeString(memberId));
 	}
 
@@ -69,9 +69,9 @@ public class DESC {
 	 * @param str 需要解密的字符串
 	 * @param memberId 会员编号
 	 * @return
-	 * @throws SystemException 
+	 * @throws MdSysException
 	 */
-	public static String deyption(String str, String memberId) throws SystemException{
+	public static String deyption(String str, String memberId) throws MdSysException {
 		return decrypt(str, MD5Util.encrypeString(memberId));
 	}
 
@@ -122,7 +122,7 @@ public class DESC {
 		return result;
 	}
 
-	private static String decrypt(String data, String key) throws SystemException {
+	private static String decrypt(String data, String key) throws MdSysException {
 		String result=null;
 		Key deskey=null;
 		try {

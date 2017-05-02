@@ -2,6 +2,7 @@ package com.meiduimall.service.financial;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.meiduimall.exception.DaoException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindException;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.ApiException;
-import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.financial.constant.ServiceFinancialApiCode;
 

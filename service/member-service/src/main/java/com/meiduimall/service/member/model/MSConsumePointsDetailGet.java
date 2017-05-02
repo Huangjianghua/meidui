@@ -2,7 +2,7 @@ package com.meiduimall.service.member.model;
 
 import java.io.Serializable;
 
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.member.util.DESC;
 import com.meiduimall.service.member.util.PageHelp;
 
@@ -94,7 +94,7 @@ public class MSConsumePointsDetailGet extends PageHelp implements Serializable{
 		this.mcpOperatorType = mcpOperatorType;
 	}
 
-	public String getMcpIncome() throws SystemException  {
+	public String getMcpIncome() throws MdSysException {
 		return DESC.deyption(mcpIncome, memId);
 	}
 
@@ -102,7 +102,7 @@ public class MSConsumePointsDetailGet extends PageHelp implements Serializable{
 		this.mcpIncome = mcpIncome;
 	}
 
-	public String getMcpExpenditure() throws SystemException  {
+	public String getMcpExpenditure() throws MdSysException {
 		return DESC.deyption(mcpExpenditure, memId);
 	}
 
@@ -110,7 +110,7 @@ public class MSConsumePointsDetailGet extends PageHelp implements Serializable{
 		this.mcpExpenditure = mcpExpenditure;
 	}
 
-	public String getMcpBalance()  throws SystemException {
+	public String getMcpBalance()  throws MdSysException {
 		return DESC.deyption(mcpBalance, memId);
 	}
 
