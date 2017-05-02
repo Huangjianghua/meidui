@@ -267,7 +267,7 @@ public class SmsControllerTest {
 				.param("phones", phone)
 				.param("templateId", "O2O_1002")
 				.param("clientId", "junit")
-				.param("supplierId", "1")
+				.param("supplierId", "2")
 				.param("type", "regist")
 				.param("timeout", "180"))
 				.andExpect(status().isOk());
@@ -348,7 +348,7 @@ public class SmsControllerTest {
 				.param("templateId", "O2O_1002")
 				.param("clientId", "junit")
 				.param("type", "regist")
-				.param("verificationCode", "952685"))
+				.param("verificationCode", "970885"))
 				.andExpect(status().isOk());
 
 		results.andDo(new ResultHandler() {
