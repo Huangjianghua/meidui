@@ -25,6 +25,40 @@ import com.meiduimall.service.account.model.request.RequestUpdatePaypwd;
 public class PayPwdV1ControllerTest extends BaseControllerTest {
 	
 	private final static Logger logger=LoggerFactory.getLogger(PayPwdV1ControllerTest.class);
+	
+	/**验证支付密码*/
+    @Test
+    public void validePaypwd() throws Exception{
+    	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/valide_pay_pwd")
+    			.param("memId",memId)
+    			.param("pay_pwd",payPwd))
+    			.andExpect(status().isOk())
+    			.andExpect(jsonPath("$.status",is(0)));
+    	
+    	postResultAction.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				logger.info("单元测试>>验证支付密码API>>执行结果:{}",result.getResponse().getContentAsString());;
+			}
+		});
+    }
+    
+	/**设置支付密码*/
+    @Test
+    public void setPaypwd() throws Exception{
+    	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/set_pay_pwd")
+    			.param("memId",memId)
+    			.param("pay_pwd",payPwd))
+    			.andExpect(status().isOk())
+    			.andExpect(jsonPath("$.status",is(0)));
+    	
+    	postResultAction.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				logger.info("单元测试>>设置支付密码API>>执行结果:{}",result.getResponse().getContentAsString());;
+			}
+		});
+    }
 	   
 	/**修改支付密码*/
     @Test

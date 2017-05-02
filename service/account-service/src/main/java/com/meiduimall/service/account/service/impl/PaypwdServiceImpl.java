@@ -18,7 +18,6 @@ import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSMembersPaypwd;
 import com.meiduimall.service.account.model.MSMembersPaypwdRecord;
 import com.meiduimall.service.account.model.ResBodyData;
-import com.meiduimall.service.account.model.request.RequestCheckPhoneValidateCode;
 import com.meiduimall.service.account.model.request.RequestRetrievePaypwd;
 import com.meiduimall.service.account.model.request.RequestUpdatePaypwd;
 import com.meiduimall.service.account.service.PaypwdService;
