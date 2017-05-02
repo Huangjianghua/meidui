@@ -23,6 +23,33 @@
 			)
 	</insert>
 	
-	
+		<select id="listMSConsumePointsDetail" parameterType="com.meiduimall.service.account.model.MSConsumePointsDetailGet" resultType="com.meiduimall.service.account.model.MSConsumePointsDetail">			
+      SELECT 
+      c.mcp_id AS mcpId,
+      c.mem_Id AS memId,
+      c.mcp_order_id AS mcpOrderId,
+      c.mcp_order_source AS mcpOrderSource,
+      c.mcp_operator_type AS mcpOperatorType,
+      c.mcp_income AS mcpIncome,
+      c.mcp_expenditure AS mcpExpenditure,
+      c.mcp_balance AS mcpBalance,
+      c.mcp_created_by AS mcpCreatedBy,
+      c.mcp_created_date AS mcpCreatedDate,
+      c.mcp_remark AS mcpRemark 
+      FROM ms_consume_points_detail c 
+      WHERE 1 = 1 
+	     <if test="memId !=null and memId !=''">
+         	and c.mem_id=#{memId}
+      	 </if>
+	     <if test="mcpOperatorType !=null and mcpOperatorType !=''">
+        	and c.mcp_operator_type=#{mcpOperatorType}
+      	 </if>
+        <if test="mcpOrderId !=null and mcpOrderId !=''">
+         	and c.mcp_order_id=#{mcpOrderId}
+      	 </if>
+        <if test="mcpOrderSource !=null and mcpOrderSource !=''">
+         	and c.mcp_order_source=#{mcpOrderSource}
+      	 </if>
+	</select>
 	
 </mapper>

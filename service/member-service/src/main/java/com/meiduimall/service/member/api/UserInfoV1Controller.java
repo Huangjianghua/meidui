@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.service.member.constant.ApiStatusConst;
-import com.meiduimall.service.member.model.MSMembersGet;
 import com.meiduimall.service.member.model.request.RequestGetMemberBasicInfo;
 import com.meiduimall.service.member.service.UserInfoService;
 

@@ -36,7 +36,7 @@ import com.meiduimall.service.account.service.MembersPointsOpService;
  *
  */
 @RestController
-@RequestMapping("/member/account_service/v1/memberspointsop")
+@RequestMapping("/member/account_service/v1")
 public class PointsV1Controller {
 	
 	private final static Logger logger=LoggerFactory.getLogger(PointsV1Controller.class);
@@ -52,9 +52,6 @@ public class PointsV1Controller {
 	
 	@Autowired
 	private  MDMallServices mdmallServices;
-	
-	@Autowired
-	private  AuthorizationPointsService  authorizationPointsService;
 	
 	@Autowired
 	private MSConsumePointsDetailService mSConsumePointsDetailService;

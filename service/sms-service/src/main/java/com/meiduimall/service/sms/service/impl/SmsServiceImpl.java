@@ -120,7 +120,11 @@ public class SmsServiceImpl implements SmsService {
 		try {
 			// 发送成功，缓存到redis，设置缓存时间
 			int expire = 60;
+<<<<<<< HEAD
 			if(model.getTimeout() != null && model.getTimeout() > 0){
+=======
+			if (model.getTimeout() != null && model.getTimeout() > 0) {
+>>>>>>> refs/heads/develop
 				expire = model.getTimeout();
 			}
 			RedisUtils.setex(redisKey, expire, content);
@@ -212,7 +216,11 @@ public class SmsServiceImpl implements SmsService {
 		String params = "";
 		if (StringUtils.isNotEmpty(model.getParams())) {
 			params = aliDaYuParamsToJson(true, randomNumber + "," + model.getParams());
+<<<<<<< HEAD
 		} else{
+=======
+		} else {
+>>>>>>> refs/heads/develop
 			params = aliDaYuParamsToJson(true, randomNumber);
 		}
 
@@ -251,7 +259,11 @@ public class SmsServiceImpl implements SmsService {
 		try {
 			// 发送成功，缓存到redis，设置缓存时间
 			int expire = 60;
+<<<<<<< HEAD
 			if(model.getTimeout() != null && model.getTimeout() > 0){
+=======
+			if (model.getTimeout() != null && model.getTimeout() > 0) {
+>>>>>>> refs/heads/develop
 				expire = model.getTimeout();
 			}
 			RedisUtils.setex(redisKey, expire, randomNumber);

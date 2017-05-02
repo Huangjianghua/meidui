@@ -3,6 +3,7 @@ package com.meiduimall.aspect.pointcut;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 
+
 @Aspect
 public class MethodLogPointcut {
 	
@@ -10,4 +11,5 @@ public class MethodLogPointcut {
 	public void pointcutLog() {
 		
 	}
-}
+} 
+ 

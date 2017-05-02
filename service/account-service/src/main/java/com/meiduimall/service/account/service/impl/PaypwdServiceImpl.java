@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.exception.SystemException;
@@ -14,6 +15,7 @@ import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSMembersPaypwd;
 import com.meiduimall.service.account.model.MSMembersPaypwdRecord;
 import com.meiduimall.service.account.model.ResBodyData;
+import com.meiduimall.service.account.model.request.RequestRetrievePaypwd;
 import com.meiduimall.service.account.model.request.RequestUpdatePaypwd;
 import com.meiduimall.service.account.service.PaypwdService;
 import com.meiduimall.service.account.util.BCrypt;
@@ -102,6 +104,7 @@ public class PaypwdServiceImpl implements PaypwdService {
 		return resBodyData;
 	}
 	
+	@Transactional
 	@Override
 	public ResBodyData updatePaypwd(RequestUpdatePaypwd requestUpdatePaypwd) throws SystemException {
 		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
@@ -113,18 +116,20 @@ public class PaypwdServiceImpl implements PaypwdService {
 		resBodyData=validePaypwd(msMembersPaypwd);
 		if(resBodyData.getStatus()!=0){
 			logger.warn("旧支付密码校验不通过");
-			throw new ServiceException(ApiStatusConst.PAYPWD_NOT_RIGHT);
+			resBodyData.setStatus(ApiStatusConst.OLD_PAYPWD_NOT_RIGHT);
+			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.OLD_PAYPWD_NOT_RIGHT));
 		}
 		logger.info("旧支付密码校验通过");
 		
 		/**设置支付密码*/
-		msMembersPaypwd.setPay_pwd(requestUpdatePaypwd.getNew_paypwd());
-		resBodyData=setPaypwd(msMembersPaypwd);
-		if(resBodyData.getStatus()!=0){
-			logger.warn("设置新支付密码失败");
-			throw new ServiceException(ApiStatusConst.SET_PAYPWD_EXCEPTION);
-		}
-		logger.info("设置新支付密码成功");		
+		this.setNewPaypwd(requestUpdatePaypwd.getMemId(),requestUpdatePaypwd.getNew_paypwd());		
+		return resBodyData;
+	}
+	
+	@Override
+	public ResBodyData retrievePaypwd(RequestRetrievePaypwd requestRetrievePaypwd) throws SystemException {
+		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		
 		return resBodyData;
 	}
 	
@@ -171,6 +176,25 @@ public class PaypwdServiceImpl implements PaypwdService {
 			baseDao.insert(operateRecord, "MSMembersPaypwdMapper.insertPaypwdRecord");
 			logger.info("会员ID：{}不存在原始支付密码操作记录,插入成功!", memId);
 		}
+	}
+
+	/**
+	 * 设置新支付密码
+	 * @param memId 会员ID
+	 * @param paypwd 新支付密码
+	 * @throws SystemException 检查类型异常
+	 */
+	private void setNewPaypwd(String memId,String paypwd) throws SystemException{
+		MSMembersPaypwd msMembersPaypwd=new MSMembersPaypwd();
+		msMembersPaypwd.setMemId(memId);
+		msMembersPaypwd.setPay_pwd(paypwd);
+		ResBodyData resBodyData=null;
+		resBodyData = setPaypwd(msMembersPaypwd);
+		if(resBodyData.getStatus()!=0){
+			logger.warn("设置新支付密码失败");
+			throw new ServiceException(ApiStatusConst.SET_PAYPWD_EXCEPTION);
+		}
+		logger.info("设置新支付密码成功");
 	}
 
 }

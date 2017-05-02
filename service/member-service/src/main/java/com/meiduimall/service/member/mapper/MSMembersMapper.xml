@@ -33,6 +33,7 @@
 		m.mem_nick_name AS memNickName,
 		m.mem_email AS memEmail,
 		m.mem_phone AS memPhone,
+		m.mem_basic_account_total_quantity AS memBasicAccountTotalQuantity,
 		m.mem_name AS memName,
 		m.mem_parent_id AS memParentId, 
 		m.mem_parent_value3 AS memParentValue3, 

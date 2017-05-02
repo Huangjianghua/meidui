@@ -8,6 +8,6 @@ public class MethodLogPointcut {
 	
 	@Pointcut("execution(* com.meiduimall.settlement.api.*.*(..))")
 	public void pointcutLog() {
-		
+		// Do nothing because of X and Y.
 	}
 }

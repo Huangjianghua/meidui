@@ -56,6 +56,7 @@ public class OldSmsControllerTest {
 	public void setUp() {
 		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 		
+<<<<<<< HEAD
 		// 模拟阿里大于发送 
 		MockServerClient mockClient = new MockServerClient("localhost", 9901);
 		
@@ -89,6 +90,41 @@ public class OldSmsControllerTest {
 				.param("templateId", "O2O_1008")
 				.param("clientId", "junit")
 				.param("params", "188000000,8888"))
+=======
+		// 模拟阿里大于发送
+		MockServerClient mockClient = new MockServerClient("localhost", 9901);
+		
+		mockClient.when(
+		        request()
+		            .withPath("/aliyun/test")
+		    ).respond(
+		        response()
+		            .withStatusCode(200)
+		            .withBody(aliSuccess)
+		    );
+		
+		// 模拟漫道短信发送
+		MockServerClient mockClient2 = new MockServerClient("localhost", 9902);
+		mockClient2.when(
+		        request()
+		            .withPath("/mandao/test")
+		    ).respond(
+		        response()
+		            .withStatusCode(200)
+		            .withBody(mandaoSuccess)
+		    );
+	}
+
+	// 阿里大于模板未注册，通过漫道发送短信
+	@Test
+	public void sendSmsMessage_test_01() throws Exception {
+		ResultActions results = mockMvc.perform(
+				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/send_common_sms_message")
+				.param("phones", phone)
+				.param("templateId", "1GW_1001")
+				.param("clientId", "junit")
+				.param("params", "188000000,DW123456789"))
+>>>>>>> refs/heads/develop
 				.andExpect(status().isOk());
 
 		results.andDo(new ResultHandler() {
