@@ -1,11 +1,15 @@
 package com.meiduimall.service.account.api;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MvcResult;
@@ -15,6 +19,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.service.account.model.AccountReviseDetail;
+import com.meiduimall.service.account.model.MSAccountDetailGet;
 import com.meiduimall.service.account.model.request.RequestAccountReviseDetail;
 import com.meiduimall.service.account.util.DESC;
 import com.meiduimall.service.account.util.DateUtil;
@@ -29,7 +34,28 @@ import com.meiduimall.service.account.util.DateUtil;
  */
 public class MoneyV1ControllerTests extends BaseControllerTest {
 	
+	private final static Logger logger=LoggerFactory.getLogger(MoneyV1ControllerTests.class);
+	
 	private AccountReviseDetail dto;
+	
+	/**余额流水分页*/
+    @Test
+    public void listMSAccountDetail() throws Exception{
+    	MSAccountDetailGet model=new MSAccountDetailGet();
+    	model.setMemId(memId);
+    	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/list_account_detail")
+    			.contentType(MediaType.APPLICATION_JSON_UTF8)
+    			.content(JsonUtils.beanToJson(model)))
+    			.andExpect(status().isOk())
+    			.andExpect(jsonPath("$.status",is(0)));
+    	
+    	postResultAction.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				logger.info("单元测试>>余额流水分页API>>执行结果:{}",result.getResponse().getContentAsString());;
+			}
+		});
+    }
 
 	
 	/**
