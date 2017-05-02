@@ -95,7 +95,7 @@ public class MSConsumePointsDetailGet extends PageHelp implements Serializable{
 	}
 
 	public String getMcpIncome()throws SystemException {
-		return DESC.deyption(mcpIncome, memId);
+		return mcpIncome!=null?DESC.deyption(mcpIncome, memId):mcpIncome;
 	}
 
 	public void setMcpIncome(String mcpIncome) {
@@ -103,7 +103,7 @@ public class MSConsumePointsDetailGet extends PageHelp implements Serializable{
 	}
 
 	public String getMcpExpenditure()throws SystemException {
-		return DESC.deyption(mcpExpenditure, memId);
+		return mcpExpenditure!=null?DESC.deyption(mcpExpenditure, memId):mcpExpenditure;
 	}
 
 	public void setMcpExpenditure(String mcpExpenditure) {
@@ -111,7 +111,7 @@ public class MSConsumePointsDetailGet extends PageHelp implements Serializable{
 	}
 
 	public String getMcpBalance() throws SystemException{
-		return DESC.deyption(mcpBalance, memId);
+		return mcpBalance!=null?DESC.deyption(mcpBalance, memId):mcpBalance;
 	}
 
 	public void setMcpBalance(String mcpBalance) {
