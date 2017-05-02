@@ -187,7 +187,7 @@ public class SmsControllerTest {
 				.param("templateId", "MEM_1002")
 				.param("type", "regist")
 				.param("clientId", "junit")
-				.param("timeout", "1mn30s"))
+				.param("timeout", "90"))
 				.andExpect(status().isOk());
 
 		results.andDo(new ResultHandler() {
@@ -207,7 +207,7 @@ public class SmsControllerTest {
 				.param("templateId", "O2O_1002")
 				.param("clientId", "junit")
 				.param("type", "regist")
-				.param("timeout", "3mn"))
+				.param("timeout", "180"))
 				.andExpect(status().isOk());
 
 		results.andDo(new ResultHandler() {
@@ -227,7 +227,7 @@ public class SmsControllerTest {
 				.param("templateId", "O2O_1002")
 				.param("type", "regist")
 				.param("clientId", "junit")
-				.param("timeout", "3mn"))
+				.param("timeout", "180"))
 				.andExpect(status().isOk());
 
 		results.andDo(new ResultHandler() {
@@ -248,7 +248,7 @@ public class SmsControllerTest {
 				.param("clientId", "junit")
 				.param("supplierId", "1")
 				.param("type", "regist")
-				.param("timeout", "3mn"))
+				.param("timeout", "180"))
 				.andExpect(status().isOk());
 
 		results.andDo(new ResultHandler() {
@@ -269,7 +269,7 @@ public class SmsControllerTest {
 				.param("clientId", "junit")
 				.param("supplierId", "1")
 				.param("type", "regist")
-				.param("timeout", "3mn"))
+				.param("timeout", "180"))
 				.andExpect(status().isOk());
 
 		results.andDo(new ResultHandler() {
@@ -335,6 +335,26 @@ public class SmsControllerTest {
 			@Override
 			public void handle(MvcResult result) throws Exception {
 				System.out.println("checkSmsVerificationCode_test_03*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+	
+	// 校验验证码--验证码正确
+	@Test
+	public void checkSmsVerificationCode_test_04() throws Exception {
+		ResultActions results = mockMvc.perform(
+				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/new/check_sms_verification_code")
+				.param("phones", phone)
+				.param("templateId", "O2O_1002")
+				.param("clientId", "junit")
+				.param("type", "regist")
+				.param("verificationCode", "952685"))
+				.andExpect(status().isOk());
+
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("checkSmsVerificationCode_test_01*********" + result.getResponse().getContentAsString());
 			}
 		});
 	}

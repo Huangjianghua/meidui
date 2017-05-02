@@ -86,9 +86,9 @@ public class OldSmsControllerTest {
 		ResultActions results = mockMvc.perform(
 				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/send_common_sms_message")
 				.param("phones", phone)
-				.param("templateId", "1GW_1001")
+				.param("templateId", "O2O_1008")
 				.param("clientId", "junit")
-				.param("params", "188000000,DW123456789"))
+				.param("params", "188000000,8888"))
 				.andExpect(status().isOk());
 
 		results.andDo(new ResultHandler() {
@@ -146,7 +146,7 @@ public class OldSmsControllerTest {
 				.param("templateId", "MEM_1002")
 				.param("clientId", "junit")
 				.param("type", "regist")
-				.param("timeout", "1mn30s"))
+				.param("timeout", "90"))
 				.andExpect(status().isOk());
 
 		results.andDo(new ResultHandler() {
@@ -166,7 +166,7 @@ public class OldSmsControllerTest {
 				.param("templateId", "O2O_1002")
 				.param("clientId", "junit")
 				.param("type", "regist")
-				.param("timeout", "3mn"))
+				.param("timeout", "180"))
 				.andExpect(status().isOk());
 
 		results.andDo(new ResultHandler() {
@@ -186,7 +186,7 @@ public class OldSmsControllerTest {
 				.param("templateId", "O2O_1002")
 				.param("clientId", "junit")
 				.param("type", "regist")
-				.param("timeout", "3mn"))
+				.param("timeout", "180"))
 				.andExpect(status().isOk());
 
 		results.andDo(new ResultHandler() {

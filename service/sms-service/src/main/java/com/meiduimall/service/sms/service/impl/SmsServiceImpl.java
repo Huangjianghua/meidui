@@ -212,6 +212,8 @@ public class SmsServiceImpl implements SmsService {
 		String params = "";
 		if (StringUtils.isNotEmpty(model.getParams())) {
 			params = aliDaYuParamsToJson(true, randomNumber + "," + model.getParams());
+		} else{
+			params = aliDaYuParamsToJson(true, randomNumber);
 		}
 
 		// 开始发送短信
