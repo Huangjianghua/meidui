@@ -88,6 +88,7 @@ public class SmsControllerTest {
 				.param("phones", phone)
 				.param("templateId", "1GW_1001")
 				.param("clientId", "junit")
+				.param("timeout", "90")
 				.param("params", "188000000,DW123456789"))
 				.andExpect(status().isOk());
 

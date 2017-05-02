@@ -30,7 +30,6 @@ import com.meiduimall.service.sms.service.AliyunService;
 import com.meiduimall.service.sms.service.SmsService;
 import com.meiduimall.service.sms.service.TemplateInfoService;
 import com.meiduimall.service.sms.service.ZucpService;
-import com.meiduimall.service.sms.util.ToSecondsUtils;
 
 @Service
 public class SmsServiceImpl implements SmsService {
@@ -120,8 +119,10 @@ public class SmsServiceImpl implements SmsService {
 
 		try {
 			// 发送成功，缓存到redis，设置缓存时间
-			int expire = ToSecondsUtils
-					.parseDuration(model.getTimeout() == null ? ti.getEffectiveTime() : model.getTimeout());
+			int expire = 60;
+			if(model.getTimeout() != null && model.getTimeout() > 0){
+				expire = model.getTimeout();
+			}
 			RedisUtils.setex(redisKey, expire, content);
 
 			// 发送成功,设置发送历史记录值,数据库保留历史记录
@@ -247,8 +248,10 @@ public class SmsServiceImpl implements SmsService {
 
 		try {
 			// 发送成功，缓存到redis，设置缓存时间
-			int expire = ToSecondsUtils
-					.parseDuration(model.getTimeout() == null ? ti.getEffectiveTime() : model.getTimeout());
+			int expire = 60;
+			if(model.getTimeout() != null && model.getTimeout() > 0){
+				expire = model.getTimeout();
+			}
 			RedisUtils.setex(redisKey, expire, randomNumber);
 			// 发送成功,设置发送历史记录值,数据库保留历史记录
 			SendSmsHistory ssh = setHistory(model, channelId);

@@ -26,11 +26,8 @@ public class SendCodeRequest implements Serializable {
 	@NotNull
 	private String clientId;// 客户端来源
 
-	// 发动验证码短信，验证码过期时间
-	/*
-	 * 验证码过期时间，即timeout缓存保存时长：格式:3h, 2mn, 7s or combination 2d4h10s, 1w2d3h10s
-	 */
-	private String timeout;
+	// 短信过期时间，即timeout缓存保存时长，单位:秒。传整数
+	private Integer timeout;
 
 	public String getPhones() {
 		return phones;
@@ -72,11 +69,11 @@ public class SendCodeRequest implements Serializable {
 		this.type = type;
 	}
 
-	public String getTimeout() {
+	public Integer getTimeout() {
 		return timeout;
 	}
 
-	public void setTimeout(String timeout) {
+	public void setTimeout(Integer timeout) {
 		this.timeout = timeout;
 	}
 
