@@ -108,7 +108,12 @@ public class MSAccountList implements Serializable {
 	public String getMchPointsBalanceCount() throws NumberFormatException, SystemException {
 		if(StringUtils.isNotBlank(mchPointsBalanceCount)&&mchFreezePointsCount!=null){
 			Double totalPoint=Double.valueOf(DESC.deyption(mchPointsBalanceCount,this.memId));
-			totalPoint=DoubleCalculate.sub(totalPoint, mchFreezePointsCount);
+			if(this.mchFreezePointsCount!=null&&this.mchFreezePointsCount>=0){
+				totalPoint=DoubleCalculate.sub(totalPoint, mchFreezePointsCount);
+			}
+			if(this.mchFreezePointsCount!=null&&this.mchFreezePointsCount<0){
+				totalPoint=DoubleCalculate.add(totalPoint, mchFreezePointsCount);
+			}
 			return  totalPoint.toString();
 		}
 		return DESC.deyption(mchPointsBalanceCount,this.memId);

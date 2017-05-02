@@ -15,10 +15,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @EnableAsync
 public class AccountServiceApplication extends SpringBootServletInitializer {
-	
-	public static void main(String[] args){
+
+	  
+	public static void main(String[] args) throws Exception {
 		SpringApplication.run(AccountServiceApplication.class, args);
 	}
-	
+	   
 }
 

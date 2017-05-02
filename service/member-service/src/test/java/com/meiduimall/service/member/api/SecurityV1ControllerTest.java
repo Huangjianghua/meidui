@@ -1,4 +1,4 @@
-/*package com.meiduimall.service.member.api;
+package com.meiduimall.service.member.api;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -16,21 +16,21 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.service.member.model.request.RequestSetPaypwdStatus;
 
-*//**
+/**
  * 账户安全
  * @author chencong
  *
- *//*
+ */
 public class SecurityV1ControllerTest extends BaseControllerTest {
 	
 	private final static Logger logger=LoggerFactory.getLogger(SecurityV1ControllerTest.class);
 	   
-	   *//**设置支付密码开关*//*
+	   /**设置支付密码开关*/
 	    @Test
 	    public void setPaypwdStatus() throws Exception{
 	    	RequestSetPaypwdStatus requestSetPaypwdStatus=new RequestSetPaypwdStatus();
 	    	requestSetPaypwdStatus.setMemId(memId);
-	    	requestSetPaypwdStatus.setEnable("0");
+	    	requestSetPaypwdStatus.setEnable("1");
 	    	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/set_paypwd_status")
 	    			.contentType(MediaType.APPLICATION_JSON_UTF8)
 	    			.content(JsonUtils.beanToJson(requestSetPaypwdStatus)))
@@ -46,4 +46,4 @@ public class SecurityV1ControllerTest extends BaseControllerTest {
 	    }
 	    
 	      
-}*/
+}

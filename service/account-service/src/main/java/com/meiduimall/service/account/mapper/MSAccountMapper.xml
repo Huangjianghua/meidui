@@ -93,7 +93,7 @@
 				ROUND(IFNULL(msa.balance,0.0)-IFNULL(msa.freeze_balance,0.0),2) as mchBalanceCount, /**可用余额  */
 	  			IFNULL(msa.freeze_balance,0.0)  as mchFreezeBalanceCount,   /**冻结余额  */
 	  			IFNULL(msm.mem_basic_account_total_quantity,0.0) as mchPointsBalanceCount,/**可用积分=总积分-冻结积分  */
-	  			(select mcpf_consume_points_balance from ms_consume_points_freeze_info where mem_id=msm.mem_id ORDER BY mcpf_updated_date DESC,mcpf_order_id DESC LIMIT 1) as mchFreezePointsCount /**冻结积分  */
+	  			(select SUM(mcpf_consume_points) from ms_consume_points_freeze_info where mem_id=msm.mem_id) as mchFreezePointsCount /**冻结积分  */
 			FROM
 				ms_members msm,ms_account msa
 		<where>
