@@ -3,6 +3,7 @@ package com.meiduimall.service.member.model;
 import java.io.Serializable;
 import java.util.Date;
 
+
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.member.util.DESC;
 
@@ -222,7 +223,8 @@ public class MSMembersGet implements Serializable {
 		this.memType = memType;
 	}
 
-	public String getMemBasicAccountTotalQuantity() throws MdSysException {
+
+	public String getMemBasicAccountTotalQuantity() throws MdSysException  {
 		return DESC.deyption(memBasicAccountTotalQuantity==null?"0":memBasicAccountTotalQuantity, this.memId);
 	}
 
@@ -325,8 +327,9 @@ public class MSMembersGet implements Serializable {
 		this.memLoginName = memLoginName;
 	}
 
-	public String getMemLoginName() throws MdSysException {
-		return DESC.deyption(this.memLoginName);
+
+	public String getMemLoginName() throws MdSysException  {
+		return memLoginName!=null?DESC.deyption(this.memLoginName):"";
 	}
 
 	public void setMemOldPhone(String memOldPhone) {
@@ -349,8 +352,9 @@ public class MSMembersGet implements Serializable {
 		this.memNickName = memNickName;
 	}
 
+
 	public String getMemNickName()  throws MdSysException {
-		return DESC.deyption(this.memNickName);
+		return memNickName!=null?DESC.deyption(this.memNickName):"";
 	}
 
 	public void setMemLoginPwd(String memLoginPwd) {

@@ -13,3 +13,4 @@ _site/
 *.iml
 .factorypath
 /.apt_generated/
+application/search/logs/
