@@ -31,7 +31,7 @@ public class SendMessageRequest implements Serializable {
 	private Integer timeout;
 	
 	@NotNull
-	private String clientId;// 客户端来源
+	private String sysKey;// 客户端来源
 
 	public String getPhones() {
 		return phones;
@@ -72,12 +72,12 @@ public class SendMessageRequest implements Serializable {
 	public void setTimeout(Integer timeout) {
 		this.timeout = timeout;
 	}
-	
-	public String getClientId() {
-		return clientId;
+
+	public String getSysKey() {
+		return sysKey;
 	}
 
-	public void setClientId(String clientId) {
-		this.clientId = clientId;
+	public void setSysKey(String sysKey) {
+		this.sysKey = sysKey;
 	}
 }
