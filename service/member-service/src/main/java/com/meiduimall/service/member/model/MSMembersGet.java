@@ -326,7 +326,7 @@ public class MSMembersGet implements Serializable {
 	}
 
 	public String getMemLoginName() throws SystemException  {
-		return DESC.deyption(this.memLoginName);
+		return memLoginName!=null?DESC.deyption(this.memLoginName):"";
 	}
 
 	public void setMemOldPhone(String memOldPhone) {
@@ -350,7 +350,7 @@ public class MSMembersGet implements Serializable {
 	}
 
 	public String getMemNickName()  throws SystemException {
-		return DESC.deyption(this.memNickName);
+		return memNickName!=null?DESC.deyption(this.memNickName):"";
 	}
 
 	public void setMemLoginPwd(String memLoginPwd) {
