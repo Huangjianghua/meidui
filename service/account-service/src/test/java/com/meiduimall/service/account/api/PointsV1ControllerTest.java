@@ -1,4 +1,4 @@
-/*package com.meiduimall.service.account.api;
+package com.meiduimall.service.account.api;
 
 
 import static org.hamcrest.CoreMatchers.is;
@@ -14,19 +14,23 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.service.account.model.MSConsumePointsDetailGet;
 
-*//**
+
+
+/**
  * 积分相关接口单元测试
  * @author chencong
  *
- *//*
+ */
 public class PointsV1ControllerTest extends BaseControllerTest {
 	
 	private final static Logger logger=LoggerFactory.getLogger(PointsV1ControllerTest.class); 
-	
-	/**积分流水分页
+
+	/**积分流水分页*/
+
     @Test
     public void listConsumePointsDetail() throws Exception{
     	MSConsumePointsDetailGet model=new MSConsumePointsDetailGet();
@@ -45,4 +49,4 @@ public class PointsV1ControllerTest extends BaseControllerTest {
 		});
     }
 	      
-}*/
+}

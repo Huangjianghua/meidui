@@ -127,7 +127,10 @@ public class PaypwdServiceImpl implements PaypwdService {
 	}
 	
 	@Override
-	public ResBodyData retrievePaypwd(RequestRetrievePaypwd requestRetrievePaypwd) throws MdSysException {
+
+	public ResBodyData retrievePaypwd(RequestRetrievePaypwd requestRetrievePaypwd){
+
+
 		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
 		
 		return resBodyData;
@@ -182,9 +185,10 @@ public class PaypwdServiceImpl implements PaypwdService {
 	 * 设置新支付密码
 	 * @param memId 会员ID
 	 * @param paypwd 新支付密码
-	 * @throws MdSysException 检查类型异常
+
+	 * @throws SystemException 检查类型异常
 	 */
-	private void setNewPaypwd(String memId,String paypwd) throws MdSysException {
+	private void setNewPaypwd(String memId,String paypwd) throws MdSysException{
 		MSMembersPaypwd msMembersPaypwd=new MSMembersPaypwd();
 		msMembersPaypwd.setMemId(memId);
 		msMembersPaypwd.setPay_pwd(paypwd);

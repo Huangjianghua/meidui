@@ -86,9 +86,10 @@ public class UserInfoServiceImpl implements UserInfoService {
 		
 		/**会员基本信息添加是否设置支付密码和支付密码开关状态*/
 		memberBasicInfo.setPaypwd_isopen("Y".equals(memberBasicInfo.getPaypwd_isopen())?"1":"0");
-		if(!"0".equals(j.getString(SysParamsConst.STATUS)))
-			memberBasicInfo.setPaypwd_isset("0");
 		memberBasicInfo.setPaypwd_isset("1");
+		if(!"0".equals(j.getString(SysParamsConst.STATUS))){
+			memberBasicInfo.setPaypwd_isset("0");
+		}			
 		
 		/**会员基本信息添加积分总额（包含冻结解冻的积分）和余额总额*/
 		memberBasicInfo.setTotalmoney(moneyService.getTotalMoney(memId));

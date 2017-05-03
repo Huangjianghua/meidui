@@ -94,7 +94,10 @@ public class MSConsumePointsDetailGet extends PageHelp implements Serializable{
 		this.mcpOperatorType = mcpOperatorType;
 	}
 
+
 	public String getMcpIncome()throws MdSysException {
+
+
 		return mcpIncome!=null?DESC.deyption(mcpIncome, memId):mcpIncome;
 	}
 
@@ -102,7 +105,10 @@ public class MSConsumePointsDetailGet extends PageHelp implements Serializable{
 		this.mcpIncome = mcpIncome;
 	}
 
+
 	public String getMcpExpenditure()throws MdSysException {
+
+
 		return mcpExpenditure!=null?DESC.deyption(mcpExpenditure, memId):mcpExpenditure;
 	}
 
@@ -110,7 +116,9 @@ public class MSConsumePointsDetailGet extends PageHelp implements Serializable{
 		this.mcpExpenditure = mcpExpenditure;
 	}
 
+
 	public String getMcpBalance() throws MdSysException {
+
 		return mcpBalance!=null?DESC.deyption(mcpBalance, memId):mcpBalance;
 	}
 

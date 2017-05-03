@@ -10,8 +10,10 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+
 import com.meiduimall.exception.MdBizException;
 import com.meiduimall.exception.MdSysException;
+
 import com.meiduimall.service.account.constant.ApiStatusConst;
 import com.meiduimall.service.account.model.ResBodyData;
 
@@ -25,14 +27,18 @@ public class GlobalExceptionHandler {
 
   private static Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
+
   @ExceptionHandler(value = MdBizException.class)
   public ResBodyData bizeExceptionHandler(HttpServletRequest request, MdBizException exception) {
+
     logger.error(request.getContextPath()+request.getRequestURI()+" "+ApiStatusConst.getZhMsg(exception.getCode()));
     return new ResBodyData(exception.getCode(),ApiStatusConst.getZhMsg(exception.getCode()));
   }
   
+
   @ExceptionHandler(value = MdSysException.class)
   public ResBodyData systemExceptionHandler(HttpServletRequest request, MdSysException exception) {
+
     logger.error(request.getContextPath()+request.getRequestURI()+" "+ApiStatusConst.getZhMsg(exception.getCode()));
     return new ResBodyData(exception.getCode(),ApiStatusConst.getZhMsg(exception.getCode()));
   }
