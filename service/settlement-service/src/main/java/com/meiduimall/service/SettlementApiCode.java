@@ -34,6 +34,9 @@ public class SettlementApiCode extends BaseApiCode {
 	public static final Integer GET_RECOMMENDER_INFO_FAILURE = 7025;
 	public static final Integer IS_TWO_HUNDRED_AGENT_ISNULL = 7026;
 	public static final Integer SQLSESSIONFACTORY_INIT_FAIL = 7027;
+	public static final Integer FIND_ACCOUNT_FAIL = 7028;
+	public static final Integer CREATE_ACCOUNT_FAIL = 7029;
+	public static final Integer INSERT_AGENT_WATER_FAIL = 7030;
 	
 	static {
 		Map<Integer, String> zhMsgMap = BaseApiCode.zhMsgMap;
@@ -64,6 +67,9 @@ public class SettlementApiCode extends BaseApiCode {
 		zhMsgMap.put(GET_RECOMMENDER_INFO_FAILURE, "从会员系统获取推荐人信息失败");
 		zhMsgMap.put(IS_TWO_HUNDRED_AGENT_ISNULL, "前二百区代标识不能为空");
 		zhMsgMap.put(SQLSESSIONFACTORY_INIT_FAIL, "sqlSessionFactory初始化失败");
+		zhMsgMap.put(FIND_ACCOUNT_FAIL, "根据代理编号获取账户信息失败");
+		zhMsgMap.put(CREATE_ACCOUNT_FAIL, "创建新个代账户失败");
+		zhMsgMap.put(INSERT_AGENT_WATER_FAIL, "插入代理流水失败");
 
 	}
 
