@@ -4,7 +4,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- * 发送普通短信参数模板
+ * 发送验证码短信参数模板
  * 
  * @author pc
  *
@@ -16,15 +16,18 @@ public class SendCodeRequest implements Serializable {
 	@NotNull
 	private String phones; // 手机号
 	@NotNull
-	private String templateKey; // 模板id
-	private String channelId;// 渠道编号
+	private String templateId; // 模板id
+	private String supplierId;// 渠道编号
 	private String params;// 替换短信中的参数
+	
+	@NotNull
+	private String type;// 验证码类型：注册使用的验证码/找回密码使用的验证码...
+	
+	@NotNull
+	private String sysKey;// 客户端来源
 
-	// 发动验证码短信，验证码过期时间
-	/*
-	 * 验证码过期时间，即timeout缓存保存时长：格式:3h, 2mn, 7s or combination 2d4h10s, 1w2d3h10s
-	 */
-	private String timeout;
+	// 短信过期时间，即timeout缓存保存时长，单位:秒。传整数
+	private Integer timeout;
 
 	public String getPhones() {
 		return phones;
@@ -34,24 +37,20 @@ public class SendCodeRequest implements Serializable {
 		this.phones = phones;
 	}
 
-	public String getTemplateKey() {
-		return templateKey;
+	public String getTemplateId() {
+		return templateId;
 	}
 
-	public void setTemplateKey(String templateKey) {
-		this.templateKey = templateKey;
+	public void setTemplateId(String templateId) {
+		this.templateId = templateId;
 	}
 
-	public String getChannelId() {
-		return channelId;
+	public String getSupplierId() {
+		return supplierId;
 	}
 
-	public void setChannelId(String channelId) {
-		this.channelId = channelId;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public void setSupplierId(String supplierId) {
+		this.supplierId = supplierId;
 	}
 
 	public String getParams() {
@@ -62,11 +61,27 @@ public class SendCodeRequest implements Serializable {
 		this.params = params;
 	}
 
-	public String getTimeout() {
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public Integer getTimeout() {
 		return timeout;
 	}
 
-	public void setTimeout(String timeout) {
+	public void setTimeout(Integer timeout) {
 		this.timeout = timeout;
+	}
+
+	public String getSysKey() {
+		return sysKey;
+	}
+
+	public void setSysKey(String sysKey) {
+		this.sysKey = sysKey;
 	}
 }

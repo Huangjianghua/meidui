@@ -19,16 +19,19 @@ public class SendMessageRequest implements Serializable {
 
 	// 模板id
 	@NotNull
-	private String templateKey;
+	private String templateId;
 
 	// 渠道编号
-	private String channelId;
+	private String supplierId;
 
 	// 替换短信中的参数
 	private String params;
 
-	// 短信过期时间，即timeout缓存保存时长：格式:3h, 2mn, 7s or combination 2d4h10s, 1w2d3h10s
-	private String timeout;
+	// 短信过期时间，即timeout缓存保存时长，单位:秒。传整数
+	private Integer timeout;
+	
+	@NotNull
+	private String sysKey;// 客户端来源
 
 	public String getPhones() {
 		return phones;
@@ -38,20 +41,20 @@ public class SendMessageRequest implements Serializable {
 		this.phones = phones;
 	}
 
-	public String getTemplateKey() {
-		return templateKey;
+	public String getTemplateId() {
+		return templateId;
 	}
 
-	public void setTemplateKey(String templateKey) {
-		this.templateKey = templateKey;
+	public void setTemplateId(String templateId) {
+		this.templateId = templateId;
 	}
 
-	public String getChannelId() {
-		return channelId;
+	public String getSupplierId() {
+		return supplierId;
 	}
 
-	public void setChannelId(String channelId) {
-		this.channelId = channelId;
+	public void setSupplierId(String supplierId) {
+		this.supplierId = supplierId;
 	}
 
 	public String getParams() {
@@ -62,11 +65,19 @@ public class SendMessageRequest implements Serializable {
 		this.params = params;
 	}
 
-	public String getTimeout() {
+	public Integer getTimeout() {
 		return timeout;
 	}
 
-	public void setTimeout(String timeout) {
+	public void setTimeout(Integer timeout) {
 		this.timeout = timeout;
+	}
+
+	public String getSysKey() {
+		return sysKey;
+	}
+
+	public void setSysKey(String sysKey) {
+		this.sysKey = sysKey;
 	}
 }

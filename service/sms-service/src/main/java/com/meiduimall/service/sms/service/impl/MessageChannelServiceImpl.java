@@ -17,7 +17,6 @@ import com.meiduimall.service.sms.entity.MessageChannel;
 import com.meiduimall.service.sms.mapper.SmsMessageChannelMapper;
 import com.meiduimall.service.sms.service.MessageChannelService;
 
-
 @Service
 public class MessageChannelServiceImpl implements MessageChannelService {
 

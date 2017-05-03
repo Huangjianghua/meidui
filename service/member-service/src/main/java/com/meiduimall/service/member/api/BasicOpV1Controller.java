@@ -89,18 +89,16 @@ public class BasicOpV1Controller {
 	@PostMapping(value = "/login")
 	ResBodyData login(@RequestBody @Valid RequestLogin requestLogin){
 		logger.info("收到用户登录API请求：",requestLogin.toString());
-		response.setCharacterEncoding("UTF-8");
+		ResBodyData resBodyData=null;
 		try {
 			requestLogin.setIp(request.getRemoteAddr());
-			ResBodyData resBodyData = basicOpService.login(requestLogin);
+			resBodyData = basicOpService.login(requestLogin);
 			logger.info("用户登录API请求结果  ：{}",resBodyData.toString());
-			return resBodyData;
 		}
 		catch (SystemException e) {
 			logger.error("用户登录API请求异常：{}",e.toString());
-		
 		}
-		return null;
+		return resBodyData;
 	}
 	
 	

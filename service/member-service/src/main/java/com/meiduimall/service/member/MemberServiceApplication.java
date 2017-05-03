@@ -20,3 +20,4 @@ public class MemberServiceApplication extends SpringBootServletInitializer{
 		SpringApplication.run(MemberServiceApplication.class, args);
 	}
 }
+ 

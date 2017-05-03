@@ -78,7 +78,7 @@ public class PayPwdV1Controller {
 	
 	/**修改支付密码*/
 	@HasToken
-	@RequestMapping(value="/update_paypwd")
+	@RequestMapping(value="/update_pay_pwd")
 	ResBodyData updatePaypwd(){
 		ResBodyData resBodyData=null;
 		JSONObject reqJson=ValRequest.apiReqData.get();

@@ -54,9 +54,6 @@ public class PointsV1Controller {
 	private  MDMallServices mdmallServices;
 	
 	@Autowired
-	private  AuthorizationPointsService  authorizationPointsService;
-	
-	@Autowired
 	private MSConsumePointsDetailService mSConsumePointsDetailService;
 	
 	/**

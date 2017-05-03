@@ -106,8 +106,8 @@ public class DrawController {
 		//根据code查询账户余额
 		BigDecimal balance = new BigDecimal("0");
 		Map<String, Object> account = drawService.queryAccoutBalance(ecmMzfDraw.getCode());
-		if(account.get(BALANCE) != null && !"".equals(account.get("BALANCE"))){
-			balance = new BigDecimal(account.get("BALANCE").toString());
+		if(account.get(BALANCE) != null && !"".equals(account.get(BALANCE))){
+			balance = new BigDecimal(account.get(BALANCE).toString());
 			ecmMzfDraw.setBalance(balance);
 		}
 		

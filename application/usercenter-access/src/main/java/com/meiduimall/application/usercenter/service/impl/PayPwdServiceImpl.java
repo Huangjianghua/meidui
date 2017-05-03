@@ -93,7 +93,7 @@ public class PayPwdServiceImpl implements PayPwdService  {
 	public ResBodyData updatePaypwd(JSONObject reqJson) {
 		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
 		
-		String url=profile.getServiceAccountUrl()+"v1/update_paypwd";//获取修改支付密码服务地址
+		String url=profile.getServiceAccountUrl()+"v1/update_pay_pwd";//获取修改支付密码服务地址
 		resBodyData=MD5Utils.updateSign(reqJson,profile.getRouteClientID(),profile.getRouteKey());//重新生成签名
 		if(resBodyData.getStatus()!=0){
 			throw new ServiceException(ApiStatusConst.GET_SIGN_EX);

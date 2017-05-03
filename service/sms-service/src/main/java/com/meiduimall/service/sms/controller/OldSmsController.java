@@ -45,7 +45,7 @@ public class OldSmsController {
 			if (model == null) {
 				return new ResultBody(ResultBody.FAILED, SmsApiCode.getZhMsg(SmsApiCode.REQUEST_PARAMS_ERROR));
 			}
-			if (Strings.isNullOrEmpty(model.getPhones()) || Strings.isNullOrEmpty("")) {
+			if (Strings.isNullOrEmpty(model.getPhones()) || Strings.isNullOrEmpty(model.getTemplateId())) {
 				return new ResultBody(ResultBody.FAILED, SmsApiCode.getZhMsg(SmsApiCode.REQUEST_PARAMS_ERROR));
 			}
 
@@ -64,7 +64,7 @@ public class OldSmsController {
 		} catch (Exception e) {
 			// 未捕获的异常
 			logger.error("发送普通短信,未捕获的异常: " + e);
-			return new ResultBody(ResultBody.FAILED, SmsApiCode.getZhMsg(1));
+			return new ResultBody(ResultBody.FAILED, SmsApiCode.getZhMsg(SmsApiCode.UNKNOW_ERROR));
 		}
 	}
 
@@ -82,7 +82,7 @@ public class OldSmsController {
 			if (model == null) {
 				return new ResultBody(ResultBody.FAILED, SmsApiCode.getZhMsg(SmsApiCode.REQUEST_PARAMS_ERROR));
 			}
-			if (Strings.isNullOrEmpty(model.getPhones()) || Strings.isNullOrEmpty("")) {
+			if (Strings.isNullOrEmpty(model.getPhones()) || Strings.isNullOrEmpty(model.getTemplateId())) {
 				return new ResultBody(ResultBody.FAILED, SmsApiCode.getZhMsg(SmsApiCode.REQUEST_PARAMS_ERROR));
 			}
 
@@ -101,7 +101,7 @@ public class OldSmsController {
 		} catch (Exception e) {
 			// 未捕获的异常
 			logger.error("发送短信验证码,未捕获的异常: " + e);
-			return new ResultBody(ResultBody.FAILED, SmsApiCode.getZhMsg(1));
+			return new ResultBody(ResultBody.FAILED, SmsApiCode.getZhMsg(SmsApiCode.UNKNOW_ERROR));
 		}
 	}
 
@@ -119,7 +119,7 @@ public class OldSmsController {
 			if (model == null) {
 				return new ResultBody(ResultBody.FAILED, SmsApiCode.getZhMsg(SmsApiCode.REQUEST_PARAMS_ERROR));
 			}
-			if (Strings.isNullOrEmpty(model.getPhones()) || Strings.isNullOrEmpty("")
+			if (Strings.isNullOrEmpty(model.getPhones()) || Strings.isNullOrEmpty(model.getTemplateId())
 					|| Strings.isNullOrEmpty(model.getVerificationCode())) {
 				return new ResultBody(ResultBody.FAILED, SmsApiCode.getZhMsg(SmsApiCode.REQUEST_PARAMS_ERROR));
 			}
@@ -139,7 +139,7 @@ public class OldSmsController {
 		} catch (Exception e) {
 			// 未捕获的异常
 			logger.error("校验短信验证码,未捕获的异常: " + e);
-			return new ResultBody(ResultBody.FAILED, SmsApiCode.getZhMsg(1));
+			return new ResultBody(ResultBody.FAILED, SmsApiCode.getZhMsg(SmsApiCode.UNKNOW_ERROR));
 		}
 	}
 }

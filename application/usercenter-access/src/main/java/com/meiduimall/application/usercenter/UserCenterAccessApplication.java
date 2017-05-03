@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.scheduling.annotation.EnableAsync;
 
+
 @SpringBootApplication
 @EnableAsync
 public class UserCenterAccessApplication extends SpringBootServletInitializer{
@@ -13,3 +14,4 @@ public class UserCenterAccessApplication extends SpringBootServletInitializer{
 		SpringApplication.run(UserCenterAccessApplication.class, args);
 	}
 }
+ 

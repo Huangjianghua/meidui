@@ -1,7 +1,6 @@
 package com.meiduimall.service.settlement.util;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -12,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Copyright (C), 2002-2017, 美兑壹购
+ * Copyright (C), 2002-2017, 美兑壹购物
  * FileName: ConnectionUrlUtil.java
  * Author:   不详
  * Date:     2016年12月26日 下午6:15:47
@@ -68,27 +67,13 @@ public class ConnectionUrlUtil {
 			while ((str = bufferedReader.readLine()) != null) {
 				buffer.append(str);
 			}
+			
+			bufferedReader.close();
+			reader.close();
+			httpConn.disconnect(); //关闭Http连接
 		} catch (Exception e) {
 			log.error("http请求异常", e);
-		} finally {
-			//释放
-			try {
-				if(bufferedReader!=null){
-					bufferedReader.close();
-				}
-				if(reader!=null){
-					reader.close();
-				}
-				if(input!=null){
-					input.close();
-				}
-				if(httpConn != null){
-					httpConn.disconnect(); //关闭Http连接
-				}
-			} catch (IOException e) {
-				log.error("关闭流异常", e);
-			}
-		}
+		} 
 		return buffer.toString();
 	}
 	

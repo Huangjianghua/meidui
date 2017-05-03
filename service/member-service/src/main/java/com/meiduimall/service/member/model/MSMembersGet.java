@@ -223,7 +223,7 @@ public class MSMembersGet implements Serializable {
 	}
 
 	public String getMemBasicAccountTotalQuantity() throws SystemException  {
-		return memBasicAccountTotalQuantity==null?"0":DESC.deyption(memBasicAccountTotalQuantity, this.memId);
+		return DESC.deyption(memBasicAccountTotalQuantity==null?"0":memBasicAccountTotalQuantity, this.memId);
 	}
 
 	public void setMemBasicAccountTotalQuantity(String memBasicAccountTotalQuantity) {
