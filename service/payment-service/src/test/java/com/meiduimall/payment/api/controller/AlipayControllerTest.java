@@ -27,7 +27,6 @@ import org.springframework.web.context.WebApplicationContext;
 @ActiveProfiles("dev")
 public class AlipayControllerTest {
 	
-
 	
 	public MockMvc mvc;
 	
