@@ -5,7 +5,6 @@ import com.github.pagehelper.StringUtil;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.DaoException;

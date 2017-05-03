@@ -24,7 +24,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 
 import com.github.pagehelper.PageHelper;
-import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.service.SettlementApiCode;
 
 
