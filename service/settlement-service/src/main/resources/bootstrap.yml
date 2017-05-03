@@ -17,7 +17,7 @@ spring:
     
 # HTTP Server
 server:
-  port: 10020
+  port: ${PORT:10020}
   
   
 

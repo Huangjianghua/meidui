@@ -13,6 +13,7 @@
 <mapper namespace="com.meiduimall.service.sms.mapper.SmsSendHistoryMapper" >
   <resultMap id="BaseResultMap" type="com.meiduimall.service.sms.entity.SendSmsHistory" >
     <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="client_id" property="clientId" jdbcType="VARCHAR" />
     <result column="channel_id" property="channelId" jdbcType="VARCHAR" />
     <result column="template_key" property="templateKey" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />

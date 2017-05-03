@@ -23,7 +23,7 @@
 			)
 	</insert>
 	
-			<select id="listMSConsumePointsDetail" parameterType="com.meiduimall.service.account.model.MSConsumePointsDetailGet" resultType="com.meiduimall.service.account.model.MSConsumePointsDetail">			
+		<select id="listMSConsumePointsDetail" parameterType="com.meiduimall.service.account.model.MSConsumePointsDetailGet" resultType="com.meiduimall.service.account.model.MSConsumePointsDetail">			
       SELECT 
       c.mcp_id AS mcpId,
       c.mem_Id AS memId,

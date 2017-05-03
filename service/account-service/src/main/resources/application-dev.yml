@@ -40,3 +40,9 @@ config:
     maxWaitMillis : 2000 
     testOnBorrow: true
     testOnReturn: true
+    
+    
+# other service url
+service : 
+   member : http://192.168.4.240:8096/member/member_service
+   sms : http://192.168.4.240:20000/notify/short_msg_service

@@ -41,23 +41,23 @@ public class DrawControllerTest extends BaseTest {
 	 * 功能描述:  新增提现申请
 	 * Author: guidl
 	 */
-//	@Test
-//	public void testDrawCash() throws Exception {
-//		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
-//				.post("/settlementservice/drawservice/v1/drawcash")
-//				.param("drawType", "1").param("code", "1871477642662").param("userType", "2")
-//				.param("realname", "黄丫丫").param("bankname", "招商银行").param("banknum", "1236548")
-//				.param("bankaddress", "广东省深圳市福田区").param("bankBranch", "富华支行").param("money", "5")
-//				.param("status", "1"))//.param("drawName", "人工")
-//				.andExpect(status().isOk());
-//		
-//		results.andDo(new ResultHandler() {
-//			@Override
-//			public void handle(MvcResult result) throws Exception {
-//				System.out.println("*********" + result.getResponse().getContentAsString());
-//			}
-//		});
-//	}
+	@Test
+	public void testDrawCash() throws Exception {
+		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
+				.post("/settlementservice/drawservice/v1/drawcash")
+				.param("drawType", "1").param("code", "1871477642662").param("userType", "2")
+				.param("realname", "黄丫丫").param("bankname", "招商银行").param("banknum", "1236548")
+				.param("bankaddress", "广东省深圳市福田区").param("bankBranch", "富华支行").param("money", "5")
+				.param("status", "1"))
+				.andExpect(status().isOk());
+		
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
 
 	/**
 	 * 功能描述:  获取提现管理列表
@@ -135,7 +135,7 @@ public class DrawControllerTest extends BaseTest {
 	}
 
 	/**
-	 * 功能描述:  确认提现转账成功或失败（更改提现状态）
+	 * 功能描述:  确认提现转账成功（更改提现状态）
 	 * Author: guidl
 	 */
 	@Test
@@ -145,6 +145,27 @@ public class DrawControllerTest extends BaseTest {
 				.perform(MockMvcRequestBuilders.post("/settlementservice/drawservice/v1/confirmdrawcashbyidbytype")
 						.param("drawCode", "QZ187147764266217033101").param("remark", "驳回原因").param("financeId", "1")
 						.param("type", "1"))
+				.andExpect(status().isOk());
+		
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+	
+	/**
+	 * 功能描述:  确认提现转账失败（插入新的流水记录）
+	 * Author: guidl
+	 */
+	@Test
+	public void testConfirmDrawCashByIdByType1() throws Exception {
+		//type:1-成功，0-失败  financeId:财务审核人id
+		ResultActions results = mockMvc
+				.perform(MockMvcRequestBuilders.post("/settlementservice/drawservice/v1/confirmdrawcashbyidbytype")
+						.param("drawCode", "QZ187147764266217033101").param("remark", "驳回原因").param("financeId", "1")
+						.param("type", "0"))
 				.andExpect(status().isOk());
 		
 		results.andDo(new ResultHandler() {

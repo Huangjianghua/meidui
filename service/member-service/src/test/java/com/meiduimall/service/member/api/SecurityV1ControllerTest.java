@@ -30,7 +30,7 @@ public class SecurityV1ControllerTest extends BaseControllerTest {
 	    public void setPaypwdStatus() throws Exception{
 	    	RequestSetPaypwdStatus requestSetPaypwdStatus=new RequestSetPaypwdStatus();
 	    	requestSetPaypwdStatus.setMemId(memId);
-	    	requestSetPaypwdStatus.setEnable("0");
+	    	requestSetPaypwdStatus.setEnable("1");
 	    	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/set_paypwd_status")
 	    			.contentType(MediaType.APPLICATION_JSON_UTF8)
 	    			.content(JsonUtils.beanToJson(requestSetPaypwdStatus)))
