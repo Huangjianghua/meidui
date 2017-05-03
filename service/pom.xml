@@ -14,7 +14,7 @@
     <packaging>pom</packaging>
     <version>1.0.1-SNAPSHOT</version>
     <modules>
-   <!--      <module>payment-service</module> -->
+   		<module>payment-service</module> 
         <module>sms-service</module>
         <module>settlement-service</module>
 		<module>catalog-service</module>
