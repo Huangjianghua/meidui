@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.meiduimall.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,7 +28,6 @@ import com.meiduimall.application.mall.model.SystradeTrade;
 import com.meiduimall.application.mall.service.SysitemService;
 import com.meiduimall.application.mall.service.TradeService;
 import com.meiduimall.application.mall.util.Logger;
-import com.meiduimall.exception.ServiceException;
 
 @Component
 public class TradeServiceImpl implements TradeService {

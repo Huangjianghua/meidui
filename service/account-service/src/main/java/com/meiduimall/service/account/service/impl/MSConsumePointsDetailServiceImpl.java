@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSONArray;
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.dto.InterfaceConsumePointsDetailsDTO;
 import com.meiduimall.service.account.dto.ServiceToServiceDTO;
@@ -169,13 +169,13 @@ public class MSConsumePointsDetailServiceImpl implements MSConsumePointsDetailSe
 			selectList.forEach(mscpoint->{
 				try {
 					mscpoint.setMcpIncome(DESC.deyption(mscpoint.getMcpIncome(), mscpoint.getMemId()));
-				} catch (SystemException e) {
+				} catch (MdSysException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				try {
 					mscpoint.setMcpExpenditure(DESC.deyption(mscpoint.getMcpExpenditure(), mscpoint.getMemId()));
-				} catch (SystemException e) {
+				} catch (MdSysException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}

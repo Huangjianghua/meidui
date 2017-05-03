@@ -11,6 +11,8 @@ import java.util.Random;
 
 import javax.xml.bind.JAXBException;
 
+import com.meiduimall.exception.ApiException;
+import com.meiduimall.exception.DaoException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +20,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.meiduimall.core.util.HttpUtils;
-import com.meiduimall.exception.ApiException;
-import com.meiduimall.exception.DaoException;
 import com.meiduimall.password.SecurityBaseApiCode;
 import com.meiduimall.password.exception.Md5Exception;
 import com.meiduimall.password.util.MD5;
@@ -91,7 +91,7 @@ public class WeChatClient {
 				}
 			} catch (IllegalArgumentException | IllegalAccessException e) {
 				log.info("WeChatClient:\n{}", e);
-				throw new DaoException(ServicePaymentApiCode.CLASS_REFLECT_ERROR, ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.CLASS_REFLECT_ERROR));
+				throw new DaoException(ServicePaymentApiCode.CLASS_REFLECT_ERROR);
 			}
         }
         int size = list.size();
@@ -108,7 +108,7 @@ public class WeChatClient {
         	md5= MD5.getMD5EncodeUTF8(result);
 		} catch (Md5Exception e) {
 			log.info("WeChatClient:\n{}", e);
-			throw new DaoException(SecurityBaseApiCode.EXCEPTION_MD5,SecurityBaseApiCode.getZhMsg(SecurityBaseApiCode.EXCEPTION_MD5));
+			throw new DaoException(SecurityBaseApiCode.EXCEPTION_MD5);
 		}
         
         return md5;
@@ -222,7 +222,7 @@ public class WeChatClient {
 				xmlData = XmlSupport.outputXml(model, WeChatRequestModel.class);
 			} catch (JAXBException e) {
 				log.info("xml转换异常: \n{}",e);
-				throw new DaoException(ServicePaymentApiCode.XML_OBJECT_TRANS_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.XML_OBJECT_TRANS_ERROR));
+				throw new DaoException(ServicePaymentApiCode.XML_OBJECT_TRANS_ERROR);
 			}
             log.info("getWeChatPayQrCode::request data: \n{}", xmlData);
             
@@ -233,7 +233,7 @@ public class WeChatClient {
 				result = HttpUtils.post(WECHAT_URL_PAY, xmlData, map);
 			} catch (IOException e) {
 				log.info("接口调用异常: \n{}",e);
-				throw new DaoException(ServicePaymentApiCode.WEBCHAT_API_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.WEBCHAT_API_ERROR));
+				throw new DaoException(ServicePaymentApiCode.WEBCHAT_API_ERROR);
 			}
             log.info("getWeChatPayQrCode::result data: \n{}", result);
 
@@ -243,7 +243,7 @@ public class WeChatClient {
 				resultModel = XmlSupport.outputBean(result, WeChatResponeModel.class);
 			} catch (JAXBException e) {
 				log.info("xml转换异常: \n{}",e);
-				throw new DaoException(ServicePaymentApiCode.XML_OBJECT_TRANS_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.XML_OBJECT_TRANS_ERROR));
+				throw new DaoException(ServicePaymentApiCode.XML_OBJECT_TRANS_ERROR);
 			}
            
            

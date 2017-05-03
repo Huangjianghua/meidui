@@ -24,7 +24,7 @@ public class SendCodeRequest implements Serializable {
 	private String type;// 验证码类型：注册使用的验证码/找回密码使用的验证码...
 	
 	@NotNull
-	private String clientId;// 客户端来源
+	private String sysKey;// 客户端来源
 
 	// 短信过期时间，即timeout缓存保存时长，单位:秒。传整数
 	private Integer timeout;
@@ -77,11 +77,11 @@ public class SendCodeRequest implements Serializable {
 		this.timeout = timeout;
 	}
 
-	public String getClientId() {
-		return clientId;
+	public String getSysKey() {
+		return sysKey;
 	}
 
-	public void setClientId(String clientId) {
-		this.clientId = clientId;
+	public void setSysKey(String sysKey) {
+		this.sysKey = sysKey;
 	}
 }

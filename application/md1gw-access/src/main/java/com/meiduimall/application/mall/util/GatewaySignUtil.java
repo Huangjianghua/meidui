@@ -5,11 +5,11 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+
+import com.meiduimall.exception.ServiceException;
 import org.apache.commons.lang.StringUtils;
 
 import com.meiduimall.application.mall.exception.MallApiCode;
-import com.meiduimall.application.mall.util.MD5;
-import com.meiduimall.exception.ServiceException;
 
 import net.sf.json.JSONObject;
 

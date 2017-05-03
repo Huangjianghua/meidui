@@ -4,6 +4,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.meiduimall.exception.MdBizException;
+import com.meiduimall.exception.ServiceException;
 import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,9 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.meiduimall.application.search.manage.constant.SysConstant;
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.exception.BizException;
-import com.meiduimall.exception.ServiceException;
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.MdSysException;
 
 
 /**
@@ -58,13 +58,13 @@ public class GlobalExceptionHandler {
         return result;  
     }  
 
-    @ExceptionHandler(value = BizException.class)
+    @ExceptionHandler(value = MdBizException.class)
     public ResBodyData bizException(HttpServletRequest request, ServiceException exception) {
       logger.error(request.getContextPath()+request.getRequestURI()+" "+exception.getLocalizedMessage());
       return new ResBodyData(exception.getCode(),exception.getLocalizedMessage());
     }
     
-    @ExceptionHandler(value = SystemException.class)
+    @ExceptionHandler(value = MdSysException.class)
     public ResBodyData systemException(HttpServletRequest request, ServiceException exception) {
       logger.error(request.getContextPath()+request.getRequestURI()+" "+exception.getLocalizedMessage());
       return new ResBodyData(exception.getCode(),exception.getLocalizedMessage());

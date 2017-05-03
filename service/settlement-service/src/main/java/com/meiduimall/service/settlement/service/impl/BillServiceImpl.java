@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.meiduimall.exception.DaoException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.common.base.Strings;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableMap;
-import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.settlement.common.CodeRuleUtil;
 import com.meiduimall.service.settlement.common.SettlementUtil;

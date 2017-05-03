@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.member.model.request.RequestLogin;
 import com.meiduimall.service.member.service.BasicOpService;
 import com.meiduimall.service.member.util.HttpResolveUtils;
@@ -95,7 +95,7 @@ public class BasicOpV1Controller {
 			resBodyData = basicOpService.login(requestLogin);
 			logger.info("用户登录API请求结果  ：{}",resBodyData.toString());
 		}
-		catch (SystemException e) {
+		catch (MdSysException e) {
 			logger.error("用户登录API请求异常：{}",e.toString());
 		}
 		return resBodyData;

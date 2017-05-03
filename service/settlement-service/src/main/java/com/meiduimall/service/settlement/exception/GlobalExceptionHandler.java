@@ -1,6 +1,7 @@
 package com.meiduimall.service.settlement.exception;
 import javax.servlet.http.HttpServletRequest;
 
+import com.meiduimall.exception.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindException;
@@ -9,7 +10,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 
 /**

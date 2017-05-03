@@ -56,7 +56,7 @@ public class MyBatisConfig implements TransactionManagementConfigurer {
 			bean.setMapperLocations(resolver.getResources(env.getProperty("mybatis.mapper-locations")));
 			return bean.getObject();
 		} catch (Exception e) {
-			throw new DaoException(ServiceCatalogApiCode.DB_EXCEPTION, "sqlSessionFactory init fail", e);
+			throw new DaoException(e, ServiceCatalogApiCode.DB_EXCEPTION);
 		}
 	}
 

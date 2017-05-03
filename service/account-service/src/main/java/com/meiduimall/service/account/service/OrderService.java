@@ -1,7 +1,7 @@
 package com.meiduimall.service.account.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.model.ResBodyData;
 import com.meiduimall.service.account.model.request.RequestFreezeUnFreeze;
 import com.meiduimall.service.account.model.request.RequestUnfreezeDecut;
@@ -24,9 +24,9 @@ public interface OrderService {
 	 * 会员支付成功，解冻并扣减积分和余额
 	 * @param param 解冻扣减积分和余额API请求映射model
 	 * @return 统一数据返回格式
-	 * @throws SystemException 
+	 * @throws MdSysException
 	 */
-	ResBodyData unfreezeDeduct(RequestUnfreezeDecut param) throws SystemException;	
+	ResBodyData unfreezeDeduct(RequestUnfreezeDecut param) throws MdSysException;
 	
 	/**
 	 * 交易取消，解冻积分与余额
