@@ -12,7 +12,7 @@ import com.meiduimall.service.sms.request.SendMessageRequest;
 import com.meiduimall.service.sms.service.SmsService;
 
 /**
- * 公共短信发送和校验
+ * 公共短信发送和校验 
  *
  * @author yangchangfu
  */
