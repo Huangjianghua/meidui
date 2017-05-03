@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.constant.MemSignSourceEnum;
 import com.meiduimall.service.account.util.DESC;
 import com.meiduimall.service.account.util.DoubleCalculate;
@@ -43,7 +43,7 @@ public class MSAccountList implements Serializable {
 	/** 冻结余额 **/
 	private Double mchFreezeBalanceCount;
 
-	public String getMemLoginName() throws SystemException {
+	public String getMemLoginName() throws MdSysException {
 		return DESC.deyption(this.memLoginName);
 	}
 
@@ -51,7 +51,7 @@ public class MSAccountList implements Serializable {
 		this.memLoginName = memLoginName;
 	}
 
-	public String getMemPhone() throws SystemException {
+	public String getMemPhone() throws MdSysException {
 		return DESC.deyption(this.memPhone);
 	}
 
@@ -59,7 +59,7 @@ public class MSAccountList implements Serializable {
 		this.memPhone = memPhone;
 	}
 
-	public String getMemParentIdPhone() throws SystemException {
+	public String getMemParentIdPhone() throws MdSysException {
 		if(StringUtils.isNotBlank(this.memParentIdPhone)){
 			return DESC.deyption(this.memParentIdPhone);
 		}
@@ -105,7 +105,7 @@ public class MSAccountList implements Serializable {
 		this.mchFreezePointsCount = mchFreezePointsCount;
 	}
 
-	public String getMchPointsBalanceCount() throws NumberFormatException, SystemException {
+	public String getMchPointsBalanceCount() throws NumberFormatException, MdSysException {
 		if(StringUtils.isNotBlank(mchPointsBalanceCount)&&mchFreezePointsCount!=null){
 			Double totalPoint=Double.valueOf(DESC.deyption(mchPointsBalanceCount,this.memId));
 			if(this.mchFreezePointsCount!=null&&this.mchFreezePointsCount>=0){

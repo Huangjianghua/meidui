@@ -3,7 +3,7 @@ package com.meiduimall.service.member.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.member.util.DESC;
 import com.meiduimall.service.member.util.StringUtil;
 
@@ -189,7 +189,7 @@ public class MSMembersSet implements Serializable {
 		return memIntegralFrozen;
 	}
 
-	public void setMemIntegralFrozen(String memIntegralFrozen) throws SystemException{
+	public void setMemIntegralFrozen(String memIntegralFrozen) throws MdSysException {
 		this.memIntegralFrozen = DESC.encryption(memIntegralFrozen,this.memId);
 	}
 
@@ -213,7 +213,7 @@ public class MSMembersSet implements Serializable {
 		return memBasicAccountTotalQuantity;
 	}
 
-	public void setMemBasicAccountTotalQuantity(String memBasicAccountTotalQuantity) throws SystemException{
+	public void setMemBasicAccountTotalQuantity(String memBasicAccountTotalQuantity) throws MdSysException {
 		this.memBasicAccountTotalQuantity = DESC.encryption(memBasicAccountTotalQuantity==null?"0":memBasicAccountTotalQuantity, this.memId);
 	}
 
@@ -233,11 +233,11 @@ public class MSMembersSet implements Serializable {
 		this.memSignSource = memSignSource;
 	}
 
-	public String getMemName() throws SystemException {
+	public String getMemName() throws MdSysException {
 		return DESC.deyption(this.memName);
 	}
 
-	public void setMemName(String memName) throws SystemException  {
+	public void setMemName(String memName) throws MdSysException {
 		this.memName = DESC.encryption(memName);
 	}
 	
@@ -269,7 +269,7 @@ public class MSMembersSet implements Serializable {
 		return this.memBasicAccountTotalQuantity;
 	}
 
-	public void setMemBasicAccountTotal(String memBasicAccountTotalQuantity)throws SystemException {
+	public void setMemBasicAccountTotal(String memBasicAccountTotalQuantity)throws MdSysException {
 		this.memBasicAccountTotalQuantity = DESC.encryption(memBasicAccountTotalQuantity, this.memId);
 	}
 
@@ -285,7 +285,7 @@ public class MSMembersSet implements Serializable {
 		return memIntegralStatus;
 	}
 
-	public void setMemIntegralStatus(String memIntegralStatus)throws SystemException {
+	public void setMemIntegralStatus(String memIntegralStatus)throws MdSysException {
 		this.memIntegralStatus = DESC.encryption(memIntegralStatus,this.memId);
 	}
 
@@ -297,7 +297,7 @@ public class MSMembersSet implements Serializable {
 		return this.memId;
 	}
 
-	public void setMemLoginName(String memLoginName)  throws SystemException {
+	public void setMemLoginName(String memLoginName)  throws MdSysException {
 		this.memLoginName = DESC.encryption(memLoginName);
 	}
 
@@ -305,7 +305,7 @@ public class MSMembersSet implements Serializable {
 		return this.memLoginName;
 	}
 
-	public void setMemOldPhone(String memOldPhone) throws SystemException  {
+	public void setMemOldPhone(String memOldPhone) throws MdSysException {
 		this.memOldPhone = DESC.encryption(memOldPhone);
 	}
 
@@ -313,7 +313,7 @@ public class MSMembersSet implements Serializable {
 		return this.memOldPhone;
 	}
 
-	public void setMemPhone(String memPhone) throws SystemException  {
+	public void setMemPhone(String memPhone) throws MdSysException {
 		this.memPhone = DESC.encryption(memPhone);
 	}
 
@@ -321,7 +321,7 @@ public class MSMembersSet implements Serializable {
 		return this.memPhone;
 	}
 
-	public void setMemNickName(String memNickName) throws SystemException  {
+	public void setMemNickName(String memNickName) throws MdSysException {
 		this.memNickName = DESC.encryption(memNickName);
 	}
 
@@ -349,7 +349,7 @@ public class MSMembersSet implements Serializable {
 		return memLoginNameIsdefaultIschanged;
 	}
 	
-	public void setMemLoginNameIsdefaultIschanged(String memLoginNameIsdefaultIschanged) throws SystemException {
+	public void setMemLoginNameIsdefaultIschanged(String memLoginNameIsdefaultIschanged) throws MdSysException {
 		this.memLoginNameIsdefaultIschanged = DESC.encryption(memLoginNameIsdefaultIschanged,memId);
 	}
 
@@ -409,7 +409,7 @@ public class MSMembersSet implements Serializable {
 		return this.memBirthday;
 	}
 
-	public void setMemPic(String memPic) throws SystemException{
+	public void setMemPic(String memPic) throws MdSysException {
 		this.memPic = DESC.encryption(memPic,this.memId);
 	}
 
@@ -509,7 +509,7 @@ public class MSMembersSet implements Serializable {
 		return StringUtil.isEmptyByString(memLockCount)?"0":memLockCount;
 	}
 
-	public void setMemLockCount(String memLockCount) throws SystemException{
+	public void setMemLockCount(String memLockCount) throws MdSysException {
 		this.memLockCount =  DESC.encryption((memLockCount==null?"0":memLockCount),memId);
 	}
 

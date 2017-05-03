@@ -81,7 +81,7 @@ public class DrawServiceImpl implements DrawService {
 			hashMap.put(STATUS, DrawCashConstants.STATUS_VERIFIED_SUCDESS);
 		} else {
 			log.error("审核提现申请异常：提现编号{}", ecmmzfdraw.getDrawCode());
-			throw new ServiceException(SettlementApiCode.VERIFY_DRAWCASH_FAILURE, BaseApiCode.getZhMsg(SettlementApiCode.VERIFY_DRAWCASH_FAILURE));
+			throw new ServiceException(SettlementApiCode.VERIFY_DRAWCASH_FAILURE);
 		}
 		return hashMap;
 	}
@@ -118,7 +118,7 @@ public class DrawServiceImpl implements DrawService {
 			hashMap.put(STATUS, DrawCashConstants.STATUS_VERIFIED_REJECTED);
 		} else {
 			log.error("驳回提现申请异常：提现编号{}", ecmmzfdraw.getDrawCode());
-			throw new ServiceException(SettlementApiCode.REJECT_DRAWCASH_FAILURE, BaseApiCode.getZhMsg(SettlementApiCode.REJECT_DRAWCASH_FAILURE));
+			throw new ServiceException(SettlementApiCode.REJECT_DRAWCASH_FAILURE);
 		}
 		return hashMap;
 	}
@@ -173,7 +173,7 @@ public class DrawServiceImpl implements DrawService {
 				hashMap.put(STATUS, ecmmzfdraw.getStatus());
 			} else {
 				log.error("确认转账成功或失败操作异常：提现编号{}", ecmmzfdraw.getDrawCode());
-				throw new ServiceException(SettlementApiCode.CONFIRM_DRAWCASH_FAILURE, BaseApiCode.getZhMsg(SettlementApiCode.CONFIRM_DRAWCASH_FAILURE));
+				throw new ServiceException(SettlementApiCode.CONFIRM_DRAWCASH_FAILURE);
 			}
 		}
 		
@@ -331,7 +331,7 @@ public class DrawServiceImpl implements DrawService {
 			return true;
 		} else {
 			log.error("提现申请异常：提现编号{}", ecmMzfDraw.getDrawCode());
-			throw new ServiceException(SettlementApiCode.DRAWCASH_FAILURE, BaseApiCode.getZhMsg(SettlementApiCode.DRAWCASH_FAILURE));
+			throw new ServiceException(SettlementApiCode.DRAWCASH_FAILURE);
 		}
 	}
 	

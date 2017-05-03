@@ -81,7 +81,7 @@ public class ServiceCatalogApiCode extends BaseApiCode {
 		zhMsgMap.put(NO_THIS_PRODUCT, "没有这个商品");
 		zhMsgMap.put(SERIALIZER_EXCEPTION, "反序列化数据异常");
 		zhMsgMap.put(OUT_PUT_EXCEPTION, "输出异常");
-		zhMsgMap.put(DB_EXCEPTION, "数据库错误");
+		zhMsgMap.put(DB_EXCEPTION, "数据库错误 sql : {}");
 	}
 
 	private ServiceCatalogApiCode() {

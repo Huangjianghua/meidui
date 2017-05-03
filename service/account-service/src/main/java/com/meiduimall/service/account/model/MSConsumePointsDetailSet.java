@@ -2,7 +2,7 @@ package com.meiduimall.service.account.model;
 
 import java.io.Serializable;
 
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.util.DESC;
 
 
@@ -98,7 +98,7 @@ public class MSConsumePointsDetailSet implements Serializable{
 		return mcpIncome;
 	}
 
-	public void setMcpIncome(String mcpIncome) throws SystemException{
+	public void setMcpIncome(String mcpIncome) throws MdSysException {
 		this.mcpIncome = DESC.encryption(mcpIncome, memId);
 	}
 
@@ -106,7 +106,7 @@ public class MSConsumePointsDetailSet implements Serializable{
 		return mcpExpenditure;
 	}
 
-	public void setMcpExpenditure(String mcpExpenditure) throws SystemException{
+	public void setMcpExpenditure(String mcpExpenditure) throws MdSysException {
 		this.mcpExpenditure = DESC.encryption(mcpExpenditure, memId);
 	}
 
@@ -114,7 +114,7 @@ public class MSConsumePointsDetailSet implements Serializable{
 		return mcpBalance;
 	}
 
-	public void setMcpBalance(String mcpBalance)throws SystemException {
+	public void setMcpBalance(String mcpBalance)throws MdSysException {
 		this.mcpBalance = DESC.encryption(mcpBalance, memId);
 	}
 

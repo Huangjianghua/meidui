@@ -2,6 +2,7 @@ package com.meiduimall.application.mall.service.impl;
 
 import java.math.BigDecimal;
 
+import com.meiduimall.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -21,7 +22,6 @@ import com.meiduimall.application.mall.service.TPPaymentService;
 import com.meiduimall.application.mall.util.DateUtil;
 import com.meiduimall.application.mall.util.GatewaySignUtil;
 import com.meiduimall.application.mall.util.Logger;
-import com.meiduimall.exception.ServiceException;
 
 import net.sf.json.JSONObject;
 
@@ -110,7 +110,7 @@ public class TPPaymentServiceImpl implements TPPaymentService {
 			}
 		} catch (Exception e) {
 		    Logger.error("第三方支付系统错误:%s", e);
-		    throw new ServiceException(MallApiCode.PAYMENT_ERROR, MallApiCode.getZhMsg(MallApiCode.PAYMENT_ERROR)); 
+		    throw new ServiceException(MallApiCode.PAYMENT_ERROR, MallApiCode.getZhMsg(MallApiCode.PAYMENT_ERROR));
 		}
 
 	}

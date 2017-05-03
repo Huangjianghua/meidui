@@ -1,10 +1,8 @@
 package com.meiduimall.service.sms.config;
 
-import java.util.Properties;
-
-import javax.annotation.Resource;
-import javax.sql.DataSource;
-
+import com.github.pagehelper.PageHelper;
+import com.meiduimall.exception.DaoException;
+import com.meiduimall.service.sms.constant.SmsApiCode;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -20,53 +18,54 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 
-import com.github.pagehelper.PageHelper;
-import com.meiduimall.exception.DaoException;
-import com.meiduimall.service.sms.constant.SmsApiCode;
+import javax.annotation.Resource;
+import javax.sql.DataSource;
+import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
 public class MyBatisConfig implements TransactionManagementConfigurer {
 
-	@Resource(name = "dataSource")
-	private DataSource dataSource;
+  @Resource(name = "dataSource")
+  private DataSource dataSource;
 
-	@Autowired
-	private Environment env;
+  @Autowired
+  private Environment env;
 
-	@Bean
-	public SqlSessionFactory sqlSessionFactory() {
-		SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
-		bean.setDataSource(dataSource);
-		bean.setTypeAliasesPackage("com.meiduimall.service.sms.entity");
-		// 分页插件
-		PageHelper pageHelper = new PageHelper();
-		Properties properties = new Properties();
-		properties.setProperty("reasonable", "true");
-		properties.setProperty("supportMethodsArguments", "true");
-		properties.setProperty("returnPageInfo", "check");
-		properties.setProperty("params", "count=countSql");
-		pageHelper.setProperties(properties);
-		// 添加插件
-		bean.setPlugins(new Interceptor[] { pageHelper });
-		// 添加XML目录
-		ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-		try {
-			// 设置xml扫描路径
-			bean.setMapperLocations(resolver.getResources(env.getProperty("mybatis.mapper-locations")));
-			return bean.getObject();
-		} catch (Exception e) {
-			throw new DaoException(SmsApiCode.DB_EXCEPTION, "sqlSessionFactory init fail", e);
-		}
-	}
+  @Bean
+  public SqlSessionFactory sqlSessionFactory() {
+    SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
+    bean.setDataSource(dataSource);
+    bean.setTypeAliasesPackage("com.meiduimall.service.sms.entity");
+    // 分页插件
+    PageHelper pageHelper = new PageHelper();
+    Properties properties = new Properties();
+    properties.setProperty("reasonable", "true");
+    properties.setProperty("supportMethodsArguments", "true");
+    properties.setProperty("returnPageInfo", "check");
+    properties.setProperty("params", "count=countSql");
+    pageHelper.setProperties(properties);
+    // 添加插件
+    bean.setPlugins(new Interceptor[]{pageHelper});
+    // 添加XML目录
+    ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+    try {
+      // 设置xml扫描路径
+      bean.setMapperLocations(resolver.getResources(env.getProperty("mybatis.mapper-locations")));
+      return bean.getObject();
+    } catch (Exception e) {
+//			throw new DaoException(SmsApiCode.DB_EXCEPTION, "sqlSessionFactory init fail", e);
+      throw new DaoException(e, SmsApiCode.DB_EXCEPTION);
+    }
+  }
 
-	@Bean
-	public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
-		return new SqlSessionTemplate(sqlSessionFactory);
-	}
+  @Bean
+  public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
+    return new SqlSessionTemplate(sqlSessionFactory);
+  }
 
-	@Bean(name = "transactionManager")
-	public PlatformTransactionManager annotationDrivenTransactionManager() {
-		return new DataSourceTransactionManager(dataSource);
-	}
+  @Bean(name = "transactionManager")
+  public PlatformTransactionManager annotationDrivenTransactionManager() {
+    return new DataSourceTransactionManager(dataSource);
+  }
 }

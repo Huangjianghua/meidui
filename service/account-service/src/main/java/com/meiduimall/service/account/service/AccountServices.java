@@ -2,7 +2,7 @@ package com.meiduimall.service.account.service;
 
 import java.util.Date;
 
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.model.MSAccount;
 
 /**
@@ -47,9 +47,9 @@ public interface AccountServices {
 	 * @param consumePoints
 	 * @param isLock
 	 * @return
-	 * @throws SystemException 
+	 * @throws MdSysException
 	 */
-	public boolean addMDConsumePoints(String memId,String consumePoints,boolean isLock) throws SystemException;
+	public boolean addMDConsumePoints(String memId,String consumePoints,boolean isLock) throws MdSysException;
 	
 	/**
 	 * 方法名: cutMDConsumePoints<br>
@@ -59,9 +59,9 @@ public interface AccountServices {
 	 * @param consumePoints
 	 * @param isLock
 	 * @return
-	 * @throws SystemException 
+	 * @throws MdSysException
 	 */
-	public boolean cutMDConsumePoints(String memId,String consumePoints,boolean isLock) throws SystemException;
+	public boolean cutMDConsumePoints(String memId,String consumePoints,boolean isLock) throws MdSysException;
 	
 	/**
 	 * 方法名: addMDConsumePointsAndDetail<br>
@@ -75,11 +75,11 @@ public interface AccountServices {
 	 * @param operator
 	 * @param remark
 	 * @return
-	 * @throws SystemException 
+	 * @throws MdSysException
 	 */
 	public boolean addMDConsumePointsAndDetail(String memId,
 			String consumePoints, String orderId, String orderSource,
-			String operatorType, String operator, String remark) throws SystemException;
+			String operatorType, String operator, String remark) throws MdSysException;
 	
 	/**
 	 * 方法名: cutMDConsumePointsAndDetail<br>
@@ -93,11 +93,11 @@ public interface AccountServices {
 	 * @param operator
 	 * @param remark
 	 * @return
-	 * @throws SystemException 
+	 * @throws MdSysException
 	 */
 	public boolean cutMDConsumePointsAndDetail(String memId,
 			String consumePoints, String orderId, String orderSource,
-			String operatorType, String operator, String remark) throws SystemException;
+			String operatorType, String operator, String remark) throws MdSysException;
 	
 	/**
 	 * 冻结美兑积分，并增加冻结记录<br>

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import com.meiduimall.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -40,7 +41,6 @@ import com.meiduimall.application.mall.util.CommonUtil;
 import com.meiduimall.application.mall.util.DateUtil;
 import com.meiduimall.application.mall.util.GatewaySignUtil;
 import com.meiduimall.application.mall.util.Logger;
-import com.meiduimall.exception.ServiceException;
 
 import net.sf.json.JSONObject;
 

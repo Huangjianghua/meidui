@@ -2,6 +2,7 @@ package com.meiduimall.service.member.dao.impl;
 
 import java.util.List;
 
+import com.meiduimall.exception.DaoException;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.slf4j.Logger;
@@ -9,10 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.meiduimall.exception.DaoException;
 import com.meiduimall.service.member.constant.ApiStatusConst;
 import com.meiduimall.service.member.dao.BaseDao;
-import com.meiduimall.service.member.service.impl.UserInfoServiceImpl;
 
 
 /**

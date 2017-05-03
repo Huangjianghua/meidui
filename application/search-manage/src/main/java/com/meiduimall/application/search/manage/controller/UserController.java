@@ -87,7 +87,7 @@ public class UserController extends BaseController {
 			write.close();
 			log.setRemark("登入成功");
 		} catch (IOException e) {
-			throw new ApiException(SearchManageApiCode.EXCEPTION_LOGIN, SearchManageApiCode.getZhMsg(SearchManageApiCode.EXCEPTION_LOGIN),e);
+			throw new ApiException(e, SearchManageApiCode.EXCEPTION_LOGIN);
 		}finally{
 			systemlogService.addSysLog(log);
 		}

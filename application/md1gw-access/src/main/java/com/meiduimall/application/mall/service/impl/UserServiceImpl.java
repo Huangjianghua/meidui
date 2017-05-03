@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.meiduimall.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -26,7 +27,6 @@ import com.meiduimall.application.mall.model.SysuserWalletPaylog;
 import com.meiduimall.application.mall.service.UserService;
 import com.meiduimall.application.mall.util.CommonUtil;
 import com.meiduimall.application.mall.util.Logger;
-import com.meiduimall.exception.ServiceException;
 
 import net.sf.json.JSONObject;
 

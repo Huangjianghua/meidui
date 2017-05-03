@@ -3,6 +3,7 @@ package com.meiduimall.service.account.api;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import com.meiduimall.exception.MdBizException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.exception.ApiException;
-import com.meiduimall.exception.BizException;
 import com.meiduimall.service.account.constant.ApiStatusConst;
 import com.meiduimall.service.account.model.MSMembersPaypwd;
 import com.meiduimall.service.account.model.ResBodyData;
@@ -71,7 +71,7 @@ public class PayPwdV1Controller {
 			ResBodyData resBodyData = paypwdService.isExistPaypwd(memId);
 			logger.info("根据memId查询是否存在支付密码API请求结果  ：{}",resBodyData.toString());
 			return resBodyData;
-		} catch (BizException e) {
+		} catch (MdBizException e) {
 			logger.error("根据memId查询是否存在支付密码API请求异常：{}",e.toString());
 			throw new ApiException(ApiStatusConst.SET_PAYPWD_EXCEPTION,ApiStatusConst.getZhMsg(ApiStatusConst.SET_PAYPWD_EXCEPTION));
 		}

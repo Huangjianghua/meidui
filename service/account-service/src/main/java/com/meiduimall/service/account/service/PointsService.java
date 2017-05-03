@@ -2,7 +2,7 @@ package com.meiduimall.service.account.service;
 
 import java.util.Map;
 
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.model.ResBodyData;
 
 /**
@@ -39,9 +39,9 @@ public interface PointsService {
 	 * @param orderId 交易订单号
 	 * @param orderSource 订单来源
 	 * @return 统一数据返回格式
-	 * @throws SystemException 
+	 * @throws MdSysException
 	 */
-	ResBodyData deductPointsAndAddRecord(String memId,Double consumePoints, String orderId, String orderSource,Map<String,Object> dataMap) throws SystemException;
+	ResBodyData deductPointsAndAddRecord(String memId,Double consumePoints, String orderId, String orderSource,Map<String,Object> dataMap) throws MdSysException;
 	
 	/**
 	 * 根据交易订单号查询积分冻结解冻记录

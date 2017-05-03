@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.meiduimall.exception.ServiceException;
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.constant.ApiStatusConst;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSMembersPaypwd;
@@ -32,7 +32,7 @@ public class PaypwdServiceImpl implements PaypwdService {
 	private  BaseDao  baseDao;
 
 	@Override
-	public ResBodyData validePaypwd(MSMembersPaypwd msMembersPaypwd) throws SystemException{
+	public ResBodyData validePaypwd(MSMembersPaypwd msMembersPaypwd) throws MdSysException {
 		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
 		String paypwd=msMembersPaypwd.getPay_pwd();
 		
@@ -68,7 +68,7 @@ public class PaypwdServiceImpl implements PaypwdService {
 	}
 
 	@Override
-	public ResBodyData setPaypwd(MSMembersPaypwd msMembersPaypwd) throws SystemException{
+	public ResBodyData setPaypwd(MSMembersPaypwd msMembersPaypwd) throws MdSysException {
 		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
 		String memId=msMembersPaypwd.getMemId();
 		String paypwd=msMembersPaypwd.getPay_pwd();
@@ -106,7 +106,7 @@ public class PaypwdServiceImpl implements PaypwdService {
 	
 	@Transactional
 	@Override
-	public ResBodyData updatePaypwd(RequestUpdatePaypwd requestUpdatePaypwd) throws SystemException {
+	public ResBodyData updatePaypwd(RequestUpdatePaypwd requestUpdatePaypwd) throws MdSysException {
 		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
 		
 		/**先验证旧支付密码*/
@@ -127,7 +127,7 @@ public class PaypwdServiceImpl implements PaypwdService {
 	}
 	
 	@Override
-	public ResBodyData retrievePaypwd(RequestRetrievePaypwd requestRetrievePaypwd) throws SystemException {
+	public ResBodyData retrievePaypwd(RequestRetrievePaypwd requestRetrievePaypwd) throws MdSysException {
 		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
 		
 		return resBodyData;
@@ -182,9 +182,9 @@ public class PaypwdServiceImpl implements PaypwdService {
 	 * 设置新支付密码
 	 * @param memId 会员ID
 	 * @param paypwd 新支付密码
-	 * @throws SystemException 检查类型异常
+	 * @throws MdSysException 检查类型异常
 	 */
-	private void setNewPaypwd(String memId,String paypwd) throws SystemException{
+	private void setNewPaypwd(String memId,String paypwd) throws MdSysException {
 		MSMembersPaypwd msMembersPaypwd=new MSMembersPaypwd();
 		msMembersPaypwd.setMemId(memId);
 		msMembersPaypwd.setPay_pwd(paypwd);

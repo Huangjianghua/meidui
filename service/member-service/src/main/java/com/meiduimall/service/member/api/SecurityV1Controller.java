@@ -2,6 +2,7 @@ package com.meiduimall.service.member.api;
 
 import javax.validation.Valid;
 
+import com.meiduimall.exception.ApiException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -14,8 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.exception.ApiException;
-import com.meiduimall.exception.BizException;
+import com.meiduimall.exception.MdBizException;
 import com.meiduimall.service.member.constant.ApiStatusConst;
 import com.meiduimall.service.member.model.MSMembersGet;
 import com.meiduimall.service.member.model.request.RequestSetPaypwdStatus;
@@ -46,7 +46,7 @@ public class SecurityV1Controller {
 			logger.info("设置支付密码开关API请求结果  ：{}",resBodyData.toString());
 			return resBodyData;
 		}
-		catch (BizException e) {
+		catch (MdBizException e) {
 			logger.error("设置支付密码开关API请求异常：{}",e.toString());
 			throw new ApiException(ApiStatusConst.SET_PAYPWD_STATUS_EXCEPTION,ApiStatusConst.getZhMsg(ApiStatusConst.SET_PAYPWD_STATUS_EXCEPTION));
 		}

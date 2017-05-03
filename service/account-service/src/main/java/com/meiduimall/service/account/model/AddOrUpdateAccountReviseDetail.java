@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.util.DESC;
 
 /**
@@ -178,7 +178,7 @@ public class AddOrUpdateAccountReviseDetail implements Serializable {
 		this.isDelete = isDelete;
 	}
 
-	public String getMemLoginName() throws SystemException {
+	public String getMemLoginName() throws MdSysException {
 		if(StringUtils.isNotBlank(this.memLoginName)) DESC.deyption(memLoginName);
 		return  memLoginName;
 	}
@@ -187,7 +187,7 @@ public class AddOrUpdateAccountReviseDetail implements Serializable {
 		this.memLoginName = memLoginName;
 	}
 
-	public String getMemPhone() throws SystemException {
+	public String getMemPhone() throws MdSysException {
 		if(StringUtils.isNotBlank(this.memLoginName)) DESC.deyption(memLoginName);
 		return memPhone;
 	}

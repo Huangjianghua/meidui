@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import com.meiduimall.exception.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.exception.ServiceException;
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.redis.util.RedisTemplate;
 import com.meiduimall.service.member.constant.ApiStatusConst;
 import com.meiduimall.service.member.constant.SysEncrypParamsConst;
@@ -219,7 +219,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 	}
 	
 	
-	public ResBodyData login(RequestLogin requestLogin) throws SystemException {
+	public ResBodyData login(RequestLogin requestLogin) throws MdSysException {
 		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
 
 		String userid=requestLogin.getUser_name();
