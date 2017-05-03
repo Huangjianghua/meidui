@@ -87,7 +87,7 @@ public class OldSmsControllerTest {
 				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/send_common_sms_message")
 				.param("phones", phone)
 				.param("templateId", "1GW_1001")
-				.param("clientId", "junit")
+				.param("sysKey", "junit")
 				.param("params", "188000000,DW123456789"))
 				.andExpect(status().isOk());
 
@@ -106,7 +106,7 @@ public class OldSmsControllerTest {
 				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/send_common_sms_message")
 				.param("phones", phone)
 				.param("templateId", "O2O_1111")
-				.param("clientId", "junit")
+				.param("sysKey", "junit")
 				.param("params", "DD201704271103111,666.66"))
 				.andExpect(status().isOk());
 
@@ -125,7 +125,7 @@ public class OldSmsControllerTest {
 				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/send_common_sms_message")
 				.param("phones", phone)
 				.param("templateId", "1GW_1004")
-				.param("clientId", "junit")
+				.param("sysKey", "junit")
 				.param("params", "88.88,66元购物券"))
 				.andExpect(status().isOk());
 
@@ -144,7 +144,7 @@ public class OldSmsControllerTest {
 				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/send_sms_verification_code")
 				.param("phones", phone)
 				.param("templateId", "MEM_1002")
-				.param("clientId", "junit")
+				.param("sysKey", "junit")
 				.param("type", "regist")
 				.param("timeout", "90"))
 				.andExpect(status().isOk());
@@ -164,7 +164,7 @@ public class OldSmsControllerTest {
 				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/send_sms_verification_code")
 				.param("phones", phone)
 				.param("templateId", "O2O_1002")
-				.param("clientId", "junit")
+				.param("sysKey", "junit")
 				.param("type", "regist")
 				.param("timeout", "180"))
 				.andExpect(status().isOk());
@@ -184,7 +184,7 @@ public class OldSmsControllerTest {
 				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/send_sms_verification_code")
 				.param("phones", phone)
 				.param("templateId", "O2O_1002")
-				.param("clientId", "junit")
+				.param("sysKey", "junit")
 				.param("type", "regist")
 				.param("timeout", "180"))
 				.andExpect(status().isOk());
@@ -204,7 +204,7 @@ public class OldSmsControllerTest {
 				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/check_sms_verification_code")
 				.param("phones", phone)
 				.param("templateId", "O2O_1002")
-				.param("clientId", "junit")
+				.param("sysKey", "junit")
 				.param("type", "regist")
 				.param("verificationCode", "111222"))
 				.andExpect(status().isOk());
@@ -224,7 +224,7 @@ public class OldSmsControllerTest {
 				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/check_sms_verification_code")
 				.param("phones", phone)
 				.param("templateId", "O2O_1111")
-				.param("clientId", "junit")
+				.param("sysKey", "junit")
 				.param("type", "regist")
 				.param("verificationCode", "111222"))
 				.andExpect(status().isOk());
@@ -244,7 +244,7 @@ public class OldSmsControllerTest {
 				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/check_sms_verification_code")
 				.param("phones", phone)
 				.param("type", "regist")
-				.param("clientId", "junit")
+				.param("sysKey", "junit")
 				.param("templateId", "O2O_1002"))
 				.andExpect(status().isOk());
 
