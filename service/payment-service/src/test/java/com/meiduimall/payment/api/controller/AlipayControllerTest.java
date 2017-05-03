@@ -54,6 +54,7 @@ public class AlipayControllerTest {
 	 
 	  String responseString = mvc.perform(post("/pay/payment-service/v1/payment").contentType(MediaType.APPLICATION_JSON).content(json)).
               andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+	  
 	  System.out.println(responseString);
 	 
 	  
