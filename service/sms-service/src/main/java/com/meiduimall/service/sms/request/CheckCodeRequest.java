@@ -28,7 +28,7 @@ public class CheckCodeRequest implements Serializable {
 	private String type;// 验证码类型：注册使用的验证码/找回密码使用的验证码...
 	
 	@NotNull
-	private String clientId;// 客户端来源
+	private String sysKey;// 客户端来源
 
 	public String getPhones() {
 		return phones;
@@ -62,11 +62,11 @@ public class CheckCodeRequest implements Serializable {
 		this.type = type;
 	}
 	
-	public String getClientId() {
-		return clientId;
+	public String getSysKey() {
+		return sysKey;
 	}
 
-	public void setClientId(String clientId) {
-		this.clientId = clientId;
+	public void setSysKey(String sysKey) {
+		this.sysKey = sysKey;
 	}
 }
