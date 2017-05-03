@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Maps;
-import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.SettlementApiCode;
