@@ -72,11 +72,7 @@ public class SendMessageRequest implements Serializable {
 	public void setTimeout(Integer timeout) {
 		this.timeout = timeout;
 	}
-<<<<<<< HEAD
 	
-=======
-
->>>>>>> refs/heads/master
 	public String getSysKey() {
 		return sysKey;
 	}
