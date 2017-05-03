@@ -169,7 +169,7 @@ public class SmsServiceImpl implements SmsService {
 	public ResBodyData sendSmsVerificationCode(SendCodeRequest model) {
 
 		String redisKey = model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId() + model.getType()
-				+ model.getClientId();
+				+ model.getSysKey();
 
 		// 检查是否已在超时时间内，给该手机发送了短信
 		String tempMsg = RedisUtils.get(redisKey);
@@ -296,7 +296,7 @@ public class SmsServiceImpl implements SmsService {
 	public ResBodyData checkSmsVerificationCode(CheckCodeRequest model) {
 
 		String redisKey = model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId() + model.getType()
-				+ model.getClientId();
+				+ model.getSysKey();
 		String tempVerificationCode = RedisUtils.get(redisKey);
 
 		if (StringUtils.isEmpty(tempVerificationCode)) {
@@ -406,7 +406,7 @@ public class SmsServiceImpl implements SmsService {
 		ssh.setPhone(model.getPhones());
 		ssh.setRemark(model.getParams());
 		ssh.setChannelId(channelId);
-		ssh.setClientId(model.getClientId());
+		ssh.setClientId(model.getSysKey());
 		return ssh;
 	}
 
@@ -425,7 +425,7 @@ public class SmsServiceImpl implements SmsService {
 		ssh.setPhone(model.getPhones());
 		ssh.setRemark(model.getParams());
 		ssh.setChannelId(channelId);
-		ssh.setClientId(model.getClientId());
+		ssh.setClientId(model.getSysKey());
 		return ssh;
 	}
 }
