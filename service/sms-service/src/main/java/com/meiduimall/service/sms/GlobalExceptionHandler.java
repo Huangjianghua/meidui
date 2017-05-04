@@ -18,7 +18,7 @@ import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.sms.constant.SmsApiCode;
 
 /**
- * 全局异常处理 
+ * 全局异常处理
  * 
  * @author yangchang
  */
@@ -43,17 +43,20 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(value = ApiException.class)
 	public Object apiExceptionHandler(HttpServletRequest request, ApiException exception) {
-		return new ResBodyData(exception.getCode(), exception.getMessage(), JsonUtils.getInstance().createObjectNode());
+		return new ResBodyData(exception.getCode(), SmsApiCode.getZhMsg(exception.getCode()),
+				JsonUtils.getInstance().createObjectNode());
 	}
 
 	@ExceptionHandler(value = ServiceException.class)
 	public Object serviceExceptionHandler(HttpServletRequest request, ServiceException exception) {
-		return new ResBodyData(exception.getCode(), exception.getMessage(), JsonUtils.getInstance().createObjectNode());
+		return new ResBodyData(exception.getCode(), SmsApiCode.getZhMsg(exception.getCode()),
+				JsonUtils.getInstance().createObjectNode());
 	}
 
 	@ExceptionHandler(value = DaoException.class)
 	public Object daoExceptionHandler(HttpServletRequest request, DaoException exception) {
 		logger.error("全局捕获DaoException:   " + exception);
-		return new ResBodyData(exception.getCode(), exception.getMessage(), JsonUtils.getInstance().createObjectNode());
+		return new ResBodyData(exception.getCode(), SmsApiCode.getZhMsg(exception.getCode()),
+				JsonUtils.getInstance().createObjectNode());
 	}
 }

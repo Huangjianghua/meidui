@@ -2,8 +2,6 @@ package com.meiduimall.application.mall.catalog;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.meiduimall.exception.ApiException;
-import com.meiduimall.exception.ServiceException;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -13,6 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.meiduimall.application.mall.catalog.constant.ApplMallApiCode;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
+import com.meiduimall.exception.ApiException;
+import com.meiduimall.exception.ServiceException;
 
 /**
  * 全局异常处理
@@ -40,11 +40,13 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(value = ApiException.class)
 	public Object apiExceptionHandler(HttpServletRequest request, ApiException exception) {
-		return new ResBodyData(exception.getCode(), exception.getMessage(), JsonUtils.getInstance().createObjectNode());
+		return new ResBodyData(exception.getCode(), ApplMallApiCode.getZhMsg(exception.getCode()),
+				JsonUtils.getInstance().createObjectNode());
 	}
 
 	@ExceptionHandler(value = ServiceException.class)
 	public Object serviceExceptionHandler(HttpServletRequest request, ServiceException exception) {
-		return new ResBodyData(exception.getCode(), exception.getMessage(), JsonUtils.getInstance().createObjectNode());
+		return new ResBodyData(exception.getCode(), ApplMallApiCode.getZhMsg(exception.getCode()),
+				JsonUtils.getInstance().createObjectNode());
 	}
 }

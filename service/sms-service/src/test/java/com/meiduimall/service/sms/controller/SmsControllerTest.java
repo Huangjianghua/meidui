@@ -86,10 +86,10 @@ public class SmsControllerTest {
 		ResultActions results = mockMvc.perform(
 				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/new/send_common_sms_message")
 				.param("phones", phone)
-				.param("templateId", "1GW_1001")
+				.param("templateId", "1GW_1003")
 				.param("sysKey", "junit")
 				.param("timeout", "90")
-				.param("params", "188000000,DW123456789"))
+				.param("params", "DW123456789"))
 				.andExpect(status().isOk());
 
 		results.andDo(new ResultHandler() {
