@@ -92,12 +92,7 @@ public class SmsServiceImpl implements SmsService {
 			logger.info("只使用阿里大于发送--阿里大于发送短信结果flag：" + flag);
 			if (!flag) {
 				// 发送失败，直接抛出异常
-<<<<<<< HEAD
 				throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER);
-=======
-				throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER,
-						BaseApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
->>>>>>> refs/heads/release/v1.2.2
 			}
 			channelId = "1";
 
@@ -121,11 +116,7 @@ public class SmsServiceImpl implements SmsService {
 		try {
 			// 发送成功，缓存到redis，设置缓存时间
 			int expire = 60;
-<<<<<<< HEAD
 			if (model.getTimeout() != null && model.getTimeout() > 0) {
-=======
-			if(model.getTimeout() != null && model.getTimeout() > 0){
->>>>>>> refs/heads/release/v1.2.2
 				expire = model.getTimeout();
 			}
 			RedisUtils.setex(redisKey, expire, content);
@@ -158,7 +149,6 @@ public class SmsServiceImpl implements SmsService {
 	private String sendMessageByZucp(SendMessageRequest model, String content, String res) {
 		try {
 			res = zucpService.send(model.getPhones(), content);
-<<<<<<< HEAD
 		} catch (MdSysException e) {
 			logger.info("漫道普通短信发送异常：" + e);
 			throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER);
@@ -171,21 +161,6 @@ public class SmsServiceImpl implements SmsService {
 		} catch (NumberFormatException e) {
 			logger.info("漫道发送普通短信结果异常：" + e);
 			throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER);
-=======
-		} catch (SystemException e) {
-			logger.info("漫道普通短信发送异常：" + e);
-			throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER, BaseApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
-		}
-		logger.info("漫道普通短信发送结果：" + res);
-		try {
-			if (Long.parseLong(res) < 0) {
-				throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER,
-						BaseApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
-			}
-		} catch (NumberFormatException e) {
-			logger.info("漫道发送普通短信结果异常：" + e);
-			throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER, BaseApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
->>>>>>> refs/heads/release/v1.2.2
 		}
 		return res;
 	}
@@ -230,11 +205,7 @@ public class SmsServiceImpl implements SmsService {
 		String params = "";
 		if (StringUtils.isNotEmpty(model.getParams())) {
 			params = aliDaYuParamsToJson(true, randomNumber + "," + model.getParams());
-<<<<<<< HEAD
 		} else {
-=======
-		} else{
->>>>>>> refs/heads/release/v1.2.2
 			params = aliDaYuParamsToJson(true, randomNumber);
 		}
 
@@ -248,12 +219,7 @@ public class SmsServiceImpl implements SmsService {
 			logger.info("只使用阿里大于发送---阿里大于发送验证码短信结果flag：" + flag);
 			if (!flag) {
 				// 发送失败，直接抛出异常
-<<<<<<< HEAD
 				throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER);
-=======
-				throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER,
-						BaseApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
->>>>>>> refs/heads/release/v1.2.2
 			}
 			channelId = "1";
 
@@ -277,11 +243,7 @@ public class SmsServiceImpl implements SmsService {
 		try {
 			// 发送成功，缓存到redis，设置缓存时间
 			int expire = 60;
-<<<<<<< HEAD
 			if (model.getTimeout() != null && model.getTimeout() > 0) {
-=======
-			if(model.getTimeout() != null && model.getTimeout() > 0){
->>>>>>> refs/heads/release/v1.2.2
 				expire = model.getTimeout();
 			}
 			RedisUtils.setex(redisKey, expire, randomNumber);
@@ -314,7 +276,6 @@ public class SmsServiceImpl implements SmsService {
 	private String sendCodeByZucp(SendCodeRequest model, String content, String res) {
 		try {
 			res = zucpService.send(model.getPhones(), content);
-<<<<<<< HEAD
 		} catch (MdSysException e) {
 			logger.info("漫道发送验证码短信异常：" + e);
 			throw new ServiceException(SmsApiCode.SEND_CODE_FAILUER);
@@ -327,23 +288,6 @@ public class SmsServiceImpl implements SmsService {
 		} catch (NumberFormatException e) {
 			logger.info("漫道发送验证码短信结果异常：" + e);
 			throw new ServiceException(SmsApiCode.SEND_CODE_FAILUER);
-=======
-		} catch (SystemException e) {
-			logger.info("漫道发送验证码短信异常：" + e);
-			throw new ServiceException(SmsApiCode.SEND_CODE_FAILUER,
-					BaseApiCode.getZhMsg(SmsApiCode.SEND_CODE_FAILUER));
-		}
-		logger.info("漫道发送验证码短信结果：" + res);
-		try {
-			if (Long.parseLong(res) < 0) {
-				throw new ServiceException(SmsApiCode.SEND_CODE_FAILUER,
-						BaseApiCode.getZhMsg(SmsApiCode.SEND_CODE_FAILUER));
-			}
-		} catch (NumberFormatException e) {
-			logger.info("漫道发送验证码短信结果异常：" + e);
-			throw new ServiceException(SmsApiCode.SEND_CODE_FAILUER,
-					BaseApiCode.getZhMsg(SmsApiCode.SEND_CODE_FAILUER));
->>>>>>> refs/heads/release/v1.2.2
 		}
 		return res;
 	}
