@@ -25,7 +25,7 @@ public class SmsController {
 	private SmsService smsService;
 
 	/**
-	 * 发送普通短信 
+	 * 发送普通短信
 	 *
 	 * @param model
 	 *            请求参数封装的SendMessageRequest对象
