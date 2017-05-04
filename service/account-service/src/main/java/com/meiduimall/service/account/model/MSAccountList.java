@@ -110,10 +110,12 @@ public class MSAccountList implements Serializable {
 			Double totalPoint=Double.valueOf(DESC.deyption(mchPointsBalanceCount,this.memId));
 			if(this.mchFreezePointsCount!=null&&this.mchFreezePointsCount>=0){
 				totalPoint=DoubleCalculate.sub(totalPoint, mchFreezePointsCount);
+				totalPoint=Math.abs(totalPoint);
 			}
 			if(this.mchFreezePointsCount!=null&&this.mchFreezePointsCount<0){
 				totalPoint=DoubleCalculate.add(totalPoint, mchFreezePointsCount);
 			}
+			this.mchFreezePointsCount=Math.abs(mchFreezePointsCount);
 			return  totalPoint.toString();
 		}
 		return DESC.deyption(mchPointsBalanceCount,this.memId);

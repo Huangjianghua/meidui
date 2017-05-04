@@ -10,7 +10,7 @@
 
 package com.meiduimall.exception;
 
-import com.meiduimall.core.BaseApiCode;
+import com.meiduimall.core.BaseApiCode; 
 
 public class SystemException extends Exception {
 

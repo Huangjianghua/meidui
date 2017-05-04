@@ -123,6 +123,10 @@ public class DESC {
 	}
 
 	private static String decrypt(String data, String key) throws SystemException {
+		if(data==null)
+		{
+			return "";
+		}
 		String result=null;
 		Key deskey=null;
 		try {
