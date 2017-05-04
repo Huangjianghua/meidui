@@ -220,7 +220,9 @@ public class BasicOpServiceImpl implements BasicOpService {
 	
 	
 
+
 	public ResBodyData login(RequestLogin requestLogin) throws MdSysException {
+
 		ResBodyData resBodyData=new ResBodyData(1,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
 
 		String userid=requestLogin.getUser_name();

@@ -224,7 +224,9 @@ public class MSMembersGet implements Serializable {
 	}
 
 
+
 	public String getMemBasicAccountTotalQuantity() throws MdSysException  {
+
 		return DESC.deyption(memBasicAccountTotalQuantity==null?"0":memBasicAccountTotalQuantity, this.memId);
 	}
 
@@ -328,7 +330,10 @@ public class MSMembersGet implements Serializable {
 	}
 
 
+
 	public String getMemLoginName() throws MdSysException  {
+
+	
 		return memLoginName!=null?DESC.deyption(this.memLoginName):"";
 	}
 
@@ -353,7 +358,9 @@ public class MSMembersGet implements Serializable {
 	}
 
 
+
 	public String getMemNickName()  throws MdSysException {
+
 		return memNickName!=null?DESC.deyption(this.memNickName):"";
 	}
 

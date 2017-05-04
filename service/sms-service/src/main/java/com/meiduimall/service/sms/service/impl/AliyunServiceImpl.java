@@ -7,6 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
+<<<<<<< HEAD
+=======
+import com.meiduimall.core.BaseApiCode;
+>>>>>>> refs/heads/release/v1.2.2
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.sms.constant.SmsApiCode;
 import com.meiduimall.service.sms.service.AliyunService;
@@ -59,7 +63,9 @@ public class AliyunServiceImpl implements AliyunService {
 				// 短信验证码，使用同一个签名，对同一个手机号码发送短信验证码，允许每分钟1条，累计每小时7条。
 				// 短信通知，使用同一签名、同一模板，对同一手机号发送短信通知，允许每天50条（自然日）。
 				logger.error("短信发送，阿里云平台返回错误码: isv.BUSINESS_LIMIT_CONTROL");
-				throw new ServiceException(SmsApiCode.REPEATING);
+
+				throw new ServiceException(SmsApiCode.REPEATING, BaseApiCode.getZhMsg(SmsApiCode.REPEATING));
+
 			} else {
 				return false;
 			}
