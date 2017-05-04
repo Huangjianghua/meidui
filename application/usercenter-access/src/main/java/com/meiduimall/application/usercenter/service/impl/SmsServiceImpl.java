@@ -28,13 +28,13 @@ public class SmsServiceImpl implements SmsService  {
 	public ResBodyData getValidatCode(JSONObject reqJson) {
 		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
 		
-		String url=profile.getServiceSmsUrl()+"v1/send_sms_verification_code";//获取下发短信验证码服务地址
-		resBodyData=MD5Utils.updateSign(reqJson,profile.getRouteClientID(),profile.getRouteKey());//重新生成签名
+		String url=profile.getServiceMemberUrl()+"v1/get_validate_code";
+		resBodyData=MD5Utils.updateSign(reqJson,profile.getRouteClientID(),profile.getRouteKey());
 		if(resBodyData.getStatus()!=0){
 			throw new ServiceException(ApiStatusConst.GET_SIGN_EX);
 		}
 		
-		logger.info("请求短信服务>>发送短信验证码    URL:{}  DATA:{}",url,reqJson.toString());
+		logger.info("请求账号服务>>发送短信验证码    URL:{}  DATA:{}",url,reqJson.toString());
 		try {
 			String result=HttpUtils.get(url,reqJson);
 			logger.info("请求短信服务>>发送短信验证码，结果：{}",result);

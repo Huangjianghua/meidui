@@ -15,9 +15,6 @@ public class ProfileParamsConfig {
 
 	@Value("${service.member.url}")
 	private String serviceMemberUrl;
-	
-	@Value("${service.sms.url}")
-	private String serviceSmsUrl;
 
 	@Value("${route.clientID}")
 	private String routeClientID;
@@ -33,9 +30,6 @@ public class ProfileParamsConfig {
 		return serviceMemberUrl;
 	}
 	
-	public String getServiceSmsUrl() {
-		return serviceSmsUrl;
-	}
 
 	public String getRouteClientID() {
 		return routeClientID;

@@ -91,10 +91,12 @@ public class MD5Utils {
 		reqJson.put(SysParamsConst.TIMESATAMP,System.currentTimeMillis());
 		resBodyData=MD5Utils.getSign(reqJson,key);
 		if(resBodyData.getStatus()!=0){
+			logger.error("接入层请求网关更新签名失败");
 			return resBodyData;
 		}
 		String sign=resBodyData.getData().toString();
 		reqJson.put(SysParamsConst.SIGN,sign);
+		logger.info("接入层请求网关更新签名成功");
 		return resBodyData;
 	}
 	

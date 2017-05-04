@@ -9,7 +9,6 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.meiduimall.service.member.util.DESC;
 
 @EnableHystrix
 @SpringBootApplication
@@ -19,7 +18,6 @@ import com.meiduimall.service.member.util.DESC;
 public class MemberServiceApplication extends SpringBootServletInitializer{
 	
 	public static void main(String[] args){
-		System.out.println(DESC.encryption("1gw_18938884424"));
 		SpringApplication.run(MemberServiceApplication.class, args);
 	}
 }
