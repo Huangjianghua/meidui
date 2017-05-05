@@ -165,9 +165,11 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		MSAccount account=baseDao.selectOne(paramsMap, "MSAccountMapper.getAccountByMemId");
 		if(account==null) return new ResBodyData(ApiStatusConst.ACCOUNT_IS_NULL_ERROR,ApiStatusConst.ACCOUNT_IS_NULL_ERROR_C);
 		Double balance=0.0;
+		String type="1";  //用户余额明细类型  1收入 -1支出
 		//step2  判断调整类型   1-调增金额   2-调减金额  
 		if(detail.getReviseType().equals(AccountReviseTypeEnum.CUT_DOWN.getName())){
 			balance = DoubleCalculate.sub(Double.valueOf(account.getBalance()),detail.getReviseBalance().doubleValue());
+			type="-1";
 			if(balance<0) return new ResBodyData(ApiStatusConst.ACCOUNT_REVISE_BALANCE_ERROR,ApiStatusConst.ACCOUNT_REVISE_BALANCE_ERROR_C);
 		}else{
 			balance = DoubleCalculate.add(Double.valueOf(account.getBalance()),detail.getReviseBalance().doubleValue());
@@ -175,7 +177,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		//step3 修改会员账户余额
 		updateAccountBalance(account.getId(), balance);
 		//step4 记录调整金额流水记录
-		saveAccountDetail(detail,account);
+		saveAccountDetail(detail,account,balance,type);
 		return new ResBodyData(ApiStatusConst.SUCCESS, ApiStatusConst.SUCCESS_M);
 	}
 	
@@ -204,7 +206,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月20日 下午4:49:13
 	 */
-	private void saveAccountDetail(AccountReviseDetail detail,MSAccount account) {
+	private void saveAccountDetail(AccountReviseDetail detail,MSAccount account,Double balance,String type) {
 		//业务流水号  CWTZ+年月日时+6位随机数
 		StringBuffer businesNo=new StringBuffer("CWTZ");
 		businesNo.append(DateUtil.format(new Date(), DateUtil.YYYYMMDDHH));
@@ -218,9 +220,9 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		paramsMap.put("accountType", account.getType());
 		paramsMap.put("tradeType", "CWTZ");
 		paramsMap.put("tradeAmount", detail.getReviseBalance().toString());
-		paramsMap.put("balance", account.getBalance());
+		paramsMap.put("balance", balance.toString());
 		paramsMap.put("remark", detail.getReviseRemark());
-		paramsMap.put("inOrOut", "-1");
+		paramsMap.put("inOrOut", type);
 		paramsMap.put("tradeDate", DateUtil.format(new Date(),DateUtil.YYYY_MM_DD_HH_MM_SS));
 		try {
 			baseDao.insert(paramsMap, "MSAccountDetailMapper.insertAccountDetail");

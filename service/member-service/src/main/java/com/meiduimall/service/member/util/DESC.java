@@ -88,7 +88,7 @@ public class DESC {
 		return result;
 	}
 
-	private static String decrypt(String data, String key) throws MdSysException{
+	private static String decrypt(String data, String key) throws MdSysException {
 		if(StringUtils.isEmpty(data)){
 			return "";
 		}

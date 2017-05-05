@@ -18,6 +18,12 @@ import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.service.account.model.request.RequestUpdatePaypwd;
 
 
+/**
+ * 鏀粯瀵嗙爜鐩稿叧鎺ュ彛鍗曞厓娴嬭瘯
+ * @author chencong
+ *
+ */
+
 public class PayPwdV1ControllerTest extends BaseControllerTest {
 	
 	private final static Logger logger=LoggerFactory.getLogger(PayPwdV1ControllerTest.class);

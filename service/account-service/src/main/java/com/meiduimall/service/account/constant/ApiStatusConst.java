@@ -42,6 +42,9 @@ public abstract class ApiStatusConst extends BaseApiCode {
 		public final static Integer RETRIEVE_PAYPWD_EXCEPTION=7016;
 		public final static Integer OLD_PAYPWD_NOT_RIGHT=7016;
 		
+		public static final Integer USER_NOT_EXIST = 7017;
+		public static final Integer BANK_INFO_ALREADY_EXIST = 7018;
+		
 		static {
 			zhMsgMap.put(OPERATION_DB_EX, "操作数据库程序异常");
 			zhMsgMap.put(REQUIRED_PARAM_EMPTY, "必填参数为空");
@@ -68,6 +71,9 @@ public abstract class ApiStatusConst extends BaseApiCode {
 			zhMsgMap.put(UPDATE_PAYPWD_EXCEPTION, "修改支付密码失败，请联系客服");
 			zhMsgMap.put(RETRIEVE_PAYPWD_EXCEPTION, "找回支付密码失败，请联系客服");
 			zhMsgMap.put(OLD_PAYPWD_NOT_RIGHT, "旧支付密码验证不通过，请联系客服");
+			
+			zhMsgMap.put(USER_NOT_EXIST, "当前用户在会员系统不存在");
+			zhMsgMap.put(BANK_INFO_ALREADY_EXIST, "当前会员银行卡账户信息已存在");
 		}
 		
 		/**

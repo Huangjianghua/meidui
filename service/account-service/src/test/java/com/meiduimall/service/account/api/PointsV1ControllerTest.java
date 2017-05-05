@@ -19,7 +19,6 @@ import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.service.account.model.MSConsumePointsDetailGet;
 
 
-
 /**
  * 积分相关接口单元测试
  * @author chencong
