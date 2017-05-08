@@ -185,15 +185,15 @@ public class YgwWeiXinController {
 			}
 		}
 
-		sb.append("key=" + PayConfig.YGWAPP_Key);// 最后加密时添加商户密钥，由于key值放在最后，所以不用添加到SortMap里面去，单独处理，编码方式采用UTF-8
+		sb.append("key=" + PayConfig.YGWAPP_KEY);// 最后加密时添加商户密钥，由于key值放在最后，所以不用添加到SortMap里面去，单独处理，编码方式采用UTF-8
 		String sign = MD5Util.MD5Encode(sb.toString(), characterEncoding).toUpperCase();
 
 		return sign;
 	}
 
 	
-	private String returnXML(String return_code) {
-		return "<xml><return_code><![CDATA[" + return_code
+	private String returnXML(String returnCode) {
+		return "<xml><return_code><![CDATA[" + returnCode
 				+ "]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>";
 	}
 

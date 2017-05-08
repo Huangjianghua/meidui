@@ -64,8 +64,8 @@ public class PaymentController {
 			} 
 				
 			//2.获取平台订单表信息
-			SystradePTrade obj_p_trade_info = tradeService.getSystradePTrade(new BigInteger(paymentBill.get("platformId").toString()));
-			if(obj_p_trade_info == null){
+			SystradePTrade objPTradeInfo = tradeService.getSystradePTrade(new BigInteger(paymentBill.get("platformId").toString()));
+			if(objPTradeInfo == null){
 				Logger.info("平台订单为空!");
 				json.put("status", 11);
 				json.put("msg", "平台订单为空!");
@@ -73,9 +73,9 @@ public class PaymentController {
 			} 
 			
 			//计算出要支付的第三方的金额
-		    double money = obj_p_trade_info.getTotalMoney().subtract(new BigDecimal(paymentTrade.getUse_money())).doubleValue() - Double.valueOf(paymentTrade.getUse_point()); 
+		    double money = objPTradeInfo.getTotalMoney().subtract(new BigDecimal(paymentTrade.getUse_money())).doubleValue() - Double.valueOf(paymentTrade.getUse_point()); 
 		    paymentTrade.setMoney(String.valueOf(money));
-		    Logger.info("订单总金额(包括运费):%s,用户提交的余额:%s", obj_p_trade_info.getTotalMoney(),paymentTrade.getUse_money());
+		    Logger.info("订单总金额(包括运费):%s,用户提交的余额:%s", objPTradeInfo.getTotalMoney(),paymentTrade.getUse_money());
 		    Logger.info("计算要支付的第三方金额:%s", paymentTrade.getMoney());
 			
 			
@@ -108,7 +108,7 @@ public class PaymentController {
 			//验证支付密码
 		    Logger.info("支付密码:%s", paymentTrade.getPay_password());
 		    if("1".equals(object2.get("paypwd_isopen"))){//1开 0关
-		    	if(obj_p_trade_info.getIsPaying() == 0){       //第一次支付
+		    	if(objPTradeInfo.getIsPaying() == 0){       //第一次支付
 		    		JSONObject validePayPwd = userService.validePayPwd(paymentTrade.getMemId(), Des.appdecrypt(paymentTrade.getPay_password(), SysParaNameConst.APP_ENCRYPT_KEY));
 		    		if(validePayPwd.getInt("status") != 0){
 		    			Logger.info("验证支付密码 失败! %s", validePayPwd.getString("msg"));
@@ -137,8 +137,8 @@ public class PaymentController {
 				return json;
 			}
 			
-			//判断平台信息订单状态是否为待付款obj_p_trade_info['status']!= 'WAIT_BUYER_PAY'  //提示订单已经支付完成;
-			if(!obj_p_trade_info.getStatus().equals(SysParaNameConst.WAIT_BUYER_PAY)){
+			//判断平台信息订单状态是否为待付款objPTradeInfo['status']!= 'WAIT_BUYER_PAY'  //提示订单已经支付完成;
+			if(!objPTradeInfo.getStatus().equals(SysParaNameConst.WAIT_BUYER_PAY)){
 				Logger.info("平台订单为待付款,订单已经支付完成!");
 				json.put("status", 11);
 				json.put("msg", "平台订单为待付款,订单已经支付完成!");
@@ -190,8 +190,8 @@ public class PaymentController {
 			}
 		    Logger.info("总运费:%s", postFee);
 		    Logger.info("订单总金额:%s", payment);
-		    //订单总金额与平台订单表obj_p_trade_info['total_money']比较
-		    if(payment.compareTo(obj_p_trade_info.getTotalMoney()) != 0){
+		    //订单总金额与平台订单表objPTradeInfo['total_money']比较
+		    if(payment.compareTo(objPTradeInfo.getTotalMoney()) != 0){
 		    	Logger.info("订单金额不一致!");
 		    	json.put("status", 11);
 				json.put("msg", "订单金额不一致!");
@@ -200,7 +200,7 @@ public class PaymentController {
 		    
 		    
 		    //订单总金额与支付单支付货币金额paymentBill['curMoney']比较
-		    if(obj_p_trade_info.getTotalMoney().compareTo(new BigDecimal(paymentBill.get("curMoney").toString())) !=0){
+		    if(objPTradeInfo.getTotalMoney().compareTo(new BigDecimal(paymentBill.get("curMoney").toString())) !=0){
 		    	Logger.info("需要支付的货币金额不一致!");
 		    	json.put("status", 11);
 				json.put("msg", "需要支付的货币金额不一致!");
@@ -210,8 +210,8 @@ public class PaymentController {
 		    //订单总金额与用户提交的积分+余额+现金支付比较
 		    Logger.info("用户提交的积分:%s + 余额:%s +现金:%s", paymentTrade.getUse_point(),paymentTrade.getUse_money(),paymentTrade.getMoney());
 		    BigDecimal add = new BigDecimal(paymentTrade.getUse_point()).add(new BigDecimal(paymentTrade.getUse_money())).add(new BigDecimal(paymentTrade.getMoney()));
-		    Logger.info("订单总金额与用户提交的积分+余额+现金支付比较:%s,%s", obj_p_trade_info.getTotalMoney(),add);
-		    if(obj_p_trade_info.getTotalMoney().compareTo(add) != 0){
+		    Logger.info("订单总金额与用户提交的积分+余额+现金支付比较:%s,%s", objPTradeInfo.getTotalMoney(),add);
+		    if(objPTradeInfo.getTotalMoney().compareTo(add) != 0){
 		    	Logger.info("订单总金额与用户提交的积分+余额+现金支付比较,订单金额不一致!");
 		    	json.put("status", 11);
 				json.put("msg", "订单总金额与用户提交的积分+余额+现金支付比较,订单金额不一致!");
@@ -219,27 +219,27 @@ public class PaymentController {
 		    }
 		    
 		    
-		  //第二次支付判断开始obj_p_trade_info['is_paying'] == 1
-			if(obj_p_trade_info.getIsPaying() == 1){
-				//判断obj_p_trade_info['wallet_pay'] != 用户提交的余额pay_money //与第一次金额不等，不让支付，报错
-				if(obj_p_trade_info.getWalletPay().compareTo(new BigDecimal(paymentTrade.getUse_money())) !=0){
+		  //第二次支付判断开始objPTradeInfo['is_paying'] == 1
+			if(objPTradeInfo.getIsPaying() == 1){
+				//判断objPTradeInfo['wallet_pay'] != 用户提交的余额pay_money //与第一次金额不等，不让支付，报错
+				if(objPTradeInfo.getWalletPay().compareTo(new BigDecimal(paymentTrade.getUse_money())) !=0){
 					Logger.info("与第一次使用余额不等,不让支付!");
 					json.put("status", 11);
 					json.put("msg", "与第一次使用余额不等,不让支付!");
 					return json;
 				}
 				
-				//obj_p_trade_info['point_pay'] != 用户提交的point_pay || obj_p_trade_info['total_point'] < 用户提交的point_pay 
+				//objPTradeInfo['point_pay'] != 用户提交的point_pay || objPTradeInfo['total_point'] < 用户提交的point_pay 
 				//如果这次支付的积分跟冻结的积分不相等，报错
-				if(obj_p_trade_info.getPointPay() != Integer.valueOf(paymentTrade.getUse_point()) || obj_p_trade_info.getTotalPoint() < Integer.valueOf(paymentTrade.getUse_point())){
+				if(objPTradeInfo.getPointPay() != Integer.valueOf(paymentTrade.getUse_point()) || objPTradeInfo.getTotalPoint() < Integer.valueOf(paymentTrade.getUse_point())){
 					Logger.info("支付的积分跟冻结的积分不相等!");
 					json.put("status", 11);
 					json.put("msg", "支付的积分跟冻结的积分不相等!");
 					return json;
 				}  
-				Logger.info("平台订单表里面的第三方支付金额:%s ;; 计算出来的第三方支付金额:%s", obj_p_trade_info.getCashPay(),paymentTrade.getMoney());
-				//obj_p_trade_info['cash_pay'] != 用户提交的money //第三方支付金额不相等，报错
-				if(obj_p_trade_info.getCashPay().compareTo(new BigDecimal(paymentTrade.getMoney())) != 0){
+				Logger.info("平台订单表里面的第三方支付金额:%s ;; 计算出来的第三方支付金额:%s", objPTradeInfo.getCashPay(),paymentTrade.getMoney());
+				//objPTradeInfo['cash_pay'] != 用户提交的money //第三方支付金额不相等，报错
+				if(objPTradeInfo.getCashPay().compareTo(new BigDecimal(paymentTrade.getMoney())) != 0){
 					Logger.info("第三方支付金额不相等!");
 					json.put("status", 11);
 					json.put("msg", "第三方支付金额不相等!");
@@ -249,10 +249,10 @@ public class PaymentController {
 				
 			
 			}else{
-				//第一次支付判断开始obj_p_trade_info['is_paying'] == 0第一次过来验证，第二次不需要验证,因为冻结消费卷之后，消费卷的可用金额就会减少	
+				//第一次支付判断开始objPTradeInfo['is_paying'] == 0第一次过来验证，第二次不需要验证,因为冻结消费卷之后，消费卷的可用金额就会减少	
 				
 				//(忽略)***（当前没有消费券，可忽略）验证用户提交的使用消费券cpn_money与会员系统可用消费券consume_coupon，本次最多可使用消费券（order_percentage计算）比较***(忽略)
-			    //验证用户提交的使用积分point_pay与会员系统totalpoints字段、商城obj_p_trade_info['total_point']字段比较是否在使用范围，是否合法
+			    //验证用户提交的使用积分point_pay与会员系统totalpoints字段、商城objPTradeInfo['total_point']字段比较是否在使用范围，是否合法
 			    if(new BigDecimal(paymentTrade.getUse_point()).compareTo(totalpoints) > 0){
 			    	Logger.info("积分不够!");
 			    	json.put("status", 11);
@@ -260,7 +260,7 @@ public class PaymentController {
 					return json;
 			    }
 			    	
-		    	if(Integer.valueOf(paymentTrade.getUse_point()) > obj_p_trade_info.getTotalPoint()){
+		    	if(Integer.valueOf(paymentTrade.getUse_point()) > objPTradeInfo.getTotalPoint()){
 		    		Logger.info("积分不在使用范围!");
 		    		json.put("status", 11);
 					json.put("msg", "积分不在使用范围!");
@@ -270,7 +270,7 @@ public class PaymentController {
 			}
 		    
 			//【订单支付请求支付网关接口】
-			ResponseBodyData paymentTradePays = paymentService.PaymentTrade(paymentTrade,obj_p_trade_info,list,memberBasicInfo);
+			ResponseBodyData paymentTradePays = paymentService.PaymentTrade(paymentTrade,objPTradeInfo,list,memberBasicInfo);
 		    
 			//有第三方支付  调用微信支付/支付宝支付
 			if (paymentTradePays.getStatus() == 3) {

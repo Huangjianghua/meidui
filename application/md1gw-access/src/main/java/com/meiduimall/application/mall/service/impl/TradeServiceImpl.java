@@ -158,15 +158,15 @@ public class TradeServiceImpl implements TradeService {
 			return false;
 
 		// order_type==0商城实物订单
-		if (null != tradeInfo.getOrderType()) {
-			if (tradeInfo.getOrderType() == 0) {
+		if (null != tradeInfo.getOrderType() && tradeInfo.getOrderType() == 0) {
+			 
 				List<SystradeOrder> listTradeInfoOrder = listTradeInfoOrder(new SystradeOrder(trade.getTid()));
 				if (listTradeInfoOrder == null) {
 					Logger.info("商品订单信息为空!");
 					throw new ServiceException(MallApiCode.TRADEINFOORDER_EMPTY,MallApiCode.getZhMsg(MallApiCode.TRADEINFOORDER_EMPTY));
 				}
 				listTradeInfoOrder.forEach(list -> {
-					Map<String, Object> hashMap = new HashMap<String, Object>();
+					Map<String, Object> hashMap = new HashMap<>();
 					hashMap.put("item_id", list.getItemId());
 					hashMap.put("sku_id", list.getSkuId());
 					hashMap.put("quantity", list.getNum());
@@ -180,7 +180,7 @@ public class TradeServiceImpl implements TradeService {
 						Logger.error("系统错误:", e);
 					}
 				});
-			} // order_type==0判断结束
+			  // order_type==0判断结束
 		}
 		// 更新商家订单信息
 		SystradeTrade systradeTrade = new SystradeTrade();

@@ -8,7 +8,7 @@ public class MallApiCode extends BaseApiCode {
 	public static final Integer DECRYPT_ERROR = 10001;
 	public static final Integer ENCRYPT_ERROR = 10002;
 	public static final Integer UPDATEEPS_FAIL = 10003;
-	public static final Integer LISTETPb_EMPTY = 10004;
+	public static final Integer LISTETPB_EMPTY = 10004;
 	public static final Integer PAYMENTBILL_EMPTY = 10005;
 	public static final Integer TRADES_EMPTY = 10006;
 	public static final Integer UPDATEETPB_FAIL = 10007;
@@ -65,7 +65,7 @@ public class MallApiCode extends BaseApiCode {
 		zhMsgMap.put(DECRYPT_ERROR, "解密错误!");
 		zhMsgMap.put(ENCRYPT_ERROR, "加密错误!");
 		zhMsgMap.put(UPDATEEPS_FAIL, "更新支付单信息失败!");
-		zhMsgMap.put(LISTETPb_EMPTY, "子订单获取所有商家订单为空!");
+		zhMsgMap.put(LISTETPB_EMPTY, "子订单获取所有商家订单为空!");
 		zhMsgMap.put(PAYMENTBILL_EMPTY, "获取支付单信息为空!");
 		zhMsgMap.put(TRADES_EMPTY, "通过tid获取订单列表为空!");
 		zhMsgMap.put(UPDATEETPB_FAIL, "更新子支付失败!");

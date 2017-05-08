@@ -40,7 +40,7 @@ public class TPPaymentServiceImpl implements TPPaymentService {
 	 * 混合支付
 	 */
 	@Override
-	public ResponseBodyData Payment(PaymentTrade paymentTrade, SystradePTrade obj_p_trade_info){
+	public ResponseBodyData Payment(PaymentTrade paymentTrade, SystradePTrade objPTradeInfo){
 		try {
 			JSONObject bigJson = new JSONObject();
 			String url = myProps.getRouteServiceUrl()+"/pay/payment-service/v1/payment";
@@ -50,9 +50,9 @@ public class TPPaymentServiceImpl implements TPPaymentService {
 			// 支付服务的 0:微信 1: 支付宝
 			if ("wechatpay".equals(paymentTrade.getPay_type())) {
 				bigJson.put("payType", "0");
-				bigJson.put("merchantId", PayConfig.MDAPP_Mchid); // 商家标识
+				bigJson.put("merchantId", PayConfig.MDAPP_MCHID); // 商家标识
 
-				int TotalMoney = obj_p_trade_info.getTotalMoney().multiply(new BigDecimal(100)).intValue();
+				int TotalMoney = objPTradeInfo.getTotalMoney().multiply(new BigDecimal(100)).intValue();
 				bigJson.put("orderAmount", String.valueOf(TotalMoney)); // 订单金额
 				int Money = new BigDecimal(paymentTrade.getMoney()).multiply(new BigDecimal(100)).intValue();
 				bigJson.put("payAmount", String.valueOf(Money));// 支付金额
@@ -62,7 +62,7 @@ public class TPPaymentServiceImpl implements TPPaymentService {
 				bigJson.put("notifyUrl", myProps.getPayUrl()+"/md1gwmall/md1gw_access/v1/getWXPayNotify");// 回调地址
 				if(null != paymentTrade.getWechat_pay_account_type()){
 					if("1".equals(paymentTrade.getWechat_pay_account_type())){
-						bigJson.put("merchantId", PayConfig.YGWAPP_Mchid); // 商家标识
+						bigJson.put("merchantId", PayConfig.YGWAPP_MCHID); // 商家标识
 						bigJson.put("notifyUrl", myProps.getPayUrl()+"/md1gwmall/md1gw_access/v1/getYgwWXPayNotify");// 回调地址
 						bigJson.put("accountType", "1");// 1gw微信标识
 					}
@@ -70,18 +70,18 @@ public class TPPaymentServiceImpl implements TPPaymentService {
 
 			} else {
 				bigJson.put("payType", "1");
-				bigJson.put("body", obj_p_trade_info.getPlatformId().toString());
-				bigJson.put("subject", obj_p_trade_info.getPlatformId().toString());
-				bigJson.put("merchantId", PayConfig.alipay_mer_id); // 商家标识
-				bigJson.put("orderAmount", String.valueOf(obj_p_trade_info.getTotalMoney())); // 订单金额
+				bigJson.put("body", objPTradeInfo.getPlatformId().toString());
+				bigJson.put("subject", objPTradeInfo.getPlatformId().toString());
+				bigJson.put("merchantId", PayConfig.ALIPAY_MER_ID); // 商家标识
+				bigJson.put("orderAmount", String.valueOf(objPTradeInfo.getTotalMoney())); // 订单金额
 				bigJson.put("payAmount", paymentTrade.getMoney());// 支付金额
 				bigJson.put("cashAmount", String.valueOf(paymentTrade.getUse_money())); // 余额
 				bigJson.put("notifyUrl", myProps.getPayUrl()+"/md1gwmall/md1gw_access/v1/getAliPayNotify");// 回调地址
 
 			}
 
-			bigJson.put("orderNo", obj_p_trade_info.getPlatformId().toString()); // 订单号
-			bigJson.put("orderTime", DateUtil.orderTime(obj_p_trade_info.getCreatedTime().toString())); // 订单时间
+			bigJson.put("orderNo", objPTradeInfo.getPlatformId().toString()); // 订单号
+			bigJson.put("orderTime", DateUtil.orderTime(objPTradeInfo.getCreatedTime().toString())); // 订单时间
 			bigJson.put("tradeNo", paymentTrade.getPayment_id()); // 交易号
 			bigJson.put("integral", paymentTrade.getUse_point()); // 积分
 

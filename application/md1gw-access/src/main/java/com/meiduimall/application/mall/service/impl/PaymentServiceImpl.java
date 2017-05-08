@@ -82,13 +82,13 @@ public class PaymentServiceImpl implements PaymentService {
 	 * 
 	 * @param paymentTradePay
 	 * @param paymentBill
-	 * @param obj_p_trade_info
+	 * @param objPTradeInfo
 	 * @return
 	 * @throws Exception
 	 */
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	@SuppressWarnings({ "static-access" })
-	public ResponseBodyData PaymentTrade(PaymentTrade paymentTrade, SystradePTrade obj_p_trade_info, List<Object> list,
+	public ResponseBodyData PaymentTrade(PaymentTrade paymentTrade, SystradePTrade objPTradeInfo, List<Object> list,
 			JSONObject memberBasicInfo) {
 
 		try {
@@ -104,8 +104,8 @@ public class PaymentServiceImpl implements PaymentService {
 			List<EctoolsTradePaybill> tradePaybill = tradeService.listEctoolsTradePaybill(paymentTrade.getPayment_id());
 			if (tradePaybill == null) {
 				Logger.info("子订单获取所有商家订单为空!");
-				throw new ServiceException(MallApiCode.LISTETPb_EMPTY,
-						MallApiCode.getZhMsg(MallApiCode.LISTETPb_EMPTY));
+				throw new ServiceException(MallApiCode.LISTETPB_EMPTY,
+						MallApiCode.getZhMsg(MallApiCode.LISTETPB_EMPTY));
 			}
 
 			Map<String, Object> paymentBill = getPaymentBill(paymentTrade.getPayment_id());
@@ -169,17 +169,17 @@ public class PaymentServiceImpl implements PaymentService {
 			}
 
 			// 10. -- 第一次支付过来判断开始 --
-			if (obj_p_trade_info.getIsPaying() == 0) {
-				obj_p_trade_info.setPayType(3);// 第三方支付或者钱包,混合支付
+			if (objPTradeInfo.getIsPaying() == 0) {
+				objPTradeInfo.setPayType(3);// 第三方支付或者钱包,混合支付
 				// 有积分的支付方式
-				if (obj_p_trade_info.getPointPay() > 0) {
-					obj_p_trade_info.setPayType(2);
+				if (objPTradeInfo.getPointPay() > 0) {
+					objPTradeInfo.setPayType(2);
 				}
 
 				// 更新平台订单表第三方支付的款和状态
-				obj_p_trade_info.setIsPaying(SysParaNameConst.IS_PAYING);
-				obj_p_trade_info.setCashPay(new BigDecimal(paymentTrade.getMoney()));
-				Integer updateSystradePTrade = tradeService.updateSystradePTrade(obj_p_trade_info);
+				objPTradeInfo.setIsPaying(SysParaNameConst.IS_PAYING);
+				objPTradeInfo.setCashPay(new BigDecimal(paymentTrade.getMoney()));
+				Integer updateSystradePTrade = tradeService.updateSystradePTrade(objPTradeInfo);
 				if (updateSystradePTrade <= 0) {
 					Logger.info("更新平台订单表第三方支付的款和状态失败!");
 					throw new ServiceException(MallApiCode.UPDATESTPT_FAIL,
@@ -188,7 +188,7 @@ public class PaymentServiceImpl implements PaymentService {
 
 				// 有使用余额，冻结余额判断开始
 				if (new BigDecimal(paymentBill.get("walletPay").toString()).compareTo(new BigDecimal(0)) > 0
-						&& obj_p_trade_info.getWalletPay().compareTo(new BigDecimal(0)) == 0) {
+						&& objPTradeInfo.getWalletPay().compareTo(new BigDecimal(0)) == 0) {
 
 					// 余额更新到平台表
 					Integer updateWalletPay = tradeService.updateWalletPay(
@@ -204,7 +204,7 @@ public class PaymentServiceImpl implements PaymentService {
 
 				// 冻结积分等判断开始
 				if (Integer.valueOf(paymentBill.get("pointPay").toString()) > 0
-						&& obj_p_trade_info.getPointPay() == 0) {
+						&& objPTradeInfo.getPointPay() == 0) {
 
 					// 把冻结的金额更新到平台订单表(systrade_p_trade)
 					Logger.info("支付单积分:%s", paymentBill.get("pointPay"));
@@ -291,7 +291,7 @@ public class PaymentServiceImpl implements PaymentService {
 				JSONObject fromObject = new JSONObject().fromObject(memIdByUserId.get("data"));
 
 				// 同步订单到会员系统
-				ResponseBodyData saveOrderAndUpdateFunction = SaveOrderAndUpdateFunction(paymentBill, obj_p_trade_info,
+				ResponseBodyData saveOrderAndUpdateFunction = SaveOrderAndUpdateFunction(paymentBill, objPTradeInfo,
 						fromObject);
 				if (saveOrderAndUpdateFunction.getStatus() != 0) {
 					return new ResponseBodyData(11, "fail");
@@ -302,7 +302,7 @@ public class PaymentServiceImpl implements PaymentService {
 			} else {
 				// 有第三方支付
 				Logger.info("进入第三方支付!");
-				ResponseBodyData payment = tPPaymentService.Payment(paymentTrade, obj_p_trade_info);
+				ResponseBodyData payment = tPPaymentService.Payment(paymentTrade, objPTradeInfo);
 				if (payment.getStatus() == 0) {
 					return new ResponseBodyData(payment.getData(), 3, "success");
 				} else {
@@ -321,7 +321,7 @@ public class PaymentServiceImpl implements PaymentService {
 	/**
 	 * 组合参数调用会员中心接口【SaveOrder接口】，同步订单到会员系统
 	 */
-	public ResponseBodyData SaveOrderAndUpdateFunction(Map<String, Object> paymentBill, SystradePTrade obj_p_trade_info,
+	public ResponseBodyData SaveOrderAndUpdateFunction(Map<String, Object> paymentBill, SystradePTrade objPTradeInfo,
 			JSONObject fromObject) {
 		// 更新平台订单信息,标识已同步订单到会员系统
 		SystradePTrade systradePTrade = new SystradePTrade();
@@ -448,9 +448,9 @@ public class PaymentServiceImpl implements PaymentService {
 		}
 
 		// 判断订单是不是重复支付了
-		SystradePTrade obj_p_trade_info = tradeService
+		SystradePTrade objPTradeInfo = tradeService
 				.getSystradePTrade(new BigInteger(result_payment.get("platformId").toString()));
-		if (obj_p_trade_info == null) {
+		if (objPTradeInfo == null) {
 			Logger.info("平台订单信息不存在!");
 			return new ResponseBodyData(11, "平台订单信息不存在!");
 		}
@@ -459,8 +459,8 @@ public class PaymentServiceImpl implements PaymentService {
 		EctoolsPayments isPaySucc = tradeService
 				.getIsPaySucc(CommonUtil.getIsPaySuccCommon(result_payment, ectoolsPaymentsSucc));
 
-		// obj_p_trade_info['cash_pay']赋值给result_payment['cur_money']，覆盖result_payment['cur_money']原来的值
-		result_payment.put("curMoney", obj_p_trade_info.getCashPay());
+		// objPTradeInfo['cash_pay']赋值给result_payment['cur_money']，覆盖result_payment['cur_money']原来的值
+		result_payment.put("curMoney", objPTradeInfo.getCashPay());
 
 		Map<String, Object> paymentBill = null;
 		JSONObject fromObject = null;
@@ -471,7 +471,7 @@ public class PaymentServiceImpl implements PaymentService {
 					|| isPaySucc != null
 					|| new BigDecimal(result_payment.get("curMoney").toString())
 							.compareTo(ectoolsPaymentsSucc.getMoney()) != 0
-					|| obj_p_trade_info.getStatus().equals(SysParaNameConst.WAIT_SELLER_SEND_GOODS)) {
+					|| objPTradeInfo.getStatus().equals(SysParaNameConst.WAIT_SELLER_SEND_GOODS)) {
 				// 发送报警短信【会员系统SMSSendNewTemplate接口】
 				// TODO
 				Logger.info("支付错误金额,总支付金额小于5 等等!");

@@ -99,7 +99,7 @@ public class AlipayController {
 		//交易结束时间
 		
 		
-		String seller_id = new String(request.getParameter("seller_id").getBytes("ISO-8859-1"),"UTF-8");
+		String sellerId = new String(request.getParameter("seller_id").getBytes("ISO-8859-1"),"UTF-8");
 		
 		
 
@@ -119,7 +119,7 @@ public class AlipayController {
 					    ectoolsPaymentsSucc.setBank("支付宝");
 					    ectoolsPaymentsSucc.setPayName("支付宝");
 					    ectoolsPaymentsSucc.setPayAccount("支付宝AILPAY");
-					    ectoolsPaymentsSucc.setAccount(seller_id);
+					    ectoolsPaymentsSucc.setAccount(sellerId);
 						ResponseBodyData payCallBack = paymentService.PayCallBack(ectoolsPaymentsSucc,requestParams.toString());
 						Logger.info("支付宝回调处理结果:%s", payCallBack.toString());
 						}
