@@ -116,7 +116,6 @@ public class PaymentServiceImpl implements PaymentService {
 			}
 
 			// 6.通过tid -> 获取订单列表接口
-			// tradeService.listTrade(list);
 			List<Map<String, Object>> trades = tradeService.getTradeMoney(list);
 			if (trades == null) {
 				Logger.info("通过获取订单列表为空!");
@@ -126,9 +125,9 @@ public class PaymentServiceImpl implements PaymentService {
 			// 7.更新子支付状态 (批处理)
 			// 8.找出的无效tid(遍历的时候元素里面的tid在list里面则为有效数据)和无效的payment_id
 			// 存入变量deleteParams
-			List<EctoolsTradePaybill> deleteParams = new ArrayList<EctoolsTradePaybill>();
-			List<EctoolsTradePaybill> listetpb = new ArrayList<EctoolsTradePaybill>();
-			List<Object> b = new ArrayList<Object>();
+			List<EctoolsTradePaybill> deleteParams = new ArrayList<>();
+			List<EctoolsTradePaybill> listetpb = new ArrayList<>();
+			List<Object> b = new ArrayList<>();
 			trades.forEach(trade -> {
 				EctoolsTradePaybill etpb = new EctoolsTradePaybill();
 				etpb.setStatus(SysParaNameConst.PAYING);
@@ -146,7 +145,7 @@ public class PaymentServiceImpl implements PaymentService {
 						MallApiCode.getZhMsg(MallApiCode.UPDATEETPB_FAIL));
 			}
 
-			List<Object> a = new ArrayList<Object>();
+			List<Object> a = new ArrayList<>();
 			for (EctoolsTradePaybill ectoolsTradePaybill : tradePaybill) {
 				a.add(ectoolsTradePaybill.getTid());
 			}
@@ -548,10 +547,10 @@ public class PaymentServiceImpl implements PaymentService {
 			List<EctoolsTradePaybill> listEctoolsTradePaybill = tradeService
 					.listEctoolsTradePaybill(ectoolsPaymentsSucc.getPaymentId());
 
-			listEctoolsTradePaybill.forEach(ETP -> {
+			listEctoolsTradePaybill.forEach(etp -> {
 				try {
 					// 调用【订单支付状态更改接口】
-					tradeService.tradePayFinish(new SystradeTrade(new BigInteger(ETP.getTid())));
+					tradeService.tradePayFinish(new SystradeTrade(new BigInteger(etp.getTid())));
 				} catch (Exception e) {
 					Logger.error("系统错误:%s", e);
 				}
@@ -701,7 +700,7 @@ public class PaymentServiceImpl implements PaymentService {
 			json.put(OauthConst.TIMESATAMP, String.valueOf(System.currentTimeMillis()));
 			json.put(OauthConst.SIGN, GatewaySignUtil.buildsign(OauthConst.SECRETKEY_VALUE, json));
 			Logger.info("通知支付服务参数:%s", json);
-			HttpEntity<JSONObject> formEntity = new HttpEntity<JSONObject>(json, headers);
+			HttpEntity<JSONObject> formEntity = new HttpEntity<>(json, headers);
 			JSONObject postForObject = restTemplate.postForObject(url.toString(), formEntity, JSONObject.class);
 			Logger.info("通知支付服务==>:%s", postForObject);
 		} catch (Exception e) {

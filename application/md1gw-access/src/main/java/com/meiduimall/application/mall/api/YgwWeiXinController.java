@@ -151,7 +151,7 @@ public class YgwWeiXinController {
 	}
 
 	private String getSign(Map<String, String> map) {
-		SortedMap<String, String> signParams = new TreeMap<String, String>();
+		SortedMap<String, String> signParams = new TreeMap<>();
 
 		for (Map.Entry<String, String> stringStringEntry : map.entrySet()) {
 			signParams.put(stringStringEntry.getKey(), stringStringEntry.getValue());

@@ -168,7 +168,7 @@ public class UserServiceImpl implements UserService {
 			json.put("consume_points", Integer.valueOf(paymentBill.get("pointPay").toString()));
 			JSONObject commonJSON = CommonUtil.commonJSON(json);
 			Logger.info("freezeUnfreeze组装发送数据:%s", commonJSON);
-			HttpEntity<JSONObject> formEntity = new HttpEntity<JSONObject>(commonJSON, headers);
+			HttpEntity<JSONObject> formEntity = new HttpEntity<>(commonJSON, headers);
 			string = restTemplate.postForObject(url.toString(), formEntity, String.class);
 		} catch (Exception e) {
 			Logger.error("冻结错误!: %s", e);
@@ -220,7 +220,7 @@ public class UserServiceImpl implements UserService {
 			json.put("consume_points", Integer.valueOf(paymentBill.get("pointPay").toString()));
 			JSONObject commonJSON = CommonUtil.commonJSON(json);
 			Logger.info("unfreezeDeduct组装发送数据:%s", commonJSON);
-			HttpEntity<JSONObject> formEntity = new HttpEntity<JSONObject>(commonJSON, headers);
+			HttpEntity<JSONObject> formEntity = new HttpEntity<>(commonJSON, headers);
 			string = restTemplate.postForObject(url.toString(), formEntity, String.class);
 			Logger.info("unfreezeDeduct结果：%s", string);
 		} catch (Exception e) {

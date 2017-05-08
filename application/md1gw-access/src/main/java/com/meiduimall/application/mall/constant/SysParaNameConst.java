@@ -9,16 +9,6 @@ import java.math.BigDecimal;
  */
 public class SysParaNameConst {
 	
-	//状态编码
-	/*public final static String STATUS_CODE = "status_code";*/
-	 
-	
-	//状态编码说明
-	/*public final static String RESULT_MSG = "result_msg";*/
-	
-	//数据结果
-	/*public final static String RESULT = "result";*/
-	
 
 
 	public static final String DATA= "data";

@@ -120,7 +120,7 @@ public class PaymentController {
 	    	}  
 		 
 		   
-			//判断支付单paymentBill['status'] == 'succ' || $paymentBill['status'] == 'progress' //提示订单已经支付完成;
+			/** 判断支付单paymentBill['status'] == 'succ' || $paymentBill['status'] == 'progress' //提示订单已经支付完成; **/
 			if(paymentBill.get("status").equals(SysParaNameConst.SUCC)||paymentBill.get("status").equals(SysParaNameConst.PROGRESS)){
 				Logger.info("订单已经支付完成!");
 				json.put("status", 11);
@@ -129,7 +129,7 @@ public class PaymentController {
 			}
 				
 			 
-			//paymentBill['status']值是否为'ready',否则提示'请勿重复发起支付;
+			/** paymentBill['status']值是否为'ready',否则提示'请勿重复发起支付; **/
 			if(!paymentBill.get("status").equals(SysParaNameConst.READY)){
  				Logger.info("请勿重复发起支付!");
  				json.put("status", 11);
@@ -137,7 +137,7 @@ public class PaymentController {
 				return json;
 			}
 			
-			//判断平台信息订单状态是否为待付款objPTradeInfo['status']!= 'WAIT_BUYER_PAY'  //提示订单已经支付完成;
+			/** 判断平台信息订单状态是否为待付款objPTradeInfo['status']!= 'WAIT_BUYER_PAY'  //提示订单已经支付完成; **/
 			if(!objPTradeInfo.getStatus().equals(SysParaNameConst.WAIT_BUYER_PAY)){
 				Logger.info("平台订单为待付款,订单已经支付完成!");
 				json.put("status", 11);
@@ -167,7 +167,7 @@ public class PaymentController {
 				json.put("msg", "子订单获取所有商家订单为空!");
 				return json;
 			} 
-			List<Object> list = new ArrayList<Object>();
+			List<Object> list = new ArrayList<>();
 			tradePaybill.forEach(tids->{
 				if(!"".equals(tids.getTid())) //过滤掉tid为空的
 					list.add(tids.getTid());

@@ -20,7 +20,7 @@ public class Des {
 
 
 
-	private final static String DES = "DES";
+	private static final String DES = "DES";
 
 	
 

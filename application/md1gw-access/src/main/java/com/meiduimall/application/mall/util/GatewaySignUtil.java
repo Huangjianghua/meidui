@@ -18,13 +18,13 @@ public class GatewaySignUtil {
 	
 
 	/** &符号**/
-	public final static String URLCONNCTION = "&";
+	public static final String URLCONNCTION = "&";
 	/** =符号**/
-	public final static String URLEQUALS = "=";
+	public static final String URLEQUALS = "=";
 	/**
 	 * 编码类型
 	 */
-	public final static String INPUT_CHARSET_DEFAULT = "utf-8"; // 默认utf-8
+	public static final String INPUT_CHARSET_DEFAULT = "utf-8"; // 默认utf-8
 	
 	
 	/**
@@ -37,7 +37,7 @@ public class GatewaySignUtil {
 	 * @throws
 	 */
 	public static String  sign(String appKey,Map<String,String> param) {
-		Map<String, String> map = new TreeMap<String, String>();
+		Map<String, String> map = new TreeMap<>();
 		map.putAll(param);
 		Set<String> keySet = map.keySet();
 		StringBuilder buffer = new StringBuilder();

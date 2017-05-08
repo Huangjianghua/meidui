@@ -1,5 +1,7 @@
 package com.meiduimall.application.mall.alipay;
 
+import com.meiduimall.application.mall.util.Logger;
+
 public final class Base64 {
 
 	private static final int     BASELENGTH           = 128;
@@ -57,17 +59,17 @@ public final class Base64 {
 
 
     private static boolean isWhiteSpace(char octect) {
-        return (octect == 0x20 || octect == 0xd || octect == 0xa || octect == 0x9);
+        return octect == 0x20 || octect == 0xd || octect == 0xa || octect == 0x9;
     }
 
 
     private static boolean isPad(char octect) {
-        return (octect == PAD);
+        return octect == PAD;
     }
 
 
     private static boolean isData(char octect) {
-        return (octect < BASELENGTH && base64Alphabet[octect] != -1);
+        return octect < BASELENGTH && base64Alphabet[octect] != -1;
     }
 
 
@@ -100,13 +102,17 @@ public final class Base64 {
         encodedData = new char[numberQuartet * 4];
 
 
-        byte k = 0, l = 0, b1 = 0, b2 = 0, b3 = 0;
+        byte k = 0;
+        byte l = 0;
+        byte b1 = 0;
+        byte b2 = 0;
+        byte b3 = 0;
 
 
         int encodedIndex = 0;
         int dataIndex = 0;
         if (FDEBUG) {
-            System.out.println("number of triplets = " + numberTriplets);
+        	Logger.info("number of triplets = " + numberTriplets);
         }
 
 
@@ -117,7 +123,7 @@ public final class Base64 {
 
 
             if (FDEBUG) {
-                System.out.println("b1= " + b1 + ", b2= " + b2 + ", b3= " + b3);
+            	Logger.info("b1= " + b1 + ", b2= " + b2 + ", b3= " + b3);
             }
 
 
@@ -131,9 +137,9 @@ public final class Base64 {
 
 
             if (FDEBUG) {
-                System.out.println("val2 = " + val2);
-                System.out.println("k4   = " + (k << 4));
-                System.out.println("vak  = " + ((val2 & 0xff) | (k << 4)));
+            	Logger.info("val2 = " + val2);
+            	Logger.info("k4   = " + (k << 4));
+            	Logger.info("vak  = " + ((val2 & 0xff) | (k << 4)));
             }
 
 
@@ -149,8 +155,8 @@ public final class Base64 {
             b1 = binaryData[dataIndex];
             k = (byte) (b1 & 0x03);
             if (FDEBUG) {
-                System.out.println("b1=" + b1);
-                System.out.println("b1<<2 = " + (b1 >> 2));
+                Logger.info("b1=" + b1);
+                Logger.info("b1<<2 = " + (b1 >> 2));
             }
             byte val1 = ((b1 & SIGN) == 0) ? (byte) (b1 >> 2) : (byte) ((b1) >> 2 ^ 0xc0);
             encodedData[encodedIndex++] = lookUpBase64Alphabet[val1];
@@ -203,7 +209,7 @@ public final class Base64 {
         }
 
 
-        int numberQuadruple = (len / FOURBYTE);
+        int numberQuadruple = len / FOURBYTE;
 
 
         if (numberQuadruple == 0) {
@@ -212,8 +218,14 @@ public final class Base64 {
 
 
         byte decodedData[] = null;
-        byte b1 = 0, b2 = 0, b3 = 0, b4 = 0;
-        char d1 = 0, d2 = 0, d3 = 0, d4 = 0;
+        byte b1 = 0;
+        byte b2 = 0;
+        byte b3 = 0;
+        byte b4 = 0;
+        char d1 = 0;
+        char d2 = 0;
+        char d3 = 0;
+        char d4 = 0;
 
 
         int i = 0;
@@ -225,9 +237,9 @@ public final class Base64 {
         for (; i < numberQuadruple - 1; i++) {
 
 
-            if (!isData((d1 = base64Data[dataIndex++])) || !isData((d2 = base64Data[dataIndex++]))
-                || !isData((d3 = base64Data[dataIndex++]))
-                || !isData((d4 = base64Data[dataIndex++]))) {
+            if (!isData(d1 = base64Data[dataIndex++]) || !isData(d2 = base64Data[dataIndex++])
+                || !isData(d3 = base64Data[dataIndex++])
+                || !isData(d4 = base64Data[dataIndex++])) {
                 return null;
             }//if found "no data" just return null
 
@@ -244,7 +256,7 @@ public final class Base64 {
         }
 
 
-        if (!isData((d1 = base64Data[dataIndex++])) || !isData((d2 = base64Data[dataIndex++]))) {
+        if (!isData(d1 = base64Data[dataIndex++]) || !isData(d2 = base64Data[dataIndex++])) {
             return null;//if found "no data" just return null
         }
 
@@ -255,7 +267,7 @@ public final class Base64 {
 
         d3 = base64Data[dataIndex++];
         d4 = base64Data[dataIndex];
-        if (!isData((d3)) || !isData((d4))) {//Check if they are PAD characters
+        if (!isData(d3) || !isData(d4)) {//Check if they are PAD characters
             if (isPad(d3) && isPad(d4)) {
                 if ((b2 & 0xf) != 0)//last 4 bits should be zero
                 {

@@ -167,7 +167,7 @@ public class MD5Util {
 	}
 
 	// 主要把传递过来的字符串参数转化为经过MD5算法加密的字符串
-	public final static String encrypeString(String neededEncrypedString){
+	public static final String encrypeString(String neededEncrypedString){
 		// 初始化加密之后的字符串
 		String encrypeString = null;
 
@@ -212,7 +212,7 @@ public class MD5Util {
 	 * 
 	 * @return
 	 */
-	public final static String getMD5StringByRandom() {
+	public static final String getMD5StringByRandom() {
 		String md5 = "";
 		try {
 			md5 = encrypeString(get5Radom());
@@ -276,7 +276,7 @@ public class MD5Util {
 	 * 
 	 * @return
 	 */
-	public final static String getRandomNum() {
+	public static final String getRandomNum() {
 
 		// 当前秒数
 		String timeMillis = String.valueOf(System.currentTimeMillis() / 1000L);

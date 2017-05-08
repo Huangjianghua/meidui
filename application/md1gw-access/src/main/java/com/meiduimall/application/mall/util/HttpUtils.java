@@ -108,7 +108,7 @@ public class HttpUtils {
 			HttpPost httpPost = new HttpPost(url);
 			config(httpPost);
 			Set<Map.Entry<String,String>> dataSet=sendData.entrySet();
-			List<NameValuePair> formParams = new ArrayList<NameValuePair>();
+			List<NameValuePair> formParams = new ArrayList<>();
 			for(Entry<String,String> entry:dataSet){
 				formParams.add(new BasicNameValuePair(entry.getKey(),entry.getValue()));
 			}

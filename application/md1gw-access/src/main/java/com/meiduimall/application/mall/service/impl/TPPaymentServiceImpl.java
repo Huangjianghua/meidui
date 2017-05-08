@@ -98,7 +98,7 @@ public class TPPaymentServiceImpl implements TPPaymentService {
 		 
 			Logger.info("组装发送数据:%s", bigJson);
 			
-			HttpEntity<JSONObject> formEntity = new HttpEntity<JSONObject>(bigJson, headers);
+			HttpEntity<JSONObject> formEntity = new HttpEntity<>(bigJson, headers);
 			JSONObject postForObject = restTemplate.postForObject(url, formEntity, JSONObject.class);
 			
 			Logger.info("请求第三方支付结果:%s", postForObject);
