@@ -13,7 +13,7 @@ import com.meiduimall.service.catalog.constant.ServiceCatalogApiCode;
 import com.meiduimall.service.catalog.service.GoodsDetailService;
 
 /**
- * 商品详情相关操作
+ * 商品详情相关操作 
  * 
  * @author yangchangfu
  *
