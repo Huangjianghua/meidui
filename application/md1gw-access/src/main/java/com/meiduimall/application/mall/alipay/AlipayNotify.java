@@ -30,8 +30,8 @@ public class AlipayNotify {
         String preSignStr = AlipayCore.createLinkString(sParaNew);
         //获得签名验证结果
         boolean isSign = false;
-        if("RSA".equals(AlipayConfig.signType)){
-        isSign = RSA.verify(preSignStr, sign, AlipayConfig.alipayPublicKey, AlipayConfig.inputCharset);
+        if("RSA".equals(AlipayConfig.SIGN_TYPE)){
+        isSign = RSA.verify(preSignStr, sign, AlipayConfig.ALI_PAYPUBLIC_KEY, AlipayConfig.INPUT_CHARSET);
         }
         return isSign;
     }
@@ -50,7 +50,7 @@ public class AlipayNotify {
         //获取远程服务器ATN结果，验证是否是支付宝服务器发来的请求
 
 
-        String partner = AlipayConfig.partner;
+        String partner = AlipayConfig.PARTNER;
         String veryfy_url = HTTPS_VERIFY_URL + "partner=" + partner + "&notify_id=" + notify_id;
 
 
