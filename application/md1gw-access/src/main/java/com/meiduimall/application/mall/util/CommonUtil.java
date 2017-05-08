@@ -18,6 +18,7 @@ import com.meiduimall.application.mall.model.SysuserAccount;
 import com.meiduimall.application.mall.model.SysuserUser;
 import com.meiduimall.application.mall.model.SysuserWalletPaylog;
 import com.meiduimall.exception.ServiceException;
+import com.meiduimall.password.exception.Md5Exception;
 
 import net.sf.json.JSONObject;
 
@@ -29,9 +30,10 @@ public class CommonUtil {
 	 * 组装签名 公共的key value
 	 * @param map
 	 * @return
+	 * @throws Md5Exception 
 	 * @throws Exception
 	 */
-	public static Map<String,String> commonMap(Map<String,String> map){
+	public static Map<String,String> commonMap(Map<String,String> map) throws Md5Exception{
 		map.put(OauthConst.CLIENT_ID, OauthConst.CLIENT_ID_VALUE);
 		map.put(OauthConst.TIMESATAMP, String.valueOf(System.currentTimeMillis()));
 		map.put(OauthConst.SIGN, GatewaySignUtil.sign(OauthConst.SECRETKEY_VALUE, map));
@@ -42,9 +44,10 @@ public class CommonUtil {
 	 * 组装签名 公共的JSON
 	 * @param map
 	 * @return
+	 * @throws Md5Exception 
 	 * @throws Exception
 	 */
-	public static JSONObject commonJSON(JSONObject json){
+	public static JSONObject commonJSON(JSONObject json) throws Md5Exception{
 		json.put(OauthConst.CLIENT_ID, OauthConst.CLIENT_ID_VALUE);
 		json.put(OauthConst.TIMESATAMP, String.valueOf(System.currentTimeMillis()));
 		json.put(OauthConst.SIGN, GatewaySignUtil.buildsign(OauthConst.SECRETKEY_VALUE, json));
@@ -52,7 +55,7 @@ public class CommonUtil {
 		
 	}
 	
-	public static String onlySignJSON(JSONObject json){
+	public static String onlySignJSON(JSONObject json) throws Md5Exception{
 		return GatewaySignUtil.buildsign(OauthConst.SECRETKEY_VALUE, json);
 		
 	}

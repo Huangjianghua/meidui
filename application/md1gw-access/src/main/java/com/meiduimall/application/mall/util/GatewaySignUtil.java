@@ -7,6 +7,9 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import com.meiduimall.exception.ServiceException;
+import com.meiduimall.password.exception.Md5Exception;
+import com.meiduimall.password.util.MD5;
+
 import org.apache.commons.lang.StringUtils;
 
 import com.meiduimall.application.mall.exception.MallApiCode;
@@ -28,6 +31,7 @@ public class GatewaySignUtil {
 	
 	
 	/**
+	 * @throws Md5Exception 
 	 * 功能描述:  产生签名
 	 * Author: 陈建宇
 	 * Date:   2016年12月19日 上午10:28:34
@@ -36,7 +40,7 @@ public class GatewaySignUtil {
 	 * @return String   
 	 * @throws
 	 */
-	public static String  sign(String appKey,Map<String,String> param) {
+	public static String  sign(String appKey,Map<String,String> param) throws Md5Exception {
 		Map<String, String> map = new TreeMap<>();
 		map.putAll(param);
 		Set<String> keySet = map.keySet();
@@ -58,12 +62,12 @@ public class GatewaySignUtil {
         }
         buffer.append("key=");
         buffer.append(appKey);
-        return MD5.mD5Encode(buffer.toString()).toUpperCase();
+        return MD5.encode(buffer.toString().toUpperCase());
 	}
 	
 	
 	@SuppressWarnings("rawtypes")
-	public static String  buildsign(String appKey,JSONObject param) {
+	public static String  buildsign(String appKey,JSONObject param) throws Md5Exception {
 		StringBuilder buffer = new StringBuilder();
 		String key;
 		String value;
@@ -82,7 +86,7 @@ public class GatewaySignUtil {
 		String[] split = buffer.toString().split(URLCONNCTION);
 		Arrays.sort(split);
 		String concat = StringUtils.join(split, URLCONNCTION).concat(URLCONNCTION).concat("key=").concat(appKey);
-        return MD5.mD5Encode(concat).toUpperCase();
+        return MD5.encode(concat.toUpperCase());
 	}
 	
 	/**
