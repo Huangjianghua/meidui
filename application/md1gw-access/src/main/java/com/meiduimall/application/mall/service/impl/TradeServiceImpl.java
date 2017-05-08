@@ -145,7 +145,7 @@ public class TradeServiceImpl implements TradeService {
 	 * 【订单支付状态更改接口】
 	 */
 	@Override
-	public Boolean TradePayFinish(SystradeTrade trade) {
+	public Boolean tradePayFinish(SystradeTrade trade) {
 		// 获取指定订单信息
 		SystradeTrade tradeInfo = getTradeInfo(trade.getTid());
 		if (tradeInfo == null) {
@@ -174,7 +174,7 @@ public class TradeServiceImpl implements TradeService {
 					hashMap.put("status", list.getStatus());
 					try {
 						// 【下单或支付时扣减库存接口】
-						OrderOrPay(hashMap);
+						orderOrPay(hashMap);
 
 					} catch (Exception e) {
 						Logger.error("系统错误:", e);
@@ -206,11 +206,11 @@ public class TradeServiceImpl implements TradeService {
 		// 记录订单操作日志
 		SystradeLog systradeLog = new SystradeLog();
 		systradeLog.setRelId(trade.getTid());
-		systradeLog.setOpId(SysParaNameConst.op_id);
-		systradeLog.setOpName(SysParaNameConst.op_name);
-		systradeLog.setOpRole(SysParaNameConst.op_role);
-		systradeLog.setBehavior(SysParaNameConst.behavior);
-		systradeLog.setLogText(SysParaNameConst.logText);
+		systradeLog.setOpId(SysParaNameConst.OP_ID);
+		systradeLog.setOpName(SysParaNameConst.OP_NAME);
+		systradeLog.setOpRole(SysParaNameConst.OP_ROLE);
+		systradeLog.setBehavior(SysParaNameConst.BEHAVIOR);
+		systradeLog.setLogText(SysParaNameConst.LOGTEXT);
 		Integer insertsystradeLog = insertSystradeLog(systradeLog);
 		if (insertsystradeLog <= 0) {
 			Logger.info("记录订单操作日志失败!");
@@ -225,7 +225,7 @@ public class TradeServiceImpl implements TradeService {
 	 * 
 	 * @throws Exception
 	 */
-	public Boolean OrderOrPay(Map<String, Object> hashMap) {
+	public Boolean orderOrPay(Map<String, Object> hashMap) {
 		// sub_stock!=0下单减库存(有恶意下单占库存风险)判断开始
 		if ((Integer) hashMap.get("sub_stock") != 0) {
 

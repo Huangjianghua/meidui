@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService {
 			url.append("?token={token}&clientID={clientID}&timestamp={timestamp}&sign={sign}");
 			Map<String, String> map = new HashMap<>();
 			map.put("token", token);
-			Map<String, String> commonMap = CommonUtil.CommonMap(map);
+			Map<String, String> commonMap = CommonUtil.commonMap(map);
 			Logger.info("组装发送数据 :%s", commonMap);
 			postForObject = restTemplate.getForObject(url.toString(), JSONObject.class, commonMap);
 			Logger.info("获取用户信息结果 :%s", postForObject);
@@ -108,7 +108,7 @@ public class UserServiceImpl implements UserService {
 			Map<String, String> hashMap = new HashMap<>();
 			hashMap.put("memId", memId);
 			hashMap.put("pay_pwd", payPwd);
-			Map<String, String> commonMap = CommonUtil.CommonMap(hashMap);
+			Map<String, String> commonMap = CommonUtil.commonMap(hashMap);
 			Logger.info("验证支付密码组装发送数据 :%s", commonMap);
 			postForObject = restTemplate.getForObject(url.toString(), JSONObject.class, commonMap);
 			Logger.info("验证支付密码请求结果 :%s", postForObject);
@@ -130,7 +130,7 @@ public class UserServiceImpl implements UserService {
 			url.append("?token={token}&clientID={clientID}&timestamp={timestamp}&sign={sign}");
 			Map<String, String> map = new HashMap<>();
 			map.put(OauthConst.TOKEN, token);
-			Map<String, String> commonMap = CommonUtil.CommonMap(map);
+			Map<String, String> commonMap = CommonUtil.commonMap(map);
 			Logger.info("tokenTOmemId组装发送数据:%s", commonMap);
 			getMemid = restTemplate.getForObject(url.toString(), JSONObject.class, commonMap);
 			Logger.info("tokenTOmemId请求结果 :%s", getMemid);
@@ -166,7 +166,7 @@ public class UserServiceImpl implements UserService {
 			json.put("status", 3);
 			json.put("consume_money", new BigDecimal(paymentBill.get("walletPay").toString()));
 			json.put("consume_points", Integer.valueOf(paymentBill.get("pointPay").toString()));
-			JSONObject commonJSON = CommonUtil.CommonJSON(json);
+			JSONObject commonJSON = CommonUtil.commonJSON(json);
 			Logger.info("freezeUnfreeze组装发送数据:%s", commonJSON);
 			HttpEntity<JSONObject> formEntity = new HttpEntity<JSONObject>(commonJSON, headers);
 			string = restTemplate.postForObject(url.toString(), formEntity, String.class);
@@ -218,7 +218,7 @@ public class UserServiceImpl implements UserService {
 			}
 			json.put("consume_money", new BigDecimal(paymentBill.get("walletPay").toString()));
 			json.put("consume_points", Integer.valueOf(paymentBill.get("pointPay").toString()));
-			JSONObject commonJSON = CommonUtil.CommonJSON(json);
+			JSONObject commonJSON = CommonUtil.commonJSON(json);
 			Logger.info("unfreezeDeduct组装发送数据:%s", commonJSON);
 			HttpEntity<JSONObject> formEntity = new HttpEntity<JSONObject>(commonJSON, headers);
 			string = restTemplate.postForObject(url.toString(), formEntity, String.class);

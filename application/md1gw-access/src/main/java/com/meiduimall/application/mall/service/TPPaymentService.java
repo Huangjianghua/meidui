@@ -9,6 +9,6 @@ public interface TPPaymentService {
 
 	
 	
-	ResponseBodyData Payment(PaymentTrade paymentTrade,SystradePTrade obj_p_trade_info);
+	ResponseBodyData payment(PaymentTrade paymentTrade,SystradePTrade objPTradeInfo);
 	
 }

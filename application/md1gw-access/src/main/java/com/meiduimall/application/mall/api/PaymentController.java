@@ -46,7 +46,7 @@ public class PaymentController {
 	 * @throws Exception
 	 */
 	@GetMapping(value="/PayJudgment")
-	public JSONObject PayJudgment(PaymentTrade  paymentTrade){
+	public JSONObject payJudgment(PaymentTrade  paymentTrade){
 		//验证支付密码是否正确，用户输的支付密码拼接userPayKey(商城配置为'{liangping}')与pay_password比较。
 		//注：选择支付方式的时候，余额、积分2种方式只要有选择任何一个，都需要验证支付密码，
 		//没有需要提示用户设置支付密码(商城sysuser_account表pay_password字段,有需求正在将支付密码迁移至会员系统)
@@ -121,7 +121,7 @@ public class PaymentController {
 		 
 		   
 			//判断支付单paymentBill['status'] == 'succ' || $paymentBill['status'] == 'progress' //提示订单已经支付完成;
-			if(paymentBill.get("status").equals(SysParaNameConst.SUCC)||paymentBill.get("status").equals(SysParaNameConst.progress)){
+			if(paymentBill.get("status").equals(SysParaNameConst.SUCC)||paymentBill.get("status").equals(SysParaNameConst.PROGRESS)){
 				Logger.info("订单已经支付完成!");
 				json.put("status", 11);
 				json.put("msg", "订单已经支付完成!");
@@ -270,7 +270,7 @@ public class PaymentController {
 			}
 		    
 			//【订单支付请求支付网关接口】
-			ResponseBodyData paymentTradePays = paymentService.PaymentTrade(paymentTrade,objPTradeInfo,list,memberBasicInfo);
+			ResponseBodyData paymentTradePays = paymentService.paymentTrade(paymentTrade,objPTradeInfo,list,memberBasicInfo);
 		    
 			//有第三方支付  调用微信支付/支付宝支付
 			if (paymentTradePays.getStatus() == 3) {
@@ -286,7 +286,7 @@ public class PaymentController {
 				return json;
 			} else if(paymentTradePays.getStatus() == 0) {
 				// 没有第三方 调用【支付完成】方法,退出程序
-				ResponseBodyData payFinish = paymentService.PayFinish(paymentTrade.getPayment_id());
+				ResponseBodyData payFinish = paymentService.payFinish(paymentTrade.getPayment_id());
 					Logger.info("没有第三方支付完成! ==> %s", payFinish.getData());
 					json.put("status", 0);
 					json.put("data", payFinish.getData());

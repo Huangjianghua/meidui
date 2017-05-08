@@ -16,6 +16,7 @@ import net.sf.json.JSONObject;
 public class GatewaySignUtil {
 	
 	
+
 	/** &符号**/
 	public final static String URLCONNCTION = "&";
 	/** =符号**/
@@ -57,7 +58,7 @@ public class GatewaySignUtil {
         }
         buffer.append("key=");
         buffer.append(appKey);
-        return MD5.MD5Encode(buffer.toString()).toUpperCase();
+        return MD5.mD5Encode(buffer.toString()).toUpperCase();
 	}
 	
 	
@@ -81,7 +82,7 @@ public class GatewaySignUtil {
 		String[] split = buffer.toString().split(URLCONNCTION);
 		Arrays.sort(split);
 		String concat = StringUtils.join(split, URLCONNCTION).concat(URLCONNCTION).concat("key=").concat(appKey);
-        return MD5.MD5Encode(concat).toUpperCase();
+        return MD5.mD5Encode(concat).toUpperCase();
 	}
 	
 	/**

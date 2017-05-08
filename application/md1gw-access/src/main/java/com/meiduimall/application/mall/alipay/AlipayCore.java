@@ -12,8 +12,8 @@ import com.meiduimall.application.mall.util.Logger;
 
 public class AlipayCore {
 
-	
-    /** 
+
+	/** 
      * 除去数组中的空值和签名参数
      * @param sArray 签名参数组
      * @return 去掉空值与签名参数后的新签名参数组

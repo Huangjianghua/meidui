@@ -11,7 +11,7 @@ import com.meiduimall.application.mall.util.Logger;
 
 public class RSA {
 
-	
+
 	public static final String  SIGN_ALGORITHMS = "SHA1WithRSA";
 
 	/**
@@ -21,7 +21,7 @@ public class RSA {
 	* @param input_charset 编码格式
 	* @return 签名值
 	*/
-	public static String sign(String content, String privateKey, String input_charset)
+	public static String sign(String content, String privateKey, String inputCharset)
 	{
 	        try 
 	        {
@@ -38,7 +38,7 @@ public class RSA {
 
 
 	            signature.initSign(priKey);
-	            signature.update( content.getBytes(input_charset) );
+	            signature.update( content.getBytes(inputCharset) );
 
 
 	            byte[] signed = signature.sign();
@@ -61,12 +61,12 @@ public class RSA {
 	* @param input_charset 编码格式
 	* @return 布尔值
 	*/
-	public static boolean verify(String content, String sign, String alipay_public_key, String input_charset)
+	public static boolean verify(String content, String sign, String alipayPublicKey, String inputCharset)
 	{
 	try 
 	{
 	KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-	       byte[] encodedKey = Base64.decode(alipay_public_key);
+	       byte[] encodedKey = Base64.decode(alipayPublicKey);
 	       PublicKey pubKey = keyFactory.generatePublic(new X509EncodedKeySpec(encodedKey));
 
 
@@ -75,7 +75,7 @@ public class RSA {
 	.getInstance(SIGN_ALGORITHMS);
 
 	signature.initVerify(pubKey);
-	signature.update( content.getBytes(input_charset) );
+	signature.update( content.getBytes(inputCharset) );
 
 	boolean bverify = signature.verify( Base64.decode(sign) );
 	return bverify;

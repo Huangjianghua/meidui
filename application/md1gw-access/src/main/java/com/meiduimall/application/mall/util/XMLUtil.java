@@ -9,7 +9,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
@@ -18,94 +17,98 @@ import org.jdom.input.SAXBuilder;
 //微信返回的结果为Xml格式的字符串，XmlUtil主要用于解析结果
 public class XMLUtil {
 
- /**
-  * 解析xml,返回第一级元素键值对。如果第一级元素有子节点，则此节点的值是子节点的xml数据。
-  * @param strxml
-  * @return
-  * @throws JDOMException
-  * @throws IOException
-  */
- @SuppressWarnings({ "rawtypes", "unchecked" })
-public static Map doXMLParse(String strxml) throws JDOMException, IOException {
-    String replaceFirst = strxml.replaceFirst("encoding=\".*\"", "encoding=\"UTF-8\"");
+	/**
+	 * 解析xml,返回第一级元素键值对。如果第一级元素有子节点，则此节点的值是子节点的xml数据。
+	 * 
+	 * @param strxml
+	 * @return
+	 * @throws JDOMException
+	 * @throws IOException
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static Map doXMLParse(String strxml) throws JDOMException, IOException {
 
-    if(null == replaceFirst || "".equals(replaceFirst)) {
-       return null;
-    }
+		String replaceFirst = strxml.replaceFirst("encoding=\".*\"", "encoding=\"UTF-8\"");
 
-    Map m = new HashMap();
+		if (null == replaceFirst || "".equals(replaceFirst)) {
+			return null;
+		}
 
-    InputStream in = new ByteArrayInputStream(replaceFirst.getBytes("UTF-8"));
-    SAXBuilder builder = new SAXBuilder();
-    Document doc = builder.build(in);
-    Element root = doc.getRootElement();
-    List list = root.getChildren();
-    Iterator it = list.iterator();
-    while(it.hasNext()) {
-       Element e = (Element) it.next();
-       String k = e.getName();
-       String v = "";
-       List children = e.getChildren();
-       if(children.isEmpty()) {
-          v = e.getTextNormalize();
-       } else {
-          v = XMLUtil.getChildrenText(children);
-       }
+		Map m = new HashMap();
 
-       m.put(k, v);
-    }
+		InputStream in = new ByteArrayInputStream(replaceFirst.getBytes("UTF-8"));
+		SAXBuilder builder = new SAXBuilder();
+		Document doc = builder.build(in);
+		Element root = doc.getRootElement();
+		List list = root.getChildren();
+		Iterator it = list.iterator();
+		while (it.hasNext()) {
+			Element e = (Element) it.next();
+			String k = e.getName();
+			String v = "";
+			List children = e.getChildren();
+			if (children.isEmpty()) {
+				v = e.getTextNormalize();
+			} else {
+				v = XMLUtil.getChildrenText(children);
+			}
 
-    //关闭流
-    in.close();
+			m.put(k, v);
+		}
 
-    return m;
- }
+		// 关闭流
+		in.close();
 
- /**
-  * 获取子结点的xml
-  * @param children
-  * @return String
-  */
- @SuppressWarnings("rawtypes")
-public static String getChildrenText(List children) {
-    StringBuilder sb = new StringBuilder();
-    if(!children.isEmpty()) {
-       Iterator it = children.iterator();
-       while(it.hasNext()) {
-          Element e = (Element) it.next();
-          String name = e.getName();
-          String value = e.getTextNormalize();
-          List list = e.getChildren();
-          sb.append("<" + name + ">");
-          if(!list.isEmpty()) {
-             sb.append(XMLUtil.getChildrenText(list));
-          }
-          sb.append(value);
-          sb.append("</" + name + ">");
-       }
-    }
+		return m;
+	}
 
-    return sb.toString();
- }
+	/**
+	 * 获取子结点的xml
+	 * 
+	 * @param children
+	 * @return String
+	 */
+	@SuppressWarnings("rawtypes")
+	public static String getChildrenText(List children) {
+		StringBuilder sb = new StringBuilder();
+		if (!children.isEmpty()) {
+			Iterator it = children.iterator();
+			while (it.hasNext()) {
+				Element e = (Element) it.next();
+				String name = e.getName();
+				String value = e.getTextNormalize();
+				List list = e.getChildren();
+				sb.append("<" + name + ">");
+				if (!list.isEmpty()) {
+					sb.append(XMLUtil.getChildrenText(list));
+				}
+				sb.append(value);
+				sb.append("</" + name + ">");
+			}
+		}
 
- /**
-  * 获取xml编码字符集
-  * @param strxml
-  * @return
-  * @throws IOException
-  * @throws JDOMException
-  */
- public static String getXMLEncoding(String strxml) throws JDOMException, IOException {
-    InputStream in = String2InputStream(strxml);
-    SAXBuilder builder = new SAXBuilder();
-    Document doc = builder.build(in);
-    in.close();
-    return (String)doc.getProperty("encoding");
- }
- 
- public static InputStream String2InputStream(String strxml) throws UnsupportedEncodingException{
-	InputStream   in_withcode   =   new   ByteArrayInputStream(strxml.getBytes("UTF-8"));  
-	return in_withcode;
-	 
- }
+		return sb.toString();
+	}
+
+	/**
+	 * 获取xml编码字符集
+	 * 
+	 * @param strxml
+	 * @return
+	 * @throws IOException
+	 * @throws JDOMException
+	 */
+	public static String getXMLEncoding(String strxml) throws JDOMException, IOException {
+		InputStream in = string2InputStream(strxml);
+		SAXBuilder builder = new SAXBuilder();
+		Document doc = builder.build(in);
+		in.close();
+		return (String) doc.getProperty("encoding");
+	}
+
+	public static InputStream string2InputStream(String strxml) throws UnsupportedEncodingException {
+		InputStream inWithcode = new ByteArrayInputStream(strxml.getBytes("UTF-8"));
+		return inWithcode;
+
+	}
 }

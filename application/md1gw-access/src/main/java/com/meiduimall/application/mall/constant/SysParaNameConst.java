@@ -19,9 +19,11 @@ public class SysParaNameConst {
 	//数据结果
 	/*public final static String RESULT = "result";*/
 	
-	public final static String DATA= "data";
-	public final static String STATUS = "status";
-	public final static String MSG = "msg";
+
+
+	public static final String DATA= "data";
+	public static final String STATUS = "status";
+	public static final String MSG = "msg";
 	
 	/*******会员系统用户动作 start*******/
 	public static final String ADD = "添加";
@@ -74,17 +76,17 @@ public class SysParaNameConst {
 	/** 更新更新平台订单 **/
 	public static final String WAIT_SELLER_SEND_GOODS = "WAIT_SELLER_SEND_GOODS";
 	public static final String SUCC = "succ";
-	public static final String progress = "progress";
+	public static final String PROGRESS = "progress";
 	
 	
 	public static final String WAIT_BUYER_PAY = "WAIT_BUYER_PAY";
 	
 	/**记录订单操作日志常量***/
-	public static final Integer op_id = 0;
-	public static final String op_name = "系统";
-	public static final String op_role = "system";
-	public static final String behavior = "payment";
-	public static final String logText = "订单付款成功！";
+	public static final Integer OP_ID = 0;
+	public static final String OP_NAME = "系统";
+	public static final String OP_ROLE = "system";
+	public static final String BEHAVIOR = "payment";
+	public static final String LOGTEXT = "订单付款成功！";
 
 	
 	public static final Byte IS_SYNC = 1;
@@ -105,9 +107,9 @@ public class SysParaNameConst {
 	
 	
 	/**匹配是否是手机号的正则表达式**/
-	public final static String PHONE_PATTERN="^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17([0,1,6,7,]))|(18[0-2,5-9]))\\d{8}$";
+	public static final String PHONE_PATTERN="^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17([0,1,6,7,]))|(18[0-2,5-9]))\\d{8}$";
 	
 	
-
+    
 
 }

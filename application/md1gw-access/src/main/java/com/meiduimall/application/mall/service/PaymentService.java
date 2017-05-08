@@ -51,7 +51,7 @@ public interface PaymentService {
  	 * 支付回调
  	 * @
  	 */
- 	ResponseBodyData PayCallBack(EctoolsPaymentsSucc ectoolsPaymentsSucc,String notice);  
+ 	ResponseBodyData payCallBack(EctoolsPaymentsSucc ectoolsPaymentsSucc,String notice);  
  	
  	/**
  	 * 更新支付单错误金额
@@ -75,7 +75,7 @@ public interface PaymentService {
  	 * @return
  	 * @
  	 */
- 	ResponseBodyData PayFinish(String paymentId);
+ 	ResponseBodyData payFinish(String paymentId);
  	
  	/**
  	 *【订单支付请求支付网关接口】
@@ -85,12 +85,12 @@ public interface PaymentService {
  	 * @return
  	 * @
  	 */
- 	ResponseBodyData PaymentTrade(PaymentTrade paymentTrade,SystradePTrade obj_p_trade_info,
+ 	ResponseBodyData paymentTrade(PaymentTrade paymentTrade,SystradePTrade objPTradeInfo,
  			List<Object> list,JSONObject memberBasicInfo);
  	
  	/**
  	 * 回调结果 通知支付服务
  	 * @
  	 */
-  	void NoticePaymentService(JSONObject json);
+  	void noticePaymentService(JSONObject json);
 }

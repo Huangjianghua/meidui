@@ -13,6 +13,7 @@ import com.meiduimall.exception.ServiceException;
 
 public class MD5Util {
 	
+
 	/**
 	 * 根据请求参数和key生成签名
 	 * @param parameters 包含请求参数的list集合
@@ -53,7 +54,7 @@ public class MD5Util {
 			}
 			buffer.append(OauthConst.SECRETKEY_NAME);
 			buffer.append(key);
-			String syssign=MD5Util.MD5EncryptBy32(buffer.toString()).toUpperCase();
+			String syssign=MD5Util.mD5EncryptBy32(buffer.toString()).toUpperCase();
 			return syssign;
 		} catch (Exception e) {
 			Logger.error("system error", e);
@@ -62,7 +63,7 @@ public class MD5Util {
 	}
 
 	// 该方法将你输入的字符串，通过md5加密，返回一个加密后的字符串(30位:去除前2位)
-	public static String MD5EncryptBy30(String inStr) {
+	public static String mD5EncryptBy30(String inStr) {
 		MessageDigest md = null;
 		String outStr = null;
 		try {
@@ -98,7 +99,7 @@ public class MD5Util {
 	 * @param values
 	 * @return
 	 */
-	public static String MD5EncryptBy32(String values) {
+	public static String mD5EncryptBy32(String values) {
 		StringBuilder buf = new StringBuilder("");
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");
@@ -129,10 +130,10 @@ public class MD5Util {
 	 * @param values
 	 * @return
 	 */
-	public static String MD5EncryptBy16(String values) {
+	public static String mD5EncryptBy16(String values) {
 		String str = "";
 		try {
-			str = MD5Util.MD5EncryptBy32(values);
+			str = MD5Util.mD5EncryptBy32(values);
 		} catch (Exception e) {
 			 Logger.error("16位加密错误: %s", e);
 		}
@@ -222,7 +223,7 @@ public class MD5Util {
 	}
 
 	// 固定密钥加密
-	public static String HexEncode(String str) {
+	public static String hexEncode(String str) {
 		String hexString = null;
 		if (str != null && str.length() > 0) {
 			char[] digital = "0123456789ABCDEF".toCharArray();
@@ -246,7 +247,7 @@ public class MD5Util {
 	}
 
 	// 固定密钥解密
-	public static String HexDecode(String hexString) {
+	public static String hexDecode(String hexString) {
 		String str = null;
 		if (hexString != null && hexString.length() > 0) {
 			String digital = "0123456789ABCDEF";
@@ -317,7 +318,7 @@ public class MD5Util {
 	      return hexDigits[d1] + hexDigits[d2];
 	   }
 	 //微信Md5加密工具
-	   public static String MD5Encode(String origin, String charsetname) {
+	   public static String mD5Encode(String origin, String charsetname) {
 	      String resultString = null;
 	      try {
 	         resultString = origin;

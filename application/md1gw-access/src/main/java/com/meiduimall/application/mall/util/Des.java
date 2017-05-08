@@ -18,6 +18,8 @@ import sun.misc.BASE64Encoder;
 @SuppressWarnings("restriction")
 public class Des {
 
+
+
 	private final static String DES = "DES";
 
 	

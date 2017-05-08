@@ -2,17 +2,17 @@ package com.meiduimall.application.mall.alipay;
 
 public final class Base64 {
 
-    static private final int     BASELENGTH           = 128;
-    static private final int     LOOKUPLENGTH         = 64;
-    static private final int     TWENTYFOURBITGROUP   = 24;
-    static private final int     EIGHTBIT             = 8;
-    static private final int     SIXTEENBIT           = 16;
-    static private final int     FOURBYTE             = 4;
-    static private final int     SIGN                 = -128;
-    static private final char    PAD                  = '=';
-    static private final boolean FDEBUG               = false;
-    static final private byte[]  base64Alphabet       = new byte[BASELENGTH];
-    static final private char[]  lookUpBase64Alphabet = new char[LOOKUPLENGTH];
+	private static final int     BASELENGTH           = 128;
+	private static  final int     LOOKUPLENGTH         = 64;
+	private static  final int     TWENTYFOURBITGROUP   = 24;
+	private static  final int     EIGHTBIT             = 8;
+	private static  final int     SIXTEENBIT           = 16;
+	private static  final int     FOURBYTE             = 4;
+	private static  final int     SIGN                 = -128;
+	private static final char    PAD                  = '=';
+	private static final boolean FDEBUG               = false;
+    private static final byte[]  base64Alphabet       = new byte[BASELENGTH];
+    private static final char[]  lookUpBase64Alphabet = new char[LOOKUPLENGTH];
 
 
     static {

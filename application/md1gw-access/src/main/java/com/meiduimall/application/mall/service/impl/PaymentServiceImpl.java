@@ -88,12 +88,12 @@ public class PaymentServiceImpl implements PaymentService {
 	 */
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	@SuppressWarnings({ "static-access" })
-	public ResponseBodyData PaymentTrade(PaymentTrade paymentTrade, SystradePTrade objPTradeInfo, List<Object> list,
+	public ResponseBodyData paymentTrade(PaymentTrade paymentTrade, SystradePTrade objPTradeInfo, List<Object> list,
 			JSONObject memberBasicInfo) {
 
 		try {
 			// 3.更新支付单信息
-			Integer updateEctoolsPayments = updateEctoolsPayments(CommonUtil.UpdateEctoolsPaymentsCommon(paymentTrade));
+			Integer updateEctoolsPayments = updateEctoolsPayments(CommonUtil.updateEctoolsPaymentsCommon(paymentTrade));
 			if (updateEctoolsPayments <= 0) {
 				Logger.info("更新支付单信息失败!");
 				throw new ServiceException(MallApiCode.UPDATEEPS_FAIL,
@@ -128,7 +128,7 @@ public class PaymentServiceImpl implements PaymentService {
 			// 存入变量deleteParams
 			List<EctoolsTradePaybill> deleteParams = new ArrayList<EctoolsTradePaybill>();
 			List<EctoolsTradePaybill> listetpb = new ArrayList<EctoolsTradePaybill>();
-			List<Object> B = new ArrayList<Object>();
+			List<Object> b = new ArrayList<Object>();
 			trades.forEach(trade -> {
 				EctoolsTradePaybill etpb = new EctoolsTradePaybill();
 				etpb.setStatus(SysParaNameConst.PAYING);
@@ -136,7 +136,7 @@ public class PaymentServiceImpl implements PaymentService {
 				etpb.setTid(trade.get("tid").toString());
 				etpb.setPaymentId(paymentTrade.getPayment_id());
 				listetpb.add(etpb);
-				B.add(trade.get("tid").toString());
+				b.add(trade.get("tid").toString());
 			});
 
 			Integer updateEctoolsTradePaybill = tradeService.updateEctoolsTradePaybill(listetpb);
@@ -146,16 +146,16 @@ public class PaymentServiceImpl implements PaymentService {
 						MallApiCode.getZhMsg(MallApiCode.UPDATEETPB_FAIL));
 			}
 
-			List<Object> A = new ArrayList<Object>();
+			List<Object> a = new ArrayList<Object>();
 			for (EctoolsTradePaybill ectoolsTradePaybill : tradePaybill) {
-				A.add(ectoolsTradePaybill.getTid());
+				a.add(ectoolsTradePaybill.getTid());
 			}
 
 			// 取子支付单与商家订单的差集
-			A.removeAll(B);
-			Logger.info("需要删除的非法数据有:%s条", A.size());
-			if (!A.isEmpty()) {
-				for (Object object : A) {
+			a.removeAll(b);
+			Logger.info("需要删除的非法数据有:%s条", a.size());
+			if (!a.isEmpty()) {
+				for (Object object : a) {
 					EctoolsTradePaybill ectoolsTradePaybill = new EctoolsTradePaybill();
 					ectoolsTradePaybill.setTid(object.toString());
 					ectoolsTradePaybill.setPaymentId(paymentTrade.getPayment_id());
@@ -208,7 +208,7 @@ public class PaymentServiceImpl implements PaymentService {
 
 					// 把冻结的金额更新到平台订单表(systrade_p_trade)
 					Logger.info("支付单积分:%s", paymentBill.get("pointPay"));
-					Integer updateCSP = tradeService.updateCSP(CommonUtil.UpdateCSPCommon(paymentBill));
+					Integer updateCSP = tradeService.updateCSP(CommonUtil.updateCSPCommon(paymentBill));
 					if (updateCSP <= 0) {
 						Logger.info("把冻结的积分到平台订单表 失败!");
 						throw new ServiceException(MallApiCode.UPDATECSP_FAIL,
@@ -272,7 +272,7 @@ public class PaymentServiceImpl implements PaymentService {
 				// 调用【订单支付状态更改接口】减库存
 				tradelist.forEach(trade -> {
 					try {
-						tradeService.TradePayFinish(trade);
+						tradeService.tradePayFinish(trade);
 					} catch (Exception e) {
 						Logger.error("系统错误: %s", e);
 						throw new ServiceException(MallApiCode.TRADEPAYFINISH_ERROR,
@@ -291,7 +291,7 @@ public class PaymentServiceImpl implements PaymentService {
 				JSONObject fromObject = new JSONObject().fromObject(memIdByUserId.get("data"));
 
 				// 同步订单到会员系统
-				ResponseBodyData saveOrderAndUpdateFunction = SaveOrderAndUpdateFunction(paymentBill, objPTradeInfo,
+				ResponseBodyData saveOrderAndUpdateFunction = saveOrderAndUpdateFunction(paymentBill, objPTradeInfo,
 						fromObject);
 				if (saveOrderAndUpdateFunction.getStatus() != 0) {
 					return new ResponseBodyData(11, "fail");
@@ -302,7 +302,7 @@ public class PaymentServiceImpl implements PaymentService {
 			} else {
 				// 有第三方支付
 				Logger.info("进入第三方支付!");
-				ResponseBodyData payment = tPPaymentService.Payment(paymentTrade, objPTradeInfo);
+				ResponseBodyData payment = tPPaymentService.payment(paymentTrade, objPTradeInfo);
 				if (payment.getStatus() == 0) {
 					return new ResponseBodyData(payment.getData(), 3, "success");
 				} else {
@@ -321,7 +321,7 @@ public class PaymentServiceImpl implements PaymentService {
 	/**
 	 * 组合参数调用会员中心接口【SaveOrder接口】，同步订单到会员系统
 	 */
-	public ResponseBodyData SaveOrderAndUpdateFunction(Map<String, Object> paymentBill, SystradePTrade objPTradeInfo,
+	public ResponseBodyData saveOrderAndUpdateFunction(Map<String, Object> paymentBill, SystradePTrade objPTradeInfo,
 			JSONObject fromObject) {
 		// 更新平台订单信息,标识已同步订单到会员系统
 		SystradePTrade systradePTrade = new SystradePTrade();
@@ -358,14 +358,14 @@ public class PaymentServiceImpl implements PaymentService {
 	 * @param paymentBill
 	 * @return
 	 */
-	public ResponseBodyData PayFinish(String paymentId) {
+	public ResponseBodyData payFinish(String paymentId) {
 		try {
 			Map<String, Object> paymentBill = getPaymentBill(paymentId);
 			if (paymentBill == null) {
 				Logger.info("支付单信息为空!");
 				return new ResponseBodyData(11, "支付单信息为空!");
 			}
-			if (paymentBill.get("status").equals(SysParaNameConst.progress)
+			if (paymentBill.get("status").equals(SysParaNameConst.PROGRESS)
 					|| paymentBill.get("status").equals(SysParaNameConst.SUCC)) {
 				List<EctoolsTradePaybill> tradePaybill = tradeService.listEctoolsTradePaybill(paymentId);
 				if (tradePaybill == null) {
@@ -409,8 +409,8 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 
 	@Override
-	public Integer insertEctoolsPaymentsSucc(EctoolsPaymentsSucc EctoolsPaymentsSucc) {
-		return baseMapper.insert(EctoolsPaymentsSucc, "EctoolsPaymentsSuccMapper.insertEctoolsPaymentsSucc");
+	public Integer insertEctoolsPaymentsSucc(EctoolsPaymentsSucc ectoolsPaymentsSucc) {
+		return baseMapper.insert(ectoolsPaymentsSucc, "EctoolsPaymentsSuccMapper.insertEctoolsPaymentsSucc");
 	}
 
 	/**
@@ -419,13 +419,13 @@ public class PaymentServiceImpl implements PaymentService {
 	@SuppressWarnings({ "static-access" })
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	@Override
-	public ResponseBodyData PayCallBack(EctoolsPaymentsSucc ectoolsPaymentsSucc, String notice) {
+	public ResponseBodyData payCallBack(EctoolsPaymentsSucc ectoolsPaymentsSucc, String notice) {
 
 		Logger.info("回调数据:%s", ectoolsPaymentsSucc.toString());
 
 		// 查询第三方支付成功记录表
-		EctoolsPaymentsSucc payMdl_succ_info = getEctoolsPaymentsSucc(ectoolsPaymentsSucc.getPaymentId());
-		if (payMdl_succ_info == null) {
+		EctoolsPaymentsSucc payMdlSuccInfo = getEctoolsPaymentsSucc(ectoolsPaymentsSucc.getPaymentId());
+		if (payMdlSuccInfo == null) {
 			Integer integer = insertEctoolsPaymentsSucc(ectoolsPaymentsSucc);
 			if (integer <= 0) {
 				Logger.info("记录支付成功记录 失败!");
@@ -435,21 +435,21 @@ public class PaymentServiceImpl implements PaymentService {
 		}
 
 		// 验证支付表是否付款
-		Map<String, Object> result_payment = getPaymentBill(ectoolsPaymentsSucc.getPaymentId());
-		if (result_payment == null) {
+		Map<String, Object> resultPayment = getPaymentBill(ectoolsPaymentsSucc.getPaymentId());
+		if (resultPayment == null) {
 			Logger.info("支付信息不存在!");
 			return new ResponseBodyData(11, "支付信息不存在!");
 		}
 
 		// result_payment['status'] == 'succ' 已经支付过了
-		if (SysParaNameConst.SUCC.equals(result_payment.get("status"))) {
+		if (SysParaNameConst.SUCC.equals(resultPayment.get("status"))) {
 			Logger.info("已经支付过了!");
 			return new ResponseBodyData(11, "已经支付过了!");
 		}
 
 		// 判断订单是不是重复支付了
 		SystradePTrade objPTradeInfo = tradeService
-				.getSystradePTrade(new BigInteger(result_payment.get("platformId").toString()));
+				.getSystradePTrade(new BigInteger(resultPayment.get("platformId").toString()));
 		if (objPTradeInfo == null) {
 			Logger.info("平台订单信息不存在!");
 			return new ResponseBodyData(11, "平台订单信息不存在!");
@@ -457,19 +457,19 @@ public class PaymentServiceImpl implements PaymentService {
 
 		// 查询支付单信息
 		EctoolsPayments isPaySucc = tradeService
-				.getIsPaySucc(CommonUtil.getIsPaySuccCommon(result_payment, ectoolsPaymentsSucc));
+				.getIsPaySucc(CommonUtil.getIsPaySuccCommon(resultPayment, ectoolsPaymentsSucc));
 
 		// objPTradeInfo['cash_pay']赋值给result_payment['cur_money']，覆盖result_payment['cur_money']原来的值
-		result_payment.put("curMoney", objPTradeInfo.getCashPay());
+		resultPayment.put("curMoney", objPTradeInfo.getCashPay());
 
 		Map<String, Object> paymentBill = null;
 		JSONObject fromObject = null;
 		try {
 
 			// 总支付金额(cur_money)小于5、重复支付(is_pay_succ不为空)、支付金额不相等发送报警短信【会员系统SMSSendNewTemplate接口】
-			if (new BigDecimal(result_payment.get("curMoney").toString()).compareTo(new BigDecimal(5)) < 0
+			if (new BigDecimal(resultPayment.get("curMoney").toString()).compareTo(new BigDecimal(5)) < 0
 					|| isPaySucc != null
-					|| new BigDecimal(result_payment.get("curMoney").toString())
+					|| new BigDecimal(resultPayment.get("curMoney").toString())
 							.compareTo(ectoolsPaymentsSucc.getMoney()) != 0
 					|| objPTradeInfo.getStatus().equals(SysParaNameConst.WAIT_SELLER_SEND_GOODS)) {
 				// 发送报警短信【会员系统SMSSendNewTemplate接口】
@@ -478,10 +478,10 @@ public class PaymentServiceImpl implements PaymentService {
 			}
 
 			// result_payment['cur_money']!=$postdata['cur_money']用户提交与数据库不一致
-			Logger.info("数据库:%s ;; 用户提交:%s ;; 比较结果:%s", new BigDecimal(result_payment.get("curMoney").toString()),
-					ectoolsPaymentsSucc.getMoney(), new BigDecimal(result_payment.get("curMoney").toString())
+			Logger.info("数据库:%s ;; 用户提交:%s ;; 比较结果:%s", new BigDecimal(resultPayment.get("curMoney").toString()),
+					ectoolsPaymentsSucc.getMoney(), new BigDecimal(resultPayment.get("curMoney").toString())
 							.compareTo(ectoolsPaymentsSucc.getMoney()) != 0);
-			if (new BigDecimal(result_payment.get("curMoney").toString())
+			if (new BigDecimal(resultPayment.get("curMoney").toString())
 					.compareTo(ectoolsPaymentsSucc.getMoney()) != 0) {
 				// 更新支付单错误金额
 				Integer updateErrorMoney = updateErrorMoney(
@@ -551,7 +551,7 @@ public class PaymentServiceImpl implements PaymentService {
 			listEctoolsTradePaybill.forEach(ETP -> {
 				try {
 					// 调用【订单支付状态更改接口】
-					tradeService.TradePayFinish(new SystradeTrade(new BigInteger(ETP.getTid())));
+					tradeService.tradePayFinish(new SystradeTrade(new BigInteger(ETP.getTid())));
 				} catch (Exception e) {
 					Logger.error("系统错误:%s", e);
 				}
@@ -560,7 +560,7 @@ public class PaymentServiceImpl implements PaymentService {
 			// paymentBill['status'] == "succ" || $paymentBill['status'] ==
 			// "progress"处理混合支付判断
 			if (paymentBill.get("status").equals(SysParaNameConst.SUCC)
-					|| paymentBill.get("status").equals(SysParaNameConst.progress)) {
+					|| paymentBill.get("status").equals(SysParaNameConst.PROGRESS)) {
 
 				// paymentBill["wallet_pay"] > 0使用余额判断开始
 				if (new BigDecimal(paymentBill.get("walletPay").toString()).compareTo(new BigDecimal(0)) > 0) {
@@ -579,7 +579,7 @@ public class PaymentServiceImpl implements PaymentService {
 					paymentTrade.setUser_id(paymentBill.get("userId").toString());
 					paymentTrade.setPayway("3");
 
-					ResponseBodyData saveOrderAndUpdateFunction = SaveOrderAndUpdateFunction(paymentBill,
+					ResponseBodyData saveOrderAndUpdateFunction = saveOrderAndUpdateFunction(paymentBill,
 							systradePTrade, fromObject);
 					if (saveOrderAndUpdateFunction.getStatus() != 0) {
 						Logger.info("同步订单到会员系统失败: %s", saveOrderAndUpdateFunction.getMsg());
@@ -588,7 +588,7 @@ public class PaymentServiceImpl implements PaymentService {
 					}
 
 					// 【会员钱包支付接口】,写入钱包支付记录
-					MemberWalletPay(paymentBill, new JSONObject().fromObject(saveOrderAndUpdateFunction.getData()));
+					memberWalletPay(paymentBill, new JSONObject().fromObject(saveOrderAndUpdateFunction.getData()));
 
 				}
 
@@ -601,13 +601,13 @@ public class PaymentServiceImpl implements PaymentService {
 				json.put("notifyTime", DateUtil.timeStamp(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss")); // 回调时间
 				json.put("notifyData", notice); // 回调数据
 				json.put("notifyStatus", "1"); // 回调状态 支付状态、回调状态 1：成功 0 失败
-				NoticePaymentService(json);
+				noticePaymentService(json);
 			}
 
 		} catch (Exception e) {
 			Logger.error("系统错误:%s", e);
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-			CallBackDeal(paymentBill, fromObject);
+			callBackDeal(paymentBill, fromObject);
 			return new ResponseBodyData(1, "系统错误!");
 		}
 		return new ResponseBodyData(0, "回调完成!");
@@ -619,7 +619,7 @@ public class PaymentServiceImpl implements PaymentService {
 	 * 
 	 * @param paymentBill
 	 */
-	public void CallBackDeal(Map<String, Object> paymentBill, JSONObject json) {
+	public void callBackDeal(Map<String, Object> paymentBill, JSONObject json) {
 		try {
 			// 推送次数大于2判断
 			if ((byte) paymentBill.get("errorNum") > 2) {
@@ -632,7 +632,7 @@ public class PaymentServiceImpl implements PaymentService {
 				}
 
 				// 调用【会员钱包支付接口】,写入钱包支付记录
-				MemberWalletPay(paymentBill, unfreezeDeduct.getJSONObject("data"));
+				memberWalletPay(paymentBill, unfreezeDeduct.getJSONObject("data"));
 
 			} else {// 推送次数小于等于2判断
 					// 推送次数加1
@@ -654,7 +654,7 @@ public class PaymentServiceImpl implements PaymentService {
 	 * 
 	 * @throws Exception
 	 */
-	public void MemberWalletPay(Map<String, Object> paymentBill, JSONObject json) {
+	public void memberWalletPay(Map<String, Object> paymentBill, JSONObject json) {
 		SysuserWalletPaylog sysuserWalletPaylog = new SysuserWalletPaylog();
 		sysuserWalletPaylog.setUid(Integer.valueOf(paymentBill.get("userId").toString()));
 
@@ -689,7 +689,7 @@ public class PaymentServiceImpl implements PaymentService {
 	 * 支付回调 通知支付服务
 	 */
 	@Override
-	public void NoticePaymentService(JSONObject json) {
+	public void noticePaymentService(JSONObject json) {
 		try {
 			StringBuilder url = new StringBuilder(myProps.getRouteServiceUrl());
 			url.append("/pay/payment-service/v1/paynotify");

@@ -139,7 +139,7 @@ public class StringUtil {
 	 *            过滤前的字符
 	 * @return 过滤之后的字符
 	 */
-	public static String stringByFilter(String st) {
+	public static String stringByFilters(String st) {
 		// 判断是否为空
 		if ("".equals(st) || null == st) {
 			return "";
@@ -158,7 +158,7 @@ public class StringUtil {
 	 *            过滤前的字符
 	 * @return 过滤之后的字符
 	 */
-	public static String stringByFilter_(String st) {
+	public static String stringByFilter(String st) {
 		// 判断是否为空
 		if ("".equals(st) || null == st) {
 			return "";
@@ -170,7 +170,7 @@ public class StringUtil {
 			return m.replaceAll("").trim();
 		}
 	}
-	public static String stringByFilter_str(String st) {
+	public static String stringByFilterStr(String st) {
 		// 判断是否为空
 		if ("".equals(st) || null == st) {
 			return "";
@@ -478,9 +478,9 @@ public class StringUtil {
 	 * @param IP
 	 * @return
 	 */
-	public static boolean isIp(String IP) {
+	public static boolean isIp(String ip) {
 		boolean b = false;
-		String iptrim = IP.trim();
+		String iptrim = ip.trim();
 		if (iptrim.matches("\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}")) {
 			String s[] = iptrim.split("\\.");
 			if (Integer.parseInt(s[0]) < 255)
@@ -550,7 +550,7 @@ public class StringUtil {
 	 * @param user_id
 	 * @return
 	 */
-	public static String Scno(Integer user_id){
+	public static String scno(Integer userId){
 		SimpleDateFormat format = new SimpleDateFormat("yyMMddHHmm");
 		String format2 = format.format(new Date());
 		
@@ -560,7 +560,7 @@ public class StringUtil {
 		if(nextInt / 10 == 0) valueOf = String.valueOf(nextInt)+"0";
 		else valueOf = String.valueOf(nextInt);
 		
-		int u = user_id % 10000;
+		int u = userId % 10000;
 		String uss = "";
 		uss = String.valueOf(u);
 		 

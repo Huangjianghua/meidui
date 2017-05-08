@@ -40,7 +40,7 @@ public class TPPaymentServiceImpl implements TPPaymentService {
 	 * 混合支付
 	 */
 	@Override
-	public ResponseBodyData Payment(PaymentTrade paymentTrade, SystradePTrade objPTradeInfo){
+	public ResponseBodyData payment(PaymentTrade paymentTrade, SystradePTrade objPTradeInfo){
 		try {
 			JSONObject bigJson = new JSONObject();
 			String url = myProps.getRouteServiceUrl()+"/pay/payment-service/v1/payment";
@@ -52,12 +52,12 @@ public class TPPaymentServiceImpl implements TPPaymentService {
 				bigJson.put("payType", "0");
 				bigJson.put("merchantId", PayConfig.MDAPP_MCHID); // 商家标识
 
-				int TotalMoney = objPTradeInfo.getTotalMoney().multiply(new BigDecimal(100)).intValue();
-				bigJson.put("orderAmount", String.valueOf(TotalMoney)); // 订单金额
-				int Money = new BigDecimal(paymentTrade.getMoney()).multiply(new BigDecimal(100)).intValue();
-				bigJson.put("payAmount", String.valueOf(Money));// 支付金额
-				int Use_money = new BigDecimal(paymentTrade.getUse_money()).multiply(new BigDecimal(100)).intValue();
-				bigJson.put("cashAmount", String.valueOf(Use_money)); // 余额
+				int totalMoney = objPTradeInfo.getTotalMoney().multiply(new BigDecimal(100)).intValue();
+				bigJson.put("orderAmount", String.valueOf(totalMoney)); // 订单金额
+				int money = new BigDecimal(paymentTrade.getMoney()).multiply(new BigDecimal(100)).intValue();
+				bigJson.put("payAmount", String.valueOf(money));// 支付金额
+				int useMoney = new BigDecimal(paymentTrade.getUse_money()).multiply(new BigDecimal(100)).intValue();
+				bigJson.put("cashAmount", String.valueOf(useMoney)); // 余额
 				
 				bigJson.put("notifyUrl", myProps.getPayUrl()+"/md1gwmall/md1gw_access/v1/getWXPayNotify");// 回调地址
 				if(null != paymentTrade.getWechat_pay_account_type()){

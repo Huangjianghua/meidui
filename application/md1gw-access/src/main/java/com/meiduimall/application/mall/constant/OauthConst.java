@@ -12,6 +12,8 @@ package com.meiduimall.application.mall.constant;
  * -------------------------
  */
 public class OauthConst {
+	
+
 	/** 请求有效时间(5分钟) */
 	public static final Long REQUEST_EFFECTIVE_TIME = 5 * 60 * 1000L;
 	

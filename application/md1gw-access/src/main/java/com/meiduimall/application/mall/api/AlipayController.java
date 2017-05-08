@@ -120,7 +120,7 @@ public class AlipayController {
 					    ectoolsPaymentsSucc.setPayName("支付宝");
 					    ectoolsPaymentsSucc.setPayAccount("支付宝AILPAY");
 					    ectoolsPaymentsSucc.setAccount(sellerId);
-						ResponseBodyData payCallBack = paymentService.PayCallBack(ectoolsPaymentsSucc,requestParams.toString());
+						ResponseBodyData payCallBack = paymentService.payCallBack(ectoolsPaymentsSucc,requestParams.toString());
 						Logger.info("支付宝回调处理结果:%s", payCallBack.toString());
 						}
 						Logger.info("success");

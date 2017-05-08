@@ -53,7 +53,7 @@ public class WeiXinController {
 	@Autowired
 	private PaymentService paymentService;
 	
-	@SuppressWarnings({ "unused", "unchecked" })
+	@SuppressWarnings({ "unchecked" })
 	@PostMapping(value = "/getWXPayNotify" )
 	public String getPayNotify(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		Logger.info("进入微信异步回调");
@@ -77,18 +77,11 @@ public class WeiXinController {
 	
 		map = XMLUtil.doXMLParse(xmlString) ;
 		String bankType = "";
-		String cashFee = "";
-		String feeType = "";
-		String isSubscribe = "";
 		String mchId = "";
-		String nonceStr = "";
-		String openid = "";
 		String outTradeNo = "";
 		String resultCode = "";
-		String sign = "";
 		String timeEnd = "";
 		String totalFee = "";
-		String tradeType = "";
 		String transactionId = "";
 		
 		resultCode = map.get("result_code");
@@ -115,7 +108,7 @@ public class WeiXinController {
 					ectoolsPaymentsSucc.setAccount(mchId);
 					ectoolsPaymentsSucc.setPayedTime(Integer.valueOf(DateUtil.date2TimeStamp(timeEnd, "yyyyMMddHHmmss")));
 					
-					ResponseBodyData payCallBack = paymentService.PayCallBack(ectoolsPaymentsSucc,xmlString);
+					ResponseBodyData payCallBack = paymentService.payCallBack(ectoolsPaymentsSucc,xmlString);
 					Logger.info("微信支付回调处理的结果:%s", payCallBack.toString());
 				}
 				Logger.info(resultCode);
@@ -186,7 +179,7 @@ public class WeiXinController {
 		}
 
 		sb.append("key=" + PayConfig.MDAPP_KEY);// 最后加密时添加商户密钥，由于key值放在最后，所以不用添加到SortMap里面去，单独处理，编码方式采用UTF-8
-		String sign = MD5Util.MD5Encode(sb.toString(), characterEncoding).toUpperCase();
+		String sign = MD5Util.mD5Encode(sb.toString(), characterEncoding).toUpperCase();
 
 		return sign;
 	}
