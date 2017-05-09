@@ -66,7 +66,7 @@ public class SysParamsConst {
 	
 	
 	/** 默认分享人名称 */
-	public static final String MD1GW_DEFAULT_SHARE_LOGIN_NAME = "meidui";
+	public static final String MD1GW_DEFAULT_SHARE_LOGIN_NAME = "meidu";
 	
 	/** 新用户注册增加积分 */
 	public static final String MD1GW_REGISTER_ADD_POINTS = "100";

@@ -490,6 +490,14 @@ public class BasicOpServiceImpl implements BasicOpService {
 		baseDao.insert(null,"");*/
 		
 		//更新父类字符串（获取粉丝明细会用到）...暂时忽略
+		
+		String redisToken=ToolsUtil.createToken(model.getPhone(),tokenKey);//生成token
+		RedisTemplate.getJedisInstance().execSetexToCache(redisToken,Constants.REDIS_ONEMONTH,memid);//把token存储到redis，并设置失效时间一个月
+		RedisTemplate.getJedisInstance().execSetexToCache(memid,Constants.REDIS_ONEMONTH,redisToken);//临时代码，兼容旧会员系统
+		Map<String, Object> mapData=new HashMap<>();
+		mapData.put("token",redisToken);
+		mapData.put("user_id",model.getPhone());
+		resBodyData.setData(mapData);
 	
 		return resBodyData;
 	}
