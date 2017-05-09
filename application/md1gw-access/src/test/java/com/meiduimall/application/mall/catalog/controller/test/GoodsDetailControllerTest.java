@@ -47,7 +47,7 @@ public class GoodsDetailControllerTest extends BaseTest {
 	public void getItemDetail_test_02() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/md1gwmall/md1gw_access/v1/goodsDetail/getItem")
-				.param("token", "3b964736913cddd60941763689dd489e")
+				.param("token", "0116889e83e093afd7f42fb9a036088f")
 				.param("itemId", "adsf"))
 				.andExpect(status().isOk());
 		
@@ -67,7 +67,7 @@ public class GoodsDetailControllerTest extends BaseTest {
 	public void getItemDetail_test_03() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/md1gwmall/md1gw_access/v1/goodsDetail/getItem")
-				.param("token", "3b964736913cddd60941763689dd489e")
+				.param("token", "0116889e83e093afd7f42fb9a036088f")
 				.param("itemId", "33310"))
 				.andExpect(status().isOk());
 		
