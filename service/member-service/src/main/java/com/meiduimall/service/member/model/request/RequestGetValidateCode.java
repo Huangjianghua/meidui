@@ -28,11 +28,11 @@ public class RequestGetValidateCode  implements Serializable {
 	private Integer timeout;
 
 	public Integer getTimeout() {
-		return timeout;
+		return timeout==null?600:timeout;
 	}
 
 	public void setTimeout(Integer timeout) {
-		this.timeout = timeout;
+		this.timeout = timeout==null?600:timeout;
 	}
 
 	public String getMemId() {

@@ -1,10 +1,8 @@
 package com.meiduimall.service.member.service.impl;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.http.client.ClientProtocolException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,6 +96,7 @@ public class SmsServiceImpl implements SmsService
 		mapSmsData.put("phones",model.getPhone());
 		mapSmsData.put("templateId",model.getTemplateId());
 		mapSmsData.put("sysKey",SysParamsConst.SMS_SYSKEY);
+		mapSmsData.put("params",model.getParams());
 		logger.info("调用短信服务>>发送普通短信API>>URL:{},DATA:{}",smsServiceUrl,mapSmsData.toString());
 		String result=null;
 		try {

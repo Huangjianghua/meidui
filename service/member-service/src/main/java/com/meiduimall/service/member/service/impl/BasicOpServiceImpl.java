@@ -419,12 +419,10 @@ public class BasicOpServiceImpl implements BasicOpService {
 		requestSendSms.setPhone(model.getPhone());
 		requestSendSms.setTemplateId(SmsTemplateIDConst.getSmsTemplate(SmsTemplateIDConst.REGIST_SUCCESS));
 		requestSendSms.setParams(model.getPhone());
-		requestSendSms.setParams(model.getPhone());
 		smsService.sendSms(requestSendSms);
 		/**发送分享人赠送积分短信...*/
 		requestSendSms.setPhone(shareManInfo.getMemPhone());
 		requestSendSms.setTemplateId(SmsTemplateIDConst.getSmsTemplate(SmsTemplateIDConst.GIVE_POINT));
-		requestSendSms.setParams(shareManInfo.getMemPhone());
 		requestSendSms.setParams(shareManInfo.getMemPhone());
 		smsService.sendSms(requestSendSms);
 		return resBodyData;
