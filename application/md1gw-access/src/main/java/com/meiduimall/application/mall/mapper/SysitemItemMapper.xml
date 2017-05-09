@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="SysitemItemMapper" >
-  <resultMap id="BaseResultMap" type="com.meiduimall.application.md1gwaccess.model.SysitemItem" >
+  <resultMap id="BaseResultMap" type="com.meiduimall.application.mall.pay.model.SysitemItem" >
     <id column="item_id" property="itemId" jdbcType="INTEGER" />
     <result column="shop_id" property="shopId" jdbcType="INTEGER" />
     <result column="cat_id" property="catId" jdbcType="INTEGER" />
@@ -42,7 +42,7 @@
     <result column="point" property="point" jdbcType="INTEGER" />
     <result column="is_show_weight" property="isShowWeight" jdbcType="BIT" />
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.meiduimall.application.md1gwaccess.model.SysitemItem" extends="BaseResultMap" >
+  <resultMap id="ResultMapWithBLOBs" type="com.meiduimall.application.mall.pay.model.SysitemItem" extends="BaseResultMap" >
     <result column="list_image" property="listImage" jdbcType="LONGVARCHAR" />
     <result column="spec_desc" property="specDesc" jdbcType="LONGVARCHAR" />
     <result column="props_name" property="propsName" jdbcType="LONGVARCHAR" />
