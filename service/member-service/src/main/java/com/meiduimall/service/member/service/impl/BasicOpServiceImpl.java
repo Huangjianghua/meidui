@@ -529,7 +529,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 		/**校验注册验证码*/
 		RequestCheckValidateCode checkCode=new RequestCheckValidateCode();
 		checkCode.setPhone(model.getPhone());
-		checkCode.setType(Constants.CONSTANT_INT_ONE);
+		checkCode.setType(Constants.CONSTANT_INT_TWO);
 		checkCode.setValidate_code(model.getValidate_code());
 		smsService.checkValidateCode(checkCode);
 		/**开始生成会员信息*/
