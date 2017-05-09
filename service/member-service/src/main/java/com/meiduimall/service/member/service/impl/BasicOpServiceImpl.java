@@ -544,6 +544,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 		memberSet.setMemPhone(model.getPhone());
 		memberSet.setMemLoginPwd(model.getPass_word());
 		memberSet.setMemNickName(model.getPhone());
+		memberSet.setMemIsAllActivated(true);
 		memberSet.setMemCreatedDate(date);
 		memberSet.setMemCreatedCategory(1);
 		memberSet.setDictMemStatus(SysEncrypParamsConst.MEMBER_STATUS_OK);
