@@ -132,7 +132,7 @@ public class BasicOpV1Controller {
 		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
 		try {
 			if(RedisTemplate.getJedisInstance().execExistsFromCache(model.getToken())){
-				RedisTemplate.getJedisInstance().execDecrToCache(model.getToken());
+				RedisTemplate.getJedisInstance().execDelToCache(model.getToken());
 				logger.info("删除token成功");
 			}
 			else{
