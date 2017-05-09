@@ -35,15 +35,37 @@ public class BaseOpServiceImpl implements BaseOpService {
 		resBodyData=MD5Utils.updateSign(reqJson,profile.getRouteClientID(),profile.getRouteKey());
 		if(resBodyData.getStatus()!=0)
 			return resBodyData;
-		logger.info("请求账号服务，URL:{}  Data:{}",url,reqJson.toString());
+		logger.info("请求账号服务>>登录>>URL:{}  Data:{}",url,reqJson.toString());
 		try {
 			Map<String, String> headers=new HashMap<>();
 			headers.put(SysParamsConst.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
 			String result=HttpUtils.post(url,reqJson.toString(),headers);
-			logger.info("请求账号服务，结果：{}",result);
+			logger.info("请求账号服务>>登录>>RESULT：{}",result);
 			resBodyData=JSON.parseObject(result,ResBodyData.class);
 		} catch (Exception e) {
-			logger.error("请求账号服务异常：{}",e.toString());
+			logger.error("请求账号服务>>登录>>EXCEPTION：{}",e.toString());
+			resBodyData.setStatus(ApiStatusConst.REQUEST_GATEWAY_EX);
+			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.REQUEST_GATEWAY_EX));
+		}
+		return resBodyData;
+	}
+	
+	@Override
+	public ResBodyData register(JSONObject reqJson) {
+		ResBodyData resBodyData=new ResBodyData(null,null);
+		String url=profile.getServiceMemberUrl()+"v1/register";
+		resBodyData=MD5Utils.updateSign(reqJson,profile.getRouteClientID(),profile.getRouteKey());
+		if(resBodyData.getStatus()!=0)
+			return resBodyData;
+		logger.info("请求账号服务>>普通会员注册>>URL:{}  Data:{}",url,reqJson.toString());
+		try {
+			Map<String, String> headers=new HashMap<>();
+			headers.put(SysParamsConst.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
+			String result=HttpUtils.post(url,reqJson.toString(),headers);
+			logger.info("请求账号服务>>普通会员注册>>RESULT：{}",result);
+			resBodyData=JSON.parseObject(result,ResBodyData.class);
+		} catch (Exception e) {
+			logger.error("请求账号服务>>普通会员注册>>EXCEPTION：{}",e.toString());
 			resBodyData.setStatus(ApiStatusConst.REQUEST_GATEWAY_EX);
 			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.REQUEST_GATEWAY_EX));
 		}

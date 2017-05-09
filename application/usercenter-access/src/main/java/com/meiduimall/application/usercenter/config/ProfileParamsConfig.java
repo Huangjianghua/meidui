@@ -1,7 +1,8 @@
 package com.meiduimall.application.usercenter.config;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 /**
  * 配置文件当前环境相关参数
  * @author chencong
@@ -9,41 +10,24 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class ProfileParamsConfig {
-
-	@Value("${service.account.url}")
-	private String serviceAccountUrl;
-
-	@Value("${service.member.url}")
-	private String serviceMemberUrl;
 	
-	@Value("${service.sms.url}")
-	private String serviceSmsUrl;
-
-	@Value("${route.clientID}")
-	private String routeClientID;
-	
-	@Value("${route.key}")
-	private String routeKey;
-	
-	public String getServiceAccountUrl() {
-		return serviceAccountUrl;
-	}
+	@Autowired
+	private Environment env;
 
 	public String getServiceMemberUrl() {
-		return serviceMemberUrl;
+		return env.getProperty("service.member.url");
 	}
-	
-	public String getServiceSmsUrl() {
-		return serviceSmsUrl;
+
+	public String getServiceAccountUrl() {
+		return env.getProperty("service.account.url");
 	}
 
 	public String getRouteClientID() {
-		return routeClientID;
+		return env.getProperty("route.clientID");
 	}
 
 	public String getRouteKey() {
-		return routeKey;
+		return env.getProperty("route.key");
 	}
-
 
 }

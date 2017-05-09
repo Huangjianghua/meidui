@@ -3,10 +3,10 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="MSBankAccountMapper">
 	
-	<!--  写入银行账户ms_bank_account 2017-03-24 dengbibo   -->
-	<insert id="insertBankAccount" parameterType="com.meiduimall.service.account.model.MSBankAccount">
-		insert into ms_bank_account
-		   (id,
+	<!-- 插入个人账户银行信息 -->
+	<insert id="insertBankAccount" parameterType="MSBankAccount">
+		INSERT INTO ms_bank_account (
+			id,
 			mem_id,
 			account_idcard,
 			account_no,
@@ -20,22 +20,23 @@
 			remark,
 			create_date,
 			update_date
-			 )
-		values(
-			#{id},
-			#{memId},
-			#{accountIdcard},
-			#{accountNo},
-			#{accountName},
-			#{accountBank},
-			#{accountProvince},
-			#{accountCity},
-			#{accountArea},
-			#{accountSubBank},
-			#{isDefault},
-			#{remark},
-			now(),
-			now()
+			) 
+			VALUES
+			(
+				uuid(),
+				#{memId},
+				#{accountIdcard},
+				#{accountNo},
+				#{accountName},
+				#{accountBank},
+				#{accountProvince},
+				#{accountCity},
+				#{accountArea},
+				#{accountSubBank},
+				#{isDefault},
+				#{remark},
+				now(),
+				now()
 			)
 	</insert>
 	

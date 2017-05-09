@@ -7,9 +7,9 @@ package com.meiduimall.service.member.constant;
  */
 public class SysEncrypParamsConst {
 
-	/**账户状态 正常*/
+	/**账号状态 正常*/
 	public static final String MEMBER_STATUS_OK="21B260C3-A230-4601-8D62-420OPT20AT44";
-	/**会员被禁用*/
+	/**账号被禁用*/
 	public static final String MEMBER_FORBIDDEN_EN="21B260C3-A230-4601-8D62-420OPT20AT45";
 	
 	/** 开设店铺是*/

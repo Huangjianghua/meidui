@@ -24,13 +24,7 @@ import com.meiduimall.service.account.model.request.RequestAccountReviseDetail;
 import com.meiduimall.service.account.util.DateUtil;
 
 
-/**
- * @Copyright (C), 2002-2017, 缇庡厬澹硅喘鐗�
- * @FileName: MoneyV1ControllerTests.java
- * @Author:   jianhua.huang 
- * @Date:     2017骞�4鏈�18鏃� 涓嬪崍3:39:45
- * @Description: 娴嬭瘯鏂颁細鍛樺垪琛ㄦ帴鍙�
- */
+
 public class MoneyV1ControllerTests extends BaseControllerTest {
 	
 	private final static Logger logger=LoggerFactory.getLogger(MoneyV1ControllerTests.class);
@@ -40,6 +34,10 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 	
 	
 
+	/**
+	 * 余额流水
+	 * @throws Exception
+	 */
     @Test
     public void listMSAccountDetail() throws Exception{
     	MSAccountDetailGet model=new MSAccountDetailGet();
@@ -53,7 +51,7 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
     	postResultAction.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				logger.info("鍗曞厓娴嬭瘯>>浣欓娴佹按鍒嗛〉API>>鎵ц缁撴灉:{}",result.getResponse().getContentAsString());;
+				logger.info("单元测试>>余额流水分页API>>执行结果:{}",result.getResponse().getContentAsString());;
 
 			}
 		});

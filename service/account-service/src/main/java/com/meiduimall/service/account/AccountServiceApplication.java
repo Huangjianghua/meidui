@@ -29,7 +29,7 @@ public class AccountServiceApplication extends SpringBootServletInitializer {
         return builder.build();
     }  
 	
-	public static void main(String[] args){
+	public static void main(String[] args) {
 		SpringApplication.run(AccountServiceApplication.class, args);
 	}
 	   
