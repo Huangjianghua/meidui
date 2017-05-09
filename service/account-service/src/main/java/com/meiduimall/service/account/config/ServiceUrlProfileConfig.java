@@ -16,7 +16,7 @@ public class ServiceUrlProfileConfig {
 	
 	@Value("${service.sms}")
 	private String smsServiceUrl;
-
+	
 	/**
 	 * 获取账号服务地址
 	 * @return url
@@ -24,7 +24,7 @@ public class ServiceUrlProfileConfig {
 	public String getMemberServiceUrl() {
 		return memberServiceUrl;
 	}
-
+	
 	/**
 	 * 获取短信服务地址
 	 * @return url

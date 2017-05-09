@@ -81,5 +81,19 @@ public class SysParamsConst {
 	public static final String MD5="MD5";
 	/**编码方式*/
 	public static final String GBK="GBK";
+	
+	/**请求头终端ID*/
+	public static final String TERMINAL_ID="Terminal-ID";
+	/**User-Agent*/
+	public static final String USER_AGENT="User-Agent";
+	
+	/**默认登录名前缀*/
+	public static final String DEFAULT_LOGIN_NAME_PREFIX="M_";
+	
+	/**订单号前缀*/
+	public static final String DEFAULT_ORDERID_PREFIX="md1gw_";
+	
+	/**短信服务给会员分配的sysKey*/
+	public static final String SMS_SYSKEY="member_service";
 
 }

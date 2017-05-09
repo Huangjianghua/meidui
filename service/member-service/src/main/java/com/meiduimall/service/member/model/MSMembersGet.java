@@ -43,8 +43,11 @@ public class MSMembersGet implements Serializable {
 	/** 会员支付密码 **/
 	private String memPayPwd;
 	
-	/**锁定次数*/
+	/**密文锁定次数*/
 	private String memLockCount;
+	
+	/**明文锁定次数*/
+	private String memLockCountPlained;
 
 	/** 会员推荐人ID **/
 	private String memParentId;
@@ -132,7 +135,7 @@ public class MSMembersGet implements Serializable {
 	private String memType;
 	
 	
-	/**注册来源0表示PC端注册1表示o2o注册2表示会员结算系统数据迁移注册3表示壹购物注册4表示壹购物商城迁移*/
+	/**注册来源*/
 	private String memSignSource;
 	
 	/**
@@ -157,12 +160,20 @@ public class MSMembersGet implements Serializable {
 	private String memParentIsdefaultIschanged;
 
 	
-	public String getMemLockCount() {
-		return memLockCount;
+	public String getMemLockCount() throws MdSysException {
+		return "0".equals(memLockCount)?"0":DESC.deyption(memLockCount);
 	}
 
-	public void setMemLockCount(String memLockCount) {
-		this.memLockCount = memLockCount;
+	public void setMemLockCount(String memLockCount) throws MdSysException {
+		this.memLockCount = (memLockCount==null?DESC.encryption("0"):memLockCount);
+	}
+	
+	public String getMemLockCountPlained() {
+		return memLockCountPlained;
+	}
+
+	public void setMemLockCountPlained(String memLockCountPlained) {
+		this.memLockCountPlained = memLockCountPlained;
 	}
 
 	
@@ -226,8 +237,7 @@ public class MSMembersGet implements Serializable {
 
 
 	public String getMemBasicAccountTotalQuantity() throws MdSysException  {
-
-		return DESC.deyption(memBasicAccountTotalQuantity==null?"0":memBasicAccountTotalQuantity, this.memId);
+		return DESC.deyption(memBasicAccountTotalQuantity,this.memId);
 	}
 
 	public void setMemBasicAccountTotalQuantity(String memBasicAccountTotalQuantity) {
@@ -334,7 +344,7 @@ public class MSMembersGet implements Serializable {
 	public String getMemLoginName() throws MdSysException  {
 
 	
-		return memLoginName!=null?DESC.deyption(this.memLoginName):"";
+		return DESC.deyption(this.memLoginName);
 	}
 
 	public void setMemOldPhone(String memOldPhone) {
@@ -361,7 +371,7 @@ public class MSMembersGet implements Serializable {
 
 	public String getMemNickName()  throws MdSysException {
 
-		return memNickName!=null?DESC.deyption(this.memNickName):"";
+		return DESC.deyption(this.memNickName);
 	}
 
 	public void setMemLoginPwd(String memLoginPwd) {

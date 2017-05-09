@@ -3,6 +3,7 @@ package com.meiduimall.application.usercenter.api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,10 +31,10 @@ public class SmsV1Controller {
 	@Autowired
 	private SmsService smsService;
 
-	/**获取短信验证码*/
+	/**获取短信验证码，需要token*/
 	@HasToken
-	@RequestMapping(value="/get_validate_code")
-	ResBodyData validatePayPwd(){
+	@GetMapping(value="/get_validate_code")
+	ResBodyData getValidateCode(){
 		ResBodyData resBodyData=null;
 		JSONObject reqJson=ValRequest.apiReqData.get();
 		resBodyData=ValInterceptor.apiValResult.get();
@@ -47,6 +48,25 @@ public class SmsV1Controller {
 			throw new ApiException(ApiStatusConst.GET_VALIDATE_CODE_EXCEPTION);
 		}
 		logger.info("获取短信验证码API请求结果：{}",resBodyData.toString());
+		return resBodyData;
+	}
+	
+	/**获取短信验证码，不需要token*/
+	@GetMapping(value="/get_validate_code_notoken")
+	ResBodyData getValidateCodeNoToken(){
+		ResBodyData resBodyData=null;
+		JSONObject reqJson=ValRequest.apiReqData.get();
+		resBodyData=ValInterceptor.apiValResult.get();
+		if(resBodyData.getStatus()!=0)
+			return resBodyData;
+		logger.info("收到获取短信验证码(不校验token)API请求：{}",reqJson.toString());
+		try {
+			resBodyData=smsService.getValidatCode(reqJson);
+		} catch (ServiceException e) {
+			logger.error("获取短信验证码(不校验token)API处理异常：{}",e.toString());
+			throw new ApiException(ApiStatusConst.GET_VALIDATE_CODE_EXCEPTION);
+		}
+		logger.info("获取短信验证码(不校验token)API请求结果：{}",resBodyData.toString());
 		return resBodyData;
 	}
 	

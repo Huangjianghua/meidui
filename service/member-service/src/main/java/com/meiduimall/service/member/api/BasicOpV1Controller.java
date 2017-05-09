@@ -1,27 +1,39 @@
 package com.meiduimall.service.member.api;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.ApiException;
+import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.MdSysException;
+import com.meiduimall.exception.ServiceException;
+import com.meiduimall.exception.SystemException;
+import com.meiduimall.redis.util.RedisTemplate;
+import com.meiduimall.service.member.constant.ApiStatusConst;
+import com.meiduimall.service.member.constant.SysParamsConst;
+import com.meiduimall.service.member.model.request.RequestExit;
 import com.meiduimall.service.member.model.request.RequestLogin;
+import com.meiduimall.service.member.model.request.RequestRegister;
+import com.meiduimall.service.member.model.request.RequestRegisterO2O;
 import com.meiduimall.service.member.service.BasicOpService;
+import com.meiduimall.service.member.service.UserInfoService;
 import com.meiduimall.service.member.util.HttpResolveUtils;
 
 /**
@@ -39,10 +51,10 @@ public class BasicOpV1Controller {
 	private HttpServletRequest request;
 	
 	@Autowired
-	private HttpServletResponse response;
+	private BasicOpService basicOpService;
 	
 	@Autowired
-	private BasicOpService basicOpService;
+	private UserInfoService userInfoService;
 	
 	/**旧会员系统获取token或创建token(临时接口)
 	 * 因为APP可能没升级，还会请求旧会员系统的登录和注册，所以这两个接口的put token要走这个接口
@@ -85,54 +97,140 @@ public class BasicOpV1Controller {
 		return result;
 	    }
 	
-	/**用户登录*/
+	/**
+	 * 会员登录
+	 * @param requestLogin 登录API请求映射实体
+	 * @return 统一数据返回格式
+	 * @throws MdSysException 系统异常
+	 */
 	@PostMapping(value = "/login")
-	ResBodyData login(@RequestBody @Valid RequestLogin requestLogin){
-		logger.info("收到用户登录API请求：",requestLogin.toString());
+	ResBodyData login(@RequestBody @Valid RequestLogin requestLogin) throws MdSysException{
+		requestLogin.setIp(request.getRemoteAddr());
+		String tokenKey=request.getHeader(SysParamsConst.TERMINAL_ID);
+		if(StringUtils.isEmpty(tokenKey)){
+			 tokenKey=request.getHeader(SysParamsConst.USER_AGENT);
+		}
+		requestLogin.setTokenKey(tokenKey);
+		logger.info("收到会员登录API请求：",requestLogin.toString());
 		ResBodyData resBodyData=null;
 		try {
-			requestLogin.setIp(request.getRemoteAddr());
 			resBodyData = basicOpService.login(requestLogin);
-			logger.info("用户登录API请求结果  ：{}",resBodyData.toString());
+		} catch (MdSysException e) {
+			logger.error("会员登录API请求异常：{}",e.toString());
+			throw new ApiException(ApiStatusConst.LOGIN_EXCEPTION);
 		}
-		catch (MdSysException e) {
-			logger.error("用户登录API请求异常：{}",e.toString());
+		logger.info("会员登录API请求结果  ：{}",resBodyData.toString());
+		return resBodyData;
+	}
+	
+	/**
+	 *　会员退出登录
+	 * @param token 登录令牌
+	 * @return 统一数据返回格式
+	 * @throws MdSysException
+	 */
+	@PostMapping(value = "/exit")
+	ResBodyData exit(@RequestBody @Valid RequestExit model ) throws MdSysException{
+		logger.info("收到会员退出登录API请求：{}",model.getToken());
+		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		try {
+			if(RedisTemplate.getJedisInstance().execExistsFromCache(model.getToken())){
+				RedisTemplate.getJedisInstance().execDecrToCache(model.getToken());
+				logger.info("删除token成功");
+			}
+			else{
+				logger.warn("token在redis中不存在");
+				throw new ApiException(ApiStatusConst.EXIT_ERROR);
+			}
+		} catch (Exception e) {
+			logger.error("校验或删除token异常：{}",e.toString());
+			throw new ApiException(ApiStatusConst.EXIT_ERROR);
 		}
 		return resBodyData;
 	}
 	
 	
-	/**用户注册*/
+	/**普通会员注册*/
 	@PostMapping(value = "/register")
-	String register() { 
-		//得到IP地址
-		String result=null;
-		try {
-			//从本地变量获取已解析过的json
-			JSONObject j=HttpResolveUtils.readGetStringToJsonObject(request);
-			Map<String, Object> map=basicOpService.register(j);
-			result=JSON.toJSONString(map);
-		} catch (Exception e) {
-			
+	ResBodyData register(@RequestBody @Valid RequestRegister model){
+		String tokenKey=request.getHeader(SysParamsConst.TERMINAL_ID);
+		if(StringUtils.isEmpty(tokenKey)){
+			 tokenKey=request.getHeader(SysParamsConst.USER_AGENT);
 		}
-		return result;
-	    }
+		model.setTokenKey(tokenKey);
+		logger.info("收到普通会员注册API请求：{}",model.toString());
+		ResBodyData resBodyData=null;
+		try {
+			resBodyData=basicOpService.register(model);
+		} catch (DaoException  | MdSysException e) {
+			logger.error("普通会员注册API请求异常：{}",e.toString());
+			throw new ApiException(ApiStatusConst.REGISTER_EXCEPTION);
+		}
+		return resBodyData; 
+	}
+	
+	/**扫码注册（临时接口，不推荐使用）*/
+	@PostMapping(value = "/register_scan_code")
+	ResBodyData registerScanCode(@RequestBody @Valid RequestRegister model){
+		String tokenKey=request.getHeader(SysParamsConst.TERMINAL_ID);
+		if(StringUtils.isEmpty(tokenKey)){
+			 tokenKey=request.getHeader(SysParamsConst.USER_AGENT);
+		}
+		model.setTokenKey(tokenKey);
+		logger.info("收到扫码注册API请求：{}",model.toString());
+		ResBodyData resBodyData=null;
+		try {
+			resBodyData=basicOpService.registerScanCode(model);
+		} catch (DaoException  | MdSysException e) {
+			logger.error("扫码注册API请求异常：{}",e.toString());
+			throw new ApiException(ApiStatusConst.REGISTER_EXCEPTION);
+		}
+		return resBodyData; 
+	}
+	
+	/**O2O系统（商家，代理，个代）注册*/
+	@PostMapping(value = "/register_o2o")
+	ResBodyData registerO2O(@RequestBody @Valid RequestRegisterO2O model){
+		String tokenKey=request.getHeader(SysParamsConst.TERMINAL_ID);
+		if(StringUtils.isEmpty(tokenKey)){
+			 tokenKey=request.getHeader(SysParamsConst.USER_AGENT);
+		}
+		model.setTokenKey(tokenKey);
+		logger.info("收到O2O系统注册API请求：{}",model.toString());
+		ResBodyData resBodyData=null;
+		try {
+			resBodyData=basicOpService.registerO2O(model);
+		} catch (DaoException | MdSysException e) {
+			logger.error("O2O系统注册API请求异常：{}",e.toString());
+			throw new ApiException(ApiStatusConst.REGISTER_EXCEPTION);
+		}
+		return resBodyData; 
+	}
 	
 	
 	/**token校验*/
-	@RequestMapping(value = "/baseop/checktoken",method=RequestMethod.POST)
-	String checktoken() {	
-		String result=null;
+	@PostMapping(value = "/checktoken")
+	ResBodyData checktoken(@RequestBody @Valid RequestExit model) {	
+		logger.info("收到token校验API请求：{}",model.getToken());
+		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
 		try {
-			JSONObject j=HttpResolveUtils.readStreamToJsonObject(request);
-			//处理打开APP时检查token的逻辑
-			Map<String, Object> map=basicOpService.checktoken(j);
-			result=JSON.toJSONString(map);
-			logger.info("用户{}请求结果:{}",j.getString("user_id"),result);
+			if(RedisTemplate.getJedisInstance().execExistsFromCache(model.getToken())){
+				logger.info("校验token成功");
+				String memId=RedisTemplate.getJedisInstance().execGetFromCache(model.getToken());
+				String userId=userInfoService.getUserIdByMemId(memId);
+				Map<String,Object> mapData=new HashMap<>();
+				mapData.put("user_id",userId);
+				resBodyData.setData(mapData);
+			}
+			else{
+				logger.warn("token在redis中不存在");
+				throw new ApiException(ApiStatusConst.CHECK_TOKEN_NOT_PASS);
+			}
 		} catch (Exception e) {
-			
+			logger.error("校验token异常：{}",e.toString());
+			throw new ApiException(ApiStatusConst.CHECK_TOKEN_NOT_PASS);
 		}
-		return result;
+		return resBodyData;
 }
 	
 }

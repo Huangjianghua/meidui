@@ -44,3 +44,4 @@ config :
 # other service url
 service : 
    account : http://10.116.21.93:8096/member/account_service
+   sms : http://10.116.21.93:20000/notify/short_msg_service

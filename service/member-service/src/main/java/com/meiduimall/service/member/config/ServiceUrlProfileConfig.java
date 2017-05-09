@@ -12,6 +12,13 @@ public class ServiceUrlProfileConfig {
 	
 	@Value("${service.account}")
 	private String accountServiceUrl;
+	
+	@Value("${service.sms}")
+	private String smsServiceUrl;
+
+	public String getSmsServiceUrl() {
+		return smsServiceUrl;
+	}
 
 	public String getAccountServiceUrl() {
 		return accountServiceUrl;

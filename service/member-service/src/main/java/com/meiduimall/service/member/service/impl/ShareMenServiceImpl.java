@@ -11,14 +11,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.meiduimall.exception.MdSysException;
+import com.meiduimall.exception.ServiceException;
+import com.meiduimall.service.member.constant.ApiStatusConst;
 import com.meiduimall.service.member.constant.SysParamsConst;
 import com.meiduimall.service.member.dao.BaseDao;
 import com.meiduimall.service.member.model.MSMembersGet;
 import com.meiduimall.service.member.service.ShareMenService;
+import com.meiduimall.service.member.util.DESC;
 import com.meiduimall.service.member.util.StringUtil;
 
 /**
- * 推荐人和粉丝相关接口实现类
+ * 推荐人相关接口实现类
  * @author chencong
  *
  */
@@ -29,10 +33,23 @@ public class ShareMenServiceImpl implements ShareMenService{
 	
 	@Autowired
 	private BaseDao baseDao;
+	
+	@Override
+	public  MSMembersGet checkShareMan(String share_man) throws MdSysException{
+		Map<String, Object> mapCondition=new HashMap<>();
+		mapCondition.put("userid",DESC.encryption(share_man));
+		MSMembersGet msMembersGet=baseDao.selectOne(mapCondition,"MSMembersMapper.getMemberBasicInfoByCondition");
+		if(msMembersGet!=null){
+			logger.info("推荐人:{}校验通过",share_man);
+			return msMembersGet;
+		}
+		else{
+			logger.warn("推荐人:{}校验不通过",share_man);
+			throw new ServiceException(ApiStatusConst.SHARE_MAN_NOT_EXIST);
+		}
+	}
 
-	/**
-	 * 查询二级推荐人
-	 */
+
 	@Override
 	public JSONObject queryShareMan(String memId) throws Exception {
 		JSONObject json = new JSONObject();

@@ -8,11 +8,11 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
- * 获取短信验证码请求映射实体
+ * 校验短信验证码请求映射实体
  * @author chencong
  *
  */
-public class RequestGetValidateCode  implements Serializable {
+public class RequestCheckValidateCode  implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -25,14 +25,17 @@ public class RequestGetValidateCode  implements Serializable {
 	@NotNull(message="短信验证码类型不能为空")
 	private Integer type;
 	
-	private Integer timeout;
+	
+	@NotEmpty(message="验证码不能为空")
+	@Length(min=6,max=6,message="验证码长度不正确")
+	private String validate_code;
 
-	public Integer getTimeout() {
-		return timeout;
+	public String getValidate_code() {
+		return validate_code;
 	}
 
-	public void setTimeout(Integer timeout) {
-		this.timeout = timeout;
+	public void setValidate_code(String validate_code) {
+		this.validate_code = validate_code;
 	}
 
 	public String getMemId() {
@@ -61,8 +64,8 @@ public class RequestGetValidateCode  implements Serializable {
 
 	@Override
 	public String toString() {
-		return "RequestGetValidateCode [memId=" + memId + ", phone=" + phone + ", type=" + type + ", timeout=" + timeout
-				+ "]";
+		return "RequestCheckValidateCode [memId=" + memId + ", phone=" + phone + ", type=" + type + ", validate_code="
+				+ validate_code + "]";
 	}
 	
 }

@@ -33,14 +33,13 @@ public class SmsServiceImpl implements SmsService  {
 		if(resBodyData.getStatus()!=0){
 			throw new ServiceException(ApiStatusConst.GET_SIGN_EX);
 		}
-		
-		logger.info("请求账号服务>>发送短信验证码    URL:{}  DATA:{}",url,reqJson.toString());
+		logger.info("调用账号服务>>发送短信验证码API>>URL:{}  DATA:{}",url,reqJson.toString());
 		try {
 			String result=HttpUtils.get(url,reqJson);
-			logger.info("请求短信服务>>发送短信验证码，结果：{}",result);
+			logger.info("调用账号服务>>发送短信验证码API>>RESULT:{}",result);
 			resBodyData=JSON.parseObject(result,ResBodyData.class);
 		} catch (Exception e) {
-			logger.error("请求短信服务>>发送短信验证码  异常：{}",e.toString());
+			logger.error("调用短信服务>>发送短信验证码 >>EXCEPTION：{}",e.toString());
 			throw new ServiceException(ApiStatusConst.REQUEST_GATEWAY_EX);
 		}
 		return resBodyData;

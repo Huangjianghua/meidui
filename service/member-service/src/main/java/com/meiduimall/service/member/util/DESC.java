@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
+import com.meiduimall.core.Constants;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.member.constant.ApiStatusConst;
 import com.meiduimall.service.member.constant.SysParamsConst;
@@ -91,6 +92,9 @@ public class DESC {
 	private static String decrypt(String data, String key) throws MdSysException {
 		if(StringUtils.isEmpty(data)){
 			return "";
+		}
+		if(String.valueOf(Constants.CONSTANT_INT_ZERO).equals(data)){
+			return String.valueOf(Constants.CONSTANT_INT_ZERO);
 		}
 		String result=null;
 		try {
