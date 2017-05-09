@@ -101,7 +101,7 @@ public class PayPwdV1ControllerTest extends BaseControllerTest {
     			.contentType(MediaType.APPLICATION_JSON_UTF8)
     			.content(JsonUtils.beanToJson(requestUpdatePaypwd)))
     			.andExpect(status().isOk())
-    			.andExpect(jsonPath("$.status",is(7016)));
+    			.andExpect(jsonPath("$.status",is(7017)));
     	
     	postResultAction.andDo(new ResultHandler() {
 			@Override

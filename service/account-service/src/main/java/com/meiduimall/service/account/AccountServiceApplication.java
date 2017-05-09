@@ -12,6 +12,9 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
 
+import com.meiduimall.exception.MdSysException;
+import com.meiduimall.service.account.util.DESC;
+
 
 
 @EnableHystrix
@@ -30,9 +33,12 @@ public class AccountServiceApplication extends SpringBootServletInitializer {
         return builder.build();
     }  
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws MdSysException {
+		/*System.out.println(DESC.encryption("13523461293"));
+		System.out.println(DESC.encryption("1000","f619656e-8600-4870-9665-9496d3a56a2d"));*/
 		SpringApplication.run(AccountServiceApplication.class, args);
 	}
 	   
 }
+
 
