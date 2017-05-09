@@ -9,8 +9,8 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
 
+import com.meiduimall.application.mall.constant.MallApiCode;
 import com.meiduimall.application.mall.dao.BaseMapper;
-import com.meiduimall.application.mall.pay.exception.MallApiCode;
 import com.meiduimall.application.mall.util.Logger;
 
 @Repository

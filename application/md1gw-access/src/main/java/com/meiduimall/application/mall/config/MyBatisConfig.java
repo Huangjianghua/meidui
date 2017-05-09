@@ -24,8 +24,8 @@ import org.springframework.transaction.annotation.TransactionManagementConfigure
 import org.springframework.web.client.RestTemplate;
 
 import com.github.pagehelper.PageHelper;
-import com.meiduimall.application.mall.pay.exception.MallApiCode;
-import com.meiduimall.aspect.pointcut.MethodLogAdvice;
+import com.meiduimall.application.mall.constant.MallApiCode;
+import com.meiduimall.aspect.pointcut.MethodLogPointcut;
 import com.meiduimall.exception.ServiceException;
 
 
@@ -111,8 +111,8 @@ public class MyBatisConfig implements TransactionManagementConfigurer{
     
     
     @Bean
-    public MethodLogAdvice myAspect() {
-        return new MethodLogAdvice();
+    public MethodLogPointcut myAspect() {
+        return new MethodLogPointcut();
     }
 
     

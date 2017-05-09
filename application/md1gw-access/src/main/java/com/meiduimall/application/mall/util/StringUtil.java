@@ -11,7 +11,7 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.meiduimall.application.mall.pay.exception.MallApiCode;
+import com.meiduimall.application.mall.constant.MallApiCode;
 import com.meiduimall.exception.ServiceException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
