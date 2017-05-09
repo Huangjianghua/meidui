@@ -39,6 +39,6 @@ public interface SmsService {
 	 * @throws IOException 
 	 * @throws ClientProtocolException 
 	 */
-	boolean sendSms(RequestSendSms model);
+	void sendSms(RequestSendSms model);
 	
 }

@@ -90,7 +90,7 @@ public class SmsServiceImpl implements SmsService
 	}
 
 	@Override
-	public boolean sendSms(RequestSendSms model){
+	public void sendSms(RequestSendSms model){
 		String smsServiceUrl=serviceUrlProfileConfig.getSmsServiceUrl()+"/v1/new/send_common_sms_message";
 		Map<String,String> mapSmsData=new HashMap<>();
 		mapSmsData.put("phones",model.getPhone());
@@ -103,17 +103,14 @@ public class SmsServiceImpl implements SmsService
 			result=HttpUtils.form(smsServiceUrl,mapSmsData);
 		} catch (Exception e) {
 			logger.error("账号服务>>调用短信服务>>发送短信API>>异常：{}",e.toString());
-			throw new ServiceException(ApiStatusConst.SEND_SMS_FAILED);
 		} 
 		ResBodyData resBodyData=JSON.parseObject(result,ResBodyData.class);
 		logger.info("调用短信服务>>发送普通短信API>>RESULT:{}",resBodyData.toString());
 		if(resBodyData.getStatus()==0){
-			logger.info("手机号：{}发送短信成功",model.getPhone());
-			return true;
+			logger.info("账号服务>>调用短信服务>>发送短信API>>手机号：{}发送短信成功",model.getPhone());
 		}
 		else {
-			logger.info("手机号：{}发送短信失败",model.getPhone());
-			throw new ServiceException(ApiStatusConst.SEND_SMS_FAILED);
+			logger.info("账号服务>>调用短信服务>>发送短信API>>手机号：{}发送短信失败",model.getPhone());
 		}
 	}
 	
