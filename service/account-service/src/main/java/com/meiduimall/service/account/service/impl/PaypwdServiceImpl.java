@@ -14,7 +14,6 @@ import com.meiduimall.exception.ServiceException;
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.util.JsonUtils;
-import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.config.ServiceUrlProfileConfig;
 import com.meiduimall.service.account.constant.ApiStatusConst;
@@ -126,7 +125,7 @@ public class PaypwdServiceImpl implements PaypwdService {
 		/**先验证旧支付密码*/
 		MSMembersPaypwd msMembersPaypwd=new MSMembersPaypwd();
 		msMembersPaypwd.setMemId(requestUpdatePaypwd.getMemId());
-		msMembersPaypwd.setPay_pwd(requestUpdatePaypwd.getOld_paypwd());
+		msMembersPaypwd.setPay_pwd(requestUpdatePaypwd.getOld_pay_pwd());
 		resBodyData=validePaypwd(msMembersPaypwd);
 		if(resBodyData.getStatus()!=0){
 			logger.warn("旧支付密码校验不通过");
@@ -136,7 +135,7 @@ public class PaypwdServiceImpl implements PaypwdService {
 		logger.info("旧支付密码校验通过");
 		
 		/**设置支付密码*/
-		this.setNewPaypwd(requestUpdatePaypwd.getMemId(),requestUpdatePaypwd.getNew_paypwd());		
+		this.setNewPaypwd(requestUpdatePaypwd.getMemId(),requestUpdatePaypwd.getNew_pay_pwd());		
 		return resBodyData;
 	}
 	
