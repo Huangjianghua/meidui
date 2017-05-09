@@ -40,12 +40,12 @@ public abstract class ApiStatusConst extends BaseApiCode {
 		public final static Integer PAYPWD_NOT_RIGHT=7014;
 		public final static Integer UPDATE_PAYPWD_EXCEPTION=7015;
 		public final static Integer RETRIEVE_PAYPWD_EXCEPTION=7016;
-		public final static Integer OLD_PAYPWD_NOT_RIGHT=7016;
+		public final static Integer OLD_PAYPWD_NOT_RIGHT=7017;
 		
-		public static final Integer USER_NOT_EXIST = 7017;
-		public static final Integer BANK_INFO_ALREADY_EXIST = 7018;
-		public static final Integer GET_MEMBER_BASIC_INFO_FAILED = 7019;
-		public static final Integer VALIDATE_CODE_NOT_PASS = 7020;
+		public static final Integer USER_NOT_EXIST = 7018;
+		public static final Integer BANK_INFO_ALREADY_EXIST = 7019;
+		public static final Integer GET_MEMBER_BASIC_INFO_FAILED = 7020;
+		public static final Integer VALIDATE_CODE_NOT_PASS = 7021;
 		
 		static {
 			zhMsgMap.put(OPERATION_DB_EX, "操作数据库程序异常");

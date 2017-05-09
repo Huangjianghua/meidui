@@ -162,7 +162,7 @@ public class PaypwdServiceImpl implements PaypwdService {
 				mapFormData.put("verificationCode",requestRetrievePaypwd.getValidate_code());
 				mapFormData.put("type",SmsTypeConst.getSmsType(Constants.CONSTANT_INT_ONE));
 				mapFormData.put("sysKey",SysParamsConst.SMS_SYSKEY);
-				String smsResult=HttpUtils.form(smsServiceUrl+"//new/check_sms_verification_code",mapFormData);
+				String smsResult=HttpUtils.form(smsServiceUrl+"v1/new/check_sms_verification_code",mapFormData);
 				resBodyData=JSONObject.parseObject(smsResult,ResBodyData.class);
 				if(resBodyData.getStatus()!=0){
 					logger.warn("找回支付密码>>校验短信验证码不通过:{}",resBodyData.toString());
