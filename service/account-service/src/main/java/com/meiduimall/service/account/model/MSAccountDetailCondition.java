@@ -24,13 +24,15 @@ public class MSAccountDetailCondition extends PageHelp implements Serializable{
 	private String flg;  //是否分页  1：是  0:否
 	
 	private String businNo; //提现编号
+	
+	private String id;
 
 	public String getMemLoginName() {
 		return memLoginName;
 	}
 
 	public void setMemLoginName(String memLoginName) {
-		this.memLoginName = memLoginName;
+		this.memLoginName =memLoginName;
 	}
 
 	public String getMemPhone() {
@@ -38,7 +40,7 @@ public class MSAccountDetailCondition extends PageHelp implements Serializable{
 	}
 
 	public void setMemPhone(String memPhone) {
-		this.memPhone = memPhone;
+		this.memPhone =memPhone;
 	}
 
 	public String getTradeType() {
@@ -92,6 +94,14 @@ public class MSAccountDetailCondition extends PageHelp implements Serializable{
 
 	public void setBusinNo(String businNo) {
 		this.businNo = businNo;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 	

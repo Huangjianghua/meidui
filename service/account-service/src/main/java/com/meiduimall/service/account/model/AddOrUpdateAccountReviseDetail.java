@@ -183,10 +183,7 @@ public class AddOrUpdateAccountReviseDetail implements Serializable {
 	}
 
 
-
 	public String getMemLoginName() throws  MdSysException {
-
-
 		if(StringUtils.isNotBlank(this.memLoginName)) DESC.deyption(memLoginName);
 		return  memLoginName;
 	}
@@ -194,13 +191,7 @@ public class AddOrUpdateAccountReviseDetail implements Serializable {
 	public void setMemLoginName(String memLoginName) {
 		this.memLoginName = memLoginName;
 	}
-
-
-
 	public String getMemPhone() throws MdSysException {
-
-
-
 		if(StringUtils.isNotBlank(this.memLoginName)) DESC.deyption(memLoginName);
 		return memPhone;
 	}

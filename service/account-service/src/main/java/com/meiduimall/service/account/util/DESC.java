@@ -38,7 +38,8 @@ private final static Logger logger=LoggerFactory.getLogger(DESC.class);
 	 * @throws MdSysException
 	 */
 	public static String encryption(String str) throws MdSysException{
-		return encrypt(str,key);
+		if(org.apache.commons.lang3.StringUtils.isNotBlank(str)) return encrypt(str,key);
+		return null;
 	}
 
 	/**
