@@ -95,6 +95,26 @@ public class PayPwdV1Controller {
 		logger.info("修改支付密码API请求结果：{}",resBodyData.toString());
 		return resBodyData;
 	}
+	
+	/**找回支付密码*/
+	@HasToken
+	@RequestMapping(value="/retrieve_pay_pwd")
+	ResBodyData retrievePaypwd(){
+		ResBodyData resBodyData=null;
+		JSONObject reqJson=ValRequest.apiReqData.get();
+		resBodyData=ValInterceptor.apiValResult.get();
+		if(resBodyData.getStatus()!=0)
+			return resBodyData;
+		logger.info("收到找回支付密码API请求：{}",reqJson.toString());
+		try {
+			resBodyData=payPwdService.retrievePaypwd(reqJson);
+		} catch (ServiceException e) {
+			logger.error("找回支付密码处理异常：{}",e.toString());
+			throw new ApiException(ApiStatusConst.UPDATE_PAYPWD_EXCEPTION);
+		}
+		logger.info("找回支付密码API请求结果：{}",resBodyData.toString());
+		return resBodyData;
+	}
 
 	
 }

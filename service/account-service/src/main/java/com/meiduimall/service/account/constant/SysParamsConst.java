@@ -122,5 +122,8 @@ public class SysParamsConst {
 	public static final String MD5="MD5";
 	/**编码方式*/
 	public static final String GBK="GBK";
+	
+	/**短信服务给会员分配的sysKey*/
+	public static final String SMS_SYSKEY="member_service";
 
 }

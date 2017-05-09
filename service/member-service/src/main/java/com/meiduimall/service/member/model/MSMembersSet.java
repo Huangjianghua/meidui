@@ -14,7 +14,7 @@ import com.meiduimall.service.member.util.StringUtil;
  **/
 public class MSMembersSet implements Serializable {
 
-	private static final long serialVersionUID = 4550764542554779921L;
+	private static final long serialVersionUID = 1L;
 
 	/** 会员系统ID **/
 	private String memId;
@@ -40,7 +40,7 @@ public class MSMembersSet implements Serializable {
 	/** 会员支付密码 **/
 	private String memPayPwd;
 	
-	/**是否分配默认登录名*/
+	/**是否分配默认登录名：0_1是 1_0否*/
 	private String memLoginNameIsdefaultIschanged;
 
 	/** 会员推荐人ID **/
@@ -63,6 +63,9 @@ public class MSMembersSet implements Serializable {
 
 	/** 会员性别 **/
 	private String memSex;
+	
+	/**是否启用支付密码*/
+	private String enable;
 
 	/** 会员生日 **/
 	private java.util.Date memBirthday;
@@ -108,6 +111,8 @@ public class MSMembersSet implements Serializable {
 
 	/** 基本账号状态ID **/
 	private String memBasicAccountStatus;
+	
+	private String memParentIsdefaultIschanged;
 
 	/** 积分状态 **/
 	private String memIntegralStatus;
@@ -130,7 +135,7 @@ public class MSMembersSet implements Serializable {
 	private String memType;
 	
 	
-	/**注册来源0表示PC端注册1表示o2o注册2表示会员结算系统数据迁移注册3表示壹购物注册4表示壹购物商城迁移*/
+	/**注册来源*/
 	private String memSignSource;
 	
 	/**
@@ -151,6 +156,9 @@ public class MSMembersSet implements Serializable {
 	
 	/**锁定次数*/
 	private String memLockCount;
+	
+	/**明文锁定次数*/
+	private String memLockCountPlained;
 		
 
 	public Date getMemLoginTime() {
@@ -510,7 +518,31 @@ public class MSMembersSet implements Serializable {
 	}
 
 	public void setMemLockCount(String memLockCount) throws MdSysException {
-		this.memLockCount =  DESC.encryption((memLockCount==null?"0":memLockCount),memId);
+		this.memLockCount =  DESC.encryption((memLockCount==null?"0":memLockCount));
+	}
+	
+	public String getMemLockCountPlained() {
+		return memLockCountPlained;
+	}
+
+	public void setMemLockCountPlained(String memLockCountPlained) {
+		this.memLockCountPlained = memLockCountPlained;
+	}
+	
+	public String getEnable() {
+		return enable;
+	}
+
+	public void setEnable(String enable) {
+		this.enable = enable;
+	}
+	
+	public String getMemParentIsdefaultIschanged() throws MdSysException {
+		return memParentIsdefaultIschanged;
+	}
+
+	public void setMemParentIsdefaultIschanged(String memParentIsdefaultIschanged) throws MdSysException {
+		this.memParentIsdefaultIschanged = DESC.encryption(memParentIsdefaultIschanged,memId);
 	}
 
 }

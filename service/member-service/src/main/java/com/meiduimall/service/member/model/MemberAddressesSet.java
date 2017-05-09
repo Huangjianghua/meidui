@@ -10,8 +10,9 @@ import com.meiduimall.service.member.util.DESC;
  * 会员地址详细表
  * 
  **/
-@SuppressWarnings("serial")
 public class MemberAddressesSet implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	/** 会员地址详细表ID **/
 	private String memaId;

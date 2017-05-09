@@ -1,5 +1,6 @@
 package com.meiduimall.service.member.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
@@ -8,10 +9,10 @@ import java.util.Date;
  * @author chencong
  *
  */
-public class MSAccount {
-
-	private static final long serialVersionUID = 8080490869514026587L;
+public class MSAccount implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	/** 账户标识 */
 	private String id;
 
