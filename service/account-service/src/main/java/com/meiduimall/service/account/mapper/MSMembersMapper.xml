@@ -4,7 +4,7 @@
 <mapper namespace="MSMembersMapper">
 	
 	<!-- 根据会员id获取会员信息 -->
-	<select id="getMemberInfo" parameterType="java.lang.String" resultType="MSMembers">
+	<select id="getMemberInfo" parameterType="java.lang.String" resultType="com.meiduimall.service.account.model.MSMembers">
 		SELECT * FROM v_ms_members WHERE memId = #{memId}
 	</select>
 
