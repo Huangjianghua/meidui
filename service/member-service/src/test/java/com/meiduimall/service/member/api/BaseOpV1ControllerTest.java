@@ -53,9 +53,9 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {
     
     /**getput
 	 * @throws Exception */
-    @Test
+/*    @Test
     public void getPut() throws Exception{
-    	/**get token*/
+    	*//**get token*//*
     	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/getput?user_id=1gw_"+phone+"&type=1"))
     			.andExpect(status().isOk())
     			.andExpect(jsonPath("$.status_code",is("0")));
@@ -67,7 +67,7 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {
 			}
 		});
     	
-    	/**put token*/
+    	*//**put token*//*
     	resultActions=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/getput?user_id=1gw_"+phone+"&type=2"))
     			.andExpect(status().isOk())
     			.andExpect(jsonPath("$.status_code",is("0")));
@@ -79,7 +79,7 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {
 			}
 		});
     	
-      	/**通过token找userid*/
+      	*//**通过token找userid*//*
     	resultActions=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/getput?token="+token+"&type=3"))
     			.andExpect(status().isOk())
     			.andExpect(jsonPath("$.status_code",is("0")));
@@ -91,7 +91,7 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {
 			}
 		});
     	
-    }
+    }*/
     
     /**handlesignout 
 	 * @throws Exception */
