@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.TransactionManagementConfigure
 import org.springframework.web.client.RestTemplate;
 
 import com.github.pagehelper.PageHelper;
-import com.meiduimall.application.mall.exception.MallApiCode;
+import com.meiduimall.application.mall.pay.exception.MallApiCode;
 import com.meiduimall.aspect.pointcut.MethodLogAdvice;
 import com.meiduimall.exception.ServiceException;
 

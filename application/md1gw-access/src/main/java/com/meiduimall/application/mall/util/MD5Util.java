@@ -8,7 +8,7 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.mall.constant.OauthConst;
-import com.meiduimall.application.mall.exception.MallApiCode;
+import com.meiduimall.application.mall.pay.exception.MallApiCode;
 import com.meiduimall.exception.ServiceException;
 
 public class MD5Util {

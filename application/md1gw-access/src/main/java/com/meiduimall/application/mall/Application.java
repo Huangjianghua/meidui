@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @EnableTransactionManagement
 @EnableAsync
-@ComponentScan({ "com.meiduimall.application.md1gwaccess" })
+@ComponentScan({ "com.meiduimall.application.mall" })
 public class Application extends SpringBootServletInitializer{    
 
 	

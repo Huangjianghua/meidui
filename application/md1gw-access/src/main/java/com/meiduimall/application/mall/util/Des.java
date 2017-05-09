@@ -9,7 +9,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 
-import com.meiduimall.application.mall.exception.MallApiCode;
+import com.meiduimall.application.mall.pay.exception.MallApiCode;
 import com.meiduimall.exception.ServiceException;
 
 import sun.misc.BASE64Decoder;

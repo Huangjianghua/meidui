@@ -4,7 +4,7 @@ package com.meiduimall.application.mall.util;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.meiduimall.application.mall.exception.MallApiCode;
+import com.meiduimall.application.mall.pay.exception.MallApiCode;
 import com.meiduimall.exception.ServiceException;
 
 
