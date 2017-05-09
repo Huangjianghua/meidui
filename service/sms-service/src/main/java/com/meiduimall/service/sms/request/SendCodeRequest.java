@@ -1,5 +1,6 @@
 package com.meiduimall.service.sms.request;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
@@ -27,6 +28,7 @@ public class SendCodeRequest implements Serializable {
 	private String sysKey;// 客户端来源
 
 	// 短信过期时间，即timeout缓存保存时长，单位:秒。传整数
+	@Min(60)
 	private Integer timeout;
 
 	public String getPhones() {

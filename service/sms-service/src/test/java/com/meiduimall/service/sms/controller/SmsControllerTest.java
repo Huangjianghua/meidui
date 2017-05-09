@@ -89,7 +89,7 @@ public class SmsControllerTest {
 				.param("templateId", "1GW_1003")
 				.param("sysKey", "junit")
 				.param("timeout", "90")
-				.param("params", "DW123456789"))
+				.param("params", "DW1234567899"))
 				.andExpect(status().isOk());
 
 		results.andDo(new ResultHandler() {
@@ -187,7 +187,7 @@ public class SmsControllerTest {
 				.param("templateId", "MEM_1002")
 				.param("type", "regist")
 				.param("sysKey", "junit")
-				.param("timeout", "180"))
+				.param("timeout", "60"))
 				.andExpect(status().isOk());
 
 		results.andDo(new ResultHandler() {
@@ -286,10 +286,10 @@ public class SmsControllerTest {
 		ResultActions results = mockMvc.perform(
 				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/new/check_sms_verification_code")
 				.param("phones", phone)
-				.param("templateId", "O2O_1002")
+				.param("templateId", "MEM_1002")
 				.param("sysKey", "junit")
 				.param("type", "regist")
-				.param("verificationCode", "111222"))
+				.param("verificationCode", "165412"))
 				.andExpect(status().isOk());
 
 		results.andDo(new ResultHandler() {
