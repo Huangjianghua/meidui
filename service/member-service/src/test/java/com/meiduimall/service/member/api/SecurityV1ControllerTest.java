@@ -34,7 +34,7 @@ public class SecurityV1ControllerTest extends BaseControllerTest {
 	private final static Logger logger=LoggerFactory.getLogger(SecurityV1ControllerTest.class);
 	   
 	   /**设置支付密码开关*/
-	    //@Test
+	    @Test
 	    public void setPaypwdStatus() throws Exception{
 	    	RequestSetPaypwdStatus requestSetPaypwdStatus=new RequestSetPaypwdStatus();
 	    	requestSetPaypwdStatus.setMemId(memId);
