@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="SystradeOrderMapper" >
-  <resultMap id="BaseResultMap" type="com.meiduimall.application.md1gwaccess.model.SystradeOrder" >
+  <resultMap id="BaseResultMap" type="com.meiduimall.application.mall.pay.model.SystradeOrder" >
     <id column="oid" property="oid" jdbcType="BIGINT" />
     <result column="tid" property="tid" jdbcType="BIGINT" />
     <result column="shop_id" property="shopId" jdbcType="INTEGER" />
@@ -61,7 +61,7 @@
     <result column="is_update" property="isUpdate" jdbcType="BIT" />
     <result column="o_meidui_point" property="oMeiduiPoint" jdbcType="INTEGER" />
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.meiduimall.application.md1gwaccess.model.SystradeOrder" extends="BaseResultMap" >
+  <resultMap id="ResultMapWithBLOBs" type="com.meiduimall.application.mall.pay.model.SystradeOrder" extends="BaseResultMap" >
     <result column="spec_nature_info" property="specNatureInfo" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
