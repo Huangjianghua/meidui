@@ -28,24 +28,26 @@ public class PaymentTrade implements Serializable{
 	
 	private String payway;
 	
-	private String is_iOS_new;
+	private String is_new;
 	
 	
 
-	public String getIs_iOS_new() {
-		return is_iOS_new;
+	public String getIs_new() {
+		return is_new;
 	}
 
-	public void setIs_iOS_new(String is_iOS_new) {
-		this.is_iOS_new = is_iOS_new;
+	public void setIs_iOS_new(String is_new) {
+		this.is_new = is_new;
 	}
+
+	 
 
 	@Override
 	public String toString() {
 		return "PaymentTrade [token=" + token + ", user_id=" + user_id + ", payment_id=" + payment_id + ", use_point="
 				+ use_point + ", use_money=" + use_money + ", money=" + money + ", pay_type=" + pay_type
 				+ ", pay_password=" + pay_password + ", wechat_pay_account_type=" + wechat_pay_account_type + ", memId="
-				+ memId + ", payway=" + payway + "]";
+				+ memId + ", payway=" + payway + ", is_new=" + is_new + "]";
 	}
 
 	public String getPayway() {

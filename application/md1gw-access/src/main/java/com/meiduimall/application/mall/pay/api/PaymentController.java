@@ -279,7 +279,7 @@ public class PaymentController {
 				json.put("status", 0);
 				json.put("data", encrypt);
 				json.put("msg", "success");
-				if(paymentTrade.getIs_iOS_new() == null){
+				if(paymentTrade.getIs_new() == null){
 					json.put("status", 1);
 					json.put("type", 1);
 				}
@@ -291,7 +291,7 @@ public class PaymentController {
 					json.put("status", 0);
 					json.put("data", payFinish.getData());
 					json.put("msg", "success");
-					if(paymentTrade.getIs_iOS_new() == null){
+					if(paymentTrade.getIs_new() == null){
 						json.put("status", 1);
 						json.put("type", 1);
 					}
