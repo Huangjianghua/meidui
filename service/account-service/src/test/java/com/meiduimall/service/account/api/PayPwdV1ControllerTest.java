@@ -78,8 +78,8 @@ public class PayPwdV1ControllerTest extends BaseControllerTest {
     public void updatePaypwd() throws Exception{
     	RequestUpdatePaypwd requestUpdatePaypwd=new RequestUpdatePaypwd();
     	requestUpdatePaypwd.setMemId(memId);
-    	requestUpdatePaypwd.setOld_paypwd("123456");
-    	requestUpdatePaypwd.setNew_paypwd("123456");
+    	requestUpdatePaypwd.setOld_pay_pwd("123456");
+    	requestUpdatePaypwd.setNew_pay_pwd("123456");
     	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/update_pay_pwd")
     			.contentType(MediaType.APPLICATION_JSON_UTF8)
     			.content(JsonUtils.beanToJson(requestUpdatePaypwd)))
@@ -95,8 +95,8 @@ public class PayPwdV1ControllerTest extends BaseControllerTest {
 		});
     	
     	requestUpdatePaypwd.setMemId(memId);
-    	requestUpdatePaypwd.setOld_paypwd("1233456");
-    	requestUpdatePaypwd.setNew_paypwd("123456");
+    	requestUpdatePaypwd.setOld_pay_pwd("1233456");
+    	requestUpdatePaypwd.setNew_pay_pwd("123456");
         postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/update_pay_pwd")
     			.contentType(MediaType.APPLICATION_JSON_UTF8)
     			.content(JsonUtils.beanToJson(requestUpdatePaypwd)))
