@@ -46,6 +46,8 @@ public class AlipayControllerTest {
 	 @Test
 	 public void testAlipay() throws Exception {
 
+
+
 	 
 	  
 	  //String json = "{\"memId\":\"94898596\",\"payType\":1,\"orderInfo\":{\"body\":\"商品\",\"orderNo\":\"oed87878\",\"orderTime\":\"\",\"tradeNo\":\"458758gh9\",\"orderAmount\":\"\",\"payAmount\":\"700\",\"cashAmount\":\"\",\"integral\":\"\",\"merchantId\":\"\"},\"notifyUrl\":\"\"}";
@@ -63,5 +65,8 @@ public class AlipayControllerTest {
     }
 	 
 	 
-	  
-}
+
+}
+
+
+

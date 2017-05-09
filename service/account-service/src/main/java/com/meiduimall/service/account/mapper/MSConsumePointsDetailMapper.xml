@@ -51,9 +51,6 @@
          	and c.mcp_order_source=#{mcpOrderSource}
       	 </if>
 	</select>
-<<<<<<< HEAD
-=======
-	
->>>>>>> refs/heads/master
+
 	
 </mapper>

@@ -9,15 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.meiduimall.application.mall.config.MyProps;
 import com.meiduimall.application.mall.constant.OauthConst;
 import com.meiduimall.application.mall.constant.SysParaNameConst;
-import com.meiduimall.application.mall.exception.MallApiCode;
-import com.meiduimall.application.mall.model.EctoolsPayments;
-import com.meiduimall.application.mall.model.EctoolsPaymentsSucc;
-import com.meiduimall.application.mall.model.PaymentTrade;
-import com.meiduimall.application.mall.model.SystradePTrade;
-import com.meiduimall.application.mall.model.SysuserAccount;
-import com.meiduimall.application.mall.model.SysuserUser;
-import com.meiduimall.application.mall.model.SysuserWalletPaylog;
+import com.meiduimall.application.mall.pay.exception.MallApiCode;
+import com.meiduimall.application.mall.pay.model.EctoolsPayments;
+import com.meiduimall.application.mall.pay.model.EctoolsPaymentsSucc;
+import com.meiduimall.application.mall.pay.model.PaymentTrade;
+import com.meiduimall.application.mall.pay.model.SystradePTrade;
+import com.meiduimall.application.mall.pay.model.SysuserAccount;
+import com.meiduimall.application.mall.pay.model.SysuserUser;
+import com.meiduimall.application.mall.pay.model.SysuserWalletPaylog;
 import com.meiduimall.exception.ServiceException;
+import com.meiduimall.password.exception.Md5Exception;
 
 import net.sf.json.JSONObject;
 
@@ -29,9 +30,10 @@ public class CommonUtil {
 	 * 组装签名 公共的key value
 	 * @param map
 	 * @return
+	 * @throws Md5Exception 
 	 * @throws Exception
 	 */
-	public static Map<String,String> CommonMap(Map<String,String> map){
+	public static Map<String,String> commonMap(Map<String,String> map) throws Md5Exception{
 		map.put(OauthConst.CLIENT_ID, OauthConst.CLIENT_ID_VALUE);
 		map.put(OauthConst.TIMESATAMP, String.valueOf(System.currentTimeMillis()));
 		map.put(OauthConst.SIGN, GatewaySignUtil.sign(OauthConst.SECRETKEY_VALUE, map));
@@ -42,9 +44,10 @@ public class CommonUtil {
 	 * 组装签名 公共的JSON
 	 * @param map
 	 * @return
+	 * @throws Md5Exception 
 	 * @throws Exception
 	 */
-	public static JSONObject CommonJSON(JSONObject json){
+	public static JSONObject commonJSON(JSONObject json) throws Md5Exception{
 		json.put(OauthConst.CLIENT_ID, OauthConst.CLIENT_ID_VALUE);
 		json.put(OauthConst.TIMESATAMP, String.valueOf(System.currentTimeMillis()));
 		json.put(OauthConst.SIGN, GatewaySignUtil.buildsign(OauthConst.SECRETKEY_VALUE, json));
@@ -52,7 +55,7 @@ public class CommonUtil {
 		
 	}
 	
-	public static String onlySignJSON(JSONObject json){
+	public static String onlySignJSON(JSONObject json) throws Md5Exception{
 		return GatewaySignUtil.buildsign(OauthConst.SECRETKEY_VALUE, json);
 		
 	}
@@ -63,7 +66,7 @@ public class CommonUtil {
 	 * @return
 	 * @throws Exception
 	 */
-	public static EctoolsPayments UpdateEctoolsPaymentsCommon(PaymentTrade paymentTrade){
+	public static EctoolsPayments updateEctoolsPaymentsCommon(PaymentTrade paymentTrade){
 		EctoolsPayments ectoolsPayments = new EctoolsPayments();
 		ectoolsPayments.setCurMoney(new BigDecimal(paymentTrade.getMoney()));     //支付货币金额 (第三方支付金额,必须money)
 		ectoolsPayments.setWalletPay(new BigDecimal(paymentTrade.getUse_money()));   //钱包余额支付金额
@@ -90,7 +93,7 @@ public class CommonUtil {
 	 * @return
 	 * @throws Exception
 	 */
-	public static SystradePTrade UpdateCSPCommon(Map<String, Object> paymentBill){
+	public static SystradePTrade updateCSPCommon(Map<String, Object> paymentBill){
 	   SystradePTrade systradePTrade = new SystradePTrade();
 	   systradePTrade.setCoupPay(new BigDecimal(paymentBill.get("coupPay").toString()));
 	   systradePTrade.setShopingPay(new BigDecimal(paymentBill.get("shopingPay").toString()));
@@ -108,7 +111,7 @@ public class CommonUtil {
 	 * @return
 	 * @throws Exception
 	 */
-	public static SysuserWalletPaylog UpdateUsersWalletPayCommon(Map<String, Object> paymentBill,
+	public static SysuserWalletPaylog updateUsersWalletPayCommon(Map<String, Object> paymentBill,
 			SysuserUser userMoney,PaymentTrade paymentTrade,SysuserAccount sysuserAccount){
 		SysuserWalletPaylog sysuserWalletPaylog = new SysuserWalletPaylog();
 		sysuserWalletPaylog.setUid(Integer.valueOf(paymentTrade.getUser_id()));
@@ -116,8 +119,8 @@ public class CommonUtil {
 		sysuserWalletPaylog.setOrderNo(paymentBill.get("platformId").toString());
 		sysuserWalletPaylog.setVorMoney(userMoney.getMoney());
 		sysuserWalletPaylog.setMoney(new BigDecimal(paymentBill.get("walletPay").toString()));
-		double AfMoney = userMoney.getMoney().subtract(new BigDecimal(paymentBill.get("walletPay").toString())).doubleValue();
-		sysuserWalletPaylog.setAfMoney(BigDecimal.valueOf(AfMoney));
+		double afMoney = userMoney.getMoney().subtract(new BigDecimal(paymentBill.get("walletPay").toString())).doubleValue();
+		sysuserWalletPaylog.setAfMoney(BigDecimal.valueOf(afMoney));
 		return sysuserWalletPaylog;
 	}
 
@@ -127,10 +130,10 @@ public class CommonUtil {
 	 * @param ectoolsPaymentsSucc
 	 * @return
 	 */
-	public static EctoolsPayments getIsPaySuccCommon(Map<String, Object> result_payment,
+	public static EctoolsPayments getIsPaySuccCommon(Map<String, Object> resultPayment,
 			EctoolsPaymentsSucc ectoolsPaymentsSucc){
 		EctoolsPayments ectoolsPayments = new EctoolsPayments();
-		ectoolsPayments.setPlatformId(result_payment.get("platformId").toString());
+		ectoolsPayments.setPlatformId(resultPayment.get("platformId").toString());
 		ectoolsPayments.setPaymentId(ectoolsPaymentsSucc.getPaymentId());
 		ectoolsPayments.setStatus(SysParaNameConst.SUCC);
 		return ectoolsPayments;
@@ -142,7 +145,7 @@ public class CommonUtil {
 	 * @param paymentTradePay
 	 * @return
 	 */
-	public static SysuserUser UpdateMF(SysuserUser userMoney, PaymentTrade paymentTrade){
+	public static SysuserUser updateMF(SysuserUser userMoney, PaymentTrade paymentTrade){
 		SysuserUser sysuserUser = new SysuserUser();
 		sysuserUser.setMoney(userMoney.getMoney());
 		sysuserUser.setFrozenMoney(userMoney.getFrozenMoney());

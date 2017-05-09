@@ -6,7 +6,13 @@ import java.util.Set;
 import java.util.SortedMap;
 
 public class PayCommonUtil {
-    //定义签名，微信根据参数字段的ASCII码值进行排序 加密签名,故使用SortMap进行参数排序
+	
+    private PayCommonUtil() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	//定义签名，微信根据参数字段的ASCII码值进行排序 加密签名,故使用SortMap进行参数排序
     @SuppressWarnings("rawtypes")
 	public static String createSign(String characterEncoding,SortedMap<String,String> parameters){
         StringBuilder sb = new StringBuilder();
@@ -22,7 +28,7 @@ public class PayCommonUtil {
             }
         }
 //        sb.append("key=" + ConstantUtil.PARTNER_KEY);//最后加密时添加商户密钥，由于key值放在最后，所以不用添加到SortMap里面去，单独处理，编码方式采用UTF-8
-        String sign = MD5Util.MD5Encode(sb.toString(), characterEncoding).toUpperCase();
+        String sign = MD5Util.mD5Encode(sb.toString(), characterEncoding).toUpperCase();
         return sign;
     }
  

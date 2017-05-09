@@ -13,8 +13,8 @@
 	<artifactId>financial-service</artifactId>
 	<version>1.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>financial-service</name>
-	<description>financial-service</description>
+	<name>service::financial-service</name>
+	<description>service::financial-service</description>
 
 	<!-- <parent>
 		<groupId>org.springframework.boot</groupId>

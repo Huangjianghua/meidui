@@ -17,6 +17,21 @@ catalog-service :
 member-access : 
   host : http://192.168.4.240:8097
 
+---
+spring:
+  profiles: prepro
+
+# 配置clientID和key
+sign : 
+  clientID : mall_java
+  key :  
+
+# 商品模块微服务地址
+catalog-service : 
+  host : http://10.45.178.235:9050
+# 会员系统接入层地址
+member-access : 
+  host : vip.api.meiduimall.com
 
 ---
 spring:
@@ -33,7 +48,6 @@ catalog-service :
 # 会员系统接入层地址
 member-access : 
   host : vip.api.meiduimall.com
-
 
 ---
 spring:

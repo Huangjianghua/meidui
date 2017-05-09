@@ -35,7 +35,10 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 	
 	private final static Logger logger=LoggerFactory.getLogger(MoneyV1ControllerTests.class);
 	
+	
 	private AccountReviseDetail dto;
+	
+	
 
     @Test
     public void listMSAccountDetail() throws Exception{
