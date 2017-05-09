@@ -110,7 +110,7 @@ public class MoneyV1Controller {
 				listMSAccountDetail.get(i).setLoginName(loginName);
 			}
 		}catch(Exception e){
-			logger.error("根据条件查询余额流水listMSAccountCondition错误:{}", e.getMessage());
+			logger.error("根据条件查询余额流水listMSAccountCondition错误:{}", e);
 			throw new ApiException(ApiStatusConst.SERVER_DEAL_WITH_EXCEPTION);
 		}
 		return new ResBodyData(ApiStatusConst.SUCCESS, ApiStatusConst.SUCCESS_M,new PageInfo<>(listMSAccountDetail));

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.MdBizException;
 import com.meiduimall.service.account.constant.AccountReviseStatusEnum;
 import com.meiduimall.service.account.constant.AccountReviseTypeEnum;
@@ -82,6 +83,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			selectList = baseDao.selectList(mSAccountDetailCondition, "MsAccountDetailMapper.listMSAccountCondition");
 		} catch (Exception e) {
 			logger.error("查询余额流水出现错误，错误信息：{}", e.getMessage());
+			throw new MdBizException(ApiStatusConst.SERVER_DEAL_WITH_EXCEPTION);
 		}
 		return selectList;
 	}
