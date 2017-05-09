@@ -24,8 +24,8 @@ import org.springframework.transaction.annotation.TransactionManagementConfigure
 import org.springframework.web.client.RestTemplate;
 
 import com.github.pagehelper.PageHelper;
-import com.meiduimall.application.mall.pay.exception.MallApiCode;
-import com.meiduimall.aspect.pointcut.MethodLogAdvice;
+import com.meiduimall.application.mall.constant.MallApiCode;
+import com.meiduimall.aspect.pointcut.MethodLogPointcut;
 import com.meiduimall.exception.ServiceException;
 
 
@@ -64,7 +64,7 @@ public class MyBatisConfig implements TransactionManagementConfigurer{
 
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
-        bean.setTypeAliasesPackage("com.meiduimall.application.md1gwaccess.model");
+        bean.setTypeAliasesPackage("com.meiduimall.application.mall.pay.model");
     
 
         //分页插件,插件无非是设置mybatis的拦截器
@@ -83,7 +83,7 @@ public class MyBatisConfig implements TransactionManagementConfigurer{
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         try {
             //设置xml扫描路径
-            bean.setMapperLocations(resolver.getResources("com/meiduimall/application/md1gwaccess/mapper/*Mapper.xml"));
+            bean.setMapperLocations(resolver.getResources("com/meiduimall/application/mall/mapper/*Mapper.xml"));
             return bean.getObject();
         } catch (Exception e) {
         	logger.error("设置xml扫描路径错误! %s",e);
@@ -111,8 +111,8 @@ public class MyBatisConfig implements TransactionManagementConfigurer{
     
     
     @Bean
-    public MethodLogAdvice myAspect() {
-        return new MethodLogAdvice();
+    public MethodLogPointcut myAspect() {
+        return new MethodLogPointcut();
     }
 
     

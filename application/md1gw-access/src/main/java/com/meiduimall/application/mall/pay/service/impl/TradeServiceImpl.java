@@ -11,9 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.google.common.collect.ImmutableMap;
+import com.meiduimall.application.mall.constant.MallApiCode;
 import com.meiduimall.application.mall.constant.SysParaNameConst;
 import com.meiduimall.application.mall.dao.BaseMapper;
-import com.meiduimall.application.mall.pay.exception.MallApiCode;
 import com.meiduimall.application.mall.pay.model.EctoolsPayments;
 import com.meiduimall.application.mall.pay.model.EctoolsTradePaybill;
 import com.meiduimall.application.mall.pay.model.SysitemItem;

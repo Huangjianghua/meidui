@@ -12,10 +12,10 @@ import org.springframework.web.client.RestTemplate;
 
 import com.meiduimall.application.mall.config.MyProps;
 import com.meiduimall.application.mall.constant.HttpRConst;
+import com.meiduimall.application.mall.constant.MallApiCode;
 import com.meiduimall.application.mall.constant.OauthConst;
 import com.meiduimall.application.mall.constant.PayConfig;
 import com.meiduimall.application.mall.constant.ResponseBodyData;
-import com.meiduimall.application.mall.pay.exception.MallApiCode;
 import com.meiduimall.application.mall.pay.model.PaymentTrade;
 import com.meiduimall.application.mall.pay.model.SystradePTrade;
 import com.meiduimall.application.mall.pay.service.TPPaymentService;

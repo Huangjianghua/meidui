@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import com.meiduimall.application.mall.pay.exception.MallApiCode;
+import com.meiduimall.application.mall.constant.MallApiCode;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.password.exception.Md5Exception;
 import com.meiduimall.password.util.MD5;

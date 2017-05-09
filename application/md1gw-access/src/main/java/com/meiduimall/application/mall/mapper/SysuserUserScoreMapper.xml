@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="SysuserUserScoreMapper" >
-  <resultMap id="BaseResultMap" type="com.meiduimall.application.md1gwaccess.model.SysuserUserScore" >
+  <resultMap id="BaseResultMap" type="com.meiduimall.application.mall.pay.model.SysuserUserScore" >
     <id column="Scid" property="scid" jdbcType="INTEGER" />
     <result column="Scno" property="scno" jdbcType="VARCHAR" />
     <result column="Uid" property="uid" jdbcType="INTEGER" />

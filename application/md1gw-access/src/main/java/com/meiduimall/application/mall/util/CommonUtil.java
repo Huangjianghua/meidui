@@ -7,9 +7,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.meiduimall.application.mall.config.MyProps;
+import com.meiduimall.application.mall.constant.MallApiCode;
 import com.meiduimall.application.mall.constant.OauthConst;
 import com.meiduimall.application.mall.constant.SysParaNameConst;
-import com.meiduimall.application.mall.pay.exception.MallApiCode;
 import com.meiduimall.application.mall.pay.model.EctoolsPayments;
 import com.meiduimall.application.mall.pay.model.EctoolsPaymentsSucc;
 import com.meiduimall.application.mall.pay.model.PaymentTrade;

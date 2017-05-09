@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import com.meiduimall.application.mall.pay.exception.MallApiCode;
+import com.meiduimall.application.mall.constant.MallApiCode;
 import com.meiduimall.application.mall.pay.model.PaymentTrade;
 import com.meiduimall.exception.ServiceException;
 

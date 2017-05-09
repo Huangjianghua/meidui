@@ -4,10 +4,10 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 
 @Aspect
-public class MethodLogAdvice {
-	
-	@Pointcut("execution(* com.meiduimall.application.md1gwaccess.api.*.*(..))")
+public class MethodLogPointcut {
+
+	@Pointcut("execution(* com.meiduimall.application.mall.*.api.*.*(..))")
 	public void pointcutLog() {
-		
+
 	}
 }
