@@ -286,7 +286,7 @@ public class AccountServicesImpl implements AccountServices {
 		paramsMap.put("memId", memId);
 		paramsMap.put("accountType", ApplicationConstant.ACCOUNT_TYPE_MONEY);
 		try {
-			Object resultObj = baseDao.selectOne(paramsMap, "MSAccountMapper.getAccount");
+			Object resultObj = baseDao.selectOne(paramsMap, "MSAccountMapper.getAccountByMemId");
 			if(resultObj == null){
 				return null;
 			}
