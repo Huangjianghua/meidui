@@ -1,6 +1,7 @@
 package com.meiduimall.service.member.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -11,11 +12,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.MdBizException;
 import com.meiduimall.redis.util.RedisTemplate;
+import com.meiduimall.redis.util.RedisUtils;
 import com.meiduimall.service.member.constant.ApiStatusConst;
+import com.meiduimall.service.member.constant.SysEncrypParamsConst;
 import com.meiduimall.service.member.constant.SysParamsConst;
 import com.meiduimall.service.member.dao.BaseDao;
 import com.meiduimall.service.member.model.MSMembersGet;
+import com.meiduimall.service.member.model.MSMembersSet;
+import com.meiduimall.service.member.model.request.RequestLoginUnlock;
+import com.meiduimall.service.member.model.response.MemberLockDTO;
 import com.meiduimall.service.member.service.SecurityService;
 import com.meiduimall.service.member.util.DESC;
 
@@ -178,6 +185,90 @@ public class SecurityServiceImpl implements SecurityService
 		}
 		return json;*/
 		return null;
+	}
+	/**
+	 * @param id
+	 * @throws MdBizException
+	 */
+	@Override
+	public void disabledAccount(String id) throws MdBizException {
+		try {
+			Map<String, Object> param=new HashMap<String, Object>();
+			param.put("memId", id);
+			param.put("status",SysEncrypParamsConst.MEMBER_FORBIDDEN_EN);
+			baseDao.update(param, "MSAccountMapper.updateAccountById");
+		} catch (Exception e) {
+			logger.error("调用账号禁用API接口SecurityServiceImpl.disabledAccount异常:{}", e);
+			throw new MdBizException(ApiStatusConst.DISABLED_ACCOUNT_EXCEPTION);
+		}
+	}
+	/**
+	 * @param id
+	 * @throws MdBizException
+	 */
+	@Override
+	public void unDisabledAccount(String id) throws MdBizException {
+		try {
+			Map<String, Object> param=new HashMap<String, Object>();
+			param.put("memId", id);
+			param.put("status",SysEncrypParamsConst.MEMBER_STATUS_OK);
+			baseDao.update(param, "MSAccountMapper.updateAccountById");
+		} catch (Exception e) {
+			logger.error("调用账号解禁API接口SecurityServiceImpl.unDisabledAccount异常:{}", e.getMessage());
+			throw new MdBizException(ApiStatusConst.UNDISABLED_ACCOUNT_EXCEPTION);
+		}
+	}
+	/**
+	 * @param param
+	 * @throws MdBizException
+	 */
+	@Override
+	public void resetAccountPwd(Map<String, Object> param) throws MdBizException {
+		try {
+			baseDao.update(param, "MSAccountMapper.updateAccountById");
+		} catch (Exception e) {
+			logger.error("调用重置密码API接口SecurityServiceImpl.resetAccountPwd异常:{}", e.getMessage());
+			throw new MdBizException(ApiStatusConst.RESET_ACCOUNT_PWD_EXCEPTION);
+		}
+	}
+	/**
+	 * @param loginUnlock
+	 * @return
+	 * @throws MdBizException
+	 */
+	@Override
+	public List<MemberLockDTO> loginUnlockList(RequestLoginUnlock loginUnlock) throws MdBizException {
+		List<MemberLockDTO> list=null;
+		try {
+			list=baseDao.selectList(loginUnlock, "MSMembersMapper.queryMemberLockList");
+		} catch (Exception e) {
+			logger.error("调用登陆解锁API接口SecurityServiceImpl.loginUnlockList异常:{}", e.getMessage());
+			throw new MdBizException(ApiStatusConst.LOGIN_UNLOCK_LIST_EXCEPTION);
+		}
+		return list;
+	}
+	/**
+	 * @param param
+	 * @throws MdBizException
+	 */
+	@Override
+	public void unlockMember(Map<String, Object> param) throws MdBizException {
+		try {
+			//step1 根据memId查询会员
+			MSMembersGet membersGet=baseDao.selectOne(param, "MSMembersMapper.getMemberBasicInfoByCondition");
+			if(membersGet==null) throw new MdBizException(ApiStatusConst.MEMBER_NOT_EXIST);
+			//step2修改锁定次数为0
+			MSMembersSet getMember=new MSMembersSet();
+			getMember.setMemId(membersGet.getMemId());
+			getMember.setMemLockCountPlained(SysParamsConst.INIT_LOGIN_LOCK_COUNT);
+			getMember.setMemLockCount(SysParamsConst.INIT_LOGIN_LOCK_COUNT);
+			baseDao.update(getMember, "MSMembersMapper.updateMemberBasicInfoByCondition");
+			//step3删除redis里面的key
+			RedisUtils.del(SysParamsConst.REDIS_LOGIN_LOCK+SysParamsConst.CONNECTION+membersGet.getMemId());
+		} catch (Exception e) {
+			logger.error("调用解锁API接口SecurityServiceImpl.unlockMember异常:{}", e.getMessage());
+			throw new MdBizException(ApiStatusConst.LOGIN_UNLOCK_EXCEPTION);
+		}
 	}
 
 }
