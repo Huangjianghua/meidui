@@ -289,6 +289,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 			
 			Map<String, Object> mapData=new HashMap<>();
 			mapData.put("token",redisToken);
+			mapData.put("user_name",userid);
 			resBodyData.setData(mapData);
 		}
 		else{

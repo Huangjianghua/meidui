@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.meiduimall.exception.ServiceException;
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.Constants;
+import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.config.ServiceUrlProfileConfig;
@@ -149,7 +150,7 @@ public class PaypwdServiceImpl implements PaypwdService {
 		try {
 			//获取会员基本信息
 			String memberBasicInfo=HttpUtils.get(memberServiceUrl+"/v1/get_member_basic_info?memId="+requestRetrievePaypwd.getMemId());
-			resBodyData=JSONObject.parseObject(memberBasicInfo,ResBodyData.class);
+			resBodyData=JsonUtils.jsonToBean(memberBasicInfo,ResBodyData.class);
 			if(resBodyData.getStatus()!=0){
 				logger.warn("获取会员基本信息失败:{}",resBodyData.toString());
 				throw new ServiceException(ApiStatusConst.GET_MEMBER_BASIC_INFO_FAILED);
@@ -163,7 +164,7 @@ public class PaypwdServiceImpl implements PaypwdService {
 				mapFormData.put("type",SmsTypeConst.getSmsType(Constants.CONSTANT_INT_ONE));
 				mapFormData.put("sysKey",SysParamsConst.SMS_SYSKEY);
 				String smsResult=HttpUtils.form(smsServiceUrl+"v1/new/check_sms_verification_code",mapFormData);
-				resBodyData=JSONObject.parseObject(smsResult,ResBodyData.class);
+				resBodyData=JsonUtils.jsonToBean(smsResult,ResBodyData.class);
 				if(resBodyData.getStatus()!=0){
 					logger.warn("找回支付密码>>校验短信验证码不通过:{}",resBodyData.toString());
 					throw new ServiceException(ApiStatusConst.VALIDATE_CODE_NOT_PASS);
