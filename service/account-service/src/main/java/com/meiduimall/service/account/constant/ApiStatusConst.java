@@ -17,7 +17,7 @@ public abstract class ApiStatusConst extends BaseApiCode {
 		public final static String SUCCESS_C = "Success"; 
 		public final static String SUCCESS_M = "操作成功"; 
 		/**服务处理异常   */
-		public final static Integer SERVER_DEAL_WITH_EXCEPTION= 1;
+		public final static Integer SERVER_DEAL_WITH_EXCEPTION= 3005;
 
 		/**操作数据库程序异常*/
 		public final static Integer OPERATION_DB_EX= 9001;
@@ -118,7 +118,7 @@ public abstract class ApiStatusConst extends BaseApiCode {
 			zhMsgMap.put(DECRYPTION_EXCEPTION, "解密程序异常");
 			zhMsgMap.put(ENCRYPTION_EXCEPTION, "加密程序异常");
 			zhMsgMap.put(HTTP_EXCEPTION, "HTTP请求异常");
-			
+			zhMsgMap.put(SERVER_DEAL_WITH_EXCEPTION, "服务处理异常");
 			zhMsgMap.put(POINTS_BIGGERTHAN_MONEY, "消费积分不能大于消费金额");
 			zhMsgMap.put(MIX_PAYTYPE_ERROR, "混合支付支付模式，美兑积分不能为小于或等于0");
 			zhMsgMap.put(PAYTYPE_ERROR, "支付类型错误");
