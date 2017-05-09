@@ -35,7 +35,7 @@ public class GoodsDetailController {
 	 * 
 	 * @param itemId
 	 *            商品ID
-	 * @return 商品详情
+	 * @return 商品详情 
 	 */
 	@RequestMapping("/getItem")
 	public ResBodyData getItemDetail(String itemId) {
