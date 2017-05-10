@@ -116,7 +116,7 @@ public class SmsServiceImpl implements SmsService {
 		try {
 			// 发送成功，缓存到redis，设置缓存时间
 			int expire = 60;
-			if (model.getTimeout() != null && model.getTimeout() > 0) {
+			if (model.getTimeout() != null && model.getTimeout() > 60) {
 				expire = model.getTimeout();
 			}
 			RedisUtils.setex(redisKey, expire, content);
@@ -253,7 +253,7 @@ public class SmsServiceImpl implements SmsService {
 		try {
 			// 发送成功，缓存到redis(格式：916817##1494323395427)，设置缓存时间
 			int expire = 60;
-			if (model.getTimeout() != null && model.getTimeout() > 0) {
+			if (model.getTimeout() != null && model.getTimeout() > 60) {
 				expire = model.getTimeout();
 			}
 			RedisUtils.setex(redisKey, expire, randomNumber + SysConstant.CODE_SPLIT_KEY + System.currentTimeMillis());
