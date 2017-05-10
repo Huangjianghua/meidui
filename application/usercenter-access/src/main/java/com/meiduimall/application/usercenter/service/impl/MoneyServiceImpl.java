@@ -49,5 +49,31 @@ public class MoneyServiceImpl implements MoneyService  {
 		return resBodyData;
 	}
 
+	/**
+	 * @param reqJson
+	 * @return
+	 */
+	@Override
+	public ResBodyData saveWithDrawApply(JSONObject reqJson) {
+		ResBodyData resBodyData=new ResBodyData(null,null);
+		/*String url="http://192.168.3.29:8096/member/account_service/v1/save_withdraw";*/
+		String url=profile.getServiceAccountUrl()+"v1/save_withdraw";
+		resBodyData=MD5Utils.updateSign(reqJson,profile.getRouteClientID(),profile.getRouteKey());
+		if(resBodyData.getStatus()!=0)
+			return resBodyData;
+		logger.info("请求提现微服务接口URL:{}  Data:{}",url,reqJson.toString());
+		try {
+			Map<String, String> headers=new HashMap<>();
+			headers.put(SysParamsConst.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
+			String result=HttpUtils.post(url,reqJson.toString(),headers);
+			logger.info("请求提现微服务接口返回结果：{}",result);
+			resBodyData=JSON.parseObject(result,ResBodyData.class);
+		} catch (Exception e) {
+			logger.error("请求提现微服务接口异常:{}",e.toString());
+			resBodyData.setStatus(ApiStatusConst.REQUEST_GATEWAY_EX);
+			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.REQUEST_GATEWAY_EX));
+		}
+		return resBodyData;
+	}
 
 }

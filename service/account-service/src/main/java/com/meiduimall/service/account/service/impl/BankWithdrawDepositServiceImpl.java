@@ -132,7 +132,7 @@ public class BankWithdrawDepositServiceImpl implements BankWithdrawDepositServic
 	@Override
 	public List<MSBankWithdrawDeposit> getBankWithDrawConditon(MSAccountDetailCondition mSAccountDetailCondition) throws Exception {
 
-		List<MSBankWithdrawDeposit> list =baseDao.selectList(mSAccountDetailCondition, "listwidthdrawCondition");
+		List<MSBankWithdrawDeposit> list =baseDao.selectList(mSAccountDetailCondition, "MSBankWithdrawDepositMapper.listwidthdrawCondition");
 		return list;
 	}
 

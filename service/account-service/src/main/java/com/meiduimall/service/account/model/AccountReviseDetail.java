@@ -9,11 +9,10 @@ import com.meiduimall.service.account.constant.AccountReviseTypeEnum;
 import com.meiduimall.service.account.util.DESC;
 
 /**
- * @Copyright (C), 2002-2017, 美兑壹购物
- * @FileName: AccountReviseDetail.java
- * @Author: jianhua.huang
- * @Date: 2017年4月20日 上午11:18:54
- * @Description:会员余额调整明细Model
+ * 
+ * @author:   jianhua.huang 
+ * @version:  2017年5月5日 下午5:51:45 0.1 
+ * Description:会员余额调整明细Model
  */
 public class AccountReviseDetail implements Serializable {
 

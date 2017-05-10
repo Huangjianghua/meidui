@@ -75,7 +75,7 @@ public class AccountDetailServiceImpl implements AccountDetailService{
 		paramsMap.put("tradeDate", DateUtil.format(tradeDate,DateUtil.YYYY_MM_DD_HH_MM_SS));
 		
 		try {
-			baseDao.insert(paramsMap, "MSAccountMapper.insertAccountDetail");
+			baseDao.insert(paramsMap, "MSAccountDetailMapper.insertAccountDetail");
 		} catch (Exception e) {
 			logger.error("写入账户变动明细出现错误-1002，会员编号：%s，订单编号：%s，错误信息：%s", 
 					memId, orderId, e.getMessage());

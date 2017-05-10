@@ -43,6 +43,14 @@ public abstract class ApiStatusConst extends BaseApiCode {
 	public final static Integer CHECK_VALIDATE_CODE_NOT_PASS=8020;
 	public final static Integer SEND_SMS_FAILED=8021;
 	
+	public final static Integer LOGIN_UNLOCK_LIST_EXCEPTION=8022;
+	public final static Integer LOGIN_UNLOCK_EXCEPTION=8023;
+	public final static Integer RESET_ACCOUNT_PWD_EXCEPTION=8024;
+	public final static Integer UNDISABLED_ACCOUNT_EXCEPTION=8025;
+	public final static Integer DISABLED_ACCOUNT_EXCEPTION=8026;
+	
+	public final static Integer ACCOUNT_MEMBER_ID_NULL=8027;
+	
 	static {
 		zhMsgMap.put(REQUIRED_PARAM_EMPTY, "必填参数为空");
 		zhMsgMap.put(MD5_EXCEPTION, "生成MD5程序异常");
@@ -76,6 +84,13 @@ public abstract class ApiStatusConst extends BaseApiCode {
 		zhMsgMap.put(ACCOUNT_EXCEPTION, "账号异常，请联系客服");
 		zhMsgMap.put(CHECK_VALIDATE_CODE_NOT_PASS, "短信验证码校验不通过");
 		zhMsgMap.put(SEND_SMS_FAILED, "短信发送失败");
+		
+		zhMsgMap.put(LOGIN_UNLOCK_LIST_EXCEPTION, "获取用户登陆解锁列表异常");
+		zhMsgMap.put(LOGIN_UNLOCK_EXCEPTION, "解锁异常");
+		zhMsgMap.put(RESET_ACCOUNT_PWD_EXCEPTION, "重置账号密码异常");
+		zhMsgMap.put(UNDISABLED_ACCOUNT_EXCEPTION, "解禁账号异常");
+		zhMsgMap.put(DISABLED_ACCOUNT_EXCEPTION, "禁用账号异常");
+		zhMsgMap.put(ACCOUNT_MEMBER_ID_NULL, "会员账号ID不能为空");
 	}
 
 }
