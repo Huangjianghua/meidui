@@ -54,8 +54,7 @@ public interface PaypwdService {
 	 * @param requestRetrievePaypwd 修改支付密码请求映射实体
 	 * @return 统一数据返回格式
 	 * @throws SystemException 检查类型异常
+	 * @throws MdSysException 
 	 */
-
-
-	ResBodyData retrievePaypwd(RequestRetrievePaypwd requestRetrievePaypwd) throws SystemException;
+	void retrievePaypwd(RequestRetrievePaypwd requestRetrievePaypwd) throws MdSysException;
 }

@@ -143,46 +143,46 @@ public class PaypwdServiceImpl implements PaypwdService {
 	@Override
 
 
-	public ResBodyData retrievePaypwd(RequestRetrievePaypwd requestRetrievePaypwd){
+	public void retrievePaypwd(RequestRetrievePaypwd requestRetrievePaypwd) throws MdSysException{
 		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
-		String memberServiceUrl=serviceUrlProfileConfig.getMemberServiceUrl();
-		String smsServiceUrl=serviceUrlProfileConfig.getSmsServiceUrl();
+		String memberServiceUrl=serviceUrlProfileConfig.getMemberServiceUrl()+"/v1/get_member_basic_info?memId="+requestRetrievePaypwd.getMemId();
+		String smsServiceUrl=serviceUrlProfileConfig.getSmsServiceUrl()+"/v1/new/check_sms_verification_code";
+		String memberBasicInfo=null;
 		try {
-			//获取会员基本信息
-			String memberBasicInfo=HttpUtils.get(memberServiceUrl+"/v1/get_member_basic_info?memId="+requestRetrievePaypwd.getMemId());
+			memberBasicInfo=HttpUtils.get(memberServiceUrl);
 			resBodyData=JSON.parseObject(memberBasicInfo,ResBodyData.class);
-			/*String phone=JSONObject.parseObject(JSONObject.parseObject(memberBasicInfo).getString("data")).getString("phone");*/
-			
-			if(resBodyData.getStatus()!=0){
-				logger.warn("获取会员基本信息失败:{}",resBodyData.toString());
-				throw new ServiceException(ApiStatusConst.GET_MEMBER_BASIC_INFO_FAILED);
-			}
-			else{
-				String phone=JSONObject.parseObject(resBodyData.getData().toString()).getString("phone");
-				Map<String,String> mapFormData=new HashMap<>();
-				mapFormData.put("phones",phone);
-				mapFormData.put("templateId",SmsTemplateIDConst.getSmsTemplate(SmsTemplateIDConst.SEND_VALIDATE_CODE));
-				mapFormData.put("verificationCode",requestRetrievePaypwd.getValidate_code());
-				mapFormData.put("type",SmsTypeConst.getSmsType(Constants.CONSTANT_INT_ONE));
-				mapFormData.put("sysKey",SysParamsConst.SMS_SYSKEY);
-				String smsResult=HttpUtils.form(smsServiceUrl+"v1/new/check_sms_verification_code",mapFormData);
-				resBodyData=JsonUtils.jsonToBean(smsResult,ResBodyData.class);
-				if(resBodyData.getStatus()!=0){
-					logger.warn("找回支付密码>>校验短信验证码不通过:{}",resBodyData.toString());
-					throw new ServiceException(ApiStatusConst.VALIDATE_CODE_NOT_PASS);
-				}
-				else{
-					MSMembersPaypwd msMembersPaypwd=new MSMembersPaypwd();
-					msMembersPaypwd.setMemId(requestRetrievePaypwd.getMemId());
-					msMembersPaypwd.setPay_pwd(requestRetrievePaypwd.getPay_pwd());
-					resBodyData=setPaypwd(msMembersPaypwd);
-				}
-			}
 		} catch (Exception e) {
-			logger.error("找回支付密码程序异常:{}",e.toString());
+			logger.error("找回支付密码>>调用账号服务>>获取会员基本信息API>>异常:{}",e.toString());
 			throw new ServiceException(ApiStatusConst.RETRIEVE_PAYPWD_EXCEPTION);
 		}
-		return resBodyData;
+		if(resBodyData.getStatus()!=0){
+			logger.warn("找回支付密码>>调用账号服务>>获取会员基本信息API>>失败:{}",resBodyData.toString());
+			throw new ServiceException(ApiStatusConst.GET_MEMBER_BASIC_INFO_FAILED);
+		}
+		String phone=JSONObject.parseObject(resBodyData.getData().toString()).getString("phone");
+		Map<String,String> mapFormData=new HashMap<>();
+		mapFormData.put("phones",phone);
+		mapFormData.put("templateId",SmsTemplateIDConst.getSmsTemplate(SmsTemplateIDConst.SEND_VALIDATE_CODE));
+		mapFormData.put("verificationCode",requestRetrievePaypwd.getValidate_code());
+		mapFormData.put("type",SmsTypeConst.getSmsType(Constants.CONSTANT_INT_ONE));
+		mapFormData.put("sysKey",SysParamsConst.SMS_SYSKEY);
+		String smsResult=null;
+		try {
+			smsResult=HttpUtils.form(smsServiceUrl,mapFormData);
+			resBodyData=JSON.parseObject(smsResult,ResBodyData.class);
+			logger.warn("找回支付密码>>调用短信服务>>校验短信验证码API>>URL:{}  DATA:{}  RESULT:{}",smsServiceUrl,mapFormData.toString(),resBodyData.toString());
+		} catch (Exception e) {
+			logger.warn("找回支付密码>>短信服务>>校验短信验证码API>>异常:{}",resBodyData.toString());
+			throw new ServiceException(ApiStatusConst.RETRIEVE_PAYPWD_EXCEPTION);
+		}
+		if(resBodyData.getStatus()!=0){
+			logger.warn("找回支付密码>>调用短信服务>>校验短信验证码API>>不通过:{}",resBodyData.toString());
+			throw new ServiceException(ApiStatusConst.VALIDATE_CODE_NOT_PASS);
+		}
+		MSMembersPaypwd msMembersPaypwd=new MSMembersPaypwd();
+		msMembersPaypwd.setMemId(requestRetrievePaypwd.getMemId());
+		msMembersPaypwd.setPay_pwd(requestRetrievePaypwd.getPay_pwd());
+		setPaypwd(msMembersPaypwd);
 	}
 	
 	/**

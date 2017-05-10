@@ -141,6 +141,6 @@ public abstract class ApiStatusConst extends BaseApiCode {
 			
 			zhMsgMap.put(USER_NOT_EXIST, "当前用户在会员系统不存在");
 			zhMsgMap.put(BANK_INFO_ALREADY_EXIST, "当前会员银行卡账户信息已存在");
-			zhMsgMap.put(GET_MEMBER_BASIC_INFO_FAILED, "当前会员银行卡账户信息已存在");
+			zhMsgMap.put(GET_MEMBER_BASIC_INFO_FAILED, "获取会员基本信息失败");
 		}
 }
