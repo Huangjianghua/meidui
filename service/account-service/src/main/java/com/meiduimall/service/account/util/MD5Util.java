@@ -23,7 +23,6 @@ public class MD5Util {
 	 * @param values 需要加密的字符串
 	 * @return 加密后的字符串
 	 * @throws MdSysException
-	 * @throws Exception
 	 */
 	public static String MD5EncryptBy32(String values) throws MdSysException {
 		StringBuffer buf = new StringBuffer();

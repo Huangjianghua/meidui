@@ -15,7 +15,7 @@ public interface PointsService {
 	/**
 	 * 冻结积分并增加冻结记录
 	 * @param memId 会员ID
-	 * @param points 需要冻结的积分数量
+	 * @param consumePoints 需要冻结的积分数量
 	 * @param orderId 交易订单号
 	 * @param orderSource 订单来源
 	 * @return 统一数据返回格式
@@ -25,7 +25,7 @@ public interface PointsService {
 	/**
 	 * 解冻积分并增加解冻记录
 	 * @param memId 会员ID
-	 * @param points 需要解冻的积分数量
+	 * @param consumePoints 需要解冻的积分数量
 	 * @param orderId 交易订单号
 	 * @param orderSource 订单来源
 	 * @return 统一数据返回格式
@@ -35,7 +35,7 @@ public interface PointsService {
 	/**
 	 * 扣减积分并增加扣减记录
 	 * @param memId 会员ID
-	 * @param points 需要扣减的积分数量
+	 * @param consumePoints 需要扣减的积分数量
 	 * @param orderId 交易订单号
 	 * @param orderSource 订单来源
 	 * @return 统一数据返回格式

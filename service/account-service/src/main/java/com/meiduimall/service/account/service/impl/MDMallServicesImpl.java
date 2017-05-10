@@ -109,7 +109,9 @@ public class MDMallServicesImpl implements MDMallServices {
 	 * @param request
 	 * @param userid
 	 * @param password
-	 * @param num
+	 * @param topupnum
+	 * @param ip
+	 * @param orderid
 	 * @return
 	 */
 	@Override
