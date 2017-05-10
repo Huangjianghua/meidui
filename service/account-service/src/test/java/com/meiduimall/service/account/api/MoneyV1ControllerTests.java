@@ -18,11 +18,13 @@ import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.meiduimall.core.util.JsonUtils;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.model.AddOrUpdateAccountReviseDetail;
 import com.meiduimall.service.account.model.MSAccountDetailCondition;
 import com.meiduimall.service.account.model.MSAccountDetailGet;
 import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
 import com.meiduimall.service.account.model.request.RequestAccountReviseDetail;
+import com.meiduimall.service.account.util.DESC;
 import com.meiduimall.service.account.util.DateUtil;
 
 import net.sf.json.JSONObject;
@@ -299,7 +301,10 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 			System.out.println("异常*********************"+e);
 		}
 	}
-	
+	public static void main(String[] args) throws MdSysException {
+		String s="100";
+		System.out.println(DESC.encryption(s, "b9d78165-1483-42f7-a48c-fbfcc3b06431"));
+	}
 
 }
 
