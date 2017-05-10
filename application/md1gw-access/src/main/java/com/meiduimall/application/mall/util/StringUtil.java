@@ -225,7 +225,7 @@ public class StringUtil {
 	/**
 	 * 所有特殊字符
 	 * 
-	 * @param st
+	 * @param str
 	 *            过滤前的字符
 	 * @return 过滤之后的字符
 	 */
@@ -245,7 +245,7 @@ public class StringUtil {
 	/**
 	 * 判断是否含有特殊字符
 	 * 
-	 * @param st
+	 * @param str
 	 *            过滤前的字符
 	 * @return 过滤之后的字符
 	 */
@@ -309,7 +309,6 @@ public class StringUtil {
 
 	/***
 	 * 基础json数据
-	 * 
 	 * @param dMap
 	 * @return
 	 */
@@ -335,7 +334,6 @@ public class StringUtil {
 
 	/**
 	 * UTF-8编码 转换为对应的 汉字
-	 * 
 	 * @param s
 	 * @return
 	 */
@@ -394,14 +392,11 @@ public class StringUtil {
 		return sb.toString();
 	}
 
-	/**
-	 * 正则表达式验证
-	 */
+ 
 	/**
 	 * 判断是否为邮箱格式正则表达式验证
-	 * 
-	 * @param value要验证的字符
-	 * @return true表示正确
+	 * @param value 要验证的字符
+	 * @return true 表示正确
 	 */
 	public static boolean isEmailToRegex(String value) {
 		return getRegex(StringValidate.EMAIL, value);
@@ -409,9 +404,8 @@ public class StringUtil {
 
 	/**
 	 * 验证
-	 * 
-	 * @param regex正则表达式字符串
-	 * @param value要验证的字符串
+	 * @param regex 正则表达式字符串
+	 * @param value 要验证的字符串
 	 * @return 为真表示符合，为假表示不符合
 	 */
 	public static boolean getRegex(String regex, String value) {
@@ -420,8 +414,7 @@ public class StringUtil {
 
 	/**
 	 * 判断手机号码
-	 * 
-	 * @param value要判断的字符
+	 * @param value 要判断的字符
 	 * @return true正确
 	 */
 	public static boolean isPhoneToRegex(String value) {
@@ -433,7 +426,6 @@ public class StringUtil {
 
 	/**
 	 * 检查字符串是否为空
-	 * 
 	 * @param value
 	 * @return true 为空
 	 */
@@ -443,7 +435,6 @@ public class StringUtil {
 
 	/**
 	 * 判断是否为正整数
-	 * 
 	 * @param value
 	 * @return
 	 */
@@ -453,7 +444,6 @@ public class StringUtil {
 
 	/**
 	 * 判断是否为整数
-	 * 
 	 * @param value
 	 * @return true表示是
 	 */
@@ -472,9 +462,8 @@ public class StringUtil {
 	}
 
 	/**
-	 * 判断是否是一个IP
-	 * 
-	 * @param IP
+	 * 判断是否是一个ip
+	 * @param ip
 	 * @return
 	 */
 	public static boolean isIp(String ip) {
@@ -493,7 +482,6 @@ public class StringUtil {
 
 	/**
 	 * 自动生成自定义的字符长度（字母数字）
-	 * 
 	 * @param length
 	 * @return
 	 */
@@ -523,13 +511,11 @@ public class StringUtil {
 	}
 	
 	/**
-	 * @Description: 在一个字符串中查找一个子串出现的次数。
-	 * @return int  
+	 * 在一个字符串中查找一个子串出现的次数
 	 * @param str
 	 * @param key
 	 * @return
 	 * @author 
-	 * @date 2016-11-24
 	 */
 	public static int findSubstringCount(String str,String key) {
 		int count = 0;
@@ -546,7 +532,7 @@ public class StringUtil {
 	
 	/**
 	 * 生成Scno
-	 * @param user_id
+	 * @param userId
 	 * @return
 	 */
 	public static String scno(Integer userId){

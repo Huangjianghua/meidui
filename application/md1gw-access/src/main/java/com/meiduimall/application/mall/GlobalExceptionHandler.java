@@ -27,7 +27,6 @@ import com.meiduimall.exception.ServiceException;
 
 /**
  * 统一错误码异常处理
- *
  * Created by simon on 14/03/2017.
  */
 @RestControllerAdvice

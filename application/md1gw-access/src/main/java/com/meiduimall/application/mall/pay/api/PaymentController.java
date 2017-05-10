@@ -41,9 +41,8 @@ public class PaymentController {
 	
 	/**
 	 * 支付之前判断
-	 * @param paymentId
-	 * @return
-	 * @throws Exception
+	 * @param paymentTrade 订单信息
+	 * @return JSONObject
 	 */
 	@GetMapping(value="/PayJudgment")
 	public JSONObject payJudgment(PaymentTrade  paymentTrade){

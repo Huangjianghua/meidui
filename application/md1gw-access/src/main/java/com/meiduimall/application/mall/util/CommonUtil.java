@@ -28,10 +28,9 @@ public class CommonUtil {
 	private static MyProps myProps;
 	/**
 	 * 组装签名 公共的key value
-	 * @param map
-	 * @return
+	 * @param map map
+	 * @return map
 	 * @throws Md5Exception 
-	 * @throws Exception
 	 */
 	public static Map<String,String> commonMap(Map<String,String> map) throws Md5Exception{
 		map.put(OauthConst.CLIENT_ID, OauthConst.CLIENT_ID_VALUE);
@@ -42,10 +41,9 @@ public class CommonUtil {
 	}
 	/**
 	 * 组装签名 公共的JSON
-	 * @param map
-	 * @return
+	 * @param json json
+	 * @return JSONObject
 	 * @throws Md5Exception 
-	 * @throws Exception
 	 */
 	public static JSONObject commonJSON(JSONObject json) throws Md5Exception{
 		json.put(OauthConst.CLIENT_ID, OauthConst.CLIENT_ID_VALUE);
@@ -62,9 +60,8 @@ public class CommonUtil {
 	
 	/**
 	 * 组装更新 EctoolsPayments
-	 * @param paymentTradePay
-	 * @return
-	 * @throws Exception
+	 * @param paymentTrade 订单信息
+	 * @return EctoolsPayments
 	 */
 	public static EctoolsPayments updateEctoolsPaymentsCommon(PaymentTrade paymentTrade){
 		EctoolsPayments ectoolsPayments = new EctoolsPayments();
@@ -89,9 +86,8 @@ public class CommonUtil {
 
 	/**
 	 * 组装更新到平台订单表 systradePTrade 
-	 * @param paymentBill
-	 * @return
-	 * @throws Exception
+	 * @param paymentBill 支付单信息
+	 * @return SystradePTrade
 	 */
 	public static SystradePTrade updateCSPCommon(Map<String, Object> paymentBill){
 	   SystradePTrade systradePTrade = new SystradePTrade();
@@ -104,12 +100,10 @@ public class CommonUtil {
 
 	/**
 	 * 组装 【会员钱包支付接口】,写入钱包支付记录 SysuserWalletPaylog 
-	 * @param paymentBill
-	 * @param userMoney
-	 * @param paymentTradePay
-	 * @param sysuserAccount
-	 * @return
-	 * @throws Exception
+	 * @param paymentBill 支付单信息
+	 * @param userMoney userMoney
+	 * @param sysuserAccount sysuserAccount
+	 * @return SysuserWalletPaylog
 	 */
 	public static SysuserWalletPaylog updateUsersWalletPayCommon(Map<String, Object> paymentBill,
 			SysuserUser userMoney,PaymentTrade paymentTrade,SysuserAccount sysuserAccount){
@@ -126,9 +120,9 @@ public class CommonUtil {
 
 	/**
 	 * 组装 查询支付单信息 EctoolsPayments 
-	 * @param result_payment
-	 * @param ectoolsPaymentsSucc
-	 * @return
+	 * @param resultPayment resultPayment
+	 * @param ectoolsPaymentsSucc ectoolsPaymentsSucc
+	 * @return EctoolsPayments
 	 */
 	public static EctoolsPayments getIsPaySuccCommon(Map<String, Object> resultPayment,
 			EctoolsPaymentsSucc ectoolsPaymentsSucc){
@@ -140,10 +134,9 @@ public class CommonUtil {
 	}
 
 	/**
-	 * //1.获取用户余额和已冻结金额  //2.更新余额、更新冻结金额
-	 * @param userMoney
-	 * @param paymentTradePay
-	 * @return
+	 * 1.获取用户余额和已冻结金额  2.更新余额、更新冻结金额
+	 * @param userMoney userMoney
+	 * @return SysuserUser
 	 */
 	public static SysuserUser updateMF(SysuserUser userMoney, PaymentTrade paymentTrade){
 		SysuserUser sysuserUser = new SysuserUser();

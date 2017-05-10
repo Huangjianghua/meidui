@@ -19,9 +19,9 @@ public class GatewaySignUtil {
 	
 	
 
-	/** &符号**/
+	/* &符号 */
 	public static final String URLCONNCTION = "&";
-	/** =符号**/
+	/* =符号 */
 	public static final String URLEQUALS = "=";
 	/**
 	 * 编码类型
@@ -37,7 +37,6 @@ public class GatewaySignUtil {
 	 * @param appKey
 	 * @param param
 	 * @return String   
-	 * @throws
 	 */
 	public static String  sign(String appKey,Map<String,String> param) throws Md5Exception {
 		Map<String, String> map = new TreeMap<>();
@@ -94,9 +93,7 @@ public class GatewaySignUtil {
 	 * Date:   2016年12月19日 上午10:28:55
 	 * @param appKey
 	 * @param parameters
-	 * @throws Exception    
 	 * @return String   
-	 * @throws
 	 */
 	public static String buildEncodeSortParam(String appKey,Map<String, String> parameters) {
 		StringBuilder getSB = new StringBuilder();

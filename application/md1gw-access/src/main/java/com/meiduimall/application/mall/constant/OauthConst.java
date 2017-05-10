@@ -33,7 +33,7 @@ public class OauthConst {
 	/** token字符串 */
 	public static final String TOKEN = "token";
 	
-	/** &符号 */
+	/** 符号 */
 	public static final String CONNECTION_SYMBOL = "&";
 	
 	/** =符号 */
@@ -42,7 +42,7 @@ public class OauthConst {
 	/** ? 符号 */
 	public static final String QUESTION_SYMBOL = "?";
 	
-	/** &&& 符号 */
+	/**  符号 */
 	public static final String AND_SYMBOL = "&&&";
 	
 	/** token通过标志 */

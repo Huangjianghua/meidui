@@ -27,7 +27,7 @@ public class DateUtil {
 	 
 	/** 
      * 日期格式字符串转换成时间戳 
-     * @param date 字符串日期 
+     * @param dateStr 字符串日期 
      * @param format 如：yyyy-MM-dd HH:mm:ss 
      * @return 
      */  

@@ -223,7 +223,6 @@ public class TradeServiceImpl implements TradeService {
 	/**
 	 * 【下单或支付时扣减库存接口】
 	 * 
-	 * @throws Exception
 	 */
 	public Boolean orderOrPay(Map<String, Object> hashMap) {
 		// sub_stock!=0下单减库存(有恶意下单占库存风险)判断开始
