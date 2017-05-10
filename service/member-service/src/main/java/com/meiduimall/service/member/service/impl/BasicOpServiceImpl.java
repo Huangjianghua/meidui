@@ -289,7 +289,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 			
 			Map<String, Object> mapData=new HashMap<>();
 			mapData.put("token",redisToken);
-			mapData.put("user_name",userid);
+			mapData.put("user_name",msMembersGet.getMemLoginName());
 			resBodyData.setData(mapData);
 		}
 		else{

@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.core.ResBodyData;
@@ -79,5 +80,7 @@ public class UserInfoV1Controller{
 		}
 		out.print(json.toString());
 	}*/
+	
+	/**校验手机号或登录名是否存在*/
 	
 }

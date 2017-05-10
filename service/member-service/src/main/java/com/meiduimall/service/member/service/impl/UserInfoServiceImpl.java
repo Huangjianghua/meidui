@@ -221,5 +221,11 @@ public class UserInfoServiceImpl implements UserInfoService {
 			throw new ServiceException(ApiStatusConst.ACCOUNT_EXCEPTION);
 		}
 	}
+
+	@Override
+	public boolean checkUserIdExists(String userId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 }
