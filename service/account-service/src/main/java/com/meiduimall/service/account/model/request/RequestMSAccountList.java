@@ -5,8 +5,6 @@ package com.meiduimall.service.account.model.request;
 
 import java.io.Serializable;
 
-import com.meiduimall.exception.MdSysException;
-import com.meiduimall.service.account.util.DESC;
 import com.meiduimall.service.account.util.PageHelp;
 
 /**
@@ -48,24 +46,24 @@ public class RequestMSAccountList extends PageHelp implements Serializable {
 		return memLoginName;
 	}
 
-	public void setMemLoginName(String memLoginName) throws MdSysException {
-		this.memLoginName = DESC.encryption(memLoginName);
+	public void setMemLoginName(String memLoginName){
+		this.memLoginName = memLoginName;
 	}
 
 	public String getMemPhone() {
 		return memPhone;
 	}
 
-	public void setMemPhone(String memPhone) throws MdSysException {
-		this.memPhone = DESC.encryption(memPhone);
+	public void setMemPhone(String memPhone) {
+		this.memPhone = memPhone;
 	}
 
 	public String getMemParentIdPhone() {
 		return memParentIdPhone;
 	}
 
-	public void setMemParentIdPhone(String memParentIdPhone) throws MdSysException {
-		this.memParentIdPhone = DESC.encryption(memParentIdPhone);
+	public void setMemParentIdPhone(String memParentIdPhone) {
+		this.memParentIdPhone =memParentIdPhone;
 	}
 
 	public String getMemSignSource() {

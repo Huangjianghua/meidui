@@ -6,7 +6,6 @@ package com.meiduimall.service.account.model.request;
 import java.io.Serializable;
 
 import com.meiduimall.exception.MdSysException;
-import com.meiduimall.service.account.util.DESC;
 import com.meiduimall.service.account.util.PageHelp;
 
 /**
@@ -73,8 +72,8 @@ public class RequestAccountReviseDetail extends PageHelp implements Serializable
 		return memLoginName;
 	}
 
-	public void setMemLoginName(String memLoginName) throws MdSysException {
-		this.memLoginName =DESC.encryption(memLoginName);
+	public void setMemLoginName(String memLoginName){
+		this.memLoginName =memLoginName;
 	}
 
 	public String getMemPhone() {
@@ -82,7 +81,7 @@ public class RequestAccountReviseDetail extends PageHelp implements Serializable
 	}
 
 	public void setMemPhone(String memPhone) throws MdSysException {
-		this.memPhone = DESC.encryption(memPhone);
+		this.memPhone = memPhone;
 	}
 
 	public String getReviseType() {
