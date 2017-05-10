@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import com.meiduimall.core.ResBodyData;
 import com.meiduimall.service.account.constant.AccountReviseStatusEnum;
 import com.meiduimall.service.account.constant.AccountReviseTypeEnum;
 import com.meiduimall.service.account.constant.ApiStatusConst;
@@ -28,7 +29,6 @@ import com.meiduimall.service.account.model.MSAccountDetailCondition;
 import com.meiduimall.service.account.model.MSAccountDetailGet;
 import com.meiduimall.service.account.model.MSAccountList;
 import com.meiduimall.service.account.model.MSDict;
-import com.meiduimall.service.account.model.ResBodyData;
 import com.meiduimall.service.account.model.request.RequestAccountReviseDetail;
 import com.meiduimall.service.account.model.request.RequestMSAccountList;
 import com.meiduimall.service.account.service.MSAccountDetailService;

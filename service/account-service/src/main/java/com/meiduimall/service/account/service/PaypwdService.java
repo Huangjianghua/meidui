@@ -2,9 +2,9 @@ package com.meiduimall.service.account.service;
 
 import org.omg.CORBA.SystemException;
 
+import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.model.MSMembersPaypwd;
-import com.meiduimall.service.account.model.ResBodyData;
 import com.meiduimall.service.account.model.request.RequestRetrievePaypwd;
 import com.meiduimall.service.account.model.request.RequestUpdatePaypwd;
 

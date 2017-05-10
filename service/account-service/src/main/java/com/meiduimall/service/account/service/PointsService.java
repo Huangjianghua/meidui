@@ -2,8 +2,8 @@ package com.meiduimall.service.account.service;
 
 import java.util.Map;
 
+import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdSysException;
-import com.meiduimall.service.account.model.ResBodyData;
 
 /**
  * 积分相关操作

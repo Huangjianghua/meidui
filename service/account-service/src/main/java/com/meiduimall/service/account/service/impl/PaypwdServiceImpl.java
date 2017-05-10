@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.meiduimall.exception.ServiceException;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.Constants;
+import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.config.ServiceUrlProfileConfig;
@@ -23,7 +25,6 @@ import com.meiduimall.service.account.constant.SysParamsConst;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSMembersPaypwd;
 import com.meiduimall.service.account.model.MSMembersPaypwdRecord;
-import com.meiduimall.service.account.model.ResBodyData;
 import com.meiduimall.service.account.model.request.RequestRetrievePaypwd;
 import com.meiduimall.service.account.model.request.RequestUpdatePaypwd;
 import com.meiduimall.service.account.service.PaypwdService;
@@ -149,7 +150,9 @@ public class PaypwdServiceImpl implements PaypwdService {
 		try {
 			//获取会员基本信息
 			String memberBasicInfo=HttpUtils.get(memberServiceUrl+"/v1/get_member_basic_info?memId="+requestRetrievePaypwd.getMemId());
-			resBodyData=JsonUtils.jsonToBean(memberBasicInfo,ResBodyData.class);
+			resBodyData=JSON.parseObject(memberBasicInfo,ResBodyData.class);
+			/*String phone=JSONObject.parseObject(JSONObject.parseObject(memberBasicInfo).getString("data")).getString("phone");*/
+			
 			if(resBodyData.getStatus()!=0){
 				logger.warn("获取会员基本信息失败:{}",resBodyData.toString());
 				throw new ServiceException(ApiStatusConst.GET_MEMBER_BASIC_INFO_FAILED);
