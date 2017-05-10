@@ -18,9 +18,8 @@ public interface SecurityService {
 	
 	/***
 	 * 设置支付密码开关状态
-	 * @param RequestSetPaypwdStatus
+	 * @param msMembers
 	 * @return 1：开   0：关
-	 * @throws Exception
 	 */
 	ResBodyData setPaypwdStatus(MSMembersGet msMembers);
 	

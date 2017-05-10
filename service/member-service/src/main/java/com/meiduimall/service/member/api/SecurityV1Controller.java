@@ -120,8 +120,7 @@ public class SecurityV1Controller {
 	
 	/**
 	 * 修改手机号码(会获取验证码)
-	 * @param request
-	 * @param response
+	 * @param token
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/updatememberphone/{token}",method=RequestMethod.PUT)
@@ -144,7 +143,7 @@ public class SecurityV1Controller {
 	
 	/**
 	 * 账号禁用 
-	 * @param map
+	 * @param param
 	 * @throws Exception
 	 * @author: jianhua.huang  2017年5月2日 下午3:20:34
 	 */
@@ -162,7 +161,7 @@ public class SecurityV1Controller {
 	
 	/**
 	 * 账号解禁 
-	 * @param map
+	 * @param param
 	 * @throws Exception
 	 * @author: jianhua.huang  2017年5月2日 下午3:20:34
 	 */
