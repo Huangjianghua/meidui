@@ -27,7 +27,8 @@
 				status,
 				audit_state,
 				remark,
-				create_date
+				create_date,
+				is_delete
 				)
 	 	 values(#{id},
 				#{businessNo},
@@ -47,10 +48,11 @@
 				#{applyDate},
 				null,
 				null,
-				#{status},
+				0,
 				null,
 				#{remark},
-				now()
+				#{createDate},
+				#{isDelete}
 			   )
 	</insert>
 	
@@ -96,7 +98,7 @@
 		 order by applyDate desc
 	</select>
 	
-	
+	<!--查询提现记录  -->
 	<select id="listwidthdrawCondition" resultType="com.meiduimall.service.account.model.MSBankWithdrawDeposit" parameterType="com.meiduimall.service.account.model.MSAccountDetailCondition" >
     		select  a.id as id,
 				a.business_no as businessNo,
@@ -119,28 +121,95 @@
 				a.status as status,
 				a.audit_state as auditState,
 				a.remark as remark,
-				a.create_date as createDate,b.mem_phone as phone, b.mem_login_name as loginName 
-				from ms_bank_withdraw_deposit a, ms_members b 
-   
-   				where a.mem_id = b.mem_id 
-     <if test="memLoginName !=null and memLoginName !=''">
-         	and b.mem_login_name = #{memLoginName}
-     </if> 
-     <if test="memPhone !=null and memPhone !=''">
-         	and b.mem_phone = #{memPhone}
-     </if> 	
-     <if test="businNo !=null and businNo !=''">
-         	and a.business_no like CONCAT('%',#{businNo},'%')
-     </if> 
-     <if test="status !=null and status !=''">
-	        and a.status =#{status}
-     </if>
-      <if test="beginDate !=null and beginDate !=''">
-	        and a.apply_date >=#{beginDate}
-     </if>
-      <if test="endDate !=null and endDate !=''">
-	        and  #{endDate} >= a.apply_date
-     </if>
+				a.create_date as createDate,
+				b.mem_phone as phone,
+				b.mem_login_name as loginName, 
+				a.actual_transfer_cash as actualTransferCash,
+				ROUND(IFNULL(c.balance,0.0)-IFNULL(c.freeze_balance,0.0),2) as withdrawBalance
+				from ms_bank_withdraw_deposit a 
+				LEFT JOIN ms_members b on b.mem_id=a.mem_id
+				LEFT JOIN ms_account c on c.mem_id=a.mem_id AND c.type='AT02'
+	   		<where>
+	   		 	a.is_delete='N'
+	   		 <if test="id !=null and id !=''">
+		         	and a.id = #{id}
+	   		 </if>
+		     <if test="memLoginName !=null and memLoginName !=''">
+		         	and b.mem_login_name = #{memLoginName}
+		     </if> 
+		     <if test="memPhone !=null and memPhone !=''">
+		         	and b.mem_phone = #{memPhone}
+		     </if> 	
+		     <if test="businNo !=null and businNo !=''">
+		         	and a.business_no like CONCAT('%',#{businNo},'%')
+		     </if> 
+		     <if test="status !=null and status !=''">
+			        and a.status =#{status}
+		     </if>
+		      <if test="beginDate !=null and beginDate !=''">
+			        and a.apply_date >=#{beginDate}
+		     </if>
+		      <if test="endDate !=null and endDate !=''">
+			        and  #{endDate} >= a.apply_date
+		     </if>
+     	</where>
   </select>
 	
+	<!--修改提现记录  -->
+	 <update id="updateWidthDrawDeposit"  parameterType="com.meiduimall.service.account.model.MSBankWithdrawDeposit" >
+	 	 update ms_bank_withdraw_deposit 
+	 	<set >
+	 	  audit_date = now(),
+	      <if test="status != null and status !=''" >
+	        status = #{status},
+	      </if>
+	      <if test="actualTransferCash != null and actualTransferCash !=''" >
+	        actual_transfer_cash = #{actualTransferCash},
+	      </if>
+	      <if test="auditBy != null and auditBy !=''" >
+	        audit_by = #{auditBy},
+	      </if>
+      </set>
+       <where>
+	      <if test="id !=null and id !=''">
+			AND id=#{id}
+		  </if>
+		  <if test="memId !=null and memId !=''">
+			AND mem_id=#{memId}
+		  </if>
+   		 </where>
+	</update>
+	
+	<!-- 查询提现记录ByID -->
+  <select id="queryWidthDrawById" resultType="com.meiduimall.service.account.model.MSBankWithdrawDeposit" parameterType="java.util.Map" >
+    select 
+	    bwd.id,
+	    bwd.business_no as businessNo,
+	    bwd.mem_id as memId,
+	    msm.mem_login_name as loginName,
+	    msm.mem_phone as phone,
+	    bwd.bank_account_id as bankAccountId,
+	    bwd.account_idcard as accountIdcard,
+	    bwd.account_no as accountNo,
+	    bwd.account_name as accountName,
+	    bwd.account_bank as accountBank,
+	    bwd.account_province as accountProvince,
+	    bwd.account_city as accountCity,
+	    bwd.account_area as accountArea,
+	    bwd.account_sub_bank as accountSubBank,
+	    bwd.apply_carry_cash as applyCarryCash,
+	    bwd.counter_fee as counterFee,
+	    bwd.actual_carry_cash as actualCarryCash,
+	    bwd.actual_transfer_cash as actualTransferCash,
+	    bwd.apply_date as applyDate,
+	    bwd.audit_by as auditBy,
+	    bwd.audit_date as auditDate,
+	    bwd.status as status,
+	    bwd.audit_state as auditState,
+	    bwd.create_date as createDate,
+	    bwd.remark
+    from ms_bank_withdraw_deposit bwd
+   	LEFT JOIN  ms_members msm on (msm.mem_id=bwd.mem_id)
+    where bwd.id = #{id}
+  </select>
 </mapper>

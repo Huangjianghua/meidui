@@ -10,11 +10,10 @@ import com.meiduimall.service.account.util.DESC;
 import com.meiduimall.service.account.util.PageHelp;
 
 /**
- * @Copyright (C), 2002-2017, 美兑壹购物
- * @FileName: MSAccountBalanceCondition.java
- * @Author: jianhua.huang
- * @Date: 2017年4月18日 上午11:47:22
- * @Description: 会员余额查询 model request
+ *  会员余额查询 model request
+ * @author:   jianhua.huang 
+ * @version:  2017年5月5日 下午5:59:30 0.1 
+ * Description:
  */
 public class RequestMSAccountList extends PageHelp implements Serializable {
 	/**
@@ -40,6 +39,10 @@ public class RequestMSAccountList extends PageHelp implements Serializable {
 	private String lastLoginTimeEnd;
 	/**是否分页  1：是  0:否	*/
 	private String flg;  
+	/**
+	 * 用户状态
+	 */
+	private String status;
 
 	public String getMemLoginName() {
 		return memLoginName;
@@ -119,6 +122,14 @@ public class RequestMSAccountList extends PageHelp implements Serializable {
 
 	public void setMemId(String memId) {
 		this.memId = memId;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 }

@@ -2,6 +2,7 @@ package com.meiduimall.service.account.service;
 
 import java.util.Date;
 
+import com.meiduimall.exception.MdBizException;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.model.MSAccount;
 
@@ -256,7 +257,7 @@ public interface AccountServices {
 	 * @return
 	 */
 	public boolean cutConsumeMoneyAndDetail(String memId, String orderId,
-			String tradeType, Date tradeDate, String tradeAmount, String remark);
+			String tradeType, Date tradeDate, String tradeAmount, String remark) throws MdBizException;
 	
 	/**
 	 * 方法名: addConsumeFreezeMoneyAndDetail<br>
@@ -286,7 +287,7 @@ public interface AccountServices {
 	 * @return
 	 */
 	public boolean cutConsumeFreezeMoneyAndDetail(String memId, String orderId,
-			String tradeType, Date tradeDate, String tradeAmount, String remark);
+			String tradeType, Date tradeDate, String tradeAmount, String remark) throws MdBizException;
 	
 	/**
 	 * 根据用户标识查询memid

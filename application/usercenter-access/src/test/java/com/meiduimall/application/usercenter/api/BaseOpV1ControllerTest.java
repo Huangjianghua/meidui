@@ -68,8 +68,7 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {
     	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/save_withdraw")
     			.contentType(MediaType.APPLICATION_JSON_UTF8)
     			.content(JsonUtils.beanToJson(mapCondition)))
-    			.andExpect(status().isOk())
-    			.andExpect(jsonPath("$.status",is(0)));
+    			.andExpect(status().isOk());
     	
     	resultActions.andDo(new ResultHandler() {
 			@Override

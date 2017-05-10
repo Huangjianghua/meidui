@@ -10,7 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.meiduimall.exception.MdBizException;
 import com.meiduimall.exception.MdSysException;
+import com.meiduimall.service.account.constant.ApiStatusConst;
 import com.meiduimall.service.account.constant.ApplicationConstant;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSAccount;
@@ -152,7 +154,7 @@ public class AccountServicesImpl implements AccountServices {
 		paramsMap.put("accountType", ApplicationConstant.ACCOUNT_TYPE_MONEY);
 		paramsMap.put("freezeBalance", String.valueOf(freezeBalance));
 		try {
-			Integer updateFlag = baseDao.update(paramsMap, "MSAccountMapper.updateAccountFreezeBalance");
+			Integer updateFlag = baseDao.update(paramsMap, "MSAccountMapper.updateFreezeBalanceByMemIdAndType");
 			if(updateFlag <= 0){
 				return false;
 			}
@@ -284,7 +286,7 @@ public class AccountServicesImpl implements AccountServices {
 		paramsMap.put("memId", memId);
 		paramsMap.put("accountType", ApplicationConstant.ACCOUNT_TYPE_MONEY);
 		try {
-			Object resultObj = baseDao.selectOne(paramsMap, "MSAccountMapper.getAccount");
+			Object resultObj = baseDao.selectOne(paramsMap, "MSAccountMapper.getAccountByMemId");
 			if(resultObj == null){
 				return null;
 			}
@@ -419,7 +421,7 @@ public class AccountServicesImpl implements AccountServices {
 	}
 
 	@Override
-	public Double cutConsumeFreezeMoney(String memId, String tradeAmount) {
+	public Double cutConsumeFreezeMoney(String memId, String tradeAmount) throws MdBizException{
 		Double returnBalance = Double.valueOf("-1");
 		MSAccount account = getAccountMoney(memId);
 		if(account != null){
@@ -510,7 +512,7 @@ public class AccountServicesImpl implements AccountServices {
 
 	@Override
 	public boolean cutConsumeMoneyAndDetail(String memId, String orderId,
-			String tradeType, Date tradeDate, String tradeAmount, String remark) {
+			String tradeType, Date tradeDate, String tradeAmount, String remark) throws MdBizException{
 		boolean returnBool = false;
 		Double balance = this.cutConsumeMoney(memId,tradeAmount);
 		if(balance >= 0){
@@ -521,7 +523,7 @@ public class AccountServicesImpl implements AccountServices {
 					tradeDate, String.valueOf(balance), remark);
 			returnBool = true;
 		}else{
-			throw new RuntimeException("余额变动失败");
+			throw new MdBizException(ApiStatusConst.FROZEN_BALANCE_FAILED_ERROR);
 		}
 		return returnBool;
 	}
@@ -546,7 +548,7 @@ public class AccountServicesImpl implements AccountServices {
 
 	@Override
 	public boolean cutConsumeFreezeMoneyAndDetail(String memId, String orderId,
-			String tradeType, Date tradeDate, String tradeAmount, String remark) {
+			String tradeType, Date tradeDate, String tradeAmount, String remark) throws MdBizException{
 		boolean returnBool = false;
 		Double balance = this.cutConsumeFreezeMoney(memId,tradeAmount);
 		if(balance >= 0){
@@ -557,7 +559,7 @@ public class AccountServicesImpl implements AccountServices {
 					tradeDate, String.valueOf(balance), remark);
 			returnBool = true;
 		}else{
-			throw new RuntimeException("冻结余额变动失败");
+			throw new MdBizException(ApiStatusConst.FROZEN_BALANCE_FAILED_ERROR);
 		}
 		return returnBool;
 	}
