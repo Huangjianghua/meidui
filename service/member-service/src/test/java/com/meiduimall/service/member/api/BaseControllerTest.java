@@ -23,8 +23,8 @@ public class BaseControllerTest {
 	
 	protected MockMvc mockMvc;
 	
-	protected final static String memId="72063681-7408-435c-88fd-cd837c95c66e";
-	protected final static String phone="18898447755";
+	protected final static String memId="81405e44-2178-44d7-822f-dec561022888";
+	protected final static String phone="13049847742";
 	protected final static String payPwd="123456";
 	protected  String token=null;
 	
