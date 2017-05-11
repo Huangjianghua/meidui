@@ -323,7 +323,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 		/**登录名没传就分配默认的*/
 		if(StringUtils.isEmpty(model.getLogin_name())){
 			open_default_login_name=true;
-			model.setLogin_name(SysParamsConst.DEFAULT_LOGIN_NAME_PREFIX+model.getPhone());
+			model.setLogin_name(SysParamsConst.DEFAULT_LOGIN_NAME_PREFIX+model.getPhone()+String.valueOf(Constants.CONSTANT_INT_ZERO));
 		}
 		/**校验推荐人,没传就分配默认的*/
 		if(!StringUtils.isEmpty(model.getShare_man())){
@@ -445,7 +445,8 @@ public class BasicOpServiceImpl implements BasicOpService {
 		String memid=UUID.randomUUID().toString();
 		memberSet.setMemId(memid);
 		memberSet.setMemCreatedBy(memid);
-		memberSet.setMemLoginName(SysParamsConst.DEFAULT_LOGIN_NAME_PREFIX+model.getPhone());
+		
+		memberSet.setMemLoginName(SysParamsConst.DEFAULT_LOGIN_NAME_PREFIX+model.getPhone()+String.valueOf(Constants.CONSTANT_INT_ZERO));
 		memberSet.setMemLoginNameIsdefaultIschanged(open_default_login_name?"0_1":"1_0");
 		memberSet.setMemOldPhone(model.getPhone());
 		memberSet.setMemPhone(model.getPhone());
@@ -533,7 +534,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 		String memid=UUID.randomUUID().toString();
 		memberSet.setMemId(memid);
 		memberSet.setMemCreatedBy(memid);
-		memberSet.setMemLoginName(SysParamsConst.DEFAULT_LOGIN_NAME_PREFIX+model.getPhone());
+		memberSet.setMemLoginName(SysParamsConst.DEFAULT_LOGIN_NAME_PREFIX+model.getPhone()+String.valueOf(Constants.CONSTANT_INT_ZERO));
 		memberSet.setMemLoginNameIsdefaultIschanged(open_default_login_name?"0_1":"1_0");
 		memberSet.setMemOldPhone(model.getPhone());
 		memberSet.setMemPhone(model.getPhone());
