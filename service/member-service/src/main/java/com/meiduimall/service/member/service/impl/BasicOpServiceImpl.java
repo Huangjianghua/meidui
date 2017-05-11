@@ -308,7 +308,8 @@ public class BasicOpServiceImpl implements BasicOpService {
 			msMembersSet.setMemLockCount(String.valueOf(newLoginLockCount));
 			msMembersSet.setMemLockCountPlained(String.valueOf(newLoginLockCountPlained));
 			baseDao.update(msMembersSet,"MSMembersMapper.updateMemberBasicInfoByCondition");
-			throw new ServiceException(ApiStatusConst.PASSWORD_ERROR);
+			resBodyData.setStatus(ApiStatusConst.PASSWORD_ERROR);
+			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.PASSWORD_ERROR));
 		}
 		return resBodyData;
 	}

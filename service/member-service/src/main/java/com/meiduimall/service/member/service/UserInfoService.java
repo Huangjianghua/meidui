@@ -4,6 +4,7 @@ package com.meiduimall.service.member.service;
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdSysException;
+import com.meiduimall.service.member.model.MSMembersSet;
 
 /**
  * 会员信息操作接口

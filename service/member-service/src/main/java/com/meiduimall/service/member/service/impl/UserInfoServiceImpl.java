@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.meiduimall.exception.MdSysException;
-import com.meiduimall.exception.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +15,8 @@ import org.springframework.util.StringUtils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.MdSysException;
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.redis.util.RedisTemplate;
 import com.meiduimall.service.member.config.ServiceUrlProfileConfig;
 import com.meiduimall.service.member.constant.ApiStatusConst;
@@ -102,6 +102,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 		return resBodyData;
 	}
 	
+
 	@Override
 	public void updateCurrentPointByMemId(String memId,String currentPoint,String addPoint) throws MdSysException {
 		double finalPoint = DoubleCalculate.add(Double.valueOf(currentPoint),Double.valueOf(addPoint));
