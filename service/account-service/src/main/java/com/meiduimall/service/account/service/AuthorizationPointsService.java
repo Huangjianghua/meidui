@@ -17,7 +17,6 @@ public interface AuthorizationPointsService
 	 * 描述:   获取会员积分明细,需要token校验<br>
 	 * 创建时间: 2016-12-2
 	 * @param jsonobj
-	 * @param isSign
 	 * @param request
 	 * @param response
 	 * @return

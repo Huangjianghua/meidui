@@ -1,12 +1,9 @@
 package com.meiduimall.service.account.constant;
-
-
 /**
- * @Copyright (C), 2002-2017, 美兑壹购物
- * @FileName: MemSignSourceEnum.java
- * @Author:   jianhua.huang 
- * @Date:     2017年4月19日 上午9:32:05
- * @Description:调整类型枚举
+ * 
+ * @author:   jianhua.huang 
+ * @version:  2017年5月5日 下午5:36:34 0.1 
+ * Description:调整类型枚举
  */
 public enum AccountReviseTypeEnum {
 	/**1表示调增  **/

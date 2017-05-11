@@ -41,7 +41,7 @@ public class SpringBootVFS extends VFS {
 		
 		logger.info("SpringBootVFS list():url:" + url + " path:" + path);	
 		Resource[] resources = resourceResolver.getResources("classpath*:" + path + "/**/*.class");
-		List<String> resourcePaths = new ArrayList<String>();
+		List<String> resourcePaths = new ArrayList<>();
 		for (Resource resource : resources) {
 			resourcePaths.add(preserveSubpackageName(resource.getURI(), path));
 		}

@@ -9,7 +9,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 
-import com.meiduimall.application.mall.exception.MallApiCode;
+import com.meiduimall.application.mall.constant.MallApiCode;
 import com.meiduimall.exception.ServiceException;
 
 import sun.misc.BASE64Decoder;
@@ -18,7 +18,9 @@ import sun.misc.BASE64Encoder;
 @SuppressWarnings("restriction")
 public class Des {
 
-	private final static String DES = "DES";
+
+
+	private static final String DES = "DES";
 
 	
 

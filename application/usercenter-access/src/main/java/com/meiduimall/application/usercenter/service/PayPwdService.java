@@ -13,11 +13,6 @@ public interface PayPwdService {
 	ResBodyData validePaypwd(JSONObject reqJson);
 	ResBodyData setPaypwd(JSONObject reqJson);
 	ResBodyData setPaypwdStatus(JSONObject reqJson);
-	
-	/**
-	 * 更新支付密码
-	 * @param reqJson
-	 * @return
-	 */
 	ResBodyData updatePaypwd(JSONObject reqJson);
+	ResBodyData retrievePaypwd(JSONObject reqJson);
 }

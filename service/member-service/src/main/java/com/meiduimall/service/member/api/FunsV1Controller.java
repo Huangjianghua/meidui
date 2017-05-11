@@ -33,8 +33,10 @@ public class FunsV1Controller {
 	
 	/**
 	 * 粉丝明细接口 http://IP:PORT/ AuthorizationMembers/fansDetailList
-	 * @param request
-	 * @param response
+	 * @param memId
+	 * @param levelNum
+	 * @param limit
+	 * @param pageNo
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/funs_detail_list",method=RequestMethod.GET)
@@ -58,8 +60,8 @@ public class FunsV1Controller {
 	
 	/**
 	 * 粉丝数量接口 http://IP:PORT/AuthorizationMembers/funscountbylevel
-	 * @param request
-	 * @param response
+	 * @param memId
+	 * 
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/funs_count_group_level",method=RequestMethod.GET)

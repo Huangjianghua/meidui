@@ -15,4 +15,18 @@
 	AND a.type=#{type}
 	</select>
 	
+	<!-- 更新账号信息 -->
+  <update id="updateAccountById"  parameterType="java.util.Map" >
+    update ms_members
+    <set>
+    	<if test="status != null and status !=''" >
+        	mem_ban_date=now(), dict_mem_status = #{status},
+      	</if>
+      	<if test="pwd != null and pwd !=''" >
+        	mem_login_pwd=#{pwd},
+      	</if>
+    </set>
+    where mem_id=#{memId}
+  </update>
+	
 </mapper>

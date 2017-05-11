@@ -12,6 +12,8 @@ package com.meiduimall.application.mall.constant;
  * -------------------------
  */
 public class OauthConst {
+	
+
 	/** 请求有效时间(5分钟) */
 	public static final Long REQUEST_EFFECTIVE_TIME = 5 * 60 * 1000L;
 	
@@ -31,7 +33,7 @@ public class OauthConst {
 	/** token字符串 */
 	public static final String TOKEN = "token";
 	
-	/** &符号 */
+	/** 符号 */
 	public static final String CONNECTION_SYMBOL = "&";
 	
 	/** =符号 */
@@ -40,7 +42,7 @@ public class OauthConst {
 	/** ? 符号 */
 	public static final String QUESTION_SYMBOL = "?";
 	
-	/** &&& 符号 */
+	/**  符号 */
 	public static final String AND_SYMBOL = "&&&";
 	
 	/** token通过标志 */

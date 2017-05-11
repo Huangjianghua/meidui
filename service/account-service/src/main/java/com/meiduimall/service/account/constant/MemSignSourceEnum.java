@@ -1,24 +1,34 @@
 package com.meiduimall.service.account.constant;
 
-
 /**
- * @Copyright (C), 2002-2017, 美兑壹购物
- * @FileName: MemSignSourceEnum.java
- * @Author:   jianhua.huang 
- * @Date:     2017年4月19日 上午9:32:05
- * @Description:会员注册来源枚举
+ * 
+ * @author:   jianhua.huang 
+ * @version:  2017年5月5日 下午5:40:30 0.1 
+ * Description:会员注册来源枚举
  */
 public enum MemSignSourceEnum {
-	/**0表示PC端注册  **/
-	PC_REG(0, "PC端"),
-	/**1表示o2o注册  **/
-	O2O_REG(1, "O2O"),
-	/**2表示会员结算系统数据迁移注册  **/
-	MEM_SETTLEMENT_MOVE_REG(2, "结算系统迁移"),
-	/**3表示壹购物注册  **/
-	ONEGW_REG(3, "壹购物注册"),
-	/**4表示壹购物商城迁移 **/
-	ONEGW_MOVE_REG(4, "壹购物商城迁移");
+	/**原生APP注册  **/
+	APP_REG(1, "原生APP"),
+	/**H5页面注册  **/
+	H5_REG(2, "H5页面"),
+	/**PC商城注册  **/
+	PC_REG(3, "PC商城"),
+	/**全民推广扫码注册  **/
+	PEOPLE_GUESS_REG(4, "全民推广扫码"),
+	/**全民推广分享注册 **/
+	PEOPLE_SEPARATION_REG(5, "全民推广分享"),
+	/**商家支付注册 **/
+	MERCHANT_PAY_REG(6, "商家支付"),
+	/**商家推广扫码注册 **/
+	MERCHANT_GUESS_REG(7, "商家推广扫码"),
+	/**代理系统注册 **/
+	PROXY_SYSTEM_REG(8, "代理系统"),
+	/**凯富会员注册 **/
+	KAI_FU_MEMBER_REG(9, "凯富会员"),
+	/**美兑会注册 **/
+	MEIDUI_MEMBER_REG(10, "美兑会员"),
+	/**其他注册 **/
+	OTHER_REG(11, "其他");
 
 	private Integer code;
 	

@@ -2,7 +2,8 @@ package com.meiduimall.service.account.service;
 
 import java.util.Map;
 
-import com.meiduimall.service.account.model.ResBodyData;
+import com.meiduimall.core.ResBodyData;
+
 
 /**
  * 余额相关操作

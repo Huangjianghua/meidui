@@ -42,4 +42,19 @@ public class MoneyV1Controller {
 		logger.info("余额流水分页API请求结果：{}",resBodyData.toString());
 		return resBodyData;
 	}
+	
+	/**提现申请*/
+	@HasToken
+	@RequestMapping(value="/save_withdraw")
+	ResBodyData saveWithDrawApply(){
+		ResBodyData resBodyData=null;
+		JSONObject reqJson=ValRequest.apiReqData.get();
+		resBodyData=ValInterceptor.apiValResult.get();
+		if(resBodyData.getStatus()!=0)
+			return resBodyData;
+		logger.info("收到提现申请API请求：{}",reqJson.toString());
+		resBodyData=moneyService.saveWithDrawApply(reqJson);
+		logger.info("提现申请返回结果：{}",resBodyData.toString());
+		return resBodyData;
+	}
 }

@@ -202,7 +202,7 @@ public class RequestURL {
 	/**
 	 * @param url
 	 *            String 远程地址
-	 * @param param
+	 * @param jsonParams
 	 *            jsonParams 字符串的json格式参数
 	 * @return String
 	 * */

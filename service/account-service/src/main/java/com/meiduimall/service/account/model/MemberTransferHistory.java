@@ -85,8 +85,7 @@ public class MemberTransferHistory implements Serializable {
 	/************add by lftan 调账管理导出辅助字段:begin************/
 	private String memName;
 	private String loginName;
-	/************add by lftan 调账管理导出辅助字段:end
-	 * @throws MdSysException ************/
+	/************add by lftan 调账管理导出辅助字段:end  *************/
 	
 	public String getMthAccount() throws MdSysException {
 		return DESC.deyption(this.mthAccount);

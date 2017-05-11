@@ -2,6 +2,7 @@ package com.meiduimall.service.account.service;
 
 import java.util.Date;
 
+import com.meiduimall.exception.MdBizException;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.model.MSAccount;
 
@@ -43,7 +44,7 @@ public interface AccountServices {
 	 * 方法名: addMDConsumePoints<br>
 	 * 描述:  增加美兑积分<br>
 	 * 创建时间: 2016-10-31
-	 * @param member
+	 * @param memId
 	 * @param consumePoints
 	 * @param isLock
 	 * @return
@@ -55,7 +56,7 @@ public interface AccountServices {
 	 * 方法名: cutMDConsumePoints<br>
 	 * 描述:  扣除美兑积分<br>
 	 * 创建时间: 2016-10-31
-	 * @param member
+	 * @param memId
 	 * @param consumePoints
 	 * @param isLock
 	 * @return
@@ -67,7 +68,7 @@ public interface AccountServices {
 	 * 方法名: addMDConsumePointsAndDetail<br>
 	 * 描述:  增加美兑积分并写入日志<br>
 	 * 创建时间: 2016-11-18
-	 * @param member
+	 * @param memId
 	 * @param consumePoints
 	 * @param orderId
 	 * @param orderSource
@@ -85,7 +86,7 @@ public interface AccountServices {
 	 * 方法名: cutMDConsumePointsAndDetail<br>
 	 * 描述:  扣除美兑积分并写入日志<br>
 	 * 创建时间: 2016-11-18
-	 * @param member
+	 * @param memId
 	 * @param consumePoints
 	 * @param orderId
 	 * @param orderSource
@@ -134,7 +135,6 @@ public interface AccountServices {
 	 * 描述: 获取会员余额账户信息 <br>
 	 * 创建时间: 2016-12-28
 	 * @param memId
-	 * @param accountType
 	 * @return
 	 */
 	public MSAccount getAccountMoney(String memId);
@@ -256,7 +256,7 @@ public interface AccountServices {
 	 * @return
 	 */
 	public boolean cutConsumeMoneyAndDetail(String memId, String orderId,
-			String tradeType, Date tradeDate, String tradeAmount, String remark);
+			String tradeType, Date tradeDate, String tradeAmount, String remark) throws MdBizException;
 	
 	/**
 	 * 方法名: addConsumeFreezeMoneyAndDetail<br>
@@ -286,7 +286,7 @@ public interface AccountServices {
 	 * @return
 	 */
 	public boolean cutConsumeFreezeMoneyAndDetail(String memId, String orderId,
-			String tradeType, Date tradeDate, String tradeAmount, String remark);
+			String tradeType, Date tradeDate, String tradeAmount, String remark) throws MdBizException;
 	
 	/**
 	 * 根据用户标识查询memid

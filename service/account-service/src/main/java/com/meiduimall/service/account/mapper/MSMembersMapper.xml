@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MSMembersMapper">
+	
+	<!-- 根据会员id获取会员信息 -->
+	<select id="getMemberInfo" parameterType="java.lang.String" resultType="com.meiduimall.service.account.model.MSMembers">
+		SELECT * FROM v_ms_members WHERE memId = #{memId}
+	</select>
+
+</mapper>

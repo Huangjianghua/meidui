@@ -53,7 +53,7 @@ public class AliyunServiceImpl implements AliyunService {
 		if (rsp != null) {
 			String resultBody = rsp.getBody();
 			logger.error("短信发送，阿里云平台返回: " + resultBody);
-			if (resultBody.indexOf("\"success\":true") != -1) {
+			if (!StringUtils.isEmpty(resultBody) && resultBody.indexOf("\"success\":true") != -1) {
 				return true;
 			} else if (resultBody.indexOf("isv.BUSINESS_LIMIT_CONTROL") != -1) {
 				// 短信验证码，使用同一个签名，对同一个手机号码发送短信验证码，允许每分钟1条，累计每小时7条。

@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.meiduimall.exception.MdBizException;
+import com.meiduimall.service.account.constant.ApiStatusConst;
 import com.meiduimall.service.account.constant.ApplicationConstant;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.service.AccountFreezeDetailService;
@@ -37,7 +39,7 @@ public class AccountFreezeDetailServiceImpl implements AccountFreezeDetailServic
 	public void saveAccountFreezeDetail(String memId, String orderId,
 			String accountId, String accountType, String tradeType,
 			String tradeAmount, Date tradeDate, String freezeBalance,
-			String remark) {
+			String remark) throws MdBizException{
 		Map<String,String> paramsMap = new HashMap<String,String>();
 		paramsMap.put("id", UUID.randomUUID().toString());
 		paramsMap.put("memId", memId);
@@ -50,12 +52,11 @@ public class AccountFreezeDetailServiceImpl implements AccountFreezeDetailServic
 		paramsMap.put("remark", remark);
 		paramsMap.put("inOrOut", "1");
 		paramsMap.put("tradeDate", DateUtil.format(tradeDate,DateUtil.YYYY_MM_DD_HH_MM_SS));
-		
 		try {
-			baseDao.insert(paramsMap, "MSAccountMapper.insertAccountFreezeDetail");
+			baseDao.insert(paramsMap, "MSAccountFreezeDetailMapper.insertAccountFreezeDetail");
 		} catch (Exception e) {
-			logger.error("写入账户冻结明细出现错误-1001，会员编号：%s，订单编号：%s，错误信息：%s", 
-					memId, orderId, e.getMessage());
+			logger.error("写入账户冻结明细出现错误-1001，会员编号:{}，订单编号:{}，错误信息:{}", memId, orderId, e.getMessage());
+			throw new MdBizException(ApiStatusConst.INSERT_MEMBER_FREEZE_DETAIL_ERROR);
 		}
 	}
 
@@ -78,7 +79,7 @@ public class AccountFreezeDetailServiceImpl implements AccountFreezeDetailServic
 		paramsMap.put("tradeDate", DateUtil.format(tradeDate,DateUtil.YYYY_MM_DD_HH_MM_SS));
 		
 		try {
-			baseDao.insert(paramsMap, "MSAccountMapper.insertAccountFreezeDetail");
+			baseDao.insert(paramsMap, "MSAccountFreezeDetailMapper.insertAccountFreezeDetail");
 		} catch (Exception e) {
 			logger.error("写入账户冻结明细出现错误-1002，会员编号：%s，订单编号：%s，错误信息：%s", 
 					memId, orderId, e.getMessage());

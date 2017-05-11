@@ -14,31 +14,30 @@ public class RequestUpdatePaypwd extends RequestBaseModel implements Serializabl
 	private static final long serialVersionUID = 1L;
 	
 	@NotEmpty(message="旧密码不能为空")
-	private String old_paypwd;
+	private String old_pay_pwd;
 	
 	@NotEmpty(message="新密码不能为空")
-	private String new_paypwd;
+	private String new_pay_pwd;
 
-	public String getOld_paypwd() {
-		return old_paypwd;
+	public String getOld_pay_pwd() {
+		return old_pay_pwd;
 	}
 
-	public void setOld_paypwd(String old_paypwd) {
-		this.old_paypwd = old_paypwd;
+	public void setOld_pay_pwd(String old_pay_pwd) {
+		this.old_pay_pwd = old_pay_pwd;
 	}
 
-	public String getNew_paypwd() {
-		return new_paypwd;
+	public String getNew_pay_pwd() {
+		return new_pay_pwd;
 	}
 
-	public void setNew_paypwd(String new_paypwd) {
-		this.new_paypwd = new_paypwd;
+	public void setNew_pay_pwd(String new_pay_pwd) {
+		this.new_pay_pwd = new_pay_pwd;
 	}
 
 	@Override
 	public String toString() {
-		return "RequestUpdatePaypwd [memId="+getMemId()+",old_paypwd=" + old_paypwd + ", new_paypwd=" + new_paypwd + "]";
+		return "RequestUpdatePaypwd [old_pay_pwd=" + old_pay_pwd + ", new_pay_pwd=" + new_pay_pwd + "memId"+getMemId()+"]";
 	}
-	
 	
 }

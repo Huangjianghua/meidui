@@ -22,6 +22,16 @@ public class RequestLogin  implements Serializable {
 	private String password;
 	
 	private String ip;
+	
+	private String tokenKey;
+
+	public String getTokenKey() {
+		return tokenKey;
+	}
+
+	public void setTokenKey(String tokenKey) {
+		this.tokenKey = tokenKey;
+	}
 
 	public String getIp() {
 		return ip;
@@ -49,7 +59,8 @@ public class RequestLogin  implements Serializable {
 
 	@Override
 	public String toString() {
-		return "RequestLogin [user_name=" + user_name + ", password=" + password + "]";
+		return "RequestLogin [user_name=" + user_name + ", password=" + password + ", ip=" + ip + ", tokenKey="
+				+ tokenKey + "]";
 	}
 	
 }

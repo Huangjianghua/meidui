@@ -24,15 +24,16 @@ public class ToolsUtil {
 	
 	/**
 	 * 创建登录令牌
-	 * @param userId
-	 * @return
+	 * @param userId 会员用户名
+	 * @param tokenKey 请求头的终端ID或者UA参数
+	 * @return token
 	 * @throws MdSysException
 	 */
-	public final static String createToken(String userId) throws MdSysException {
+	public final static String createToken(String userId,String tokenKey) throws MdSysException {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append(userId);
 		buffer.append(SysParamsConst.CONNECTION);
-		buffer.append(System.currentTimeMillis());
+		buffer.append(tokenKey);
 		return MD5Util.MD5EncryptBy32(buffer.toString());
 	}
 
@@ -66,7 +67,6 @@ public class ToolsUtil {
 	 * 计算现在距离第二天的时间差
 	 * @return 秒数
 	 * @throws MdSysException
-	 * @throws ParseException 
 	 */
 	public final static int getNowToTomorrowTimeSub() throws MdSysException {
 		SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
