@@ -12,7 +12,7 @@ public interface UserInfoService {
 
 	/**
 	 * 根据memdId查询会员基本信息
-	 * @param 请求的数据
+	 * @param reqJson 请求的数据
 	 * @return 统一数据返回格式
 	 */
 	 ResBodyData getmemberbasicinfo(JSONObject reqJson);
