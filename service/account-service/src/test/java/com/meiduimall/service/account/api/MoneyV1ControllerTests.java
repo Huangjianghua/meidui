@@ -69,7 +69,7 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 	@Test
 	public void queryAccountListTest() throws Exception {
 		 String url = "/member/account_service/v1/list_account";
-		 String json = "{\"memPhone\":\"13418786965\",\"flg\":\"1\"}";
+		 String json = "{\"memParentIdPhone\":\"13418786965\",\"flg\":\"1\"}";
 		 
 		 resultSystemOutPut(url,json);
 	}
@@ -172,24 +172,7 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 		 resultSystemOutPut(url,json);
 	}
 	
-	/**
-	 * 审核驳回
-	 * @Description: 
-	 * @Author: jianhua.huang
-	 * @Date:   2017年4月21日 上午10:17:47
-	 */
-	@Test
-	public void examineMSAccountReviseDetailTest() throws Exception {
-		 String url = "/member/account_service/v1/examine_account_revision_detail";
-		 AddOrUpdateAccountReviseDetail detail=new AddOrUpdateAccountReviseDetail();
-		 detail.setId("f320c1aa-bce2-4cd2-9c3a-1e605761d2");
-		 detail.setReviseRemark("财务调整");
-		 detail.setOperate("reject");//驳回
-		 String json=JsonUtils.beanToJson(detail);
-		 
-		 resultSystemOutPut(url,json);
-	}
-	
+
 	/**
 	 * @Description: 修改提现记录 测试
 	 * @Author: jianhua.huang
@@ -236,7 +219,7 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 	public void rejectWithDrawTest()throws Exception{
 		 String url = "/member/account_service/v1/reject_withdraw";
 		 MSBankWithdrawDeposit deposit=new MSBankWithdrawDeposit();
-		 deposit.setId("d52e04eb-815c-443c-832d-5b4380b833d8");
+		 deposit.setId("354b255e-7dde-42fc-8535-9438524a4536");
 		 deposit.setOperate("customer");
 		 deposit.setRemark("客服驳回操作");
 		 String object=JsonUtils.beanToJson(deposit);
