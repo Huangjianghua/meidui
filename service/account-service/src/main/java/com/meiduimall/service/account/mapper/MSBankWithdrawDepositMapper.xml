@@ -169,6 +169,9 @@
 	      <if test="auditBy != null and auditBy !=''" >
 	        audit_by = #{auditBy},
 	      </if>
+	       <if test="remark != null and remark !=''" >
+	        remark = #{remark},
+	      </if>
       </set>
        <where>
 	      <if test="id !=null and id !=''">
