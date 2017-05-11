@@ -4,6 +4,7 @@ package com.meiduimall.service.member.service;
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdSysException;
+import com.meiduimall.service.member.model.MSMembersSet;
 
 /**
  * 会员信息操作接口
@@ -11,13 +12,6 @@ import com.meiduimall.exception.MdSysException;
  *
  */
 public interface UserInfoService {
-	
-	/**
-	 * 校验userId是否存在
-	 * @param userId
-	 * @return 存在:true,不存在:false
-	 */
-	boolean checkUserIdExists(String userId);
 
 	/**
 	 * 根据memId获取会员基本信息

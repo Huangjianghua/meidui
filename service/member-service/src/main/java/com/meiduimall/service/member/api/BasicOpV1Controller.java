@@ -147,7 +147,7 @@ public class BasicOpV1Controller {
 	}
 	
 	
-	/**common user */
+	/**普通会员注册*/
 	@PostMapping(value = "/register")
 	ResBodyData register(@RequestBody @Valid RequestRegister model){
 		String tokenKey=request.getHeader(SysParamsConst.TERMINAL_ID);

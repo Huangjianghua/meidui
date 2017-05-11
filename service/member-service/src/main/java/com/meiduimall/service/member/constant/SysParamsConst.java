@@ -66,7 +66,7 @@ public class SysParamsConst {
 	
 	
 	/** 默认分享人名称 */
-	public static final String MD1GW_DEFAULT_SHARE_LOGIN_NAME = "meidu";
+	public static final String MD1GW_DEFAULT_SHARE_LOGIN_NAME = "meidui";
 	
 	/** 新用户注册增加积分 */
 	public static final String MD1GW_REGISTER_ADD_POINTS = "100";
@@ -88,7 +88,7 @@ public class SysParamsConst {
 	public static final String USER_AGENT="User-Agent";
 	
 	/**默认登录名前缀*/
-	public static final String DEFAULT_LOGIN_NAME_PREFIX="M_";
+	public static final String DEFAULT_LOGIN_NAME_PREFIX="1gw_";
 	
 	/**订单号前缀*/
 	public static final String DEFAULT_ORDERID_PREFIX="1GW+";

@@ -308,7 +308,8 @@ public class BasicOpServiceImpl implements BasicOpService {
 			msMembersSet.setMemLockCount(String.valueOf(newLoginLockCount));
 			msMembersSet.setMemLockCountPlained(String.valueOf(newLoginLockCountPlained));
 			baseDao.update(msMembersSet,"MSMembersMapper.updateMemberBasicInfoByCondition");
-			throw new ServiceException(ApiStatusConst.PASSWORD_ERROR);
+			resBodyData.setStatus(ApiStatusConst.PASSWORD_ERROR);
+			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.PASSWORD_ERROR));
 		}
 		return resBodyData;
 	}
@@ -323,7 +324,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 		/**登录名没传就分配默认的*/
 		if(StringUtils.isEmpty(model.getLogin_name())){
 			open_default_login_name=true;
-			model.setLogin_name(SysParamsConst.DEFAULT_LOGIN_NAME_PREFIX+model.getPhone());
+			model.setLogin_name(SysParamsConst.DEFAULT_LOGIN_NAME_PREFIX+model.getPhone()+String.valueOf(Constants.CONSTANT_INT_ZERO));
 		}
 		/**校验推荐人,没传就分配默认的*/
 		if(!StringUtils.isEmpty(model.getShare_man())){
@@ -445,7 +446,8 @@ public class BasicOpServiceImpl implements BasicOpService {
 		String memid=UUID.randomUUID().toString();
 		memberSet.setMemId(memid);
 		memberSet.setMemCreatedBy(memid);
-		memberSet.setMemLoginName(SysParamsConst.DEFAULT_LOGIN_NAME_PREFIX+model.getPhone());
+		
+		memberSet.setMemLoginName(SysParamsConst.DEFAULT_LOGIN_NAME_PREFIX+model.getPhone()+String.valueOf(Constants.CONSTANT_INT_ZERO));
 		memberSet.setMemLoginNameIsdefaultIschanged(open_default_login_name?"0_1":"1_0");
 		memberSet.setMemOldPhone(model.getPhone());
 		memberSet.setMemPhone(model.getPhone());
@@ -512,7 +514,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 		String tokenKey=model.getTokenKey();
 		/**校验推荐人,没传就分配默认的*/
 		if(!StringUtils.isEmpty(model.getShare_man())){
-			if(model.getLogin_name().equals(model.getShare_man())||model.getPhone().equals(model.getShare_man())){
+			if(model.getPhone().equals(model.getShare_man())){
 				throw new ServiceException(ApiStatusConst.SHARE_MAN_CANNOT_IS_ITSELF);
 			}
 		}
@@ -533,7 +535,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 		String memid=UUID.randomUUID().toString();
 		memberSet.setMemId(memid);
 		memberSet.setMemCreatedBy(memid);
-		memberSet.setMemLoginName(SysParamsConst.DEFAULT_LOGIN_NAME_PREFIX+model.getPhone());
+		memberSet.setMemLoginName(SysParamsConst.DEFAULT_LOGIN_NAME_PREFIX+model.getPhone()+String.valueOf(Constants.CONSTANT_INT_ZERO));
 		memberSet.setMemLoginNameIsdefaultIschanged(open_default_login_name?"0_1":"1_0");
 		memberSet.setMemOldPhone(model.getPhone());
 		memberSet.setMemPhone(model.getPhone());
