@@ -68,7 +68,7 @@ public abstract class ApiStatusConst extends BaseApiCode {
 			zhMsgMap.put(SET_PAYPWD_EXCEPTION, "设置支付密码程序异常");
 			zhMsgMap.put(SET_PAYPWD_STATUS_EXCEPTION, "设置支付密码开关程序异常");
 			zhMsgMap.put(VALIDATE_PAYPWD_EXCEPTION, "验证支付密码程序异常");
-			zhMsgMap.put(UPDATE_PAYPWD_EXCEPTION, "更新支付密码失败，请联系客服");
+			zhMsgMap.put(UPDATE_PAYPWD_EXCEPTION, "修改支付密码失败，请联系客服");
 			zhMsgMap.put(RETRIEVE_PAYPWD_EXCEPTION, "找回支付密码失败，请联系客服");
 			zhMsgMap.put(OLD_PAYPWD_NOT_RIGHT, "旧支付密码验证不通过，请联系客服");
 			

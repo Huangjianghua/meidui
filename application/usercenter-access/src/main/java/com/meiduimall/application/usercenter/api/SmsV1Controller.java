@@ -39,11 +39,11 @@ public class SmsV1Controller {
 		resBodyData=ValInterceptor.apiValResult.get();
 		if(resBodyData.getStatus()!=0)
 			return resBodyData;
-		logger.info("获取短信验证码API请求：{}",reqJson.toString());
+		logger.info("收到获取短信验证码API请求：{}",reqJson.toString());
 		try {
 			resBodyData=smsService.getValidatCode(reqJson);
 		} catch (ServiceException e) {
-			logger.error("获取短信验证码处理异常：{}",e.toString());
+			logger.error("获取短信验证码API处理异常：{}",e.toString());
 			throw new ApiException(ApiStatusConst.GET_VALIDATE_CODE_EXCEPTION);
 		}
 		logger.info("获取短信验证码API请求结果：{}",resBodyData.toString());
