@@ -514,7 +514,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 		String tokenKey=model.getTokenKey();
 		/**校验推荐人,没传就分配默认的*/
 		if(!StringUtils.isEmpty(model.getShare_man())){
-			if(model.getLogin_name().equals(model.getShare_man())||model.getPhone().equals(model.getShare_man())){
+			if(model.getPhone().equals(model.getShare_man())){
 				throw new ServiceException(ApiStatusConst.SHARE_MAN_CANNOT_IS_ITSELF);
 			}
 		}
