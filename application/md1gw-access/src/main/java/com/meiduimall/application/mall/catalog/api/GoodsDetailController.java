@@ -14,7 +14,7 @@ import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
 
 /**
- * 商品详情相关类
+ * 商品详情接口
  * 
  * @author yangchangfu
  */

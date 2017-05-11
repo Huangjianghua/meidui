@@ -50,6 +50,9 @@ public class ServiceCatalogApiCode extends BaseApiCode {
 	/** 没有这个商品 */
 	public static final Integer NO_THIS_PRODUCT = 7030;
 
+	/** 没有优惠券规则 */
+	public static final Integer NO_COUPON_RULE = 7031;
+
 	/** 反序列化数据异常 */
 	public static final Integer SERIALIZER_EXCEPTION = 7501;
 
@@ -79,6 +82,7 @@ public class ServiceCatalogApiCode extends BaseApiCode {
 		zhMsgMap.put(SKU_DATA_EXCEPTION, "商品SKU数据异常");
 		zhMsgMap.put(NO_THIS_SHOP, "没有这个店铺");
 		zhMsgMap.put(NO_THIS_PRODUCT, "没有这个商品");
+		zhMsgMap.put(NO_COUPON_RULE, "没有优惠券规则");
 		zhMsgMap.put(SERIALIZER_EXCEPTION, "反序列化数据异常");
 		zhMsgMap.put(OUT_PUT_EXCEPTION, "输出异常");
 		zhMsgMap.put(DB_EXCEPTION, "数据库错误 sql : {}");

@@ -15,8 +15,13 @@
     <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
   
+  <sql id="Base_Column_List" >
+    rule_id, coupon_id, shop_id, minprice, maxprice, limit_money, deduct_money, created_time, 
+    modify_time, status
+  </sql>
+  
   <select id="selectAll" resultMap="BaseResultMap">
-  	select * from syspromotion_sendcouponrule
+  	SELECT * FROM syspromotion_sendcouponrule WHERE status=1 ORDER BY maxprice ASC
   </select>
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
