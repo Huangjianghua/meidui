@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.MdSysException;
@@ -19,6 +20,7 @@ import com.meiduimall.service.member.util.DESC;
  * @author chencong
  *
  */
+@Service
 public class ValidateServiceImpl implements ValidateService {
 	
 	private final static Logger logger=LoggerFactory.getLogger(ValidateServiceImpl.class);

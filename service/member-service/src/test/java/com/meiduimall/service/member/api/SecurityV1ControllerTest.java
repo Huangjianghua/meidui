@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.service.member.model.request.RequestLoginUnlock;
 import com.meiduimall.service.member.model.request.RequestSetPaypwdStatus;
+import com.meiduimall.service.member.util.DESC;
 import com.meiduimall.service.member.util.MD5Util;
 
 /**
@@ -90,8 +91,8 @@ public class SecurityV1ControllerTest extends BaseControllerTest {
 	    public void loginUnlockListTest()throws Exception{
 	    	RequestLoginUnlock loginUnlock=new RequestLoginUnlock();
 	    	loginUnlock.setFlag("1");
-	    	loginUnlock.setMemLoginName("wXyd8CZLYBIU1TE+FgtHrw==");
-	    	loginUnlock.setMemPhone("J08hsqTv6Gd8D60Xh5O4Eg==");
+	    	loginUnlock.setMemLoginName(DESC.encryption(phone));
+	    	loginUnlock.setMemPhone(DESC.encryption(phone));
 	    	securityV1Controller.loginUnlockList(loginUnlock);
 	    }
 	    
