@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 /**
  * 注册请求映射实体
  * @author chencong
- *
+ * 
  */
 public class RequestRegister  implements Serializable {
 
