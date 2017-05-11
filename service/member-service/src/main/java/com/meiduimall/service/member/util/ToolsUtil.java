@@ -67,7 +67,6 @@ public class ToolsUtil {
 	 * 计算现在距离第二天的时间差
 	 * @return 秒数
 	 * @throws MdSysException
-	 * @throws ParseException 
 	 */
 	public final static int getNowToTomorrowTimeSub() throws MdSysException {
 		SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");

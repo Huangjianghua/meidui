@@ -44,7 +44,7 @@ public class MyBatisConfig implements TransactionManagementConfigurer{
 
     /**
      * 可以通过这个类,详细配置mybatis
-     * @return
+     * @return org.apache.ibatis.session.Configuration
      */
     @Bean
     public org.apache.ibatis.session.Configuration mybatisSetting(){
@@ -93,8 +93,8 @@ public class MyBatisConfig implements TransactionManagementConfigurer{
 
     /**
      * 用于实际查询的sql工具,传统dao开发形式可以使用这个,基于mapper代理则不需要注入
-     * @param sqlSessionFactory
-     * @return
+     * @param sqlSessionFactory sqlSessionFactory
+     * @return SqlSessionTemplate
      */
     @Bean(name = "sqlSessionTemplate")
     public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {

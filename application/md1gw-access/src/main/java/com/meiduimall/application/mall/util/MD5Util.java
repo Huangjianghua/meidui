@@ -19,7 +19,6 @@ public class MD5Util {
 	 * @param parameters 包含请求参数的list集合
 	 * @param key 密钥
 	 * @return
-	 * @throws Exception 
 	 */
 	public static String getSign(Collection<? extends Map.Entry<String, String>> parameters,String key,String clientID,String timestamp,int type) 
 	{

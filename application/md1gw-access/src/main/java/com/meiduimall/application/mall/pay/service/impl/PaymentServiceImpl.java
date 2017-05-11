@@ -80,11 +80,8 @@ public class PaymentServiceImpl implements PaymentService {
 	/**
 	 * 【订单支付请求支付网关接口】
 	 * 
-	 * @param paymentTradePay
-	 * @param paymentBill
-	 * @param objPTradeInfo
-	 * @return
-	 * @throws Exception
+	 * @param paymentTrade 
+	 * @param objPTradeInfo 
 	 */
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	@SuppressWarnings({ "static-access" })
@@ -353,8 +350,6 @@ public class PaymentServiceImpl implements PaymentService {
 
 	/**
 	 * 支付完成
-	 * 
-	 * @param paymentBill
 	 * @return
 	 */
 	public ResponseBodyData payFinish(String paymentId) {
@@ -651,7 +646,6 @@ public class PaymentServiceImpl implements PaymentService {
 	/**
 	 * 【会员钱包支付接口】,写入钱包支付记录
 	 * 
-	 * @throws Exception
 	 */
 	public void memberWalletPay(Map<String, Object> paymentBill, JSONObject json) {
 		SysuserWalletPaylog sysuserWalletPaylog = new SysuserWalletPaylog();

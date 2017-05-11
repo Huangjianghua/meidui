@@ -190,7 +190,7 @@ public final class DateUtil {
 	/**
 	 * 在一个已知时间的基础上增加指定的时间
 	 * 
-	 * @param oleDate
+	 * @param oldDate
 	 * @param year
 	 * @param month
 	 * @param date
@@ -616,7 +616,7 @@ public final class DateUtil {
 	}
 
 	/**
-	 * 时间格式转换 <li>yyyy-MM-dd 转 yyyy年MM月dd日</li> <li>yyyy年MM月dd日 转 yyyy-MM-dd</li>
+	 * 
 	 * 
 	 * @param date
 	 *            Old Date
@@ -648,14 +648,11 @@ public final class DateUtil {
 	}
 
 	/**
-	 * 时间格式转换 <li>yyyy/MM/dd, yyyy-MM-dd , yyyy年MM月dd日 转 二00八年一月七日</li> <li>
-	 * 二00八年一月七日 转 2008-01-07</li>
 	 * 
 	 * @param date
 	 *            Old Date String
 	 * @return New Date To String
 	 * @throws Exception
-	 *             <b>Date Format is Error Throws Exception.</b>
 	 */
 	public static String replaceDate(String date) throws Exception {
 		try {
@@ -806,8 +803,8 @@ public final class DateUtil {
 	/**
 	 * 返回两个日期相差的天数
 	 * 
-	 * @param a
-	 * @param b
+	 * @param date1
+	 * @param date2
 	 * @return
 	 */
 	public static final int compareDay(Date date1, Date date2) {
@@ -869,9 +866,9 @@ public final class DateUtil {
 	/**
 	 * 判断两个日期分钟数相差
 	 * 
-	 * @param Date
+	 * @param date
 	 *            date 比对日期
-	 * @param Date
+	 * @param now
 	 *            now 当前时间
 	 * @return long
 	 * */
@@ -1005,8 +1002,7 @@ public final class DateUtil {
 	 * 描述: 获取当前月第一天
 	 * 编写者: lyq 
 	 * 创建时间: 2016年6月3日
-	 * @param 
-	 * @return
+	 * 
 	 */
 	public static String getFirstDateNow(){
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd"); 
@@ -1029,8 +1025,6 @@ public final class DateUtil {
 	 * 描述: 获取当前月最后一天
 	 * 编写者: lyq 
 	 * 创建时间: 2016年6月3日
-	 * @param 
-	 * @return
 	 */
 	public static String getLastDateNow(){
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd"); 

@@ -81,7 +81,6 @@
 
 	<!-- 根据条件查询订单记录 -->
 	<select id="queryListMSAccount" parameterType="com.meiduimall.service.account.model.request.RequestMSAccountList" resultType="com.meiduimall.service.account.model.MSAccountList">
-		SELECT * from (
 			SELECT
 				msm.mem_id AS memId,
 				msm.mem_login_name as memLoginName,/**会员账号*/
@@ -96,9 +95,9 @@
 	  			IFNULL(msm.mem_basic_account_total_quantity,0.0) as mchPointsBalanceCount,/**可用积分=总积分-冻结积分  */
 	  			(select SUM(mcpf_consume_points) from ms_consume_points_freeze_info where mem_id=msm.mem_id) as mchFreezePointsCount /**冻结积分  */
 			FROM
-				ms_members msm,ms_account msa
+				ms_members msm
+			LEFT JOIN ms_account msa on (msa.mem_id=msm.mem_id and msa.type='AT02')/**取类型为现金账号的数据  */
 		<where>
-		    msa.mem_id=msm.mem_id and msa.type='AT02'  /**取类型为现金账号的数据  */
 		    <if test="memId !=null and memId !=''">
 				AND msm.mem_id=#{memId}
 			</if>
@@ -126,11 +125,8 @@
 			<if test="lastLoginTimeEnd !=null and lastLoginTimeEnd !=''">
 				AND msm.mem_last_login_time &lt;= #{lastLoginTimeEnd}
 			</if>
-		 </where>
-		 ) r
-		 <where>
-		  <if test="memParentIdPhone !=null and memParentIdPhone !=''">
-				AND r.memParentIdPhone=#{memParentIdPhone}
+			 <if test="memParentIdPhone !=null and memParentIdPhone !=''">
+				AND msm.mem_parent_id=(SELECT mem_id FROM ms_members WHERE mem_phone=#{memParentIdPhone}) 
 			</if>
 		 </where>
 	</select>

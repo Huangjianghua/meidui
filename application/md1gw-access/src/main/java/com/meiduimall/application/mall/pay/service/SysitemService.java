@@ -13,14 +13,12 @@ public interface SysitemService {
 	/**
 	 * 更新货品库存
 	 * @return
-	 * @
 	 */
 	Integer updateSysitemSkuStore(Map<String, Object> map);
 	
 	/**
 	 * 更新商品库存
 	 * @return
-	 * @
 	 */
 	Integer updateSysitemItemStore(Map<String, Object> map);
 	
@@ -28,7 +26,6 @@ public interface SysitemService {
 	 * 修改sku_store表的冻结库存
 	 * @param map
 	 * @return
-	 * @
 	 */
 	Integer updateSkuStoreFreez(Map<String, Object> map);
 	
@@ -36,15 +33,13 @@ public interface SysitemService {
 	 * 修改sku_store表的冻结库存
 	 * @param map
 	 * @return
-	 * @
 	 */
 	Integer updateItemStoreFreez(Map<String, Object> map);
 	
 	/**
 	 * 根据sku_id获取item_id or 获取单个SKU的基本信息
-	 * @param i
+	 * @param skuId
 	 * @return
-	 * @
 	 */
 	SysitemSku getSysitemSkuByskuId(Integer skuId);
 	
@@ -52,22 +47,19 @@ public interface SysitemService {
 	 * 根据itemId获取subStock
 	 * @param map
 	 * @return
-	 * @
 	 */
 	SysitemItem getSysitemItemBysubStock(Map<String, Object> map);
 	
 	/**
 	 * 获取sku库存表信息
-	 * @param i
-	 * @
+	 * @param skuId
 	 */
 	SysitemSkuStore getSysitemSkuStore(Integer skuId);
 	
     /**
      * 根据skuInfo['item_id']获取商品库存表信息
-     * @param i
+     * @param itemId
      * @return
-     * @
      */
 	SysitemItemStore getSysitemItemStore(Integer itemId);
 

@@ -84,32 +84,32 @@ public class SysEncrypParamsConst {
 	/** 积分冻解类型-解冻 */
 	public static final String POINTS_FREEZE_TYPE_JD = "D9138E90-9CD6-11E6-AB9D-FCAA149389FF";
 	
-	/**账户资料->基本信息*/
+	/**账户资料-基本信息*/
 	public static final String ERJI_MEMBER_MENU_ZHZL_JBXX="21B260C3-A230-4601-8D62-420FB2111A14";
-	/**账户资料->账户安全*/
+	/**账户资料-账户安全*/
 	public static final String ERJI_MEMBER_MENU_ZHZL_ZHAQ="21B260C3-A230-4601-8D62-420FB2211A14";
 	
-	/**积分订单->预购申请*/
+	/**积分订单-预购申请*/
 	public static final String ERJI_MEMBER_MENU_JFDD_YGSQ="21B260C3-A230-4601-8D62-420FB2112A14";
-	/**积分订单->我的预购*/
+	/**积分订单-我的预购*/
 	public static final String ERJI_MEMBER_MENU_JFDD_WDYG="21B260C3-A230-4601-8D62-420FB2212A14";
-	/**积分订单->团购订单*/
+	/**积分订单-团购订单*/
 	public static final String ERJI_MEMBER_MENU_JFDD_TGDD="21B260C3-A230-4601-8D62-420FB2312A14";
-	/**积分订单->退单查询*/
+	/**积分订单-退单查询*/
 	public static final String ERJI_MEMBER_MENU_JFDD_TDCX="21B260C3-A230-4601-8D62-420FB2412A14";
 	
-	/**商城消费->消费返利积分*/
+	/**商城消费-消费返利积分*/
 	public static final String ERJI_MEMBER_MENU_SCXF_XFFLJF="21B260C3-A230-4601-8D62-420FB2113A14";
 	
-	/**账户积分->账户信息*/
+	/**账户积分-账户信息*/
 	public static final String ERJI_MEMBER_MENU_ZHJF_ZHXX="21B260C3-A230-4601-8D62-420FB2114A14";
-	/**账户积分->交易明细*/
+	/**账户积分-交易明细*/
 	public static final String ERJI_MEMBER_MENU_ZHJF_JYMX="21B260C3-A230-4601-8D62-420FB2214A14";
-	/**账户积分->转账管理*/
+	/**账户积分-转账管理*/
 	public static final String ERJI_MEMBER_MENU_ZHJF_ZZGL="21B260C3-A230-4601-8D62-420FB2314A14";
-	/**账户积分->充值管理*/
+	/**账户积分-充值管理*/
 	public static final String ERJI_MEMBER_MENU_ZHJF_CZGL="21B260C3-A230-4601-8D62-420FB2414A14";
-	/**账户积分->团购业绩*/
+	/**账户积分-团购业绩*/
 	public static final String ERJI_MEMBER_MENU_ZHJF_TGYJ="21B260C3-A230-4601-8D62-420FB2514A14";
 	
 	public static final String MEMBER_DJ ="x0";

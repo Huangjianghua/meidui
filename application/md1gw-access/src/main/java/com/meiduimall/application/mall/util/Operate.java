@@ -14,8 +14,6 @@ import com.meiduimall.exception.ServiceException;
 public class Operate {
 	/**
      * 序列化方法
-     * @throws IOException
-     * @throws FileNotFoundException
      */
 	@SuppressWarnings("resource")
 	public void serializable(PaymentTrade paymentTrade){
@@ -44,9 +42,6 @@ public class Operate {
      
     /**
      * 反序列化的方法
-     * @throws IOException
-     * @throws FileNotFoundException
-     * @throws ClassNotFoundException
      */
 	public PaymentTrade deSerializable(){
 		FileInputStream fileInputStream = null;

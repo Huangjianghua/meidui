@@ -35,7 +35,6 @@ public interface PaypwdService {
 	 * 根据memId查询是否设置过支付密码
 	 * @param memId 会员ID
 	 * @return 1：存在  0：不存在
-	 * @throws Exception
 	 */
 	ResBodyData isExistPaypwd(String memId);
 	
@@ -52,8 +51,6 @@ public interface PaypwdService {
 	/**
 	 * 找回支付密码
 	 * @param requestRetrievePaypwd 修改支付密码请求映射实体
-	 * @return 统一数据返回格式
-	 * @throws SystemException 检查类型异常
 	 * @throws MdSysException 
 	 */
 	void retrievePaypwd(RequestRetrievePaypwd requestRetrievePaypwd) throws MdSysException;

@@ -44,9 +44,8 @@ public class AlipayCore {
 
 
     /** 
-     * 把数组所有元素，并按照“参数=参数值”的模式用“&”字符拼接成字符串
+     * 把数组所有元素，并按照“参数 等于  参数值”的模式用 并且 字符拼接成字符串
      * @param params 需要参与字符拼接的参数组
-     * @param sorts   是否需要排序 true 或者 false
      * @return 拼接后字符串
      */
     public static String createLinkString(Map<String, String> params) {

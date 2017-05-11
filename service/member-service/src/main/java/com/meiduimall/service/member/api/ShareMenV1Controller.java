@@ -37,8 +37,7 @@ public class ShareMenV1Controller {
 	
 	/**
 	 * 获取会员二级推荐人接口 http://IP:PORT/Authorized/querySecondLevelShareMem
-	 * @param request
-	 * @param response
+	 * @param memId
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/get_twolevel_sharemen",method=RequestMethod.GET)

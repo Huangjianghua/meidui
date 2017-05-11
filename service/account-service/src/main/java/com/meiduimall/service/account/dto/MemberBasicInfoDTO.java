@@ -67,7 +67,7 @@ public class MemberBasicInfoDTO implements Serializable{
 
 	/***
 	 * 消费券
-	 * @date 2016-5-13 15:55:38
+	 *  2016-5-13 15:55:38
 	 * **/
 	private String shoppingCoupon;
 	
