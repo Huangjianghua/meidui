@@ -40,7 +40,7 @@ aliyun :
   appKey : 23438487
   appSecret : 17042e86f2ad304b016d4ed1578f26e7
   url : http://gw.api.taobao.com/router/rest
-  signName : 美兑壹购物
+  signName : 美兑
 # 漫道短信发送API参数
 zucpUrl: http://sdk.entinfo.cn:8060/webservice.asmx
 zucpUser: SDK-WSS-010-09798
@@ -89,7 +89,7 @@ aliyun :
   appKey : 23438487
   appSecret : 17042e86f2ad304b016d4ed1578f26e7
   url : http://gw.api.taobao.com/router/rest
-  signName : 美兑壹购物
+  signName : 美兑
 # 漫道短信发送API参数
 zucpUrl: http://sdk.entinfo.cn:8060/webservice.asmx
 zucpUser: SDK-WSS-010-09798
@@ -138,7 +138,7 @@ aliyun :
   appKey : 23438487
   appSecret : 17042e86f2ad304b016d4ed1578f26e7
   url : http://gw.api.taobao.com/router/rest
-  signName : 美兑壹购物
+  signName : 美兑
 # 漫道短信发送API参数
 zucpUrl: http://sdk.entinfo.cn:8060/webservice.asmx
 zucpUser: SDK-WSS-010-09798
@@ -187,7 +187,7 @@ aliyun :
   appKey : 23438487
   appSecret : 17042e86f2ad304b016d4ed1578f26e7
   url : http://gw.api.taobao.com/router/rest
-  signName : 美兑壹购物
+  signName : 美兑
 # 漫道短信发送API参数
 zucpUrl: http://sdk.entinfo.cn:8060/webservice.asmx
 zucpUser: SDK-WSS-010-09798
@@ -236,7 +236,7 @@ aliyun :
   appKey : 23438487
   appSecret : 17042e86f2ad304b016d4ed1578f26e7
   url : http://localhost:9901/aliyun/test
-  signName : 美兑壹购物
+  signName : 美兑
 # 漫道短信发送API参数
 zucpUrl: http://localhost:9902/mandao/test
 zucpUser: SDK-WSS-010-09798

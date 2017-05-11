@@ -126,7 +126,7 @@
 				AND msm.mem_last_login_time &lt;= #{lastLoginTimeEnd}
 			</if>
 			 <if test="memParentIdPhone !=null and memParentIdPhone !=''">
-				AND msm.mem_parent_id=(SELECT mem_id FROM ms_members WHERE mem_phone=#{memParentIdPhone}) 
+				AND msm.mem_parent_id in (SELECT mem_id FROM ms_members WHERE mem_phone=#{memParentIdPhone}) 
 			</if>
 		 </where>
 	</select>
