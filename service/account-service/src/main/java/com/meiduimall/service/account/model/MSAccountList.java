@@ -44,26 +44,23 @@ public class MSAccountList implements Serializable {
 	private Double mchFreezeBalanceCount;
 	private String status;
 
-	public String getMemLoginName() throws MdSysException {
-		return DESC.deyption(this.memLoginName);
+	public String getMemLoginName(){
+		return memLoginName;
 	}
 
 	public void setMemLoginName(String memLoginName) {
 		this.memLoginName = memLoginName;
 	}
 
-	public String getMemPhone() throws MdSysException {
-		return DESC.deyption(this.memPhone);
+	public String getMemPhone(){
+		return this.memPhone;
 	}
 
 	public void setMemPhone(String memPhone) {
 		this.memPhone = memPhone;
 	}
 
-	public String getMemParentIdPhone() throws MdSysException {
-		if(StringUtils.isNotBlank(this.memParentIdPhone)){
-			return DESC.deyption(this.memParentIdPhone);
-		}
+	public String getMemParentIdPhone() {
 		return this.memParentIdPhone;
 	}
 
