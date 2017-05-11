@@ -11,7 +11,7 @@ spring:
   datasource :
     type : com.zaxxer.hikari.HikariDataSource
     driver-class-name : com.mysql.jdbc.Driver
-    url : jdbc:mysql://192.168.4.236:3306/meiduishop0302?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
+    url : jdbc:mysql://192.168.4.236:3306/meiduishop?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
     username : root
     password : meidui@2016.?!
     connectionTimeout : 30000
@@ -47,7 +47,7 @@ spring:
   datasource :
     type : com.zaxxer.hikari.HikariDataSource
     driver-class-name : com.mysql.jdbc.Driver
-    url : jdbc:mysql://127.0.0.1:3306/meiduishop0302?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
+    url : jdbc:mysql://127.0.0.1:3306/meiduishop?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
     username : root
     password : 123456
     connectionTimeout : 30000
@@ -83,7 +83,7 @@ spring:
   datasource :
     type : com.zaxxer.hikari.HikariDataSource
     driver-class-name : com.mysql.jdbc.Driver
-    url : jdbc:mysql://127.0.0.1:3306/meiduishop0302?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
+    url : jdbc:mysql://127.0.0.1:3306/meiduishop?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
     username : root
     password : 123456
     connectionTimeout : 30000
