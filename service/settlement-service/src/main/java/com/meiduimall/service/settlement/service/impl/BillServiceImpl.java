@@ -26,6 +26,7 @@ import com.google.common.collect.ImmutableMap;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.settlement.common.CodeRuleUtil;
 import com.meiduimall.service.settlement.common.SettlementUtil;
+import com.meiduimall.service.settlement.common.ShareProfitUtil;
 import com.meiduimall.service.settlement.dao.BaseMapper;
 import com.meiduimall.service.settlement.model.EcmMzfAccount;
 import com.meiduimall.service.settlement.model.EcmMzfBillWater;
@@ -114,24 +115,35 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	public void handleBill(EcmMzfBillWater bill,Date billCreatedtime,Date billtime,Timestamp opTime){
+		
 		bill.setBillAddTime(billCreatedtime); //设置账单创建日期
 		bill.setBillTime(billtime);//设置账单日期
-		double amount=bill.getAmount(); //账单金额
-		int type=bill.getType();//角色类型
-		String code=bill.getCode();//角色编号
+		double amount = bill.getAmount(); //账单金额
+		int type = bill.getType();//角色类型
+		String code = bill.getCode();//角色编号
+		
 		//设置账单编号
-		String billid=CodeRuleUtil.getBillid(bill.getType(),bill.getCode());
+		String billid = CodeRuleUtil.getBillid(bill.getType(), code);
 		bill.setBillId(billid);
+		
 		//开始生成账单流水数据
 		if(!Strings.isNullOrEmpty(code)){
-			int i=baseMapper.insert(bill,"EcmBillMapper.createBillWater");
-			log.info("生成编号为{}的账单数据:{}条   金额:{} 角色类型:", code, i, amount, type);
+			
+			//获取账户余额(2017-04-01)
+			EcmMzfAccount ecmMzfAccount = agentService.findAccountByCode(code);
+			
+			if(ecmMzfAccount == null && type == 3){
+				log.info("编号为：{}，类型为{}'区代'的账户不存在，不生成账单流水和总流水，不更新账户余额；归区代账号：{}所有", code, type, ShareProfitUtil.CODE_DIRECT_SALE);
+				code = ShareProfitUtil.CODE_DIRECT_SALE;
+				bill.setCode(code);
+				ecmMzfAccount = agentService.findAccountByCode(code);
+			}
+			
+			int createResult = baseMapper.insert(bill, "EcmBillMapper.createBillWater");
+			log.info("生成编号为"+code+"的账单数据："+createResult+"条 金额:"+amount+" 角色类型:"+type);
 			
 			//BUG #3029::金额为0的账单不需要生成流水
 			if(!SettlementUtil.isZero(amount)){
-				
-				//获取账户余额(2017-04-01)
-				EcmMzfAccount ecmMzfAccount = agentService.findAccountByCode(code);
 				
 				//账单数据插入到流水汇总表
 				EcmMzfWater water = new EcmMzfWater();
@@ -143,8 +155,8 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 				water.setExtId(billid);
 				water.setOpTime(opTime);
 				water.setBalance(ecmMzfAccount.getBalance());//变更前可提现金额(2017-04-01)
-				int i2=agentService.insertWater(water);
-				log.info("生成编号为{}的流水汇总数据:{}条  金额:{} 角色类型:{}", code, i2, amount, type);	
+				int insertResult = agentService.insertWater(water);
+				log.info("生成编号为"+code+"的流水汇总数据："+insertResult+"条  金额:"+amount+" 角色类型:"+type);		
 				
 				//更新账户
 				String newtype=String.valueOf(CodeRuleUtil.getAccountRoleType(type));
@@ -152,8 +164,8 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 				ccount.setAccountRoleType(newtype);
 				ccount.setBalance(BigDecimal.valueOf(amount));//double改为BigDecimal
 				ccount.setCode(code);
-				int d=agentService.updateAccount(ccount);
-				log.info("更新编号{}的账户:{}条 金额:{} 角色类型:{}", code, d, amount, newtype);
+				int updateResult = agentService.updateAccount(ccount);
+				log.info("更新编号"+code+"的账户："+updateResult+"条 金额:"+amount+" 角色类型:"+newtype);
 			}
 		}
 	}
