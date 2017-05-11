@@ -101,10 +101,10 @@ public class SecurityV1ControllerTest extends BaseControllerTest {
 	     * @throws Exception
 	     * @author: jianhua.huang  2017年5月3日 下午3:30:37
 	     */
-	    @Test
+	   /* @Test
 	    public void UpdateUnlockTest()throws Exception{
 	    	Map<String, Object> param=new HashMap<>();
 	    	param.put("memId","72063681-7408-435c-88fd-cd837c95c66e");
 	    	securityV1Controller.unlock(param);
-	    }
+	    }*/
 }

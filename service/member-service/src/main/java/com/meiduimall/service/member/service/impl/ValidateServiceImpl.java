@@ -16,7 +16,7 @@ import com.meiduimall.service.member.service.ValidateService;
 import com.meiduimall.service.member.util.DESC;
 
 /**
- * 账号校验接口{@link=ValidateService}实现类
+ *
  * @author chencong
  *
  */
