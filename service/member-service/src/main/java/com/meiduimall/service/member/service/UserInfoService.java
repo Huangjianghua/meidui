@@ -12,13 +12,6 @@ import com.meiduimall.service.member.model.MSMembersSet;
  *
  */
 public interface UserInfoService {
-	
-	/**
-	 * 校验userId是否存在
-	 * @param userId
-	 * @return 存在:true,不存在:false
-	 */
-	boolean checkUserIdExists(String userId);
 
 	/**
 	 * 根据memId获取会员基本信息

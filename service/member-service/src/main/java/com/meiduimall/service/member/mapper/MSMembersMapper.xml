@@ -23,7 +23,7 @@
 		m.mem_reg_day AS memRegDay,
 		m.enable AS paypwd_isopen
 		FROM ms_members AS m 
-		WHERE m.mem_id=#{memid}
+		WHERE m.mem_id=#{memId}
 	</select>
 	
 	<!-- 根据条件查询会员基本信息-->
