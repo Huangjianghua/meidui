@@ -229,10 +229,14 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 	@Override
 	public ResBodyData queryExportMember(RequestMobile requestMobile) {
+		if(requestMobile.getCityName().isEmpty())
+			throw new ServiceException(ApiStatusConst.CITYNAME_IS_NOT_EMPTY);
+		
 		ResBodyData resBodyData = new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
 		List<String> mobileList = new ArrayList<>();
 		List<ExportMemberDTO> queryAllMember = null;
 		List<MobileNumberInfo> mobileNumberInfo = null;
+		
 		try {
 			queryAllMember = baseDao.selectList(null, "MSMembersMapper.queryExportMember");
 			if(queryAllMember.isEmpty()){

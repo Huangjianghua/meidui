@@ -54,6 +54,7 @@ public abstract class ApiStatusConst extends BaseApiCode {
 	public final static Integer GET_MEMBER_IS_EMPTY=8029;
 	public final static Integer GET_MOBILE_EXCEPTION=8030;
 	public final static Integer USERID_IS_NOT_EXIST=8031;
+	public final static Integer CITYNAME_IS_NOT_EMPTY=8032;
 	
 	static {
 		zhMsgMap.put(REQUIRED_PARAM_EMPTY, "必填参数为空");
@@ -99,6 +100,7 @@ public abstract class ApiStatusConst extends BaseApiCode {
 		zhMsgMap.put(GET_MEMBER_IS_EMPTY, "获取会员信息为空");
 		zhMsgMap.put(GET_MOBILE_EXCEPTION, "获取手机归属地异常");
 		zhMsgMap.put(USERID_IS_NOT_EXIST, "该账号不存在");
+		zhMsgMap.put(CITYNAME_IS_NOT_EMPTY, "城市名不能为空");
 	}
 
 }

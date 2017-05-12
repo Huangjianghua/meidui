@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -89,7 +88,7 @@ public class UserInfoV1Controller{
 	 * 查询会员的数据
 	 * @return
 	 */
-	@PostMapping(value = "/query_export_member")
+	@GetMapping(value = "/query_export_member")
 	ResBodyData queryExportMember(@Validated RequestMobile requestMobile){
 		return userInfoService.queryExportMember(requestMobile);   
 	}
