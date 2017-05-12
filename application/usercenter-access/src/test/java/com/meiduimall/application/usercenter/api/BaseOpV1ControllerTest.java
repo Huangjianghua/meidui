@@ -1,7 +1,5 @@
 package com.meiduimall.application.usercenter.api;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.HashMap;
@@ -77,5 +75,25 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {
 			}
 		});
     }
-	      
+    /**
+     * 外部充值
+     */
+    @Test
+    public void externalRecharge () throws Exception{
+    	Map<String, Object> mapCondition=new HashMap<>();
+    	mapCondition.put("token","ec697a80e4a8574fda615c8c7b274796");
+    	mapCondition.put("accountNo", "1234546913454");
+    	mapCondition.put("applyCarryCash", 3.01);
+    	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/externalRecharge")
+    			.contentType(MediaType.APPLICATION_JSON_UTF8)
+    			.content(JsonUtils.beanToJson(mapCondition)))
+    			.andExpect(status().isOk());
+    	
+    	resultActions.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				logger.info("单元测试>>>执行结果:{}",result.getResponse().getContentAsString());;
+			}
+		});
+    }      
 }
