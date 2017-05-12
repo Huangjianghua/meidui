@@ -20,7 +20,7 @@ public class CouponServiceImpl implements CouponService {
 		String clientID = serviceUrlProfileConfig.getClientId();
 		String signKey = serviceUrlProfileConfig.getSingKey();
 		String host = serviceUrlProfileConfig.getHost();
-		String uri = MallConstant.SERVICE_CATALOG_BASE_URL + "/goodsDetail/getItem";
+		String uri = MallConstant.SERVICE_CATALOG_BASE_URL + "/coupon/getAllRule";
 		String url = host + uri;
 
 		return HttpGatewayUtils.sendGet(url, clientID, signKey, null);

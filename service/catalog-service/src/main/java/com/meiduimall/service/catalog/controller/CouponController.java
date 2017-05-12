@@ -19,7 +19,7 @@ public class CouponController {
 	 * 
 	 * @return 优惠券赠送规则
 	 */
-	@RequestMapping("/selectAll")
+	@RequestMapping("/getAllRule")
 	public ResBodyData selectAllCouponRule() {
 		return couponService.selectAllCouponRule();
 	}
