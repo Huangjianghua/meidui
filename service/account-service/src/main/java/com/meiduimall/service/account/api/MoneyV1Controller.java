@@ -420,7 +420,7 @@ public class MoneyV1Controller {
 		try {
 			mSAccountDetailService.rechargeApply(deposit);
 		} catch (MdBizException e) {
-			logger.error("申请操作Controller异常:{}", e.getMessage());
+			logger.error("申请充值操作异常:{}", e.getMessage());
 			throw new ApiException(e.getCode(),e.getMessage());
 		}
 		return new ResBodyData(ApiStatusConst.SUCCESS, ApiStatusConst.SUCCESS_M);
