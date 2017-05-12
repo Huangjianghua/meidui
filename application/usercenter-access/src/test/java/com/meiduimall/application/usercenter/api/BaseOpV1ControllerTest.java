@@ -79,7 +79,7 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {
      * 外部充值
      */
     @Test
-    public void externalRecharge () throws Exception{
+    public void externalRecharge () throws   Exception{
     	Map<String, Object> mapCondition=new HashMap<>();
     	mapCondition.put("token","ec697a80e4a8574fda615c8c7b274796");
     	mapCondition.put("accountNo", "1234546913454");
