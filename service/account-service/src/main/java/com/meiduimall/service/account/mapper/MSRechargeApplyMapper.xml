@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MSRechargeApplyMapper">
+	
+	<insert id="insertRechargeApply" parameterType="com.meiduimall.service.account.model.MSBankWithdrawDeposit">
+		insert into ms_external_recharge
+			   (id,
+				md_user,
+				client_id,
+				biz_id,
+				recharge_amout,
+				req_time,
+				callback_url,
+				recharge_type
+				)
+	 	 values(
+	 	        #{id},
+				#{mdUser},
+				#{clientId},
+				#{bizId},
+				#{rechargeAmout},
+				#{reqTime},
+				#{callbackUrl},
+				#{rechargeType}
+			   )
+	</insert>
+</mapper>

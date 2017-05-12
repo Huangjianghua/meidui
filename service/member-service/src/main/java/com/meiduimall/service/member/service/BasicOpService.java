@@ -45,5 +45,11 @@ public interface BasicOpService {
 	public ResBodyData registerO2O(RequestRegisterO2O model) throws MdSysException;
 	
 	public ResBodyData login(RequestLogin requestLogin) throws MdSysException;
-
+	/**
+	 * 验证帐号是否存在
+	 * @param requestLogin
+	 * @return
+	 * @throws MdSysException
+	 */
+	public ResBodyData validateAccounts(RequestLogin requestLogin) throws MdSysException;
 }

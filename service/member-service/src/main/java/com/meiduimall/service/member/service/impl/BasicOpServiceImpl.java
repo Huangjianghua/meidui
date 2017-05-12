@@ -638,5 +638,16 @@ public class BasicOpServiceImpl implements BasicOpService {
 		consumePointsDetail.setMcpUpdatedDate(nowDate);
 		baseDao.insert(consumePointsDetail,"MSConsumePointsDetailMapper.saveConsumePointsDetails");
 	}
-
+	@Override
+	public ResBodyData validateAccounts(RequestLogin requestLogin) throws MdSysException {
+		
+		ResBodyData resBodyData = new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		Map<String, Object> mapCondition = new HashMap<>();//查询条件
+		mapCondition.put("userid",DESC.encryption(requestLogin.getUser_name()));
+		MSMembersGet msMembersGet=baseDao.selectOne(mapCondition,"MSMembersMapper.getMemberBasicInfoByCondition");//根据userid判断该用户是否存在
+		if(msMembersGet==null){
+			throw new ServiceException(ApiStatusConst.MEMBER_NOT_EXIST);
+		}
+		return resBodyData;
+	}
 }

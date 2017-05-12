@@ -229,5 +229,25 @@ public class BasicOpV1Controller {
 		}
 		return resBodyData;
 }
-	
+	/**
+	 * 验证帐号是否存在
+	 * @return 统一数据返回格式
+	 * @throws MdSysException 系统异常
+	 */
+	@PostMapping(value = "/thereexist")
+	public ResBodyData accountsThereExist(@RequestBody @Valid RequestLogin requestLogin) throws MdSysException{
+		requestLogin.setIp(request.getRemoteAddr());
+		String tokenKey=request.getHeader(SysParamsConst.TERMINAL_ID);
+		if(StringUtils.isEmpty(tokenKey)){
+			 tokenKey=request.getHeader(SysParamsConst.USER_AGENT);
+		}
+		requestLogin.setTokenKey(tokenKey);
+		ResBodyData resBodyData=null;
+		try {
+			resBodyData = basicOpService.validateAccounts(requestLogin);
+		} catch (MdSysException e) {
+			throw new ApiException(ApiStatusConst.MEMBER_NOT_EXIST);
+		}
+		return resBodyData;
+	}
 }
