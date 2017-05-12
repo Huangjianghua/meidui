@@ -7,13 +7,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.service.member.constant.ApiStatusConst;
 import com.meiduimall.service.member.model.request.RequestGetMemberBasicInfo;
+import com.meiduimall.service.member.model.request.RequestMobile;
 import com.meiduimall.service.member.service.UserInfoService;
 
 /**
@@ -82,5 +82,14 @@ public class UserInfoV1Controller{
 	}*/
 	
 	/**校验手机号或登录名是否存在*/
+	
+	/**
+	 * 查询会员的数据
+	 * @return
+	 */
+	@GetMapping(value = "/query_export_member")
+	ResBodyData queryExportMember(@Valid RequestMobile requestMobile){
+		return userInfoService.queryExportMember(requestMobile);
+	}
 	
 }
