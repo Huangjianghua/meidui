@@ -34,12 +34,12 @@ public class ValidateServiceImpl implements ValidateService {
 		String encryUserId=DESC.encryption(userId);
 		List<String> listMemId=null;
 		try {
-			listMemId=baseDao.selectOne(encryUserId,"MSMembersMapper.selectCountByUserId");
+			listMemId=baseDao.selectList(encryUserId,"MSMembersMapper.selectCountByUserId");
 		} catch (DaoException e) {
 			throw new ServiceException(ApiStatusConst.ACCOUNT_EXCEPTION);
 		}
-		logger.info("校验userId:{}是否存在结果：{}",userId,listMemId.toString());
-		if(listMemId.size()>=0){
+		logger.info("校验userId:{}是否存在>>查询对应的memId>>结果：{}",userId,listMemId.toString());
+		if(listMemId.size()>0){
 			return true;
 		}
 		return false;
