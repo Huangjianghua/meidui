@@ -5,14 +5,14 @@
 <mapper namespace="MSMembersMapper">
 
 	<!-- 根据userId查询是否存在一条记录 -->
-	<select id="selectCountByUserId" parameterType="java.lang.String" resultType="java.util.List" >
+	<select id="selectCountByUserId" parameterType="java.lang.String" resultType="java.lang.String" >
 		SELECT m.mem_id
 		FROM ms_members m
 		WHERE m.mem_phone = #{userId}
 		UNION ALL
 		SELECT m.mem_id
 		FROM ms_members m
-		WHERE m.mem_login_name = #{userId}
+		WHERE m.mem_login_name =#{userId}
 		UNION ALL
 	    SELECT m.mem_id
 		FROM ms_members m
