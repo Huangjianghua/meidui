@@ -32,7 +32,7 @@
   	select 
     * 
     from sysuser_account
-    where mem_id = #{memId}
+    where mem_id = #{memId} LIMIT 1
   </select>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >

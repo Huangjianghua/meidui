@@ -37,7 +37,7 @@
   	WHERE 
   	user_id=(SELECT user_id FROM sysuser_account WHERE mem_id=#{memId} LIMIT 1) 
   	AND 
-  	item_id=#{id};
+  	item_id=#{id}
   </select>
   
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >

@@ -1,7 +1,5 @@
 package com.meiduimall.service.catalog.service.impl;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +20,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public SysuserAccount getUserByMemId(String memId) {
-		List<SysuserAccount> list = baseDao.selectList(memId, "SysuserAccountMapper.selectByMemId");
-		if (list != null && !list.isEmpty()) {
-			return list.get(0);
-		} else {
-			return null;
-		}
+		return baseDao.selectOne(memId, "SysuserAccountMapper.selectByMemId");
 	}
 
 }
