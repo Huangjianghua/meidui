@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.meiduimall.application.mall.catalog.service.GoodsDetailService;
-import com.meiduimall.application.mall.config.ServiceUrlProfileConfig;
+import com.meiduimall.application.mall.config.ProfileConfig;
 import com.meiduimall.application.mall.constant.MallConstant;
 import com.meiduimall.application.mall.util.HttpGatewayUtils;
 import com.meiduimall.core.ResBodyData;
@@ -23,14 +23,14 @@ import com.meiduimall.core.ResBodyData;
 public class GoodsDetailServiceImpl implements GoodsDetailService {
 
 	@Autowired
-	private ServiceUrlProfileConfig serviceUrlProfileConfig;
+	private ProfileConfig profileConfig;
 
 	@Override
 	public ResBodyData getItemDetailHttp(int itemId, String memId) {
 
-		String clientID = serviceUrlProfileConfig.getClientId();
-		String signKey = serviceUrlProfileConfig.getSingKey();
-		String host = serviceUrlProfileConfig.getHost();
+		String clientID = profileConfig.getClientId();
+		String signKey = profileConfig.getSingKey();
+		String host = profileConfig.getHost();
 		String uri = MallConstant.SERVICE_CATALOG_BASE_URL + "/goodsDetail/getItem";
 		String url = host + uri;
 

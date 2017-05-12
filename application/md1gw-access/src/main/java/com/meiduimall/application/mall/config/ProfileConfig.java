@@ -13,7 +13,7 @@ import com.meiduimall.application.mall.constant.MallConstant;
  *
  */
 @Configuration
-public class ServiceUrlProfileConfig {
+public class ProfileConfig {
 
 	@Autowired
 	private Environment env;

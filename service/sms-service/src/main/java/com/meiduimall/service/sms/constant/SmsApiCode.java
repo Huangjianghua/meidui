@@ -39,6 +39,9 @@ public class SmsApiCode extends BaseApiCode {
 	/** 请勿频繁重复发送短信 **/
 	public static final Integer REPEATING = 7014;
 
+	/** 请求微信AccessToken异常 **/
+	public static final Integer REQUEST_ACCESS_TOKEN_EXCEPTION = 7015;
+
 	/** 数据库异常 **/
 	public static final Integer DB_EXCEPTION = 7500;
 
@@ -60,6 +63,7 @@ public class SmsApiCode extends BaseApiCode {
 		zhMsgMap.put(EXCEPTION_ACCESS_TEMPLATE, "获取短信模板列表异常");
 		zhMsgMap.put(REQUEST_PARAMS_ERROR, "请求参数错误");
 		zhMsgMap.put(REPEATING, "请勿频繁重复发送短信");
+		zhMsgMap.put(REQUEST_ACCESS_TOKEN_EXCEPTION, "请求微信AccessToken异常");
 		zhMsgMap.put(DB_EXCEPTION, "数据库异常");
 		zhMsgMap.put(UNKNOW_ERROR, "未知错误");
 	}

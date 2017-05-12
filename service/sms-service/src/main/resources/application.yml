@@ -45,6 +45,14 @@ aliyun :
 zucpUrl: http://sdk.entinfo.cn:8060/webservice.asmx
 zucpUser: SDK-WSS-010-09798
 zucpPasswd: a-9[60-[
+# 微信相关配置
+weixin : 
+  appId : wxa2a3877c5fefc819
+  appSecret : 310808443b7734a8979f950dad7c05b8
+  templateId1 : Sk1r88iGA_HaiZM6yTKfOhNol2qN-CuH8Eow-AJ9D7w
+  url : https://api.weixin.qq.com
+# APP下载地址
+app-download-url : http://127.0.0.1
 
 
 ---

@@ -26,6 +26,9 @@ public class SysConstant extends Constants {
 	public static final String MESSAGE_CODE_KEY = "code_key";
 	
 	public static final String CODE_SPLIT_KEY = "##";
+	
+	/** 微信access_token_key */
+	public static final String WEIXIN_ACCESS_TOKEN_KEY = "weixin_access_token_key";
 
 	private SysConstant() {
 	}
