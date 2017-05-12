@@ -3,6 +3,7 @@ package com.meiduimall.service.member.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.service.member.model.request.RequestMobile;
 
 /**
  * 会员信息操作接口
@@ -21,4 +22,10 @@ public interface UserInfoService {
 	 public JSONObject getMemberInfoByPhone(String phone) throws Exception;
 	 
 	 public JSONObject saveMemberBasicInfo(String token, String mem_sex, String mem_birthday, String mem_address_area, String mem_address, String mem_pic, String nick_name) throws Exception;
+	 
+	 /**
+	  * 查询所有会员
+	  * @return void
+	  */
+	 ResBodyData queryExportMember(RequestMobile requestMobile);
 }

@@ -24,6 +24,9 @@ import com.meiduimall.service.member.model.MSMemberAddresses;
 import com.meiduimall.service.member.model.MSMembersGet;
 import com.meiduimall.service.member.model.MSMembersSet;
 import com.meiduimall.service.member.model.MemberAddressesSet;
+import com.meiduimall.service.member.model.MobileNumberInfo;
+import com.meiduimall.service.member.model.request.RequestMobile;
+import com.meiduimall.service.member.model.response.ExportMemberDTO;
 import com.meiduimall.service.member.model.response.ResponseMemberBasicInfo;
 import com.meiduimall.service.member.service.MoneyService;
 import com.meiduimall.service.member.service.PointsService;
@@ -191,6 +194,63 @@ public class UserInfoServiceImpl implements UserInfoService {
 			logger.info("当前会员ID:{}不存在!", memId);
 		}
 		return json;
+	}
+	
+	
+	@Override
+	public ResBodyData queryExportMember(RequestMobile requestMobile) {
+		if(requestMobile.getCityName().isEmpty())
+			throw new ServiceException(ApiStatusConst.CITYNAME_IS_NOT_EMPTY);
+		
+		ResBodyData resBodyData = new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		List<String> mobileList = new ArrayList<>();
+		List<ExportMemberDTO> queryAllMember = null;
+		List<MobileNumberInfo> mobileNumberInfo = null;
+		
+		try {
+			queryAllMember = baseDao.selectList(null, "MSMembersMapper.queryExportMember");
+			if(queryAllMember.isEmpty()){
+				throw new ServiceException(ApiStatusConst.GET_MEMBER_IS_EMPTY);
+			}else{
+				for (ExportMemberDTO exportMemberDTO : queryAllMember) {
+					exportMemberDTO.setMemLoginName(DESC.deyption(exportMemberDTO.getMemLoginName()));
+					exportMemberDTO.setMemPhone(DESC.deyption(exportMemberDTO.getMemPhone()));
+					exportMemberDTO.setCurrentPoint(DESC.deyption(exportMemberDTO.getCurrentPoint(), exportMemberDTO.getMemId()));
+					String substr = exportMemberDTO.getMemPhone().substring(0, 7);
+					mobileList.add(substr);
+					logger.info(substr);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ServiceException(ApiStatusConst.GET_USERINFO_EXCEPTION);
+		}
+		
+		requestMobile.setMobileList(mobileList);
+		
+		try {
+			mobileNumberInfo = baseDao.selectList(requestMobile, "MobileNumberInfoMapper.queryExportMobile");
+		} catch (Exception e) {
+		   e.printStackTrace();
+           throw new ServiceException(ApiStatusConst.GET_MOBILE_EXCEPTION);
+		}
+		
+		List<ExportMemberDTO> exptmemDTO = new ArrayList<>();
+		for (ExportMemberDTO exportMemberDTO : queryAllMember) {
+			String substr = exportMemberDTO.getMemPhone().substring(0, 7);
+			for (MobileNumberInfo mobileNumber : mobileNumberInfo) {
+				if(mobileNumber.getMobile().equals(substr)){
+					StringBuilder stringBuilder = new StringBuilder();
+					stringBuilder.append(mobileNumber.getProvinceName());
+					stringBuilder.append(mobileNumber.getCityName());
+					exportMemberDTO.setArea(stringBuilder.toString());
+					exptmemDTO.add(exportMemberDTO);
+				}
+			}
+		} 
+		
+		resBodyData.setData(exptmemDTO);
+		return resBodyData;
 	}
 	
 }

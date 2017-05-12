@@ -36,6 +36,9 @@ public abstract class ApiStatusConst extends BaseApiCode {
 	public final static Integer GET_USERINFO_EXCEPTION=8012;
 	public final static Integer SET_PAYPWD_STATUS_EXCEPTION=8013;
 	public final static Integer LOGIN_EXCEPTION=8014;
+	public final static Integer GET_MEMBER_IS_EMPTY=8029;
+	public final static Integer GET_MOBILE_EXCEPTION=8030;
+	public final static Integer CITYNAME_IS_NOT_EMPTY=8032;
 	
 	static {
 		zhMsgMap.put(REQUIRED_PARAM_EMPTY, "必填参数为空");
@@ -64,6 +67,9 @@ public abstract class ApiStatusConst extends BaseApiCode {
 		zhMsgMap.put(GET_USERINFO_EXCEPTION, "获取用户信息程序异常");
 		zhMsgMap.put(SET_PAYPWD_STATUS_EXCEPTION, "设置支付密码开关程序异常");
 		zhMsgMap.put(LOGIN_EXCEPTION, "登录程序异常");
+		zhMsgMap.put(GET_MEMBER_IS_EMPTY, "获取会员信息为空");
+		zhMsgMap.put(GET_MOBILE_EXCEPTION, "获取手机归属地异常");
+		zhMsgMap.put(CITYNAME_IS_NOT_EMPTY, "城市名不能为空");
 	}
 
 }
