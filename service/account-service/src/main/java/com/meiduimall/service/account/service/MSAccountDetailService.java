@@ -12,6 +12,7 @@ import com.meiduimall.service.account.model.MSAccountDetailGet;
 import com.meiduimall.service.account.model.MSAccountList;
 import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
 import com.meiduimall.service.account.model.MSDict;
+import com.meiduimall.service.account.model.MSRechargeApply;
 import com.meiduimall.service.account.model.request.RequestAccountReviseDetail;
 import com.meiduimall.service.account.model.request.RequestMSAccountList;
 import com.meiduimall.service.account.model.request.RequestMSBankWithDrawDepostie;
@@ -129,4 +130,8 @@ public interface MSAccountDetailService {
 	 * @author: jianhua.huang  2017年4月28日 上午10:48:37
 	 */
 	public void saveBankWithdrawDeposit(RequestMSBankWithDrawDepostie deposit)throws MdBizException;
+	/**
+	 * 外部充值申请
+	 */
+	public void rechargeApply(MSRechargeApply deposit)throws MdBizException;
 }

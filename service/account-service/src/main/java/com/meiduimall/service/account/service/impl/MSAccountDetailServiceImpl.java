@@ -36,6 +36,7 @@ import com.meiduimall.service.account.model.MSBankAccount;
 import com.meiduimall.service.account.model.MSBankWithDrawOperateDetail;
 import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
 import com.meiduimall.service.account.model.MSDict;
+import com.meiduimall.service.account.model.MSRechargeApply;
 import com.meiduimall.service.account.model.request.RequestAccountReviseDetail;
 import com.meiduimall.service.account.model.request.RequestMSAccountList;
 import com.meiduimall.service.account.model.request.RequestMSBankWithDrawDepostie;
@@ -561,5 +562,18 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		returnMap.put("calc_actualCarryCash", String.valueOf(calc_actualCarryCash));
 		returnMap.put("calc_counterFee", String.valueOf(calc_counterFee));
 		return returnMap;
+	}
+
+	@Override
+	public void rechargeApply(MSRechargeApply dto) throws MdBizException {
+		try{
+			String id = UUID.randomUUID().toString();
+			dto.setId(id);
+			baseDao.insert(dto, "MSRechargeApplyMapper.insertRechargeApply");
+		}catch(Exception e){
+			logger.error("外部充值申请异常:{}",e);
+			throw new MdBizException(ApiStatusConst.INSERT_WITHDRAW_ERROR);
+		}
+	
 	}
 	}

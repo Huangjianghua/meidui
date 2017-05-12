@@ -26,6 +26,7 @@ import com.meiduimall.service.account.model.MSAccountDetailGet;
 import com.meiduimall.service.account.model.MSAccountList;
 import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
 import com.meiduimall.service.account.model.MSDict;
+import com.meiduimall.service.account.model.MSRechargeApply;
 import com.meiduimall.service.account.model.request.RequestAccountReviseDetail;
 import com.meiduimall.service.account.model.request.RequestMSAccountList;
 import com.meiduimall.service.account.model.request.RequestMSBankWithDrawDepostie;
@@ -410,5 +411,18 @@ public class MoneyV1Controller {
 		}else if(StringUtils.isBlank(deposit.getApplyCarryCash())){
 			throw new ApiException(ApiStatusConst.PARAMETER_APPLYCARRYCASH_IS_NULL);
 		}
+	}
+	/**
+	 * 外部充值申请
+	 */
+	@PostMapping(value="/rechargeApply")
+	public ResBodyData  rechargeApply(@RequestBody MSRechargeApply deposit){
+		try {
+			mSAccountDetailService.rechargeApply(deposit);
+		} catch (MdBizException e) {
+			logger.error("申请操作Controller异常:{}", e.getMessage());
+			throw new ApiException(e.getCode(),e.getMessage());
+		}
+		return new ResBodyData(ApiStatusConst.SUCCESS, ApiStatusConst.SUCCESS_M);
 	}
 }
