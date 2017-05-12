@@ -28,7 +28,7 @@ public class GoodsDetailController {
 	private GoodsDetailService goodsDetailService;
 
 	/**
-	 * 根据商品编号，查询商品是否存在   
+	 * 根据商品编号，查询商品是否存在
 	 * 
 	 * @param itemId
 	 *            商品编号，必须
