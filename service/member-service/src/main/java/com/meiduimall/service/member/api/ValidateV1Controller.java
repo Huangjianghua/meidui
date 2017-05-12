@@ -1,6 +1,5 @@
 package com.meiduimall.service.member.api;
 
-import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +13,6 @@ import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.MdSysException;
-import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.member.constant.ApiStatusConst;
 import com.meiduimall.service.member.service.ValidateService;
 
