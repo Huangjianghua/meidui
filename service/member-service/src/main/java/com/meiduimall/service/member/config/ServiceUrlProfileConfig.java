@@ -1,7 +1,8 @@
 package com.meiduimall.service.member.config;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 /**
  * 获取当前环境其他service的地址
  * @author chencong
@@ -10,18 +11,15 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ServiceUrlProfileConfig {
 	
-	@Value("${service.account}")
-	private String accountServiceUrl;
-	
-	@Value("${service.sms}")
-	private String smsServiceUrl;
+	@Autowired
+	private Environment env;
 
 	public String getSmsServiceUrl() {
-		return smsServiceUrl;
+		return env.getProperty("service.sms");
 	}
 
 	public String getAccountServiceUrl() {
-		return accountServiceUrl;
+		return env.getProperty("service.account");
 	}
 	
 }

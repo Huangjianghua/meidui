@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="SystradePromotionDetailMapper" >
-  <resultMap id="BaseResultMap" type="com.meiduimall.application.md1gwaccess.model.SystradePromotionDetail" >
+  <resultMap id="BaseResultMap" type="com.meiduimall.application.mall.pay.model.SystradePromotionDetail" >
     <result column="tid" property="tid" jdbcType="BIGINT" />
     <result column="oid" property="oid" jdbcType="BIGINT" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
@@ -12,7 +12,7 @@
     <result column="promotion_tag" property="promotionTag" jdbcType="VARCHAR" />
     <result column="promotion_name" property="promotionName" jdbcType="VARCHAR" />
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.meiduimall.application.md1gwaccess.model.SystradePromotionDetail" extends="BaseResultMap" >
+  <resultMap id="ResultMapWithBLOBs" type="com.meiduimall.application.mall.pay.model.SystradePromotionDetail" extends="BaseResultMap" >
     <result column="promotion_desc" property="promotionDesc" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Blob_Column_List" >

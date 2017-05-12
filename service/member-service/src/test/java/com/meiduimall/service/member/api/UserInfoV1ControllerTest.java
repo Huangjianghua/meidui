@@ -35,7 +35,5 @@ public class UserInfoV1ControllerTest extends BaseControllerTest {
 				}
 			});
 
-	    }
-	    
-	      
+	    } 
 }

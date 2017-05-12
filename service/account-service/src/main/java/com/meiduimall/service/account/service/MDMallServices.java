@@ -21,7 +21,6 @@ public interface MDMallServices {
 	 * @param obj
 	 * @param request
 	 * @param response
-	 * @param oMessage
 	 * @return
 	 */
 	public String addMallPoints(JSONObject obj, HttpServletRequest request,
@@ -38,7 +37,7 @@ public interface MDMallServices {
 	 * @param userid
 	 * @param password
 	 * @param topupnum
-	 * @param ordernoid
+	 * @param orderid
 	 * @return
 	 */
 	public JSONObject invokForAddBank(HttpServletRequest request, String ip,String memid, String userid, String password, String topupnum, String orderid);
@@ -49,7 +48,7 @@ public interface MDMallServices {
 	 * 描述:  增加美兑积分<br>
 	 * 编写者:  admin <br>
 	 * 创建时间: 2016-10-31
-	 * @param member
+	 * @param memId
 	 * @param consumePoints
 	 * @return
 	 */

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="SysuserWalletPaylogMapper" >
-  <resultMap id="BaseResultMap" type="com.meiduimall.application.md1gwaccess.model.SysuserWalletPaylog" >
+  <resultMap id="BaseResultMap" type="com.meiduimall.application.mall.pay.model.SysuserWalletPaylog" >
     <id column="Wpid" property="wpid" jdbcType="INTEGER" />
     <result column="Wpno" property="wpno" jdbcType="VARCHAR" />
     <result column="Uid" property="uid" jdbcType="INTEGER" />
@@ -16,7 +16,7 @@
     Wpid, Wpno, Uid, login_name, order_no, vor_money, money, Wptime, af_money
   </sql>
    
-  <update id="updateUsersWalletPay" parameterType="com.meiduimall.application.md1gwaccess.model.SysuserWalletPaylog" >
+  <update id="updateUsersWalletPay" parameterType="com.meiduimall.application.mall.pay.model.SysuserWalletPaylog" >
     update sysuser_wallet_paylog
     <set >
       <if test="wpno != null" >

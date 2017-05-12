@@ -24,7 +24,7 @@ public class RequestSendSms  implements Serializable {
 	private String params;
 
 	public String getParams() {
-		return params;
+		return params==null?"":params;
 	}
 
 	public void setParams(String params) {

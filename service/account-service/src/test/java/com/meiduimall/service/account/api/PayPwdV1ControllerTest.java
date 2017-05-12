@@ -78,8 +78,8 @@ public class PayPwdV1ControllerTest extends BaseControllerTest {
     public void updatePaypwd() throws Exception{
     	RequestUpdatePaypwd requestUpdatePaypwd=new RequestUpdatePaypwd();
     	requestUpdatePaypwd.setMemId(memId);
-    	requestUpdatePaypwd.setOld_paypwd("123456");
-    	requestUpdatePaypwd.setNew_paypwd("123456");
+    	requestUpdatePaypwd.setOld_pay_pwd("123456");
+    	requestUpdatePaypwd.setNew_pay_pwd("123456");
     	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/update_pay_pwd")
     			.contentType(MediaType.APPLICATION_JSON_UTF8)
     			.content(JsonUtils.beanToJson(requestUpdatePaypwd)))
@@ -95,13 +95,13 @@ public class PayPwdV1ControllerTest extends BaseControllerTest {
 		});
     	
     	requestUpdatePaypwd.setMemId(memId);
-    	requestUpdatePaypwd.setOld_paypwd("1233456");
-    	requestUpdatePaypwd.setNew_paypwd("123456");
+    	requestUpdatePaypwd.setOld_pay_pwd("1233456");
+    	requestUpdatePaypwd.setNew_pay_pwd("123456");
         postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/update_pay_pwd")
     			.contentType(MediaType.APPLICATION_JSON_UTF8)
     			.content(JsonUtils.beanToJson(requestUpdatePaypwd)))
     			.andExpect(status().isOk())
-    			.andExpect(jsonPath("$.status",is(7016)));
+    			.andExpect(jsonPath("$.status",is(7017)));
     	
     	postResultAction.andDo(new ResultHandler() {
 			@Override
@@ -110,33 +110,6 @@ public class PayPwdV1ControllerTest extends BaseControllerTest {
 
 			}
 		});
-    }
-    
-    
-	/**
-	 * 找回支付密码
-	 * @throws Exception
-	 */
-    @Test
-    public void retrievePaypwd() throws Exception{
-    	RequestUpdatePaypwd requestUpdatePaypwd=new RequestUpdatePaypwd();
-    	requestUpdatePaypwd.setMemId(memId);
-    	requestUpdatePaypwd.setOld_paypwd("123456");
-    	requestUpdatePaypwd.setNew_paypwd("123456");
-    	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/retrieve_pay_pwd")
-    			.contentType(MediaType.APPLICATION_JSON_UTF8)
-    			.content(JsonUtils.beanToJson(requestUpdatePaypwd)))
-    			.andExpect(status().isOk())
-    			.andExpect(jsonPath("$.status",is(0)));
-    	
-    	postResultAction.andDo(new ResultHandler() {
-			@Override
-			public void handle(MvcResult result) throws Exception {
-
-				logger.info("单元测试>>找回支付密码API>>执行结果:{}",result.getResponse().getContentAsString());;
-			}
-		});
-    	
     }
     
 	      

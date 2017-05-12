@@ -10,14 +10,10 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-
-
+import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdBizException;
 import com.meiduimall.exception.MdSysException;
-
-
 import com.meiduimall.service.account.constant.ApiStatusConst;
-import com.meiduimall.service.account.model.ResBodyData;
 
 /**
  * 全局异常处理

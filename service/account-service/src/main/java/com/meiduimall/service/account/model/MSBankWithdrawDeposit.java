@@ -2,6 +2,13 @@ package com.meiduimall.service.account.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.meiduimall.exception.MdSysException;
+import com.meiduimall.service.account.constant.MSBankWithDrawDepositStatusEnum;
+import com.meiduimall.service.account.util.DESC;
 
 /**
  * 类名:  MSBankWithdrawDepositDTO<br>
@@ -54,12 +61,17 @@ public class MSBankWithdrawDeposit implements Serializable{
 
 	/** 申请提现金额 */
 	private String applyCarryCash;
+	/** 提现时余额*/
+	private String withdrawBalance;
 
 	/** 手续费 */
 	private String counterFee;
 
 	/** 实际提现金额 */
 	private String actualCarryCash;
+	
+	/** 实际转账金额 */
+	private String actualTransferCash;
 
 	/** 申请时间 */
 	private Date applyDate;
@@ -83,6 +95,18 @@ public class MSBankWithdrawDeposit implements Serializable{
 	private Date createDate;
 	
 	private String balance;
+	
+	/**
+	 * 操作提现
+	 */
+	private String operate;
+	
+	/**
+	 * 提现操作记录详情
+	 */
+	private List<MSBankWithDrawOperateDetail> listDetail;
+	
+	private String isDelete;
 
 	public String getId() {
 		return id;
@@ -229,7 +253,7 @@ public class MSBankWithdrawDeposit implements Serializable{
 	}
 
 	public String getStatus() {
-		return status;
+		return MSBankWithDrawDepositStatusEnum.getNameByCode(this.status);
 	}
 
 	public void setStatus(String status) {
@@ -262,7 +286,8 @@ public class MSBankWithdrawDeposit implements Serializable{
 
 	
 
-	public String getLoginName() {
+	public String getLoginName() throws MdSysException {
+		if(StringUtils.isNotBlank(this.loginName)) return DESC.deyption(loginName);
 		return loginName;
 	}
 
@@ -270,7 +295,8 @@ public class MSBankWithdrawDeposit implements Serializable{
 		this.loginName = loginName;
 	}
 
-	public String getPhone() {
+	public String getPhone() throws MdSysException{
+		if(StringUtils.isNotBlank(this.phone)) return DESC.deyption(phone);
 		return phone;
 	}
 
@@ -285,8 +311,45 @@ public class MSBankWithdrawDeposit implements Serializable{
 	public void setBalance(String balance) {
 		this.balance = balance;
 	}
-	
-	
-	
+
+	public String getActualTransferCash() {
+		return actualTransferCash;
+	}
+
+	public void setActualTransferCash(String actualTransferCash) {
+		this.actualTransferCash = actualTransferCash;
+	}
+
+	public String getWithdrawBalance() {
+		return withdrawBalance;
+	}
+
+	public void setWithdrawBalance(String withdrawBalance) {
+		this.withdrawBalance = withdrawBalance;
+	}
+
+	public String getOperate() {
+		return operate;
+	}
+
+	public void setOperate(String operate) {
+		this.operate = operate;
+	}
+
+	public List<MSBankWithDrawOperateDetail> getListDetail() {
+		return listDetail;
+	}
+
+	public void setListDetail(List<MSBankWithDrawOperateDetail> listDetail) {
+		this.listDetail = listDetail;
+	}
+
+	public String getIsDelete() {
+		return isDelete;
+	}
+
+	public void setIsDelete(String isDelete) {
+		this.isDelete = isDelete;
+	}
 
 }

@@ -169,11 +169,11 @@ public class MSMembersGet implements Serializable {
 	}
 	
 	public String getMemLockCountPlained() {
-		return memLockCountPlained;
+		return memLockCountPlained==null?"0":memLockCountPlained;
 	}
 
 	public void setMemLockCountPlained(String memLockCountPlained) {
-		this.memLockCountPlained = memLockCountPlained;
+		this.memLockCountPlained = memLockCountPlained==null?"0":memLockCountPlained;
 	}
 
 	

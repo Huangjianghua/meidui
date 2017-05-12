@@ -4,7 +4,7 @@
 <mapper namespace="MSBankAccountMapper">
 	
 	<!-- 插入个人账户银行信息 -->
-	<insert id="insertBankAccount" parameterType="MSBankAccount">
+	<insert id="insertBankAccount" parameterType="com.meiduimall.service.account.model.MSBankAccount">
 		INSERT INTO ms_bank_account (
 			id,
 			mem_id,

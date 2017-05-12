@@ -17,4 +17,12 @@ public interface MoneyService {
 	 * @return 统一数据返回格式
 	 */
 	ResBodyData listAccountDetail(JSONObject reqJson);
+	
+	/**
+	 * 提现申请
+	 * @param reqJson
+	 * @return
+	 * @author: jianhua.huang  2017年5月4日 上午10:40:36
+	 */
+	ResBodyData saveWithDrawApply(JSONObject reqJson);
 }

@@ -4,6 +4,22 @@
 <!-- 会员表 ms_members相关操作 -->
 <mapper namespace="MSMembersMapper">
 
+	<!-- 根据userId查询是否存在一条记录 -->
+	<select id="selectCountByUserId" parameterType="java.lang.String" resultType="java.lang.String" >
+		SELECT m.mem_id
+		FROM ms_members m
+		WHERE m.mem_phone = #{userId}
+		UNION ALL
+		SELECT m.mem_id
+		FROM ms_members m
+		WHERE m.mem_login_name =#{userId}
+		UNION ALL
+	    SELECT m.mem_id
+		FROM ms_members m
+		WHERE m.mem_email = #{userId}
+	</select>
+
+
 	<!-- 根据会员ID查询会员信息-->
 	<select id="getRespMemberBasicInfoByMemId" parameterType="java.lang.String" resultType="com.meiduimall.service.member.model.response.ResponseMemberBasicInfo" >
 		SELECT 
@@ -23,7 +39,7 @@
 		m.mem_reg_day AS memRegDay,
 		m.enable AS paypwd_isopen
 		FROM ms_members AS m 
-		WHERE m.mem_id=#{memid}
+		WHERE m.mem_id=#{memId}
 	</select>
 	
 	<!-- 根据条件查询会员基本信息-->
@@ -225,4 +241,26 @@
 		)
 	</insert>
 	
+		<!-- 根据条件查询会员锁定列表信息-->
+	<select id="queryMemberLockList" parameterType="com.meiduimall.service.member.model.request.RequestLoginUnlock" resultType="com.meiduimall.service.member.model.response.MemberLockDTO">
+		SELECT 
+		m.mem_id AS memId,
+		m.mem_email AS memEmail,
+		m.mem_phone AS memPhone,
+		m.mem_lock_count AS memLockCount,
+		m.mem_lock_count_translation AS memLockCountTranslation,
+	    m.mem_login_time AS memLoginTime,
+	    m.mem_login_name AS memLoginName
+		FROM ms_members m
+		WHERE m.mem_lock_count_translation>=5  /** 登陆解锁列表   锁定次数大于4次*/
+		<if test="memLoginName != null and memLoginName != ''">
+		AND m.mem_login_name = #{memLoginName} 
+		</if>
+		<if test="memPhone != null and memPhone != ''">
+		AND m.mem_phone=#{memPhone}
+		</if>
+		<if test="memEmail != null and memEmail != ''">
+		AND m.mem_email=#{memEmail}
+		</if>
+	</select>
 </mapper>

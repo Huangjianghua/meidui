@@ -289,6 +289,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 			
 			Map<String, Object> mapData=new HashMap<>();
 			mapData.put("token",redisToken);
+			mapData.put("user_name",msMembersGet.getMemLoginName());
 			resBodyData.setData(mapData);
 		}
 		else{
@@ -306,8 +307,9 @@ public class BasicOpServiceImpl implements BasicOpService {
 			}
 			msMembersSet.setMemLockCount(String.valueOf(newLoginLockCount));
 			msMembersSet.setMemLockCountPlained(String.valueOf(newLoginLockCountPlained));
-			baseDao.update(msMembersGet,"MSMembersMapper.updateMemberBasicInfoByCondition");
-			throw new ServiceException(ApiStatusConst.PASSWORD_ERROR);
+			baseDao.update(msMembersSet,"MSMembersMapper.updateMemberBasicInfoByCondition");
+			resBodyData.setStatus(ApiStatusConst.PASSWORD_ERROR);
+			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.PASSWORD_ERROR));
 		}
 		return resBodyData;
 	}
@@ -322,7 +324,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 		/**登录名没传就分配默认的*/
 		if(StringUtils.isEmpty(model.getLogin_name())){
 			open_default_login_name=true;
-			model.setLogin_name(SysParamsConst.DEFAULT_LOGIN_NAME_PREFIX+model.getLogin_name());
+			model.setLogin_name(SysParamsConst.DEFAULT_LOGIN_NAME_PREFIX+model.getPhone()+String.valueOf(Constants.CONSTANT_INT_ZERO));
 		}
 		/**校验推荐人,没传就分配默认的*/
 		if(!StringUtils.isEmpty(model.getShare_man())){
@@ -399,11 +401,11 @@ public class BasicOpServiceImpl implements BasicOpService {
 	
 		/**增加积分并写入积分流水*/
 		userInfoService.updateCurrentPointByMemId(memid,String.valueOf(Constants.CONSTANT_INT_ZERO),SysParamsConst.MD1GW_REGISTER_ADD_POINTS);
-		String orderId=SysParamsConst.DEFAULT_ORDERID_PREFIX+ model.getLogin_name()+String.valueOf(System.currentTimeMillis()/1000L);
+		String orderId=SysParamsConst.DEFAULT_ORDERID_PREFIX+ model.getLogin_name()+SysParamsConst.ADD_SYMBOL+String.valueOf(System.currentTimeMillis()/1000L);
 		insertConsumePointDetail(memid,orderId,model.getSource(),SysParamsConst.MD1GW_REGISTER_ADD_POINTS,SysParamsConst.MD1GW_REGISTER_ADD_POINTS,model.getPhone(),SysEncrypParamsConst.POINTS_OPERATOR_TYPE_ZCZS);
 		if (!open_default_share_man) {//如果推荐人非系统默认
 			userInfoService.updateCurrentPointByMemId(shareManInfo.getMemId(),shareManInfo.getMemBasicAccountTotalQuantity(),SysParamsConst.MD1GW_REGISTER_ADD_POINTS);//一级分享人增加100积分
-			orderId=SysParamsConst.DEFAULT_ORDERID_PREFIX+ model.getShare_man()+String.valueOf(System.currentTimeMillis()/1000L);
+			orderId=SysParamsConst.DEFAULT_ORDERID_PREFIX+ model.getShare_man()+SysParamsConst.ADD_SYMBOL+String.valueOf(System.currentTimeMillis()/1000L);
 			insertConsumePointDetail(shareManInfo.getMemId(),orderId,model.getSource(),SysParamsConst.MD1GW_REGISTER_ADD_POINTS,SysParamsConst.MD1GW_REGISTER_ADD_POINTS,model.getPhone(),SysEncrypParamsConst.POINTS_OPERATOR_TYPE_YQZCZS);
 		}
 		
@@ -419,12 +421,10 @@ public class BasicOpServiceImpl implements BasicOpService {
 		requestSendSms.setPhone(model.getPhone());
 		requestSendSms.setTemplateId(SmsTemplateIDConst.getSmsTemplate(SmsTemplateIDConst.REGIST_SUCCESS));
 		requestSendSms.setParams(model.getPhone());
-		requestSendSms.setParams(model.getPhone());
 		smsService.sendSms(requestSendSms);
 		/**发送分享人赠送积分短信...*/
 		requestSendSms.setPhone(shareManInfo.getMemPhone());
 		requestSendSms.setTemplateId(SmsTemplateIDConst.getSmsTemplate(SmsTemplateIDConst.GIVE_POINT));
-		requestSendSms.setParams(shareManInfo.getMemPhone());
 		requestSendSms.setParams(shareManInfo.getMemPhone());
 		smsService.sendSms(requestSendSms);
 		return resBodyData;
@@ -446,7 +446,8 @@ public class BasicOpServiceImpl implements BasicOpService {
 		String memid=UUID.randomUUID().toString();
 		memberSet.setMemId(memid);
 		memberSet.setMemCreatedBy(memid);
-		memberSet.setMemLoginName(SysParamsConst.DEFAULT_LOGIN_NAME_PREFIX+model.getPhone());
+		
+		memberSet.setMemLoginName(SysParamsConst.DEFAULT_LOGIN_NAME_PREFIX+model.getPhone()+String.valueOf(Constants.CONSTANT_INT_ZERO));
 		memberSet.setMemLoginNameIsdefaultIschanged(open_default_login_name?"0_1":"1_0");
 		memberSet.setMemOldPhone(model.getPhone());
 		memberSet.setMemPhone(model.getPhone());
@@ -492,6 +493,14 @@ public class BasicOpServiceImpl implements BasicOpService {
 		baseDao.insert(null,"");*/
 		
 		//更新父类字符串（获取粉丝明细会用到）...暂时忽略
+		
+		String redisToken=ToolsUtil.createToken(model.getPhone(),tokenKey);//生成token
+		RedisTemplate.getJedisInstance().execSetexToCache(redisToken,Constants.REDIS_ONEMONTH,memid);//把token存储到redis，并设置失效时间一个月
+		RedisTemplate.getJedisInstance().execSetexToCache(memid,Constants.REDIS_ONEMONTH,redisToken);//临时代码，兼容旧会员系统
+		Map<String, Object> mapData=new HashMap<>();
+		mapData.put("token",redisToken);
+		mapData.put("user_id",model.getPhone());
+		resBodyData.setData(mapData);
 	
 		return resBodyData;
 	}
@@ -503,14 +512,9 @@ public class BasicOpServiceImpl implements BasicOpService {
 		boolean open_default_share_man=false;//是否分配默认推荐人
 		boolean open_default_login_name=false;//是否分配默认登录名
 		String tokenKey=model.getTokenKey();
-		/**登录名没传就分配默认的*/
-		if(StringUtils.isEmpty(model.getLogin_name())){
-			open_default_login_name=true;
-			model.setLogin_name(SysParamsConst.DEFAULT_LOGIN_NAME_PREFIX+model.getLogin_name());
-		}
 		/**校验推荐人,没传就分配默认的*/
 		if(!StringUtils.isEmpty(model.getShare_man())){
-			if(model.getLogin_name().equals(model.getShare_man())||model.getPhone().equals(model.getShare_man())){
+			if(model.getPhone().equals(model.getShare_man())){
 				throw new ServiceException(ApiStatusConst.SHARE_MAN_CANNOT_IS_ITSELF);
 			}
 		}
@@ -522,7 +526,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 		/**校验注册验证码*/
 		RequestCheckValidateCode checkCode=new RequestCheckValidateCode();
 		checkCode.setPhone(model.getPhone());
-		checkCode.setType(Constants.CONSTANT_INT_ONE);
+		checkCode.setType(Constants.CONSTANT_INT_TWO);
 		checkCode.setValidate_code(model.getValidate_code());
 		smsService.checkValidateCode(checkCode);
 		/**开始生成会员信息*/
@@ -531,12 +535,13 @@ public class BasicOpServiceImpl implements BasicOpService {
 		String memid=UUID.randomUUID().toString();
 		memberSet.setMemId(memid);
 		memberSet.setMemCreatedBy(memid);
-		memberSet.setMemLoginName(model.getLogin_name());
+		memberSet.setMemLoginName(SysParamsConst.DEFAULT_LOGIN_NAME_PREFIX+model.getPhone()+String.valueOf(Constants.CONSTANT_INT_ZERO));
 		memberSet.setMemLoginNameIsdefaultIschanged(open_default_login_name?"0_1":"1_0");
 		memberSet.setMemOldPhone(model.getPhone());
 		memberSet.setMemPhone(model.getPhone());
 		memberSet.setMemLoginPwd(model.getPass_word());
 		memberSet.setMemNickName(model.getPhone());
+		memberSet.setMemIsAllActivated(true);
 		memberSet.setMemCreatedDate(date);
 		memberSet.setMemCreatedCategory(1);
 		memberSet.setDictMemStatus(SysEncrypParamsConst.MEMBER_STATUS_OK);
@@ -583,11 +588,11 @@ public class BasicOpServiceImpl implements BasicOpService {
 	
 		/**增加积分并写入积分流水*/
 		userInfoService.updateCurrentPointByMemId(memid,String.valueOf(Constants.CONSTANT_INT_ZERO),SysParamsConst.MD1GW_REGISTER_ADD_POINTS);
-		String orderId=SysParamsConst.DEFAULT_ORDERID_PREFIX+ model.getLogin_name()+String.valueOf(System.currentTimeMillis()/1000L);
+		String orderId=SysParamsConst.DEFAULT_ORDERID_PREFIX+ model.getLogin_name()+SysParamsConst.ADD_SYMBOL+String.valueOf(System.currentTimeMillis()/1000L);
 		insertConsumePointDetail(memid,orderId,model.getSource(),SysParamsConst.MD1GW_REGISTER_ADD_POINTS,SysParamsConst.MD1GW_REGISTER_ADD_POINTS,model.getPhone(),SysEncrypParamsConst.POINTS_OPERATOR_TYPE_ZCZS);
 		if (!open_default_share_man) {//如果推荐人非系统默认
 			userInfoService.updateCurrentPointByMemId(shareManInfo.getMemId(),shareManInfo.getMemBasicAccountTotalQuantity(),SysParamsConst.MD1GW_REGISTER_ADD_POINTS);//一级分享人增加100积分
-			orderId=SysParamsConst.DEFAULT_ORDERID_PREFIX+ model.getShare_man()+String.valueOf(System.currentTimeMillis()/1000L);
+			orderId=SysParamsConst.DEFAULT_ORDERID_PREFIX+ model.getShare_man()+SysParamsConst.ADD_SYMBOL+String.valueOf(System.currentTimeMillis()/1000L);
 			insertConsumePointDetail(shareManInfo.getMemId(),orderId,model.getSource(),SysParamsConst.MD1GW_REGISTER_ADD_POINTS,SysParamsConst.MD1GW_REGISTER_ADD_POINTS,model.getPhone(),SysEncrypParamsConst.POINTS_OPERATOR_TYPE_YQZCZS);
 		}
 		

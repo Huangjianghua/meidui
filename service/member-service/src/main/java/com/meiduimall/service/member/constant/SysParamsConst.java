@@ -88,12 +88,17 @@ public class SysParamsConst {
 	public static final String USER_AGENT="User-Agent";
 	
 	/**默认登录名前缀*/
-	public static final String DEFAULT_LOGIN_NAME_PREFIX="M_";
+	public static final String DEFAULT_LOGIN_NAME_PREFIX="1gw_";
 	
 	/**订单号前缀*/
-	public static final String DEFAULT_ORDERID_PREFIX="md1gw_";
+	public static final String DEFAULT_ORDERID_PREFIX="1GW+";
 	
 	/**短信服务给会员分配的sysKey*/
 	public static final String SMS_SYSKEY="member_service";
+	
+	/**+*/
+	public static final String ADD_SYMBOL="+";
+	/**初始化解锁0 */
+	public static final String INIT_LOGIN_LOCK_COUNT = "0";
 
 }

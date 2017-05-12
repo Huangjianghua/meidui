@@ -19,8 +19,6 @@ public interface SmsService {
 	 * 获取短信验证码
 	 * @param model 获取短信验证码请求映射实体
 	 * @return true:请求短信服务成功  false:请求短信服务失败
-	 * @throws IOException 
-	 * @throws ClientProtocolException 
 	 */
 	boolean getValidateCode(RequestGetValidateCode model);
 	
@@ -28,17 +26,13 @@ public interface SmsService {
 	 * 校验短信验证码
 	 * @param model 校验短信验证码请求映射实体
 	 * @return true:校验成功  false:校验失败
-	 * @throws IOException 
-	 * @throws ClientProtocolException 
 	 */
 	boolean checkValidateCode(RequestCheckValidateCode model);
 	
 	/**
 	 * 发送普通短信
 	 * @param model 发送短信请求映射实体
-	 * @throws IOException 
-	 * @throws ClientProtocolException 
 	 */
-	boolean sendSms(RequestSendSms model);
+	void sendSms(RequestSendSms model);
 	
 }

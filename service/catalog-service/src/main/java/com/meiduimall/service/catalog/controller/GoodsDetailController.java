@@ -13,7 +13,7 @@ import com.meiduimall.service.catalog.constant.ServiceCatalogApiCode;
 import com.meiduimall.service.catalog.service.GoodsDetailService;
 
 /**
- * 商品详情相关操作
+ * 商品详情相关操作 
  * 
  * @author yangchangfu
  *
@@ -28,7 +28,7 @@ public class GoodsDetailController {
 	private GoodsDetailService goodsDetailService;
 
 	/**
-	 * 根据商品编号，查询商品是否存在
+	 * 根据商品编号，查询商品是否存在 
 	 * 
 	 * @param itemId
 	 *            商品编号，必须

@@ -1,0 +1,126 @@
+server:
+  port: 8097
+
+---
+spring:
+  profiles: dev
+
+# redis
+config :
+  jedis :  
+    jedisShardInfo :  
+      host : 192.168.4.236
+      port : 6379  
+      password: meiduiredis2016 
+    maxTotal: 1024 
+    maxIdle: 250  
+    maxWaitMillis : 2000 
+    testOnBorrow: true
+    testOnReturn: true
+    
+#服务网关地址
+service:
+  account:
+    url: http://192.168.4.240:9050/member/account_service/
+  member:
+    url: http://192.168.4.240:9050/member/member_service/
+  sms:
+    url: http://192.168.4.240:9050/notify/short_msg_service/
+    
+route:
+  clientID: member_java
+  key: Test123
+
+
+---
+spring:
+  profiles: prepro
+
+# redis
+config :
+  jedis :  
+    jedisShardInfo :  
+      host : 192.168.4.236  
+      port : 6379  
+      password: meiduiredis2016 
+    maxTotal: 1024  
+    maxIdle: 250  
+    maxWaitMillis : 2000 
+    testOnBorrow: true
+    testOnReturn: true
+    
+#服务网关地址
+service:
+  account:
+    url: http://10.45.178.235:9050/member/account_service/
+  member:
+    url: http://10.45.178.235:9050/member/member_service/
+  sms:
+    url: http://10.45.178.235:9050/notify/short_msg_service/
+
+route:
+  clientID: member_java
+  key: Test123
+
+
+---
+spring:
+  profiles: pro
+
+# redis
+config :
+  jedis :  
+    jedisShardInfo :  
+      host : 192.168.4.236  
+      port : 6379  
+      password: meiduiredis2016 
+    maxTotal: 1024  
+    maxIdle: 250  
+    maxWaitMillis : 2000 
+    testOnBorrow: true
+    testOnReturn: true
+    
+#服务网关地址
+service:
+  account:
+    url: http://10.116.21.93:9050/member/account_service/
+  member:
+    url: http://10.116.21.93:9050/member/member_service/
+  sms:
+    url: http://10.116.21.93:9050/notify/short_msg_service/
+
+route:
+  clientID: member_java
+  key: Test123
+
+
+---
+spring:
+  profiles: test
+
+# redis
+config :
+  jedis :  
+    jedisShardInfo :  
+      host : 192.168.4.110  
+      port : 6379 
+      password: meiduiredis2017 
+    maxTotal: 1024  
+    maxIdle: 250  
+    maxWaitMillis : 2000 
+    testOnBorrow: true
+    testOnReturn: true
+    
+#服务网关地址
+service:
+  account:
+    url: http://192.168.4.111:9050/member/account_service/
+  member:
+    url: http://192.168.4.111:9050/member/member_service/
+  sms:
+    url: http://192.168.4.111:9050/notify/short_msg_service/
+
+route:
+  clientID: member_java
+  key: Test123
+

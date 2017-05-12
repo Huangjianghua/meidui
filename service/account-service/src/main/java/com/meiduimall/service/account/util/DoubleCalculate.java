@@ -71,7 +71,6 @@ public class DoubleCalculate {
 	 * @param scale
 	 *            精确范围 =精确度不能小于0
 	 * @return 两个参数的商
-	 * @throws IllegalAccessException
 	 */
 	public static double div(double value1, double value2, int scale) {
 		if (scale < 0) {

@@ -18,22 +18,26 @@ import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.meiduimall.core.util.JsonUtils;
-import com.meiduimall.service.account.model.AccountReviseDetail;
+import com.meiduimall.exception.MdSysException;
+import com.meiduimall.service.account.model.AddOrUpdateAccountReviseDetail;
+import com.meiduimall.service.account.model.MSAccountDetailCondition;
 import com.meiduimall.service.account.model.MSAccountDetailGet;
+import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
 import com.meiduimall.service.account.model.request.RequestAccountReviseDetail;
+import com.meiduimall.service.account.util.DESC;
 import com.meiduimall.service.account.util.DateUtil;
 
+import net.sf.json.JSONObject;
 
 
+/**
+ * @FileName: MoneyV1ControllerTests.java
+ * @Author:   jianhua.huang 
+ * @Date:     2017年4月18日 下午3:39:45
+ * @Description: 测试新会员列表接口	
+ */
 public class MoneyV1ControllerTests extends BaseControllerTest {
-	
 	private final static Logger logger=LoggerFactory.getLogger(MoneyV1ControllerTests.class);
-	
-	
-	private AccountReviseDetail dto;
-	
-	
-
 	/**
 	 * 余额流水
 	 * @throws Exception
@@ -59,53 +63,51 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 
 	
 	/**
-	 * @Description: 涓嶅姞鏉′欢鏌ヨ
 	 * @Author: jianhua.huang
-	 * @Date:   2017骞�4鏈�18鏃� 涓嬪崍3:46:31
+	 * @Date:   2017年4月18日 下午3:46:31
 	 */
 	@Test
 	public void queryAccountListTest() throws Exception {
 		 String url = "/member/account_service/v1/list_account";
-		 String json = "{\"flg\":\"1\"}";
+		 String json = "{\"memParentIdPhone\":\"13418786965\",\"flg\":\"1\"}";
 		 
 		 resultSystemOutPut(url,json);
 	}
 	
 	/**
-	 * @Description: 娣诲姞娴嬭瘯
+	 * @Description: 添加测试
 	 * @Author: jianhua.huang
-	 * @Date:   2017骞�4鏈�20鏃� 涓嬪崍2:18:31
+	 * @Date:   2017年4月20日 下午2:18:31
 	 */
 	@Test
 	public void addMSAccountRevisionDetailTest() throws Exception {
 		 String url = "/member/account_service/v1/add_account_revision_detail";
-		 dto=new AccountReviseDetail();
+		 AddOrUpdateAccountReviseDetail dto=new AddOrUpdateAccountReviseDetail();
 		 dto.setMemId("72063681-7408-435c-88fd-cd837c95c66e");
-		 dto.setMemLoginName("aaaa");
-		 dto.setMemPhone("123456");
 		 dto.setReviseType("1");
 		 dto.setStatus("WR");
 		 dto.setIsDelete("N");
 		 dto.setCreatedBy("huang");
 		 dto.setUpdatedBy("huang2");
-		 dto.setReviewRemark("鏄偗瀹氫細缃氭鍐冲畾浠樻鍚庝細璁″笀鐨勭柉鐙傜殑11");
-		 dto.setReviseRemark("浣嗘槸绂诲紑娉涙捣寤鸿鍟︾湅瑙佸搱浣汭鏈潵閭ｅ潡鍦版柟22");
-		 String json=JsonUtils.beanToJson(dto);
+		 dto.setReviewRemark("是肯定会罚款决定付款后会计师的疯狂的11");
+		 dto.setReviseRemark("但是离开泛海建设啦看见哈佛I未来那块地方22");
+		 String object=JsonUtils.beanToJson(dto);
+		 String json=object.toString();
 		 
 		 resultSystemOutPut(url,json);
 	}
 	
 	/**
-	 * @Description: 淇敼娴嬭瘯
+	 * @Description: 修改测试
 	 * @Author: jianhua.huang
-	 * @Date:   2017骞�4鏈�20鏃� 涓嬪崍2:48:31
+	 * @Date:   2017年4月20日 下午2:48:31
 	 */
 	@Test
 	public void updateMSAccountRevisionDetailTest() throws Exception {
 		 String url = "/member/account_service/v1/update_account_revision_detail";
-		 dto=new AccountReviseDetail();
+		 AddOrUpdateAccountReviseDetail dto=new AddOrUpdateAccountReviseDetail();
 		 dto.setMemId("72063681-7408-435c-88fd-cd837c95c66e");
-		 dto.setMemLoginName("寰坱est1");
+		 dto.setMemLoginName("很test1");
 		 dto.setMemPhone("15112347555");
 		 dto.setReviseType("1");
 		 dto.setStatus("AR");
@@ -116,82 +118,151 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 		 dto.setCreatedDate(DateUtil.formatDateTime(new Date()));
 		 dto.setUpdatedDate(DateUtil.formatDateTime(new Date()));
 		 dto.setUpdatedBy("huangTestUpdate2");
-		 dto.setReviewRemark("璐㈠姟澶勭悊");
-		 dto.setReviseRemark("閫氳繃");
+		 dto.setReviewRemark("财务处理");
+		 dto.setReviseRemark("通过");
 		 String json=JsonUtils.beanToJson(dto);
 		 
 		 resultSystemOutPut(url,json);
 	}
 	
 	/**
-	 * @Description: 鏌ョ湅浼氬憳浣欓鏄庣粏
+	 * @Description: 查看会员余额明细
 	 * @Author: jianhua.huang
-	 * @Date:   2017骞�4鏈�20鏃� 涓嬪崍3:02:44
+	 * @Date:   2017年4月20日 下午3:02:44
 	 */
 	@Test
 	public void getMSAccountRevisionDetailTest() throws Exception {
 		 String url = "/member/account_service/v1/get_account_revision_detail";
 		 String id="15cc8c8f-5e7c-4ade-b325-21b3a360115a";
-		 
-		 resultSystemOutPut(url,id);
+		 String json=JsonUtils.beanToJson(id);
+		 resultSystemOutPut(url,json);
 	}
 	
 	/**
-	 * @Description: 鏌ョ湅浼氬憳浣欓鏄庣粏闆嗗悎
+	 * @Description: 查看会员余额明细集合
 	 * @Author: jianhua.huang
-	 * @Date:   2017骞�4鏈�20鏃� 涓嬪崍3:22:44
+	 * @Date:   2017年4月20日 下午3:22:44
 	 */
 	@Test
 	public void queryMSAccountRevisionDetailListTest() throws Exception {
 		 String url = "/member/account_service/v1/query_account_revision_detail_list";
 		 RequestAccountReviseDetail request=new RequestAccountReviseDetail();
 		 request.setFlg("1");
-		 request.setMemId("72063681-7408-435c-88fd-cd837c95c66e");
-		 request.setMemLoginName("wXyd8CZLYBIU1TE+FgtHrw==");
-		 request.setStatus("WR");
-		 request.setCreatedDateBegin("2017-04-17 00:00:00");
-		 request.setCreatedDateEnd("2017-04-19 23:59:00");
-		 
-		 request.setUpdatedDateBegin("2017-04-17 00:00:00");
-		 request.setUpdatedDateEnd("2017-04-21 23:59:00");
 		 String json=JsonUtils.beanToJson(request);
 		 
 		 resultSystemOutPut(url,json);
 	}
 	
 	/**
-	 * 瀹℃牳鍚屾剰
+	 * 审核同意
 	 * @Description: 
 	 * @Author: jianhua.huang
-	 * @Date:   2017骞�4鏈�21鏃� 涓婂崍10:17:38
+	 * @Date:   2017年4月21日 上午10:17:38
 	 */
 	@Test
 	@Rollback
 	public void agreeExamineMSAccountReviseDetailTest() throws Exception {
 		 String url = "/member/account_service/v1/examine_account_revision_detail";
-		 AccountReviseDetail detail=new AccountReviseDetail();
-		 detail.setId("ef8d4259-96d9-420e-b828-f550a7d152c0");
-		 detail.setReviseRemark("璐㈠姟璋冩暣");
-		 detail.setOperate("agree");//鍚屾剰
+		 AddOrUpdateAccountReviseDetail detail=new AddOrUpdateAccountReviseDetail();
+		 detail.setId("f320c1aa-bce2-4cd2-9c3a-1e605761d242");
+		 detail.setReviseRemark("财务调整");
+		 detail.setOperate("agree");//同意
 		 String json=JsonUtils.beanToJson(detail);
 		 
 		 resultSystemOutPut(url,json);
 	}
 	
+
 	/**
-	 * 瀹℃牳椹冲洖
-	 * @Description: 
+	 * @Description: 修改提现记录 测试
 	 * @Author: jianhua.huang
-	 * @Date:   2017骞�4鏈�21鏃� 涓婂崍10:17:47
+	 * @Date:   2017年4月25日 下午3:01:55
 	 */
 	@Test
-	public void examineMSAccountReviseDetailTest() throws Exception {
-		 String url = "/member/account_service/v1/examine_account_revision_detail";
-		 AccountReviseDetail detail=new AccountReviseDetail();
-		 detail.setId("f619656e-8600-4870-9665-9496d3a56a2d");
-		 detail.setReviseRemark("璐㈠姟璋冩暣");
-		 detail.setOperate("reject");//椹冲洖
-		 String json=JsonUtils.beanToJson(detail);
+	public void updateWidthDrawDepositTest()throws Exception{
+		 String url = "/member/account_service/v1/update_withdraw";
+		 MSBankWithdrawDeposit deposit=new MSBankWithdrawDeposit();
+		 deposit.setId("d52e04eb-815c-443c-832d-5b4380b833d8");
+		 deposit.setStatus("3");
+		 deposit.setActualTransferCash("101");
+		 deposit.setOperate("客服审核");
+		 deposit.setRemark("查明无误");
+		 deposit.setAuditBy("huang");
+		 String object=JsonUtils.beanToJson(deposit);
+		 String json=object.toString();
+		 
+		 resultSystemOutPut(url,json);
+	}
+	
+	/**
+	 * @Description: 测试 查看提现记录详情
+	 * @Author: jianhua.huang
+	 * @Date:   2017年4月25日 下午3:50:39
+	 */
+	@Test
+	public void queryWidthDrawDeposiDetailTest()throws Exception{
+		 String url = "/member/account_service/v1/query_withdraw_detail";
+		 MSAccountDetailCondition condition=new MSAccountDetailCondition();
+		 condition.setId("df99c423-ae02-4ffa-80b3-c64e8dfcd0f3");
+		 String object=JsonUtils.beanToJson(condition);
+		 String json=object.toString();
+		 
+		 resultSystemOutPut(url,json);
+	}
+	
+	/**
+	 * 客服提现驳回
+	 * @throws Exception
+	 * @author: jianhua.huang  2017年4月27日 下午12:05:58
+	 */
+	@Test
+	public void rejectWithDrawTest()throws Exception{
+		 String url = "/member/account_service/v1/reject_withdraw";
+		 MSBankWithdrawDeposit deposit=new MSBankWithdrawDeposit();
+		 deposit.setId("354b255e-7dde-42fc-8535-9438524a4536");
+		 deposit.setOperate("customer");
+		 deposit.setRemark("客服驳回操作");
+		 String object=JsonUtils.beanToJson(deposit);
+		 String json=object.toString();
+		 
+		 resultSystemOutPut(url,json);
+	}
+	/**
+	 * 提现结算（财务点击结算）
+	 * @throws Exception
+	 * @author: jianhua.huang  2017年4月27日 下午12:06:58
+	 */
+	@Test
+	public void settlementWithDrawTest()throws Exception{
+		 String url = "/member/account_service/v1/settlement_withdraw";
+		 MSBankWithdrawDeposit deposit=new MSBankWithdrawDeposit();
+		 deposit.setId("7744988c-d71e-44d4-8ceb-00fc08ab9070");
+		 deposit.setOperate("财务结算");
+		 deposit.setRemark("财务已经打款完成");
+		 String object=JsonUtils.beanToJson(deposit);
+		 String json=object.toString();
+		 
+		 resultSystemOutPut(url,json);
+	}
+	
+	/**
+	 * 新增提现记录
+	 * @throws Exception
+	 * @author: jianhua.huang  2017年4月28日 下午6:18:19
+	 */
+	@Test
+	public void saveBankWithDraw()throws Exception{
+		 String url = "/member/account_service/v1/save_withdraw";
+		 MSBankWithdrawDeposit deposit=new MSBankWithdrawDeposit();
+		 
+		 deposit.setAccountNo("123456789123");
+		 deposit.setMemId("72063681-7408-435c-88fd-cd837c95c66e");
+		 deposit.setApplyCarryCash("10.5");
+		 deposit.setAuditBy("huangTest");
+		 deposit.setRemark("huangjianhuaTestDate");
+		 
+		 JSONObject object=JSONObject.fromObject(deposit);
+		 String json=object.toString();
 		 
 		 resultSystemOutPut(url,json);
 	}
@@ -210,10 +281,13 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 			}
 		});
 		}catch(Exception e){
-			System.out.println("寮傚父*********************"+e);
+			System.out.println("异常*********************"+e);
 		}
 	}
-	
+	public static void main(String[] args) throws MdSysException {
+		String s="100";
+		System.out.println(DESC.encryption(s, "b9d78165-1483-42f7-a48c-fbfcc3b06431"));
+	}
 
 }
 

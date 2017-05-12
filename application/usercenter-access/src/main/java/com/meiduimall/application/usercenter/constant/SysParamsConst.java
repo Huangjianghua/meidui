@@ -27,7 +27,7 @@ public class SysParamsConst {
 	/**token*/
 	public static final String TOKEN = "token";
 	
-	/**&符号*/
+	/**符号*/
 	public static final String CONNECTION_SYMBOL = "&";
 	
 	/**=符号 */

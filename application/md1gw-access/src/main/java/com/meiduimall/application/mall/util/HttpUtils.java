@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class HttpUtils {
+ 
 
 	private static Logger logger = LoggerFactory.getLogger(HttpUtils.class);
 	
@@ -107,14 +108,14 @@ public class HttpUtils {
 			HttpPost httpPost = new HttpPost(url);
 			config(httpPost);
 			Set<Map.Entry<String,String>> dataSet=sendData.entrySet();
-			List<NameValuePair> formParams = new ArrayList<NameValuePair>();
+			List<NameValuePair> formParams = new ArrayList<>();
 			for(Entry<String,String> entry:dataSet){
 				formParams.add(new BasicNameValuePair(entry.getKey(),entry.getValue()));
 			}
 			UrlEncodedFormEntity uefEntity= new UrlEncodedFormEntity(formParams, Consts.UTF_8.name());
 			httpPost.setEntity(uefEntity);
 			HttpResponse response = httpClient.execute(httpPost);
-			return HttpResToString(response, Consts.UTF_8.name());
+			return httpResToString(response, Consts.UTF_8.name());
 		} finally {
 			close(httpClient);
 		}
@@ -135,7 +136,7 @@ public class HttpUtils {
 			HttpGet httpGet = new HttpGet(url);
 			config(httpGet);
 			HttpResponse response = httpClient.execute(httpGet);
-			return HttpResToString(response, decodeCharset);
+			return httpResToString(response, decodeCharset);
 		} finally {
 			close(httpClient);
 		}
@@ -154,7 +155,7 @@ public class HttpUtils {
 			HttpDelete httpdelete = new HttpDelete(url);
 			config(httpdelete);
 			HttpResponse response = httpClient.execute(httpdelete);
-			return HttpResToString(response, decodeCharset);
+			return httpResToString(response, decodeCharset);
 		} finally {
 			close(httpClient);
 		}
@@ -181,7 +182,7 @@ public class HttpUtils {
 			}
 			httpPost.setEntity(new StringEntity(sendData));
 			HttpResponse response = httpClient.execute(httpPost);
-			return HttpResToString(response, decodeCharset);
+			return httpResToString(response, decodeCharset);
 		} finally {
 			close(httpClient);
 		}
@@ -202,15 +203,15 @@ public class HttpUtils {
 			throws ClientProtocolException, IOException {
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 		try {
-			HttpPut HttpPut = new HttpPut(url);
-			config(HttpPut);
+			HttpPut httpPut = new HttpPut(url);
+			config(httpPut);
 			Set<Map.Entry<String,String>> headerSet=headers.entrySet();
 			for(Entry<String,String> entry:headerSet){
-				HttpPut.setHeader(entry.getKey(),entry.getValue());
+				httpPut.setHeader(entry.getKey(),entry.getValue());
 			}
-			HttpPut.setEntity(new StringEntity(sendData));
-			HttpResponse response = httpClient.execute(HttpPut);
-			return HttpResToString(response, decodeCharset);
+			httpPut.setEntity(new StringEntity(sendData));
+			HttpResponse response = httpClient.execute(httpPut);
+			return httpResToString(response, decodeCharset);
 		} finally {
 			close(httpClient);
 		}
@@ -226,7 +227,7 @@ public class HttpUtils {
 	 * decodeCharset
 	 * return  String
 	 */
-	private static String HttpResToString(HttpResponse response, String decodeCharset)
+	private static String httpResToString(HttpResponse response, String decodeCharset)
 			throws ParseException, IOException {
 		HttpEntity entity = response.getEntity();
 		if (null != entity) {

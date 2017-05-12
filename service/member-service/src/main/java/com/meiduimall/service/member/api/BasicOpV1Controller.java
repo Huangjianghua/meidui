@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
@@ -23,8 +22,6 @@ import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.MdSysException;
-import com.meiduimall.exception.ServiceException;
-import com.meiduimall.exception.SystemException;
 import com.meiduimall.redis.util.RedisTemplate;
 import com.meiduimall.service.member.constant.ApiStatusConst;
 import com.meiduimall.service.member.constant.SysParamsConst;
@@ -135,7 +132,7 @@ public class BasicOpV1Controller {
 		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
 		try {
 			if(RedisTemplate.getJedisInstance().execExistsFromCache(model.getToken())){
-				RedisTemplate.getJedisInstance().execDecrToCache(model.getToken());
+				RedisTemplate.getJedisInstance().execDelToCache(model.getToken());
 				logger.info("删除token成功");
 			}
 			else{

@@ -1,8 +1,8 @@
 package com.meiduimall.service.account.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdSysException;
-import com.meiduimall.service.account.model.ResBodyData;
 import com.meiduimall.service.account.model.request.RequestFreezeUnFreeze;
 import com.meiduimall.service.account.model.request.RequestUnfreezeDecut;
 

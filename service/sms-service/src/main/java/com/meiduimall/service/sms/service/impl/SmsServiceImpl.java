@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import com.meiduimall.exception.ServiceException;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.MdSysException;
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.redis.util.RedisUtils;
 import com.meiduimall.service.sms.constant.SmsApiCode;
 import com.meiduimall.service.sms.constant.SysConstant;
@@ -116,7 +116,7 @@ public class SmsServiceImpl implements SmsService {
 		try {
 			// 发送成功，缓存到redis，设置缓存时间
 			int expire = 60;
-			if (model.getTimeout() != null && model.getTimeout() > 0) {
+			if (model.getTimeout() != null && model.getTimeout() > 60) {
 				expire = model.getTimeout();
 			}
 			RedisUtils.setex(redisKey, expire, content);
@@ -171,10 +171,20 @@ public class SmsServiceImpl implements SmsService {
 		String redisKey = model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId() + model.getType()
 				+ model.getSysKey();
 
-		// 检查是否已在超时时间内，给该手机发送了短信
-		String tempMsg = RedisUtils.get(redisKey);
-		if (StringUtils.isNotEmpty(tempMsg)) {
-			throw new ServiceException(SmsApiCode.REPEATING);
+		// 检查是否已在1分钟内，给该手机发送了短信(从缓存value中取出时间916817##1494323395427)
+		try {
+			String tempMsg = RedisUtils.get(redisKey);
+			if (StringUtils.isNotEmpty(tempMsg)) {
+				String[] split = tempMsg.split(SysConstant.CODE_SPLIT_KEY);
+				if (split != null && split.length > 1) {
+					long cacheTime = Long.parseLong(split[1]);
+					if (System.currentTimeMillis() - cacheTime < 1000 * 60) {
+						throw new ServiceException(SmsApiCode.REPEATING);
+					}
+				}
+			}
+		} catch (NumberFormatException e1) {
+			logger.info("取缓存出现异常：" + e1);
 		}
 
 		// 生成6位随机数
@@ -241,12 +251,12 @@ public class SmsServiceImpl implements SmsService {
 		}
 
 		try {
-			// 发送成功，缓存到redis，设置缓存时间
+			// 发送成功，缓存到redis(格式：916817##1494323395427)，设置缓存时间
 			int expire = 60;
-			if (model.getTimeout() != null && model.getTimeout() > 0) {
+			if (model.getTimeout() != null && model.getTimeout() > 60) {
 				expire = model.getTimeout();
 			}
-			RedisUtils.setex(redisKey, expire, randomNumber);
+			RedisUtils.setex(redisKey, expire, randomNumber + SysConstant.CODE_SPLIT_KEY + System.currentTimeMillis());
 			// 发送成功,设置发送历史记录值,数据库保留历史记录
 			SendSmsHistory ssh = setHistory(model, channelId);
 			ssh.setRequestParams(model.getPhones() + " ; ali_send_external_template_no: " + ti.getExternalTemplateNo()
@@ -303,6 +313,13 @@ public class SmsServiceImpl implements SmsService {
 			logger.info(model.getPhones() + "验证码已过期: " + model.getVerificationCode());
 			throw new ServiceException(SmsApiCode.SMS_VALID_CODE_EXPIRED);
 		}
+		
+		// 切割字符串，取出验证码 916817##1494323395427
+		String[] split = tempVerificationCode.split(SysConstant.CODE_SPLIT_KEY);
+		if (split != null && split.length > 0) {
+			tempVerificationCode = split[0];
+		}
+		
 		if (!StringUtils.equalsIgnoreCase(model.getVerificationCode().trim(), tempVerificationCode)) {
 			logger.info(model.getPhones() + "验证码不匹配: " + model.getVerificationCode());
 			throw new ServiceException(SmsApiCode.SMS_VALID_CODE_UNMATCHED);

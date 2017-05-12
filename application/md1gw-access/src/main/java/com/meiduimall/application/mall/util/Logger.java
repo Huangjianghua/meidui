@@ -14,6 +14,7 @@ import com.meiduimall.application.mall.constant.OauthConst;
  */
 public class Logger {
 
+
 	private static org.apache.log4j.Logger log4j = org.apache.log4j.Logger.getLogger(Logger.class);
 
 	/**
