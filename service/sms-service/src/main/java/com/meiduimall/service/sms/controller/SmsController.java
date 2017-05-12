@@ -28,7 +28,7 @@ public class SmsController {
 	 * 发送普通短信
 	 *
 	 * @param model
-	 *            请求参数封装的SendMessageRequest对象
+	 *            请求参数封装的SendMessageRequest对象  
 	 * @return 发送结果
 	 */
 	@RequestMapping("/new/send_common_sms_message")

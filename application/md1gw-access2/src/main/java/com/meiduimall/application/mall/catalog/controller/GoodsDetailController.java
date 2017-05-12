@@ -31,7 +31,7 @@ public class GoodsDetailController {
 	private GoodsDetailService goodsDetailService;
 
 	/**
-	 * 根据商品itemId获取商品详情
+	 * 根据商品itemId获取商品详情  
 	 * 
 	 * @param itemId
 	 *            商品ID
