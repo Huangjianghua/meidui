@@ -24,7 +24,7 @@ public abstract class ApiStatusConst extends BaseApiCode {
 	public final static Integer USERNAME_ERROR=8001;
 	public final static Integer MEMBER_NOT_EXIST=8002;
 	public final static Integer PASSWORD_ERROR=8003;
-	public final static Integer TOKEN_ERROR=8004;
+	public final static Integer TOKEN_NOT_EXISTS=8004;
 	public final static Integer EXIT_ERROR=8005;
 	public final static Integer PHONE_ALREADY_REGISTED=8006;
 	public final static Integer LOGINNAME_ALREADY_REGISTED=8007;
@@ -67,7 +67,7 @@ public abstract class ApiStatusConst extends BaseApiCode {
 		zhMsgMap.put(USERNAME_ERROR, "用户名输入错误");
 		zhMsgMap.put(MEMBER_NOT_EXIST, "该用户不存在，请先注册");
 		zhMsgMap.put(PASSWORD_ERROR, "密码输入错误");
-		zhMsgMap.put(TOKEN_ERROR, "用户令牌错误");
+		zhMsgMap.put(TOKEN_NOT_EXISTS, "token不存在");
 		zhMsgMap.put(EXIT_ERROR, "退出登录异常，请联系客服");
 		zhMsgMap.put(PHONE_ALREADY_REGISTED, "该手机号已经被注册");
 		zhMsgMap.put(LOGINNAME_ALREADY_REGISTED, "该用户名已经被注册");

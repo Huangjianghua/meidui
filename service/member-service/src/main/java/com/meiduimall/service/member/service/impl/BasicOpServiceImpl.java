@@ -39,6 +39,7 @@ import com.meiduimall.service.member.service.BasicOpService;
 import com.meiduimall.service.member.service.ShareMenService;
 import com.meiduimall.service.member.service.SmsService;
 import com.meiduimall.service.member.service.UserInfoService;
+import com.meiduimall.service.member.service.ValidateService;
 import com.meiduimall.service.member.util.DESC;
 import com.meiduimall.service.member.util.SerialStringUtil;
 import com.meiduimall.service.member.util.StringUtil;
@@ -66,6 +67,9 @@ public class BasicOpServiceImpl implements BasicOpService {
 	
 	@Autowired
 	UserInfoService userInfoService;
+	
+	@Autowired
+	ValidateService validateService;
 	
 	@Override
 	public Map<String, Object> handlesignout(JSONObject jsonObject) throws Exception {
@@ -321,6 +325,10 @@ public class BasicOpServiceImpl implements BasicOpService {
 		boolean open_default_share_man=false;//是否分配默认推荐人
 		boolean open_default_login_name=false;//是否分配默认登录名
 		String tokenKey=model.getTokenKey();
+		/**校验该用户是否已存在*/
+		if(validateService.checkUserIdExists(model.getPhone())){
+			throw new ServiceException(ApiStatusConst.PHONE_ALREADY_REGISTED);
+		}
 		/**登录名没传就分配默认的*/
 		if(StringUtils.isEmpty(model.getLogin_name())){
 			open_default_login_name=true;
@@ -422,7 +430,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 		requestSendSms.setTemplateId(SmsTemplateIDConst.getSmsTemplate(SmsTemplateIDConst.REGIST_SUCCESS));
 		requestSendSms.setParams(model.getPhone());
 		smsService.sendSms(requestSendSms);
-		/**发送分享人赠送积分短信...*/
+		/**发送分享人赠送积分短信*/
 		requestSendSms.setPhone(shareManInfo.getMemPhone());
 		requestSendSms.setTemplateId(SmsTemplateIDConst.getSmsTemplate(SmsTemplateIDConst.GIVE_POINT));
 		requestSendSms.setParams(shareManInfo.getMemPhone());
@@ -437,7 +445,10 @@ public class BasicOpServiceImpl implements BasicOpService {
 		boolean open_default_share_man=false;//是否分配默认推荐人
 		boolean open_default_login_name=false;//是否分配默认登录名
 		String tokenKey=model.getTokenKey();
-		
+		/**校验该用户是否已存在*/
+		if(validateService.checkUserIdExists(model.getPhone())){
+			throw new ServiceException(ApiStatusConst.PHONE_ALREADY_REGISTED);
+		}
 		MSMembersGet shareManInfo=shareMenService.checkShareMan(SysParamsConst.MD1GW_DEFAULT_SHARE_LOGIN_NAME);
 
 		/**开始生成会员信息*/
@@ -512,6 +523,10 @@ public class BasicOpServiceImpl implements BasicOpService {
 		boolean open_default_share_man=false;//是否分配默认推荐人
 		boolean open_default_login_name=false;//是否分配默认登录名
 		String tokenKey=model.getTokenKey();
+		/**校验该用户是否已存在*/
+		if(validateService.checkUserIdExists(model.getPhone())){
+			throw new ServiceException(ApiStatusConst.PHONE_ALREADY_REGISTED);
+		}
 		/**校验推荐人,没传就分配默认的*/
 		if(!StringUtils.isEmpty(model.getShare_man())){
 			if(model.getPhone().equals(model.getShare_man())){

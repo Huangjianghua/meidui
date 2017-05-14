@@ -32,9 +32,9 @@ public class ValidateV1Controller {
 	
 	/**校验userId（包括手机号、登录名、邮箱）是否已存在*/
 	@GetMapping(value = "/check_userid_exists")
-	ResBodyData getmemberbasicinfo(@RequestParam String userid) {
+	ResBodyData checkUserIdExists(@RequestParam String userid) {
 		logger.info("收到校验userId：{}API请求",userid);
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,"");
 		try { 
 			if(validateService.checkUserIdExists(userid)){
 				return resBodyData;
@@ -43,6 +43,7 @@ public class ValidateV1Controller {
 				throw new ApiException(ApiStatusConst.USERID_IS_NOT_EXIST);
 			}
 		} catch (DaoException | MdSysException e) {
+			logger.error("校验userId：{}API请求异常：{}",userid,e.toString());
 			throw new ApiException(ApiStatusConst.ACCOUNT_EXCEPTION);
 		}
 		

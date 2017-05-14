@@ -15,6 +15,7 @@ import com.meiduimall.application.usercenter.interceptor.ValRequest;
 import com.meiduimall.application.usercenter.service.SmsService;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.exception.ServiceException;
 
 /**
@@ -37,15 +38,12 @@ public class SmsV1Controller {
 	ResBodyData getValidateCode(){
 		ResBodyData resBodyData=null;
 		JSONObject reqJson=ValRequest.apiReqData.get();
-		resBodyData=ValInterceptor.apiValResult.get();
-		if(resBodyData.getStatus()!=0)
-			return resBodyData;
 		logger.info("收到获取短信验证码API请求：{}",reqJson.toString());
 		try {
 			resBodyData=smsService.getValidatCode(reqJson);
-		} catch (ServiceException e) {
+		} catch (MdSysException e) {
 			logger.error("获取短信验证码API处理异常：{}",e.toString());
-			throw new ApiException(ApiStatusConst.GET_VALIDATE_CODE_EXCEPTION);
+			throw new ApiException(ApiStatusConst.SYSTEM_ERROR);
 		}
 		logger.info("获取短信验证码API请求结果：{}",resBodyData.toString());
 		return resBodyData;
@@ -56,17 +54,14 @@ public class SmsV1Controller {
 	ResBodyData getValidateCodeNoToken(){
 		ResBodyData resBodyData=null;
 		JSONObject reqJson=ValRequest.apiReqData.get();
-		resBodyData=ValInterceptor.apiValResult.get();
-		if(resBodyData.getStatus()!=0)
-			return resBodyData;
-		logger.info("收到获取短信验证码(不校验token)API请求：{}",reqJson.toString());
+		logger.info("收到获取短信验证码(不需要token)API请求：{}",reqJson.toString());
 		try {
 			resBodyData=smsService.getValidatCode(reqJson);
-		} catch (ServiceException e) {
-			logger.error("获取短信验证码(不校验token)API处理异常：{}",e.toString());
-			throw new ApiException(ApiStatusConst.GET_VALIDATE_CODE_EXCEPTION);
+		} catch (MdSysException e) {
+			logger.error("获取短信验证码(不需要token)API处理异常：{}",e.toString());
+			throw new ApiException(ApiStatusConst.SYSTEM_ERROR);
 		}
-		logger.info("获取短信验证码(不校验token)API请求结果：{}",resBodyData.toString());
+		logger.info("获取短信验证码(不需要token)API请求结果：{}",resBodyData.toString());
 		return resBodyData;
 	}
 	

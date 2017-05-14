@@ -36,4 +36,8 @@ public class SysParamsConst {
 	/**=符号 */
 	public static final String CONTENT_TYPE = "Content-Type";
 	
+	/**HTTP请求方式*/
+	public static final String HTTP_GET="GET";
+	public static final String HTTP_POST="POST";
+	
 }
