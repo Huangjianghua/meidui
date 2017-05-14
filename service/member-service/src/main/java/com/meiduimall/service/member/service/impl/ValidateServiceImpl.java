@@ -34,7 +34,7 @@ public class ValidateServiceImpl implements ValidateService {
 		String encryUserId=DESC.encryption(userId);
 		List<String> listMemId=null;
 		try {
-			listMemId=baseDao.selectOne(encryUserId,"MSMembersMapper.selectCountByUserId");
+			listMemId=baseDao.selectList(encryUserId,"MSMembersMapper.selectCountByUserId");
 		} catch (DaoException e) {
 			throw new ServiceException(ApiStatusConst.ACCOUNT_EXCEPTION);
 		}
@@ -43,6 +43,13 @@ public class ValidateServiceImpl implements ValidateService {
 			return true;
 		}
 		return false;
+	}
+	
+	@Override
+	public void checkUserIdExistsThrowable(String userId) throws MdSysException{
+		if(checkUserIdExists(userId)){
+			throw new ServiceException(ApiStatusConst.USERID_IS_EXIST);
+		}
 	}
 
 }

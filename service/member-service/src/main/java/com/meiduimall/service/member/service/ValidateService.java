@@ -16,4 +16,6 @@ public interface ValidateService {
 	 * @throws MdSysException 系统异常
 	 */
 	boolean checkUserIdExists(String userId) throws MdSysException;
+
+	void checkUserIdExistsThrowable(String userId) throws MdSysException;
 }
