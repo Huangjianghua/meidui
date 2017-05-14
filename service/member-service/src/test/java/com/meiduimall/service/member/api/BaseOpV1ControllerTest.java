@@ -39,7 +39,7 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {
 	/**登录
 	 * @throws Exception */
     @Test
-    public void login() throws Exception{
+    public void test001Login() throws Exception{
     	Map<String, Object> mapCondition=new HashMap<>();
     	mapCondition.put("memId",memId);
     	MSMembersGet msMembersGet=baseDao.selectOne(mapCondition,"MSMembersMapper.getMemberBasicInfoByCondition");
@@ -85,7 +85,7 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {
 	/**登出
 	 * @throws Exception */
     @Test
-    public void exit() throws Exception{
+    public void test002Exit() throws Exception{
     	/**正确的token*/
     	JSONObject json=new JSONObject();
     	json.put("token",token);
@@ -121,7 +121,7 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {
     /**getput
 	 * @throws Exception */
     @Test
-    public void getPut() throws Exception{
+    public void test003GetPut() throws Exception{
     	//**get token*//*
     	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/getput?user_id=1gw_"+phone+"&type=1"))
     			.andExpect(status().isOk())
@@ -163,7 +163,7 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {
     /**handlesignout 
 	 * @throws Exception */
     @Test
-    public void handleSignOut () throws Exception{
+    public void test004HandleSignOut () throws Exception{
     	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/handlesignout?user_id=1gw_"+phone))
     			.andExpect(status().isOk())
     			.andExpect(jsonPath("$.status_code",is("0")));
@@ -175,6 +175,31 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {
 			}
 		});
     	
+    }
+    
+    /**注册
+	 * @throws Exception */
+    @Test
+    public void test005Register() throws Exception{
+    	JSONObject json=new JSONObject();
+    	/**已存在的账号*/
+    	json.put("phone",phone);
+    	json.put("pass_word","e10adc3949ba59abbe56e057f20f883e");
+    	json.put("source",1);
+    	json.put("role_type",2);
+    	json.put("validate_code","");
+    	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/login")
+    			.contentType(MediaType.APPLICATION_JSON_UTF8)
+    			.content(json.toJSONString()))
+    			.andExpect(status().isOk())
+    			.andExpect(jsonPath("$.status",is(0)));
+    	
+    	resultActions.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				logger.info("单元测试>>登录API>>正确的账号和密码>>执行结果:{}",result.getResponse().getContentAsString());;
+			}
+		});
     }
 	      
 }

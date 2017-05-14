@@ -326,9 +326,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 		boolean open_default_login_name=false;//是否分配默认登录名
 		String tokenKey=model.getTokenKey();
 		/**校验该用户是否已存在*/
-		if(validateService.checkUserIdExists(model.getPhone())){
-			throw new ServiceException(ApiStatusConst.PHONE_ALREADY_REGISTED);
-		}
+		validateService.checkUserIdExistsThrowable(model.getPhone());
 		/**登录名没传就分配默认的*/
 		if(StringUtils.isEmpty(model.getLogin_name())){
 			open_default_login_name=true;
@@ -446,9 +444,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 		boolean open_default_login_name=false;//是否分配默认登录名
 		String tokenKey=model.getTokenKey();
 		/**校验该用户是否已存在*/
-		if(validateService.checkUserIdExists(model.getPhone())){
-			throw new ServiceException(ApiStatusConst.PHONE_ALREADY_REGISTED);
-		}
+		validateService.checkUserIdExistsThrowable(model.getPhone());
 		MSMembersGet shareManInfo=shareMenService.checkShareMan(SysParamsConst.MD1GW_DEFAULT_SHARE_LOGIN_NAME);
 
 		/**开始生成会员信息*/
@@ -524,9 +520,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 		boolean open_default_login_name=false;//是否分配默认登录名
 		String tokenKey=model.getTokenKey();
 		/**校验该用户是否已存在*/
-		if(validateService.checkUserIdExists(model.getPhone())){
-			throw new ServiceException(ApiStatusConst.PHONE_ALREADY_REGISTED);
-		}
+		validateService.checkUserIdExistsThrowable(model.getPhone());
 		/**校验推荐人,没传就分配默认的*/
 		if(!StringUtils.isEmpty(model.getShare_man())){
 			if(model.getPhone().equals(model.getShare_man())){

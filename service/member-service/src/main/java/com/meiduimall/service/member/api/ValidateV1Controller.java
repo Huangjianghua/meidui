@@ -40,7 +40,7 @@ public class ValidateV1Controller {
 				return resBodyData;
 			}
 			else {
-				throw new ApiException(ApiStatusConst.USERID_IS_NOT_EXIST);
+				throw new ApiException(ApiStatusConst.USERID_IS_EXIST);
 			}
 		} catch (DaoException | MdSysException e) {
 			logger.error("校验userId：{}API请求异常：{}",userid,e.toString());
