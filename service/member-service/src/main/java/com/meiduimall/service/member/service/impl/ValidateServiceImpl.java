@@ -44,5 +44,12 @@ public class ValidateServiceImpl implements ValidateService {
 		}
 		return false;
 	}
+	
+	@Override
+	public void checkUserIdExistsThrowable(String userId) throws MdSysException{
+		if(checkUserIdExists(userId)){
+			throw new ServiceException(ApiStatusConst.USERID_IS_NOT_EXIST);
+		}
+	}
 
 }
