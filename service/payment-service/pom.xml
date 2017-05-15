@@ -26,17 +26,14 @@
  		   <dependency>
               <groupId>com.meiduimall</groupId>
               <artifactId>meiduimall-support-redis</artifactId>
-              <version>${meiduimall-support-redis.version}</version>
           </dependency>
           <dependency>
               <groupId>com.meiduimall</groupId>
               <artifactId>meiduimall-support-security</artifactId>
-              <version>${meiduimall-support-security.version}</version>
           </dependency>
           <dependency>
               <groupId>com.meiduimall</groupId>
               <artifactId>meiduimall-support-core</artifactId>
-              <version>${meiduimall-support-core.version}</version>
           </dependency>
 		
 		<dependency>
