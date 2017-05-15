@@ -2,6 +2,7 @@ package com.meiduimall.service.sms.request;
 
 public class WXMsgOnPaySuccessRequest {
 
+	private String phone;
 	private String storeName;
 	private String addPoint;
 	private String coupon;
@@ -9,6 +10,12 @@ public class WXMsgOnPaySuccessRequest {
 	private String orderTime;
 	private String totalPoint;
 	
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 	public String getStoreName() {
 		return storeName;
 	}

@@ -14,11 +14,11 @@ public interface WeixinService {
 	/**
 	 * 发送模板消息
 	 * 
-	 * @param openID
-	 *            微信openID
+	 * @param phone
+	 *            用户手机号
 	 * @param model
 	 *            请求参数
 	 * @return 发送结果
 	 */
-	String sendTemplateMessageOnPaySuccess(String openID, WXMsgOnPaySuccessRequest model);
+	String sendTemplateMessageOnPaySuccess(String phone, WXMsgOnPaySuccessRequest model);
 }

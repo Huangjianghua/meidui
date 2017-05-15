@@ -67,9 +67,10 @@ public class WeixinServiceImpl implements WeixinService {
 	}
 
 	@Override
-	public String sendTemplateMessageOnPaySuccess(String openID, WXMsgOnPaySuccessRequest model) {
+	public String sendTemplateMessageOnPaySuccess(String phone, WXMsgOnPaySuccessRequest model) {
 
 		String url = profileConfig.getWeixinUrl() + "/cgi-bin/message/template/send?access_token=" + getAccessToken();
+		String openID = "";
 		String json = getPaySuccessTemplateJson(openID, model);
 
 		return null;
