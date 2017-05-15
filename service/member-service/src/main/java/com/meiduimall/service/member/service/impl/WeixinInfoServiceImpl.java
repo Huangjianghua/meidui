@@ -1,5 +1,6 @@
 package com.meiduimall.service.member.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,12 +32,16 @@ public class WeixinInfoServiceImpl implements WeixinInfoService {
 		}
 		// 先查找该手机号是否已经绑定了openID
 		Integer count = baseDao.selectOne(desPhone, "MsMemberWeixinMapper.selectCountByPhone");
-		if(count == null || count.intValue() == 0){
+		if(count != null && count.intValue() > 0){
 			throw new ServiceException(ApiStatusConst.SUCCESS);
 		}
 		
 		// 根据手机号查找mem_id
 		String memId = baseDao.selectOne(desPhone, "MSMembersMapper.selectMemIdByPhone");
+		if(StringUtils.isBlank(memId)){
+			throw new ServiceException(ApiStatusConst.MEMBER_NOT_EXIST);
+		}
+		
 		MsMemberWeixin record = new MsMemberWeixin();
 		record.setMemId(memId);
 		record.setMemPhone(desPhone);
@@ -64,7 +69,11 @@ public class WeixinInfoServiceImpl implements WeixinInfoService {
 		} catch (MdSysException e) {
 			throw new ServiceException(ApiStatusConst.ENCRYPTION_EXCEPTION);
 		}
+		
 		MemberOpenIdDTO record = baseDao.selectOne(desPhone, "MsMemberWeixinMapper.selectMemInfoByPhone");
+		if(record == null){
+			throw new ServiceException(ApiStatusConst.NOT_BINGDING_WEIXIN_OPENID);
+		}
 		record.setMemPhone(phone);
 		try {
 			record.setMemLoginName(DESC.deyption(record.getMemLoginName()));

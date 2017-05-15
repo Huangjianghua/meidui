@@ -55,6 +55,7 @@ public abstract class ApiStatusConst extends BaseApiCode {
 	public final static Integer USERID_IS_NOT_EXIST = 8031;
 
 	public static final Integer WEIXIN_OPENID_BINGDING_FAIL = 8101;
+	public static final Integer NOT_BINGDING_WEIXIN_OPENID = 8102;
 
 	static {
 		zhMsgMap.put(REQUIRED_PARAM_EMPTY, "必填参数为空");
@@ -99,6 +100,7 @@ public abstract class ApiStatusConst extends BaseApiCode {
 		zhMsgMap.put(USERID_IS_EXIST, "该账号已存在");
 
 		zhMsgMap.put(WEIXIN_OPENID_BINGDING_FAIL, "微信openID绑定失败");
+		zhMsgMap.put(NOT_BINGDING_WEIXIN_OPENID, "未绑定微信openID");
 	}
 
 }
