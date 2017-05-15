@@ -17,7 +17,7 @@ public class CouponController {
 	/**
 	 * 获取所有优惠券赠送规则
 	 * 
-	 * @return 优惠券赠送规则
+	 * @return 优惠券赠送规则 
 	 */
 	@RequestMapping("/getAllRule")
 	public ResBodyData getAllCouponRule() {
