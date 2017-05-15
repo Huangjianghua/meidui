@@ -70,19 +70,18 @@ public class WeixinServiceImpl implements WeixinService {
 	public String sendTemplateMessageOnPaySuccess(String phone, WXMsgOnPaySuccessRequest model) {
 
 		String url = profileConfig.getWeixinUrl() + "/cgi-bin/message/template/send?access_token=" + getAccessToken();
-		String openID = "";
-		String json = getPaySuccessTemplateJson(openID, model);
+		String json = getPaySuccessTemplateJson(model);
 
 		return null;
 	}
 
-	private String getPaySuccessTemplateJson(String openID, WXMsgOnPaySuccessRequest model) {
+	private String getPaySuccessTemplateJson(WXMsgOnPaySuccessRequest model) {
 
 		String templateId1 = profileConfig.getWeixinTemplateId1();
 		String downloadUrl = profileConfig.getAppDownloadUrl();
 
 		ObjectNode rootNode = JsonUtils.getInstance().createObjectNode();
-		rootNode.set("touser", new TextNode(openID));
+		rootNode.set("touser", new TextNode(model.getOpenID()));
 		rootNode.set("template_id", new TextNode(templateId1));
 		rootNode.set("url", new TextNode(downloadUrl));
 

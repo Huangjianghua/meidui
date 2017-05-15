@@ -13,9 +13,17 @@
 	<sql id="Base_Column_List">
 		id, mem_id, mem_phone, wx_open_id
 	</sql>
-
-	<select id="selectMemIdByPhone" resultType="java.lang.String" parameterType="java.lang.String">
-		select mem_id from ms_members where mem_phone=#{memPhone,jdbcType=VARCHAR}
+	
+	<!-- 根据会员手机号查找会员相关信息 -->
+	<select id="selectMemInfoByPhone" resultType="com.meiduimall.service.member.model.response.MemberOpenIdDTO" parameterType="java.lang.String">
+		SELECT 
+		wx.mem_id AS memId,
+		wx.wx_open_id AS wxOpenId,
+		ms.mem_login_name AS memLoginName,
+		ms.mem_nick_name AS memNickName,
+		ms.mem_basic_account_total_quantity AS memPoint
+		FROM ms_member_weixin wx, ms_members ms
+		WHERE wx.mem_phone=#{memPhone,jdbcType=VARCHAR} AND ms.mem_id = wx.mem_id;
 	</select>
 
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"

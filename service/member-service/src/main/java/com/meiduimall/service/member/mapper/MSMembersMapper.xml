@@ -4,6 +4,11 @@
 <!-- 会员表 ms_members相关操作 -->
 <mapper namespace="MSMembersMapper">
 
+	<!-- 根据会员手机号查找mem_id -->
+	<select id="selectMemIdByPhone" resultType="java.lang.String" parameterType="java.lang.String">
+		select mem_id from ms_members where mem_phone=#{memPhone,jdbcType=VARCHAR}
+	</select>
+	
 	<!-- 根据userId查询是否存在一条记录 -->
 	<select id="selectCountByUserId" parameterType="java.lang.String" resultType="java.lang.String" >
 		SELECT m.mem_id

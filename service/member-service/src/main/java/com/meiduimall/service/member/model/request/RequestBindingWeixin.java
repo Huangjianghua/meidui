@@ -2,7 +2,7 @@ package com.meiduimall.service.member.model.request;
 
 import javax.validation.constraints.NotNull;
 
-public class BindingWeixin {
+public class RequestBindingWeixin {
 
 	@NotNull
 	private String phone;
