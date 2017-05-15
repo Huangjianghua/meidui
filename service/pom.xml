@@ -3,7 +3,7 @@
     <parent>
         <artifactId>meduimall-service-starter</artifactId>
         <groupId>com.meiduimall.starter</groupId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0</version>
         <relativePath>../starter/meduimall-service-starter</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -12,7 +12,7 @@
     <artifactId>service</artifactId>
     <name>mall::service</name>
     <packaging>pom</packaging>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <modules>
    		<module>payment-service</module> 
         <module>sms-service</module>

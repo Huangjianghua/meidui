@@ -3,14 +3,14 @@
 	 <parent>
         <groupId>com.meiduimall</groupId>
         <artifactId>service</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.meiduimall.service</groupId>
     <artifactId>account-service</artifactId>
 	<name>service::account-service</name>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
 	<dependencies>
