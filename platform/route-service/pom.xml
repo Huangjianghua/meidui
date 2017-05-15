@@ -3,14 +3,14 @@
     <parent>
         <artifactId>platform</artifactId>
         <groupId>com.meiduimall</groupId>
-        <version>1.0.0</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.meiduimall.platform</groupId>
     <artifactId>route-service</artifactId>
     <name>platform::route-service</name>
-    <version>1.0.0</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <dependencies>
