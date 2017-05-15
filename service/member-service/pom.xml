@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	 <parent>
         <groupId>com.meiduimall</groupId>
         <artifactId>service</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -18,17 +17,14 @@
 	    <dependency>
                 <groupId>com.meiduimall</groupId>
                 <artifactId>meiduimall-support-redis</artifactId>
-                <version>${meiduimall-support-redis.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.meiduimall</groupId>
                 <artifactId>meiduimall-support-security</artifactId>
-                <version>${meiduimall-support-security.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.meiduimall</groupId>
                 <artifactId>meiduimall-support-core</artifactId>
-                <version>${meiduimall-support-core.version}</version>
             </dependency>
             
             <!-- 热部署，修改了代码不需要重新启动spring boot -->

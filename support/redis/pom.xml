@@ -29,7 +29,6 @@
 		<dependency>
 			<groupId>com.meiduimall</groupId>
 			<artifactId>meiduimall-support-core</artifactId>
-			<version>${meiduimall-support-core.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
