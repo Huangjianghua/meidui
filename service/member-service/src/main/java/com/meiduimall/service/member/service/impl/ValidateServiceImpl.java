@@ -39,7 +39,7 @@ public class ValidateServiceImpl implements ValidateService {
 			throw new ServiceException(ApiStatusConst.ACCOUNT_EXCEPTION);
 		}
 		logger.info("校验userId:{}是否存在结果：{}",userId,listMemId.toString());
-		if(listMemId.size()>=0){
+		if(listMemId.size()>0){
 			return true;
 		}
 		return false;
