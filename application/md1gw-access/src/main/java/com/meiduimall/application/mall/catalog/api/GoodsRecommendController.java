@@ -15,7 +15,7 @@ import com.meiduimall.application.mall.catalog.service.GoodsRecommendService;
 import com.meiduimall.core.ResBodyData;
 
 /**
- * 商品推荐相关类
+ * 商品推荐接口
  * 
  * @author yangchangfu
  */

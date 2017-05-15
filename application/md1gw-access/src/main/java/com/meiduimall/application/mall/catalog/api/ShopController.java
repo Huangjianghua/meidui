@@ -16,6 +16,11 @@ import com.meiduimall.application.mall.catalog.request.ShopProductRequest;
 import com.meiduimall.application.mall.catalog.service.ShopService;
 import com.meiduimall.core.ResBodyData;
 
+/**
+ * 店铺相关接口
+ * @author yangchang
+ *
+ */
 @RestController
 @RequestMapping("/md1gwmall/md1gw_access/v1/shopInfo")
 public class ShopController {
