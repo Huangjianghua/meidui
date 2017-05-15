@@ -14,6 +14,10 @@
 		id, mem_id, mem_phone, wx_open_id
 	</sql>
 	
+	<select id="selectCountByPhone" resultType="java.lang.Integer" parameterType="java.lang.String">
+		SELECT COUNT(*) FROM ms_member_weixin WHERE mem_phone=#{memPhone,jdbcType=VARCHAR}
+	</select>
+	
 	<!-- 根据会员手机号查找会员相关信息 -->
 	<select id="selectMemInfoByPhone" resultType="com.meiduimall.service.member.model.response.MemberOpenIdDTO" parameterType="java.lang.String">
 		SELECT 

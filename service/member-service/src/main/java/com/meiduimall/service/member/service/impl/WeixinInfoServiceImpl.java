@@ -29,15 +29,26 @@ public class WeixinInfoServiceImpl implements WeixinInfoService {
 		} catch (MdSysException e) {
 			throw new ServiceException(ApiStatusConst.ENCRYPTION_EXCEPTION);
 		}
+		// 先查找该手机号是否已经绑定了openID
+		Integer count = baseDao.selectOne(desPhone, "MsMemberWeixinMapper.selectCountByPhone");
+		if(count == null || count.intValue() == 0){
+			throw new ServiceException(ApiStatusConst.SUCCESS);
+		}
+		
+		// 根据手机号查找mem_id
 		String memId = baseDao.selectOne(desPhone, "MSMembersMapper.selectMemIdByPhone");
 		MsMemberWeixin record = new MsMemberWeixin();
 		record.setMemId(memId);
 		record.setMemPhone(desPhone);
 		record.setWxOpenId(model.getOpenID());
+		
+		// 绑定
 		Integer insert = baseDao.insert(record, "MsMemberWeixinMapper.insertSelective");
 		if (insert < 1) {
 			throw new ServiceException(ApiStatusConst.WEIXIN_OPENID_BINGDING_FAIL);
 		}
+		
+		// 返回结果
 		ResBodyData result = new ResBodyData();
 		result.setStatus(ApiStatusConst.SUCCESS);
 		result.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
