@@ -37,7 +37,7 @@ public class ValidateV1ControllerTest extends BaseControllerTest {
 	    	
 	    	resultActions=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/check_userid_exists?userid=11111111"))
 	    	    	.andExpect(status().isOk())
-	    	    	.andExpect(jsonPath("$.status",is(8028)));
+	    	    	.andExpect(jsonPath("$.status",is(8031)));
 	    	    	
 	    	    	resultActions.andDo(new ResultHandler() {
 	    				@Override
