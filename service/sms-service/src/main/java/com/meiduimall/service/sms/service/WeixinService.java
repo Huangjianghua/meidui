@@ -1,5 +1,7 @@
 package com.meiduimall.service.sms.service;
 
+import com.meiduimall.service.sms.request.WXMsgOnPaySuccessRequest;
+
 public interface WeixinService {
 
 	/**
@@ -12,7 +14,11 @@ public interface WeixinService {
 	/**
 	 * 发送模板消息
 	 * 
-	 * @return
+	 * @param openID
+	 *            微信openID
+	 * @param model
+	 *            请求参数
+	 * @return 发送结果
 	 */
-	String sendTemplateMessageOnPaySuccess();
+	String sendTemplateMessageOnPaySuccess(String openID, WXMsgOnPaySuccessRequest model);
 }

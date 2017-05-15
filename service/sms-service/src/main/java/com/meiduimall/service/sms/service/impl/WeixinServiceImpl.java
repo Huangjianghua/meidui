@@ -18,6 +18,7 @@ import com.meiduimall.service.sms.config.ProfileConfig;
 import com.meiduimall.service.sms.constant.SmsApiCode;
 import com.meiduimall.service.sms.constant.SysConstant;
 import com.meiduimall.service.sms.entity.WXAccessToken;
+import com.meiduimall.service.sms.request.WXMsgOnPaySuccessRequest;
 import com.meiduimall.service.sms.service.WeixinService;
 
 @Service
@@ -66,14 +67,15 @@ public class WeixinServiceImpl implements WeixinService {
 	}
 
 	@Override
-	public String sendTemplateMessageOnPaySuccess() {
+	public String sendTemplateMessageOnPaySuccess(String openID, WXMsgOnPaySuccessRequest model) {
 
 		String url = profileConfig.getWeixinUrl() + "/cgi-bin/message/template/send?access_token=" + getAccessToken();
+		String json = getPaySuccessTemplateJson(openID, model);
 
 		return null;
 	}
 
-	private String getPaySuccessTemplateJson(String openID) {
+	private String getPaySuccessTemplateJson(String openID, WXMsgOnPaySuccessRequest model) {
 
 		String templateId1 = profileConfig.getWeixinTemplateId1();
 		String downloadUrl = profileConfig.getAppDownloadUrl();
@@ -92,40 +94,70 @@ public class WeixinServiceImpl implements WeixinService {
 
 		ObjectNode data = JsonUtils.getInstance().createObjectNode();
 
-		String firstValue = "您在XX消费，为您获得XX个美兑积分和XX元的美兑商城优惠券";// 美兑积分个数，优惠券金额
+		String msgContent = "您在" + model.getStoreName() + "消费，为您获得" + model.getAddPoint() + "个美兑积分";// 消费地点，美兑积分个数
+		try {
+			if (!StringUtils.isBlank(model.getCoupon()) || Double.parseDouble(model.getCoupon()) > 0) {
+				msgContent = "您在" + model.getStoreName() + "消费，为您获得" + model.getAddPoint() + "个美兑积分和"
+						+ model.getCoupon() + "元的美兑商城优惠券";// 消费地点，美兑积分个数，优惠券金额
+			}
+		} catch (NumberFormatException e) {
+			logger.error("优惠券金额错误: " + e);
+		}
 		ObjectNode first = JsonUtils.getInstance().createObjectNode();
-		first.set("value", new TextNode(firstValue));
+		first.set("value", new TextNode(msgContent));
 		first.set("color", new TextNode("#000459"));
 		data.set("first.DATA", first);
 
-		String userName = "";
+		// 用户昵称：先取mem_nick_name，取不到再取mem_login_name
 		ObjectNode keyword1 = JsonUtils.getInstance().createObjectNode();
-		keyword1.set("value", new TextNode(userName));
+		keyword1.set("value", new TextNode(model.getUserName()));
 		keyword1.set("color", new TextNode("#000459"));
 		data.set("keyword1.DATA", keyword1);
 
+		String orderTime = model.getOrderTime();// 订单付款时间（精确到秒）
 		ObjectNode keyword2 = JsonUtils.getInstance().createObjectNode();
-		keyword2.set("value", new TextNode("巧克力"));
+		keyword2.set("value", new TextNode(orderTime));
 		keyword2.set("color", new TextNode("#000459"));
 		data.set("keyword2.DATA", keyword2);
 
+		// 积分变动“+XX积分
+		String addPoint = "0";
+		try {
+			if (!StringUtils.isBlank(model.getAddPoint()) && Double.parseDouble(model.getAddPoint()) > 0) {
+				addPoint = "+" + model.getAddPoint();
+			}
+		} catch (NumberFormatException e) {
+			logger.error("积分错误: " + e);
+		}
 		ObjectNode keyword3 = JsonUtils.getInstance().createObjectNode();
-		keyword3.set("value", new TextNode("巧克力"));
+		keyword3.set("value", new TextNode(addPoint + "积分"));
 		keyword3.set("color", new TextNode("#000459"));
 		data.set("keyword3.DATA", keyword3);
 
+		// 积分余额
 		ObjectNode keyword4 = JsonUtils.getInstance().createObjectNode();
-		keyword4.set("value", new TextNode("巧克力"));
+		keyword4.set("value", new TextNode(model.getTotalPoint()));
 		keyword4.set("color", new TextNode("#000459"));
 		data.set("keyword4.DATA", keyword4);
 
+		// 变动原因为“美兑商城附近消费奖励” --写死的
 		ObjectNode keyword5 = JsonUtils.getInstance().createObjectNode();
-		keyword5.set("value", new TextNode("巧克力"));
+		keyword5.set("value", new TextNode("美兑商城附近消费奖励"));
 		keyword5.set("color", new TextNode("#000459"));
 		data.set("keyword5.DATA", keyword5);
 
+		// 备注：赠送优惠券XX元已经到达您的钱包，点击下载美兑商城APP
+		// 备注：赠送的积分已经到达您的钱包，点击下载美兑商城APP
+		String remarkContent = "赠送的积分已经到达您的钱包，点击下载美兑商城APP";
+		try {
+			if (!StringUtils.isBlank(model.getCoupon()) && Double.parseDouble(model.getCoupon()) > 0) {
+				remarkContent = "赠送优惠券" + model.getCoupon() + "元已经到达您的钱包，点击下载美兑商城APP";
+			}
+		} catch (NumberFormatException e) {
+			logger.error("优惠券金额错误: " + e);
+		}
 		ObjectNode remark = JsonUtils.getInstance().createObjectNode();
-		remark.set("value", new TextNode("巧克力"));
+		remark.set("value", new TextNode(remarkContent));
 		remark.set("color", new TextNode("#FF0000"));
 		data.set("remark.DATA", remark);
 
