@@ -15,7 +15,7 @@
 	</sql>
 	
 	<select id="selectCountByPhone" resultType="java.lang.Integer" parameterType="java.lang.String">
-		SELECT COUNT(*) FROM ms_member_weixin WHERE mem_phone=#{memPhone,jdbcType=VARCHAR}
+		SELECT COUNT(*) FROM ms_member_weixin WHERE mem_phone=#{mem_phone}
 	</select>
 	
 	<!-- 根据会员手机号查找会员相关信息 -->

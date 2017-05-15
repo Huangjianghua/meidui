@@ -6,7 +6,7 @@
 
 	<!-- 根据会员手机号查找mem_id -->
 	<select id="selectMemIdByPhone" resultType="java.lang.String" parameterType="java.lang.String">
-		select mem_id from ms_members where mem_phone=#{memPhone,jdbcType=VARCHAR}
+		select mem_id from ms_members where mem_phone=#{mem_phone}
 	</select>
 	
 	<!-- 根据userId查询是否存在一条记录 -->
