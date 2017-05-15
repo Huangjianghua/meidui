@@ -55,7 +55,6 @@ public abstract class ApiStatusConst extends BaseApiCode {
 		
 		
 		/********************* 会员列表相关                      ****************/
-		
 		/**查询会员为空*/
 		public final static Integer ACCOUNT_IS_NULL_ERROR=7101;
 		/** 查询会员调整余额明细异常 */
