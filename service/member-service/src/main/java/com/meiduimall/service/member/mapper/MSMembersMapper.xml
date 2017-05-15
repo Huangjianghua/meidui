@@ -264,20 +264,4 @@
 		</if>
 	</select>
 	
-	<!-- 查询导出会员列表信息  -->
-	<select id="queryExportMember" resultType="com.meiduimall.service.member.model.response.ExportMemberDTO">
-		SELECT
-		m.`mem_id` memId,
-		m.`mem_login_name` memLoginName,
-		m.`mem_phone` memPhone,
-		m.`mem_basic_account_total_quantity` currentPoint,
-		(n.`balance` - n.`freeze_balance`)  currentMoney,
-		m.`mem_created_date` memCreatedDate,
-		m.`mem_login_time` memLoginTime
-		FROM
-		ms_members m
-		INNER JOIN ms_account n
-		ON m.`mem_id` = n.`mem_id` INNER JOIN ms_member_addresses k ON
-		k.`mem_id`=m.`mem_id` 
-	</select>
 </mapper>
