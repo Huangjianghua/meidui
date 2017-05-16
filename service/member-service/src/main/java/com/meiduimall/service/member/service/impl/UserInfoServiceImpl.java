@@ -213,16 +213,18 @@ public class UserInfoServiceImpl implements UserInfoService {
 				throw new ServiceException(ApiStatusConst.GET_MEMBER_IS_EMPTY);
 			}else{
 				for (ExportMemberDTO exportMemberDTO : queryAllMember) {
-					exportMemberDTO.setMemLoginName(DESC.deyption(exportMemberDTO.getMemLoginName()));
-					exportMemberDTO.setMemPhone(DESC.deyption(exportMemberDTO.getMemPhone()));
-					exportMemberDTO.setCurrentPoint(DESC.deyption(exportMemberDTO.getCurrentPoint(), exportMemberDTO.getMemId()));
-					String substr = exportMemberDTO.getMemPhone().substring(0, 7);
-					mobileList.add(substr);
-					logger.info(substr);
+					if(null != exportMemberDTO.getMemLoginName() || null != exportMemberDTO.getMemLoginName()){
+						exportMemberDTO.setMemLoginName(DESC.deyption(exportMemberDTO.getMemLoginName()));
+						exportMemberDTO.setMemPhone(DESC.deyption(exportMemberDTO.getMemPhone()));
+						exportMemberDTO.setCurrentPoint(DESC.deyption(exportMemberDTO.getCurrentPoint(), exportMemberDTO.getMemId()));
+							if(StringUtil.isPhoneToRegex(exportMemberDTO.getMemPhone())){
+								String substr = exportMemberDTO.getMemPhone().substring(0, 7);
+								mobileList.add(substr);
+							}
+					}
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new ServiceException(ApiStatusConst.GET_USERINFO_EXCEPTION);
 		}
 		
@@ -230,22 +232,24 @@ public class UserInfoServiceImpl implements UserInfoService {
 		
 		try {
 			mobileNumberInfo = baseDao.selectList(requestMobile, "MobileNumberInfoMapper.queryExportMobile");
+			if(mobileNumberInfo.isEmpty()) throw new ServiceException(ApiStatusConst.GET_MOBILE_IS_EMPTY);
 		} catch (Exception e) {
-		   e.printStackTrace();
            throw new ServiceException(ApiStatusConst.GET_MOBILE_EXCEPTION);
 		}
 		
 		List<ExportMemberDTO> exptmemDTO = new ArrayList<>();
 		for (ExportMemberDTO exportMemberDTO : queryAllMember) {
-			String substr = exportMemberDTO.getMemPhone().substring(0, 7);
-			for (MobileNumberInfo mobileNumber : mobileNumberInfo) {
-				if(mobileNumber.getMobile().equals(substr)){
-					StringBuilder stringBuilder = new StringBuilder();
-					stringBuilder.append(mobileNumber.getProvinceName());
-					stringBuilder.append(mobileNumber.getCityName());
-					exportMemberDTO.setArea(stringBuilder.toString());
-					exptmemDTO.add(exportMemberDTO);
-				}
+			if(null != exportMemberDTO.getMemPhone() && StringUtil.isPhoneToRegex(exportMemberDTO.getMemPhone())){
+				String substr = exportMemberDTO.getMemPhone().substring(0, 7);
+					for (MobileNumberInfo mobileNumber : mobileNumberInfo) {
+						if(mobileNumber.getMobile().equals(substr)){
+							StringBuilder stringBuilder = new StringBuilder();
+							stringBuilder.append(mobileNumber.getProvinceName());
+							stringBuilder.append(mobileNumber.getCityName());
+							exportMemberDTO.setArea(stringBuilder.toString());
+							exptmemDTO.add(exportMemberDTO);
+						}
+					}
 			}
 		} 
 		
