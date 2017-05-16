@@ -5,13 +5,16 @@ import javax.validation.constraints.NotNull;
 public class WXMsgOnPaySuccessRequest {
 
 	@NotNull
+	private String phone;
+	@NotNull
 	private Long orderTime;
 	@NotNull
-	private String phone;
-	private String openID;
 	private String storeName;
+	@NotNull
 	private String addPoint;
 	private String coupon;
+	
+	private String openID;
 	private String userName;
 	private String totalPoint;
 	private String memId;

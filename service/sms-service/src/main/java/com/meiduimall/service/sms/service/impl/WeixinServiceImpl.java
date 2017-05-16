@@ -115,7 +115,7 @@ public class WeixinServiceImpl implements WeixinService {
 		// 发送成功返回
 		ResBodyData result = new ResBodyData();
 		result.setStatus(SmsApiCode.SUCCESS);
-		result.setMsg(SmsApiCode.getZhMsg(SmsApiCode.SMS_SEND_SUCCESS));
+		result.setMsg(SmsApiCode.getZhMsg(SmsApiCode.SEND_WEIXIN_TEMPLATE_MSG_SUCCESS));
 		result.setData(JsonUtils.getInstance().createObjectNode());
 		return result;
 	}

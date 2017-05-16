@@ -51,6 +51,9 @@ public class SmsApiCode extends BaseApiCode {
 	/** 发送微信模板消息失败 **/
 	public static final Integer SEND_WEIXIN_TEMPLATE_MSG_FAIL = 7018;
 
+	/** 发送微信模板消息成功 **/
+	public static final Integer SEND_WEIXIN_TEMPLATE_MSG_SUCCESS = 7019;
+
 	/** 数据库异常 **/
 	public static final Integer DB_EXCEPTION = 7500;
 
@@ -76,6 +79,7 @@ public class SmsApiCode extends BaseApiCode {
 		zhMsgMap.put(CAN_NOT_REQUEST_MEMBER_INFO, "请求不到用户数据");
 		zhMsgMap.put(MEMBER_INFO_EXCEPTION, "用户数据异常");
 		zhMsgMap.put(SEND_WEIXIN_TEMPLATE_MSG_FAIL, "发送微信模板消息失败");
+		zhMsgMap.put(SEND_WEIXIN_TEMPLATE_MSG_SUCCESS, "发送微信模板消息成功");
 		zhMsgMap.put(DB_EXCEPTION, "数据库异常");
 		zhMsgMap.put(UNKNOW_ERROR, "未知错误");
 	}

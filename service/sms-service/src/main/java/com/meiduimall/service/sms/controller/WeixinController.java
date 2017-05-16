@@ -16,6 +16,13 @@ public class WeixinController {
 	@Autowired
 	private WeixinService weixinService;
 
+	/**
+	 * 支付成功，发送微信模板消息
+	 * 
+	 * @param model
+	 *            请求参数封装对象
+	 * @return 发送结果
+	 */
 	@RequestMapping("/send_weixin_msg_on_pay")
 	public ResBodyData sendTemplateMessageOnPaySuccess(@Validated WXMsgOnPaySuccessRequest model) {
 		return weixinService.sendTemplateMessageOnPaySuccess(model);
