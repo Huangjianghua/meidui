@@ -1,6 +1,5 @@
 package com.meiduimall.service.member.api;
 
-import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +13,6 @@ import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.MdSysException;
-import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.member.constant.ApiStatusConst;
 import com.meiduimall.service.member.service.ValidateService;
 
@@ -34,17 +32,18 @@ public class ValidateV1Controller {
 	
 	/**校验userId（包括手机号、登录名、邮箱）是否已存在*/
 	@GetMapping(value = "/check_userid_exists")
-	ResBodyData getmemberbasicinfo(@RequestParam String userid) {
+	ResBodyData checkUserIdExists(@RequestParam String userid) {
 		logger.info("收到校验userId：{}API请求",userid);
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,"");
 		try { 
 			if(validateService.checkUserIdExists(userid)){
 				return resBodyData;
 			}
 			else {
-				throw new ApiException(ApiStatusConst.USERID_IS_NOT_EXIST);
+				throw new ApiException(ApiStatusConst.USERID_IS_EXIST);
 			}
 		} catch (DaoException | MdSysException e) {
+			logger.error("校验userId：{}API请求异常：{}",userid,e.toString());
 			throw new ApiException(ApiStatusConst.ACCOUNT_EXCEPTION);
 		}
 		

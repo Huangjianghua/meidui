@@ -13,7 +13,7 @@ import com.meiduimall.application.usercenter.service.SmsService;
 import com.meiduimall.application.usercenter.util.HttpUtils;
 import com.meiduimall.application.usercenter.util.MD5Utils;
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.exception.ServiceException;
+import com.meiduimall.exception.MdSysException;
 
 @Service
 public class SmsServiceImpl implements SmsService  {
@@ -25,14 +25,10 @@ public class SmsServiceImpl implements SmsService  {
 
 
 	@Override
-	public ResBodyData getValidatCode(JSONObject reqJson) {
+	public ResBodyData getValidatCode(JSONObject reqJson) throws MdSysException {
 		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
-		
 		String url=profile.getServiceMemberUrl()+"v1/get_validate_code";
-		resBodyData=MD5Utils.updateSign(reqJson,profile.getRouteClientID(),profile.getRouteKey());
-		if(resBodyData.getStatus()!=0){
-			throw new ServiceException(ApiStatusConst.GET_SIGN_EX);
-		}
+		MD5Utils.updateSign(reqJson,profile.getRouteClientID(),profile.getRouteKey());
 		logger.info("调用账号服务>>发送短信验证码API>>URL:{}  DATA:{}",url,reqJson.toString());
 		try {
 			String result=HttpUtils.get(url,reqJson);
@@ -40,7 +36,7 @@ public class SmsServiceImpl implements SmsService  {
 			resBodyData=JSON.parseObject(result,ResBodyData.class);
 		} catch (Exception e) {
 			logger.error("调用短信服务>>发送短信验证码 >>EXCEPTION：{}",e.toString());
-			throw new ServiceException(ApiStatusConst.REQUEST_GATEWAY_EX);
+			throw new MdSysException(ApiStatusConst.REQUEST_GATEWAY_EX);
 		}
 		return resBodyData;
 	}

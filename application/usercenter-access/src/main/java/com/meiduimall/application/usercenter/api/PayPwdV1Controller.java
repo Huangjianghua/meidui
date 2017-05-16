@@ -9,15 +9,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.usercenter.annotation.HasToken;
 import com.meiduimall.application.usercenter.constant.ApiStatusConst;
-import com.meiduimall.application.usercenter.interceptor.ValInterceptor;
 import com.meiduimall.application.usercenter.interceptor.ValRequest;	
 import com.meiduimall.application.usercenter.service.PayPwdService;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
-import com.meiduimall.exception.ServiceException;
+import com.meiduimall.exception.MdSysException;
 
 /**
- * 支付密码
+ * 支付密码相关API
  * @author chencong
  *
  */
@@ -36,11 +35,13 @@ public class PayPwdV1Controller {
 	ResBodyData validatePayPwd(){
 		ResBodyData resBodyData=null;
 		JSONObject reqJson=ValRequest.apiReqData.get();
-		resBodyData=ValInterceptor.apiValResult.get();
-		if(resBodyData.getStatus()!=0)
-			return resBodyData;
 		logger.info("收到验证支付密码API请求：{}",reqJson.toString());
-		resBodyData=payPwdService.validePaypwd(reqJson);
+		try {
+			resBodyData=payPwdService.validePaypwd(reqJson);
+		} catch (MdSysException e) {
+			logger.info("验证支付密码API请求异常：{}",e.toString());
+			throw new ApiException(ApiStatusConst.SYSTEM_ERROR);
+		}
 		logger.info("验证支付密码API请求结果：{}",resBodyData.toString());
 		return resBodyData;
 	}
@@ -52,11 +53,13 @@ public class PayPwdV1Controller {
 	ResBodyData setPayPwd(){
 		ResBodyData resBodyData=null;
 		JSONObject reqJson=ValRequest.apiReqData.get();
-		resBodyData=ValInterceptor.apiValResult.get();
-		if(resBodyData.getStatus()!=0)
-			return resBodyData;
 		logger.info("收到设置支付密码API请求：{}",reqJson.toString());
-		resBodyData=payPwdService.setPaypwd(reqJson);
+		try {
+			resBodyData=payPwdService.setPaypwd(reqJson);
+		} catch (MdSysException e) {
+			logger.info("设置支付密码API请求异常：{}",e.toString());
+			throw new ApiException(ApiStatusConst.SYSTEM_ERROR);
+		}
 		logger.info("验证设置密码API请求结果：{}",resBodyData.toString());
 		return resBodyData;
 	}
@@ -67,12 +70,14 @@ public class PayPwdV1Controller {
 	ResBodyData setPaypwdStatus(){
 		ResBodyData resBodyData=null;
 		JSONObject reqJson=ValRequest.apiReqData.get();
-		resBodyData=ValInterceptor.apiValResult.get();
-		if(resBodyData.getStatus()!=0)
-			return resBodyData;
 		logger.info("收到设置支付密码开关API请求：{}",reqJson.toString());
-		resBodyData=payPwdService.setPaypwdStatus(reqJson);
-		logger.info("验证设置支付密码开关API请求结果：{}",resBodyData.toString());
+		try {
+			resBodyData=payPwdService.setPaypwdStatus(reqJson);
+		} catch (MdSysException e) {
+			logger.info("设置支付密码开关API请求异常：{}",e.toString());
+			throw new ApiException(ApiStatusConst.SYSTEM_ERROR);
+		}
+		logger.info("设置支付密码开关API请求结果：{}",resBodyData.toString());
 		return resBodyData;
 	}
 	
@@ -82,15 +87,12 @@ public class PayPwdV1Controller {
 	ResBodyData updatePaypwd(){
 		ResBodyData resBodyData=null;
 		JSONObject reqJson=ValRequest.apiReqData.get();
-		resBodyData=ValInterceptor.apiValResult.get();
-		if(resBodyData.getStatus()!=0)
-			return resBodyData;
 		logger.info("收到修改支付密码API请求：{}",reqJson.toString());
 		try {
 			resBodyData=payPwdService.updatePaypwd(reqJson);
-		} catch (ServiceException e) {
-			logger.error("修改支付密码处理异常：{}",e.toString());
-			throw new ApiException(ApiStatusConst.UPDATE_PAYPWD_EXCEPTION);
+		} catch (MdSysException e) {
+			logger.error("修改支付密码API请求异常：{}",e.toString());
+			throw new ApiException(ApiStatusConst.SYSTEM_ERROR);
 		}
 		logger.info("修改支付密码API请求结果：{}",resBodyData.toString());
 		return resBodyData;
@@ -102,15 +104,12 @@ public class PayPwdV1Controller {
 	ResBodyData retrievePaypwd(){
 		ResBodyData resBodyData=null;
 		JSONObject reqJson=ValRequest.apiReqData.get();
-		resBodyData=ValInterceptor.apiValResult.get();
-		if(resBodyData.getStatus()!=0)
-			return resBodyData;
 		logger.info("收到找回支付密码API请求：{}",reqJson.toString());
 		try {
 			resBodyData=payPwdService.retrievePaypwd(reqJson);
-		} catch (ServiceException e) {
-			logger.error("找回支付密码处理异常：{}",e.toString());
-			throw new ApiException(ApiStatusConst.UPDATE_PAYPWD_EXCEPTION);
+		} catch (MdSysException e) {
+			logger.error("找回支付密码API请求异常：{}",e.toString());
+			throw new ApiException(ApiStatusConst.SYSTEM_ERROR);
 		}
 		logger.info("找回支付密码API请求结果：{}",resBodyData.toString());
 		return resBodyData;
