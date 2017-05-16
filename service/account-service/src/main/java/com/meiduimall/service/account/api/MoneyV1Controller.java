@@ -425,4 +425,31 @@ public class MoneyV1Controller {
 		}
 		return new ResBodyData(ApiStatusConst.SUCCESS, ApiStatusConst.SUCCESS_M);
 	}
+	/**
+	 * 外部充值列表
+	 */
+	@RequestMapping(value="/list_External")
+	public ResBodyData  queryExternalList(@RequestBody MSRechargeApply mSRechargeApply){
+		List<MSRechargeApply> msAccountLists = null;
+		try{
+			//分页查询
+			if(mSRechargeApply.getFlg().equals(Constant.ONE)){
+				//分页
+				PageHelper.startPage(mSRechargeApply.getPageNum(), mSRechargeApply.getPageSize());
+				//PageHelper.orderBy("memRegTime DESC");
+			}else{
+				//不分页
+				PageHelper.startPage(mSRechargeApply.getPageNum(), 0, false, false, true);
+				//PageHelper.orderBy("memRegTime DESC");
+			}
+			msAccountLists=mSAccountDetailService.queryExternalList(mSRechargeApply);
+		}catch(MdBizException e){
+			throw new ApiException(e.getCode(),e.getMessage());
+		}catch(Exception e){
+			logger.error("查询充值列表Controller异常:{}", e.getMessage());
+			throw new ApiException(ApiStatusConst.SERVER_DEAL_WITH_EXCEPTION);
+		}
+		ResBodyData res = new ResBodyData(ApiStatusConst.SUCCESS, ApiStatusConst.SUCCESS_M,new PageInfo<>(msAccountLists));
+		return res;
+	}
 }

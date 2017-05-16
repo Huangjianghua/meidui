@@ -2,7 +2,9 @@ package com.meiduimall.service.account.model;
 
 import java.io.Serializable;
 
-public class MSRechargeApply implements Serializable{
+import com.meiduimall.service.account.util.PageHelp;
+
+public class MSRechargeApply extends PageHelp implements Serializable{
 
 	/**
 	 * 
@@ -32,6 +34,9 @@ public class MSRechargeApply implements Serializable{
 	
 	/**充值类型 */
 	private String rechargeType;
+	
+	/**是否分页  1：是  0:否	*/
+	private String flg;  
 
 	public String getId() {
 		return id;
@@ -95,6 +100,14 @@ public class MSRechargeApply implements Serializable{
 
 	public void setRechargeType(String rechargeType) {
 		this.rechargeType = rechargeType;
+	}
+
+	public String getFlg() {
+		return flg;
+	}
+
+	public void setFlg(String flg) {
+		this.flg = flg;
 	}	
 	
 	

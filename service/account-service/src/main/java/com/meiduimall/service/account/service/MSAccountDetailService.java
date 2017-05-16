@@ -134,4 +134,8 @@ public interface MSAccountDetailService {
 	 * 外部充值申请
 	 */
 	public void rechargeApply(MSRechargeApply deposit)throws MdBizException;
+	/**
+	 * 外部充值列表
+	 */
+	public List<MSRechargeApply> queryExternalList(MSRechargeApply MSRechargeApply)throws MdBizException;
 }

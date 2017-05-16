@@ -576,4 +576,16 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		}
 	
 	}
+	@Override
+	public List<MSRechargeApply> queryExternalList(MSRechargeApply MSRechargeApply) throws MdBizException {
+		List<MSRechargeApply> selectList=null;
+		try {
+			selectList=baseDao.selectList(MSRechargeApply, "MSRechargeApplyMapper.queryExternalList");
+			if(!CollectionUtils.isEmpty(selectList)) return selectList;
+		}catch(Exception e){
+			logger.error("查询外部充值列表出现错误,错误信息:{}", e.getMessage());
+			throw new MdBizException(ApiStatusConst.QUERY_MEMBER_LIST_ERROR);
+		}
+		return selectList;
 	}
+}

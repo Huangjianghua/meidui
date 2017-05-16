@@ -328,5 +328,13 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 		 
 		 resultSystemOutPut(url,json);
 	}
+	
+	@Test
+	public void queryExternalList() throws Exception {
+		 String url = "/member/account_service/v1/list_External";
+		 String json = "{\"flg\":\"1\"}";
+		 
+		 resultSystemOutPut(url,json);
+	}
 }
 

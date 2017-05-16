@@ -25,4 +25,17 @@
 				#{rechargeType}
 			   )
 	</insert>
+	<select id="queryExternalList" parameterType="com.meiduimall.service.account.model.MSRechargeApply" resultType="com.meiduimall.service.account.model.MSRechargeApply">
+		select 
+			mer.id AS id,
+			mer.md_user AS mdUser,
+			mer.client_id AS clientId,
+			mer.biz_id AS bizId,
+			mer.recharge_amout AS rechargeAmout,
+			mer.req_time AS reqTime,
+			mer.callback_url AS callbackUrl,
+			mer.recharge_type AS rechargeType
+		from 
+			ms_external_recharge mer
+	</select>
 </mapper>
