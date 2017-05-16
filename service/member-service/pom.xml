@@ -4,7 +4,7 @@
 	 <parent>
         <groupId>com.meiduimall</groupId>
         <artifactId>service</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -16,18 +16,7 @@
 
 	<dependencies>
 	
-	    <dependency>
-                <groupId>com.meiduimall</groupId>
-                <artifactId>meiduimall-support-redis</artifactId>
-            </dependency>
-            <dependency>
-                <groupId>com.meiduimall</groupId>
-                <artifactId>meiduimall-support-security</artifactId>
-            </dependency>
-            <dependency>
-                <groupId>com.meiduimall</groupId>
-                <artifactId>meiduimall-support-core</artifactId>
-            </dependency>
+	    
             
             <!-- 热部署，修改了代码不需要重新启动spring boot -->
 		 <dependency>
