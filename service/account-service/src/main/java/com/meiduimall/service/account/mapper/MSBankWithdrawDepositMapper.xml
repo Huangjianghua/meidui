@@ -28,7 +28,8 @@
 				audit_state,
 				remark,
 				create_date,
-				is_delete
+				is_delete,
+				withdraw_balance
 				)
 	 	 values(#{id},
 				#{businessNo},
@@ -52,7 +53,8 @@
 				null,
 				#{remark},
 				#{createDate},
-				#{isDelete}
+				#{isDelete},
+				#{withdrawBalance}
 			   )
 	</insert>
 	
@@ -125,7 +127,7 @@
 				b.mem_phone as phone,
 				b.mem_login_name as loginName, 
 				a.actual_transfer_cash as actualTransferCash,
-				ROUND(IFNULL(c.balance,0.0)-IFNULL(c.freeze_balance,0.0),2) as withdrawBalance
+				a.withdraw_balance as withdrawBalance
 				from ms_bank_withdraw_deposit a 
 				LEFT JOIN ms_members b on b.mem_id=a.mem_id
 				LEFT JOIN ms_account c on c.mem_id=a.mem_id AND c.type='AT02'

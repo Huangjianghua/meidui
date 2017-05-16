@@ -463,7 +463,8 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		}
 		deposit.setActualCarryCash(calcActualCarryCash);
 		deposit.setCounterFee(calcCounterFee);
-
+		deposit.setWithdrawBalance(returnMap.get("withdraw_balance"));
+		
 		//插入提现记录返回业务单号
 		String businessNo = this.addBankWithdrawDeposit(deposit);
 			if(StringUtils.isNotBlank(businessNo)){
@@ -516,6 +517,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			entity.setRemark(dto.getRemark());
 			entity.setCreateDate(nowDate);
 			entity.setIsDelete(Constant.IS_N);
+			entity.setWithdrawBalance(dto.getWithdrawBalance());
 			baseDao.insert(entity, "MSBankWithdrawDepositMapper.insertBankWithdrawDeposit");
 			return businessNo;
 		}catch(Exception e){
@@ -560,6 +562,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		}
 		returnMap.put("calc_actualCarryCash", String.valueOf(calc_actualCarryCash));
 		returnMap.put("calc_counterFee", String.valueOf(calc_counterFee));
+		returnMap.put("withdraw_balance", String.valueOf(old_useMoney));
 		return returnMap;
 	}
 	}

@@ -55,7 +55,6 @@ public abstract class ApiStatusConst extends BaseApiCode {
 		
 		
 		/********************* 会员列表相关                      ****************/
-		
 		/**查询会员为空*/
 		public final static Integer ACCOUNT_IS_NULL_ERROR=7101;
 		/** 查询会员调整余额明细异常 */
@@ -142,9 +141,30 @@ public abstract class ApiStatusConst extends BaseApiCode {
 			zhMsgMap.put(USER_NOT_EXIST, "当前用户在会员系统不存在");
 			zhMsgMap.put(BANK_INFO_ALREADY_EXIST, "当前会员银行卡账户信息已存在");
 			zhMsgMap.put(GET_MEMBER_BASIC_INFO_FAILED, "获取会员基本信息失败");
-			zhMsgMap.put(PARAMETER_MEMID_IS_NULL, "memId不能为空");
-			zhMsgMap.put(PARAMETER_ACCOUNTNO_IS_NULL, "accountNo不能为空");
-			zhMsgMap.put(PARAMETER_APPLYCARRYCASH_IS_NULL, "applyCarryCash不能为空");
 			
+			zhMsgMap.put(ACCOUNT_IS_NULL_ERROR, "查询会员账号错误");
+			zhMsgMap.put(ACCOUNT_REVISE_IS_NULL_ERROR, "查询会员调整余额明细错误");
+			zhMsgMap.put(ACCOUNT_REVISE_BALANCE_ERROR, "调减金额不能大于当前金额");
+			zhMsgMap.put(UPDATE_ACCOUNT_REVISE_BALANCE_ERROR, "修改调整余额操作错误");
+			zhMsgMap.put(UPDATE_BANK_WITHDRAW_DEPOSIT_ERROR, "修改提现记录错误 ");
+			
+			zhMsgMap.put(QUERY_BANK_WITHDRAW_BY_ID_ERROR, "查看提现记录错误");
+			zhMsgMap.put(QUERY_BANK_WITHDRAW__DETAIL_BY_ID_ERROR, "查看提现记录明细错误 ");
+			zhMsgMap.put(UPDATE_PAYPWD_EXCEPTION, "更新支付密码失败，请联系客服");
+        	zhMsgMap.put(DEALWLTH_ACCOUNT_MONEY_ERROR, "结算处理用户账号余额错误 ");
+			zhMsgMap.put(ACCOUNT_BANK_CARD_IS_NULL, "当前会员银行卡账户信息不存在  ");
+			zhMsgMap.put(ACCOUNT_APPLY_CARRY_CASH_ERROR, "超过最大可提现限制50000");
+			zhMsgMap.put(ACCOUNT_INSUFFICIENT_BALANCE_ERROR, "余额不足无法支付");
+			zhMsgMap.put(WITHDRAW_ERROR, "实际提现金额不能大于申请提现金额");
+			zhMsgMap.put(ACTUAL_WITHDRAW_MONEY_THEN_ZERO_ERROR, "实际提现金额必须大于提现手续费");
+			
+			zhMsgMap.put(PARAMETER_IS_NULL, "请检查参数是否为空");
+			zhMsgMap.put(PARAMETER_MEMID_IS_NULL, "memId参数不能为空");
+			zhMsgMap.put(PARAMETER_ACCOUNTNO_IS_NULL, "accountNo参数不能为空");
+			zhMsgMap.put(PARAMETER_APPLYCARRYCASH_IS_NULL, "applyCarryCash参数不能为空");
+			zhMsgMap.put(INSERT_WITHDRAW_ERROR, "新增提现记录异常");
+			zhMsgMap.put(FROZEN_BALANCE_FAILED_ERROR, "冻结余额变动失败");
+			zhMsgMap.put(SERVER_DEAL_WITH_EXCEPTION, "服务器处理异常!");
+			zhMsgMap.put(INSERT_MEMBER_FREEZE_DETAIL_ERROR, "添加账号冻结明细错误");
 		}
 }
