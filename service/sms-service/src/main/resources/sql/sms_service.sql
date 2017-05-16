@@ -100,3 +100,4 @@ INSERT INTO `msg_template_info` VALUES ('7', '1', 'O2O_1007', 'SMS_56150202', '�
 INSERT INTO `msg_template_info` VALUES ('8', '1', 'MEM_1001', 'SMS_56195208', '注册成功', '【美兑】亲爱的{0}，您已成功注册并获赠100积分，推荐好友注册也可获赠100积分！客服热线：4006226555。', 'MEMBER_SMS', '{0}:用户注册的手机号', 'system', '2017-01-11 15:39:14', '60');
 INSERT INTO `msg_template_info` VALUES ('9', '1', 'MEM_1002', NULL, '发送验证码', '【美兑】您的验证码是{VerificationCode}，10分钟内有效，请尽快完成验证。（如非本人操作，请忽略本短信）', 'MEMBER_SMS', '{VerificationCode}:验证码', 'system', '2017-01-13 10:27:34', '60');
 INSERT INTO `msg_template_info` VALUES ('18', '1', '1GW_1003', 'SMS_64140001', '新售后单短信提醒', '【美兑】小美提醒您，您店铺有新的售后单 订单编号：{0}，记得及时处理哦', '1GW', '{0}:订单编号', 'system', '2017-05-04 10:27:34', '60');
+INSERT INTO `msg_template_info` VALUES ('19', '1', 'O2O_1010', 'SMS_67265562', '订单付款成功提醒', '【美兑】您在{0}消费{1}元，获赠{2}积分，目前积分{3}，可在美兑APP中查看：http://t.cn/R664xco。', '1GW', '{0}:消费商家\r\n{1}:消费金额\r\n{2}:获赠积分个数\r\n{3}:当前积分余额', 'system', '2017-05-16 14:27:34', '60');
