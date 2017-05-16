@@ -121,7 +121,7 @@ public class PaypwdServiceImpl implements PaypwdService {
 	@Transactional
 	@Override
 	public ResBodyData updatePaypwd(RequestUpdatePaypwd requestUpdatePaypwd) throws MdSysException {
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,"修改支付密码成功！");
 		
 		/**先验证旧支付密码*/
 		MSMembersPaypwd msMembersPaypwd=new MSMembersPaypwd();
