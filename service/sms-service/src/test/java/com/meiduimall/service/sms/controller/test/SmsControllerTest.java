@@ -1,4 +1,4 @@
-package com.meiduimall.service.sms.controller;
+package com.meiduimall.service.sms.controller.test;
 
 import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;

@@ -1,15 +1,20 @@
 package com.meiduimall.service.sms.request;
 
+import javax.validation.constraints.NotNull;
+
 public class WXMsgOnPaySuccessRequest {
 
+	@NotNull
+	private Long orderTime;
+	@NotNull
 	private String phone;
 	private String openID;
 	private String storeName;
 	private String addPoint;
 	private String coupon;
 	private String userName;
-	private String orderTime;
 	private String totalPoint;
+	private String memId;
 	
 	public String getPhone() {
 		return phone;
@@ -47,10 +52,10 @@ public class WXMsgOnPaySuccessRequest {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	public String getOrderTime() {
+	public Long getOrderTime() {
 		return orderTime;
 	}
-	public void setOrderTime(String orderTime) {
+	public void setOrderTime(Long orderTime) {
 		this.orderTime = orderTime;
 	}
 	public String getTotalPoint() {
@@ -58,5 +63,11 @@ public class WXMsgOnPaySuccessRequest {
 	}
 	public void setTotalPoint(String totalPoint) {
 		this.totalPoint = totalPoint;
+	}
+	public String getMemId() {
+		return memId;
+	}
+	public void setMemId(String memId) {
+		this.memId = memId;
 	}
 }

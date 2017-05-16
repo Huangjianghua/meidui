@@ -53,6 +53,8 @@ weixin :
   url : https://api.weixin.qq.com
 # APP下载地址
 app-download-url : http://127.0.0.1
+# member-service地址
+member-service-host : http://192.168.4.240:8098
 
 
 ---

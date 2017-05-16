@@ -1,8 +1,11 @@
 package com.meiduimall.service.sms.service.impl;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
+import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.HttpUtils;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.ServiceException;
@@ -17,7 +21,11 @@ import com.meiduimall.redis.util.RedisUtils;
 import com.meiduimall.service.sms.config.ProfileConfig;
 import com.meiduimall.service.sms.constant.SmsApiCode;
 import com.meiduimall.service.sms.constant.SysConstant;
+import com.meiduimall.service.sms.entity.SendWeixinMsgHistory;
 import com.meiduimall.service.sms.entity.WXAccessToken;
+import com.meiduimall.service.sms.mapper.SendWeixinMsgHistoryMapper;
+import com.meiduimall.service.sms.model.MemberOpenID;
+import com.meiduimall.service.sms.model.WXTemplateMsgResult;
 import com.meiduimall.service.sms.request.WXMsgOnPaySuccessRequest;
 import com.meiduimall.service.sms.service.WeixinService;
 
@@ -28,6 +36,9 @@ public class WeixinServiceImpl implements WeixinService {
 
 	@Autowired
 	private ProfileConfig profileConfig;
+
+	@Autowired
+	private SendWeixinMsgHistoryMapper sendWeixinMsgHistoryMapper;
 
 	@Override
 	public String getAccessToken() {
@@ -67,14 +78,92 @@ public class WeixinServiceImpl implements WeixinService {
 	}
 
 	@Override
-	public String sendTemplateMessageOnPaySuccess(String phone, WXMsgOnPaySuccessRequest model) {
+	public ResBodyData sendTemplateMessageOnPaySuccess(WXMsgOnPaySuccessRequest model) {
+		// 获取会员信息和openID
+		getMemberInfo(model);
 
-		String url = profileConfig.getWeixinUrl() + "/cgi-bin/message/template/send?access_token=" + getAccessToken();
+		// 组拼微信模板消息
 		String json = getPaySuccessTemplateJson(model);
 
-		return null;
+		String weixinUrl = profileConfig.getWeixinUrl() + "/cgi-bin/message/template/send?access_token="
+				+ getAccessToken();
+		Map<String, String> headers = new HashMap<>();
+		headers.put("Content-Type", "application/json; charset=utf-8");
+		WXTemplateMsgResult bean = null;
+		try {
+			String sendResult = HttpUtils.post(weixinUrl, json, headers);
+			logger.info("发送微信模板消息结果： " + sendResult);
+			bean = JsonUtils.jsonToBean(sendResult, WXTemplateMsgResult.class);
+		} catch (Exception e) {
+			logger.error("发送微信模板消息失败： " + e);
+			throw new ServiceException(SmsApiCode.SEND_WEIXIN_TEMPLATE_MSG_FAIL);
+		}
+		if (bean == null || bean.getErrcode() != 0) {
+			logger.error("发送微信模板消息失败！");
+			throw new ServiceException(SmsApiCode.SEND_WEIXIN_TEMPLATE_MSG_FAIL);
+		}
+
+		// 保存发送记录
+		SendWeixinMsgHistory record = new SendWeixinMsgHistory();
+		record.setMemId(model.getMemId());
+		record.setMemPhone(model.getPhone());
+		record.setSendContent(json);
+		record.setUserName(model.getUserName());
+		record.setWxOpenId(model.getOpenID());
+		sendWeixinMsgHistoryMapper.insertSelective(record);
+
+		// 发送成功返回
+		ResBodyData result = new ResBodyData();
+		result.setStatus(SmsApiCode.SUCCESS);
+		result.setMsg(SmsApiCode.getZhMsg(SmsApiCode.SMS_SEND_SUCCESS));
+		result.setData(JsonUtils.getInstance().createObjectNode());
+		return result;
 	}
 
+	/**
+	 * 请求member-service会员信息和openID
+	 * 
+	 * @param model
+	 *            封装参数
+	 */
+	private void getMemberInfo(WXMsgOnPaySuccessRequest model) {
+		String memSerUrl = profileConfig.getMemberServiceHost() + "/member/member_service/v1/getOpenIDByPhone?phone="
+				+ model.getPhone();
+		String result = null;
+		MemberOpenID bean = null;
+		try {
+			result = HttpUtils.get(memSerUrl);
+			logger.info("根据手机号请求member-service会员信息: " + result);
+		} catch (IOException e) {
+			logger.error("根据手机号请求member-service会员信息失败: " + e);
+			throw new ServiceException(SmsApiCode.CAN_NOT_REQUEST_MEMBER_INFO);
+		}
+		try {
+			bean = JsonUtils.jsonToBean(result, MemberOpenID.class);
+		} catch (Exception e) {
+			logger.error("根据手机号请求member-service会员信息，json解析失败: " + e);
+			throw new ServiceException(SmsApiCode.MEMBER_INFO_EXCEPTION);
+		}
+		if (bean == null || bean.getStatus() != 0 || bean.getData() == null) {
+			throw new ServiceException(SmsApiCode.MEMBER_INFO_EXCEPTION, bean.getMsg());
+		}
+		model.setOpenID(bean.getData().getWxOpenId());
+		model.setTotalPoint(bean.getData().getMemPoint());
+		String userName = bean.getData().getMemNickName();
+		if (StringUtils.isBlank(userName)) {
+			userName = bean.getData().getMemLoginName();
+		}
+		model.setUserName(userName);
+		model.setMemId(bean.getData().getMemId());
+	}
+
+	/**
+	 * 组拼微信模板消息
+	 * 
+	 * @param model
+	 *            封装参数
+	 * @return 组拼后json数据
+	 */
 	private String getPaySuccessTemplateJson(WXMsgOnPaySuccessRequest model) {
 
 		String templateId1 = profileConfig.getWeixinTemplateId1();
@@ -114,7 +203,8 @@ public class WeixinServiceImpl implements WeixinService {
 		keyword1.set("color", new TextNode("#000459"));
 		data.set("keyword1.DATA", keyword1);
 
-		String orderTime = model.getOrderTime();// 订单付款时间（精确到秒）
+		// 订单付款时间（精确到秒）
+		String orderTime = DateFormatUtils.format(model.getOrderTime() * 1000, "yyyy-MM-dd HH:mm:ss");
 		ObjectNode keyword2 = JsonUtils.getInstance().createObjectNode();
 		keyword2.set("value", new TextNode(orderTime));
 		keyword2.set("color", new TextNode("#000459"));

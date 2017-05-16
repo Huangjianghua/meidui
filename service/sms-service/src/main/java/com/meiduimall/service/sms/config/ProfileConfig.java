@@ -35,4 +35,8 @@ public class ProfileConfig {
 	public String getAppDownloadUrl(){
 		return env.getProperty("app-download-url");
 	}
+	
+	public String getMemberServiceHost(){
+		return env.getProperty("member-service-host");
+	}
 }
