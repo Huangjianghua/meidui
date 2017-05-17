@@ -23,6 +23,7 @@ public class WeixinControllerTest extends BaseTest {
 				.param("phone", "188000000")
 				.param("orderTime", "1485632123")
 				.param("coupon", "66.66")
+				.param("sysKey", "o2o_php")
 				.param("storeName", "测试商家")
 				.param("addPoint", "88"))
 				.andExpect(status().isOk());
@@ -46,6 +47,7 @@ public class WeixinControllerTest extends BaseTest {
 				.param("phone", "13429832838")
 				.param("orderTime", "1486532542")
 				.param("coupon", "66.66")
+				.param("sysKey", "o2o_php")
 				.param("storeName", "测试商家")
 				.param("addPoint", "88"))
 				.andExpect(status().isOk());

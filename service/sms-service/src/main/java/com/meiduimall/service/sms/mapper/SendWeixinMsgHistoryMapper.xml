@@ -5,22 +5,23 @@
 	<resultMap id="BaseResultMap"
 		type="com.meiduimall.service.sms.entity.SendWeixinMsgHistory">
 		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="client_id" property="clientId" jdbcType="VARCHAR" />
 		<result column="mem_id" property="memId" jdbcType="VARCHAR" />
 		<result column="mem_phone" property="memPhone" jdbcType="VARCHAR" />
 		<result column="wx_open_id" property="wxOpenId" jdbcType="VARCHAR" />
 		<result column="user_name" property="userName" jdbcType="VARCHAR" />
 		<result column="send_time" property="sendTime" jdbcType="TIMESTAMP" />
 	</resultMap>
-	
+
 	<resultMap id="ResultMapWithBLOBs"
 		type="com.meiduimall.service.sms.entity.SendWeixinMsgHistory" extends="BaseResultMap">
 		<result column="send_content" property="sendContent" jdbcType="LONGVARCHAR" />
 	</resultMap>
 
 	<sql id="Base_Column_List">
-		id, mem_id, mem_phone, wx_open_id, user_name, send_time
+		id, client_id, mem_id, mem_phone, wx_open_id, user_name, send_time
 	</sql>
-	
+
 	<sql id="Blob_Column_List">
 		send_content
 	</sql>
@@ -34,7 +35,7 @@
 		from send_weixin_msg_history
 		where id = #{id,jdbcType=INTEGER}
 	</select>
-	
+
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
 		delete from send_weixin_msg_history
 		where id = #{id,jdbcType=INTEGER}
@@ -42,21 +43,24 @@
 
 	<insert id="insert"
 		parameterType="com.meiduimall.service.sms.entity.SendWeixinMsgHistory">
-		insert into send_weixin_msg_history (id, mem_id, mem_phone,
-		wx_open_id, user_name, send_time,
-		send_content)
-		values (#{id,jdbcType=INTEGER}, #{memId,jdbcType=VARCHAR},
-		#{memPhone,jdbcType=VARCHAR},
-		#{wxOpenId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{sendTime,jdbcType=TIMESTAMP},
-		#{sendContent,jdbcType=LONGVARCHAR})
+		insert into send_weixin_msg_history (id, client_id, mem_id,
+		mem_phone, wx_open_id, user_name,
+		send_time, send_content)
+		values (#{id,jdbcType=INTEGER}, #{clientId,jdbcType=VARCHAR},
+		#{memId,jdbcType=VARCHAR},
+		#{memPhone,jdbcType=VARCHAR}, #{wxOpenId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR},
+		#{sendTime,jdbcType=TIMESTAMP}, #{sendContent,jdbcType=LONGVARCHAR})
 	</insert>
-	
+
 	<insert id="insertSelective"
 		parameterType="com.meiduimall.service.sms.entity.SendWeixinMsgHistory">
 		insert into send_weixin_msg_history
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				id,
+			</if>
+			<if test="clientId != null">
+				client_id,
 			</if>
 			<if test="memId != null">
 				mem_id,
@@ -80,6 +84,9 @@
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="clientId != null">
+				#{clientId,jdbcType=VARCHAR},
 			</if>
 			<if test="memId != null">
 				#{memId,jdbcType=VARCHAR},
@@ -106,6 +113,9 @@
 		parameterType="com.meiduimall.service.sms.entity.SendWeixinMsgHistory">
 		update send_weixin_msg_history
 		<set>
+			<if test="clientId != null">
+				client_id = #{clientId,jdbcType=VARCHAR},
+			</if>
 			<if test="memId != null">
 				mem_id = #{memId,jdbcType=VARCHAR},
 			</if>
@@ -127,11 +137,12 @@
 		</set>
 		where id = #{id,jdbcType=INTEGER}
 	</update>
-	
+
 	<update id="updateByPrimaryKeyWithBLOBs"
 		parameterType="com.meiduimall.service.sms.entity.SendWeixinMsgHistory">
 		update send_weixin_msg_history
-		set mem_id = #{memId,jdbcType=VARCHAR},
+		set client_id = #{clientId,jdbcType=VARCHAR},
+		mem_id = #{memId,jdbcType=VARCHAR},
 		mem_phone = #{memPhone,jdbcType=VARCHAR},
 		wx_open_id = #{wxOpenId,jdbcType=VARCHAR},
 		user_name = #{userName,jdbcType=VARCHAR},
@@ -139,11 +150,12 @@
 		send_content = #{sendContent,jdbcType=LONGVARCHAR}
 		where id = #{id,jdbcType=INTEGER}
 	</update>
-	
+
 	<update id="updateByPrimaryKey"
 		parameterType="com.meiduimall.service.sms.entity.SendWeixinMsgHistory">
 		update send_weixin_msg_history
-		set mem_id = #{memId,jdbcType=VARCHAR},
+		set client_id = #{clientId,jdbcType=VARCHAR},
+		mem_id = #{memId,jdbcType=VARCHAR},
 		mem_phone = #{memPhone,jdbcType=VARCHAR},
 		wx_open_id = #{wxOpenId,jdbcType=VARCHAR},
 		user_name = #{userName,jdbcType=VARCHAR},

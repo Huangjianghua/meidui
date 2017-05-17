@@ -105,6 +105,7 @@ public class WeixinServiceImpl implements WeixinService {
 
 		// 保存发送记录
 		SendWeixinMsgHistory record = new SendWeixinMsgHistory();
+		record.setClientId(model.getSysKey());
 		record.setMemId(model.getMemId());
 		record.setMemPhone(model.getPhone());
 		record.setSendContent(json);

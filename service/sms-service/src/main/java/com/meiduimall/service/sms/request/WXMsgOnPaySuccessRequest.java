@@ -12,6 +12,8 @@ public class WXMsgOnPaySuccessRequest {
 	private String storeName;
 	@NotNull
 	private String addPoint;
+	@NotNull
+	private String sysKey;
 	private String coupon;
 	
 	private String openID;
@@ -19,6 +21,12 @@ public class WXMsgOnPaySuccessRequest {
 	private String totalPoint;
 	private String memId;
 	
+	public String getSysKey() {
+		return sysKey;
+	}
+	public void setSysKey(String sysKey) {
+		this.sysKey = sysKey;
+	}
 	public String getPhone() {
 		return phone;
 	}

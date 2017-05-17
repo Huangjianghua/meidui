@@ -5,6 +5,8 @@ import java.util.Date;
 public class SendWeixinMsgHistory {
     private Integer id;
 
+    private String clientId;
+
     private String memId;
 
     private String memPhone;
@@ -23,6 +25,14 @@ public class SendWeixinMsgHistory {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId == null ? null : clientId.trim();
     }
 
     public String getMemId() {
