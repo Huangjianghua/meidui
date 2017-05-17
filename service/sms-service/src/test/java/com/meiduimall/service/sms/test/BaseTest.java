@@ -18,7 +18,7 @@ import org.springframework.web.context.WebApplicationContext;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @WebAppConfiguration
-@ActiveProfiles(value="dev")
+@ActiveProfiles(value="junit")
 @Transactional
 public class BaseTest {
 	
