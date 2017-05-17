@@ -52,7 +52,7 @@ weixin :
   templateId1 : Sk1r88iGA_HaiZM6yTKfOhNol2qN-CuH8Eow-AJ9D7w
   url : https://api.weixin.qq.com
 # APP下载地址
-app-download-url : http://o2odev.meiduimall.com/appapi/index.php?app=home&act=app_down&portal=13
+app-download-url : http://o2odev.meiduimall.com/appapi/index.php?app=home&act=app_down&portal=12
 # member-service地址
 member-service-host : http://192.168.4.240:8098
 
@@ -111,7 +111,7 @@ weixin :
   templateId1 : Sk1r88iGA_HaiZM6yTKfOhNol2qN-CuH8Eow-AJ9D7w
   url : https://api.weixin.qq.com
 # APP下载地址
-app-download-url : http://shangjia.meiduimall.com/appapi/index.php?app=home&act=app_down&portal=13
+app-download-url : http://shangjia.meiduimall.com/appapi/index.php?app=home&act=app_down&portal=12
 # member-service地址
 member-service-host : http://10.45.178.235:8098
 
@@ -170,7 +170,7 @@ weixin :
   templateId1 : Sk1r88iGA_HaiZM6yTKfOhNol2qN-CuH8Eow-AJ9D7w
   url : https://api.weixin.qq.com
 # APP下载地址
-app-download-url : http://shangjia.meiduimall.com/appapi/index.php?app=home&act=app_down&portal=13
+app-download-url : http://shangjia.meiduimall.com/appapi/index.php?app=home&act=app_down&portal=12
 # member-service地址
 member-service-host : http://10.116.21.93:8098
 
@@ -229,7 +229,7 @@ weixin :
   templateId1 : Sk1r88iGA_HaiZM6yTKfOhNol2qN-CuH8Eow-AJ9D7w
   url : https://api.weixin.qq.com
 # APP下载地址
-app-download-url : http://o2ot.meiduimall.com/appapi/index.php?app=home&act=app_down&portal=13
+app-download-url : http://o2ot.meiduimall.com/appapi/index.php?app=home&act=app_down&portal=12
 # member-service地址
 member-service-host : http://192.168.4.111:8098
 
@@ -288,6 +288,6 @@ weixin :
   templateId1 : Sk1r88iGA_HaiZM6yTKfOhNol2qN-CuH8Eow-AJ9D7w
   url : https://api.weixin.qq.com
 # APP下载地址
-app-download-url : http://o2odev.meiduimall.com/appapi/index.php?app=home&act=app_down&portal=13
+app-download-url : http://o2odev.meiduimall.com/appapi/index.php?app=home&act=app_down&portal=12
 # member-service地址
 member-service-host : http://192.168.4.240:8098
