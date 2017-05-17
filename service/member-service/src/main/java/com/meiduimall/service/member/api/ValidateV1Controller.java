@@ -1,7 +1,5 @@
 package com.meiduimall.service.member.api;
 
-import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +36,7 @@ public class ValidateV1Controller {
 		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
 		try {
 			boolean isExist = validateService.checkUserIdExists(userid);
-			if(isExist){
+			if(!isExist){
 				return resBodyData;
 			}
 			else{
