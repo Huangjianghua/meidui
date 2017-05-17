@@ -36,7 +36,7 @@ public class ValidateV1Controller {
 		logger.info("收到校验userId：{}API请求",userid);
 		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,"");
 		try { 
-			if(validateService.checkUserIdExists(userid)){
+			if(!validateService.checkUserIdExists(userid)){
 				return resBodyData;
 			}
 			else {
