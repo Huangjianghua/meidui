@@ -56,7 +56,7 @@ public class SmsServiceImpl implements SmsService
 		}
 		else{
 			logger.info("手机号：{}短信验证码获取失败",model.getPhone());
-			throw new ServiceException(ApiStatusConst.GET_VALIDATE_CODE_EXCEPTION);
+			throw new ServiceException(ApiStatusConst.GET_VALIDATE_CODE_EXCEPTION,resBodyData.getMsg());
 		}
 	}
 	
