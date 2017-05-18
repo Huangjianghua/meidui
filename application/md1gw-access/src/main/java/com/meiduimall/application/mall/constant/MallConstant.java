@@ -2,14 +2,7 @@ package com.meiduimall.application.mall.constant;
 
 public class MallConstant {
 
-	public static final String KEY_SIGN_CLIENT_ID = "sign.clientID";
-
-	public static final String KEY_SIGN_KEY = "sign.key";
-
-	/** 商品模块微服务主机名 */
-	public static final String KEY_CATALOG_SERVICE_HOST = "catalog-service.host";
-
-	/** 会员系统接入层务根地址 */
+	/** 会员系统接入层根地址 */
 	public static final String ACCESS_MEMBER_BASE_URL = "/member/front_user_center/v1";
 
 	/** 商品模块微服务根地址 */

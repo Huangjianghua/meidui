@@ -7,13 +7,15 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "myProps") // 接收application.yml中的myProps下面的属性
 public class MyProps {
 
-	private String routeServiceUrl;
-	private String userCenterUrl;
+	private String routeServiceUrl; // 网关地址
+	private String userCenterUrl; // 会员中心接入层
 	private String sendSmsUrl;
 	private String payUrl;
 	private String meiduimallUrl;
 	private String finishUrl;
-	
+
+	private String signClientID;// 网关签名clientID
+	private String signKey;// 网关签名key
 
 	public String getRouteServiceUrl() {
 		return routeServiceUrl;
@@ -63,10 +65,20 @@ public class MyProps {
 		this.finishUrl = finishUrl;
 	}
 
+	public String getSignClientID() {
+		return signClientID;
+	}
 
-	 
+	public void setSignClientID(String signClientID) {
+		this.signClientID = signClientID;
+	}
 
-	
+	public String getSignKey() {
+		return signKey;
+	}
 
+	public void setSignKey(String signKey) {
+		this.signKey = signKey;
+	}
 
 }

@@ -10,14 +10,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.meiduimall.application.mall.catalog.annotation.HasToken;
-import com.meiduimall.application.mall.constant.MallApiCode;
 import com.meiduimall.application.mall.catalog.entity.MemIdResult;
+import com.meiduimall.application.mall.config.MyProps;
+import com.meiduimall.application.mall.constant.MallApiCode;
 import com.meiduimall.application.mall.constant.MallConstant;
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
@@ -30,7 +30,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 	private static Logger logger = LoggerFactory.getLogger(TokenInterceptor.class);
 
 	@Autowired
-	private Environment env;
+	private MyProps myProps;
 
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
@@ -102,7 +102,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 	 */
 	private boolean checkToken(HttpServletRequest request, String token) {
 
-		String host = env.getProperty("member-access.host");
+		String host = myProps.getUserCenterUrl();
 		String uri = MallConstant.ACCESS_MEMBER_BASE_URL + "/get_memid_by_token";
 		String url = host + uri + "?token=" + token;
 
