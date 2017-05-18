@@ -1,6 +1,6 @@
 package com.meiduimall.application.mall.catalog.constant;
 
-public class ApplMallConstant {
+public class MallConstant {
 
 	public static final String KEY_SIGN_CLIENT_ID = "sign.clientID";
 
@@ -20,6 +20,6 @@ public class ApplMallConstant {
 	/** form表单提交的Content-Type */
 	public static final String CONTENT_TYPE_FORM = "application/x-www-form-urlencoded;charset=utf-8";
 
-	private ApplMallConstant() {
+	private MallConstant() {
 	}
 }

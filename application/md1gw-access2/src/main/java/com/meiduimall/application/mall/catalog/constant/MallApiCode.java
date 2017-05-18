@@ -2,7 +2,7 @@ package com.meiduimall.application.mall.catalog.constant;
 
 import com.meiduimall.core.BaseApiCode;
 
-public class ApplMallApiCode extends BaseApiCode {
+public class MallApiCode extends BaseApiCode {
 
 	/** 请求微服务出错 */
 	public static final Integer REQUEST_SERVICE_ERROR = 8001;
@@ -24,6 +24,6 @@ public class ApplMallApiCode extends BaseApiCode {
 		zhMsgMap.put(TOKEN_VALIDATE_ERROR, "token验证异常");
 	}
 
-	private ApplMallApiCode() {
+	private MallApiCode() {
 	}
 }
