@@ -22,7 +22,7 @@ public class ParseItemSpecDesUtil {
 	}
 
 	/**
-	 * 解析：表sysitem_sku，字段spec_desc序列化数据,格式字符串
+	 * 解析：表sysitem_item，字段spec_desc序列化数据,格式字符串
 	 * 
 	 * { 4={ 64={spec_value_id=64, spec_value=1号自然棕色, private_spec_value_id=},
 	 * 43={spec_value_id=43, spec_value=2号浅棕色, spec_private_value_id=[],
@@ -39,7 +39,7 @@ public class ParseItemSpecDesUtil {
 	 * 
 	 * @return 规格列表
 	 */
-	public static List<ParseItemSpecDescBean> parse(String content) {
+	public static List<ParseItemSpecDescBean> parse(String content) throws Exception {
 		if (content == null || "null".equals(content) || content.trim().length() == 0) {
 			return null;
 		}
@@ -49,15 +49,17 @@ public class ParseItemSpecDesUtil {
 		try {
 			array = (AssocArray) p.unserialize(content.getBytes());
 		} catch (Exception e) {
-			logger.error("解析：表sysitem_sku，字段spec_desc，异常： " + e);
+			logger.error("解析：表sysitem_item，字段spec_desc，异常1，转换AssocArray异常： " + e);
 			return null;
 		}
 		if (array == null || array.isEmpty()) {
+			logger.error("解析：表sysitem_item，字段spec_desc，异常2，AssocArray为空： " + content);
 			return null;
 		}
 		@SuppressWarnings("unchecked")
 		HashMap<Integer, AssocArray> map = array.toHashMap();
 		if (map == null || map.isEmpty()) {
+			logger.error("解析：表sysitem_item，字段spec_desc，异常3，HashMap<String, AssocArray>为空：" + content);
 			return null;
 		}
 
@@ -105,9 +107,11 @@ public class ParseItemSpecDesUtil {
 					Object value3 = entry3.getValue();
 					byte[] bs = null;
 					try {
-						bs = (byte[]) value3;
+						if (value3 instanceof byte[]) {
+							bs = (byte[]) value3;
+						}
 					} catch (Exception e) {
-						logger.error("解析：表sysitem_sku，字段spec_desc，异常： " + e);
+						logger.error("解析：表sysitem_item，字段spec_desc，异常4，转换byte[]异常：" + e);
 						continue;
 					}
 					String result = null;
@@ -115,7 +119,8 @@ public class ParseItemSpecDesUtil {
 						try {
 							result = new String(bs, "utf-8");
 						} catch (UnsupportedEncodingException e) {
-							logger.error("解析：表sysitem_sku，字段spec_desc，异常： " + e);
+							logger.error("解析：表sysitem_item，字段spec_desc，异常5，byte[]转换String异常： " + e);
+							continue;
 						}
 					} else {
 						continue;
@@ -147,6 +152,9 @@ public class ParseItemSpecDesUtil {
 		List<ParseItemSpecDescBean> list = new ArrayList<ParseItemSpecDescBean>();
 		for (Map.Entry<Integer, ParseItemSpecDescBean> entry : resultMap.entrySet()) {
 			list.add(entry.getValue());
+		}
+		if (list.isEmpty()) {
+			logger.error("解析：表sysitem_item，字段spec_desc，异常6，返回结果list为空： " + content);
 		}
 		return list;
 	}
