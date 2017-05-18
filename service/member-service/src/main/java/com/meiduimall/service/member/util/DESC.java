@@ -90,7 +90,7 @@ public class DESC {
 	}
 
 	private static String decrypt(String data, String key) throws MdSysException {
-		if(StringUtils.isEmpty(data)){
+		if(StringUtils.isEmpty(data)||"NULL".equals(data.toUpperCase())){
 			return "";
 		}
 		if(String.valueOf(Constants.CONSTANT_INT_ZERO).equals(data)){
