@@ -10,6 +10,7 @@
 
 	<groupId>com.meiduimall.service</groupId>
     <artifactId>member-service</artifactId>
+    <version>1.0.2-SNAPSHOT</version>
 	<name>service::member-service</name>
 	<packaging>jar</packaging>
 
