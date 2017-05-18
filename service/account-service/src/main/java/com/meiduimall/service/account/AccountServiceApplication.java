@@ -16,7 +16,7 @@ import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.util.DESC;
 
 
-
+/*test*/
 @EnableHystrix
 @EnableEurekaClient
 @SpringBootApplication
