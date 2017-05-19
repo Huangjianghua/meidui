@@ -35,7 +35,7 @@ public class WalletTypeController {
 	 * 查询所有钱包类型
 	 * @return
 	 */
-	@PostMapping("/listWalletType")
+	@PostMapping("/list_wallet_type")
 	public ResBodyData listWalletType() {
 		List<MSWalletType> listWalletTypeInfo = null;
 		try {
