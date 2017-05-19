@@ -557,7 +557,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		}
 		//stpe2 实际提现金额=申请提取金额-手续费
 		calc_actualCarryCash = DoubleCalculate.sub(old_applyCarryCash, calc_counterFee);
-		}
+		
 		returnMap.put("calc_actualCarryCash", String.valueOf(calc_actualCarryCash));
 		returnMap.put("calc_counterFee", String.valueOf(calc_counterFee));
 		returnMap.put("withdraw_balance", String.valueOf(old_useMoney));
