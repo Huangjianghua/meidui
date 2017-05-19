@@ -1,6 +1,7 @@
 package com.meiduimall.service.account.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -10,10 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.MdBizException;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.constant.ApiStatusConst;
 import com.meiduimall.service.account.constant.ApplicationConstant;
 import com.meiduimall.service.account.dao.BaseDao;
+import com.meiduimall.service.account.model.MemberTransferHistory;
+import com.meiduimall.service.account.model.request.RequestPointTransfer;
 import com.meiduimall.service.account.service.PointsService;
 import com.meiduimall.service.account.util.DESC;
 import com.meiduimall.service.account.util.DoubleCalculate;
@@ -200,6 +204,18 @@ public class PointsServiceImpl implements PointsService {
 			logger.error("写入积分变动明细出现错误-{}，会员编号：{}，订单编号：{}，错误信息：{}", 
 					calcFlag, memId, orderId, e.getMessage());
 		}
+	}
+
+	@Override
+	public List<MemberTransferHistory> queryPointsTransferList(RequestPointTransfer pointTransfer) throws MdBizException {
+		List<MemberTransferHistory> list=null;
+		try {
+			list=baseDao.selectList(pointTransfer, "MemberTransferHistoryMapper.queryPointsTransferList");
+		} catch (Exception e) {
+			logger.error("查询积分转账列表queryPointsTransferList,请求参数:{},异常:{}",pointTransfer.toString(),e.getMessage());
+			throw new MdBizException(ApiStatusConst.QUERY_TRANSFER_POINTS_ERROR);
+		}
+		return list;
 	}
 
 }

@@ -49,4 +49,7 @@ public class Constant {
 	public final static String NEGATIVE_NUMBER_ONE="-1";
 	/** 调整类型 */
 	public final static String TRADETYPE="CWTZ";
+	/**积分列表转账类型		*/
+	public final static String POINTS_TYPE="21B260C3-A230-4601-8D62-420OPT20AT24";
+	public final static String POINTS_TYPE_MSG="内部转账";
 }

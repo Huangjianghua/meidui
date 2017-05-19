@@ -2,12 +2,15 @@ package com.meiduimall.service.account.model;
 
 import java.io.Serializable;
 
-import com.meiduimall.exception.MdSysException;
-import com.meiduimall.service.account.util.DESC;
+import org.apache.commons.lang3.StringUtils;
 
+import com.meiduimall.exception.MdSysException;
+import com.meiduimall.service.account.constant.Constant;
+import com.meiduimall.service.account.util.DESC;
 
 /**
  * 会员转账记录表
+ * 
  * @author chencong
  *
  */
@@ -62,53 +65,59 @@ public class MemberTransferHistory implements Serializable {
 
 	/** 备注 **/
 	private String mthRemark;
-	
+
 	/** 更新人 **/
 	private String mthQuantityLeft;
-	
+
 	/** 转入账户 **/
 	private String mthAccount;
-	
-	/** 内部转账类型（转入；转出）**/
+
+	/** 内部转账类型（转入；转出） **/
 	private String internalTransferType;
-	
+
 	/** 转入会员名称 **/
 	private String transInMemberNickName;
-	
+	/** 会员手机 */
+	private String memPhone;
+
 	public String getTransInMemberNickName() {
 		return transInMemberNickName;
 	}
+
 	public void setTransInMemberNickName(String transInMemberNickName) {
 		this.transInMemberNickName = transInMemberNickName;
 	}
 
-	/************add by lftan 调账管理导出辅助字段:begin************/
+	/************ add by lftan 调账管理导出辅助字段:begin ************/
 	private String memName;
 	private String loginName;
-	/************add by lftan 调账管理导出辅助字段:end  *************/
-	
+
+	/************ add by lftan 调账管理导出辅助字段:end *************/
+
 	public String getMthAccount() throws MdSysException {
 		return DESC.deyption(this.mthAccount);
 	}
-	/** 内部转账类型（转入；转出）**/
+
+	/** 内部转账类型（转入；转出） **/
 	public String getInternalTransferType() {
 		return internalTransferType;
 	}
-	/** 内部转账类型（转入；转出）**/
+
+	/** 内部转账类型（转入；转出） **/
 	public void setInternalTransferType(String internalTransferType) {
 		this.internalTransferType = internalTransferType;
 	}
 
-	public void setMthAccount(String mthAccount)throws MdSysException {
+	public void setMthAccount(String mthAccount) throws MdSysException {
 		this.mthAccount = DESC.encryption(mthAccount);
 	}
 
 	public String getMthQuantityLeft() throws MdSysException {
-		return DESC.deyption(mthQuantityLeft,this.memId);
+		return DESC.deyption(mthQuantityLeft, this.memId);
 	}
 
-	public void setMthQuantityLeft(String mthQuantityLeft)throws MdSysException {
-		this.mthQuantityLeft = DESC.encryption(mthQuantityLeft,this.memId);
+	public void setMthQuantityLeft(String mthQuantityLeft) throws MdSysException {
+		this.mthQuantityLeft = DESC.encryption(mthQuantityLeft, this.memId);
 	}
 
 	public void setMthId(String mthId) {
@@ -132,6 +141,9 @@ public class MemberTransferHistory implements Serializable {
 	}
 
 	public String getDictMthCategory() {
+		if(StringUtils.isNotBlank(dictMthCategory)&&Constant.POINTS_TYPE.equals(dictMthCategory)){
+			return Constant.POINTS_TYPE_MSG;
+		}
 		return this.dictMthCategory;
 	}
 
@@ -152,29 +164,29 @@ public class MemberTransferHistory implements Serializable {
 	}
 
 	public void setMthQuantity(String mthQuantity) throws MdSysException {
-		this.mthQuantity = DESC.encryption(mthQuantity,this.memId);
+		this.mthQuantity = DESC.encryption(mthQuantity, this.memId);
 	}
 
-	public String getMthQuantity()throws MdSysException {
-		return DESC.deyption(this.mthQuantity,this.memId);
+	public String getMthQuantity() throws MdSysException {
+		return DESC.deyption(this.mthQuantity, this.memId);
 	}
 
-	public void setMthActualQuantity(String mthActualQuantity)throws MdSysException {
-		this.mthActualQuantity = DESC.encryption(mthActualQuantity,this.memId);
+	public void setMthActualQuantity(String mthActualQuantity) throws MdSysException {
+		this.mthActualQuantity = DESC.encryption(mthActualQuantity, this.memId);
 	}
 
 	public String getMthActualQuantity() throws MdSysException {
-		return DESC.deyption(this.mthActualQuantity,this.memId);
+		return DESC.deyption(this.mthActualQuantity, this.memId);
 	}
 
 	public void setDictChargeFormula(String dictChargeFormula) throws MdSysException {
-	 
-		this.dictChargeFormula = DESC.encryption(dictChargeFormula,this.memId);
+
+		this.dictChargeFormula = DESC.encryption(dictChargeFormula, this.memId);
 	}
 
-	public String getDictChargeFormula()throws MdSysException {
-		 
-		return DESC.deyption(this.dictChargeFormula,this.memId);
+	public String getDictChargeFormula() throws MdSysException {
+
+		return DESC.deyption(this.dictChargeFormula, this.memId);
 	}
 
 	public void setMthWalletUrl(String mthWalletUrl) {
@@ -247,6 +259,14 @@ public class MemberTransferHistory implements Serializable {
 
 	public void setLoginName(String loginName) {
 		this.loginName = loginName;
+	}
+
+	public String getMemPhone() {
+		return memPhone;
+	}
+
+	public void setMemPhone(String memPhone) {
+		this.memPhone = memPhone;
 	}
 
 }
