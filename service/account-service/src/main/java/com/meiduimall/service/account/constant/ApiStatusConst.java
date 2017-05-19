@@ -109,6 +109,8 @@ public abstract class ApiStatusConst extends BaseApiCode {
 		public final static Integer INSERT_MEMBER_REVISE_DETAIL_ERROR=7124;
 		/**添加账号冻结明细错误 */
 		public final static Integer INSERT_MEMBER_FREEZE_DETAIL_ERROR=7125;
+		/**查询钱包类型异常**/ 
+		public final static Integer QUERY_WALLETTYPE_EXCEPTION=7126;
 		
 		static {
 			zhMsgMap.put(OPERATION_DB_EX, "操作数据库程序异常");
@@ -166,5 +168,6 @@ public abstract class ApiStatusConst extends BaseApiCode {
 			zhMsgMap.put(FROZEN_BALANCE_FAILED_ERROR, "冻结余额变动失败");
 			zhMsgMap.put(SERVER_DEAL_WITH_EXCEPTION, "服务器处理异常!");
 			zhMsgMap.put(INSERT_MEMBER_FREEZE_DETAIL_ERROR, "添加账号冻结明细错误");
+			zhMsgMap.put(QUERY_WALLETTYPE_EXCEPTION, "查询钱包类型异常");
 		}
 }
