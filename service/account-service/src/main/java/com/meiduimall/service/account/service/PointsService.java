@@ -1,9 +1,13 @@
 package com.meiduimall.service.account.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.MdBizException;
 import com.meiduimall.exception.MdSysException;
+import com.meiduimall.service.account.model.MemberTransferHistory;
+import com.meiduimall.service.account.model.request.RequestPointTransfer;
 
 /**
  * 积分相关操作
@@ -50,4 +54,12 @@ public interface PointsService {
 	 */
 	boolean getFreezeUnfreezeRecordByOrderId(String orderId);
 	
+	/**
+	 * 查询积分转账列表
+	 * @return
+	 * @param pointTransfer
+	 * @throws MdBizException
+	 * @author: jianhua.huang  2017年5月18日 上午11:44:00
+	 */
+	List<MemberTransferHistory> queryPointsTransferList(RequestPointTransfer pointTransfer)throws MdBizException;
 }

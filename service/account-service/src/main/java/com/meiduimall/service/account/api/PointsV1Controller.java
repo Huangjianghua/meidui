@@ -21,13 +21,19 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.ApiException;
+import com.meiduimall.exception.MdBizException;
 import com.meiduimall.service.account.constant.ApiStatusConst;
+import com.meiduimall.service.account.constant.Constant;
 import com.meiduimall.service.account.constant.SysParamsConst;
 import com.meiduimall.service.account.model.MSConsumePointsDetail;
 import com.meiduimall.service.account.model.MSConsumePointsDetailGet;
+import com.meiduimall.service.account.model.MemberTransferHistory;
+import com.meiduimall.service.account.model.request.RequestPointTransfer;
 import com.meiduimall.service.account.service.MDMallServices;
 import com.meiduimall.service.account.service.MSConsumePointsDetailService;
 import com.meiduimall.service.account.service.MembersPointsOpService;
+import com.meiduimall.service.account.service.PointsService;
 
 /**
  * 用户积分相关操作
@@ -54,6 +60,9 @@ public class PointsV1Controller {
 	
 	@Autowired
 	private MSConsumePointsDetailService mSConsumePointsDetailService;
+	
+	@Autowired
+	private PointsService pointsService;
 	
 	/**
 	 * 积分 流水接口  分页  
@@ -150,6 +159,32 @@ public class PointsV1Controller {
 		out.print(json.toString());
 	}
 	
-	
+	/**
+	 * 查询积分转账列表
+	 * @param transfer
+	 * @throws Exception
+	 * @author: jianhua.huang  2017年5月18日 上午11:59:15
+	 */
+	@RequestMapping(value = "/queryPointsTransferList")
+	public ResBodyData queryPointsTransferList(@RequestBody RequestPointTransfer transfer) throws Exception {
+		List<MemberTransferHistory> list=null;
+		try {
+			//分页查询
+			if(transfer.getFlag().equals(Constant.ONE)){
+				//分页
+				PageHelper.startPage(transfer.getPageNum(), transfer.getPageSize());
+				PageHelper.orderBy("mth_created_date DESC");
+			}else{
+				//不分页
+				PageHelper.startPage(transfer.getPageNum(), 0, false, false, true);
+				PageHelper.orderBy("mth_created_date DESC");
+			}
+			list = pointsService.queryPointsTransferList(transfer);
+		} catch (MdBizException e) {
+			logger.error("查询积分转账列表queryPointsTransferList服务器错误:{}", e.getMessage());
+			throw new ApiException(ApiStatusConst.SERVER_DEAL_WITH_EXCEPTION);
+		}
+		return new ResBodyData(ApiStatusConst.SUCCESS, ApiStatusConst.SUCCESS_M,new PageInfo<>(list));
+	}
 	
 }
