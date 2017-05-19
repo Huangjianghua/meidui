@@ -555,20 +555,8 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		if(calc_counterFee < calc_minFee){
 			calc_counterFee = calc_minFee;
 		}
-		//stpe2 全部提取，手续费从申请申请提取金额中扣除，实际提现金额=申请提取金额-手续费
-		if(old_applyCarryCash == old_useMoney){
-			calc_actualCarryCash = DoubleCalculate.sub(old_applyCarryCash, calc_counterFee);
-		}else{
-			//部分提取，手续费直接从提现金额中扣除，实际提现金额=申请提取金额 -手续费     余额不足扣除手续费时，实际提现金额=申请提取金额-扣除余额后不足的手续费
-			Double subUseMoney = DoubleCalculate.sub(old_useMoney, old_applyCarryCash);
-			//余额够扣除手续费时，实际提现金额=申请提取金额-手续费
-			if(subUseMoney >= calc_counterFee){
-				calc_actualCarryCash =DoubleCalculate.sub(old_applyCarryCash, calc_counterFee);
-			}else{
-				//余额不足扣除手续费时，实际提现金额=申请提取金额-扣除余额后不足的手续费
-				Double subCounterFee = DoubleCalculate.sub(calc_counterFee,subUseMoney); //扣除余额后剩余未扣减手续费
-				calc_actualCarryCash = DoubleCalculate.sub(old_applyCarryCash, subCounterFee);
-			}
+		//stpe2 实际提现金额=申请提取金额-手续费
+		calc_actualCarryCash = DoubleCalculate.sub(old_applyCarryCash, calc_counterFee);
 		}
 		returnMap.put("calc_actualCarryCash", String.valueOf(calc_actualCarryCash));
 		returnMap.put("calc_counterFee", String.valueOf(calc_counterFee));
