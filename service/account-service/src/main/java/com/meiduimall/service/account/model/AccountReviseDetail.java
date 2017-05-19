@@ -27,6 +27,10 @@ public class AccountReviseDetail implements Serializable {
 	private String memLoginName;
 	/** 手机号 */
 	private String memPhone;
+	
+	/** 钱包类型  **/
+	private String walletType;
+	
 	/**
 	 * 调整类型(1-调增,2-调减)
 	 */
@@ -72,6 +76,16 @@ public class AccountReviseDetail implements Serializable {
 	 * agree -同意 reject-拒绝
 	 */
 	private String operate;
+
+	
+	
+	public String getWalletType() {
+		return walletType;
+	}
+
+	public void setWalletType(String walletType) {
+		this.walletType = walletType;
+	}
 
 	public String getId() {
 		return id;

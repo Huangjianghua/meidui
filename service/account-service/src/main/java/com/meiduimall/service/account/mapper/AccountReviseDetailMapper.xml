@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.meiduimall.service.account.model.AccountReviseDetail" >
     <id column="id" property="id" jdbcType="CHAR" />
     <result column="mem_id" property="memId" jdbcType="CHAR" />
+    <result column="wallet_type" property="walletType" jdbcType="VARCHAR" />
     <result column="revise_type" property="reviseType" jdbcType="VARCHAR" />
     <result column="before_balance" property="beforeBalance" jdbcType="DECIMAL" />
     <result column="revise_balance" property="reviseBalance" jdbcType="DECIMAL" />
@@ -18,7 +19,7 @@
     
   </resultMap>
   <sql id="Base_Column_List" >
-    id, mem_id, revise_type, before_balance, revise_balance, created_by, 
+    id, mem_id, wallet_type, revise_type, before_balance, revise_balance, created_by, 
     DATE_FORMAT(created_date,'%Y-%m-%d %H:%i:%s') as created_date, 
     updated_by, status, DATE_FORMAT(updated_date,'%Y-%m-%d %H:%i:%s') as updated_date, 
     revise_remark, review_remark,is_delete
@@ -34,7 +35,8 @@
   <select id="queryAccountReviseDetailList" resultMap="BaseResultMap" parameterType="com.meiduimall.service.account.model.AccountReviseDetail" >
     select 
 	    msard.id,
-		msard.mem_id,
+		msard.mem_id as memId,
+		msard.wallet_type as walletType, 
 		msard.revise_type as reviseType,
 	    msm.mem_phone as memPhone,
 	    msm.mem_login_name as memLoginName,
@@ -55,6 +57,9 @@
 	  </if>
 	  <if test="memId !=null and memId !=''">
 		AND msard.mem_id=#{memId}
+	  </if>
+	  <if test="walletType !=null and walletType !=''">
+		AND msard.wallet_type=#{walletType}
 	  </if>
 	  <if test="memLoginName !=null and memLoginName !=''">
 		AND msm.mem_login_name=#{memLoginName}
@@ -85,6 +90,9 @@
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
+      </if>
+      <if test="walletType != null" >
+        wallet_type,
       </if>
       <if test="memId != null" >
         mem_id,
@@ -127,6 +135,9 @@
       <if test="memId != null" >
         #{memId,jdbcType=CHAR},
       </if>
+      <if test="walletType != null" >
+        #{walletType,jdbcType=CHAR},
+      </if>
       <if test="reviseType != null" >
         #{reviseType,jdbcType=VARCHAR},
       </if>
@@ -165,6 +176,9 @@
     <set >
       <if test="memId != null and memId !=''" >
         mem_id = #{memId,jdbcType=CHAR},
+      </if>
+      <if test="walletType != null and walletType !=''" >
+        wallet_type = #{walletType,jdbcType=CHAR},
       </if>
       <if test="reviseType != null and reviseType !=''" >
         revise_type = #{reviseType,jdbcType=VARCHAR},

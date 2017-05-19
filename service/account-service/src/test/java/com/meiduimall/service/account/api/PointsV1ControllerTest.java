@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.service.account.model.MSConsumePointsDetailGet;
+import com.meiduimall.service.account.model.request.RequestPointTransfer;
 
 
 /**
@@ -46,5 +47,27 @@ public class PointsV1ControllerTest extends BaseControllerTest {
 			}
 		});
     }
-	      
+	    
+    /**
+     * 查询积分转账列表
+     * @throws Exception
+     * @author: jianhua.huang  2017年5月18日 下午12:27:10
+     */
+    @Test
+    public void queryTransferPointsList() throws Exception{
+    	RequestPointTransfer model=new RequestPointTransfer();
+    	model.setMthNo("4000000207675002");
+    	model.setFlag("1");
+    	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/queryPointsTransferList")
+    			.contentType(MediaType.APPLICATION_JSON_UTF8)
+    			.content(JsonUtils.beanToJson(model)))
+    			.andExpect(status().isOk());
+    	
+    	postResultAction.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				logger.info("单元测试>>积分转账列表API>>执行结果:{}",result.getResponse().getContentAsString());;
+			}
+		});
+    }
 }
