@@ -7,7 +7,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import com.meiduimall.exception.MdSysException;
-import com.meiduimall.service.account.constant.MSBankWithDrawDepositStatusEnum;
+import com.meiduimall.service.account.constant.ConstWithdrawStatus;
 import com.meiduimall.service.account.util.DESC;
 
 /**
@@ -253,7 +253,7 @@ public class MSBankWithdrawDeposit implements Serializable{
 	}
 
 	public String getStatus() {
-		return MSBankWithDrawDepositStatusEnum.getNameByCode(this.status);
+		return ConstWithdrawStatus.getNameByCode(this.status);
 	}
 
 	public void setStatus(String status) {

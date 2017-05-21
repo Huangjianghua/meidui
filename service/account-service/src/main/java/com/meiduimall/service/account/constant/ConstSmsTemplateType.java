@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 短信操作类型
+ * 短信模板类型
  * @author chencong
  *
  */
-public abstract class SmsTemplateIDConst {
+public abstract class ConstSmsTemplateType {
 	
 	public static final Map<Integer, String> smsTemplateID = new HashMap<>(300);
 	

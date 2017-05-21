@@ -1,6 +1,7 @@
 package com.meiduimall.service.account.util;
 
-import com.meiduimall.service.account.constant.SysEncrypParamsConst;
+import com.meiduimall.service.account.constant.ConstDataAppSource;
+import com.meiduimall.service.account.constant.ConstPointsChangeType;
 
 /**
  * 字符串序列转化为指定值
@@ -19,22 +20,22 @@ public class SerialStringUtil {
 		String upperOrderSource = orderSource.toUpperCase();
 		switch (upperOrderSource) {
 		case "1gw":
-			dictOrderSource = SysEncrypParamsConst.ORDER_SOURCE_1GW;
+			dictOrderSource = ConstDataAppSource.ORDER_SOURCE_1GW;
 			break;
 		case "o2o":
-			dictOrderSource = SysEncrypParamsConst.ORDER_SOURCE_O2O;
+			dictOrderSource = ConstDataAppSource.ORDER_SOURCE_O2O;
 			break;
 		case "app":
-			dictOrderSource = SysEncrypParamsConst.ORDER_SOURCE_APP;
+			dictOrderSource = ConstDataAppSource.ORDER_SOURCE_APP;
 			break;
 		case "md":
-			dictOrderSource = SysEncrypParamsConst.ORDER_SOURCE_MD;
+			dictOrderSource = ConstDataAppSource.ORDER_SOURCE_MD;
 			break;
 		case "md1gw":
-			dictOrderSource = SysEncrypParamsConst.ORDER_SOURCE_MD1GW;
+			dictOrderSource = ConstDataAppSource.ORDER_SOURCE_MD1GW;
 			 break;
 		default:
-			dictOrderSource = SysEncrypParamsConst.ORDER_SOURCE_1GW;
+			dictOrderSource = ConstDataAppSource.ORDER_SOURCE_1GW;
 		}
 		return dictOrderSource;
 	}
@@ -50,46 +51,46 @@ public class SerialStringUtil {
 		String code = oprType.toUpperCase();
 		switch (code) {
 		case "0":
-			dictId = SysEncrypParamsConst.POINTS_OPERATOR_TYPE_QT;
+			dictId = ConstPointsChangeType.POINTS_OPERATOR_TYPE_QT.getCode();
 			break;
 		case "1":
-			dictId = SysEncrypParamsConst.POINTS_OPERATOR_TYPE_CZ;
+			dictId = ConstPointsChangeType.POINTS_OPERATOR_TYPE_CZ.getCode();
 			break;
 		case "3":
-			dictId = SysEncrypParamsConst.POINTS_OPERATOR_TYPE_CW;
+			dictId = ConstPointsChangeType.POINTS_OPERATOR_TYPE_CW.getCode();
 			break;
 		case "4":
-			dictId = SysEncrypParamsConst.POINTS_OPERATOR_TYPE_TK;
+			dictId = ConstPointsChangeType.POINTS_OPERATOR_TYPE_TK.getCode();
 			break;
 		case "5":
-			dictId = SysEncrypParamsConst.POINTS_OPERATOR_TYPE_QX;
+			dictId = ConstPointsChangeType.POINTS_OPERATOR_TYPE_QX.getCode();
 			break;
 		case "6":
-			dictId = SysEncrypParamsConst.POINTS_OPERATOR_TYPE_FJXF;
+			dictId = ConstPointsChangeType.POINTS_OPERATOR_TYPE_FJXF.getCode();
 			 break;
 		case "7":
-			dictId = SysEncrypParamsConst.POINTS_OPERATOR_TYPE_QMTG;
+			dictId = ConstPointsChangeType.POINTS_OPERATOR_TYPE_QMTG.getCode();
 			 break;
 		case "8":
-			dictId = SysEncrypParamsConst.POINTS_OPERATOR_TYPE_XF;
+			dictId = ConstPointsChangeType.POINTS_OPERATOR_TYPE_XF.getCode();
 			 break;
 		case "9":
-			dictId = SysEncrypParamsConst.POINTS_OPERATOR_TYPE_ZCZS;
+			dictId = ConstPointsChangeType.POINTS_OPERATOR_TYPE_ZCZS.getCode();
 			 break;
 		case "10":
-			dictId = SysEncrypParamsConst.POINTS_OPERATOR_TYPE_YQZCZS;
+			dictId = ConstPointsChangeType.POINTS_OPERATOR_TYPE_YQZCZS.getCode();
 			 break;
 		case "11":
-			dictId = SysEncrypParamsConst.POINTS_OPERATOR_TYPE_XJCZ;
+			dictId = ConstPointsChangeType.POINTS_OPERATOR_TYPE_XJCZ.getCode();
 			 break;
 		case "12":
-			dictId = SysEncrypParamsConst.POINTS_OPERATOR_TYPE_JFZR;
+			dictId = ConstPointsChangeType.POINTS_OPERATOR_TYPE_JFZR.getCode();
 			 break;
 		case "13":
-			dictId = SysEncrypParamsConst.POINTS_OPERATOR_TYPE_JFZC;
+			dictId = ConstPointsChangeType.POINTS_OPERATOR_TYPE_JFZC.getCode();
 			 break;
 		default:
-			dictId = SysEncrypParamsConst.POINTS_OPERATOR_TYPE_QT;
+			dictId = ConstPointsChangeType.POINTS_OPERATOR_TYPE_QT.getCode();
 		}
 		return dictId;
 	}
@@ -125,52 +126,51 @@ public class SerialStringUtil {
 	 * @param userid
 	 * @return
 	 */
-	public static String getPointsRemark(String oprDictId,String userid){
+	/*public static String getPointsRemark(String oprDictId,String userid){
 		String returnStr = "";
 		String code = oprDictId.toUpperCase();
 		String appendStr = StringUtil.isEmptyByString(userid) ? "" : ("-"+userid);
-		
 		switch (code) {
-		case SysEncrypParamsConst.POINTS_OPERATOR_TYPE_QT:
+		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_QT.getCode():
 			returnStr = "外部[其他交易" + appendStr + "]";
 			break;
-		case SysEncrypParamsConst.POINTS_OPERATOR_TYPE_CZ:
+		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_CZ.getCode():
 			returnStr = "充值[积分充值" + appendStr + "]";
 			break;
-		case SysEncrypParamsConst.POINTS_OPERATOR_TYPE_CW:
+		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_CW.getCode():
 			returnStr = "系统[后台调整" + appendStr + "]";
 			break;
-		case SysEncrypParamsConst.POINTS_OPERATOR_TYPE_TK:
+		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_TK.getCode():
 			returnStr = "退款[售后退款" + appendStr + "]";
 			break;
-		case SysEncrypParamsConst.POINTS_OPERATOR_TYPE_QX:
+		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_QX.getCode():
 			returnStr = "退款[取消订单" + appendStr + "]";
 			break;
-		case SysEncrypParamsConst.POINTS_OPERATOR_TYPE_FJXF:
+		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_FJXF.getCode():
 			returnStr = "赠送[附近消费" + appendStr + "]";
 			 break;
-		case SysEncrypParamsConst.POINTS_OPERATOR_TYPE_QMTG:
+		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_QMTG.getCode():
 			returnStr = "提成[全民推广" + appendStr + "]";
 			 break;
-		case SysEncrypParamsConst.POINTS_OPERATOR_TYPE_XF:
+		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_XF.getCode():
 			returnStr = "消费[积分支付" + appendStr + "]";
 			 break;
-		case SysEncrypParamsConst.POINTS_OPERATOR_TYPE_ZCZS:
+		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_ZCZS.getCode():
 			returnStr = "赠送[新注册送积分" + appendStr + "]";
 			 break;
-		case SysEncrypParamsConst.POINTS_OPERATOR_TYPE_YQZCZS:
+		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_YQZCZS.getCode():
 			returnStr = "赠送[推荐注册送积分" + appendStr + "]";
 			 break;
-		case SysEncrypParamsConst.POINTS_OPERATOR_TYPE_XJCZ:
+		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_XJCZ.getCode():
 			returnStr = "充值[现金充值" + appendStr + "]";
 			 break;
-		case SysEncrypParamsConst.POINTS_OPERATOR_TYPE_JFZC:
+		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_JFZC.getCode():
 			returnStr = "转帐[转出到" + userid + "]";
 			if(StringUtil.isEmptyByString(userid)){
 				returnStr = "转帐[积分转出]";
 			}
 			 break;
-		case SysEncrypParamsConst.POINTS_OPERATOR_TYPE_JFZR:
+		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_JFZR:
 			returnStr = "转帐[从" + userid + "转入]";
 			if(StringUtil.isEmptyByString(userid)){
 				returnStr = "转帐[积分转入]";
@@ -180,6 +180,6 @@ public class SerialStringUtil {
 			returnStr = "外部[其他交易" + appendStr + "]";
 		}
 		return returnStr;
-	}
+	}*/
 
 }

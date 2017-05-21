@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 import com.meiduimall.exception.MdSysException;
-import com.meiduimall.service.account.constant.AccountReviseStatusEnum;
-import com.meiduimall.service.account.constant.AccountReviseTypeEnum;
+import com.meiduimall.service.account.constant.ConstAccountAdjustType;
+import com.meiduimall.service.account.constant.ConstAccountAdjustStatus;
 import com.meiduimall.service.account.util.DESC;
 
 /**
@@ -104,7 +104,7 @@ public class AccountReviseDetail implements Serializable {
 	}
 
 	public String getReviseType() {
-		return AccountReviseTypeEnum.getNameByCode(reviseType);
+		return ConstAccountAdjustType.getNameByCode(reviseType);
 	}
 
 	public void setReviseType(String reviseType) {
@@ -152,7 +152,7 @@ public class AccountReviseDetail implements Serializable {
 	}
 
 	public String getStatus() {
-		return AccountReviseStatusEnum.getNameByCode(status);
+		return ConstAccountAdjustStatus.getNameByCode(status);
 	}
 
 	public void setStatus(String status) {

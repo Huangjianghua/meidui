@@ -7,7 +7,7 @@ import com.meiduimall.core.BaseApiCode;
  * @author chencong
  *
  */
-public abstract class ApiStatusConst extends BaseApiCode {
+public abstract class ConstApiStatus extends BaseApiCode {
 	
 		public final static Integer MD5_EXCEPTION= 1003;
 		public final static Integer DECRYPTION_EXCEPTION= 1004;

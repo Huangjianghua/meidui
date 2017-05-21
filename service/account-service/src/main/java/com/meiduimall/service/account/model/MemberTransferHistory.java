@@ -5,7 +5,7 @@ import java.io.Serializable;
 import org.apache.commons.lang3.StringUtils;
 
 import com.meiduimall.exception.MdSysException;
-import com.meiduimall.service.account.constant.Constant;
+import com.meiduimall.service.account.constant.ConstPointsChangeType;
 import com.meiduimall.service.account.util.DESC;
 
 /**
@@ -141,8 +141,8 @@ public class MemberTransferHistory implements Serializable {
 	}
 
 	public String getDictMthCategory() {
-		if(StringUtils.isNotBlank(dictMthCategory)&&Constant.POINTS_TYPE.equals(dictMthCategory)){
-			return Constant.POINTS_TYPE_MSG;
+		if(StringUtils.isNotBlank(dictMthCategory)&&ConstPointsChangeType.POINTS_OPERATOR_TYPE_NBZZ.equals(dictMthCategory)){
+			return ConstPointsChangeType.POINTS_OPERATOR_TYPE_NBZZ.getName();
 		}
 		return this.dictMthCategory;
 	}

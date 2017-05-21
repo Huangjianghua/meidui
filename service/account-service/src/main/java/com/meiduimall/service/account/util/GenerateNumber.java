@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
 
-import com.meiduimall.service.account.constant.ApplicationConstant;
+import com.meiduimall.service.account.constant.ConstTradeType;
 
 /**
  * 生成订单/流水号工具类
@@ -26,10 +26,7 @@ public class GenerateNumber implements Serializable{
 	         int hashCodeV = UUID.randomUUID().toString().hashCode();  
 	          if(hashCodeV < 0) {//有可能是负数  
 	             hashCodeV = - hashCodeV;  
-	       }  
-	        // 0 代表前面补充0       
-	         // 4 代表长度为4       
-	         // d 代表参数为正数型  
+	       } 
 	    return machineId+String.format("%015d", hashCodeV);  
 	  }  
 	  
@@ -39,18 +36,12 @@ public class GenerateNumber implements Serializable{
 	 */
 	public static String generateOrderId() {  
         SimpleDateFormat simpleDateFormat;  
-  	  
         simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmSSSS");  
-  
         Date date = new Date();  
-  
         String str = simpleDateFormat.format(date);  
-  
         Random random = new Random();  
-  
         int rannum = (int) (random.nextDouble() * (9999 - 1000 + 1)) + 1000;// 获取4位随机数  
-  
-        return  str + rannum;// 当前时间  
+        return  str + rannum;
 	    } 
 	
 	  /**
@@ -58,19 +49,12 @@ public class GenerateNumber implements Serializable{
 	   * @return
 	   */
 	public static String generateCmbOrderId() {  
-		  
 		  SimpleDateFormat simpleDateFormat;  
-		  
 		  simpleDateFormat = new SimpleDateFormat("yyMMSSS");  
-		  
 		  Date date = new Date();  
-		  
 		  String str = simpleDateFormat.format(date);  
-		  
 		  Random random = new Random();  
-		  
-		  int rannum = (int) (random.nextDouble() * (999 - 100 + 1)) + 100;// 获取4位随机数  
-		  
+		  int rannum = (int) (random.nextDouble() * (999 - 100 + 1)) + 100;// 获取4位随机数 
 		  return  str + rannum;// 当前时间  
 	  } 
 	  
@@ -88,7 +72,7 @@ public class GenerateNumber implements Serializable{
 		  Random random = new Random();
 		  int rannum = (int) (random.nextDouble() * 100000);// 获取6位随机数  
 		  switch (key) {
-			case ApplicationConstant.MONEY_TRADE_TYPE_YETX:
+			case ConstTradeType.TRADE_TYPE_YETX:
 				bsNo = bsNo + rannum;
 				break;
 	

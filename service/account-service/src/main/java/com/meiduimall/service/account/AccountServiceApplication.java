@@ -1,7 +1,5 @@
 package com.meiduimall.service.account;
 
-import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,7 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
 
 import com.meiduimall.exception.MdSysException;
-import com.meiduimall.service.account.util.DESC;
+import com.meiduimall.service.account.constant.ConstPointsChangeType;
 
 
 
@@ -36,12 +34,6 @@ public class AccountServiceApplication extends SpringBootServletInitializer {
     }  
 	
 	public static void main(String[] args) throws MdSysException {
-		for(int i=0;i<15;i++){
-			System.out.println(UUID.randomUUID().toString());
-		}
-	 System.out.println(DESC.encryption("18898447755"));
-	  System.out.println(DESC.deyption("NSGn47tjGXC+jXU6DAYqPA=="));
-		System.out.println(DESC.encryption("1000","6082d837-841f-4fe9-ba27-c2dfcd2bb888"));
 		SpringApplication.run(AccountServiceApplication.class, args);
 	}
 	   

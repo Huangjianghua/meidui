@@ -36,8 +36,8 @@ import net.sf.json.JSONObject;
  * @Date:     2017年4月18日 下午3:39:45
  * @Description: 测试新会员列表接口	
  */
-public class MoneyV1ControllerTests extends BaseControllerTest {
-	private final static Logger logger=LoggerFactory.getLogger(MoneyV1ControllerTests.class);
+public class AccountInfoQueryV1ControllerTests extends BaseControllerTest {
+	private final static Logger logger=LoggerFactory.getLogger(AccountInfoQueryV1ControllerTests.class);
 	/**
 	 * 余额流水
 	 * @throws Exception

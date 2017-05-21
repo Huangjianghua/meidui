@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdBizException;
 import com.meiduimall.exception.MdSysException;
-import com.meiduimall.service.account.constant.ApiStatusConst;
-import com.meiduimall.service.account.constant.ApplicationConstant;
+import com.meiduimall.service.account.constant.ConstApiStatus;
+import com.meiduimall.service.account.constant.ConstPointsChangeType;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MemberTransferHistory;
 import com.meiduimall.service.account.model.request.RequestPointTransfer;
@@ -32,7 +32,7 @@ public class PointsServiceImpl implements PointsService {
 
 	@Override
 	public ResBodyData freezePointsAndAddRecord(String memId, Double consumePoints, String orderId, String orderSource) {
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
 		
 		Double availablePoints=getAvailablePointsByMemId(memId);
 		Double balancePoints=DoubleCalculate.sub(availablePoints,consumePoints);
@@ -41,7 +41,7 @@ public class PointsServiceImpl implements PointsService {
 		paramsMap.put("id", UUID.randomUUID().toString());
 		paramsMap.put("memId", memId);
 		paramsMap.put("orderId", orderId);
-		paramsMap.put("freezeType", ApplicationConstant.POINTS_FREEZE_TYPE_DJ);
+		paramsMap.put("freezeType", ConstPointsChangeType.POINTS_FREEZE_TYPE_DJ);
 		paramsMap.put("freezePoints", ("-"+consumePoints));
 		paramsMap.put("balancePoints", balancePoints);
 		
@@ -49,8 +49,8 @@ public class PointsServiceImpl implements PointsService {
 			baseDao.insert(paramsMap, "MSConsumePointsFreezeInfoMapper.insertPointsFreezeUnFreezeRecord");
 		} catch (Exception e) {
 			logger.info("exec PointsServiceImpl freezePointsAndAddRecord() error:{}",e.toString());
-			resBodyData.setStatus(ApiStatusConst.OPERATION_DB_EX);
-			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.OPERATION_DB_EX));
+			resBodyData.setStatus(ConstApiStatus.OPERATION_DB_EX);
+			resBodyData.setMsg(ConstApiStatus.getZhMsg(ConstApiStatus.OPERATION_DB_EX));
 		}
 		return resBodyData;
 	}
@@ -127,7 +127,7 @@ public class PointsServiceImpl implements PointsService {
 
 	@Override
 	public ResBodyData unFreezePointsAndAddRecord(String memId, Double consumePoints, String orderId, String orderSource,Map<String,Object>  dataMap) {
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
 		
 		Double availablePoints=getAvailablePointsByMemId(memId);
 		Double balancePoints=DoubleCalculate.sub(availablePoints,consumePoints);
@@ -136,7 +136,7 @@ public class PointsServiceImpl implements PointsService {
 		paramsMap.put("id", UUID.randomUUID().toString());
 		paramsMap.put("memId", memId);
 		paramsMap.put("orderId", orderId);
-		paramsMap.put("freezeType",ApplicationConstant.POINTS_FREEZE_TYPE_JD);
+		paramsMap.put("freezeType",ConstPointsChangeType.POINTS_FREEZE_TYPE_JD);
 		paramsMap.put("freezePoints",consumePoints);
 		paramsMap.put("balancePoints", balancePoints);
 		try {
@@ -213,7 +213,7 @@ public class PointsServiceImpl implements PointsService {
 			list=baseDao.selectList(pointTransfer, "MemberTransferHistoryMapper.queryPointsTransferList");
 		} catch (Exception e) {
 			logger.error("查询积分转账列表queryPointsTransferList,请求参数:{},异常:{}",pointTransfer.toString(),e.getMessage());
-			throw new MdBizException(ApiStatusConst.QUERY_TRANSFER_POINTS_ERROR);
+			throw new MdBizException(ConstApiStatus.QUERY_TRANSFER_POINTS_ERROR);
 		}
 		return list;
 	}

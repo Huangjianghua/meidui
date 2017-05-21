@@ -3,9 +3,9 @@ package com.meiduimall.service.account.service;
 import java.util.Date;
 
 /**
- * 类名:  AccountDetailService<br>
- * 描述:  账户变更明细业务服务层，与账户变更明细相关的都定义在此 <br>
- * 创建时间: 2017-02-23
+ * 账户明细操作接口
+ * @author chencong
+ *
  */
 public interface AccountDetailService {
 	 

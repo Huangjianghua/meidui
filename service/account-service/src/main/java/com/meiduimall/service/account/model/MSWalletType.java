@@ -3,41 +3,53 @@ package com.meiduimall.service.account.model;
 import java.io.Serializable;
 import java.util.Date;
 /**
- * 钱包类型
+ * 账户类型
  * @author jun.wu@meiduimall.com
  *
  */
 public class MSWalletType implements Serializable{
-	
-	
-	private static final long serialVersionUID = 3648448998794056597L;
+
+	private static final long serialVersionUID = -6955727232474967171L;
 
 	private String id;
-
+	
+	/**账户名称*/
     private String walletName;
 
+    /**账户编号*/
     private String walletNo;
 
+    /**是否可提现 0可提现 1不可提现*/
     private String allowWithdraw;
 
+    /**是否需要手续费 0需要 1不需要*/
     private String needPoundage;
 
+    /**是否支持退款 0支持 1不支持*/
     private String allowRefund;
 
+    /**手续费比例*/
     private Byte poundageScale;
 
+    /**账户类型，AT01积分账户，AT02余额账户*/
     private String accountType;
 
+    /**提现优先级*/
     private Byte withdrawLevel;
 
+    /**消费优先级*/
     private Byte spendLevel;
 
+    /**创建日期*/
     private Date createDate;
 
+    /**更新日期*/
     private Date updateDate;
 
+    /**更新人*/
     private String updateMan;
 
+    /**备注*/
     private String remark;
 
     public String getId() {
@@ -151,4 +163,14 @@ public class MSWalletType implements Serializable{
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
     }
+
+	@Override
+	public String toString() {
+		return "MSWalletType [id=" + id + ", walletName=" + walletName + ", walletNo=" + walletNo + ", allowWithdraw="
+				+ allowWithdraw + ", needPoundage=" + needPoundage + ", allowRefund=" + allowRefund + ", poundageScale="
+				+ poundageScale + ", accountType=" + accountType + ", withdrawLevel=" + withdrawLevel + ", spendLevel="
+				+ spendLevel + ", createDate=" + createDate + ", updateDate=" + updateDate + ", updateMan=" + updateMan
+				+ ", remark=" + remark + "]";
+	}
+  
 }

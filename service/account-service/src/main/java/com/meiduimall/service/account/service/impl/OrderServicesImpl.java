@@ -14,9 +14,9 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdSysException;
-import com.meiduimall.service.account.constant.ApiStatusConst;
-import com.meiduimall.service.account.constant.ApplicationConstant;
-import com.meiduimall.service.account.constant.SysParamsConst;
+import com.meiduimall.service.account.constant.ConstApiStatus;
+import com.meiduimall.service.account.constant.ConstSysParamsDefination;
+import com.meiduimall.service.account.constant.ConstTradeType;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSAccount;
 import com.meiduimall.service.account.model.MSBankAccount;
@@ -24,7 +24,7 @@ import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
 import com.meiduimall.service.account.model.MSMemberConsumeHistory;
 import com.meiduimall.service.account.model.request.RequestFreezeUnFreeze;
 import com.meiduimall.service.account.model.request.RequestUnfreezeDecut;
-import com.meiduimall.service.account.service.AccountServices;
+import com.meiduimall.service.account.service.AccountService;
 import com.meiduimall.service.account.service.BankAccountService;
 import com.meiduimall.service.account.service.BankWithdrawDepositService;
 import com.meiduimall.service.account.service.MoneyService;
@@ -49,7 +49,7 @@ public class OrderServicesImpl implements OrderService {
 	private MoneyService moneyService;
 	
 	@Autowired
-	private AccountServices accountServices;
+	private AccountService accountServices;
 	
 	@Autowired
 	private BankWithdrawDepositService bankWithdrawDepositService;
@@ -59,7 +59,7 @@ public class OrderServicesImpl implements OrderService {
 	
 	@Override
 	public ResBodyData freezeUnfreeze(RequestFreezeUnFreeze param){
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
 		String memId=param.getMemId();
 		Double consumePoints=param.getConsume_points();
 		Double consumeMoney=param.getConsume_money();
@@ -339,11 +339,11 @@ public class OrderServicesImpl implements OrderService {
 			return resultJson;
 		}
 		//计算当前余额是否低于最低提现金额
-		if(old_useMoney <= ApplicationConstant.MIN_APPLY_CARRY_CASH){
+		if(old_useMoney <= ConstSysParamsDefination.MIN_APPLY_CARRY_CASH){
 			return resultJson;
 		}
 		
-		String businessNo = GenerateNumber.generateBusinessNo(ApplicationConstant.MONEY_TRADE_TYPE_YETX);
+		String businessNo = GenerateNumber.generateBusinessNo(ConstTradeType.TRADE_TYPE_YETX);
 		MSBankWithdrawDeposit dto = new MSBankWithdrawDeposit();
 		dto.setBusinessNo(businessNo);
 		dto.setMemId(memId);
@@ -389,10 +389,10 @@ public class OrderServicesImpl implements OrderService {
 			if(account != null){
 				//余额提现冻结余额
 				accountServices.addConsumeFreezeMoneyAndDetail(memId, businessNo,
-						ApplicationConstant.MONEY_TRADE_TYPE_YETX, tradeDate, calcActualCarryCash, "余额提现");
+						ConstTradeType.TRADE_TYPE_YETX, tradeDate, calcActualCarryCash, "余额提现");
 				//余额提现冻结手续费
 				accountServices.addConsumeFreezeMoneyAndDetail(memId, businessNo,
-						ApplicationConstant.MONEY_TRADE_TYPE_TXSX, tradeDate, calcActualCarryCash, "提现手续费");
+						ConstTradeType.TRADE_TYPE_TXSX, tradeDate, calcActualCarryCash, "提现手续费");
 			}
 		}else{
 			throw new RuntimeException("bankWithdrawDepositApply-业务处理时出现错误-1003，回滚事务。");
@@ -429,12 +429,12 @@ public class OrderServicesImpl implements OrderService {
 			dataJson.put("total_page", resultMap.get("pageTotal"));
 			/*dataJson.put("data_list", JSONArray.toJSON(bankWithdrawDepositList).toString());*/
 			
-			resultJson.put(SysParamsConst.RESULT, dataJson);
+			resultJson.put("result", dataJson);
 		}else{
 			final JSONObject dataJson = new JSONObject();
 			dataJson.put("total_page", "0");
 			dataJson.put("data_list", "[]");
-			resultJson.put(SysParamsConst.RESULT, dataJson);
+			resultJson.put("result", dataJson);
 		}
 		return resultJson;
 	}
@@ -454,7 +454,7 @@ public class OrderServicesImpl implements OrderService {
 		final Double old_applyCarryCash = Double.valueOf(applyCarryCash);
 		//final Double old_counterFee = Double.valueOf(counterFee);
 		final Double calc_feeScale = new Double("0.01"); //手续费比例
-		final Double calc_minFee = ApplicationConstant.MIN_APPLY_CARRY_FEE;   //最小手续费
+		final Double calc_minFee = ConstSysParamsDefination.MIN_APPLY_CARRY_FEE;   //最小手续费
 		
 		Double calc_counterFee = new Double("0");
 		Double calc_actualCarryCash = new Double("0");
