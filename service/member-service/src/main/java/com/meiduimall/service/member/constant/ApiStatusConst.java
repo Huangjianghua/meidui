@@ -51,6 +51,7 @@ public abstract class ApiStatusConst extends BaseApiCode {
 	
 	public final static Integer ACCOUNT_MEMBER_ID_NULL=8027;
 	public final static Integer USERID_IS_EXIST=8028;
+	public final static Integer REGISTER_SOURCE_WRONG=8029;
 	
 	static {
 		zhMsgMap.put(REQUIRED_PARAM_EMPTY, "必填参数为空");
@@ -93,6 +94,7 @@ public abstract class ApiStatusConst extends BaseApiCode {
 		zhMsgMap.put(DISABLED_ACCOUNT_EXCEPTION, "禁用账号异常");
 		zhMsgMap.put(ACCOUNT_MEMBER_ID_NULL, "会员账号ID不能为空");
 		zhMsgMap.put(USERID_IS_EXIST, "该账号已存在");
+		zhMsgMap.put(REGISTER_SOURCE_WRONG, "注册来源不合法");
 	}
 
 }

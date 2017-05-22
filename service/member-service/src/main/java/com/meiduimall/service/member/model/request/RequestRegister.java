@@ -32,7 +32,7 @@ public class RequestRegister  implements Serializable {
 	private String role_type; 
 
 	@NotEmpty(message="注册来源不能为空")
-	private String source;
+	private Integer source;
 	
 	private String tokenKey;
 
@@ -76,11 +76,11 @@ public class RequestRegister  implements Serializable {
 		this.share_man = share_man;
 	}
 
-	public String getSource() {
+	public Integer getSource() {
 		return source;
 	}
 
-	public void setSource(String source) {
+	public void setSource(Integer source) {
 		this.source = source;
 	}
 
