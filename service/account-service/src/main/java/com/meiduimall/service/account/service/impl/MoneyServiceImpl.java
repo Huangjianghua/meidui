@@ -105,7 +105,7 @@ public class MoneyServiceImpl implements MoneyService {
 		paramsMap.put("accountType", accountType);
 		paramsMap.put("tradeAmount", consumeMoney);
 		paramsMap.put("freezeBalance", freezeBalance);
-		paramsMap.put("tradeType",ConstTradeType.TRADE_TYPE_YEXF);
+		paramsMap.put("tradeType",ConstTradeType.TRADE_TYPE_YEXF.getCode());
 		paramsMap.put("inOrOut", "1");
 		
 		try {

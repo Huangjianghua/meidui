@@ -1,6 +1,7 @@
 package com.meiduimall.service.member.api;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.Matchers.isNotNull;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -27,7 +28,7 @@ public class ValidateV1ControllerTest extends BaseControllerTest {
 	    	/**存在的手机号*/
 	    	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/check_userid_exists?userid="+phone))
 	    	.andExpect(status().isOk())
-	    	.andExpect(jsonPath("$.status",is(0)));
+	    	.andExpect(jsonPath("$.status",is(8028)));
 	    	
 	    	resultActions.andDo(new ResultHandler() {
 				@Override
@@ -38,7 +39,7 @@ public class ValidateV1ControllerTest extends BaseControllerTest {
 	    	
 	    	resultActions=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/check_userid_exists?userid=11111111"))
 	    	    	.andExpect(status().isOk())
-	    	    	.andExpect(jsonPath("$.status",is(8031)));
+	    	    	.andExpect(jsonPath("$.status",is(0)));
 	    	    	
 	    	    	resultActions.andDo(new ResultHandler() {
 	    				@Override

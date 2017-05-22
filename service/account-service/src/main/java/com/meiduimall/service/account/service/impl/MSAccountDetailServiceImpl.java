@@ -296,11 +296,11 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			Date date=new Date();
 			//step3 修改会员金额变动
 			accountServices.cutConsumeFreezeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
-					ConstTradeType.TRADE_TYPE_YETX, date,
+					ConstTradeType.TRADE_TYPE_YETX.getCode(), date,
 					withdrawDeposit.getActualCarryCash(), ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
 			
 			accountServices.cutConsumeFreezeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
-					ConstTradeType.TRADE_TYPE_TXSX, date,
+					ConstTradeType.TRADE_TYPE_TXSX.getCode(), date,
 					withdrawDeposit.getCounterFee(), ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);
 		}else{
 			//财务审核驳回   修改状态为"待客服审核"
@@ -333,17 +333,17 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		try {
 			//step2调用 提现处理冻结金额
 			accountServices.cutConsumeFreezeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
-					ConstTradeType.TRADE_TYPE_YETX, date,withdrawDeposit.getActualCarryCash(), ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
+					ConstTradeType.TRADE_TYPE_YETX.getCode(), date,withdrawDeposit.getActualCarryCash(), ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
 			
 			accountServices.cutConsumeFreezeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
-					ConstTradeType.TRADE_TYPE_TXSX, date,withdrawDeposit.getCounterFee(), ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);
+					ConstTradeType.TRADE_TYPE_TXSX.getCode(), date,withdrawDeposit.getCounterFee(), ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);
 			
 			//step2调用 提现处理可用金额
 			accountServices.cutConsumeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
-					ConstTradeType.TRADE_TYPE_YETX, date,withdrawDeposit.getActualCarryCash(), ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
+					ConstTradeType.TRADE_TYPE_YETX.getCode(), date,withdrawDeposit.getActualCarryCash(), ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
 			
 			accountServices.cutConsumeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
-					ConstTradeType.TRADE_TYPE_TXSX, date,withdrawDeposit.getCounterFee(), ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);
+					ConstTradeType.TRADE_TYPE_TXSX.getCode(), date,withdrawDeposit.getCounterFee(), ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);
 		} catch (Exception e) {
 			logger.error("结算操作settlementWithDraw 处理用户账号余额异常:{}", e.getMessage());
 			throw new MdBizException(ConstApiStatus.DEALWLTH_ACCOUNT_MONEY_ERROR);
@@ -478,9 +478,9 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 				Double freezeFlag = accountServices.addConsumeFreezeMoney(memId, String.valueOf(addFreezeMoney));
 				if(freezeFlag >= Constants.CONSTANT_INT_ZERO){
 				//增加明细
-				accountFreezeDetailService.saveAccountFreezeDetail(memId, businessNo,account.getId(), account.getType(), ConstTradeType.TRADE_TYPE_YETX, calcActualCarryCash,deposit.getApplyDate(), String.valueOf(carryCashFreezeBalance),  ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
+				accountFreezeDetailService.saveAccountFreezeDetail(memId, businessNo,account.getId(), account.getType(), ConstTradeType.TRADE_TYPE_YETX.getCode(), calcActualCarryCash,deposit.getApplyDate(), String.valueOf(carryCashFreezeBalance),  ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
 				//增加明细
-				accountFreezeDetailService.saveAccountFreezeDetail(memId, businessNo,account.getId(), account.getType(), ConstTradeType.TRADE_TYPE_TXSX, calcCounterFee,deposit.getApplyDate(), String.valueOf(counterFeeBalance),  ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);
+				accountFreezeDetailService.saveAccountFreezeDetail(memId, businessNo,account.getId(), account.getType(), ConstTradeType.TRADE_TYPE_TXSX.getCode(), calcCounterFee,deposit.getApplyDate(), String.valueOf(counterFeeBalance),  ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);
 			}
 		}
 	}
@@ -496,7 +496,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		String businessNo=null;
 		try{
 			String id = UUID.randomUUID().toString();
-		    businessNo = GenerateNumber.generateBusinessNo(ConstTradeType.TRADE_TYPE_YETX);
+		    businessNo = GenerateNumber.generateBusinessNo(ConstTradeType.TRADE_TYPE_YETX.getCode());
 		    
 			MSBankAccount bankAccount=bankAccountService.getBankAccount(dto.getMemId(), dto.getAccountNo());
 			MSBankWithdrawDeposit entity = new MSBankWithdrawDeposit();

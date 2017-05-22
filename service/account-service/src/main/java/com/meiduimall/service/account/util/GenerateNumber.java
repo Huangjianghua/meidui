@@ -70,16 +70,14 @@ public class GenerateNumber implements Serializable{
 		  /** 业务类型+年月日+6位自增 */
 		  String bsNo = (key + new SimpleDateFormat("yyyyMMdd").format(new Date()));
 		  Random random = new Random();
+		  String test=ConstTradeType.TRADE_TYPE_YETX.getCode();
 		  int rannum = (int) (random.nextDouble() * 100000);// 获取6位随机数  
-		  switch (key) {
-			case ConstTradeType.TRADE_TYPE_YETX:
-				bsNo = bsNo + rannum;
-				break;
-	
-			default:
-				bsNo = generateOrderId();
-				break;
-			}
+		  if(key.equals(test)){
+			  bsNo = bsNo + rannum;
+		  }
+		  else{
+			  bsNo = generateOrderId();  
+		  }
 		  return bsNo;
 	  }
 }

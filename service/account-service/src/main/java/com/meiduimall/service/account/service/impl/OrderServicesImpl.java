@@ -343,7 +343,7 @@ public class OrderServicesImpl implements OrderService {
 			return resultJson;
 		}
 		
-		String businessNo = GenerateNumber.generateBusinessNo(ConstTradeType.TRADE_TYPE_YETX);
+		String businessNo = GenerateNumber.generateBusinessNo(ConstTradeType.TRADE_TYPE_YETX.getCode());
 		MSBankWithdrawDeposit dto = new MSBankWithdrawDeposit();
 		dto.setBusinessNo(businessNo);
 		dto.setMemId(memId);
@@ -389,10 +389,10 @@ public class OrderServicesImpl implements OrderService {
 			if(account != null){
 				//余额提现冻结余额
 				accountServices.addConsumeFreezeMoneyAndDetail(memId, businessNo,
-						ConstTradeType.TRADE_TYPE_YETX, tradeDate, calcActualCarryCash, "余额提现");
+						ConstTradeType.TRADE_TYPE_YETX.getCode(), tradeDate, calcActualCarryCash, "余额提现");
 				//余额提现冻结手续费
 				accountServices.addConsumeFreezeMoneyAndDetail(memId, businessNo,
-						ConstTradeType.TRADE_TYPE_TXSX, tradeDate, calcActualCarryCash, "提现手续费");
+						ConstTradeType.TRADE_TYPE_TXSX.getCode(), tradeDate, calcActualCarryCash, "提现手续费");
 			}
 		}else{
 			throw new RuntimeException("bankWithdrawDepositApply-业务处理时出现错误-1003，回滚事务。");
