@@ -49,7 +49,10 @@ public class OldSmsController {
 				return new ResultBody(ResultBody.FAILED, SmsApiCode.getZhMsg(SmsApiCode.REQUEST_PARAMS_ERROR));
 			}
 
-			// 结果校验
+			// 过滤手机号+86字符
+			model.setPhones(formatParamsPhones(model.getPhones()));
+
+			// 发送普通短信
 			ResBodyData data = smsService.sendSmsMessage(model);
 			if (data.getStatus() != 0) {
 				// can not reach
@@ -86,7 +89,10 @@ public class OldSmsController {
 				return new ResultBody(ResultBody.FAILED, SmsApiCode.getZhMsg(SmsApiCode.REQUEST_PARAMS_ERROR));
 			}
 
-			// 结果校验
+			// 过滤手机号+86字符
+			model.setPhones(formatParamsPhones(model.getPhones()));
+
+			// 发送短信验证码
 			ResBodyData data = smsService.sendSmsVerificationCode(model);
 			if (data.getStatus() != 0) {
 				// can not reach
@@ -124,6 +130,9 @@ public class OldSmsController {
 				return new ResultBody(ResultBody.FAILED, SmsApiCode.getZhMsg(SmsApiCode.REQUEST_PARAMS_ERROR));
 			}
 
+			// 过滤手机号+86字符
+			model.setPhones(formatParamsPhones(model.getPhones()));
+
 			// 结果校验
 			ResBodyData data = smsService.checkSmsVerificationCode(model);
 			if (data.getStatus() != 0) {
@@ -141,5 +150,43 @@ public class OldSmsController {
 			logger.error("校验短信验证码,未捕获的异常: " + e);
 			return new ResultBody(ResultBody.FAILED, SmsApiCode.getZhMsg(SmsApiCode.UNKNOW_ERROR));
 		}
+	}
+
+	/**
+	 * 手机号过滤 +86
+	 * 
+	 * @param phones
+	 *            一个或者多个手机号
+	 */
+	private String formatParamsPhones(String phones) {
+		StringBuilder sb = new StringBuilder();
+		if (phones.contains(",")) {
+			String[] split = phones.split(",");
+			for (String phone : split) {
+				phone = formartPhone(phone);
+				sb.append(phone + ",");
+			}
+			return sb.substring(0, sb.length() - 1);
+		} else {
+			return formartPhone(phones);
+		}
+	}
+
+	/**
+	 * 手机号过滤 +86
+	 * 
+	 * @param phone
+	 *            单个手机号
+	 * @return 过滤后的手机号
+	 */
+	private String formartPhone(String phone) {
+		phone = phone.trim();
+		if (phone.startsWith("+")) {
+			phone = phone.substring(1);
+		}
+		if (phone.startsWith("86")) {
+			phone = phone.substring(2);
+		}
+		return phone;
 	}
 }
