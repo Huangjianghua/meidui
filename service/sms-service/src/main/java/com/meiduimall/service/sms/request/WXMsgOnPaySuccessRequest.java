@@ -14,6 +14,7 @@ public class WXMsgOnPaySuccessRequest {
 	private String addPoint;
 	@NotNull
 	private String sysKey;
+	
 	private String coupon;
 	
 	private String openID;

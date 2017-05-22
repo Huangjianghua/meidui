@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
+import com.google.common.base.Strings;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.HttpUtils;
 import com.meiduimall.core.util.JsonUtils;
@@ -44,7 +44,7 @@ public class WeixinServiceImpl implements WeixinService {
 	public String getAccessToken() {
 		// 先从redis缓存取
 		String cache = RedisUtils.get(SysConstant.WEIXIN_ACCESS_TOKEN_KEY);
-		if (!StringUtils.isBlank(cache)) {
+		if (!Strings.isNullOrEmpty(cache)) {
 			return cache;
 		}
 
@@ -64,7 +64,7 @@ public class WeixinServiceImpl implements WeixinService {
 			}
 
 			String accessToken = bean.getAccess_token();
-			if (!StringUtils.isBlank(accessToken)) {
+			if (!Strings.isNullOrEmpty(accessToken)) {
 				RedisUtils.setex(SysConstant.WEIXIN_ACCESS_TOKEN_KEY, 7000, accessToken);
 				return accessToken;
 			} else {
@@ -84,6 +84,7 @@ public class WeixinServiceImpl implements WeixinService {
 
 		// 组拼微信模板消息
 		String json = getPaySuccessTemplateJson(model);
+		logger.info(json);
 
 		String weixinUrl = profileConfig.getWeixinUrl() + "/cgi-bin/message/template/send?access_token="
 				+ getAccessToken();
@@ -151,7 +152,7 @@ public class WeixinServiceImpl implements WeixinService {
 		model.setOpenID(bean.getData().getWxOpenId());
 		model.setTotalPoint(bean.getData().getMemPoint());
 		String userName = bean.getData().getMemNickName();
-		if (StringUtils.isBlank(userName)) {
+		if (Strings.isNullOrEmpty(userName)) {
 			userName = bean.getData().getMemLoginName();
 		}
 		model.setUserName(userName);
@@ -186,7 +187,7 @@ public class WeixinServiceImpl implements WeixinService {
 
 		String msgContent = "您在" + model.getStoreName() + "消费，为您获得" + model.getAddPoint() + "个美兑积分";// 消费地点，美兑积分个数
 		try {
-			if (!StringUtils.isBlank(model.getCoupon()) || Double.parseDouble(model.getCoupon()) > 0) {
+			if (!Strings.isNullOrEmpty(model.getCoupon()) && Double.parseDouble(model.getCoupon()) > 0) {
 				msgContent = "您在" + model.getStoreName() + "消费，为您获得" + model.getAddPoint() + "个美兑积分和"
 						+ model.getCoupon() + "元的美兑商城优惠券";// 消费地点，美兑积分个数，优惠券金额
 			}
@@ -196,25 +197,25 @@ public class WeixinServiceImpl implements WeixinService {
 		ObjectNode first = JsonUtils.getInstance().createObjectNode();
 		first.set("value", new TextNode(msgContent));
 		first.set("color", new TextNode("#000459"));
-		data.set("first.DATA", first);
+		data.set("first", first);
 
 		// 用户昵称：先取mem_nick_name，取不到再取mem_login_name
 		ObjectNode keyword1 = JsonUtils.getInstance().createObjectNode();
 		keyword1.set("value", new TextNode(model.getUserName()));
 		keyword1.set("color", new TextNode("#000459"));
-		data.set("keyword1.DATA", keyword1);
+		data.set("keyword1", keyword1);
 
 		// 订单付款时间（精确到秒）
 		String orderTime = DateFormatUtils.format(model.getOrderTime() * 1000, "yyyy-MM-dd HH:mm:ss");
 		ObjectNode keyword2 = JsonUtils.getInstance().createObjectNode();
 		keyword2.set("value", new TextNode(orderTime));
 		keyword2.set("color", new TextNode("#000459"));
-		data.set("keyword2.DATA", keyword2);
+		data.set("keyword2", keyword2);
 
 		// 积分变动“+XX积分
 		String addPoint = "0";
 		try {
-			if (!StringUtils.isBlank(model.getAddPoint()) && Double.parseDouble(model.getAddPoint()) > 0) {
+			if (!Strings.isNullOrEmpty(model.getAddPoint()) && Double.parseDouble(model.getAddPoint()) > 0) {
 				addPoint = "+" + model.getAddPoint();
 			}
 		} catch (NumberFormatException e) {
@@ -223,34 +224,34 @@ public class WeixinServiceImpl implements WeixinService {
 		ObjectNode keyword3 = JsonUtils.getInstance().createObjectNode();
 		keyword3.set("value", new TextNode(addPoint + "积分"));
 		keyword3.set("color", new TextNode("#000459"));
-		data.set("keyword3.DATA", keyword3);
+		data.set("keyword3", keyword3);
 
 		// 积分余额
 		ObjectNode keyword4 = JsonUtils.getInstance().createObjectNode();
 		keyword4.set("value", new TextNode(model.getTotalPoint()));
 		keyword4.set("color", new TextNode("#000459"));
-		data.set("keyword4.DATA", keyword4);
+		data.set("keyword4", keyword4);
 
 		// 变动原因为“美兑商城附近消费奖励” --写死的
 		ObjectNode keyword5 = JsonUtils.getInstance().createObjectNode();
 		keyword5.set("value", new TextNode("美兑商城附近消费奖励"));
 		keyword5.set("color", new TextNode("#000459"));
-		data.set("keyword5.DATA", keyword5);
+		data.set("keyword5", keyword5);
 
 		// 备注：赠送优惠券XX元已经到达您的钱包，点击下载美兑商城APP
 		// 备注：赠送的积分已经到达您的钱包，点击下载美兑商城APP
 		String remarkContent = "赠送的积分已经到达您的钱包，点击下载美兑商城APP";
 		try {
-			if (!StringUtils.isBlank(model.getCoupon()) && Double.parseDouble(model.getCoupon()) > 0) {
+			if (!Strings.isNullOrEmpty(model.getCoupon()) && Double.parseDouble(model.getCoupon()) > 0) {
 				remarkContent = "赠送优惠券" + model.getCoupon() + "元已经到达您的钱包，点击下载美兑商城APP";
 			}
-		} catch (NumberFormatException e) {
+		} catch (Exception e) {
 			logger.error("优惠券金额错误: " + e);
 		}
 		ObjectNode remark = JsonUtils.getInstance().createObjectNode();
 		remark.set("value", new TextNode(remarkContent));
 		remark.set("color", new TextNode("#FF0000"));
-		data.set("remark.DATA", remark);
+		data.set("remark", remark);
 
 		rootNode.set("data", data);
 
