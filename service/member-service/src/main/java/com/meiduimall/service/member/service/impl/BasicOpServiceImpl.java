@@ -72,8 +72,6 @@ public class BasicOpServiceImpl implements BasicOpService {
 	
 	@Autowired
 	ValidateService validateService;
-
-	private Object memberDao;
 	
 	@Override
 	public Map<String, Object> handlesignout(JSONObject jsonObject) throws Exception {
@@ -721,9 +719,12 @@ public class BasicOpServiceImpl implements BasicOpService {
 			// 给注册会员增加层级数
 			msMembersSet.setMemGroupLevel("2");
 		}
-		MSMembersGet newModel=BeanUtils.copyProperties(msmember, target);
-		groupMems.add(msMembersSet);
-		baseDao.update(groupMems,"");
+		MSMembersGet newModel=new MSMembersGet();
+		BeanUtils.copyProperties(msMembersSet,newModel);
+		groupMems.add(newModel);
+		for(MSMembersGet model:groupMems){
+			baseDao.update(model,"MSMembersMapper.updateParentValue");
+		}
 	}
 
 }

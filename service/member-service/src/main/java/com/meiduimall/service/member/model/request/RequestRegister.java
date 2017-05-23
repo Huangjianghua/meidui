@@ -2,6 +2,8 @@ package com.meiduimall.service.member.model.request;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -31,7 +33,7 @@ public class RequestRegister  implements Serializable {
 	
 	private String role_type; 
 
-	@NotEmpty(message="注册来源不能为空")
+	@NotNull(message="注册来源不能为空")
 	private Integer source;
 	
 	private String tokenKey;

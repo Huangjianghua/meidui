@@ -265,4 +265,13 @@
 		AND m.mem_email=#{memEmail}
 		</if>
 	</select>
+	
+		<!--更新父类ID-->
+	<update id="updateParentValue" parameterType="com.meiduimall.service.member.model.MSMembersGet">
+	 UPDATE ms_members SET 
+	 mem_parent_value1=#{memParentValue1},
+	 mem_parent_value2=#{memParentValue2},
+	 mem_parent_value3=#{memParentValue3}
+	 WHERE mem_id=#{memId}
+	</update>
 </mapper>
