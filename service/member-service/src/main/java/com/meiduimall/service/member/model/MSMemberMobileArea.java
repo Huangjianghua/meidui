@@ -70,4 +70,16 @@ public class MSMemberMobileArea implements Serializable{
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
+
+	public MSMemberMobileArea() {
+		super();
+	}
+
+	public MSMemberMobileArea(String memId, String phone) {
+		super();
+		this.memId = memId;
+		this.phone = phone;
+	}
+    
+    
 }

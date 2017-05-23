@@ -9,6 +9,8 @@
     <result column="sp" jdbcType="VARCHAR" property="sp" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
   </resultMap>
+  
+  <!-- 注册时记录会员手机对应的区域  -->
   <insert id="insert" parameterType="MSMemberMobileArea">
     insert into ms_member_mobile_area (mem_id, phone, province_name, 
       city_name, sp, create_date
@@ -17,6 +19,8 @@
       #{cityName,jdbcType=VARCHAR}, #{sp,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}
       )
   </insert>
+  
+  <!--  批量删插入会员手机对应的区域  -->
   <insert id="insertSelective" parameterType="MSMemberMobileArea">
     insert into ms_member_mobile_area
     <trim prefix="(" suffix=")" suffixOverrides=",">

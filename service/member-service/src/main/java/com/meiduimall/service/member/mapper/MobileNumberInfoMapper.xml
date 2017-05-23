@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 更根据手机号前6位得到归属地信息表  -->
+<mapper namespace="MobileNumberInfoMapper">
+  <!-- 更根据手机号前6位得到归属地 -->
+	<select id="queryMobile"  parameterType="com.meiduimall.service.member.model.request.RequestMobile" resultType="com.meiduimall.service.member.model.MobileNumberInfo">
+		SELECT  m.id, m.Mobile, m.ProvinceId, m.PostCode, m.Crop, m.ProvinceName, m.CityId, m.CityName, m.AreaCode, m.To, m.VNO 
+		FROM mobile_number_info m WHERE m.Mobile = #{Mobile} AND m.CityName = #{cityName}
+	</select>
+	
+	 
+	
+</mapper>

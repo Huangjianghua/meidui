@@ -5,7 +5,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +39,7 @@ public class AccountPropertyV1Controller {
 	private MSAccountDetailService mSAccountDetailService;
 	
 	/**查询所有账户类型*/
-	@GetMapping("/list_wallet_type")
+	@RequestMapping("/list_wallet_type")
 	public ResBodyData listWalletType() {
 		List<MSWalletType> listWalletTypeInfo = null;
 		try {

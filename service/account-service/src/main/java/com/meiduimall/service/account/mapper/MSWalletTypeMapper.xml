@@ -8,7 +8,7 @@
     id, wallet_name walletName, wallet_no walletNo, allow_withdraw allowWithdraw, need_poundage needPoundage, allow_refund allowRefund, 
     poundage_scale poundageScale, account_type accountType, withdraw_level withdrawLevel, spend_level spendLevel, create_date createDate,
     update_date updateDate, update_man updateMan, remark
-    from ms_wallet_type
+    from ms_wallet_type where wallet_no in ('CWTZ1','CWTZ2','CWTZ3')
   </select>
    
 </mapper>
