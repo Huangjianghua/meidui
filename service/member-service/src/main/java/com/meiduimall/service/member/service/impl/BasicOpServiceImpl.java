@@ -198,10 +198,10 @@ public class BasicOpServiceImpl implements BasicOpService {
 					return map;
 				}
 			}
-			/**如果是put操作**//*
+			/**如果是put操作**/
 			if("2".equals(type))
 			{
-				token=ToolsUtil.createToken(userid);
+				token=ToolsUtil.createToken(userid,String.valueOf(System.currentTimeMillis()));
 				//把token存储到redis
 				RedisTemplate.getJedisInstance().execSetexToCache(token,Constants.REDIS_ONEMONTH,memid);
 				//临时代码，兼容旧会员系统
@@ -212,7 +212,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 				result_map.put("token",token);
 				result_map.put("memId",memid);
 				map.put("result",JSON.toJSON(result_map));
-			}*/
+			}
 			/**如果是通过token获取user_id操作**/
 			if("3".equals(type))
 			{
