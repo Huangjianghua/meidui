@@ -200,10 +200,10 @@ public class BasicOpServiceImpl implements BasicOpService {
 					return map;
 				}
 			}
-			/**如果是put操作**//*
+			/**如果是put操作**/
 			if("2".equals(type))
 			{
-				token=ToolsUtil.createToken(userid);
+				token=ToolsUtil.createToken(userid,String.valueOf(System.currentTimeMillis()));
 				//把token存储到redis
 				RedisTemplate.getJedisInstance().execSetexToCache(token,Constants.REDIS_ONEMONTH,memid);
 				//临时代码，兼容旧会员系统
@@ -214,7 +214,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 				result_map.put("token",token);
 				result_map.put("memId",memid);
 				map.put("result",JSON.toJSON(result_map));
-			}*/
+			}
 			/**如果是通过token获取user_id操作**/
 			if("3".equals(type))
 			{
@@ -604,6 +604,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 		baseDao.insert(null,"");*/
 		
 		//更新父类字符串（获取粉丝明细会用到，后期数据库表结构改造后此处需修正）
+		setShareMenAndFunsRelation(memberSet,shareManInfo);
 	
 		/**增加积分并写入积分流水*/
 		userInfoService.updateCurrentPointByMemId(memid,String.valueOf(Constants.CONSTANT_INT_ZERO),SysParamsConst.MD1GW_REGISTER_ADD_POINTS);
@@ -646,9 +647,9 @@ public class BasicOpServiceImpl implements BasicOpService {
 		consumePointsDetail.setMemId(memid);
 		consumePointsDetail.setMcpOrderId(orderid);
 		consumePointsDetail.setMcpOrderSource(SerialStringUtil.getDictOrderSource(ordersource));
-		consumePointsDetail.setMcpIncome(consumepoint);
-		consumePointsDetail.setMcpExpenditure(String.valueOf(Constants.CONSTANT_INT_ZERO));
-		consumePointsDetail.setMcpBalance(balance);
+		consumePointsDetail.setMcpIncome(DESC.encryption(consumepoint,memid));
+		consumePointsDetail.setMcpExpenditure(DESC.encryption(String.valueOf(Constants.CONSTANT_INT_ZERO),memid));
+		consumePointsDetail.setMcpBalance(DESC.encryption(balance,memid));
 		consumePointsDetail.setMcpOperatorType(operatetype);
 		consumePointsDetail.setMcpRemark(SerialStringUtil.getPointsRemark(operatetype,phone));
 		consumePointsDetail.setMcpCreatedBy(memid);
