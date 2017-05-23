@@ -55,7 +55,7 @@ public class WeixinControllerTest extends BaseTest {
 	public void sendTemplateMessageOnPaySuccess_test_02() throws Exception {
 		ResultActions results = mockMvc.perform(
 				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/send_weixin_msg_on_pay")
-				.param("phone", "13429832838")
+				.param("phone", "188000000")
 				.param("orderTime", "1486532542")
 				.param("coupon", "66.66")
 				.param("sysKey", "o2o_php")

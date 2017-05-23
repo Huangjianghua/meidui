@@ -18,7 +18,7 @@ public class WeixinInfoControllerTest extends BaseControllerTest {
 	public void bindingWeixinOpenID_test_01() throws Exception {
 		ResultActions results = mockMvc.perform(
 				MockMvcRequestBuilders.post("/member/member_service/v1/bindingWeixinOpenID")
-				.param("phone", "13418786965")
+				.param("phone", "188000000")
 				.param("openID", "openID-1111"))
 				.andExpect(status().isOk());
 
@@ -38,7 +38,7 @@ public class WeixinInfoControllerTest extends BaseControllerTest {
 	public void bindingWeixinOpenID_test_02() throws Exception {
 		ResultActions results = mockMvc.perform(
 				MockMvcRequestBuilders.post("/member/member_service/v1/bindingWeixinOpenID")
-				.param("phone", "13501236547")
+				.param("phone", "188000000")
 				.param("openID", "openID-1111"))
 				.andExpect(status().isOk());
 
@@ -58,7 +58,7 @@ public class WeixinInfoControllerTest extends BaseControllerTest {
 	public void bindingWeixinOpenID_test_3() throws Exception {
 		ResultActions results = mockMvc.perform(
 				MockMvcRequestBuilders.post("/member/member_service/v1/bindingWeixinOpenID")
-				.param("phone", "13429832838")
+				.param("phone", "188000000")
 				.param("openID", "openID-1111"))
 				.andExpect(status().isOk());
 
@@ -78,7 +78,7 @@ public class WeixinInfoControllerTest extends BaseControllerTest {
 	public void getOpenIDByPhone_test_1() throws Exception {
 		ResultActions results = mockMvc.perform(
 				MockMvcRequestBuilders.post("/member/member_service/v1/getOpenIDByPhone")
-				.param("phone", "13429832838"))
+				.param("phone", "188000000"))
 				.andExpect(status().isOk());
 
 		results.andDo(new ResultHandler() {
@@ -97,7 +97,7 @@ public class WeixinInfoControllerTest extends BaseControllerTest {
 	public void getOpenIDByPhone_test_2() throws Exception {
 		ResultActions results = mockMvc.perform(
 				MockMvcRequestBuilders.post("/member/member_service/v1/getOpenIDByPhone")
-				.param("phone", "13429830038"))
+				.param("phone", "188000000"))
 				.andExpect(status().isOk());
 
 		results.andDo(new ResultHandler() {
