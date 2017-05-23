@@ -646,9 +646,9 @@ public class BasicOpServiceImpl implements BasicOpService {
 		consumePointsDetail.setMemId(memid);
 		consumePointsDetail.setMcpOrderId(orderid);
 		consumePointsDetail.setMcpOrderSource(SerialStringUtil.getDictOrderSource(ordersource));
-		consumePointsDetail.setMcpIncome(consumepoint);
-		consumePointsDetail.setMcpExpenditure(String.valueOf(Constants.CONSTANT_INT_ZERO));
-		consumePointsDetail.setMcpBalance(balance);
+		consumePointsDetail.setMcpIncome(DESC.encryption(consumepoint,memid));
+		consumePointsDetail.setMcpExpenditure(DESC.encryption(String.valueOf(Constants.CONSTANT_INT_ZERO),memid));
+		consumePointsDetail.setMcpBalance(DESC.encryption(balance,memid));
 		consumePointsDetail.setMcpOperatorType(operatetype);
 		consumePointsDetail.setMcpRemark(SerialStringUtil.getPointsRemark(operatetype,phone));
 		consumePointsDetail.setMcpCreatedBy(memid);
