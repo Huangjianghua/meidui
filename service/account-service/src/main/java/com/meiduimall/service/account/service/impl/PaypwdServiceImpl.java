@@ -121,7 +121,7 @@ public class PaypwdServiceImpl implements PaypwdService {
 	@Transactional
 	@Override
 	public ResBodyData updatePaypwd(RequestUpdatePaypwd requestUpdatePaypwd) throws MdSysException {
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,"修改支付密码成功！");
+		ResBodyData resBodyData=new ResBodyData(null,null);
 		
 		/**先验证旧支付密码*/
 		MSMembersPaypwd msMembersPaypwd=new MSMembersPaypwd();
@@ -132,11 +132,13 @@ public class PaypwdServiceImpl implements PaypwdService {
 			logger.warn("旧支付密码校验不通过");
 			resBodyData.setStatus(ApiStatusConst.OLD_PAYPWD_NOT_RIGHT);
 			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.OLD_PAYPWD_NOT_RIGHT));
+			return resBodyData;
 		}
 		logger.info("旧支付密码校验通过");
 		
 		/**设置支付密码*/
 		this.setNewPaypwd(requestUpdatePaypwd.getMemId(),requestUpdatePaypwd.getNew_pay_pwd());		
+		resBodyData.setMsg("修改支付密码成功");
 		return resBodyData;
 	}
 	
