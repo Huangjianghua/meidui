@@ -44,8 +44,14 @@ public class WeixinServiceImpl implements WeixinService {
 	public String getAccessToken() {
 		// 先从redis缓存取
 		String cache = RedisUtils.get(SysConstant.WEIXIN_ACCESS_TOKEN_KEY);
+		Long ttl = RedisUtils.ttl(SysConstant.WEIXIN_ACCESS_TOKEN_KEY);
+
 		if (!Strings.isNullOrEmpty(cache)) {
-			return cache;
+			if (ttl > 120) {
+				return cache;
+			} else {
+				RedisUtils.del(SysConstant.WEIXIN_ACCESS_TOKEN_KEY);
+			}
 		}
 
 		// 缓存取不到再请求微信，并存入缓存
