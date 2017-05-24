@@ -21,6 +21,7 @@ import com.meiduimall.application.usercenter.interceptor.ValInterceptor;
 import com.meiduimall.application.usercenter.interceptor.ValRequest;
 import com.meiduimall.application.usercenter.service.BaseOpService;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.redis.util.RedisTemplate;
@@ -118,7 +119,7 @@ public class BasicOpV1Controller {
 	 * 其他的接口get token也是走这个接口，两种操作用type区分，1是get，2是put
 	 * */
 	@RequestMapping(value = "/baseop/getput",method=RequestMethod.GET)
-	ResBodyDataShiPei getPut(){
+	String getPut(){
 		ResBodyData resBodyData=null;
 		ResBodyDataShiPei resBodyDataShiPei=null;
 		JSONObject reqJson=ValRequest.apiReqData.get();
@@ -126,17 +127,17 @@ public class BasicOpV1Controller {
 		if(resBodyData.getStatus()!=0){
 			resBodyDataShiPei.setStatus_code(resBodyData.getStatus().toString());
 			resBodyDataShiPei.setResult_msg(resBodyData.getMsg());
-			return resBodyDataShiPei;
+			return JsonUtils.beanToJson(resBodyDataShiPei);
 		}
 		logger.info("收到getput API请求：{}",reqJson.toString());
-		resBodyDataShiPei=baseOpService.getPut(reqJson);
-		logger.info("旧会员系统getput API请求结果：{}",resBodyDataShiPei.toString());
-		return resBodyDataShiPei;
+		String result=baseOpService.getPut(reqJson);
+		logger.info("旧会员系统getput API请求结果：{}",result);
+		return result;
 	}
 	
 	/**旧会员系统登出接口调用新会员系统的接口*/
     @RequestMapping(value = "/baseop/handlesignout",method=RequestMethod.GET)
-    ResBodyDataShiPei handleSignout(){
+    String handleSignout(){
     	ResBodyData resBodyData=null;
 		ResBodyDataShiPei resBodyDataShiPei=null;
 		JSONObject reqJson=ValRequest.apiReqData.get();
@@ -144,12 +145,12 @@ public class BasicOpV1Controller {
 		if(resBodyData.getStatus()!=0){
 			resBodyDataShiPei.setStatus_code(resBodyData.getStatus().toString());
 			resBodyDataShiPei.setResult_msg(resBodyData.getMsg());
-			return resBodyDataShiPei;
+			return JsonUtils.beanToJson(resBodyDataShiPei);
 		}
 		logger.info("收到handleSignout API请求：{}",reqJson.toString());
-		resBodyDataShiPei=baseOpService.getPut(reqJson);
-		logger.info("旧会员系统handleSignout API请求结果：{}",resBodyDataShiPei.toString());
-		return resBodyDataShiPei;
+		String result=baseOpService.getPut(reqJson);
+		logger.info("旧会员系统handleSignout API请求结果：{}",result);
+		return result;
     }
 
 }

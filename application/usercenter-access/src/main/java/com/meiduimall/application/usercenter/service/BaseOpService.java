@@ -18,7 +18,7 @@ public interface BaseOpService {
 	 */
 	ResBodyData login(JSONObject reqJson);
 	ResBodyData register(JSONObject reqJson);
-	ResBodyDataShiPei getPut(JSONObject reqJson);
+	String getPut(JSONObject reqJson);
 	ResBodyDataShiPei handleSignOut(JSONObject reqJson);
 
 }
