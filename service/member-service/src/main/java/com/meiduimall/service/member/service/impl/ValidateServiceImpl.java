@@ -44,17 +44,17 @@ public class ValidateServiceImpl implements ValidateService {
 		} catch (DaoException e) {
 			throw new ServiceException(ApiStatusConst.ACCOUNT_EXCEPTION);
 		}
+		
 		if(listMemId.size()==0){
 			logger.info("会员：{}在库中不存在",userId);
-			return resBodyData;
+			throw new ServiceException(ApiStatusConst.USERID_IS_NOT_EXIST);
 		}
 		else if(listMemId.size()==1){
 			logger.info("会员：{}在库中存在一条记录",userId);
 			ObjectNode rootNode = JsonUtils.getInstance().createObjectNode();
 			rootNode.set("memId",new TextNode(listMemId.get(Constants.CONSTANT_INT_ZERO)));
-			resBodyData.setStatus(ApiStatusConst.USERID_IS_EXIST);
-			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.USERID_IS_EXIST));
-			resBodyData.setData(rootNode.toString());
+			resBodyData.setMsg("该账号已存在");
+			resBodyData.setData(rootNode);
 			return resBodyData;
 		}
 		else {
@@ -66,7 +66,7 @@ public class ValidateServiceImpl implements ValidateService {
 	
 	@Override
 	public void checkUserIdExistsThrowable(String userId) throws MdSysException{
-		if(checkUserIdExists(userId).getStatus()!=0){
+		if(checkUserIdExists(userId).getStatus()==0){
 			throw new ServiceException(ApiStatusConst.USERID_IS_EXIST);
 		}
 	}
