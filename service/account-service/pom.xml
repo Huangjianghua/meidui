@@ -4,14 +4,14 @@
 	 <parent>
         <groupId>com.meiduimall</groupId>
         <artifactId>service</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.meiduimall.service</groupId>
     <artifactId>account-service</artifactId>
 	<name>service::account-service</name>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.1</version>
 	<packaging>jar</packaging>
 
 	<dependencies>
@@ -19,19 +19,19 @@
 	    <dependency>
                 <groupId>com.meiduimall</groupId>
                 <artifactId>meiduimall-support-redis</artifactId>
-                <version>${meiduimall-support-redis.version}</version>
+              
             </dependency>
             <dependency>
                 <groupId>com.meiduimall</groupId>
                 <artifactId>meiduimall-support-security</artifactId>
-                <version>${meiduimall-support-security.version}</version>
+          
             </dependency>
             <dependency>
                 <groupId>com.meiduimall</groupId>
                 <artifactId>meiduimall-support-core</artifactId>
-                <version>${meiduimall-support-core.version}</version>
+              
             </dependency>
-            
+             
              <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>

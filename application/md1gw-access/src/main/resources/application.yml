@@ -138,7 +138,6 @@ myProps :
   signClientID : mall_java
   signKey: 
 
-
 ---
 spring :
   profiles : pro
@@ -261,6 +260,15 @@ myProps :
   payUrl : http://payt.meiduimall.com            #支付计入测试环境
   meiduimallUrl : http://shopdev.meiduimall.com  #商城开发环境
   finishUrl : http://www.meiduimall.com/wap/finish.html #完成url
-  signClientID : mall_java
-  signKey: Test123
+
+# 配置clientID和key
+sign : 
+  clientID : mall_java
+  key : Test123 
+# 商品模块微服务地址
+catalog-service : 
+  host : http://192.168.4.111:9050
+# 会员系统接入层地址
+member-access : 
+  host : http://vipt.api.meiduimall.com
 

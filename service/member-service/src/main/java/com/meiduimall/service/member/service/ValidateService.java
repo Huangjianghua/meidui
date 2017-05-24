@@ -19,4 +19,10 @@ public interface ValidateService {
 	ResBodyData checkUserIdExists(String userId) throws MdSysException;
 
 	void checkUserIdExistsThrowable(String userId) throws MdSysException;
+	
+	/**
+	 * 校验注册来源
+	 * @param source 注册来源
+	 */
+	void checkRegisterSource(Integer source);
 }

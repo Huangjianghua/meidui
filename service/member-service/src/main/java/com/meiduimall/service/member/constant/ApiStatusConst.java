@@ -10,53 +10,60 @@ import com.meiduimall.core.BaseApiCode;
  */
 public abstract class ApiStatusConst extends BaseApiCode {
 
+
 	/** 公共 */
-	public final static Integer REQUIRED_PARAM_EMPTY = 1002;
-	public final static Integer MD5_EXCEPTION = 1003;
-	public final static Integer DECRYPTION_EXCEPTION = 1004;
-	public final static Integer ENCRYPTION_EXCEPTION = 1005;
-	public final static Integer HTTP_EXCEPTION = 1006;
-	public final static Integer PARSE_DATE_EXCEPTION = 1007;
-	public final static Integer DB_SELECT_EXCEPTION = 1008;
-	public final static Integer DB_UPDATE_EXCEPTION = 1009;
-	public final static Integer DB_DELETE_EXCEPTION = 1010;
-	public final static Integer DB_INSERT_EXCEPTION = 1011;
+
 	public final static Integer SYSTEM_ERROR= 1012;
 
-	public final static Integer USERNAME_ERROR = 8001;
-	public final static Integer MEMBER_NOT_EXIST = 8002;
-	public final static Integer PASSWORD_ERROR = 8003;
-	public final static Integer TOKEN_ERROR = 8004;
-	public final static Integer EXIT_ERROR = 8005;
-	public final static Integer PHONE_ALREADY_REGISTED = 8006;
-	public final static Integer LOGINNAME_ALREADY_REGISTED = 8007;
-	public final static Integer SHARE_MAN_CANNOT_IS_ITSELF = 8008;
-	public final static Integer SHARE_MAN_NOT_EXIST = 8009;
-	public final static Integer MEMBER_FORBIDDEN = 8011;
-	public final static Integer MEMBER_LOCK = 8012;
-
-	public final static Integer GET_USERINFO_EXCEPTION = 8013;
-	public final static Integer SET_PAYPWD_STATUS_EXCEPTION = 8014;
-	public final static Integer LOGIN_EXCEPTION = 8015;
-	public final static Integer GET_VALIDATE_CODE_EXCEPTION = 8016;
-	public final static Integer REGISTER_EXCEPTION = 8017;
-	public final static Integer CHECK_TOKEN_NOT_PASS = 8018;
-	public final static Integer ACCOUNT_EXCEPTION = 8019;
-	public final static Integer CHECK_VALIDATE_CODE_NOT_PASS = 8020;
-	public final static Integer SEND_SMS_FAILED = 8021;
-
-	public final static Integer LOGIN_UNLOCK_LIST_EXCEPTION = 8022;
-	public final static Integer LOGIN_UNLOCK_EXCEPTION = 8023;
-	public final static Integer RESET_ACCOUNT_PWD_EXCEPTION = 8024;
-	public final static Integer UNDISABLED_ACCOUNT_EXCEPTION = 8025;
-	public final static Integer DISABLED_ACCOUNT_EXCEPTION = 8026;
-
-	public final static Integer ACCOUNT_MEMBER_ID_NULL = 8027;
-	public final static Integer USERID_IS_EXIST = 8028;
 	public final static Integer USERID_IS_NOT_EXIST = 8031;
 
 	public static final Integer WEIXIN_OPENID_BINGDING_FAIL = 8101;
 	public static final Integer NOT_BINGDING_WEIXIN_OPENID = 8102;
+
+	
+    /**公共*/
+	public final static Integer REQUIRED_PARAM_EMPTY= 1002;
+	public final static Integer MD5_EXCEPTION= 1003;
+	public final static Integer DECRYPTION_EXCEPTION= 1004;
+	public final static Integer ENCRYPTION_EXCEPTION= 1005;
+	public final static Integer HTTP_EXCEPTION= 1006;
+	public final static Integer PARSE_DATE_EXCEPTION= 1007;
+	public final static Integer DB_SELECT_EXCEPTION= 1008;
+	public final static Integer DB_UPDATE_EXCEPTION= 1009;
+	public final static Integer DB_DELETE_EXCEPTION= 1010;
+	public final static Integer DB_INSERT_EXCEPTION= 1011;
+	
+	public final static Integer USERNAME_ERROR=8001;
+	public final static Integer MEMBER_NOT_EXIST=8002;
+	public final static Integer PASSWORD_ERROR=8003;
+	public final static Integer TOKEN_ERROR=8004;
+	public final static Integer EXIT_ERROR=8005;
+	public final static Integer PHONE_ALREADY_REGISTED=8006;
+	public final static Integer LOGINNAME_ALREADY_REGISTED=8007;
+	public final static Integer SHARE_MAN_CANNOT_IS_ITSELF=8008;
+	public final static Integer SHARE_MAN_NOT_EXIST=8009;
+	public final static Integer MEMBER_FORBIDDEN=8011;
+	public final static Integer MEMBER_LOCK=8012;
+	
+	public final static Integer GET_USERINFO_EXCEPTION=8013;
+	public final static Integer SET_PAYPWD_STATUS_EXCEPTION=8014;
+	public final static Integer LOGIN_EXCEPTION=8015;
+	public final static Integer GET_VALIDATE_CODE_EXCEPTION=8016;
+	public final static Integer REGISTER_EXCEPTION=8017;
+	public final static Integer CHECK_TOKEN_NOT_PASS=8018;
+	public final static Integer ACCOUNT_EXCEPTION=8019;
+	public final static Integer CHECK_VALIDATE_CODE_NOT_PASS=8020;
+	public final static Integer SEND_SMS_FAILED=8021;
+	
+	public final static Integer LOGIN_UNLOCK_LIST_EXCEPTION=8022;
+	public final static Integer LOGIN_UNLOCK_EXCEPTION=8023;
+	public final static Integer RESET_ACCOUNT_PWD_EXCEPTION=8024;
+	public final static Integer UNDISABLED_ACCOUNT_EXCEPTION=8025;
+	public final static Integer DISABLED_ACCOUNT_EXCEPTION=8026;
+	
+	public final static Integer ACCOUNT_MEMBER_ID_NULL=8027;
+	public final static Integer USERID_IS_EXIST=8028;
+	public final static Integer REGISTER_SOURCE_WRONG=8029;
 
 	static {
 		zhMsgMap.put(REQUIRED_PARAM_EMPTY, "必填参数为空");
@@ -103,6 +110,8 @@ public abstract class ApiStatusConst extends BaseApiCode {
 
 		zhMsgMap.put(WEIXIN_OPENID_BINGDING_FAIL, "微信openID绑定失败");
 		zhMsgMap.put(NOT_BINGDING_WEIXIN_OPENID, "未绑定微信openID");
+		
+		zhMsgMap.put(REGISTER_SOURCE_WRONG, "注册来源不合法");
 	}
 
 }

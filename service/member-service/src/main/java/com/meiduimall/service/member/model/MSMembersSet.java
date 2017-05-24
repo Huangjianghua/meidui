@@ -48,6 +48,9 @@ public class MSMembersSet implements Serializable {
 
 	/** 会员状态 **/
 	private String dictMemStatus;
+	
+	/**层级数，注册接口生成推荐人和粉丝的关系时会用到 */
+	private String memGroupLevel;
 
 	/** 会员是否所有绑定 **/
 	private  Boolean memIsAllActivated;
@@ -126,8 +129,7 @@ public class MSMembersSet implements Serializable {
 	/**
 	 * 当前级别
 	 */
-	private String memPresentLevel;
-	
+	private String memPresentLevel;	
 	
 	/**
 	 * 用户类型：1代表会员，2，代表经销商，3，代表公司运营
@@ -544,5 +546,14 @@ public class MSMembersSet implements Serializable {
 	public void setMemParentIsdefaultIschanged(String memParentIsdefaultIschanged) throws MdSysException {
 		this.memParentIsdefaultIschanged = DESC.encryption(memParentIsdefaultIschanged,memId);
 	}
+	
+	public String getMemGroupLevel() {
+		return memGroupLevel;
+	}
+
+	public void setMemGroupLevel(String memGroupLevel) {
+		this.memGroupLevel = memGroupLevel;
+	}
+	
 
 }

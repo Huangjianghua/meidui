@@ -33,6 +33,7 @@ public class SmsController {
 	 */
 	@RequestMapping("/new/send_common_sms_message")
 	public ResBodyData sendSmsMessage(@Validated SendMessageRequest model) {
+		model.setPhones(formatParamsPhones(model.getPhones()));
 		return smsService.sendSmsMessage(model);
 	}
 
@@ -45,6 +46,7 @@ public class SmsController {
 	 */
 	@RequestMapping("/new/send_sms_verification_code")
 	public ResBodyData sendSmsVerificationCode(@Validated SendCodeRequest model) {
+		model.setPhones(formatParamsPhones(model.getPhones()));
 		return smsService.sendSmsVerificationCode(model);
 	}
 
@@ -57,6 +59,45 @@ public class SmsController {
 	 */
 	@RequestMapping("/new/check_sms_verification_code")
 	public ResBodyData checkSmsVerificationCode(@Validated CheckCodeRequest model) {
+		model.setPhones(formatParamsPhones(model.getPhones()));
 		return smsService.checkSmsVerificationCode(model);
+	}
+
+	/**
+	 * 手机号过滤 +86
+	 * 
+	 * @param phones
+	 *            一个或者多个手机号
+	 */
+	private String formatParamsPhones(String phones) {
+		StringBuilder sb = new StringBuilder();
+		if (phones.contains(",")) {
+			String[] split = phones.split(",");
+			for (String phone : split) {
+				phone = formartPhone(phone);
+				sb.append(phone + ",");
+			}
+			return sb.substring(0, sb.length() - 1);
+		} else {
+			return formartPhone(phones);
+		}
+	}
+
+	/**
+	 * 手机号过滤 +86
+	 * 
+	 * @param phone
+	 *            单个手机号
+	 * @return 过滤后的手机号
+	 */
+	private String formartPhone(String phone) {
+		phone = phone.trim();
+		if (phone.startsWith("+")) {
+			phone = phone.substring(1);
+		}
+		if (phone.startsWith("86")) {
+			phone = phone.substring(2);
+		}
+		return phone;
 	}
 }

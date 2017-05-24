@@ -55,7 +55,9 @@ public abstract class ApiStatusConst extends BaseApiCode {
 		
 		
 		/********************* 会员列表相关                      ****************/
-		/**查询会员为空*/
+
+		/**查询会员账户错误*/
+
 		public final static Integer ACCOUNT_IS_NULL_ERROR=7101;
 		/** 查询会员调整余额明细异常 */
 		public final static Integer ACCOUNT_REVISE_IS_NULL_ERROR=7102;
@@ -142,7 +144,9 @@ public abstract class ApiStatusConst extends BaseApiCode {
 			zhMsgMap.put(BANK_INFO_ALREADY_EXIST, "当前会员银行卡账户信息已存在");
 			zhMsgMap.put(GET_MEMBER_BASIC_INFO_FAILED, "获取会员基本信息失败");
 			
-			zhMsgMap.put(ACCOUNT_IS_NULL_ERROR, "查询会员账号错误");
+
+			zhMsgMap.put(ACCOUNT_IS_NULL_ERROR, "查询会员账户错误");
+
 			zhMsgMap.put(ACCOUNT_REVISE_IS_NULL_ERROR, "查询会员调整余额明细错误");
 			zhMsgMap.put(ACCOUNT_REVISE_BALANCE_ERROR, "调减金额不能大于当前金额");
 			zhMsgMap.put(UPDATE_ACCOUNT_REVISE_BALANCE_ERROR, "修改调整余额操作错误");

@@ -56,7 +56,7 @@ public class SmsServiceImpl implements SmsService
 		}
 		else{
 			logger.info("手机号：{}短信验证码获取失败",model.getPhone());
-			throw new ServiceException(ApiStatusConst.GET_VALIDATE_CODE_EXCEPTION);
+			throw new ServiceException(ApiStatusConst.GET_VALIDATE_CODE_EXCEPTION,resBodyData.getMsg());
 		}
 	}
 	
@@ -74,7 +74,7 @@ public class SmsServiceImpl implements SmsService
 		try {
 			result=HttpUtils.form(smsServiceUrl,mapSmsData);
 		} catch (Exception e) {
-			logger.error("账号服务>>调用短信服务>>校验短信验证码API>>异常：{}",e.toString());
+			logger.error("调用短信服务>>校验短信验证码API>>异常：{}",e.toString());
 			throw new ServiceException(ApiStatusConst.CHECK_VALIDATE_CODE_NOT_PASS);
 		} 
 		ResBodyData resBodyData=JSON.parseObject(result,ResBodyData.class);

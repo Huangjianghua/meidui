@@ -57,6 +57,8 @@
 		m.mem_basic_account_total_quantity AS memBasicAccountTotalQuantity,
 		m.mem_name AS memName,
 		m.mem_parent_id AS memParentId, 
+		m.mem_parent_value1 AS memParentValue1,
+		m.mem_parent_value2 AS memParentValue2,
 		m.mem_parent_value3 AS memParentValue3, 
 		m.mem_created_date AS memCreatedDate,
 		m.mem_lock_count AS memLockCount,
@@ -269,4 +271,14 @@
 		</if>
 	</select>
 	
+
+		<!--更新父类ID-->
+	<update id="updateParentValue" parameterType="com.meiduimall.service.member.model.MSMembersGet">
+	 UPDATE ms_members SET 
+	 mem_parent_value1=#{memParentValue1},
+	 mem_parent_value2=#{memParentValue2},
+	 mem_parent_value3=#{memParentValue3}
+	 WHERE mem_id=#{memId}
+	</update>
+
 </mapper>

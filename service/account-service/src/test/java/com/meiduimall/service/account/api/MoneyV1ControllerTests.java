@@ -255,8 +255,8 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 		 String url = "/member/account_service/v1/save_withdraw";
 		 MSBankWithdrawDeposit deposit=new MSBankWithdrawDeposit();
 		 
-		 deposit.setAccountNo("123456789123");
-		 deposit.setMemId("72063681-7408-435c-88fd-cd837c95c66e");
+		 deposit.setAccountNo("65555555555556666");
+		 deposit.setMemId("ffc391ae-4e97-4830-8547-a2d537dc6d5d");
 		 deposit.setApplyCarryCash("10.5");
 		 deposit.setAuditBy("huangTest");
 		 deposit.setRemark("huangjianhuaTestDate");
