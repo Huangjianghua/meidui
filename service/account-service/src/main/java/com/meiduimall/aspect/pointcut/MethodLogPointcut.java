@@ -10,7 +10,7 @@ public class MethodLogPointcut {
 	@Pointcut("execution(* com.meiduimall.service.account.api.*.*(..))")
 	public void pointcutLog() {
 		
-	}
+	} 
 
 }  
 
