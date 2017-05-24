@@ -83,17 +83,18 @@ public class BaseOpServiceImpl implements BaseOpService {
 		ResBodyDataShiPei resBodyDataShiPei=new ResBodyDataShiPei(null,null);
 		String url=profile.getServiceMemberUrl()+"v1/getput";
 		MD5Utils.updateSign(reqJson,profile.getRouteClientID(),profile.getRouteKey());
+		String result=null;
 		logger.info("请求账号服务，URL:{}  Data:{}",url,reqJson.toString());
 		try {
-			String result=HttpUtils.get(url,reqJson);
+			result=HttpUtils.get(url,reqJson);
 			logger.info("请求账号服务，结果：{}",result);
-			return result;
 		} catch (Exception e) {
 			logger.error("请求账号服务异常：{}",e.toString());
 			resBodyDataShiPei.setStatus_code(ApiStatusConst.REQUEST_GATEWAY_EX.toString());
 			resBodyDataShiPei.setResult_msg(ApiStatusConst.getZhMsg(ApiStatusConst.REQUEST_GATEWAY_EX));
-			return JsonUtils.beanToJson(resBodyDataShiPei);
+			result=JsonUtils.beanToJson(resBodyDataShiPei);
 		}
+		return result;
 	}
 
 	@Override

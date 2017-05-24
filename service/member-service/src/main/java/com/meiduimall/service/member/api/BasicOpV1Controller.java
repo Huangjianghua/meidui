@@ -60,6 +60,7 @@ public class BasicOpV1Controller {
 	@GetMapping(value = "/getput")
 	String getput() { 
 		String result=null;
+		logger.info("收到旧会员系统getput请求...");
 		try {
 			//从本地变量获取已解析过的json
 			JSONObject j=HttpResolveUtils.readGetStringToJsonObject(request);
