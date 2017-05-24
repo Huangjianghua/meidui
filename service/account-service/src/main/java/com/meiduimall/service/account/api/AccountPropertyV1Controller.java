@@ -17,12 +17,12 @@ import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.model.MSDict;
 import com.meiduimall.service.account.model.MSWalletType;
 import com.meiduimall.service.account.service.MSAccountDetailService;
-import com.meiduimall.service.account.service.MSWalletTypeService;
+import com.meiduimall.service.account.service.AccountPropertyManageService;
 
 import net.sf.json.JSONObject;
 
 /**
- * 账户属性相关接口
+ * 账户类型管理相关接口
  * @author jun.wu@meiduimall.com
  *
  */
@@ -33,7 +33,7 @@ public class AccountPropertyV1Controller {
 	private static final Logger logger = LoggerFactory.getLogger(AccountPropertyV1Controller.class);
 	
 	@Autowired
-	private MSWalletTypeService mSWalletTypeService;
+	private AccountPropertyManageService mSWalletTypeService;
 	
 	@Autowired
 	private MSAccountDetailService mSAccountDetailService;
@@ -43,7 +43,7 @@ public class AccountPropertyV1Controller {
 	public ResBodyData listWalletType() {
 		List<MSWalletType> listWalletTypeInfo = null;
 		try {
-			 listWalletTypeInfo = mSWalletTypeService.listWalletType();
+			 listWalletTypeInfo = mSWalletTypeService.getCwtzWalletTypeList();
 		} catch (DaoException e) {
 			logger.info("查询所有账户类型异常：{}", e);
 			throw new ApiException(ConstApiStatus.QUERY_WALLETTYPE_EXCEPTION);

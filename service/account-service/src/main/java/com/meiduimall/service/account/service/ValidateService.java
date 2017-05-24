@@ -27,4 +27,5 @@ public interface ValidateService {
 	 */
 	void checkTradeAmount(Double tradeAmount,String type);
 
+
 }
