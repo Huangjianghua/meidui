@@ -54,8 +54,15 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	public static final Integer VALIDATE_CODE_NOT_PASS = 7021;
 	
 	/*************   调账相关    ************/
-	/**调账类型错误*/
-	public static final Integer ACCOUNT_ADJUST_TYPE_WRONG=7022;
+	/**调账类型不合法*/
+	public static final Integer ACCOUNT_ADJUST_TYPE_UNNORMAL=7022;
+	
+	/*************   交易相关    ************/
+	/**交易类型不合法*/
+	public static final Integer TRADE_TYPE_UNNORMAL=7023;
+	/**交易金额不合法*/
+	public static final Integer TRADE_AMOUNT_UNNORMAL=7023;
+	
 	
 	
 	/********************* 会员列表相关                      ****************/
@@ -177,7 +184,10 @@ public abstract class ConstApiStatus extends BaseApiCode {
 		zhMsgMap.put(QUERY_WALLETTYPE_EXCEPTION, "查询钱包类型异常");
 		zhMsgMap.put(QUERY_TRANSFER_POINTS_ERROR, "查询转账积分列表错误");
 		
-		zhMsgMap.put(ACCOUNT_ADJUST_TYPE_WRONG, "调账类型不正确");
+		zhMsgMap.put(ACCOUNT_ADJUST_TYPE_UNNORMAL, "调账类型不合法");
+		zhMsgMap.put(TRADE_TYPE_UNNORMAL, "交易类型不合法");
+		zhMsgMap.put(TRADE_AMOUNT_UNNORMAL, "交易金额不合法");
+		
 		
 	}
 }
