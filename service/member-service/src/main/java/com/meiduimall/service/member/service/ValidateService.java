@@ -1,5 +1,6 @@
 package com.meiduimall.service.member.service;
 
+import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdSysException;
 
 /**
@@ -15,7 +16,7 @@ public interface ValidateService {
 	 * @return true:存在  false:不存在
 	 * @throws MdSysException 系统异常
 	 */
-	boolean checkUserIdExists(String userId) throws MdSysException;
+	ResBodyData checkUserIdExists(String userId) throws MdSysException;
 
 	void checkUserIdExistsThrowable(String userId) throws MdSysException;
 }

@@ -21,6 +21,7 @@ public abstract class ApiStatusConst extends BaseApiCode {
 	public final static Integer DB_UPDATE_EXCEPTION = 1009;
 	public final static Integer DB_DELETE_EXCEPTION = 1010;
 	public final static Integer DB_INSERT_EXCEPTION = 1011;
+	public final static Integer SYSTEM_ERROR= 1012;
 
 	public final static Integer USERNAME_ERROR = 8001;
 	public final static Integer MEMBER_NOT_EXIST = 8002;
@@ -68,6 +69,7 @@ public abstract class ApiStatusConst extends BaseApiCode {
 		zhMsgMap.put(DB_UPDATE_EXCEPTION, "数据库更新失败");
 		zhMsgMap.put(DB_DELETE_EXCEPTION, "数据库删除失败");
 		zhMsgMap.put(DB_INSERT_EXCEPTION, "数据库插入失败");
+		zhMsgMap.put(SYSTEM_ERROR, "系统错误，请联系客服");
 
 		zhMsgMap.put(USERNAME_ERROR, "用户名输入错误");
 		zhMsgMap.put(MEMBER_NOT_EXIST, "该用户不存在，请先注册");

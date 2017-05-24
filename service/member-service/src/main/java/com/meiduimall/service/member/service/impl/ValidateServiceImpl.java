@@ -7,6 +7,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.node.TextNode;
+import com.meiduimall.core.Constants;
+import com.meiduimall.core.ResBodyData;
+import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.exception.ServiceException;
@@ -30,7 +35,8 @@ public class ValidateServiceImpl implements ValidateService {
 
 
 	@Override
-	public boolean checkUserIdExists(String userId) throws MdSysException {
+	public ResBodyData checkUserIdExists(String userId) throws MdSysException {
+		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,null);
 		String encryUserId=DESC.encryption(userId);
 		List<String> listMemId=null;
 		try {
@@ -38,16 +44,29 @@ public class ValidateServiceImpl implements ValidateService {
 		} catch (DaoException e) {
 			throw new ServiceException(ApiStatusConst.ACCOUNT_EXCEPTION);
 		}
-		logger.info("校验userId:{}是否存在>>查询对应的memId>>结果：{}",userId,listMemId.toString());
-		if(listMemId.size()>0){
-			return true;
+		if(listMemId.size()==0){
+			logger.info("会员：{}在库中不存在",userId);
+			return resBodyData;
 		}
-		return false;
+		else if(listMemId.size()==1){
+			logger.info("会员：{}在库中存在一条记录",userId);
+			ObjectNode rootNode = JsonUtils.getInstance().createObjectNode();
+			rootNode.set("memId",new TextNode(listMemId.get(Constants.CONSTANT_INT_ZERO)));
+			resBodyData.setStatus(ApiStatusConst.USERID_IS_EXIST);
+			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.USERID_IS_EXIST));
+			resBodyData.setData(rootNode);
+			return resBodyData;
+		}
+		else {
+			logger.info("会员：{}在库中存在多条记录，账号异常",userId);
+			throw new ServiceException(ApiStatusConst.ACCOUNT_EXCEPTION);
+		}
+		
 	}
 	
 	@Override
 	public void checkUserIdExistsThrowable(String userId) throws MdSysException{
-		if(checkUserIdExists(userId)){
+		if(checkUserIdExists(userId).getStatus()!=0){
 			throw new ServiceException(ApiStatusConst.USERID_IS_EXIST);
 		}
 	}
