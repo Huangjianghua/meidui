@@ -70,10 +70,10 @@
       and user_type = #{userType,jdbcType=VARCHAR}	
     </if>
     <if test="addTimeStart != null" >
-      and add_time &lt;= #{addTimeStart,jdbcType=INTEGER}
+      and add_time &gt;= #{addTimeStart,jdbcType=INTEGER}
     </if>
     <if test="addTimeEnd != null" >
-      and add_time &gt;= #{addTimeEnd,jdbcType=INTEGER}
+      and add_time &lt;= #{addTimeEnd,jdbcType=INTEGER}
     </if>
     <if test="status != null" >
       and status = #{status,jdbcType=BIT}
@@ -102,10 +102,10 @@
       and user_type = #{userType,jdbcType=VARCHAR}	
     </if>
     <if test="addTimeStart != null" >
-      and add_time &lt;= #{addTimeStart,jdbcType=INTEGER}
+      and add_time &gt;= #{addTimeStart,jdbcType=INTEGER}
     </if>
     <if test="addTimeEnd != null" >
-      and add_time &gt;= #{addTimeEnd,jdbcType=INTEGER}
+      and add_time &lt;= #{addTimeEnd,jdbcType=INTEGER}
     </if>
     <if test="status != null" >
       and status = #{status,jdbcType=BIT}
