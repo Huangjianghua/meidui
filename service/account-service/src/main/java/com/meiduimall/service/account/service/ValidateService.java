@@ -27,5 +27,8 @@ public interface ValidateService {
 	 */
 	void checkTradeAmount(Double tradeAmount,String type);
 
-
+	/**
+	 * 校验当前会员某种类型的账户信息是否存在
+	 */
+	void checkAccountByWalletTypeExist(String walletNo,String memId);
 }

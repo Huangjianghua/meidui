@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -12,6 +13,7 @@ import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.constant.ConstSysParamsDefination;
 import com.meiduimall.service.account.constant.ConstTradeType;
+import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.service.ValidateService;
 
 
@@ -24,6 +26,9 @@ import com.meiduimall.service.account.service.ValidateService;
 public class ValidateServiceImpl implements ValidateService {
 	
 	private final static Logger logger=LoggerFactory.getLogger(ValidateServiceImpl.class);
+	
+	@Autowired
+	private BaseDao baseDao;
 
 	@Override
 	public void checkTradeType(String tradeType) {
@@ -63,6 +68,11 @@ public class ValidateServiceImpl implements ValidateService {
 			throw new ServiceException(ConstApiStatus.ACCOUNT_ADJUST_TYPE_UNNORMAL);
 		}
 		logger.info("交易金额合法");
+	}
+
+	@Override
+	public void checkAccountByWalletTypeExist(String walletNo,String memId) {
+		
 	}
 
 
