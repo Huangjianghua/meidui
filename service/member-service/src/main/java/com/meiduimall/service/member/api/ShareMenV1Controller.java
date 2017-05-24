@@ -4,7 +4,6 @@ package com.meiduimall.service.member.api;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
@@ -37,8 +36,7 @@ public class ShareMenV1Controller {
 	
 	/**
 	 * 获取会员二级推荐人接口 http://IP:PORT/Authorized/querySecondLevelShareMem
-	 * @param request
-	 * @param response
+	 * @param memId
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/get_twolevel_sharemen",method=RequestMethod.GET)

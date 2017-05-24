@@ -22,6 +22,7 @@ import com.meiduimall.application.usercenter.interceptor.ValRequest;
 import com.meiduimall.application.usercenter.service.BaseOpService;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.redis.util.RedisTemplate;
 
 /**
@@ -49,6 +50,25 @@ public class BasicOpV1Controller {
 		logger.info("收到登录API请求：{}",reqJson.toString());
 		resBodyData=baseOpService.login(reqJson);
 		logger.info("会员登录API请求结果：{}",resBodyData.toString());
+		return resBodyData;
+	}
+	
+	/**普通会员注册*/
+	@RequestMapping(value="/register")
+	ResBodyData register(){
+		ResBodyData resBodyData=null;
+		JSONObject reqJson=ValRequest.apiReqData.get();
+		resBodyData=ValInterceptor.apiValResult.get();
+		if(resBodyData.getStatus()!=0)
+			return resBodyData;
+		logger.info("收到普通会员注册API请求：{}",reqJson.toString());
+		try {
+			resBodyData=baseOpService.register(reqJson);
+		} catch (ServiceException e) {
+			logger.error("普通会员注册处理异常：{}",e.toString());
+			throw new ApiException(ApiStatusConst.REGISTER_EXCEPTION);
+		}
+		logger.info("找回支付密码API请求结果：{}",resBodyData.toString());
 		return resBodyData;
 	}
 	

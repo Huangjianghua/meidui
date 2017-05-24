@@ -1,7 +1,8 @@
 package com.meiduimall.service.sms.request;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * 发送普通短信参数模板
@@ -29,7 +30,7 @@ public class SendMessageRequest implements Serializable {
 
 	// 短信过期时间，即timeout缓存保存时长，单位:秒。传整数
 	private Integer timeout;
-	
+
 	@NotNull
 	private String sysKey;// 客户端来源
 

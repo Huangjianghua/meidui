@@ -9,7 +9,7 @@ import java.util.GregorianCalendar;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.member.constant.ApiStatusConst;
 import com.meiduimall.service.member.constant.SysParamsConst;
 
@@ -24,15 +24,16 @@ public class ToolsUtil {
 	
 	/**
 	 * 创建登录令牌
-	 * @param userId
-	 * @return
-	 * @throws SystemException 
+	 * @param userId 会员用户名
+	 * @param tokenKey 请求头的终端ID或者UA参数
+	 * @return token
+	 * @throws MdSysException
 	 */
-	public final static String createToken(String userId) throws SystemException {
+	public final static String createToken(String userId,String tokenKey) throws MdSysException {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append(userId);
 		buffer.append(SysParamsConst.CONNECTION);
-		buffer.append(System.currentTimeMillis());
+		buffer.append(tokenKey);
 		return MD5Util.MD5EncryptBy32(buffer.toString());
 	}
 
@@ -65,10 +66,9 @@ public class ToolsUtil {
 	/**
 	 * 计算现在距离第二天的时间差
 	 * @return 秒数
-	 * @throws SystemException
-	 * @throws ParseException 
+	 * @throws MdSysException
 	 */
-	public final static int getNowToTomorrowTimeSub() throws SystemException{
+	public final static int getNowToTomorrowTimeSub() throws MdSysException {
 		SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		long from;
 		long to;
@@ -77,7 +77,7 @@ public class ToolsUtil {
 			to = simpleFormat.parse(getTomorrowZeroClockTime()).getTime();
 		} catch (ParseException e) {
 			logger.error("执行getNowToTomorrowTimeSub()方法异常：{}",e.toString());
-			throw new SystemException(ApiStatusConst.PARSE_DATE_EXCEPTION,ApiStatusConst.getZhMsg(ApiStatusConst.PARSE_DATE_EXCEPTION));
+			throw new MdSysException(ApiStatusConst.PARSE_DATE_EXCEPTION,ApiStatusConst.getZhMsg(ApiStatusConst.PARSE_DATE_EXCEPTION));
 		} 
 		int minutes = (int) (to - from)/1000;
 		return minutes;

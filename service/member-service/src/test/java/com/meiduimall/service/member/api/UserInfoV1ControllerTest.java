@@ -21,8 +21,10 @@ public class UserInfoV1ControllerTest extends BaseControllerTest {
 	
 	private final static Logger logger=LoggerFactory.getLogger(UserInfoV1ControllerTest.class);
 	   
-	   /**获取用户信息*/
-	    @Test
+
+	   /**获取当前会员基本信息*/
+/*	    @Test
+>>>>>>> refs/remotes/origin/release/1.0.1
 	    public void getMemberBaicInfo() throws Exception{
 	    	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/get_member_basic_info?memId="+memId))
 	    	.andExpect(status().isOk())
@@ -35,7 +37,7 @@ public class UserInfoV1ControllerTest extends BaseControllerTest {
 				}
 			});
 
-	    }
+	    }*/
 	    
 	      
 }

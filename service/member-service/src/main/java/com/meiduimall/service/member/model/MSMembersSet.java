@@ -3,7 +3,7 @@ package com.meiduimall.service.member.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.member.util.DESC;
 import com.meiduimall.service.member.util.StringUtil;
 
@@ -14,7 +14,7 @@ import com.meiduimall.service.member.util.StringUtil;
  **/
 public class MSMembersSet implements Serializable {
 
-	private static final long serialVersionUID = 4550764542554779921L;
+	private static final long serialVersionUID = 1L;
 
 	/** 会员系统ID **/
 	private String memId;
@@ -40,7 +40,7 @@ public class MSMembersSet implements Serializable {
 	/** 会员支付密码 **/
 	private String memPayPwd;
 	
-	/**是否分配默认登录名*/
+	/**是否分配默认登录名：0_1是 1_0否*/
 	private String memLoginNameIsdefaultIschanged;
 
 	/** 会员推荐人ID **/
@@ -48,6 +48,9 @@ public class MSMembersSet implements Serializable {
 
 	/** 会员状态 **/
 	private String dictMemStatus;
+	
+	/**层级数，注册接口生成推荐人和粉丝的关系时会用到 */
+	private String memGroupLevel;
 
 	/** 会员是否所有绑定 **/
 	private  Boolean memIsAllActivated;
@@ -63,6 +66,9 @@ public class MSMembersSet implements Serializable {
 
 	/** 会员性别 **/
 	private String memSex;
+	
+	/**是否启用支付密码*/
+	private String enable;
 
 	/** 会员生日 **/
 	private java.util.Date memBirthday;
@@ -108,6 +114,8 @@ public class MSMembersSet implements Serializable {
 
 	/** 基本账号状态ID **/
 	private String memBasicAccountStatus;
+	
+	private String memParentIsdefaultIschanged;
 
 	/** 积分状态 **/
 	private String memIntegralStatus;
@@ -121,8 +129,7 @@ public class MSMembersSet implements Serializable {
 	/**
 	 * 当前级别
 	 */
-	private String memPresentLevel;
-	
+	private String memPresentLevel;	
 	
 	/**
 	 * 用户类型：1代表会员，2，代表经销商，3，代表公司运营
@@ -130,7 +137,7 @@ public class MSMembersSet implements Serializable {
 	private String memType;
 	
 	
-	/**注册来源0表示PC端注册1表示o2o注册2表示会员结算系统数据迁移注册3表示壹购物注册4表示壹购物商城迁移*/
+	/**注册来源*/
 	private String memSignSource;
 	
 	/**
@@ -151,6 +158,9 @@ public class MSMembersSet implements Serializable {
 	
 	/**锁定次数*/
 	private String memLockCount;
+	
+	/**明文锁定次数*/
+	private String memLockCountPlained;
 		
 
 	public Date getMemLoginTime() {
@@ -189,7 +199,7 @@ public class MSMembersSet implements Serializable {
 		return memIntegralFrozen;
 	}
 
-	public void setMemIntegralFrozen(String memIntegralFrozen) throws SystemException{
+	public void setMemIntegralFrozen(String memIntegralFrozen) throws MdSysException {
 		this.memIntegralFrozen = DESC.encryption(memIntegralFrozen,this.memId);
 	}
 
@@ -213,7 +223,7 @@ public class MSMembersSet implements Serializable {
 		return memBasicAccountTotalQuantity;
 	}
 
-	public void setMemBasicAccountTotalQuantity(String memBasicAccountTotalQuantity) throws SystemException{
+	public void setMemBasicAccountTotalQuantity(String memBasicAccountTotalQuantity) throws MdSysException {
 		this.memBasicAccountTotalQuantity = DESC.encryption(memBasicAccountTotalQuantity==null?"0":memBasicAccountTotalQuantity, this.memId);
 	}
 
@@ -233,11 +243,11 @@ public class MSMembersSet implements Serializable {
 		this.memSignSource = memSignSource;
 	}
 
-	public String getMemName() throws SystemException {
+	public String getMemName() throws MdSysException {
 		return DESC.deyption(this.memName);
 	}
 
-	public void setMemName(String memName) throws SystemException  {
+	public void setMemName(String memName) throws MdSysException {
 		this.memName = DESC.encryption(memName);
 	}
 	
@@ -269,7 +279,7 @@ public class MSMembersSet implements Serializable {
 		return this.memBasicAccountTotalQuantity;
 	}
 
-	public void setMemBasicAccountTotal(String memBasicAccountTotalQuantity)throws SystemException {
+	public void setMemBasicAccountTotal(String memBasicAccountTotalQuantity)throws MdSysException {
 		this.memBasicAccountTotalQuantity = DESC.encryption(memBasicAccountTotalQuantity, this.memId);
 	}
 
@@ -285,7 +295,7 @@ public class MSMembersSet implements Serializable {
 		return memIntegralStatus;
 	}
 
-	public void setMemIntegralStatus(String memIntegralStatus)throws SystemException {
+	public void setMemIntegralStatus(String memIntegralStatus)throws MdSysException {
 		this.memIntegralStatus = DESC.encryption(memIntegralStatus,this.memId);
 	}
 
@@ -297,7 +307,7 @@ public class MSMembersSet implements Serializable {
 		return this.memId;
 	}
 
-	public void setMemLoginName(String memLoginName)  throws SystemException {
+	public void setMemLoginName(String memLoginName)  throws MdSysException {
 		this.memLoginName = DESC.encryption(memLoginName);
 	}
 
@@ -305,7 +315,7 @@ public class MSMembersSet implements Serializable {
 		return this.memLoginName;
 	}
 
-	public void setMemOldPhone(String memOldPhone) throws SystemException  {
+	public void setMemOldPhone(String memOldPhone) throws MdSysException {
 		this.memOldPhone = DESC.encryption(memOldPhone);
 	}
 
@@ -313,7 +323,7 @@ public class MSMembersSet implements Serializable {
 		return this.memOldPhone;
 	}
 
-	public void setMemPhone(String memPhone) throws SystemException  {
+	public void setMemPhone(String memPhone) throws MdSysException {
 		this.memPhone = DESC.encryption(memPhone);
 	}
 
@@ -321,7 +331,7 @@ public class MSMembersSet implements Serializable {
 		return this.memPhone;
 	}
 
-	public void setMemNickName(String memNickName) throws SystemException  {
+	public void setMemNickName(String memNickName) throws MdSysException {
 		this.memNickName = DESC.encryption(memNickName);
 	}
 
@@ -349,7 +359,7 @@ public class MSMembersSet implements Serializable {
 		return memLoginNameIsdefaultIschanged;
 	}
 	
-	public void setMemLoginNameIsdefaultIschanged(String memLoginNameIsdefaultIschanged) throws SystemException {
+	public void setMemLoginNameIsdefaultIschanged(String memLoginNameIsdefaultIschanged) throws MdSysException {
 		this.memLoginNameIsdefaultIschanged = DESC.encryption(memLoginNameIsdefaultIschanged,memId);
 	}
 
@@ -409,7 +419,7 @@ public class MSMembersSet implements Serializable {
 		return this.memBirthday;
 	}
 
-	public void setMemPic(String memPic) throws SystemException{
+	public void setMemPic(String memPic) throws MdSysException {
 		this.memPic = DESC.encryption(memPic,this.memId);
 	}
 
@@ -509,8 +519,41 @@ public class MSMembersSet implements Serializable {
 		return StringUtil.isEmptyByString(memLockCount)?"0":memLockCount;
 	}
 
-	public void setMemLockCount(String memLockCount) throws SystemException{
-		this.memLockCount =  DESC.encryption((memLockCount==null?"0":memLockCount),memId);
+	public void setMemLockCount(String memLockCount) throws MdSysException {
+		this.memLockCount =  DESC.encryption((memLockCount==null?"0":memLockCount));
 	}
+	
+	public String getMemLockCountPlained() {
+		return memLockCountPlained;
+	}
+
+	public void setMemLockCountPlained(String memLockCountPlained) {
+		this.memLockCountPlained = memLockCountPlained;
+	}
+	
+	public String getEnable() {
+		return enable;
+	}
+
+	public void setEnable(String enable) {
+		this.enable = enable;
+	}
+	
+	public String getMemParentIsdefaultIschanged() throws MdSysException {
+		return memParentIsdefaultIschanged;
+	}
+
+	public void setMemParentIsdefaultIschanged(String memParentIsdefaultIschanged) throws MdSysException {
+		this.memParentIsdefaultIschanged = DESC.encryption(memParentIsdefaultIschanged,memId);
+	}
+	
+	public String getMemGroupLevel() {
+		return memGroupLevel;
+	}
+
+	public void setMemGroupLevel(String memGroupLevel) {
+		this.memGroupLevel = memGroupLevel;
+	}
+	
 
 }

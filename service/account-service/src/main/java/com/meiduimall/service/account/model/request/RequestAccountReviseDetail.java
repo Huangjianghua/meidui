@@ -5,16 +5,14 @@ package com.meiduimall.service.account.model.request;
 
 import java.io.Serializable;
 
-import com.meiduimall.exception.SystemException;
-import com.meiduimall.service.account.util.DESC;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.util.PageHelp;
 
 /**
- * @Copyright (C), 2002-2017, 美兑壹购物
- * @FileName: AccountReviseDetailRequest.java
- * @Author: jianhua.huang
- * @Date: 2017年4月20日 上午11:48:30
- * @Description: 会员余额调整明细Model Request
+ * 会员余额调整明细Model Request
+ * @author:   jianhua.huang 
+ * @version:  2017年5月5日 下午5:53:13 0.1 
+ * Description:
  */
 public class RequestAccountReviseDetail extends PageHelp implements Serializable {
 
@@ -74,16 +72,16 @@ public class RequestAccountReviseDetail extends PageHelp implements Serializable
 		return memLoginName;
 	}
 
-	public void setMemLoginName(String memLoginName) throws SystemException {
-		this.memLoginName =DESC.encryption(memLoginName);
+	public void setMemLoginName(String memLoginName){
+		this.memLoginName =memLoginName;
 	}
 
 	public String getMemPhone() {
 		return memPhone;
 	}
 
-	public void setMemPhone(String memPhone) throws SystemException {
-		this.memPhone = DESC.encryption(memPhone);
+	public void setMemPhone(String memPhone) throws MdSysException {
+		this.memPhone = memPhone;
 	}
 
 	public String getReviseType() {

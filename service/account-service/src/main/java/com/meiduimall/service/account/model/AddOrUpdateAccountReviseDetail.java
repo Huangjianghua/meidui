@@ -5,15 +5,16 @@ import java.math.BigDecimal;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.meiduimall.exception.SystemException;
+
+import com.meiduimall.exception.MdSysException;
+
 import com.meiduimall.service.account.util.DESC;
 
 /**
- * @Copyright (C), 2002-2017, 美兑壹购物
- * @FileName: AccountReviseDetail.java
- * @Author: jianhua.huang
- * @Date: 2017年4月20日 上午11:18:54
- * @Description:添加或更新会员余额调整明细Model
+ * 添加或更新会员余额调整明细Model
+ * @author:   jianhua.huang 
+ * @version:  2017年5月10日 下午3:47:01 0.1 
+ * Description:
  */
 public class AddOrUpdateAccountReviseDetail implements Serializable {
 
@@ -178,7 +179,10 @@ public class AddOrUpdateAccountReviseDetail implements Serializable {
 		this.isDelete = isDelete;
 	}
 
-	public String getMemLoginName() throws SystemException {
+
+
+	public String getMemLoginName() throws  MdSysException {
+
 		if(StringUtils.isNotBlank(this.memLoginName)) DESC.deyption(memLoginName);
 		return  memLoginName;
 	}
@@ -187,7 +191,8 @@ public class AddOrUpdateAccountReviseDetail implements Serializable {
 		this.memLoginName = memLoginName;
 	}
 
-	public String getMemPhone() throws SystemException {
+	public String getMemPhone() throws MdSysException {
+
 		if(StringUtils.isNotBlank(this.memLoginName)) DESC.deyption(memLoginName);
 		return memPhone;
 	}

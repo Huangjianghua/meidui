@@ -3,17 +3,16 @@ package com.meiduimall.service.account.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.constant.AccountReviseStatusEnum;
 import com.meiduimall.service.account.constant.AccountReviseTypeEnum;
 import com.meiduimall.service.account.util.DESC;
 
 /**
- * @Copyright (C), 2002-2017, 美兑壹购物
- * @FileName: AccountReviseDetail.java
- * @Author: jianhua.huang
- * @Date: 2017年4月20日 上午11:18:54
- * @Description:会员余额调整明细Model
+ * 
+ * @author:   jianhua.huang 
+ * @version:  2017年5月5日 下午5:51:45 0.1 
+ * Description:会员余额调整明细Model
  */
 public class AccountReviseDetail implements Serializable {
 
@@ -178,7 +177,7 @@ public class AccountReviseDetail implements Serializable {
 		this.isDelete = isDelete;
 	}
 
-	public String getMemLoginName() throws SystemException {
+	public String getMemLoginName() throws MdSysException {
 		return  DESC.deyption(memLoginName);
 	}
 
@@ -186,7 +185,7 @@ public class AccountReviseDetail implements Serializable {
 		this.memLoginName = memLoginName;
 	}
 
-	public String getMemPhone() throws SystemException {
+	public String getMemPhone() throws MdSysException {
 		return DESC.deyption(memPhone);
 	}
 

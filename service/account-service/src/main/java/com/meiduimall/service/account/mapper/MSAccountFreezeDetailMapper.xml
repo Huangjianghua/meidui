@@ -20,7 +20,7 @@
 			#{memId},
 			#{tradeType},
 			#{tradeAmount},
-			#{tradeDate},
+			now(),
 			#{inOrOut},
 			#{freezeBalance},
 			#{orderId},

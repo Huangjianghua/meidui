@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 
 
-
+ 
 
 @EnableEurekaClient
 @SpringBootApplication

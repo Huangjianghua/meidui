@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.meiduimall.exception.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.StringUtil;
 import com.google.common.collect.Maps;
-import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.DaoException;
-import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.SettlementApiCode;
 import com.meiduimall.service.settlement.common.DrawCashConstants;
 import com.meiduimall.service.settlement.common.SettlementUtil;
@@ -67,7 +66,7 @@ public class DrawController {
 		Map<String, Object> accountResult = drawService.queryAccoutBalance(code);
 		return SettlementUtil.success(accountResult);
 		} catch (DaoException e) {
-			throw new ServiceException(e.getCode(),e.getMessage(),e);
+			throw new ServiceException(e);
 		}
 	}
 	
@@ -114,7 +113,7 @@ public class DrawController {
 		//如果提现总金额=提现金额+手续费 > 账户总金额时，返回提现金额不能大于账号可提现金额，请重新输入
 		if(balance.compareTo(ecmMzfDraw.getTotalMoney()) < 0){//balance>totalMoney时返回1,-1是小于,0是等于
 			log.error("提现金额不能大于账号可提现金额，请重新输入");
-			throw new ServiceException(SettlementApiCode.BALANCE_NOT_ENOUGH, BaseApiCode.getZhMsg(SettlementApiCode.BALANCE_NOT_ENOUGH));
+			throw new ServiceException(SettlementApiCode.BALANCE_NOT_ENOUGH);
 		}
 
 		boolean result = drawService.insertDrawInfo(ecmMzfDraw);
@@ -177,7 +176,7 @@ public class DrawController {
 	public ResBodyData verifyDrawCashById(EcmMzfDraw ecmmzfdraw) {
 		
 		if(StringUtil.isEmpty(ecmmzfdraw.getDrawCode())){
-			throw new ServiceException(SettlementApiCode.VERIFY_DRAWCODE_ISNULL, BaseApiCode.getZhMsg(SettlementApiCode.VERIFY_DRAWCODE_ISNULL));
+			throw new ServiceException(SettlementApiCode.VERIFY_DRAWCODE_ISNULL);
 		}
 
 		ecmmzfdraw.setStatus(DrawCashConstants.STATUS_VERIFIED_SUCDESS);
@@ -201,7 +200,7 @@ public class DrawController {
 	public ResBodyData rejectDrawCashById(EcmMzfDraw ecmmzfdraw) {
 		
 		if(StringUtil.isEmpty(ecmmzfdraw.getDrawCode()) || StringUtil.isEmpty(ecmmzfdraw.getRemark())){
-			throw new ServiceException(SettlementApiCode.REJECT_DRAWCODE_REMARK_ISNULL, BaseApiCode.getZhMsg(SettlementApiCode.REJECT_DRAWCODE_REMARK_ISNULL));
+			throw new ServiceException(SettlementApiCode.REJECT_DRAWCODE_REMARK_ISNULL);
 		}
 		
 		ecmmzfdraw.setStatus(DrawCashConstants.STATUS_VERIFIED_REJECTED);
@@ -230,7 +229,7 @@ public class DrawController {
 			ecmmzfdraw.setFinanceStatus(DrawCashConstants.STATUS_TRANSFER_SUCCESS);
 		}else{
 			if(StringUtil.isEmpty(ecmmzfdraw.getRemark())){
-				throw new ServiceException(SettlementApiCode.FAILURE_REASON, BaseApiCode.getZhMsg(SettlementApiCode.FAILURE_REASON));
+				throw new ServiceException(SettlementApiCode.FAILURE_REASON);
 			}
 			ecmmzfdraw.setStatus(DrawCashConstants.STATUS_TRANSFER_FAIL);
 			ecmmzfdraw.setFinanceStatus(DrawCashConstants.STATUS_TRANSFER_FAIL);

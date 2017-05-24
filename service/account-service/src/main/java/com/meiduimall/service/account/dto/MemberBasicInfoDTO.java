@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.util.DESC;
 import com.meiduimall.service.account.util.DoubleCalculate;
 import com.meiduimall.service.account.util.StringUtil;
@@ -67,7 +67,7 @@ public class MemberBasicInfoDTO implements Serializable{
 
 	/***
 	 * 消费券
-	 * @date 2016-5-13 15:55:38
+	 *  2016-5-13 15:55:38
 	 * **/
 	private String shoppingCoupon;
 	
@@ -98,7 +98,7 @@ public class MemberBasicInfoDTO implements Serializable{
 		return user_id;
 	}
 
-	public void setUser_id(String user_id) throws SystemException {
+	public void setUser_id(String user_id) throws MdSysException {
 		this.user_id = DESC.deyption(user_id);
 	}
 
@@ -106,7 +106,7 @@ public class MemberBasicInfoDTO implements Serializable{
 		return name;
 	}
 
-	public void setName(String name)throws SystemException {
+	public void setName(String name)throws MdSysException {
 		this.name = DESC.deyption(name);
 	}
 
@@ -151,7 +151,7 @@ public class MemberBasicInfoDTO implements Serializable{
 		return email;
 	}
 
-	public void setEmail(String email)throws SystemException {
+	public void setEmail(String email)throws MdSysException {
 		this.email =DESC.deyption(email);
 	}
 
@@ -167,7 +167,7 @@ public class MemberBasicInfoDTO implements Serializable{
 		return consume_coupon;
 	}
 
-	public void setConsume_coupon(String consume_coupon)throws SystemException {
+	public void setConsume_coupon(String consume_coupon)throws MdSysException {
 		this.consume_coupon =StringUtil.isEmptyByString(consume_coupon)?DESC.deyption(consume_coupon,memId):"0";
 	}
 
@@ -175,7 +175,7 @@ public class MemberBasicInfoDTO implements Serializable{
 		return totalpoints;
 	}
 
-	public void setTotalpoints(String totalpoints)throws SystemException {
+	public void setTotalpoints(String totalpoints)throws MdSysException {
 		this.totalpoints = DoubleCalculate.getFormalValue(DESC.deyption(totalpoints,memId));
 	}
 
@@ -191,7 +191,7 @@ public class MemberBasicInfoDTO implements Serializable{
 		return nick_name;
 	}
 
-	public void setNick_name(String nick_name)throws SystemException {
+	public void setNick_name(String nick_name)throws MdSysException {
 		this.nick_name = DESC.deyption(nick_name);
 	}
 
@@ -199,7 +199,7 @@ public class MemberBasicInfoDTO implements Serializable{
 		return phone;
 	}
 
-	public void setPhone(String phone) throws SystemException{
+	public void setPhone(String phone) throws MdSysException {
 		this.phone =DESC.deyption(phone);
 	}
 
@@ -207,7 +207,7 @@ public class MemberBasicInfoDTO implements Serializable{
 		return pic_url;
 	}
 
-	public void setPic_url(String pic_url)throws SystemException {
+	public void setPic_url(String pic_url)throws MdSysException {
 		this.pic_url = DESC.deyption(pic_url,memId);
 	}
 

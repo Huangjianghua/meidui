@@ -12,22 +12,19 @@ package com.meiduimall.exception;
 
 
 
-public class DaoException extends BizException {
+public class DaoException extends MdBizException {
 
 	private static final long serialVersionUID = -2400481044433310559L;
 
-	public DaoException(Integer code) {
-		super(code);
+	public DaoException(Throwable cause) {
+		super(cause);
 	}
 
-	public DaoException(Integer code, String msg) {
-		super(code,msg);
+	public DaoException(Throwable cause, int code, String... params) {
+		super(cause, code, params);
 	}
 
-
-	public DaoException(Integer code, String msg, Throwable cause) {
-		super(code, msg,cause);
+	public DaoException(int code, String... params) {
+		super(code, params);
 	}
-
-	
 }

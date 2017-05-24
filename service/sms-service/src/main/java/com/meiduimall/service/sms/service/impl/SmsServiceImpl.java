@@ -12,11 +12,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.exception.ServiceException;
-import com.meiduimall.exception.SystemException;
 import com.meiduimall.redis.util.RedisUtils;
 import com.meiduimall.service.sms.constant.SmsApiCode;
 import com.meiduimall.service.sms.constant.SysConstant;
@@ -57,22 +56,20 @@ public class SmsServiceImpl implements SmsService {
 		// 检查是否已在超时时间内，给该手机发送了短信
 		String tempMsg = RedisUtils.get(redisKey);
 		if (StringUtils.isNotEmpty(tempMsg)) {
-			throw new ServiceException(SmsApiCode.REPEATING, BaseApiCode.getZhMsg(SmsApiCode.REPEATING));
+			throw new ServiceException(SmsApiCode.REPEATING);
 		}
 
 		// 获取消息模板--这里获取到的是所有的模板信息的json数据
 		String templateListJsonStr = templateInfoService.getTemplateList(SysConstant.MESSAGE_TEMPLATE_KEY);
 		if (StringUtils.isEmpty(templateListJsonStr)) {
-			throw new ServiceException(SmsApiCode.NOT_FOUND_TEMPLATE_LIST,
-					SmsApiCode.getZhMsg(SmsApiCode.NOT_FOUND_TEMPLATE_LIST));
+			throw new ServiceException(SmsApiCode.NOT_FOUND_TEMPLATE_LIST);
 		}
 
 		// 根据模板ID获取短信模板
 		TemplateInfo ti = getTemplateByKey(model.getTemplateId(), templateListJsonStr);
 		if (ti == null || StringUtils.isEmpty(ti.getTemplateKey()) || StringUtils.isEmpty(ti.getTemplateContent())) {
 			// 如果没有模板编号，或者模板内容，则抛异常
-			throw new ServiceException(SmsApiCode.NOT_FOUND_TEMPLATE,
-					SmsApiCode.getZhMsg(SmsApiCode.NOT_FOUND_TEMPLATE));
+			throw new ServiceException(SmsApiCode.NOT_FOUND_TEMPLATE);
 		}
 
 		// 替换模板内容参数
@@ -95,8 +92,8 @@ public class SmsServiceImpl implements SmsService {
 			logger.info("只使用阿里大于发送--阿里大于发送短信结果flag：" + flag);
 			if (!flag) {
 				// 发送失败，直接抛出异常
-				throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER,
-						BaseApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
+
+				throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER);
 			}
 			channelId = "1";
 
@@ -120,7 +117,9 @@ public class SmsServiceImpl implements SmsService {
 		try {
 			// 发送成功，缓存到redis，设置缓存时间
 			int expire = 60;
-			if(model.getTimeout() != null && model.getTimeout() > 0){
+
+			if (model.getTimeout() != null && model.getTimeout() > 60) {
+
 				expire = model.getTimeout();
 			}
 			RedisUtils.setex(redisKey, expire, content);
@@ -153,19 +152,19 @@ public class SmsServiceImpl implements SmsService {
 	private String sendMessageByZucp(SendMessageRequest model, String content, String res) {
 		try {
 			res = zucpService.send(model.getPhones(), content);
-		} catch (SystemException e) {
+
+		} catch (MdSysException e) {
 			logger.info("漫道普通短信发送异常：" + e);
-			throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER, BaseApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
+			throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER);
 		}
 		logger.info("漫道普通短信发送结果：" + res);
 		try {
 			if (Long.parseLong(res) < 0) {
-				throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER,
-						BaseApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
+				throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER);
 			}
 		} catch (NumberFormatException e) {
 			logger.info("漫道发送普通短信结果异常：" + e);
-			throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER, BaseApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
+			throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER);
 		}
 		return res;
 	}
@@ -176,10 +175,20 @@ public class SmsServiceImpl implements SmsService {
 		String redisKey = model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId() + model.getType()
 				+ model.getSysKey();
 
-		// 检查是否已在超时时间内，给该手机发送了短信
-		String tempMsg = RedisUtils.get(redisKey);
-		if (StringUtils.isNotEmpty(tempMsg)) {
-			throw new ServiceException(SmsApiCode.REPEATING, BaseApiCode.getZhMsg(SmsApiCode.REPEATING));
+		// 检查是否已在1分钟内，给该手机发送了短信(从缓存value中取出时间916817##1494323395427)
+		try {
+			String tempMsg = RedisUtils.get(redisKey);
+			if (StringUtils.isNotEmpty(tempMsg)) {
+				String[] split = tempMsg.split(SysConstant.CODE_SPLIT_KEY);
+				if (split != null && split.length > 1) {
+					long cacheTime = Long.parseLong(split[1]);
+					if (System.currentTimeMillis() - cacheTime < 1000 * 60) {
+						throw new ServiceException(SmsApiCode.REPEATING);
+					}
+				}
+			}
+		} catch (NumberFormatException e1) {
+			logger.info("取缓存出现异常：" + e1);
 		}
 
 		// 生成6位随机数
@@ -189,16 +198,14 @@ public class SmsServiceImpl implements SmsService {
 		// 获取消息模板--这里获取到的是所有的模板信息的json数据
 		String templateListJsonStr = templateInfoService.getTemplateList(SysConstant.MESSAGE_TEMPLATE_KEY);
 		if (StringUtils.isEmpty(templateListJsonStr)) {
-			throw new ServiceException(SmsApiCode.NOT_FOUND_TEMPLATE_LIST,
-					BaseApiCode.getZhMsg(SmsApiCode.NOT_FOUND_TEMPLATE_LIST));
+			throw new ServiceException(SmsApiCode.NOT_FOUND_TEMPLATE_LIST);
 		}
 
 		// 根据模板ID获取短信模板
 		TemplateInfo ti = getTemplateByKey(model.getTemplateId(), templateListJsonStr);
 		if (ti == null || StringUtils.isEmpty(ti.getTemplateKey()) || StringUtils.isEmpty(ti.getTemplateContent())) {
 			// 如果没有模板编号，或者模板内容，则抛异常
-			throw new ServiceException(SmsApiCode.NOT_FOUND_TEMPLATE,
-					BaseApiCode.getZhMsg(SmsApiCode.NOT_FOUND_TEMPLATE));
+			throw new ServiceException(SmsApiCode.NOT_FOUND_TEMPLATE);
 		}
 
 		// 替换模板内容参数
@@ -212,7 +219,8 @@ public class SmsServiceImpl implements SmsService {
 		String params = "";
 		if (StringUtils.isNotEmpty(model.getParams())) {
 			params = aliDaYuParamsToJson(true, randomNumber + "," + model.getParams());
-		} else{
+
+		} else {
 			params = aliDaYuParamsToJson(true, randomNumber);
 		}
 
@@ -226,8 +234,8 @@ public class SmsServiceImpl implements SmsService {
 			logger.info("只使用阿里大于发送---阿里大于发送验证码短信结果flag：" + flag);
 			if (!flag) {
 				// 发送失败，直接抛出异常
-				throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER,
-						BaseApiCode.getZhMsg(SmsApiCode.SMS_SEND_FAILUER));
+
+				throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER);
 			}
 			channelId = "1";
 
@@ -249,12 +257,13 @@ public class SmsServiceImpl implements SmsService {
 		}
 
 		try {
-			// 发送成功，缓存到redis，设置缓存时间
+
+			// 发送成功，缓存到redis(格式：916817##1494323395427)，设置缓存时间
 			int expire = 60;
-			if(model.getTimeout() != null && model.getTimeout() > 0){
+			if (model.getTimeout() != null && model.getTimeout() > 60) {
 				expire = model.getTimeout();
 			}
-			RedisUtils.setex(redisKey, expire, randomNumber);
+			RedisUtils.setex(redisKey, expire, randomNumber + SysConstant.CODE_SPLIT_KEY + System.currentTimeMillis());
 			// 发送成功,设置发送历史记录值,数据库保留历史记录
 			SendSmsHistory ssh = setHistory(model, channelId);
 			ssh.setRequestParams(model.getPhones() + " ; ali_send_external_template_no: " + ti.getExternalTemplateNo()
@@ -284,21 +293,19 @@ public class SmsServiceImpl implements SmsService {
 	private String sendCodeByZucp(SendCodeRequest model, String content, String res) {
 		try {
 			res = zucpService.send(model.getPhones(), content);
-		} catch (SystemException e) {
+
+		} catch (MdSysException e) {
 			logger.info("漫道发送验证码短信异常：" + e);
-			throw new ServiceException(SmsApiCode.SEND_CODE_FAILUER,
-					BaseApiCode.getZhMsg(SmsApiCode.SEND_CODE_FAILUER));
+			throw new ServiceException(SmsApiCode.SEND_CODE_FAILUER);
 		}
 		logger.info("漫道发送验证码短信结果：" + res);
 		try {
 			if (Long.parseLong(res) < 0) {
-				throw new ServiceException(SmsApiCode.SEND_CODE_FAILUER,
-						BaseApiCode.getZhMsg(SmsApiCode.SEND_CODE_FAILUER));
+				throw new ServiceException(SmsApiCode.SEND_CODE_FAILUER);
 			}
 		} catch (NumberFormatException e) {
 			logger.info("漫道发送验证码短信结果异常：" + e);
-			throw new ServiceException(SmsApiCode.SEND_CODE_FAILUER,
-					BaseApiCode.getZhMsg(SmsApiCode.SEND_CODE_FAILUER));
+			throw new ServiceException(SmsApiCode.SEND_CODE_FAILUER);
 		}
 		return res;
 	}
@@ -312,13 +319,18 @@ public class SmsServiceImpl implements SmsService {
 
 		if (StringUtils.isEmpty(tempVerificationCode)) {
 			logger.info(model.getPhones() + "验证码已过期: " + model.getVerificationCode());
-			throw new ServiceException(SmsApiCode.SMS_VALID_CODE_EXPIRED,
-					BaseApiCode.getZhMsg(SmsApiCode.SMS_VALID_CODE_EXPIRED));
+			throw new ServiceException(SmsApiCode.SMS_VALID_CODE_EXPIRED);
 		}
+		
+		// 切割字符串，取出验证码 916817##1494323395427
+		String[] split = tempVerificationCode.split(SysConstant.CODE_SPLIT_KEY);
+		if (split != null && split.length > 0) {
+			tempVerificationCode = split[0];
+		}
+		
 		if (!StringUtils.equalsIgnoreCase(model.getVerificationCode().trim(), tempVerificationCode)) {
 			logger.info(model.getPhones() + "验证码不匹配: " + model.getVerificationCode());
-			throw new ServiceException(SmsApiCode.SMS_VALID_CODE_UNMATCHED,
-					BaseApiCode.getZhMsg(SmsApiCode.SMS_VALID_CODE_UNMATCHED));
+			throw new ServiceException(SmsApiCode.SMS_VALID_CODE_UNMATCHED);
 		}
 
 		RedisUtils.del(redisKey);
@@ -369,7 +381,7 @@ public class SmsServiceImpl implements SmsService {
 				int count = StringUtils.countMatches(result, "{");
 				if (replaces.length < count) {
 					logger.info("替换短信模板内容异常," + "替换内容与替换参数不匹配, replaces=" + replaces + ",count=" + count);
-					throw new ServiceException(SmsApiCode.PARAM_ERROR, SmsApiCode.getZhMsg(SmsApiCode.PARAM_ERROR));
+					throw new ServiceException(SmsApiCode.PARAM_ERROR);
 				}
 				for (int index = 0; index < replaces.length; index++) {
 					// 需要检查参数 add by simon

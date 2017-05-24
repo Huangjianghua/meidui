@@ -3,6 +3,7 @@ package com.meiduimall.service.settlement.api;
 import java.util.List;
 import java.util.Map;
 
+import com.meiduimall.exception.ServiceException;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,9 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.SettlementApiCode;
 import com.meiduimall.service.settlement.common.SettlementUtil;
 import com.meiduimall.service.settlement.model.EcmAgent;
@@ -60,7 +59,7 @@ public class AgentController {
 		//判断当前个代是否已分润过
 		List<EcmMzfAgentWater> shareResults = agentService.getShareProfitResult(ecmAgent.getId(), ecmAgent.getRecNo());
 		if(CollectionUtils.isNotEmpty(shareResults)){
-			throw new ServiceException(SettlementApiCode.ALREADY_SHAREPROIFT, BaseApiCode.getZhMsg(SettlementApiCode.ALREADY_SHAREPROIFT));
+			throw new ServiceException(SettlementApiCode.ALREADY_SHAREPROIFT);
 		}
 		
 		//调用分润方法

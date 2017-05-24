@@ -2,7 +2,8 @@ package com.meiduimall.service.account.service;
 
 import java.util.Date;
 
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.MdBizException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.model.MSAccount;
 
 /**
@@ -43,31 +44,31 @@ public interface AccountServices {
 	 * 方法名: addMDConsumePoints<br>
 	 * 描述:  增加美兑积分<br>
 	 * 创建时间: 2016-10-31
-	 * @param member
+	 * @param memId
 	 * @param consumePoints
 	 * @param isLock
 	 * @return
-	 * @throws SystemException 
+	 * @throws MdSysException
 	 */
-	public boolean addMDConsumePoints(String memId,String consumePoints,boolean isLock) throws SystemException;
+	public boolean addMDConsumePoints(String memId,String consumePoints,boolean isLock) throws MdSysException;
 	
 	/**
 	 * 方法名: cutMDConsumePoints<br>
 	 * 描述:  扣除美兑积分<br>
 	 * 创建时间: 2016-10-31
-	 * @param member
+	 * @param memId
 	 * @param consumePoints
 	 * @param isLock
 	 * @return
-	 * @throws SystemException 
+	 * @throws MdSysException
 	 */
-	public boolean cutMDConsumePoints(String memId,String consumePoints,boolean isLock) throws SystemException;
+	public boolean cutMDConsumePoints(String memId,String consumePoints,boolean isLock) throws MdSysException;
 	
 	/**
 	 * 方法名: addMDConsumePointsAndDetail<br>
 	 * 描述:  增加美兑积分并写入日志<br>
 	 * 创建时间: 2016-11-18
-	 * @param member
+	 * @param memId
 	 * @param consumePoints
 	 * @param orderId
 	 * @param orderSource
@@ -75,17 +76,17 @@ public interface AccountServices {
 	 * @param operator
 	 * @param remark
 	 * @return
-	 * @throws SystemException 
+	 * @throws MdSysException
 	 */
 	public boolean addMDConsumePointsAndDetail(String memId,
 			String consumePoints, String orderId, String orderSource,
-			String operatorType, String operator, String remark) throws SystemException;
+			String operatorType, String operator, String remark) throws MdSysException;
 	
 	/**
 	 * 方法名: cutMDConsumePointsAndDetail<br>
 	 * 描述:  扣除美兑积分并写入日志<br>
 	 * 创建时间: 2016-11-18
-	 * @param member
+	 * @param memId
 	 * @param consumePoints
 	 * @param orderId
 	 * @param orderSource
@@ -93,11 +94,11 @@ public interface AccountServices {
 	 * @param operator
 	 * @param remark
 	 * @return
-	 * @throws SystemException 
+	 * @throws MdSysException
 	 */
 	public boolean cutMDConsumePointsAndDetail(String memId,
 			String consumePoints, String orderId, String orderSource,
-			String operatorType, String operator, String remark) throws SystemException;
+			String operatorType, String operator, String remark) throws MdSysException;
 	
 	/**
 	 * 冻结美兑积分，并增加冻结记录<br>
@@ -134,7 +135,6 @@ public interface AccountServices {
 	 * 描述: 获取会员余额账户信息 <br>
 	 * 创建时间: 2016-12-28
 	 * @param memId
-	 * @param accountType
 	 * @return
 	 */
 	public MSAccount getAccountMoney(String memId);
@@ -256,7 +256,7 @@ public interface AccountServices {
 	 * @return
 	 */
 	public boolean cutConsumeMoneyAndDetail(String memId, String orderId,
-			String tradeType, Date tradeDate, String tradeAmount, String remark);
+			String tradeType, Date tradeDate, String tradeAmount, String remark) throws MdBizException;
 	
 	/**
 	 * 方法名: addConsumeFreezeMoneyAndDetail<br>
@@ -286,7 +286,7 @@ public interface AccountServices {
 	 * @return
 	 */
 	public boolean cutConsumeFreezeMoneyAndDetail(String memId, String orderId,
-			String tradeType, Date tradeDate, String tradeAmount, String remark);
+			String tradeType, Date tradeDate, String tradeAmount, String remark) throws MdBizException;
 	
 	/**
 	 * 根据用户标识查询memid

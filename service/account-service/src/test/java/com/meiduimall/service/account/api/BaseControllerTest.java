@@ -13,7 +13,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.meiduimall.redis.util.RedisTemplate;
-
+ 
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
@@ -26,7 +26,9 @@ public class BaseControllerTest {
 	protected final static String memId="72063681-7408-435c-88fd-cd837c95c66e";
 	protected final static String phone="18898447755";
 	protected final static String payPwd="123456";
-	protected  String token=null;
+
+	protected  String token=null; 
+
 	
 	protected final String baseUrl="/member/account_service/v1";
 	
@@ -43,4 +45,4 @@ public class BaseControllerTest {
 	public void test(){
 		
 	}
-}
+}

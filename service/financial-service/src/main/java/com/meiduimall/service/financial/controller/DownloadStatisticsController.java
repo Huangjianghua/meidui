@@ -6,6 +6,7 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.meiduimall.exception.ApiException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.exception.ApiException;
 import com.meiduimall.service.financial.constant.ServiceFinancialApiCode;
 import com.meiduimall.service.financial.entity.DownloadStatistics;
 import com.meiduimall.service.financial.service.DownloadStatisticsService;

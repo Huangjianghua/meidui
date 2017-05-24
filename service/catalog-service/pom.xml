@@ -11,10 +11,10 @@
 
 	<groupId>com.meiduimall.service</groupId>
 	<artifactId>catalog-service</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<packaging>jar</packaging>
-	<name>catalog-service</name>
-	<description>catalog-service</description>
+	<name>service::catalog-service</name>
+	<description>service::catalog-service</description>
 
 	<dependencyManagement>
 		<dependencies>

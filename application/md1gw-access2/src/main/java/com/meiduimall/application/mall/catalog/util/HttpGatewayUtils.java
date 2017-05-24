@@ -3,6 +3,7 @@ package com.meiduimall.application.mall.catalog.util;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.meiduimall.exception.ServiceException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +13,6 @@ import com.meiduimall.application.mall.catalog.constant.ApplMallConstant;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.HttpUtils;
 import com.meiduimall.core.util.JsonUtils;
-import com.meiduimall.exception.ServiceException;
 import com.meiduimall.password.GatewaySignUtil;
 import com.meiduimall.password.exception.Md5Exception;
 

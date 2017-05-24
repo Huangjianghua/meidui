@@ -1,9 +1,19 @@
+#端口
+server:
+  port: 10023
+
+# AOP
+spring :
+  aop :
+    auto : true
+    proxy-target-class : true
+
 datasource1:
   type : com.zaxxer.hikari.HikariDataSource
-  driver-class-name: com.zaxxer.hikari.HikariDataSource
-  url: jdbc:mysql://127.0.0.1:3306/sqldb?useUnicode=true&characterEncoding=utf-8
+  driver-class-name: com.mysql.jdbc.Driver
+  url: jdbc:mysql://192.168.4.236:3306/meiduishop0302?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
   username: root
-  password: 123
+  password: meidui@2016.?!
   hikari:
     connection-init-sql: SELECT 1
     connection-test-query: SELECT 1 FROM DUAL
@@ -17,10 +27,10 @@ datasource1:
     
 datasource2:
   type : com.zaxxer.hikari.HikariDataSource
-  driver-class-name: com.zaxxer.hikari.HikariDataSource
-  url: jdbc:mysql://192.168.4.195:3306/sqldb?useUnicode=true&characterEncoding=utf-8
-  username: test
-  password: 111
+  driver-class-name: com.mysql.jdbc.Driver
+  url: jdbc:mysql://192.168.4.236:3306/meiduishop0302?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
+  username: root
+  password: meidui@2016.?!
   hikari:
     connection-init-sql: SELECT 1
     connection-test-query: SELECT 1 FROM DUAL
@@ -32,4 +42,4 @@ datasource2:
     minimumIdle : 10
     pool-name: harika-cp2    
            
-search_server_url: http://127.0.0.1:8081/solr    
+search_server_url: http://127.0.0.1:8088/solr    

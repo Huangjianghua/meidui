@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import com.meiduimall.exception.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.StringUtil;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
-import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.SettlementApiCode;
 import com.meiduimall.service.settlement.common.SettlementUtil;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
@@ -107,7 +106,7 @@ public class WaterController {
 		
 		if(StringUtil.isEmpty(waterId) || StringUtil.isEmpty(waterType)){
 			logger.error("流水编号或流水类型不能为空");
-			throw new ServiceException(SettlementApiCode.WATERID_OR_WATERTYPE_ISNULL, BaseApiCode.getZhMsg(SettlementApiCode.WATERID_OR_WATERTYPE_ISNULL));
+			throw new ServiceException(SettlementApiCode.WATERID_OR_WATERTYPE_ISNULL);
 		}
 
 		Map<String, Object> result = Maps.newHashMap();
@@ -120,10 +119,10 @@ public class WaterController {
 			//1：代理 2：商家 3：其他(比如admin)
 			if(loginType==null){
 				logger.error("查询账单流水详情，登陆类型不能为空");
-				throw new ServiceException(SettlementApiCode.LOGIN_TYPE_ISNULL, BaseApiCode.getZhMsg(SettlementApiCode.LOGIN_TYPE_ISNULL));
+				throw new ServiceException(SettlementApiCode.LOGIN_TYPE_ISNULL);
 			}else if(loginType==1 && StringUtil.isEmpty(code)){
 				logger.error("查询账单流水详情，登陆类型为代理，代理编号不能为空");
-				throw new ServiceException(SettlementApiCode.LOGIN_TYPE_AGENTCODE_ISNULL, BaseApiCode.getZhMsg(SettlementApiCode.LOGIN_TYPE_AGENTCODE_ISNULL));
+				throw new ServiceException(SettlementApiCode.LOGIN_TYPE_AGENTCODE_ISNULL);
 			}
 			
 			Integer count = orderService.queryProfitCountByWaterId(waterId);

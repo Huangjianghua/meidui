@@ -10,7 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.MdBizException;
+import com.meiduimall.exception.MdSysException;
+import com.meiduimall.service.account.constant.ApiStatusConst;
 import com.meiduimall.service.account.constant.ApplicationConstant;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSAccount;
@@ -45,9 +47,9 @@ public class AccountServicesImpl implements AccountServices {
 	 * @param memId
 	 * @param accountPoint
 	 * @return
-	 * @throws SystemException 
+	 * @throws MdSysException
 	 */
-	private boolean updateAccountPoint(String memId, Double accountPoint) throws SystemException{
+	private boolean updateAccountPoint(String memId, Double accountPoint) throws MdSysException {
 		Map<String,String> paramsMap = new HashMap<String,String>();
 		paramsMap.put("memId", memId);
 		paramsMap.put("accountPoint", DESC.encryption(String.valueOf(accountPoint), memId));
@@ -152,7 +154,7 @@ public class AccountServicesImpl implements AccountServices {
 		paramsMap.put("accountType", ApplicationConstant.ACCOUNT_TYPE_MONEY);
 		paramsMap.put("freezeBalance", String.valueOf(freezeBalance));
 		try {
-			Integer updateFlag = baseDao.update(paramsMap, "MSAccountMapper.updateAccountFreezeBalance");
+			Integer updateFlag = baseDao.update(paramsMap, "MSAccountMapper.updateFreezeBalanceByMemIdAndType");
 			if(updateFlag <= 0){
 				return false;
 			}
@@ -203,7 +205,7 @@ public class AccountServicesImpl implements AccountServices {
 	}
 
 	@Override
-	public boolean addMDConsumePoints(String memId, String consumePoints, boolean isLock) throws SystemException {
+	public boolean addMDConsumePoints(String memId, String consumePoints, boolean isLock) throws MdSysException {
 		boolean returnBool = false;
 		//增加基本账户总额
 		double addAtq = DoubleCalculate.add(getTotalConsumePoints(memId),
@@ -216,7 +218,7 @@ public class AccountServicesImpl implements AccountServices {
 	}
 
 	@Override
-	public boolean cutMDConsumePoints(String memId, String consumePoints, boolean isLock) throws SystemException {
+	public boolean cutMDConsumePoints(String memId, String consumePoints, boolean isLock) throws MdSysException {
 		boolean returnBool = false;
 		//扣除基本账户总额
 		double cutAtq = DoubleCalculate.sub(getTotalConsumePoints(memId),
@@ -231,7 +233,7 @@ public class AccountServicesImpl implements AccountServices {
 	@Override
 	public boolean addMDConsumePointsAndDetail(String memId,
 			String consumePoints, String orderId, String orderSource,
-			String operatorType, String operator, String remark) throws SystemException {
+			String operatorType, String operator, String remark) throws MdSysException {
 		//增加基本账户总额
 		double addAtq = DoubleCalculate.add(getTotalConsumePoints(memId),
 				Double.valueOf(consumePoints));
@@ -249,7 +251,7 @@ public class AccountServicesImpl implements AccountServices {
 	@Override
 	public boolean cutMDConsumePointsAndDetail(String memId,
 			String consumePoints, String orderId, String orderSource,
-			String operatorType, String operator, String remark) throws SystemException {
+			String operatorType, String operator, String remark) throws MdSysException {
 		//计算扣除后基本账户总额
 		double cutAtq = DoubleCalculate.sub(getTotalConsumePoints(memId),
 				Double.valueOf(consumePoints));
@@ -284,7 +286,7 @@ public class AccountServicesImpl implements AccountServices {
 		paramsMap.put("memId", memId);
 		paramsMap.put("accountType", ApplicationConstant.ACCOUNT_TYPE_MONEY);
 		try {
-			Object resultObj = baseDao.selectOne(paramsMap, "MSAccountMapper.getAccount");
+			Object resultObj = baseDao.selectOne(paramsMap, "MSAccountMapper.getAccountByMemId");
 			if(resultObj == null){
 				return null;
 			}
@@ -419,7 +421,7 @@ public class AccountServicesImpl implements AccountServices {
 	}
 
 	@Override
-	public Double cutConsumeFreezeMoney(String memId, String tradeAmount) {
+	public Double cutConsumeFreezeMoney(String memId, String tradeAmount) throws MdBizException{
 		Double returnBalance = Double.valueOf("-1");
 		MSAccount account = getAccountMoney(memId);
 		if(account != null){
@@ -510,7 +512,7 @@ public class AccountServicesImpl implements AccountServices {
 
 	@Override
 	public boolean cutConsumeMoneyAndDetail(String memId, String orderId,
-			String tradeType, Date tradeDate, String tradeAmount, String remark) {
+			String tradeType, Date tradeDate, String tradeAmount, String remark) throws MdBizException{
 		boolean returnBool = false;
 		Double balance = this.cutConsumeMoney(memId,tradeAmount);
 		if(balance >= 0){
@@ -521,7 +523,7 @@ public class AccountServicesImpl implements AccountServices {
 					tradeDate, String.valueOf(balance), remark);
 			returnBool = true;
 		}else{
-			throw new RuntimeException("余额变动失败");
+			throw new MdBizException(ApiStatusConst.FROZEN_BALANCE_FAILED_ERROR);
 		}
 		return returnBool;
 	}
@@ -546,7 +548,7 @@ public class AccountServicesImpl implements AccountServices {
 
 	@Override
 	public boolean cutConsumeFreezeMoneyAndDetail(String memId, String orderId,
-			String tradeType, Date tradeDate, String tradeAmount, String remark) {
+			String tradeType, Date tradeDate, String tradeAmount, String remark) throws MdBizException{
 		boolean returnBool = false;
 		Double balance = this.cutConsumeFreezeMoney(memId,tradeAmount);
 		if(balance >= 0){
@@ -557,7 +559,7 @@ public class AccountServicesImpl implements AccountServices {
 					tradeDate, String.valueOf(balance), remark);
 			returnBool = true;
 		}else{
-			throw new RuntimeException("冻结余额变动失败");
+			throw new MdBizException(ApiStatusConst.FROZEN_BALANCE_FAILED_ERROR);
 		}
 		return returnBool;
 	}

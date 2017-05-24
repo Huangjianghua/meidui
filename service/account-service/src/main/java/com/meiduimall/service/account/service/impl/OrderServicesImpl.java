@@ -12,7 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.constant.ApiStatusConst;
 import com.meiduimall.service.account.constant.ApplicationConstant;
 import com.meiduimall.service.account.constant.SysParamsConst;
@@ -21,7 +22,6 @@ import com.meiduimall.service.account.model.MSAccount;
 import com.meiduimall.service.account.model.MSBankAccount;
 import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
 import com.meiduimall.service.account.model.MSMemberConsumeHistory;
-import com.meiduimall.service.account.model.ResBodyData;
 import com.meiduimall.service.account.model.request.RequestFreezeUnFreeze;
 import com.meiduimall.service.account.model.request.RequestUnfreezeDecut;
 import com.meiduimall.service.account.service.AccountServices;
@@ -84,7 +84,7 @@ public class OrderServicesImpl implements OrderService {
 	}
 	
 	@Override
-	public ResBodyData unfreezeDeduct(RequestUnfreezeDecut param) throws SystemException{
+	public ResBodyData unfreezeDeduct(RequestUnfreezeDecut param) throws MdSysException {
 		ResBodyData resBodyData=new ResBodyData(null,null);
 		String memId=param.getMemId();
 		Double consumePoints=param.getConsume_points();

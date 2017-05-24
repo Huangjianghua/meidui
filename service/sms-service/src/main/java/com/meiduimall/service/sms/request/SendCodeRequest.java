@@ -1,7 +1,8 @@
 package com.meiduimall.service.sms.request;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * 发送验证码短信参数模板
@@ -20,9 +21,12 @@ public class SendCodeRequest implements Serializable {
 	private String supplierId;// 渠道编号
 	private String params;// 替换短信中的参数
 	
+	
+
+
 	@NotNull
 	private String type;// 验证码类型：注册使用的验证码/找回密码使用的验证码...
-	
+
 	@NotNull
 	private String sysKey;// 客户端来源
 

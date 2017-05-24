@@ -9,7 +9,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 
-import com.meiduimall.application.mall.exception.MallApiCode;
+import com.meiduimall.application.mall.constant.MallApiCode;
 import com.meiduimall.exception.ServiceException;
 
 import sun.misc.BASE64Decoder;
@@ -18,7 +18,9 @@ import sun.misc.BASE64Encoder;
 @SuppressWarnings("restriction")
 public class Des {
 
-	private final static String DES = "DES";
+
+
+	private static final String DES = "DES";
 
 	
 
@@ -48,7 +50,7 @@ public class Des {
 			throw new ServiceException(MallApiCode.DECRYPT_ERROR,MallApiCode.getZhMsg(MallApiCode.DECRYPT_ERROR));
 		} catch (Exception e) {
 			Logger.error("解密错误: %s", e);
-			throw new  ServiceException(MallApiCode.DECRYPT_ERROR,MallApiCode.getZhMsg(MallApiCode.DECRYPT_ERROR));
+			throw new ServiceException(MallApiCode.DECRYPT_ERROR,MallApiCode.getZhMsg(MallApiCode.DECRYPT_ERROR));
 		}
 	}
 

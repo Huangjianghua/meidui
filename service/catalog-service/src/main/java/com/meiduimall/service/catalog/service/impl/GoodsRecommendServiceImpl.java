@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import com.meiduimall.exception.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
-import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.catalog.constant.ServiceCatalogApiCode;
 import com.meiduimall.service.catalog.dao.BaseDao;
 import com.meiduimall.service.catalog.entity.SysitemItemRecommend;
@@ -77,12 +77,10 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 				result.setData(JsonUtils.getInstance().createObjectNode());
 				return result;
 			} else {
-				throw new ServiceException(ServiceCatalogApiCode.OPERAT_FAIL,
-						ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.OPERAT_FAIL));
+				throw new ServiceException(ServiceCatalogApiCode.OPERAT_FAIL);
 			}
 		} else {
-			throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR,
-					ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR));
+			throw new ServiceException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
 		}
 	}
 
@@ -126,12 +124,10 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 				result.setStatus(ServiceCatalogApiCode.SUCCESS);
 				result.setMsg(ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.REQUEST_SUCCESS));
 			} else {
-				throw new ServiceException(ServiceCatalogApiCode.NONE_DATA,
-						ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.NONE_DATA));
+				throw new ServiceException(ServiceCatalogApiCode.NONE_DATA);
 			}
 		} else {
-			throw new ServiceException(ServiceCatalogApiCode.NONE_DATA,
-					ServiceCatalogApiCode.getZhMsg(ServiceCatalogApiCode.NONE_DATA));
+			throw new ServiceException(ServiceCatalogApiCode.NONE_DATA);
 		}
 		return result;
 	}

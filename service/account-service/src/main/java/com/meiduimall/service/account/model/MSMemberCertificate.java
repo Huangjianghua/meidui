@@ -2,7 +2,7 @@ package com.meiduimall.service.account.model;
 
 import java.io.Serializable;
 
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.util.DESC;
 
 /**
@@ -86,11 +86,11 @@ public class MSMemberCertificate implements Serializable{
 		this.mcerNationality = mcerNationality;
 	}
 
-	public String getMcerName()throws SystemException {
+	public String getMcerName()throws MdSysException {
 		return DESC.deyption(this.mcerName);
 	}
 
-	public void setMcerName(String mcerName) throws SystemException{
+	public void setMcerName(String mcerName) throws MdSysException {
 		this.mcerName = DESC.encryption(mcerName);
 	}
 
@@ -126,11 +126,11 @@ public class MSMemberCertificate implements Serializable{
 		return this.dictMcerId;
 	}
 
-	public void setMcerNo(String mcerNo)throws SystemException {
+	public void setMcerNo(String mcerNo)throws MdSysException {
 		this.mcerNo = DESC.encryption(mcerNo,this.memId);
 	}
 
-	public String getMcerNo()throws SystemException {
+	public String getMcerNo()throws MdSysException {
 		return DESC.deyption(this.mcerNo, this.memId);
 	}
 
@@ -142,27 +142,27 @@ public class MSMemberCertificate implements Serializable{
 		return this.mcerVaildDate;
 	}
 
-	public void setMcerPicTop(String mcerPicTop)throws SystemException {
+	public void setMcerPicTop(String mcerPicTop)throws MdSysException {
 		this.mcerPicTop = DESC.encryption(mcerPicTop,this.memId);
 	}
 
-	public String getMcerPicTop()throws SystemException {
+	public String getMcerPicTop()throws MdSysException {
 		return DESC.deyption(this.mcerPicTop,this.memId);
 	}
 
-	public void setMcerPicEnd(String mcerPicEnd) throws SystemException{
+	public void setMcerPicEnd(String mcerPicEnd) throws MdSysException {
 		this.mcerPicEnd = DESC.encryption(mcerPicEnd,this.memId);
 	}
 
-	public String getMcerPicEnd() throws SystemException{
+	public String getMcerPicEnd() throws MdSysException {
 		return DESC.deyption(this.mcerPicEnd,this.memId);
 	}
 
-	public void setMcerPicSelfTake(String mcerPicSelfTake)throws SystemException {
+	public void setMcerPicSelfTake(String mcerPicSelfTake)throws MdSysException {
 		this.mcerPicSelfTake = DESC.encryption(mcerPicSelfTake,this.memId);
 	}
 
-	public String getMcerPicSelfTake() throws SystemException{
+	public String getMcerPicSelfTake() throws MdSysException {
 		return DESC.deyption(this.mcerPicSelfTake,this.memId);
 	}
 

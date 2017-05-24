@@ -10,6 +10,7 @@
 	<groupId>com.meiduimall.application</groupId>
     <artifactId>usercenter-access</artifactId>
 	<name>usercenter-access</name>
+	<version>1.0.1</version>
 	<packaging>jar</packaging>
 
 	<dependencies>

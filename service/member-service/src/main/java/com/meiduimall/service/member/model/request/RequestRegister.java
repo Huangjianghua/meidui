@@ -1,0 +1,112 @@
+package com.meiduimall.service.member.model.request;
+
+import java.io.Serializable;
+
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
+/**
+ * 注册请求映射实体
+ * @author chencong
+ * 
+ */
+public class RequestRegister  implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	
+	@NotEmpty(message="手机号不能为空")
+	@Length(min=11,max=11,message="手机号长度不正确")
+	private String phone;
+	
+	private String login_name;
+	
+	@NotEmpty(message="注册验证码不能为空")
+	@Length(min=6,max=6,message="注册验证码长度不正确")
+	private String validate_code;
+	
+	@NotEmpty(message="登录密码不能为空")
+	private String pass_word;
+	
+	private String share_man;
+	
+	private String role_type; 
+
+	@NotNull(message="注册来源不能为空")
+	private Integer source;
+	
+	private String tokenKey;
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getLogin_name() {
+		return login_name;
+	}
+
+	public void setLogin_name(String login_name) {
+		this.login_name = login_name;
+	}
+
+	public String getValidate_code() {
+		return validate_code;
+	}
+
+	public void setValidate_code(String validate_code) {
+		this.validate_code = validate_code;
+	}
+
+	public String getPass_word() {
+		return pass_word;
+	}
+
+	public void setPass_word(String pass_word) {
+		this.pass_word = pass_word;
+	}
+
+	public String getShare_man() {
+		return share_man;
+	}
+
+	public void setShare_man(String share_man) {
+		this.share_man = share_man;
+	}
+
+	public Integer getSource() {
+		return source;
+	}
+
+	public void setSource(Integer source) {
+		this.source = source;
+	}
+
+	public String getTokenKey() {
+		return tokenKey;
+	}
+
+	public void setTokenKey(String tokenKey) {
+		this.tokenKey = tokenKey;
+	}
+	
+	public String getRole_type() {
+		return role_type;
+	}
+
+	public void setRole_type(String role_type) {
+		this.role_type = role_type;
+	}
+
+	@Override
+	public String toString() {
+		return "RequestRegister [phone=" + phone + ", login_name=" + login_name + ", validate_code=" + validate_code
+				+ ", pass_word=" + pass_word + ", share_man=" + share_man + ", role_type=" + role_type + ", source="
+				+ source + ", tokenKey=" + tokenKey + "]";
+	}
+	
+}

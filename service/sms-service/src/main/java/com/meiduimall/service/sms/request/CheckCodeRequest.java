@@ -61,7 +61,7 @@ public class CheckCodeRequest implements Serializable {
 	public void setType(String type) {
 		this.type = type;
 	}
-	
+
 	public String getSysKey() {
 		return sysKey;
 	}

@@ -84,7 +84,7 @@ public class GoodsDetailControllerTest extends BaseTest {
 	public void getItemDetail_test_01() throws Exception {
 		ResultActions results = mockMvc
 				.perform(MockMvcRequestBuilders.post("/mall/catalog-service/v1/goodsDetail/getItem")
-						.param("memId", "bbdb1b5b-a5ec-4db7-9c69-929c100b2587").param("itemId", "33349"))
+						.param("memId", "1b6702f295fba6929d3867da21e9a565").param("itemId", "33349"))
 				.andExpect(status().isOk());
 
 		results.andDo(new ResultHandler() {

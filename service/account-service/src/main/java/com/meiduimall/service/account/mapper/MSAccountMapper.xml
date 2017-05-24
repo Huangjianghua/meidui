@@ -80,12 +80,12 @@
 
 
 	<!-- 根据条件查询订单记录 -->
-	<select id="queryListMSAccount" parameterType="map" resultType="com.meiduimall.service.account.model.MSAccountList">
-		SELECT * from (
+	<select id="queryListMSAccount" parameterType="com.meiduimall.service.account.model.request.RequestMSAccountList" resultType="com.meiduimall.service.account.model.MSAccountList">
 			SELECT
 				msm.mem_id AS memId,
 				msm.mem_login_name as memLoginName,/**会员账号*/
 				msm.mem_phone AS memPhone,/**会员手机*/
+				msm.dict_mem_status as status,/**会员状态*/
 				(select mem_phone from ms_members where mem_id=msm.mem_parent_id) memParentIdPhone,/**推荐人手机号 */
 				msm.mem_sign_source AS memSignSource, /**注册来源 */
 				DATE_FORMAT(msm.mem_created_date,'%Y-%m-%d %H:%i:%s') as memRegTime,/**会员注册时间  */
@@ -95,9 +95,9 @@
 	  			IFNULL(msm.mem_basic_account_total_quantity,0.0) as mchPointsBalanceCount,/**可用积分=总积分-冻结积分  */
 	  			(select SUM(mcpf_consume_points) from ms_consume_points_freeze_info where mem_id=msm.mem_id) as mchFreezePointsCount /**冻结积分  */
 			FROM
-				ms_members msm,ms_account msa
+				ms_members msm
+			LEFT JOIN ms_account msa on (msa.mem_id=msm.mem_id and msa.type='AT02')/**取类型为现金账号的数据  */
 		<where>
-		     msa.mem_id=msm.mem_id and msa.type='AT02'  /**取类型为现金账号的数据  */
 		    <if test="memId !=null and memId !=''">
 				AND msm.mem_id=#{memId}
 			</if>
@@ -106,6 +106,9 @@
 			</if>
 			<if test="memPhone !=null and memPhone !=''">
 				AND msm.mem_phone=#{memPhone}
+			</if>
+			<if test="status !=null and status !=''">
+				AND msm.dict_mem_status=#{status}
 			</if>
 			<if test="memSignSource !=null and memSignSource !=''">
 				AND mem_sign_source=#{memSignSource}
@@ -122,13 +125,22 @@
 			<if test="lastLoginTimeEnd !=null and lastLoginTimeEnd !=''">
 				AND msm.mem_last_login_time &lt;= #{lastLoginTimeEnd}
 			</if>
-		 </where>
-		 ) r
-		 <where>
-		  <if test="memParentIdPhone !=null and memParentIdPhone !=''">
-				AND r.memParentIdPhone=#{memParentIdPhone}
+			 <if test="memParentIdPhone !=null and memParentIdPhone !=''">
+				AND msm.mem_parent_id in (SELECT mem_id FROM ms_members WHERE mem_phone=#{memParentIdPhone}) 
 			</if>
 		 </where>
 	</select>
-	
+		<!--添加账户信息，临时使用-->
+	<insert id="insertMsAccount" parameterType="com.meiduimall.service.account.model.MSAccount">
+	   INSERT INTO  ms_account
+		VALUES
+		(#{id},
+		#{memId},
+		#{type},
+		#{balance},
+		#{freezeBalance},
+		#{createDate},
+		#{updateDate}
+		)
+	</insert>
 </mapper>

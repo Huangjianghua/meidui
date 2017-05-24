@@ -3,12 +3,11 @@ package com.meiduimall.payment.api.service;
 import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
+import com.meiduimall.exception.ServiceException;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.exception.ServiceException;
 import com.meiduimall.payment.api.constant.ServicePaymentApiCode;
 import com.meiduimall.payment.api.model.alipay.AlipayRequestModel;
 import com.meiduimall.payment.api.model.api.PaymentLogsModel;
@@ -107,7 +105,7 @@ public class HandlerService {
 							}
 						} catch (IllegalArgumentException | IllegalAccessException e) {
 							log.info("Exception: \n{}",e);
-							throw new ServiceException(ServicePaymentApiCode.CLASS_REFLECT_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.CLASS_REFLECT_ERROR));
+							throw new ServiceException(ServicePaymentApiCode.CLASS_REFLECT_ERROR);
 						}
         	        }
         	        result.setData(map);
@@ -202,7 +200,7 @@ public class HandlerService {
 				paymenttTradeModel.setOrderTime(sdf.parse(paramModel.getOrderTime()));
 			} catch (ParseException e) {
 				log.info("时间转换异常：、\n{}",e);
-				throw new ServiceException(ServicePaymentApiCode.DATE_PARES_ERROR, ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.DATE_PARES_ERROR));
+				throw new ServiceException(ServicePaymentApiCode.DATE_PARES_ERROR);
 			}
          }
          paymenttTradeModel.setOrderId(paramModel.getOrderNo());

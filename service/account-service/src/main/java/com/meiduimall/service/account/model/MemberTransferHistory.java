@@ -2,7 +2,7 @@ package com.meiduimall.service.account.model;
 
 import java.io.Serializable;
 
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.util.DESC;
 
 
@@ -85,10 +85,9 @@ public class MemberTransferHistory implements Serializable {
 	/************add by lftan 调账管理导出辅助字段:begin************/
 	private String memName;
 	private String loginName;
-	/************add by lftan 调账管理导出辅助字段:end
-	 * @throws SystemException ************/
+	/************add by lftan 调账管理导出辅助字段:end  *************/
 	
-	public String getMthAccount() throws SystemException {
+	public String getMthAccount() throws MdSysException {
 		return DESC.deyption(this.mthAccount);
 	}
 	/** 内部转账类型（转入；转出）**/
@@ -100,15 +99,15 @@ public class MemberTransferHistory implements Serializable {
 		this.internalTransferType = internalTransferType;
 	}
 
-	public void setMthAccount(String mthAccount)throws SystemException {
+	public void setMthAccount(String mthAccount)throws MdSysException {
 		this.mthAccount = DESC.encryption(mthAccount);
 	}
 
-	public String getMthQuantityLeft() throws SystemException{
+	public String getMthQuantityLeft() throws MdSysException {
 		return DESC.deyption(mthQuantityLeft,this.memId);
 	}
 
-	public void setMthQuantityLeft(String mthQuantityLeft)throws SystemException {
+	public void setMthQuantityLeft(String mthQuantityLeft)throws MdSysException {
 		this.mthQuantityLeft = DESC.encryption(mthQuantityLeft,this.memId);
 	}
 
@@ -152,28 +151,28 @@ public class MemberTransferHistory implements Serializable {
 		return this.mthNo;
 	}
 
-	public void setMthQuantity(String mthQuantity) throws SystemException{
+	public void setMthQuantity(String mthQuantity) throws MdSysException {
 		this.mthQuantity = DESC.encryption(mthQuantity,this.memId);
 	}
 
-	public String getMthQuantity()throws SystemException {
+	public String getMthQuantity()throws MdSysException {
 		return DESC.deyption(this.mthQuantity,this.memId);
 	}
 
-	public void setMthActualQuantity(String mthActualQuantity)throws SystemException {
+	public void setMthActualQuantity(String mthActualQuantity)throws MdSysException {
 		this.mthActualQuantity = DESC.encryption(mthActualQuantity,this.memId);
 	}
 
-	public String getMthActualQuantity() throws SystemException{
+	public String getMthActualQuantity() throws MdSysException {
 		return DESC.deyption(this.mthActualQuantity,this.memId);
 	}
 
-	public void setDictChargeFormula(String dictChargeFormula) throws SystemException{
+	public void setDictChargeFormula(String dictChargeFormula) throws MdSysException {
 	 
 		this.dictChargeFormula = DESC.encryption(dictChargeFormula,this.memId);
 	}
 
-	public String getDictChargeFormula()throws SystemException {
+	public String getDictChargeFormula()throws MdSysException {
 		 
 		return DESC.deyption(this.dictChargeFormula,this.memId);
 	}

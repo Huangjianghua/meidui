@@ -1,11 +1,8 @@
-# Spring Properties
+#应用名称
 spring:
   application:
-     name: search-manage
-server:
-  port: 80
-  
-  
+    name: search-manage
 
-  
- 
+#端口
+server:
+  port: 10023

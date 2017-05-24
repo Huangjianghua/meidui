@@ -37,7 +37,7 @@ public class ServiceFinancialApiCode extends BaseApiCode {
 		zhMsgMap.put(NONE_DATA, "暂无数据");
 		zhMsgMap.put(NO_LOGIN, "请先登录");
 		zhMsgMap.put(MEMID_VALIDATE_ERROR, "memId验证异常");
-		zhMsgMap.put(DB_EXCEPTION, "数据库异常");
+		zhMsgMap.put(DB_EXCEPTION, "数据库异常 sql : {}");
 	}
 	
 	private ServiceFinancialApiCode(){}

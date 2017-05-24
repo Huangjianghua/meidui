@@ -1,5 +1,6 @@
 package com.meiduimall.service.catalog.controller;
 
+import com.meiduimall.exception.ApiException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,12 +9,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.exception.ApiException;
 import com.meiduimall.service.catalog.constant.ServiceCatalogApiCode;
 import com.meiduimall.service.catalog.service.GoodsDetailService;
 
 /**
- * 商品详情相关操作
+ * 商品详情相关操作 
  * 
  * @author yangchangfu
  *

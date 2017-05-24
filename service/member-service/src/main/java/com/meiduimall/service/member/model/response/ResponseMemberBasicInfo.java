@@ -3,7 +3,7 @@ package com.meiduimall.service.member.model.response;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.member.util.DESC;
 import com.meiduimall.service.member.util.DoubleCalculate;
 import com.meiduimall.service.member.util.StringUtil;
@@ -82,7 +82,7 @@ public class ResponseMemberBasicInfo implements Serializable{
 		return name;
 	}
 
-	public void setName(String name) throws SystemException {
+	public void setName(String name) throws MdSysException {
 		this.name = DESC.deyption(name);
 	}
 
@@ -111,7 +111,7 @@ public class ResponseMemberBasicInfo implements Serializable{
 		return email;
 	}
 
-	public void setEmail(String email) throws SystemException{
+	public void setEmail(String email) throws MdSysException {
 		this.email =DESC.deyption(email);
 	}
 
@@ -119,7 +119,7 @@ public class ResponseMemberBasicInfo implements Serializable{
 		return currentpoints;
 	}
 
-	public void setCurrentpoints(String currentpoints)throws SystemException {
+	public void setCurrentpoints(String currentpoints)throws MdSysException {
 		this.currentpoints = DoubleCalculate.getFormalValueTwo(DESC.deyption(currentpoints,memId));
 	}
 	
@@ -143,7 +143,7 @@ public class ResponseMemberBasicInfo implements Serializable{
 		return nick_name;
 	}
 
-	public void setNick_name(String nick_name)throws SystemException {
+	public void setNick_name(String nick_name)throws MdSysException {
 		this.nick_name = DESC.deyption(nick_name);
 	}
 
@@ -151,7 +151,7 @@ public class ResponseMemberBasicInfo implements Serializable{
 		return phone;
 	}
 
-	public void setPhone(String phone) throws SystemException{
+	public void setPhone(String phone) throws MdSysException {
 		this.phone =DESC.deyption(phone);
 	}
 
@@ -159,7 +159,7 @@ public class ResponseMemberBasicInfo implements Serializable{
 		return pic_url;
 	}
 
-	public void setPic_url(String pic_url)throws SystemException {
+	public void setPic_url(String pic_url)throws MdSysException {
 		this.pic_url = DESC.deyption(pic_url,memId);
 	}
 
@@ -241,7 +241,7 @@ public class ResponseMemberBasicInfo implements Serializable{
 		return login_name;
 	}
 
-	public void setLogin_name(String login_name)throws SystemException {
+	public void setLogin_name(String login_name)throws MdSysException {
 		this.login_name =DESC.deyption(login_name);
 	}
 

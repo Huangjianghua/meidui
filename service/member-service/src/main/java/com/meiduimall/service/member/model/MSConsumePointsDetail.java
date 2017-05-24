@@ -2,7 +2,7 @@ package com.meiduimall.service.member.model;
 
 import java.io.Serializable;
 
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.member.util.DESC;
 
 /**
@@ -98,27 +98,27 @@ public class MSConsumePointsDetail implements Serializable{
 		this.mcpOperatorType = mcpOperatorType;
 	}
 
-	public String getMcpIncome() throws SystemException  {
+	public String getMcpIncome() throws MdSysException {
 		return DESC.deyption(mcpIncome, memId);
 	}
 
-	public void setMcpIncome(String mcpIncome) throws SystemException  {
+	public void setMcpIncome(String mcpIncome) throws MdSysException {
 		this.mcpIncome = DESC.encryption(mcpIncome, memId);
 	}
 
-	public String getMcpExpenditure()  throws SystemException {
+	public String getMcpExpenditure()  throws MdSysException {
 		return DESC.deyption(mcpExpenditure, memId);
 	}
 
-	public void setMcpExpenditure(String mcpExpenditure)  throws SystemException {
+	public void setMcpExpenditure(String mcpExpenditure)  throws MdSysException {
 		this.mcpExpenditure = DESC.encryption(mcpExpenditure, memId);
 	}
 
-	public String getMcpBalance() throws SystemException  {
+	public String getMcpBalance() throws MdSysException {
 		return DESC.deyption(mcpBalance, memId);
 	}
 
-	public void setMcpBalance(String mcpBalance) throws SystemException  {
+	public void setMcpBalance(String mcpBalance) throws MdSysException {
 		this.mcpBalance = DESC.encryption(mcpBalance, memId);
 	}
 
@@ -162,11 +162,11 @@ public class MSConsumePointsDetail implements Serializable{
 		this.mcpRemark = mcpRemark;
 	}
 
-	public String getMemLoginName() throws SystemException {
+	public String getMemLoginName() throws MdSysException {
 		return DESC.deyption(memLoginName);
 	}
 
-	public void setMemLoginName(String memLoginName)  throws SystemException {
+	public void setMemLoginName(String memLoginName)  throws MdSysException {
 		this.memLoginName = DESC.encryption(memLoginName);
 	}
 	

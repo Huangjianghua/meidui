@@ -41,7 +41,7 @@ public class PaymentDataService {
         	try {
 				daoTemplate.insert("paymentLogs.addlog",resultModel);
 			} catch (Exception e) {
-				throw new ServiceException(ServicePaymentApiCode.UNKNOWN_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.UNKNOWN_ERROR),e);
+				throw new ServiceException(ServicePaymentApiCode.UNKNOWN_ERROR);
 			}
         	log.info("成功写入日志表-------");
         	PaymentNotifyModel  paymentNotifyModel = new PaymentNotifyModel();
@@ -51,14 +51,14 @@ public class PaymentDataService {
         	try {
 				paymentNotifyModel.setNotifyTime(sdf.parse(resultModel.getNotifyTime()));
 			} catch (ParseException e) {
-				throw new ServiceException(ServicePaymentApiCode.DATE_PARES_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.DATE_PARES_ERROR));
+				throw new ServiceException(ServicePaymentApiCode.DATE_PARES_ERROR);
 			}
         	//写入回调数据
         	log.info("开始写入回调数据-------");
         	try {
 				daoTemplate.insert("paymentNotify.insert",paymentNotifyModel);
 			} catch (Exception e) {
-				throw new ServiceException(ServicePaymentApiCode.UNKNOWN_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.UNKNOWN_ERROR),e);
+				throw new ServiceException(ServicePaymentApiCode.UNKNOWN_ERROR);
 			}
         	log.info("成功写入回调数据-------");
         	

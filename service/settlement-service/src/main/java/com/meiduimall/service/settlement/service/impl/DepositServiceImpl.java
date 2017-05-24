@@ -276,7 +276,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 				logger.info("区代30%代理费抵扣保证金成功");
 			}else{
 				logger.error("区代30%代理费抵扣保证金失败");
-				throw new ServiceException(SettlementApiCode.DEDUCT_DEPOSIT_FAILED, BaseApiCode.getZhMsg(SettlementApiCode.DEDUCT_DEPOSIT_FAILED));
+				throw new ServiceException(SettlementApiCode.DEDUCT_DEPOSIT_FAILED);
 			}
 		}
 		
@@ -348,11 +348,11 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 					logger.info("插入代理流水参数：" + water.toString());
 				} catch (DaoException e) {
 					logger.error("更新账户余额失败:{}", e);
-					throw new ServiceException(SettlementApiCode.UPD_BALANCE_FAILD, BaseApiCode.getZhMsg(SettlementApiCode.UPD_BALANCE_FAILD));
+					throw new ServiceException(SettlementApiCode.UPD_BALANCE_FAILD);
 				}
 			}else{
 				logger.error("代理编号为：{}的账户不存在,无法更新账户余额", agentWater.getCode());
-				throw new ServiceException(SettlementApiCode.AGENCY_ACCOUNT_NOT_FOUND, BaseApiCode.getZhMsg(SettlementApiCode.AGENCY_ACCOUNT_NOT_FOUND));
+				throw new ServiceException(SettlementApiCode.AGENCY_ACCOUNT_NOT_FOUND);
 			}
 		}
 	}
@@ -412,7 +412,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 				ecmMzfStoreRecord.setScoreStatus(0);//积分是否同步到会员系统  0-否，1-是
 				
 				logger.error("商家为:{}更新积分失败", ecmStore.getUsername());
-				throw new ServiceException(SettlementApiCode.SEND_STORE_SCORE_FAILE, BaseApiCode.getZhMsg(SettlementApiCode.SEND_STORE_SCORE_FAILE));
+				throw new ServiceException(SettlementApiCode.SEND_STORE_SCORE_FAILE);
 			}
 			
 			Timestamp date = new Timestamp(System.currentTimeMillis());
@@ -447,8 +447,14 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 		agentWater.setAgentRate(agentRate);//代理费比例
 		agentWater.setRecNo(recNo);//推荐单号
 		agentWater.setAgentWaterTime(opTime);//流水时间
-		agentService.insertAgentWater(agentWater);
-		logger.info("插入分润参数：{}", agentWater.toString());
+		try {
+			agentService.insertAgentWater(agentWater);
+			logger.info("插入分润参数：{}", agentWater.toString());
+		} catch (DaoException e) {
+			logger.error("插入代理流水失败", e);
+			throw new ServiceException(SettlementApiCode.INSERT_AGENT_WATER_FAIL, BaseApiCode.getZhMsg(SettlementApiCode.INSERT_AGENT_WATER_FAIL));
+		}
+		
 	}
 
 	
@@ -456,17 +462,29 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 	public int createAccount(EcmMzfAccount ecmMzfAccount)  {
 		
 		//判断当前个代账户是否存在，如果不存在，则创建账户
-		EcmMzfAccount mzfAccount = agentService.findAccountByCode(ecmMzfAccount.getCode());
-		if(mzfAccount == null){
-			//插入被推荐个代的账户信息
-			logger.info("===============创建个代账户start===============");
-			EcmMzfAccount account = new EcmMzfAccount();
-			account.setCode(ecmMzfAccount.getCode());
-			account.setAccountRoleType(ecmMzfAccount.getAccountRoleType());
-			return agentService.insertAccount(account);
-		}else{
+		EcmMzfAccount mzfAccount = null;
+		try {
+			mzfAccount = agentService.findAccountByCode(ecmMzfAccount.getCode());
+		} catch (DaoException e) {
+			logger.error("根据代理编号获取账户信息失败", e);
+			throw new ServiceException(SettlementApiCode.FIND_ACCOUNT_FAIL, BaseApiCode.getZhMsg(SettlementApiCode.FIND_ACCOUNT_FAIL));
+		}
+		
+		if(mzfAccount != null){
 			logger.error("新个代{}账户已存在，不可重复创建账户", ecmMzfAccount.getCode());
-			throw new ServiceException(SettlementApiCode.ALREADY_EXIST_ACCOUNT, BaseApiCode.getZhMsg(SettlementApiCode.ALREADY_EXIST_ACCOUNT));
+			throw new ServiceException(SettlementApiCode.ALREADY_EXIST_ACCOUNT);
+		}
+		
+		//插入被推荐个代的账户信息
+		logger.info("===============创建个代账户start===============");
+		EcmMzfAccount account = new EcmMzfAccount();
+		account.setCode(ecmMzfAccount.getCode());
+		account.setAccountRoleType(ecmMzfAccount.getAccountRoleType());
+		try {
+			return agentService.insertAccount(account);
+		} catch (DaoException e) {
+			logger.error("创建新个代账户失败", e);
+			throw new ServiceException(SettlementApiCode.CREATE_ACCOUNT_FAIL, BaseApiCode.getZhMsg(SettlementApiCode.CREATE_ACCOUNT_FAIL));
 		}
 	}
 

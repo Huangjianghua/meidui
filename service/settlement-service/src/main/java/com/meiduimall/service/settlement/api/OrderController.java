@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.meiduimall.exception.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.common.collect.ImmutableMap;
-import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.SettlementApiCode;
 import com.meiduimall.service.settlement.common.SettlementUtil;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
@@ -65,7 +64,7 @@ public class OrderController {
 		//判断该订单号是否为重复分润
 		boolean isExisted = orderService.checkShareProfitExisted(ecmOrder.getOrderSn());
 		if(isExisted){
-			throw new ServiceException(SettlementApiCode.ORDER_ALREADY_SHAREPROFIT, BaseApiCode.getZhMsg(SettlementApiCode.ORDER_ALREADY_SHAREPROFIT));
+			throw new ServiceException(SettlementApiCode.ORDER_ALREADY_SHAREPROFIT);
 		}
 		
 		EcmMzfShareProfit shareProfit = orderService.buildShareProfit(ecmOrder);
@@ -73,7 +72,7 @@ public class OrderController {
 		//保存分润数据到DB
 		if (shareProfit == null) {
 			log.error("订单分润数据为空(shareProfit)");
-			throw new ServiceException(SettlementApiCode.ORDER_SHARE_DATA_EMPTY, BaseApiCode.getZhMsg(SettlementApiCode.ORDER_SHARE_DATA_EMPTY));
+			throw new ServiceException(SettlementApiCode.ORDER_SHARE_DATA_EMPTY);
 		}
 		
 		orderService.saveShareProfit(shareProfit);

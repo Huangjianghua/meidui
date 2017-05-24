@@ -7,10 +7,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.member.constant.ApiStatusConst;
 import com.meiduimall.service.member.model.request.RequestGetMemberBasicInfo;
 import com.meiduimall.service.member.service.UserInfoService;
@@ -34,14 +36,9 @@ public class UserInfoV1Controller{
 	ResBodyData getmemberbasicinfo(@Valid RequestGetMemberBasicInfo requestGetMemberBasicInfo) {
 		String memId=requestGetMemberBasicInfo.getMemId();
 		logger.info("收到会员：{}获取基本信息API请求",memId);
-		try {
-			ResBodyData resBodyData = userInfoService.getBasicInfoByMemId(memId);
-			logger.info("获取会员：{}基本信息API请求结果  ：{}",memId,resBodyData.toString());
-			return resBodyData;
-		} catch (Exception e) {
-			logger.error("获取会员基本信息API请求异常：{}",e.toString());
-			throw new ApiException(ApiStatusConst.GET_USERINFO_EXCEPTION,ApiStatusConst.getZhMsg(ApiStatusConst.GET_USERINFO_EXCEPTION));
-		}
+		ResBodyData resBodyData = userInfoService.getBasicInfoByMemId(memId);
+		logger.info("获取会员：{}基本信息API请求结果  ：{}",memId,resBodyData.toString());
+		return resBodyData;
 	}
 	
 	
@@ -79,5 +76,7 @@ public class UserInfoV1Controller{
 		}
 		out.print(json.toString());
 	}*/
+	
+	/**校验手机号或登录名是否存在*/
 	
 }

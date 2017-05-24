@@ -11,7 +11,7 @@
   <link rel="stylesheet" type="text/css" href="${ctx}/css/site.css"/>
 <script type="text/javascript" src="${ctx}/js/jquery.min.js"></script>
 <script type="text/javascript" src="${ctx}/js/site.js"></script>
-<%@page import="com.first.system.domain.User"%>
+<%@page import="com.meiduimall.application.search.manage.system.domain.User"%>
 <script type="text/javascript">
 <%
 HttpSession s = request.getSession();

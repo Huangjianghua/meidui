@@ -4,10 +4,10 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.meiduimall.exception.DaoException;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Component;
 
-import com.meiduimall.exception.DaoException;
 import com.meiduimall.payment.api.constant.ServicePaymentApiCode;
 import com.meiduimall.payment.api.dao.DaoTemplate;
 
@@ -24,7 +24,7 @@ public class DaoTemplateImpl implements DaoTemplate {
 		try {
 			return sqlSessionTemplate.insert(id);
 		} catch (Exception e) {
-			throw new DaoException(ServicePaymentApiCode.UNKNOWN_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.UNKNOWN_ERROR),e);
+			throw new DaoException(e);
 		}
 	}
 
@@ -33,7 +33,7 @@ public class DaoTemplateImpl implements DaoTemplate {
 		try {
 			return sqlSessionTemplate.insert(id, clasz);
 		} catch (Exception e) {
-			throw new DaoException(ServicePaymentApiCode.UNKNOWN_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.UNKNOWN_ERROR),e);
+			throw new DaoException(e);
 		}
 	}
 
@@ -42,7 +42,7 @@ public class DaoTemplateImpl implements DaoTemplate {
 		try {
 			return sqlSessionTemplate.selectList(id);
 		} catch (Exception e) {
-			throw new DaoException(ServicePaymentApiCode.UNKNOWN_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.UNKNOWN_ERROR),e);
+			throw new DaoException(e);
 		}
 	}
 
@@ -51,7 +51,7 @@ public class DaoTemplateImpl implements DaoTemplate {
 		try {
 			return sqlSessionTemplate.selectList(id, clasz);
 		} catch (Exception e) {
-			throw new DaoException(ServicePaymentApiCode.UNKNOWN_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.UNKNOWN_ERROR),e);
+			throw new DaoException(e);
 		}
 	}
 
@@ -60,7 +60,7 @@ public class DaoTemplateImpl implements DaoTemplate {
 		try {
 			return sqlSessionTemplate.selectOne(id);
 		} catch (Exception e) {
-			throw new DaoException(ServicePaymentApiCode.UNKNOWN_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.UNKNOWN_ERROR),e);
+			throw new DaoException(e);
 		}
 	}
 
@@ -69,7 +69,7 @@ public class DaoTemplateImpl implements DaoTemplate {
 		try {
 			return sqlSessionTemplate.selectOne(id, clasz);
 		} catch (Exception e) {
-			throw new DaoException(ServicePaymentApiCode.UNKNOWN_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.UNKNOWN_ERROR),e);
+			throw new DaoException(e);
 		}
 	}
 
@@ -78,7 +78,7 @@ public class DaoTemplateImpl implements DaoTemplate {
 		try {
 			return sqlSessionTemplate.update(id);
 		} catch (Exception e) {
-			throw new DaoException(ServicePaymentApiCode.UNKNOWN_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.UNKNOWN_ERROR),e);
+			throw new DaoException(e);
 		}
 	}
 
@@ -87,7 +87,7 @@ public class DaoTemplateImpl implements DaoTemplate {
 		try {
 			return sqlSessionTemplate.update(id, clasz);
 		} catch (Exception e) {
-			throw new DaoException(ServicePaymentApiCode.UNKNOWN_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.UNKNOWN_ERROR),e);
+			throw new DaoException(e);
 		}
 	}
 
@@ -96,7 +96,7 @@ public class DaoTemplateImpl implements DaoTemplate {
 		try {
 			return sqlSessionTemplate.delete(id);
 		} catch (Exception e) {
-			throw new DaoException(ServicePaymentApiCode.UNKNOWN_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.UNKNOWN_ERROR),e);
+			throw new DaoException(e);
 		}
 	}
 
@@ -105,7 +105,7 @@ public class DaoTemplateImpl implements DaoTemplate {
 		try {
 			return sqlSessionTemplate.delete(id, clasz);
 		} catch (Exception e) {
-			throw new DaoException(ServicePaymentApiCode.UNKNOWN_ERROR,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.UNKNOWN_ERROR),e);
+			throw new DaoException(e);
 		}
 	}
 	

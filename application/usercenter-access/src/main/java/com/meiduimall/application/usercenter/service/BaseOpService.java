@@ -17,6 +17,7 @@ public interface BaseOpService {
 	 * @return 统一数据返回格式
 	 */
 	ResBodyData login(JSONObject reqJson);
+	ResBodyData register(JSONObject reqJson);
 	ResBodyDataShiPei getPut(JSONObject reqJson);
 	ResBodyDataShiPei handleSignOut(JSONObject reqJson);
 

@@ -5,38 +5,41 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import org.apache.commons.lang.StringUtils;
 
-import com.meiduimall.application.mall.exception.MallApiCode;
-import com.meiduimall.application.mall.util.MD5;
+import com.meiduimall.application.mall.constant.MallApiCode;
 import com.meiduimall.exception.ServiceException;
+import com.meiduimall.password.exception.Md5Exception;
+import com.meiduimall.password.util.MD5;
+
+import org.apache.commons.lang.StringUtils;
 
 import net.sf.json.JSONObject;
 
 public class GatewaySignUtil {
 	
 	
-	/** &符号**/
-	public final static String URLCONNCTION = "&";
-	/** =符号**/
-	public final static String URLEQUALS = "=";
+
+	/* &符号 */
+	public static final String URLCONNCTION = "&";
+	/* =符号 */
+	public static final String URLEQUALS = "=";
 	/**
 	 * 编码类型
 	 */
-	public final static String INPUT_CHARSET_DEFAULT = "utf-8"; // 默认utf-8
+	public static final String INPUT_CHARSET_DEFAULT = "utf-8"; // 默认utf-8
 	
 	
 	/**
+	 * @throws Md5Exception 
 	 * 功能描述:  产生签名
 	 * Author: 陈建宇
 	 * Date:   2016年12月19日 上午10:28:34
 	 * @param appKey
 	 * @param param
 	 * @return String   
-	 * @throws
 	 */
-	public static String  sign(String appKey,Map<String,String> param) {
-		Map<String, String> map = new TreeMap<String, String>();
+	public static String  sign(String appKey,Map<String,String> param) throws Md5Exception {
+		Map<String, String> map = new TreeMap<>();
 		map.putAll(param);
 		Set<String> keySet = map.keySet();
 		StringBuilder buffer = new StringBuilder();
@@ -57,12 +60,12 @@ public class GatewaySignUtil {
         }
         buffer.append("key=");
         buffer.append(appKey);
-        return MD5.MD5Encode(buffer.toString()).toUpperCase();
+        return MD5.encode(buffer.toString().toUpperCase());
 	}
 	
 	
 	@SuppressWarnings("rawtypes")
-	public static String  buildsign(String appKey,JSONObject param) {
+	public static String  buildsign(String appKey,JSONObject param) throws Md5Exception {
 		StringBuilder buffer = new StringBuilder();
 		String key;
 		String value;
@@ -81,7 +84,7 @@ public class GatewaySignUtil {
 		String[] split = buffer.toString().split(URLCONNCTION);
 		Arrays.sort(split);
 		String concat = StringUtils.join(split, URLCONNCTION).concat(URLCONNCTION).concat("key=").concat(appKey);
-        return MD5.MD5Encode(concat).toUpperCase();
+        return MD5.encode(concat.toUpperCase());
 	}
 	
 	/**
@@ -90,9 +93,7 @@ public class GatewaySignUtil {
 	 * Date:   2016年12月19日 上午10:28:55
 	 * @param appKey
 	 * @param parameters
-	 * @throws Exception    
 	 * @return String   
-	 * @throws
 	 */
 	public static String buildEncodeSortParam(String appKey,Map<String, String> parameters) {
 		StringBuilder getSB = new StringBuilder();

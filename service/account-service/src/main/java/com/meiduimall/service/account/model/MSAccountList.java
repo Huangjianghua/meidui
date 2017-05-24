@@ -4,17 +4,17 @@ import java.io.Serializable;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.MdSysException;
+import com.meiduimall.service.account.constant.ApplicationConstant;
 import com.meiduimall.service.account.constant.MemSignSourceEnum;
 import com.meiduimall.service.account.util.DESC;
 import com.meiduimall.service.account.util.DoubleCalculate;
 
 /**
- * @Copyright (C), 2002-2017, 美兑壹购物
- * @FileName: MSAccountListCondition.java
- * @Author: jianhua.huang
- * @Date: 2017年4月18日 下午12:15:54
- * @Description: 会员管理-会员列表 model
+ * 会员管理-会员列表 model
+ * @author:   jianhua.huang 
+ * @version:  2017年5月5日 下午5:52:33 0.1 
+ * Description:
  */
 public class MSAccountList implements Serializable {
 
@@ -42,27 +42,25 @@ public class MSAccountList implements Serializable {
 
 	/** 冻结余额 **/
 	private Double mchFreezeBalanceCount;
+	private String status;
 
-	public String getMemLoginName() throws SystemException {
-		return DESC.deyption(this.memLoginName);
+	public String getMemLoginName(){
+		return memLoginName;
 	}
 
 	public void setMemLoginName(String memLoginName) {
 		this.memLoginName = memLoginName;
 	}
 
-	public String getMemPhone() throws SystemException {
-		return DESC.deyption(this.memPhone);
+	public String getMemPhone(){
+		return this.memPhone;
 	}
 
 	public void setMemPhone(String memPhone) {
 		this.memPhone = memPhone;
 	}
 
-	public String getMemParentIdPhone() throws SystemException {
-		if(StringUtils.isNotBlank(this.memParentIdPhone)){
-			return DESC.deyption(this.memParentIdPhone);
-		}
+	public String getMemParentIdPhone() {
 		return this.memParentIdPhone;
 	}
 
@@ -105,7 +103,7 @@ public class MSAccountList implements Serializable {
 		this.mchFreezePointsCount = mchFreezePointsCount;
 	}
 
-	public String getMchPointsBalanceCount() throws NumberFormatException, SystemException {
+	public String getMchPointsBalanceCount() throws NumberFormatException, MdSysException {
 		if(StringUtils.isNotBlank(mchPointsBalanceCount)&&mchFreezePointsCount!=null){
 			Double totalPoint=Double.valueOf(DESC.deyption(mchPointsBalanceCount,this.memId));
 			if(this.mchFreezePointsCount!=null&&this.mchFreezePointsCount>=0){
@@ -147,6 +145,19 @@ public class MSAccountList implements Serializable {
 
 	public void setMemId(String memId) {
 		this.memId = memId;
+	}
+
+	public String getStatus() {
+		if(ApplicationConstant.MEMBER_STATUS_OK.equals(status)){
+			status="正常";
+		}else{
+			status="禁用";
+		}
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 }

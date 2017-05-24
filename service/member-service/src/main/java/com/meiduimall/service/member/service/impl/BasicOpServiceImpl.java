@@ -1,40 +1,48 @@
 package com.meiduimall.service.member.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import com.meiduimall.exception.ServiceException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.exception.ServiceException;
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.redis.util.RedisTemplate;
 import com.meiduimall.service.member.constant.ApiStatusConst;
+import com.meiduimall.service.member.constant.SmsTemplateIDConst;
 import com.meiduimall.service.member.constant.SysEncrypParamsConst;
 import com.meiduimall.service.member.constant.SysParamsConst;
 import com.meiduimall.service.member.dao.BaseDao;
+import com.meiduimall.service.member.model.MSAccount;
 import com.meiduimall.service.member.model.MSConsumePointsDetail;
-import com.meiduimall.service.member.model.MSMemLoginLog;
-import com.meiduimall.service.member.model.MSMemberBasicAccount;
-import com.meiduimall.service.member.model.MSMemberCertificate;
-import com.meiduimall.service.member.model.MSMemberRole;
 import com.meiduimall.service.member.model.MSMembersGet;
 import com.meiduimall.service.member.model.MSMembersSet;
 import com.meiduimall.service.member.model.MemberAddressesSet;
+import com.meiduimall.service.member.model.request.RequestCheckValidateCode;
 import com.meiduimall.service.member.model.request.RequestLogin;
-import com.meiduimall.service.member.model.response.ResponseMemberBasicInfo;
+import com.meiduimall.service.member.model.request.RequestRegister;
+import com.meiduimall.service.member.model.request.RequestRegisterO2O;
+import com.meiduimall.service.member.model.request.RequestSendSms;
 import com.meiduimall.service.member.service.BasicOpService;
+import com.meiduimall.service.member.service.ShareMenService;
+import com.meiduimall.service.member.service.SmsService;
+import com.meiduimall.service.member.service.UserInfoService;
+import com.meiduimall.service.member.service.ValidateService;
 import com.meiduimall.service.member.util.DESC;
-import com.meiduimall.service.member.util.DoubleCalculate;
 import com.meiduimall.service.member.util.SerialStringUtil;
 import com.meiduimall.service.member.util.StringUtil;
 import com.meiduimall.service.member.util.ToolsUtil;
@@ -52,6 +60,18 @@ public class BasicOpServiceImpl implements BasicOpService {
 
 	@Autowired
 	BaseDao baseDao;
+	
+	@Autowired
+	ShareMenService shareMenService;
+	
+	@Autowired
+	SmsService smsService;
+	
+	@Autowired
+	UserInfoService userInfoService;
+	
+	@Autowired
+	ValidateService validateService;
 	
 	@Override
 	public Map<String, Object> handlesignout(JSONObject jsonObject) throws Exception {
@@ -183,7 +203,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 			/**如果是put操作**/
 			if("2".equals(type))
 			{
-				token=ToolsUtil.createToken(userid);
+				token=ToolsUtil.createToken(userid,String.valueOf(System.currentTimeMillis()));
 				//把token存储到redis
 				RedisTemplate.getJedisInstance().execSetexToCache(token,Constants.REDIS_ONEMONTH,memid);
 				//临时代码，兼容旧会员系统
@@ -218,27 +238,32 @@ public class BasicOpServiceImpl implements BasicOpService {
 		return map;
 	}
 	
-	
-	public ResBodyData login(RequestLogin requestLogin) throws SystemException {
-		ResBodyData resBodyData=new ResBodyData(1,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
 
-		String userid=requestLogin.getUser_name();
-		String password=requestLogin.getPassword();
+	@Transactional
+	public ResBodyData login(RequestLogin requestLogin) throws MdSysException {
+		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		String userid=requestLogin.getUser_name();//用户名
+		String password=requestLogin.getPassword();//密码
+		String tokenKey=requestLogin.getTokenKey();
+
 		
 		Map<String, Object> mapCondition=new HashMap<>();//查询条件
 		mapCondition.put("userid",DESC.encryption(userid));
 		MSMembersGet msMembersGet=baseDao.selectOne(mapCondition,"MSMembersMapper.getMemberBasicInfoByCondition");//根据userid判断该用户是否存在
 		if(msMembersGet==null){
-			
+			throw new ServiceException(ApiStatusConst.MEMBER_NOT_EXIST);
 		}
-		
+		String memLockCount=msMembersGet.getMemLockCount();//锁定次数密文
+		String memLockCountPlained=msMembersGet.getMemLockCountPlained();//锁定次数明文
+		String memId=msMembersGet.getMemId();
 		/**判断这个用户是否由于登录失败次数过多被锁定*/
 		String redisLoginFail=SysParamsConst.REDIS_LOGIN_LOCK+SysParamsConst.CONNECTION+msMembersGet.getMemId();
 		if(RedisTemplate.getJedisInstance().execExistsFromCache(redisLoginFail)){
 			String count=RedisTemplate.getJedisInstance().execGetFromCache(redisLoginFail);
-			if(Integer.valueOf(count)>=SysParamsConst.MAX_LOGIN_FAIL_COUNT)
-				throw new ServiceException(ApiStatusConst.MEMBER_LOCK,ApiStatusConst.getZhMsg(ApiStatusConst.MEMBER_LOCK));
-				
+			if(Integer.valueOf(count)>=SysParamsConst.MAX_LOGIN_FAIL_COUNT){
+				logger.warn("该会员当天登录失败次数已达到5次，暂时被锁定 ");
+				throw new ServiceException(ApiStatusConst.MEMBER_LOCK);
+			}
 		}
 		
 		/**根据userid和密码查询会员信息*/
@@ -248,42 +273,39 @@ public class BasicOpServiceImpl implements BasicOpService {
 		if(ps.length>=2)
 			mapCondition.put("md_pwd",ps[1]);
 		msMembersGet=baseDao.selectOne(mapCondition,"MSMembersMapper.getMemberBasicInfoByCondition");
-		
+		MSMembersSet msMembersSet=new MSMembersSet();
+		msMembersSet.setMemId(memId);
 		if(msMembersGet!=null){
 			logger.info("会员：{}用户名和密码输入正确",userid);
 			if(msMembersGet.getDictMemStatus().equals(SysEncrypParamsConst.MEMBER_FORBIDDEN_EN)){//如果该会员账号已被禁用
 				logger.info("会员{}被禁用，无法登录！",userid);
-				throw new ServiceException(ApiStatusConst.MEMBER_FORBIDDEN,ApiStatusConst.getZhMsg(ApiStatusConst.MEMBER_FORBIDDEN));
+				throw new ServiceException(ApiStatusConst.MEMBER_FORBIDDEN);
 			}
-			String redisToken=ToolsUtil.createToken(userid);
+			String redisToken=ToolsUtil.createToken(userid,tokenKey);//生成token
 			logger.info("token创建成功：{}",redisToken);
 			
 			/**更新会员相关信息*/
-			msMembersGet.setMemLicenseKey(redisToken);
+			msMembersSet.setMemLicenseKey(redisToken);
 			if(null!=msMembersGet.getMemLoginTime()){
-				msMembersGet.setPfLastLoginTime(msMembersGet.getMemLoginTime());//设置上一次登录时间
+				msMembersSet.setPfLastLoginTime(msMembersGet.getMemLoginTime());//设置上一次登录时间
 			}
-			msMembersGet.setMemLoginTime(new Date());
-			msMembersGet.setDictMemStatus(SysEncrypParamsConst.MEMBER_STATUS_OK);
-			/*msMembersGet.setMemBasicAccountTotalQuantity(msMembersGet.getMemBasicAccountTotalQuantity());*/
-		    /*baseDao.update(msMembersGet,"MSMembersMapper.updateMemberBasicInfoByCondition");*/
+
+			msMembersSet.setMemLoginTime(new Date());
+		    baseDao.update(msMembersSet,"MSMembersMapper.updateMemberBasicInfoByCondition");
+
 			
 		    RedisTemplate.getJedisInstance().execSetexToCache(redisToken,Constants.REDIS_ONEMONTH,msMembersGet.getMemId());//把token存储到redis，并设置失效时间一个月
 		    RedisTemplate.getJedisInstance().execSetexToCache(msMembersGet.getMemId(),Constants.REDIS_ONEMONTH,redisToken);//临时代码，兼容旧会员系统
 			
 			Map<String, Object> mapData=new HashMap<>();
-			mapData.put("user_name",msMembersGet.getMemLoginName());
-			mapData.put("nickname",msMembersGet.getMemNickName());
 			mapData.put("token",redisToken);
-			mapData.put("portrait","");//临时代码，适配旧APP
-			mapData.put("ry_token","");//临时代码，适配旧APP
+			mapData.put("user_name",msMembersGet.getMemLoginName());
 			resBodyData.setData(mapData);
 		}
 		else{
 			logger.info("会员：{}用户名或密码输入错误，登录失败",userid);
-			resBodyData.setStatus(ApiStatusConst.PASSWORD_OR_USERNAME_ERROR);
-			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.PASSWORD_OR_USERNAME_ERROR));
-		
+			int newLoginLockCount=Integer.valueOf(memLockCount)+1;
+			int newLoginLockCountPlained=Integer.valueOf(memLockCountPlained)+1;
 			if(RedisTemplate.getJedisInstance().execExistsFromCache(redisLoginFail)){//如果登录失败过
 				String lockCount=RedisTemplate.getJedisInstance().execGetFromCache(redisLoginFail);//获取已登录失败的次数
 				int newlockCount=Integer.valueOf(lockCount)+1;//登录失败次数+1
@@ -293,436 +315,421 @@ public class BasicOpServiceImpl implements BasicOpService {
 			else{//如果没有登录失败过，就设置一次
 				RedisTemplate.getJedisInstance().execSetexToCache(redisLoginFail,Constants.REDIS_ONEDAY,SysParamsConst.REDIS_INIT_LOGIN_LOCK_COUNT);
 			}
+			msMembersSet.setMemLockCount(String.valueOf(newLoginLockCount));
+			msMembersSet.setMemLockCountPlained(String.valueOf(newLoginLockCountPlained));
+			baseDao.update(msMembersSet,"MSMembersMapper.updateMemberBasicInfoByCondition");
+			resBodyData.setStatus(ApiStatusConst.PASSWORD_ERROR);
+			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.PASSWORD_ERROR));
 		}
 		return resBodyData;
 	}
 	
-	/**用户 注册
-	 * @throws Exception */
-	public Map<String, Object> register(JSONObject jsonObject) {
-		Map<String, Object> map=new HashMap<String, Object>();
-		boolean open_Share=true;//是否开启分享，默认开启
-
-		String ip = jsonObject.getString("ip");
-		String phone = jsonObject.getString("phone");//用户手机号
-		//如果没有登录名，就分配一个
-		String user_id=null;
-		if(jsonObject.containsKey("user_id"))
-		{
-			user_id=jsonObject.getString("user_id");
-		}
-		else
-		{
-			String username_01="";
-			username_01 = "1gw_"+phone+"0";
-			for (int i = 0; i < 10; i++) {
-				if(i > 0){
-					user_id = username_01+i;
-				}else{
-					user_id = username_01;
-				}
-			}
-		}
-		String valid_code = jsonObject.getString("valid_code");//验证码
-		String pass_word = jsonObject.getString("pass_word");//MD5过的密码
-		String share_man = jsonObject.getString("share_man");//推荐人user_id
-		String sign_source = jsonObject.getString("sign_source");//注册来源
-		String register_type = jsonObject.getString("register_type");//注册类型
+	@Transactional
+	@Override
+	public ResBodyData register(RequestRegister model) throws MdSysException{
+		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		boolean open_default_share_man=false;//是否分配默认推荐人
+		boolean open_default_login_name=false;//是否分配默认登录名
+		String tokenKey=model.getTokenKey();//用于生成token的salt
 		
-		/**校验验证码格式*/
-		if (StringUtil.isEmptyByString(valid_code) || 6 != valid_code.length()) {
-			logger.info("外部当前注册请求IP地址=" + ip + "结束,验证码错误");
-			map.put(SysParamsConst.STATUS, ApiStatusConst.FAIL_BLACKLIST_VALIDATE);
-			return map;
+		//校验该账号是否已注册
+		validateService.checkUserIdExistsThrowable(model.getPhone());
+		//校验注册来源是否合法
+		validateService.checkRegisterSource(model.getSource());
+		
+		//分配默认登录名和默认推荐人
+		if(StringUtils.isEmpty(model.getLogin_name())){
+			open_default_login_name=true;
+			model.setLogin_name(SysParamsConst.DEFAULT_LOGIN_NAME_PREFIX+model.getPhone()+String.valueOf(Constants.CONSTANT_INT_ZERO));
 		}
-		try {
-			/**校验推荐人*/
-			String share_id=null;//推荐人的memid
-			if (!StringUtil.isEmptyByString(share_man)) {
-				open_Share = false;
-				if(user_id.equals(share_man))
-				{
-					logger.info("当前注册请求IP地址=" + ip + "结束，推荐人不能是自己");
-					map.put(SysParamsConst.STATUS,ApiStatusConst.SHARE_MAN_CANNOT_ITSELF);
-					return map;
-				}
-				share_id = validShareMan(DESC.encryption(share_man));
-				if (StringUtil.isEmptyByString(share_id)) {
-					logger.info("当前注册请求IP地址=" + ip + "结束，推荐人不存在");
-					map.put(SysParamsConst.STATUS,ApiStatusConst.SHARE_MAN_NOT_EXIST);
-					return map;
-				}
-			} else {
-				open_Share = true;
-				share_man = SysParamsConst.MD1GW_DEFAULT_SHARE_LOGIN_NAME;
-				share_id = validShareMan(DESC.encryption(share_man));//系统默认推荐人
-				logger.info("外部当前注册请求IP地址=" + ip + "，系统默认推荐人为："+share_man);
+		if(!StringUtils.isEmpty(model.getShare_man())){
+			if(model.getLogin_name().equals(model.getShare_man())||model.getPhone().equals(model.getShare_man())){
+				throw new ServiceException(ApiStatusConst.SHARE_MAN_CANNOT_IS_ITSELF);
 			}
-			/**校验注册验证码*/
-			String rk="";//注册验证码的key
-			if(RedisTemplate.getJedisInstance().execExistsFromCache(rk))
-			{
-				String code=RedisTemplate.getJedisInstance().execGetFromCache(rk);
-				if(!code.equals(valid_code))
-				{
-					logger.info("当前注册请求IP地址=" + ip + "结束，验证码错误");
-					return map;
-				}
+		}
+		else {
+			open_default_share_man=true;
+			model.setShare_man(SysParamsConst.MD1GW_DEFAULT_SHARE_LOGIN_NAME);
+		}
+		//校验推荐人
+		MSMembersGet shareManInfo=shareMenService.checkShareMan(model.getShare_man());
+		
+		//校验注册验证码
+		RequestCheckValidateCode checkCode=new RequestCheckValidateCode();
+		checkCode.setPhone(model.getPhone());
+		checkCode.setType(Constants.CONSTANT_INT_TWO);
+		checkCode.setValidate_code(model.getValidate_code());
+		smsService.checkValidateCode(checkCode);
+		
+		//生成会员基本信息
+		MSMembersSet memberSet=new MSMembersSet();
+		Date date = new Date();
+		String memid=UUID.randomUUID().toString();
+		memberSet.setMemId(memid);
+		memberSet.setMemCreatedBy(memid);
+		memberSet.setMemLoginName(model.getLogin_name());
+		memberSet.setMemLoginNameIsdefaultIschanged(open_default_login_name?"0_1":"1_0");
+		memberSet.setMemOldPhone(model.getPhone());
+		memberSet.setMemPhone(model.getPhone());
+		memberSet.setMemLoginPwd(model.getPass_word());
+		memberSet.setMemNickName(model.getPhone());
+		memberSet.setMemCreatedDate(date);
+		memberSet.setMemCreatedCategory(1);
+		memberSet.setDictMemStatus(SysEncrypParamsConst.MEMBER_STATUS_OK);
+		memberSet.setMemParentId(shareManInfo.getMemId());
+		memberSet.setMemSignSource(String.valueOf(model.getSource()));//旧会员系统之前传的是O2O和1gw
+		memberSet.setMemIsAllActivated(true);
+		switch(model.getRole_type()){
+		case "1":memberSet.setMemIsAllowShop(SysEncrypParamsConst.MEMBERKAIDIAN_YES);
+		case "2":memberSet.setMemIsAllowShop(SysEncrypParamsConst.MEMBERKAIDIAN_NO);
+		}
+		memberSet.setMemBasicAccountTotal(String.valueOf(Constants.CONSTANT_INT_ZERO));
+		memberSet.setMemParentIsdefaultIschanged(open_default_share_man?"0_1":"1_0");
+		baseDao.insert(memberSet,"MSMembersMapper.insertMsMember");
+		//生成会员地址信息
+		MemberAddressesSet memberAddressesSet = new MemberAddressesSet();
+		memberAddressesSet.setMemaId(UUID.randomUUID().toString());
+		memberAddressesSet.setMemId(memid);
+		memberAddressesSet.setMemaStatus(String.valueOf(Constants.CONSTANT_INT_ZERO));
+		baseDao.insert(memberAddressesSet,"MSMemberAddressesMapper.addMemberAddressInfo");
+		//生成会员余额账户信息
+		MSAccount msAccount = new MSAccount();
+		msAccount.setId(UUID.randomUUID().toString());
+		msAccount.setMemId(memid);
+		msAccount.setType(SysParamsConst.ACCOUNT_TYPE_MONEY);
+		msAccount.setBalance(String.valueOf(Constants.CONSTANT_INT_ZERO));
+		msAccount.setFreezeBalance(String.valueOf(Constants.CONSTANT_INT_ZERO));
+		msAccount.setCreateDate(new Date());
+		msAccount.setUpdateDate(new Date());
+		baseDao.insert(msAccount,"MSMembersMapper.insertMsAccount");
+		//生成会员证件信息
+		/*MSMemberCertificate mc = new MSMemberCertificate();
+		mc.setMcerId(UUID.randomUUID().toString());
+		mc.setMemId(memid);
+		mc.setDictMcerId(SysEncrypParamsConst.CERTIFICATE_SFZ);
+		mc.setMcStatus(SysEncrypParamsConst.HUIYUANRENZHEN_WRZ);
+		baseDao.insert(null,"");*/
+		//生成会员角色信息
+		/*MSMemberRole mro = new MSMemberRole();
+		mro.setMemId(memid);
+		mro.setRoleId(SysEncrypParamsConst.PUTONGHUIYUAN);
+		baseDao.insert(null,"");*/
+		
+		//更新父类字符串，插入推荐人和粉丝的关联关系（后期数据库表结构改造后此处需修正）
+		setShareMenAndFunsRelation(memberSet,shareManInfo);
+	
+		//新会员送100积分和推荐人获赠100积分写入积分流水
+		userInfoService.updateCurrentPointByMemId(memid,String.valueOf(Constants.CONSTANT_INT_ZERO),SysParamsConst.MD1GW_REGISTER_ADD_POINTS);
+		String orderId=SysParamsConst.DEFAULT_ORDERID_PREFIX+ model.getLogin_name()+SysParamsConst.ADD_SYMBOL+String.valueOf(System.currentTimeMillis()/1000L);
+		insertConsumePointDetail(memid,orderId,String.valueOf(model.getSource()),SysParamsConst.MD1GW_REGISTER_ADD_POINTS,SysParamsConst.MD1GW_REGISTER_ADD_POINTS,model.getPhone(),SysEncrypParamsConst.POINTS_OPERATOR_TYPE_ZCZS);
+		if (!open_default_share_man) {
+			userInfoService.updateCurrentPointByMemId(shareManInfo.getMemId(),shareManInfo.getMemBasicAccountTotalQuantity(),SysParamsConst.MD1GW_REGISTER_ADD_POINTS);//一级分享人增加100积分
+			orderId=SysParamsConst.DEFAULT_ORDERID_PREFIX+ model.getShare_man()+SysParamsConst.ADD_SYMBOL+String.valueOf(System.currentTimeMillis()/1000L);
+			insertConsumePointDetail(shareManInfo.getMemId(),orderId,String.valueOf(model.getSource()),SysParamsConst.MD1GW_REGISTER_ADD_POINTS,SysParamsConst.MD1GW_REGISTER_ADD_POINTS,model.getPhone(),SysEncrypParamsConst.POINTS_OPERATOR_TYPE_YQZCZS);
+		}
+		
+		//生成token并写入redis，失效时间一个月
+		String redisToken=ToolsUtil.createToken(model.getPhone(),tokenKey);//生成token
+		RedisTemplate.getJedisInstance().execSetexToCache(redisToken,Constants.REDIS_ONEMONTH,memid);
+		RedisTemplate.getJedisInstance().execSetexToCache(memid,Constants.REDIS_ONEMONTH,redisToken);//临时代码，兼容旧会员系统
+		Map<String, Object> mapData=new HashMap<>();
+		mapData.put("token",redisToken);
+		resBodyData.setData(mapData);
+		
+		//给新会员发送注册成功短信
+		RequestSendSms requestSendSms=new RequestSendSms();
+		requestSendSms.setPhone(model.getPhone());
+		requestSendSms.setTemplateId(SmsTemplateIDConst.getSmsTemplate(SmsTemplateIDConst.REGIST_SUCCESS));
+		requestSendSms.setParams(model.getPhone());
+		smsService.sendSms(requestSendSms);
+		//给分享人发送获赠积分短信
+		requestSendSms.setPhone(shareManInfo.getMemPhone());
+		requestSendSms.setTemplateId(SmsTemplateIDConst.getSmsTemplate(SmsTemplateIDConst.GIVE_POINT));
+		requestSendSms.setParams(shareManInfo.getMemPhone());
+		smsService.sendSms(requestSendSms);
+		
+		return resBodyData;
+	}
+	
+	@Transactional
+	@Override
+	public ResBodyData registerO2O(RequestRegisterO2O model) throws MdSysException {
+		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		boolean open_default_share_man=false;//是否分配默认推荐人
+		boolean open_default_login_name=false;//是否分配默认登录名
+		String tokenKey=model.getTokenKey();
+		
+		//校验该账号是否已注册
+		validateService.checkUserIdExistsThrowable(model.getPhone());
+		
+		MSMembersGet shareManInfo=shareMenService.checkShareMan(SysParamsConst.MD1GW_DEFAULT_SHARE_LOGIN_NAME);
+
+		/**开始生成会员信息*/
+		MSMembersSet memberSet=new MSMembersSet();//生成会员基本信息
+		Date date = new Date();
+		String memid=UUID.randomUUID().toString();
+		memberSet.setMemId(memid);
+		memberSet.setMemCreatedBy(memid);
+		
+		memberSet.setMemLoginName(SysParamsConst.DEFAULT_LOGIN_NAME_PREFIX+model.getPhone()+String.valueOf(Constants.CONSTANT_INT_ZERO));
+		memberSet.setMemLoginNameIsdefaultIschanged(open_default_login_name?"0_1":"1_0");
+		memberSet.setMemOldPhone(model.getPhone());
+		memberSet.setMemPhone(model.getPhone());
+		memberSet.setMemLoginPwd(model.getPass_word());
+		memberSet.setMemNickName(model.getPhone());
+		memberSet.setMemCreatedDate(date);
+		memberSet.setMemCreatedCategory(1);
+		memberSet.setDictMemStatus(SysEncrypParamsConst.MEMBER_STATUS_OK);
+		memberSet.setMemParentId(shareManInfo.getMemId());
+		memberSet.setMemSignSource("8");
+		memberSet.setMemIsAllActivated(true);
+		memberSet.setMemIsAllowShop(SysEncrypParamsConst.MEMBERKAIDIAN_NO);
+		memberSet.setMemBasicAccountTotal(String.valueOf(Constants.CONSTANT_INT_ZERO));
+		memberSet.setMemParentIsdefaultIschanged(open_default_share_man?"0_1":"1_0");
+		baseDao.insert(memberSet,"MSMembersMapper.insertMsMember");
+		
+		MemberAddressesSet memberAddressesSet = new MemberAddressesSet();//生成会员地址信息
+		memberAddressesSet.setMemaId(UUID.randomUUID().toString());
+		memberAddressesSet.setMemId(memid);
+		memberAddressesSet.setMemaStatus(String.valueOf(Constants.CONSTANT_INT_ZERO));
+		baseDao.insert(memberAddressesSet,"MSMemberAddressesMapper.addMemberAddressInfo");
+		
+		MSAccount msAccount = new MSAccount();//生成会员余额账户信息
+		msAccount.setId(UUID.randomUUID().toString());
+		msAccount.setMemId(memid);
+		msAccount.setType(SysParamsConst.ACCOUNT_TYPE_MONEY);
+		msAccount.setBalance(String.valueOf(Constants.CONSTANT_INT_ZERO));
+		msAccount.setFreezeBalance(String.valueOf(Constants.CONSTANT_INT_ZERO));
+		msAccount.setCreateDate(new Date());
+		msAccount.setUpdateDate(new Date());
+		baseDao.insert(msAccount,"MSMembersMapper.insertMsAccount");
+		
+		/*MSMemberCertificate mc = new MSMemberCertificate();//生成会员证件信息
+		mc.setMcerId(UUID.randomUUID().toString());
+		mc.setMemId(memid);
+		mc.setDictMcerId(SysEncrypParamsConst.CERTIFICATE_SFZ);
+		mc.setMcStatus(SysEncrypParamsConst.HUIYUANRENZHEN_WRZ);
+		baseDao.insert(null,"");*/
+		
+		/*MSMemberRole mro = new MSMemberRole();//生成会员角色信息
+		mro.setMemId(memid);
+		mro.setRoleId(SysEncrypParamsConst.PUTONGHUIYUAN);
+		baseDao.insert(null,"");*/
+		
+		String redisToken=ToolsUtil.createToken(model.getPhone(),tokenKey);//生成token
+		RedisTemplate.getJedisInstance().execSetexToCache(redisToken,Constants.REDIS_ONEMONTH,memid);//把token存储到redis，并设置失效时间一个月
+		RedisTemplate.getJedisInstance().execSetexToCache(memid,Constants.REDIS_ONEMONTH,redisToken);//临时代码，兼容旧会员系统
+		Map<String, Object> mapData=new HashMap<>();
+		mapData.put("token",redisToken);
+		mapData.put("user_id",model.getPhone());
+		resBodyData.setData(mapData);
+	
+		return resBodyData;
+	}
+	
+	@Transactional
+	@Override
+	public ResBodyData registerScanCode(RequestRegister model) throws MdSysException {
+		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		boolean open_default_share_man=false;//是否分配默认推荐人
+		boolean open_default_login_name=false;//是否分配默认登录名
+		String tokenKey=model.getTokenKey();
+		validateService.checkUserIdExistsThrowable(model.getPhone());
+		/**校验推荐人,没传就分配默认的*/
+		if(!StringUtils.isEmpty(model.getShare_man())){
+			if(model.getPhone().equals(model.getShare_man())){
+				throw new ServiceException(ApiStatusConst.SHARE_MAN_CANNOT_IS_ITSELF);
 			}
-			else
-			{
-				logger.info("当前注册请求IP地址=" + ip + "结束，验证码不存在");
-				return map;
+		}
+		else {
+			open_default_share_man=true;
+			model.setShare_man(SysParamsConst.MD1GW_DEFAULT_SHARE_LOGIN_NAME);
+		}
+		MSMembersGet shareManInfo=shareMenService.checkShareMan(model.getShare_man());
+		/**校验注册验证码*/
+		RequestCheckValidateCode checkCode=new RequestCheckValidateCode();
+		checkCode.setPhone(model.getPhone());
+		checkCode.setType(Constants.CONSTANT_INT_TWO);
+		checkCode.setValidate_code(model.getValidate_code());
+		smsService.checkValidateCode(checkCode);
+		/**开始生成会员信息*/
+		MSMembersSet memberSet=new MSMembersSet();//生成会员基本信息
+		Date date = new Date();
+		String memid=UUID.randomUUID().toString();
+		memberSet.setMemId(memid);
+		memberSet.setMemCreatedBy(memid);
+		memberSet.setMemLoginName(SysParamsConst.DEFAULT_LOGIN_NAME_PREFIX+model.getPhone()+String.valueOf(Constants.CONSTANT_INT_ZERO));
+		memberSet.setMemLoginNameIsdefaultIschanged(open_default_login_name?"0_1":"1_0");
+		memberSet.setMemOldPhone(model.getPhone());
+		memberSet.setMemPhone(model.getPhone());
+		memberSet.setMemLoginPwd(model.getPass_word());
+		memberSet.setMemNickName(model.getPhone());
+		memberSet.setMemIsAllActivated(true);
+		memberSet.setMemCreatedDate(date);
+		memberSet.setMemCreatedCategory(1);
+		memberSet.setDictMemStatus(SysEncrypParamsConst.MEMBER_STATUS_OK);
+		memberSet.setMemParentId(shareManInfo.getMemId());
+		memberSet.setMemSignSource(String.valueOf(model.getSource()));
+		switch(model.getRole_type()){
+		case "1":memberSet.setMemIsAllowShop(SysEncrypParamsConst.MEMBERKAIDIAN_YES);
+		case "2":memberSet.setMemIsAllowShop(SysEncrypParamsConst.MEMBERKAIDIAN_NO);
+		}
+		memberSet.setMemBasicAccountTotal(String.valueOf(Constants.CONSTANT_INT_ZERO));
+		memberSet.setMemBasicAccountTotal(String.valueOf(Constants.CONSTANT_INT_ZERO));
+		memberSet.setMemParentIsdefaultIschanged(open_default_share_man?"0_1":"1_0");
+		baseDao.insert(memberSet,"MSMembersMapper.insertMsMember");
+		
+		MemberAddressesSet memberAddressesSet = new MemberAddressesSet();//生成会员地址信息
+		memberAddressesSet.setMemaId(UUID.randomUUID().toString());
+		memberAddressesSet.setMemId(memid);
+		memberAddressesSet.setMemaStatus(String.valueOf(Constants.CONSTANT_INT_ZERO));
+		baseDao.insert(memberAddressesSet,"MSMemberAddressesMapper.addMemberAddressInfo");
+		
+		MSAccount msAccount = new MSAccount();//生成会员余额账户信息
+		msAccount.setId(UUID.randomUUID().toString());
+		msAccount.setMemId(memid);
+		msAccount.setType(SysParamsConst.ACCOUNT_TYPE_MONEY);
+		msAccount.setBalance(String.valueOf(Constants.CONSTANT_INT_ZERO));
+		msAccount.setFreezeBalance(String.valueOf(Constants.CONSTANT_INT_ZERO));
+		msAccount.setCreateDate(new Date());
+		msAccount.setUpdateDate(new Date());
+		baseDao.insert(msAccount,"MSMembersMapper.insertMsAccount");
+		
+		/*MSMemberCertificate mc = new MSMemberCertificate();//生成会员证件信息
+		mc.setMcerId(UUID.randomUUID().toString());
+		mc.setMemId(memid);
+		mc.setDictMcerId(SysEncrypParamsConst.CERTIFICATE_SFZ);
+		mc.setMcStatus(SysEncrypParamsConst.HUIYUANRENZHEN_WRZ);
+		baseDao.insert(null,"");*/
+		
+		/*MSMemberRole mro = new MSMemberRole();//生成会员角色信息
+		mro.setMemId(memid);
+		mro.setRoleId(SysEncrypParamsConst.PUTONGHUIYUAN);
+		baseDao.insert(null,"");*/
+		
+		//更新父类字符串（获取粉丝明细会用到，后期数据库表结构改造后此处需修正）
+		setShareMenAndFunsRelation(memberSet,shareManInfo);
+	
+		/**增加积分并写入积分流水*/
+		userInfoService.updateCurrentPointByMemId(memid,String.valueOf(Constants.CONSTANT_INT_ZERO),SysParamsConst.MD1GW_REGISTER_ADD_POINTS);
+		String orderId=SysParamsConst.DEFAULT_ORDERID_PREFIX+ model.getPhone()+SysParamsConst.ADD_SYMBOL+String.valueOf(System.currentTimeMillis()/1000L);
+		insertConsumePointDetail(memid,orderId,String.valueOf(model.getSource()),SysParamsConst.MD1GW_REGISTER_ADD_POINTS,SysParamsConst.MD1GW_REGISTER_ADD_POINTS,model.getPhone(),SysEncrypParamsConst.POINTS_OPERATOR_TYPE_ZCZS);
+		if (!open_default_share_man) {//如果推荐人非系统默认
+			userInfoService.updateCurrentPointByMemId(shareManInfo.getMemId(),shareManInfo.getMemBasicAccountTotalQuantity(),SysParamsConst.MD1GW_REGISTER_ADD_POINTS);//一级分享人增加100积分
+			orderId=SysParamsConst.DEFAULT_ORDERID_PREFIX+ model.getShare_man()+SysParamsConst.ADD_SYMBOL+String.valueOf(System.currentTimeMillis()/1000L);
+			insertConsumePointDetail(shareManInfo.getMemId(),orderId,String.valueOf(model.getSource()),SysParamsConst.MD1GW_REGISTER_ADD_POINTS,SysParamsConst.MD1GW_REGISTER_ADD_POINTS,model.getPhone(),SysEncrypParamsConst.POINTS_OPERATOR_TYPE_YQZCZS);
+		}
+		
+		String redisToken=ToolsUtil.createToken(model.getPhone(),tokenKey);//生成token
+		RedisTemplate.getJedisInstance().execSetexToCache(redisToken,Constants.REDIS_ONEMONTH,memid);//把token存储到redis，并设置失效时间一个月
+		RedisTemplate.getJedisInstance().execSetexToCache(memid,Constants.REDIS_ONEMONTH,redisToken);//临时代码，兼容旧会员系统
+		Map<String, Object> mapData=new HashMap<>();
+		mapData.put("token",redisToken);
+		resBodyData.setData(mapData);
+		
+		/**发送注册成功短信*/
+		RequestSendSms requestSendSms=new RequestSendSms();
+		requestSendSms.setPhone(model.getPhone());
+		requestSendSms.setTemplateId(SmsTemplateIDConst.getSmsTemplate(SmsTemplateIDConst.REGIST_SCAN_CODE_SUCCESS));
+		requestSendSms.setParams(model.getPhone());
+		smsService.sendSms(requestSendSms);
+		/**发送分享人赠送积分短信...*/
+		requestSendSms.setPhone(shareManInfo.getMemPhone());
+		requestSendSms.setTemplateId(SmsTemplateIDConst.getSmsTemplate(SmsTemplateIDConst.GIVE_POINT));
+		requestSendSms.setParams(shareManInfo.getMemPhone());
+		smsService.sendSms(requestSendSms);
+		return resBodyData;
+	}
+	
+	/**增加积分明细
+	 * @throws MdSysException */
+	private final void insertConsumePointDetail(String memid,String orderid,String ordersource,String consumepoint,String balance,String phone,String operatetype) throws MdSysException
+	{
+		Date nowDate = new Date(System.currentTimeMillis());
+		MSConsumePointsDetail consumePointsDetail=new MSConsumePointsDetail();
+		consumePointsDetail.setMcpId(UUID.randomUUID().toString());
+		consumePointsDetail.setMemId(memid);
+		consumePointsDetail.setMcpOrderId(orderid);
+		consumePointsDetail.setMcpOrderSource(SerialStringUtil.getDictOrderSource(ordersource));
+		consumePointsDetail.setMcpIncome(DESC.encryption(consumepoint,memid));
+		consumePointsDetail.setMcpExpenditure(DESC.encryption(String.valueOf(Constants.CONSTANT_INT_ZERO),memid));
+		consumePointsDetail.setMcpBalance(DESC.encryption(balance,memid));
+		consumePointsDetail.setMcpOperatorType(operatetype);
+		consumePointsDetail.setMcpRemark(SerialStringUtil.getPointsRemark(operatetype,phone));
+		consumePointsDetail.setMcpCreatedBy(memid);
+		consumePointsDetail.setMcpUpdatedBy(memid);
+		consumePointsDetail.setMcpCreatedDate(nowDate);
+		consumePointsDetail.setMcpUpdatedDate(nowDate);
+		baseDao.insert(consumePointsDetail,"MSConsumePointsDetailMapper.saveConsumePointsDetails");
+	}
+	
+	/**
+	 * 设置推荐人和粉丝的关联关系
+	 * @param msMembersSet 会员信息
+	 */
+	private void setShareMenAndFunsRelation(MSMembersSet msMembersSet,MSMembersGet shareManInfo){
+		// 定义一个集合，存放所有需要变更的会员
+		ArrayList<MSMembersGet> groupMems = new ArrayList<MSMembersGet>();
+		// 首先获取到注册会员的直接父节点A
+		MSMembersGet parentMember = shareManInfo;
+		// 给直接父节点A设置所有孩子
+		String memParentValue2 = parentMember.getMemParentValue2();
+		if(!StringUtil.isEmptyByString(memParentValue2)){
+			parentMember.setMemParentValue2(msMembersSet.getMemId() + "," + memParentValue2);
+		}else {
+			parentMember.setMemParentValue2(msMembersSet.getMemId());
+		}
+		// 给直接父节点A增加亲儿子
+		String memParentValue3 = parentMember.getMemParentValue3();
+		if(!StringUtil.isEmptyByString(memParentValue3)){
+			parentMember.setMemParentValue3(msMembersSet.getMemId() + "," + memParentValue3);
+		}else {
+			parentMember.setMemParentValue3(msMembersSet.getMemId());
+		}
+		groupMems.add(parentMember);
+		
+		// 再拿到根据父节点A 的parentValue1 拿到A 的所有父节点
+		String parentValue1 = parentMember.getMemParentValue1();
+		if(!StringUtil.isEmptyByString(parentValue1)){
+			if(parentValue1.trim().endsWith(",")){
+				parentValue1 = parentValue1.substring(0, parentValue1.length()-1);
 			}
-			/**校验手机号*/
-			if(validUserId(DESC.encryption(phone)))
-			{
-				logger.info("当前注册请求IP地址=" + ip + "结束，该手机号已经被注册");
-				return map;
-			}
-			/**校验用户名*/
-			if(validUserId(DESC.encryption(user_id)))
-			{
-				logger.info("当前注册请求IP地址=" + ip + "结束，该用户名已经被注册");
-				map.put(SysParamsConst.STATUS,ApiStatusConst.LOGINNAME_ALREADY_REGISTED);
-				return map;
-			}
-			/**注册流程开始*/
-			MSMembersSet memberSet=new MSMembersSet();//生成会员基本信息
-			Date date = new Date();
-			String memid=UUID.randomUUID().toString();
-			memberSet.setMemId(memid);
-			memberSet.setMemCreatedBy(memid);
-			memberSet.setMemLoginName(user_id);
-			memberSet.setMemLoginNameIsdefaultIschanged(jsonObject.containsKey("user_id")?"0_1":"1_0");//是否分配默认登录名
-			memberSet.setMemOldPhone(phone);
-			memberSet.setMemPhone(phone);
-			memberSet.setMemLoginPwd(pass_word);
-			memberSet.setMemNickName(phone);
-			memberSet.setMemCreatedDate(date);
-			memberSet.setMemCreatedCategory(1);// 创建
-			memberSet.setDictMemStatus(SysEncrypParamsConst.MEMBER_STATUS_OK);//会员账号状态
-			memberSet.setMemParentId(share_id);//推荐人memid
-			if ("O2O".equals(sign_source)) {
-				memberSet.setMemSignSource("1");
-			}
-			if ("1gw".equals(sign_source)) {
-				memberSet.setMemSignSource("3");
-			}
-			if ("1".equals(register_type)) {//商家
-				memberSet.setMemIsAllowShop(SysEncrypParamsConst.MEMBERKAIDIAN_YES);
-			}
-			if ("2".equals(register_type)) {//普通会员
-				memberSet.setMemIsAllowShop(SysEncrypParamsConst.MEMBERKAIDIAN_NO);
-			}
-			memberSet.setMemBasicAccountTotal("0");//基本账户总额
-			memberSet.setMemIsAllActivated(true);//是否所有绑定
-			if(open_Share){
-				memberSet.setMemLoginNameIsdefaultIschanged("1_0");//是否分配默认推荐人
-			}else{
-				memberSet.setMemLoginNameIsdefaultIschanged("0_1");	
-			}
-			//2、生成会员地址信息
-			MemberAddressesSet ms = new MemberAddressesSet();
-			ms.setMemaId(UUID.randomUUID().toString());
-			ms.setMemId(memid);
-			ms.setMemaStatus("0");
-			//3、生成会员账户信息
-			MSMemberBasicAccount mb = new MSMemberBasicAccount();
-			mb.setMbaId(UUID.randomUUID().toString());
-			mb.setMemId(memid);
-			mb.setMbaTotalQuantity("0");//基本账户总额
-			mb.setMbaCreatedDate(new Date());
-			//4、生成会员证件信息
-			MSMemberCertificate mc = new MSMemberCertificate();
-			mc.setMcerId(UUID.randomUUID().toString());
-			mc.setMemId(memid);
-			mc.setDictMcerId(SysEncrypParamsConst.CERTIFICATE_SFZ);//会员证件类型
-			mc.setMcStatus(SysEncrypParamsConst.HUIYUANRENZHEN_WRZ);//认证状态，默认未认证
-			//5、生成会员角色信息
-			MSMemberRole mro = new MSMemberRole();
-			mro.setMemId(memid);
-			mro.setRoleId(SysEncrypParamsConst.PUTONGHUIYUAN);
-			//插入以上信息到数据库
-			MSMemLoginLog ml = new MSMemLoginLog();
-			if(insertMembserInfo(memberSet, ms, mb, mc, mro))
-			{
-				// 更新父类字符串 获取粉丝明细会用到
-				/*baseDao.update(memberSet,"");*/
-				//生成会员登录日志
-				ml.setMemId(memid);
-				ml.setMllogAction(SysParamsConst.REGISERTER);
-				ml.setMllogContent("外部接口" + phone + "注册成功");
-				ml.setMllogCreatedBy(memid);
-				ml.setMllogCreatedDate(new Date());
-				ml.setMllogId(UUID.randomUUID().toString());
-				ml.setMllogIp(jsonObject.getString("ip"));
-				ml.setMllogModule(SysParamsConst.LOGIN_WB);
-				ml.setMllogRemark("外部接口" + phone + "注册成功");
-				ml.setMllogStatus(SysParamsConst.REGISERTER);
+			String[] allParentId = parentValue1.split(",");
 			
-			/**发送注册成功短信*/
+			// 给注册会员增加ParentValue1 的值
+			msMembersSet.setMemParentValue1(shareManInfo.getMemId() + ","+parentValue1);
+			// 给注册会员增加层级数
+			msMembersSet.setMemGroupLevel(String.valueOf(allParentId.length + 2));
 			
-			/**新注册成功用户增加100积分*/
-			ResponseMemberBasicInfo memberBasicInfoDTO = baseDao.selectOne(memid,"MSMembersMapper.getRespMemberBasicInfoByMemId");
-			if(memberBasicInfoDTO != null){
-				//订单编号
-				String orderId = "1GW+" + memberBasicInfoDTO.getLogin_name()+ "+" + String.valueOf(System.currentTimeMillis()/1000L);
-				//注册人增加100积分
-				int i=addMDConsumePoints(memberBasicInfoDTO,SysParamsConst.MD1GW_REGISTER_ADD_POINTS);
-				if(i>0)
-				{
-					//写入增加积分日志
-					addConsumePointDetail(memid,orderId,sign_source,SysParamsConst.MD1GW_REGISTER_ADD_POINTS,SysParamsConst.MD1GW_REGISTER_ADD_POINTS,phone,SysEncrypParamsConst.POINTS_OPERATOR_TYPE_ZCZS);
-					//推荐人增加100积分
-					if((!StringUtil.isEmptyByString(share_id))){
-						//如果推荐人不是美兑
-						if (!SysParamsConst.MD1GW_DEFAULT_SHARE_LOGIN_NAME.equals(share_man)) {
-							ResponseMemberBasicInfo member_shareman = baseDao.selectOne(share_id,"MSMembersMapper.getRespMemberBasicInfoByMemId");
-							//订单编号
-							orderId = "1GW+" +share_man+ "+" + String.valueOf(System.currentTimeMillis()/1000L);
-							//一级分享人增加100积分
-							addMDConsumePoints(member_shareman,SysParamsConst.MD1GW_REGISTER_ADD_POINTS);
-							//写入增加积分日志
-							addConsumePointDetail(share_id,orderId,sign_source,SysParamsConst.MD1GW_REGISTER_ADD_POINTS,SysParamsConst.MD1GW_REGISTER_ADD_POINTS,phone,SysEncrypParamsConst.POINTS_OPERATOR_TYPE_YQZCZS);
-							//发送分享人赠送积分短信
+			// 更改A 的所有父节点的ParentValue2
+			for (String everyParentId : allParentId) {
+				if(!StringUtil.isEmptyByString(everyParentId)){
+					Map<String,Object> mapCondition=new HashMap<>();
+					mapCondition.put("memId",everyParentId);
+					MSMembersGet everyParent = baseDao.selectOne(mapCondition,"MSMembersMapper.getMemberBasicInfoByCondition");
+					if(everyParent != null){
+						String value2 = everyParent.getMemParentValue2();
+						if(!StringUtil.isEmptyByString(value2)){
+							everyParent.setMemParentValue2(msMembersSet.getMemId() + "," + value2);
+						}else{
+							everyParent.setMemParentValue2(msMembersSet.getMemId());
 						}
+						groupMems.add(everyParent);
 					}
 				}
 			}
-			//写入会员登录日志
-			baseDao.insert(ml,"MSMemLoginLogMapper.insertMemberLoginLog");
-			}
-			
-		} catch (Exception e) {
-			logger.error("注册请求发生错误："+e.getMessage());
-			map.put(SysParamsConst.STATUS,"9999");
-			map.put(SysParamsConst.MSG,e.getMessage());
+		}else{
+			// 给注册会员增加ParentValue1 的值
+			msMembersSet.setMemParentValue1(shareManInfo.getMemId());
+			// 给注册会员增加层级数
+			msMembersSet.setMemGroupLevel("2");
 		}
-		return map;
-	}
-
-	/**
-	 * 用户退出
-	 */
-	public Map<String, Object> exit(JSONObject jsonObject) {
-		return null;
-	}
-
-	/**
-	 * APP打开时检查token是否有效
-	 */
-	@Override
-	public Map<String, Object> checktoken(JSONObject jsonObject) {
-		Map<String, Object> map=new HashMap<String, Object>();
-		String token=null;//token
-		try {
-			if(!jsonObject.containsKey(SysParamsConst.TOKEN))
-			{
-				map.put(SysParamsConst.STATUS, ApiStatusConst.TOKEN_ERROR);
-				return map;
-			}
-			//如果不存在token或者对应的值不对
-			RedisTemplate rt=RedisTemplate.getJedisInstance();
-			token=jsonObject.getString(SysParamsConst.TOKEN);
-			if(!rt.execExistsFromCache(token))
-			{
-				map.put(SysParamsConst.STATUS, ApiStatusConst.TOKEN_ERROR);
-				return map;
-			}
-			String memid=rt.execGetFromCache(token);
-			if(StringUtil.isEmptyByString(memid))
-			{
-				map.put(SysParamsConst.STATUS, ApiStatusConst.TOKEN_ERROR);
-				return map;
-			}
-			ResponseMemberBasicInfo memberBasicInfoDTO=baseDao.selectOne(memid,"MSMembersMapper.getRespMemberBasicInfoByMemId");
-			if(memberBasicInfoDTO==null)
-			{
-				map.put(SysParamsConst.STATUS, ApiStatusConst.MEMBER_NOT_EXIST);
-				return map;
-			}
-			Map<String, Object> result_map=new HashMap<>();
-			result_map.put("user_id",memberBasicInfoDTO.getLogin_name());
-			map.put(SysParamsConst.STATUS,"1");
-			map.put(SysParamsConst.DATA,result_map); 
-		} catch (Exception e) {
-			logger.info("服务器错误{}",e.getMessage());
-			map.put(SysParamsConst.MSG,e.getMessage());
+		MSMembersGet newModel=new MSMembersGet();
+		BeanUtils.copyProperties(msMembersSet,newModel);
+		groupMems.add(newModel);
+		for(MSMembersGet model:groupMems){
+			baseDao.update(model,"MSMembersMapper.updateParentValue");
 		}
-		return map;
 	}
-	
-	/**
-	 * 生成短信验证码
-	 * @throws Exception 
-	 */
-    @Override
-	public Map<String, Object> createValidateCode(JSONObject jsonObject) throws Exception {
-		Map<String, Object> map=new HashMap<>();
-		/*try {
-			if(!jsonObject.containsKey("phone"))
-			{
-				map.put(SysParaNameConst.STATUS, ApiStatusConst.PHONE_ERROR);
-				map.put(SysParaNameConst.MSG, ApiStatusConst.PHONE_ERROR_C);
-				return map;
-			}
-			String type=jsonObject.getString("type");
-			String url=SystemConfig.getInstance().configMap.get("Push_Service_Address");
-			String code=ToolsUtil.getValidateCode();
-			String code="123456";
-			jsonObject.put(OauthConst.CLIENT_ID,"");//这个clientID是gateway分配给接入层的，不是接入层分配给前端APP的
-			jsonObject.put(OauthConst.TIMESATAMP,System.currentTimeMillis());
-			jsonObject.put("content",code);
-			String sign=ToolsUtil.getSign(jsonObject);//注意此方法需要修改，缺参数
-			jsonObject.put(OauthConst.SIGN,sign);
-			Logger.info("请求获取验证码接口："+url+" 参数："+jsonObject.toString());
-			String result=shortMessageService.getValidateCode(url,jsonObject.toString());
-			JSONObject jresult=(JSONObject)JSONObject.parse(result);
-			//上面需要判断短信是否发送成功
-			if("0".contains(jresult.getString(SysParaNameConst.STATUS)))
-			{
-				switch (type) {
-				case "1":
-					JedisUtil.getJedisInstance().execSetexToCache(SysParaNameConst.REDISKEY_REGISTER_VALIDATE_CODE+jsonObject.containsKey("phone"),Constants.REDIS_ONEMONTH*3,code);
-					break;
-
-				default:
-					break;
-				}
-			}
-			switch (type) {
-			case "1"://注册
-				JedisUtil.getJedisInstance().execSetexToCache(SysParaNameConst.REDISKEY_REGISTER_VALIDATE_CODE+jsonObject.getString("phone"),Constants.REDIS_HALFMINUTE*2,code);
-				break;
-			case "6"://修改手机号
-				JedisUtil.getJedisInstance().execSetexToCache(SysParaNameConst.UPDATE_PHONE_VALIDATE_CODE+jsonObject.getString("phone"),Constants.REDIS_HALFMINUTE*2,code);
-				break;
-			default:
-				break;
-			}
-		} catch (Exception e) {
-			throw e;
-		}
-		map.put(SysParaNameConst.STATUS, ApiStatusConst.SUCCESS);
-		map.put(SysParaNameConst.MSG, ApiStatusConst.SUCCESS_C);
-		
-		if(!jsonObject.containsKey("phone"))
-		{
-			map.put(SysParaNameConst.STATUS, ApiStatusConst.PHONE_ERROR);
-			map.put(SysParaNameConst.MSG, ApiStatusConst.PHONE_ERROR_C);
-			return map;
-		}
-		TaoBaoApiHelper helper = new TaoBaoApiHelper("http://gw.api.taobao.com/router/rest","23610521","1b6e3af2b15c01c4239e1d0f12481992");
-		TaobaoHashMap map2 = new TaobaoHashMap();
-		map.put("sms_type", CodeHelper.SMS_TYPE);
-		map.put("sms_free_sign_name", CodeHelper.SMS_FREE_SIGN_NAME);
-		map.put("sms_template_code", "SMS_13011423");
-		map.put("rec_num",jsonObject.getString("phone"));																																															
-		map.put("method",  CodeHelper.SEND_SMS_SERVICE_URL);
-		map.put("sms_param", String.format(CodeHelper.CODE_PRODUCT, ToolsUtil.getValidateCode(),CodeHelper.SMS_FREE_SIGN_NAME));
-		TaobaoResponse result=helper.execute(map2);*/
-		return map;
-	}
-	
-	/**校验是否有推荐人*/
-	private final String  validShareMan(String share_man_id) throws Exception
-	{
-		String memId=null;
-		Map<String, Object> mapCondition=new HashMap<>();
-		MSMembersGet msMembersGet=null;
-		try {
-			mapCondition.put("memId",DESC.encryption(share_man_id));
-			msMembersGet=baseDao.selectOne(mapCondition,"MSMembersMapper.getMemberBasicInfoByCondition");
-			memId=msMembersGet.getMemId();
-		} catch (Exception e) {
-			throw e;
-		}
-		return memId;
-	}
-	
-	/**校验user_id是否已经被注册*/
-	private final boolean validUserId(String phone) throws Exception
-	{
-		MSMembersGet msMembersGet=null;
-		String pfid=null;
-		try {
-			msMembersGet=baseDao.selectOne(phone,"MSMembersMapper.getMemberBasicInfoByCondition");//根据手机号查询会员表是否存在记录
-			String memid=msMembersGet.getMemId();
-			pfid=baseDao.selectOne(phone,"MSPlatFormsMapper.getPfRecordByUserId");//根据手机号查询是否是平台人员注册
-			if(StringUtil.isEmptyByString(memid)&&StringUtil.isEmptyByString(pfid))
-				return true;
-		} catch (Exception e) {
-			throw e;
-		}
-		return false;
-	}
-	
-	/**插入会员基本信息以及相关联的信息*/
-	@Transactional
-	private final boolean insertMembserInfo(MSMembersSet msMembersSet,MemberAddressesSet memberAddressesSet,MSMemberBasicAccount account,MSMemberCertificate certificate,MSMemberRole role) throws Exception
-	{
-		try {
-			int i1=baseDao.insert(msMembersSet,"");
-			int i2=baseDao.insert(memberAddressesSet,"");
-			int i3=baseDao.insert(account,"");
-			int i4=baseDao.insert(certificate,"");
-			int i5=baseDao.insert(role,"");
-			if(i1>0&&i2>0&&i3>0&&i4>0&&i5>0)
-			{
-				return true;
-			}
-		} catch (Exception e) {
-			throw e;
-		}
-		return false;
-	}
-	
-	/**修改会员基本账户总额*/
-	private final int addMDConsumePoints(ResponseMemberBasicInfo member, String consumePoints) throws Exception {
-		int returnBool =0;
-		try {
-			//增加基本账户总额
-			double addAtq = DoubleCalculate.add(
-					Double.valueOf(member.getTotalpoints()),
-					Double.valueOf(consumePoints));
-			//修改会员基本账户总额
-			Map<String,Object> map=new HashMap<>();
-			map.put("memId",member.getMemId());
-			map.put("addAtq",Double.toString(addAtq)); 
-			returnBool =baseDao.update(map,"MSMembersMapper.updateAccountPointsByMemId");
-		} catch (Exception e) {
-			throw e;
-		}
-		return returnBool;
-	}
-	
-	/**增加积分明细*/
-	private final int addConsumePointDetail(String memid,String orderid,String ordersource,String consumepoint,String balance,String phone,String operatetype) throws Exception
-	{
-		int i=0;
-		try {
-			Date nowDate = new Date(System.currentTimeMillis());
-			MSConsumePointsDetail consumePointsDetail=new MSConsumePointsDetail();
-			consumePointsDetail.setMcpId(UUID.randomUUID().toString());
-			consumePointsDetail.setMemId(memid);
-			consumePointsDetail.setMcpOrderId(orderid);
-			consumePointsDetail.setMcpOrderSource(SerialStringUtil.getDictOrderSource(ordersource));
-			consumePointsDetail.setMcpIncome("0");
-			consumePointsDetail.setMcpExpenditure(consumepoint);
-			consumePointsDetail.setMcpBalance(balance);
-			consumePointsDetail.setMcpOperatorType(operatetype);
-			consumePointsDetail.setMcpRemark(SerialStringUtil.getPointsRemark(operatetype,phone));
-			consumePointsDetail.setMcpCreatedBy(memid);
-			consumePointsDetail.setMcpUpdatedBy(memid);
-			consumePointsDetail.setMcpCreatedDate(nowDate);
-			consumePointsDetail.setMcpUpdatedDate(nowDate);
-			i=baseDao.insert(consumePointsDetail,"MSConsumePointsDetailMapper.saveConsumePointsDetails");
-		} catch (Exception e) {
-			throw e;
-		}
-		return i;
-	}
-
 
 }

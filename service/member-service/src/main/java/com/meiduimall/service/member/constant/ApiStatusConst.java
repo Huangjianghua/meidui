@@ -25,17 +25,33 @@ public abstract class ApiStatusConst extends BaseApiCode {
 	public final static Integer MEMBER_NOT_EXIST=8002;
 	public final static Integer PASSWORD_ERROR=8003;
 	public final static Integer TOKEN_ERROR=8004;
-	public final static Integer PASSWORD_OR_USERNAME_ERROR=8005;
+	public final static Integer EXIT_ERROR=8005;
 	public final static Integer PHONE_ALREADY_REGISTED=8006;
 	public final static Integer LOGINNAME_ALREADY_REGISTED=8007;
-	public final static Integer SHARE_MAN_CANNOT_ITSELF=8008;
+	public final static Integer SHARE_MAN_CANNOT_IS_ITSELF=8008;
 	public final static Integer SHARE_MAN_NOT_EXIST=8009;
 	public final static Integer MEMBER_FORBIDDEN=8011;
 	public final static Integer MEMBER_LOCK=8012;
 	
-	public final static Integer GET_USERINFO_EXCEPTION=8012;
-	public final static Integer SET_PAYPWD_STATUS_EXCEPTION=8013;
-	public final static Integer LOGIN_EXCEPTION=8014;
+	public final static Integer GET_USERINFO_EXCEPTION=8013;
+	public final static Integer SET_PAYPWD_STATUS_EXCEPTION=8014;
+	public final static Integer LOGIN_EXCEPTION=8015;
+	public final static Integer GET_VALIDATE_CODE_EXCEPTION=8016;
+	public final static Integer REGISTER_EXCEPTION=8017;
+	public final static Integer CHECK_TOKEN_NOT_PASS=8018;
+	public final static Integer ACCOUNT_EXCEPTION=8019;
+	public final static Integer CHECK_VALIDATE_CODE_NOT_PASS=8020;
+	public final static Integer SEND_SMS_FAILED=8021;
+	
+	public final static Integer LOGIN_UNLOCK_LIST_EXCEPTION=8022;
+	public final static Integer LOGIN_UNLOCK_EXCEPTION=8023;
+	public final static Integer RESET_ACCOUNT_PWD_EXCEPTION=8024;
+	public final static Integer UNDISABLED_ACCOUNT_EXCEPTION=8025;
+	public final static Integer DISABLED_ACCOUNT_EXCEPTION=8026;
+	
+	public final static Integer ACCOUNT_MEMBER_ID_NULL=8027;
+	public final static Integer USERID_IS_EXIST=8028;
+	public final static Integer REGISTER_SOURCE_WRONG=8029;
 	
 	static {
 		zhMsgMap.put(REQUIRED_PARAM_EMPTY, "必填参数为空");
@@ -50,20 +66,37 @@ public abstract class ApiStatusConst extends BaseApiCode {
 		zhMsgMap.put(DB_INSERT_EXCEPTION, "数据库插入失败");
 		
 		zhMsgMap.put(USERNAME_ERROR, "用户名输入错误");
-		zhMsgMap.put(MEMBER_NOT_EXIST, "当前用户不存在");
+		zhMsgMap.put(MEMBER_NOT_EXIST, "该用户不存在，请先注册");
 		zhMsgMap.put(PASSWORD_ERROR, "密码输入错误");
 		zhMsgMap.put(TOKEN_ERROR, "用户令牌错误");
-		zhMsgMap.put(PASSWORD_OR_USERNAME_ERROR, "用户或密码输入错误");
+		zhMsgMap.put(EXIT_ERROR, "退出登录异常，请联系客服");
 		zhMsgMap.put(PHONE_ALREADY_REGISTED, "该手机号已经被注册");
 		zhMsgMap.put(LOGINNAME_ALREADY_REGISTED, "该用户名已经被注册");
-		zhMsgMap.put(SHARE_MAN_CANNOT_ITSELF, "推荐人不能是自己");
-		zhMsgMap.put(SHARE_MAN_NOT_EXIST, "您输入的推荐人不存在");
-		zhMsgMap.put(MEMBER_LOCK, "密码输入错误次数过多已被锁定，明天0点0分自动解除");
-		zhMsgMap.put(MEMBER_FORBIDDEN, "会员账号已被禁用");
+		zhMsgMap.put(SHARE_MAN_CANNOT_IS_ITSELF, "推荐人不能是自己");
+		zhMsgMap.put(SHARE_MAN_NOT_EXIST, "您的推荐人不存在");
+		zhMsgMap.put(MEMBER_LOCK, "密码输入错误次数超过5次已被锁定，明天0点0分自动解除");
+		zhMsgMap.put(MEMBER_FORBIDDEN, "会员账号已被禁用，请联系客服");
 		
 		zhMsgMap.put(GET_USERINFO_EXCEPTION, "获取用户信息程序异常");
 		zhMsgMap.put(SET_PAYPWD_STATUS_EXCEPTION, "设置支付密码开关程序异常");
-		zhMsgMap.put(LOGIN_EXCEPTION, "登录程序异常");
+		zhMsgMap.put(LOGIN_EXCEPTION, "登录异常，请联系客服");
+		zhMsgMap.put(GET_VALIDATE_CODE_EXCEPTION, "获取短信验证码异常，请联系客服");
+		zhMsgMap.put(REGISTER_EXCEPTION, "注册异常，请联系客服");
+		zhMsgMap.put(CHECK_TOKEN_NOT_PASS, "登录已过期，请重新登录");
+		zhMsgMap.put(ACCOUNT_EXCEPTION, "账号异常，请联系客服");
+		zhMsgMap.put(CHECK_VALIDATE_CODE_NOT_PASS, "短信验证码校验不通过");
+		zhMsgMap.put(SEND_SMS_FAILED, "短信发送失败");
+		
+		zhMsgMap.put(LOGIN_UNLOCK_LIST_EXCEPTION, "获取用户登陆解锁列表异常");
+		zhMsgMap.put(LOGIN_UNLOCK_EXCEPTION, "解锁异常");
+		zhMsgMap.put(RESET_ACCOUNT_PWD_EXCEPTION, "重置账号密码异常");
+		zhMsgMap.put(UNDISABLED_ACCOUNT_EXCEPTION, "解禁账号异常");
+		zhMsgMap.put(DISABLED_ACCOUNT_EXCEPTION, "禁用账号异常");
+		zhMsgMap.put(ACCOUNT_MEMBER_ID_NULL, "会员账号ID不能为空");
+		zhMsgMap.put(USERID_IS_EXIST, "该账号已存在");
+		zhMsgMap.put(REGISTER_SOURCE_WRONG, "注册来源不合法");
 	}
 
 }
+
+

@@ -6,7 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.constant.ApiStatusConst;
 
 /**
@@ -22,17 +22,16 @@ public class MD5Util {
 	 * MD5 32位加密
 	 * @param values 需要加密的字符串
 	 * @return 加密后的字符串
-	 * @throws SystemException 
-	 * @throws Exception
+	 * @throws MdSysException
 	 */
-	public static String MD5EncryptBy32(String values) throws SystemException{
+	public static String MD5EncryptBy32(String values) throws MdSysException {
 		StringBuffer buf = new StringBuffer();
 		MessageDigest md=null;
 		try {
 			md = MessageDigest.getInstance("MD5");	
 		} catch (NoSuchAlgorithmException e) {
 			logger.error("执行MD5EncryptBy32()方法异常：{}",e.toString());
-			throw new SystemException(ApiStatusConst.MD5_EXCEPTION,ApiStatusConst.getZhMsg(ApiStatusConst.MD5_EXCEPTION));
+			throw new MdSysException(ApiStatusConst.MD5_EXCEPTION,ApiStatusConst.getZhMsg(ApiStatusConst.MD5_EXCEPTION));
 		}
 		md.update(values.getBytes());
 		byte b[] = md.digest();
@@ -50,7 +49,7 @@ public class MD5Util {
 
 
 	// 主要把传递过来的字符串参数转化为经过MD5算法加密的字符串
-	public final static String encrypeString(String neededEncrypedString) throws SystemException {
+	public final static String encrypeString(String neededEncrypedString) throws MdSysException {
 		// 初始化加密之后的字符串
 		String encrypeString = null;
 		// 16进制的数组
@@ -77,7 +76,7 @@ public class MD5Util {
 			encrypeString = new String(neededEncrypedByte);
 		} catch (NoSuchAlgorithmException ex) {
 			logger.error("执行encrypeString()方法异常：{}",ex.toString());
-			throw new SystemException(ApiStatusConst.MD5_EXCEPTION,ApiStatusConst.getZhMsg(ApiStatusConst.MD5_EXCEPTION));
+			throw new MdSysException(ApiStatusConst.MD5_EXCEPTION,ApiStatusConst.getZhMsg(ApiStatusConst.MD5_EXCEPTION));
 		}
 
 		// 返回加密之后的字符串

@@ -1,10 +1,7 @@
 package com.meiduimall.payment.api.exception;
 
 import javax.servlet.http.HttpServletRequest;
-
-
-
-
+import com.meiduimall.exception.MdBizException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindException;
@@ -13,7 +10,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.exception.BizException;
 import com.meiduimall.payment.api.constant.ServicePaymentApiCode;
 
 @ControllerAdvice(basePackages = "com.meiduimall.payment.api.controller")
@@ -32,8 +28,8 @@ public class GlobalExceptionHandler {
 	}
 	
 	
-	@ExceptionHandler(value = BizException.class)
-	public ResBodyData serviceExceptionHandler(HttpServletRequest request, BizException exception) {
+	@ExceptionHandler(value = MdBizException.class)
+	public ResBodyData serviceExceptionHandler(HttpServletRequest request, MdBizException exception) {
 		logger.error(request.getContextPath() + request.getRequestURI() + " " + exception.getLocalizedMessage());
 		return new ResBodyData(ServicePaymentApiCode.OPERAT_FAIL, exception.getLocalizedMessage());
 	}

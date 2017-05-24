@@ -11,9 +11,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.redis.util.RedisTemplate;
 import com.meiduimall.service.member.config.ServiceUrlProfileConfig;
@@ -30,6 +32,7 @@ import com.meiduimall.service.member.service.PointsService;
 import com.meiduimall.service.member.service.UserInfoService;
 import com.meiduimall.service.member.util.DESC;
 import com.meiduimall.service.member.util.DateUtil;
+import com.meiduimall.service.member.util.DoubleCalculate;
 import com.meiduimall.service.member.util.HttpUtils;
 import com.meiduimall.service.member.util.StringUtil;
 
@@ -97,6 +100,16 @@ public class UserInfoServiceImpl implements UserInfoService {
 		
 		resBodyData.setData(memberBasicInfo);
 		return resBodyData;
+	}
+	
+
+	@Override
+	public void updateCurrentPointByMemId(String memId,String currentPoint,String addPoint) throws MdSysException {
+		double finalPoint = DoubleCalculate.add(Double.valueOf(currentPoint),Double.valueOf(addPoint));
+		MSMembersSet msMembersSet=new MSMembersSet();
+		msMembersSet.setMemId(memId);
+		msMembersSet.setMemBasicAccountTotalQuantity(String.valueOf(finalPoint));
+		baseDao.update(msMembersSet,"MSMembersMapper.updateMemberBasicInfoByCondition");
 	}
 
 
@@ -191,6 +204,23 @@ public class UserInfoServiceImpl implements UserInfoService {
 			logger.info("当前会员ID:{}不存在!", memId);
 		}
 		return json;
+	}
+	
+	@Override
+	public String getUserIdByMemId(String memId) throws MdSysException{
+		Map<String, Object> mapCondition=new HashMap<>();
+		mapCondition.put("memId",memId);
+		MSMembersGet msMembersGet=baseDao.selectOne(mapCondition,"MSMembersMapper.getMemberBasicInfoByCondition");
+		if(!StringUtils.isEmpty(msMembersGet.getMemLoginName())){
+			return msMembersGet.getMemLoginName();
+		}
+		else if (!StringUtils.isEmpty(msMembersGet.getMemPhone())) {
+			return msMembersGet.getMemPhone();
+		}
+		else{
+			logger.info("memId：{}对应的手机号和登录名都为空",memId);
+			throw new ServiceException(ApiStatusConst.ACCOUNT_EXCEPTION);
+		}
 	}
 	
 }

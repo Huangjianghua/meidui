@@ -2,7 +2,7 @@ package com.meiduimall.service.member.model;
 
 import java.io.Serializable;
 
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.member.util.DESC;
 
 /**
@@ -10,8 +10,9 @@ import com.meiduimall.service.member.util.DESC;
  * 会员地址详细表
  * 
  **/
-@SuppressWarnings("serial")
 public class MemberAddressesSet implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	/** 会员地址详细表ID **/
 	private String memaId;
@@ -68,7 +69,7 @@ public class MemberAddressesSet implements Serializable {
 		return this.memId;
 	}
 
-	public void setMemaDetails(String memaDetails)  throws SystemException {
+	public void setMemaDetails(String memaDetails)  throws MdSysException {
 		this.memaDetails = DESC.encryption(memaDetails, this.memId);
 	}
 
@@ -76,7 +77,7 @@ public class MemberAddressesSet implements Serializable {
 		return this.memaDetails;
 	}
 
-	public void setMemaPost(String memaPost) throws SystemException  {
+	public void setMemaPost(String memaPost) throws MdSysException {
 		this.memaPost = DESC.encryption(memaPost,this.memId);
 	}
 
@@ -92,7 +93,7 @@ public class MemberAddressesSet implements Serializable {
 		return this.memaStatus;
 	}
 
-	public void setMemaContactPhone(String memaContactPhone) throws SystemException  {
+	public void setMemaContactPhone(String memaContactPhone) throws MdSysException {
 		this.memaContactPhone = DESC.encryption(memaContactPhone,this.memId);
 	}
 
@@ -100,7 +101,7 @@ public class MemberAddressesSet implements Serializable {
 		return this.memaContactPhone;
 	}
 
-	public void setMemaContactEmail(String memaContactEmail) throws SystemException  {
+	public void setMemaContactEmail(String memaContactEmail) throws MdSysException {
 		this.memaContactEmail = DESC.encryption(memaContactEmail,this.memId);
 	}
 
@@ -108,7 +109,7 @@ public class MemberAddressesSet implements Serializable {
 		return  this.memaContactEmail;
 	}
 
-	public void setMemaContactName(String memaContactName)  throws SystemException {
+	public void setMemaContactName(String memaContactName)  throws MdSysException {
 		this.memaContactName = DESC.encryption(memaContactName,this.memId);
 	}
 

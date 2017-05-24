@@ -9,11 +9,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.meiduimall.exception.SystemException;
+import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.constant.ApiStatusConst;
 import com.meiduimall.service.account.constant.ApplicationConstant;
 import com.meiduimall.service.account.dao.BaseDao;
-import com.meiduimall.service.account.model.ResBodyData;
 import com.meiduimall.service.account.service.PointsService;
 import com.meiduimall.service.account.util.DESC;
 import com.meiduimall.service.account.util.DoubleCalculate;
@@ -145,7 +145,7 @@ public class PointsServiceImpl implements PointsService {
 	}
 
 	@Override
-	public ResBodyData deductPointsAndAddRecord(String memId, Double consumePoints, String orderId, String orderSource,Map<String,Object>  dataMap) throws SystemException {
+	public ResBodyData deductPointsAndAddRecord(String memId, Double consumePoints, String orderId, String orderSource,Map<String,Object>  dataMap) throws MdSysException {
 		double newCurrentPoints = DoubleCalculate.sub(this.getAvailablePointsByMemId(memId),Double.valueOf(consumePoints));
 		boolean flag=this.calculateAndUpdateCurrentPoints(memId,consumePoints,false);
 		dataMap.put("now_total_points",getAvailablePointsByMemId(memId));
@@ -155,7 +155,7 @@ public class PointsServiceImpl implements PointsService {
 		return null;
 	}
 	
-	private boolean calculateAndUpdateCurrentPoints(String memId, Double consumePoints, boolean isLock) throws SystemException {
+	private boolean calculateAndUpdateCurrentPoints(String memId, Double consumePoints, boolean isLock) throws MdSysException {
 		boolean returnBool = false;
 		double newCurrentPoints = DoubleCalculate.sub(this.getAvailablePointsByMemId(memId),Double.valueOf(consumePoints));
 		if(updateCurrentPointsByMemId(memId,newCurrentPoints)){
@@ -165,7 +165,7 @@ public class PointsServiceImpl implements PointsService {
 	}
 	
 	
-	private boolean updateCurrentPointsByMemId(String memId, Double newCurrentPoints) throws SystemException{
+	private boolean updateCurrentPointsByMemId(String memId, Double newCurrentPoints) throws MdSysException {
 		Map<String,Object> paramsMap=new HashMap<>();
 		paramsMap.put("memId", memId);
 		paramsMap.put("newCurrentPoints", DESC.encryption(String.valueOf(newCurrentPoints),memId));

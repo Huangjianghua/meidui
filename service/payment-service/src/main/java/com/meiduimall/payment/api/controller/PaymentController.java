@@ -1,13 +1,12 @@
 package com.meiduimall.payment.api.controller;
 
+import com.meiduimall.exception.ApiException;
+import com.meiduimall.exception.MdBizException;
 import com.meiduimall.payment.api.constant.ServicePaymentApiCode;
 import com.meiduimall.payment.api.model.api.PaymentParamModel;
 import com.meiduimall.payment.api.model.api.PaymentResultModel;
 import com.meiduimall.payment.api.service.PaymentService;
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.exception.ApiException;
-import com.meiduimall.exception.BizException;
-import com.meiduimall.exception.ServiceException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,9 +41,9 @@ public class PaymentController {
     	 ResBodyData resultBody = new ResBodyData(ServicePaymentApiCode.OPERAT_SUCCESS, ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.OPERAT_SUCCESS));
          try{
         	 resultBody = paymentService.payService(model);
-         }catch(BizException e){
+         }catch(MdBizException e){
         	 log.error("Handle app payment error.", e);
-        	 throw new ApiException(ServicePaymentApiCode.OPERAT_FAIL,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.OPERAT_FAIL));
+        	 throw new ApiException(ServicePaymentApiCode.OPERAT_FAIL);
          }
             
         
@@ -57,9 +56,9 @@ public class PaymentController {
     	try{
     		log.info("支付回调处理开始-----");
     		result=paymentService.payAfterService(model);
-    	}catch(BizException e){
+    	}catch(MdBizException e){
     		log.error("回调处理出错！",e);
-    		 throw new ApiException(ServicePaymentApiCode.OPERAT_FAIL,ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.OPERAT_FAIL));
+    		 throw new ApiException(ServicePaymentApiCode.OPERAT_FAIL);
     	}
     	
     	return  result;

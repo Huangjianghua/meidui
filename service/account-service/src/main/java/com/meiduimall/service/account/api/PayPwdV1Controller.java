@@ -12,11 +12,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
-import com.meiduimall.exception.BizException;
+import com.meiduimall.exception.MdBizException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.constant.ApiStatusConst;
 import com.meiduimall.service.account.model.MSMembersPaypwd;
-import com.meiduimall.service.account.model.ResBodyData;
 import com.meiduimall.service.account.model.request.RequestRetrievePaypwd;
 import com.meiduimall.service.account.model.request.RequestUpdatePaypwd;
 import com.meiduimall.service.account.service.PaypwdService;
@@ -71,7 +72,7 @@ public class PayPwdV1Controller {
 			ResBodyData resBodyData = paypwdService.isExistPaypwd(memId);
 			logger.info("根据memId查询是否存在支付密码API请求结果  ：{}",resBodyData.toString());
 			return resBodyData;
-		} catch (BizException e) {
+		} catch (MdBizException e) {
 			logger.error("根据memId查询是否存在支付密码API请求异常：{}",e.toString());
 			throw new ApiException(ApiStatusConst.SET_PAYPWD_EXCEPTION,ApiStatusConst.getZhMsg(ApiStatusConst.SET_PAYPWD_EXCEPTION));
 		}
@@ -96,14 +97,14 @@ public class PayPwdV1Controller {
 	@PostMapping(value = "/retrieve_pay_pwd")
 	public ResBodyData retrievePaypwd(@RequestBody @Valid RequestRetrievePaypwd requestRetrievePaypwd) {
 		logger.info("收到找回支付密码API请求  ：{}",requestRetrievePaypwd.toString());
+		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
 		try {
-			ResBodyData resBodyData = paypwdService.retrievePaypwd(requestRetrievePaypwd);
-			logger.info("找回支付密码API请求结果  ：{}",resBodyData.toString());
-			return resBodyData;
-		} catch (Exception e) {
-			logger.error("找回支付密码API请求异常：{}",e.toString());
+			paypwdService.retrievePaypwd(requestRetrievePaypwd);
+		}catch (MdSysException e) {
+			logger.info("找回支付密码API请求异常  ：{}",e.toString());
 			throw new ApiException(ApiStatusConst.RETRIEVE_PAYPWD_EXCEPTION);
 		}
+		return resBodyData;
 	}
 	
 }
