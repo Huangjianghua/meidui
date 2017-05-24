@@ -4,6 +4,7 @@ package com.meiduimall.service.member.service;
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdSysException;
+import com.meiduimall.service.member.model.MSMemberMobileArea;
 
 /**
  * 会员信息操作接口
@@ -39,4 +40,21 @@ public interface UserInfoService {
 	 public JSONObject getMemberInfoByPhone(String phone) throws Exception;
 	 
 	 public JSONObject saveMemberBasicInfo(String token, String mem_sex, String mem_birthday, String mem_address_area, String mem_address, String mem_pic, String nick_name) throws Exception;
+
+	 /**
+	  * 注册时记录会员手机对应的区域
+	  * @param memId 会员id
+	  * @param phone 手机号
+	  * @return ResBodyData
+	  * @throws MdSysException
+	  * @author wujun
+	  */
+     public ResBodyData recordArea(String memId, String phone)throws MdSysException;
+     
+     /**
+      * 
+      * @return
+      * @throws MdSysException
+      */
+     public ResBodyData updateMemberArea();
 }

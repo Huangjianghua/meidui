@@ -6,12 +6,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.member.constant.ApiStatusConst;
+import com.meiduimall.service.member.model.MSMemberMobileArea;
 import com.meiduimall.service.member.model.request.RequestGetMemberBasicInfo;
 import com.meiduimall.service.member.service.UserInfoService;
 
@@ -82,5 +85,28 @@ public class UserInfoV1Controller{
 	
 	/**校验手机号或登录名是否存在*/
 	
+	
+	
+	/**注册时记录会员手机对应的区域*/
+	@PostMapping(value = "/record_area")
+	ResBodyData recordArea(@Valid String memId, String phone) throws MdSysException{
+		logger.info("接收到数据：memId={}, phone={}", memId, phone);
+		ResBodyData recordArea = userInfoService.recordArea(memId, phone);
+		logger.info("注册时记录会员手机对应的区域请求结果：{}",recordArea.toString());
+		return recordArea;
+    }
+	
+    /**
+     * 更新会员手机号归属地
+     * @return ResBodyData
+     */
+	@GetMapping(value = "/update_member_phone_area")
+	ResBodyData updateMemberArea() {
+		logger.info("更新开始");
+		ResBodyData resBodyData = userInfoService.updateMemberArea();
+		logger.info("更新结果  ：{}",resBodyData.toString());
+		logger.info("更新结束");
+		return resBodyData;
+	}
 	
 }

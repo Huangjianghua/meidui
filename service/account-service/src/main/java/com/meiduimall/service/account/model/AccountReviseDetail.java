@@ -30,6 +30,7 @@ public class AccountReviseDetail implements Serializable {
 	
 	/** 钱包类型  **/
 	private String walletType;
+	private String walletName;
 	
 	/**
 	 * 调整类型(1-调增,2-调减)
@@ -70,7 +71,7 @@ public class AccountReviseDetail implements Serializable {
 
 	private String updatedDate;
 
-	private String isDelete;
+	 
 
 	/**
 	 * agree -同意 reject-拒绝
@@ -79,6 +80,14 @@ public class AccountReviseDetail implements Serializable {
 
 	
 	
+	public String getWalletName() {
+		return walletName;
+	}
+
+	public void setWalletName(String walletName) {
+		this.walletName = walletName;
+	}
+
 	public String getWalletType() {
 		return walletType;
 	}
@@ -183,13 +192,6 @@ public class AccountReviseDetail implements Serializable {
 		this.reviewRemark = reviewRemark == null ? null : reviewRemark.trim();
 	}
 
-	public String getIsDelete() {
-		return isDelete;
-	}
-
-	public void setIsDelete(String isDelete) {
-		this.isDelete = isDelete;
-	}
 
 	public String getMemLoginName() throws MdSysException {
 		return  DESC.deyption(memLoginName);

@@ -56,6 +56,9 @@ public abstract class ApiStatusConst extends BaseApiCode {
 	
 	public static final Integer WEIXIN_OPENID_BINGDING_FAIL = 8101;
 	public static final Integer NOT_BINGDING_WEIXIN_OPENID = 8102;
+	public static final Integer FIND_MEMBER_EXCEPTION= 8103;
+	public static final Integer QUERY_MOBILE_EXCEPTION= 8104;
+	public static final Integer INSERT_SELECTIVE_EXCEPTION= 8105;
 
 	static {
 		zhMsgMap.put(REQUIRED_PARAM_EMPTY, "必填参数为空");
@@ -101,6 +104,11 @@ public abstract class ApiStatusConst extends BaseApiCode {
 		zhMsgMap.put(WEIXIN_OPENID_BINGDING_FAIL, "微信openID绑定失败");
 		zhMsgMap.put(NOT_BINGDING_WEIXIN_OPENID, "未绑定微信openID");
 		zhMsgMap.put(USERID_IS_EXIST, "该账号已存在");
+		zhMsgMap.put(NOT_BINGDING_WEIXIN_OPENID, "未绑定微信openID");
+		zhMsgMap.put(USERID_IS_EXIST, "该账号不存在");
+		zhMsgMap.put(FIND_MEMBER_EXCEPTION, "查询不在会员手机归属地表异常");
+		zhMsgMap.put(QUERY_MOBILE_EXCEPTION, "查询手机前6位确定归属地异常");
+		zhMsgMap.put(INSERT_SELECTIVE_EXCEPTION, "批量插入会员手机归属地表异常");
 	}
 
 }

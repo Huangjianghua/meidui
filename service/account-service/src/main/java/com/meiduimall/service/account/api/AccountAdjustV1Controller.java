@@ -15,8 +15,6 @@ import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.MdBizException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.model.AddOrUpdateAccountReviseDetail;
-import com.meiduimall.service.account.model.request.RequestAccountAdjustAmount;
-import com.meiduimall.service.account.service.AccountAdjustService;
 import com.meiduimall.service.account.service.MSAccountDetailService;
 
 /**
@@ -33,15 +31,15 @@ public class AccountAdjustV1Controller {
 	@Autowired
 	private MSAccountDetailService mSAccountDetailService;
 	
-	@Autowired
+	/*@Autowired
 	private AccountAdjustService accountAdjustService;
 	
-	/**账户余额调增调减*/
+	*//**账户余额调增调减*//*
 	@PostMapping(value = "/account_adjust_amount")
 	public ResBodyData accountAdjustAmount(@RequestBody @Valid RequestAccountAdjustAmount model) {
 		logger.info("收到账户余额调增调减API请求  ：{}",model.toString());
 		return accountAdjustService.accountAdjustAmount(model);
-	}
+	}*/
 	
 	/**
 	 * 添加会员余额调整明细  

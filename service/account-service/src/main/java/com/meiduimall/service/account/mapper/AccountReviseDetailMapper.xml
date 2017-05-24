@@ -15,21 +15,20 @@
     <result column="created_date" property="createdDate" jdbcType="TIMESTAMP" />
     <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
     <result column="updated_date" property="updatedDate" jdbcType="TIMESTAMP" />
-    <result column="is_delete" property="isDelete" jdbcType="VARCHAR" />
+    <result column="wallet_name" property="walletName" jdbcType="VARCHAR" />
     
   </resultMap>
-  <sql id="Base_Column_List" >
-    id, mem_id, wallet_type, revise_type, before_balance, revise_balance, created_by, 
-    DATE_FORMAT(created_date,'%Y-%m-%d %H:%i:%s') as created_date, 
-    updated_by, status, DATE_FORMAT(updated_date,'%Y-%m-%d %H:%i:%s') as updated_date, 
-    revise_remark, review_remark,is_delete
-  </sql>
+   
   <!-- 查询调整金额明细集合 -->
   <select id="getAccountReviseDetail" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from ms_account_revise_detail
-    where id = #{id,jdbcType=CHAR}
+  	SELECT 
+    ma.id, ma.mem_id, ma.wallet_type, mw.wallet_name, ma.revise_type, ma.before_balance, ma.revise_balance, ma.created_by, 
+    DATE_FORMAT(ma.created_date,'%Y-%m-%d %H:%i:%s') AS created_date, 
+    ma.updated_by, ma.status, DATE_FORMAT(ma.updated_date,'%Y-%m-%d %H:%i:%s') AS updated_date, 
+    ma.revise_remark, ma.review_remark
+    FROM ms_account_revise_detail ma
+    LEFT JOIN ms_wallet_type mw ON mw.`id` = ma.`wallet_type`
+    where ma.id = #{id,jdbcType=CHAR}
   </select>
    <!-- 查询调整金额明细集合 -->
   <select id="queryAccountReviseDetailList" resultMap="BaseResultMap" parameterType="com.meiduimall.service.account.model.AccountReviseDetail" >
@@ -37,6 +36,7 @@
 	    msard.id,
 		msard.mem_id as memId,
 		msard.wallet_type as walletType, 
+		mw.wallet_name,
 		msard.revise_type as reviseType,
 	    msm.mem_phone as memPhone,
 	    msm.mem_login_name as memLoginName,
@@ -51,6 +51,7 @@
 		DATE_FORMAT(msard.updated_date,'%Y-%m-%d %H:%i:%s') as updated_date
     from ms_account_revise_detail msard
     LEFT JOIN ms_members  msm on msm.mem_id=msard.mem_id
+    LEFT JOIN ms_wallet_type mw ON mw.`id` = msard.`wallet_type`
    <where>
     <if test="id !=null and id !=''">
 		AND msard.id=#{id}
@@ -91,11 +92,11 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="walletType != null" >
-        wallet_type,
-      </if>
       <if test="memId != null" >
         mem_id,
+      </if>
+      <if test="walletType != null" >
+        wallet_type,
       </if>
       <if test="reviseType != null" >
         revise_type,
@@ -136,7 +137,7 @@
         #{memId,jdbcType=CHAR},
       </if>
       <if test="walletType != null" >
-        #{walletType,jdbcType=CHAR},
+        #{walletType,jdbcType=VARCHAR},
       </if>
       <if test="reviseType != null" >
         #{reviseType,jdbcType=VARCHAR},
@@ -178,7 +179,7 @@
         mem_id = #{memId,jdbcType=CHAR},
       </if>
       <if test="walletType != null and walletType !=''" >
-        wallet_type = #{walletType,jdbcType=CHAR},
+        wallet_type = #{walletType,jdbcType=VARCHAR},
       </if>
       <if test="reviseType != null and reviseType !=''" >
         revise_type = #{reviseType,jdbcType=VARCHAR},

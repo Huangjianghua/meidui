@@ -1,4 +1,4 @@
-package com.meiduimall.service.account.service.impl;
+/*package com.meiduimall.service.account.service.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,11 +9,11 @@ import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.model.request.RequestAccountAdjustAmount;
 import com.meiduimall.service.account.service.AccountAdjustService;
 
-/**
+*//**
  * 账户调整相关接口{@link=AccountAdjustService}实现类
  * @author chencong
  *
- */
+ *//*
 @Service
 public class AccountAdjustServiceImpl implements AccountAdjustService {
 	
@@ -27,3 +27,4 @@ public class AccountAdjustServiceImpl implements AccountAdjustService {
 
 
 }
+*/

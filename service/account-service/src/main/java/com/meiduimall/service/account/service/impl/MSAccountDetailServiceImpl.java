@@ -12,7 +12,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -247,9 +246,10 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		paramsMap.put("tradeType", ConstSysParamsDefination.TRADETYPE);
 		paramsMap.put("tradeAmount", detail.getReviseBalance().toString());
 		paramsMap.put("balance", balance.toString());
-		paramsMap.put("remark", detail.getReviseRemark());
+		paramsMap.put("remark", detail.getWalletName());
 		paramsMap.put("inOrOut", type);
 		paramsMap.put("tradeDate", DateUtil.format(new Date(),DateUtil.YYYY_MM_DD_HH_MM_SS));
+		paramsMap.put("createDate", DateUtil.format(new Date(),DateUtil.YYYY_MM_DD_HH_MM_SS));
 		try {
 			baseDao.insert(paramsMap, "MSAccountDetailMapper.insertAccountDetail");
 		} catch (Exception e) {

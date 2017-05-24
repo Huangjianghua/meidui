@@ -30,6 +30,8 @@ public class AddOrUpdateAccountReviseDetail implements Serializable {
 	
 	/** 钱包类型  **/
 	private String walletType;
+ 
+	private String walletName;
 	
 	/**
 	 * 调整类型(1-调增,2-调减)
@@ -79,6 +81,14 @@ public class AddOrUpdateAccountReviseDetail implements Serializable {
 
 	
 	
+	public String getWalletName() {
+		return walletName;
+	}
+
+	public void setWalletName(String walletName) {
+		this.walletName = walletName;
+	}
+
 	public String getWalletType() {
 		return walletType;
 	}
