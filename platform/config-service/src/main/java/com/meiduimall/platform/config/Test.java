@@ -39,8 +39,8 @@ public class Test {
 		//method1();
 		//method2();
 		//cloneRepository("http://git.meiduimall.com/service/meiduimall.git","d:\\tmp\\test");
-		commitRepository("D:\\gitProject\\featureV4.0.2\\meiduimall","020-service-config.yml","测试提交jgit");
-		//pushRepository("D:\\gitProject\\featureV4.0.2\\meiduimall");
+		//commitRepository("D:\\gitProject\\featureV4.0.2\\meiduimall","020-service-config.yml","测试提交jgit");
+		pushRepository("D:\\gitProject\\featureV4.0.2\\meiduimall");
 	}
 	
 	   /**
