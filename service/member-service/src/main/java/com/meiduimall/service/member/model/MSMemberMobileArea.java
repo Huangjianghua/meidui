@@ -80,6 +80,12 @@ public class MSMemberMobileArea implements Serializable{
 		this.memId = memId;
 		this.phone = phone;
 	}
+
+	@Override
+	public String toString() {
+		return "MSMemberMobileArea [memId=" + memId + ", phone=" + phone + ", provinceName=" + provinceName
+				+ ", cityName=" + cityName + ", sp=" + sp + ", createDate=" + createDate + "]";
+	}
     
     
 }

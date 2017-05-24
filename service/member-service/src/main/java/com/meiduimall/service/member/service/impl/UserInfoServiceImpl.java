@@ -281,11 +281,12 @@ public class UserInfoServiceImpl implements UserInfoService {
 						areas.add(memMoArea);
 					}
 				} catch (MdSysException e) {
-					logger.error("查询手机前6位确定归属地异常: {}",e);
+					logger.error("查询手机前7位确定归属地异常: {}",e);
 					throw new ServiceException(ApiStatusConst.QUERY_MOBILE_EXCEPTION);
 				}
 			}
 			try {
+				logger.error("要插入会员手机归属地表的数据 : {}",areas);
 				baseDao.insertBatch(areas, "MSMemberMobileAreaMapper.insertSelective");
 			} catch (DaoException e) {
 				logger.error("批量插入会员手机归属地表异常: {}",e);

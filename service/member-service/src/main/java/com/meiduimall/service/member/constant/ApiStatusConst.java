@@ -103,7 +103,7 @@ public abstract class ApiStatusConst extends BaseApiCode {
 		zhMsgMap.put(NOT_BINGDING_WEIXIN_OPENID, "未绑定微信openID");
 		zhMsgMap.put(USERID_IS_EXIST, "该账号不存在");
 		zhMsgMap.put(FIND_MEMBER_EXCEPTION, "查询不在会员手机归属地表异常");
-		zhMsgMap.put(QUERY_MOBILE_EXCEPTION, "查询手机前6位确定归属地异常");
+		zhMsgMap.put(QUERY_MOBILE_EXCEPTION, "查询手机前7位确定归属地异常");
 		zhMsgMap.put(INSERT_SELECTIVE_EXCEPTION, "批量插入会员手机归属地表异常");
 	}
 
