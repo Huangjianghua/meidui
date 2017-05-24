@@ -32,7 +32,7 @@ public class AccountServiceApplication extends SpringBootServletInitializer {
     }  
 	
 	public static void main(String[] args) throws MdSysException {
-		System.out.println(DESC.encryption("15111111169"));
+		System.out.println(DESC.encryption("13049847742"));
 		SpringApplication.run(AccountServiceApplication.class, args);
 	}
 	   
