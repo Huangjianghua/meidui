@@ -10,7 +10,7 @@ import com.meiduimall.service.account.model.MSWalletType;
 import com.meiduimall.service.account.service.AccountPropertyManageService;
 
 /**
- * 账户类型管理相关业务逻辑{@link=WalletTypeManageService}实现类
+ * 账户类型管理相关业务逻辑{@link=AccountPropertyManageService}实现类
  * @author chencong
  *
  */
@@ -22,7 +22,7 @@ public class AccountPropertyManageServiceImpl implements AccountPropertyManageSe
 
 	@Override
 	public List<MSWalletType> getCwtzWalletTypeList(){
-		return baseDao.selectList(null,"MSWalletTypeMapper.listWalletType");
+		return baseDao.selectList(null,"MSWalletTypeMapper.getCwtzWalletTypeList");
 	}
 
 }

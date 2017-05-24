@@ -3,7 +3,7 @@
 <mapper namespace="MSWalletTypeMapper">
  
   <!-- 查询财务调账相关的账户类型信息 -->
-  <select id="listWalletType" resultType="com.meiduimall.service.account.model.MSWalletType">
+  <select id="getCwtzWalletTypeList" resultType="com.meiduimall.service.account.model.MSWalletType">
    SELECT id, 
    wallet_name walletName, 
    wallet_no walletNo, 
