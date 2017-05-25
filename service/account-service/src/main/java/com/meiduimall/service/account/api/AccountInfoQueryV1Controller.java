@@ -1,5 +1,6 @@
 package com.meiduimall.service.account.api;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageHelper;
@@ -24,6 +26,7 @@ import com.meiduimall.service.account.model.MSAccountDetailGet;
 import com.meiduimall.service.account.model.MSAccountList;
 import com.meiduimall.service.account.model.request.RequestAccountReviseDetail;
 import com.meiduimall.service.account.model.request.RequestMSAccountList;
+import com.meiduimall.service.account.service.AccountByWalletTypeService;
 import com.meiduimall.service.account.service.MSAccountDetailService;
 import com.meiduimall.service.account.util.DESC;
 
@@ -42,12 +45,24 @@ public class AccountInfoQueryV1Controller {
 	@Autowired
 	private MSAccountDetailService mSAccountDetailService;
 	
+	@Autowired
+	private AccountByWalletTypeService accountByWalletTypeService;
+	
+	/**校验指定类型的账户是否存在*/
+	@RequestMapping(value = "/check_account_bytype_exist")
+	public ResBodyData validePaypwd(@RequestParam String wallet_no,@RequestParam String memId) {
+		ResBodyData resBodyData=new ResBodyData(Constants.CONSTANT_INT_ZERO,"账户已存在");
+		logger.info("收到校验指定类型的账户是否存在API请求  ：{},{}",wallet_no,memId);
+		if(accountByWalletTypeService.checkAccountByWalletTypeExist(wallet_no,memId)){
+			return resBodyData;
+		}
+		else {
+			throw new ApiException(ConstApiStatus.ACCOUNT_NOT_EXIST);
+		}
+	}
+	
 	/**
 	 * 余额流水（分页）
-	 * @param mSAccountDetail
-	 * @return
-	 * @throws Exception
-	 * @author: jianhua.huang  2017年5月5日 下午5:30:15
 	 */
 	@PostMapping(value="/list_account_detail")
 	public ResBodyData listMSAccountDetail(@RequestBody MSAccountDetailGet mSAccountDetail) throws Exception{
