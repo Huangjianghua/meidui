@@ -41,7 +41,8 @@ public class Test {
 		 String projectURL = System.getProperty("user.dir");  
 		 projectURL=projectURL.substring(0,projectURL.indexOf("platform")-1);
 		 System.out.println(projectURL);
-		 commitRepository(projectURL,"020-service-config.yml","配置文件变动提交");
+		// commitRepository(projectURL,"020-service-config.yml","配置文件变动提交");
+		 pushRepository(projectURL);
 	}
 	
 	   /**

@@ -15,6 +15,10 @@ import java.util.List;
 import org.eclipse.jgit.api.AddCommand;
 import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.PushCommand;
+import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.transport.PushResult;
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
@@ -118,8 +122,10 @@ public class YamlUtil {
 	private static void operateYml(List<ConfigerMsg> list,String typeConfig){
 		 try {
 			 String object=JsonUtils.beanToJson(list);
-			 //创建文件
+			 //step1 创建文件
 			 yaml.dump(object, new FileWriter(srcResourceUrl+typeConfig+configName));
+			 //step2 提交到服务器
+			 commintFilesToGitService(typeConfig+configName);
 		} catch (IOException e) {
 			logger.error("写入资源文件数据异常:{}", e);
 			throw new MdBizException(ApiStatusConst.WRITE_RESOURCES_FILE_ERROR);
@@ -131,26 +137,36 @@ public class YamlUtil {
 	 * @throws Exception
 	 * @author: jianhua.huang  2017年5月25日 下午3:52:21
 	 */
-	private void commintFilesToGitService(String fileNames)throws MdBizException{
-		//step1提交本地
+	private static void commintFilesToGitService(String fileNames)throws MdBizException{
 		 try {
+			 	//获取本地分支信息
 			 	String projectURL = System.getProperty("user.dir");  
-			 
+			 	projectURL=projectURL.substring(0,projectURL.indexOf("platform")-1);
 	            Git git = Git.open(new File(projectURL));
 	            AddCommand addCommand = git.add();
 	            String[] fileArr = fileNames.split(",");
 	            for (String file : fileArr) {
 	                addCommand.addFilepattern(file);
 	            }
+	            //step1 本地提交
 	            addCommand.call();
 	            CommitCommand commitCommand = git.commit();
 	            commitCommand.setMessage("配置文件变动提交");
 	            commitCommand.setAll(true);
 	            commitCommand.call();
+	            //step2提交远程
+	            PushCommand pushCommand = git.push();
+	            CredentialsProvider credentialsProvider = new UsernamePasswordCredentialsProvider(
+	                    "jianhua.huang@meiduimall.com", "huang.123");
+	            pushCommand.setCredentialsProvider(credentialsProvider);
+	            pushCommand.setForce(true).setPushAll();
+	            Iterable<PushResult> iterable = pushCommand.call();
+	            for (PushResult pushResult : iterable) {
+	                System.out.println(pushResult.toString());
+	            }
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	           
 	        }
-		//step2提交远程
 	}
 }	
