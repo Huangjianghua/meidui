@@ -271,7 +271,6 @@
 		</if>
 	</select>
 	
-<<<<<<< HEAD
 
 		<!--更新父类ID-->
 	<update id="updateParentValue" parameterType="com.meiduimall.service.member.model.MSMembersGet">
@@ -282,13 +281,11 @@
 	 WHERE mem_id=#{memId}
 	</update>
 
-=======
     <!--  查询会员手机归属表中没有的会员数据   -->	
 	<select id="findNotInMemberMobileArea" resultType="com.meiduimall.service.member.model.response.MemberMobileAreaDTO">
 	 SELECT ms.mem_id memId, ms.mem_phone memPhone FROM  ms_members ms WHERE ms.mem_id NOT IN(
    		SELECT  m.mem_id  FROM ms_members m  INNER JOIN
    		ms_member_mobile_area ma  ON m.`mem_id` = ma.mem_id)
 	</select>
-	
->>>>>>> refs/remotes/origin/feature/V4.0.2-Team2
+
 </mapper>
