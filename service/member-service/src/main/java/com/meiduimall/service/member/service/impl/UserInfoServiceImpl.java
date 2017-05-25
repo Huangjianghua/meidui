@@ -240,7 +240,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 		
 		MobileNumberInfo queryMobile = queryMobile(phone.substring(0, 7));
 		if(StringUtils.isEmpty(queryMobile)){
-			logger.info("手机前6位查询归属地为空!");
+			logger.info("手机前7位查询归属地为空!");
 			return new ResBodyData(ApiStatusConst.QUERY_MOBILE_EXCEPTION,ApiStatusConst.getZhMsg(ApiStatusConst.QUERY_MOBILE_EXCEPTION));
 		}
 		MSMemberMobileArea msMemberMobileArea = new MSMemberMobileArea();
@@ -250,7 +250,13 @@ public class UserInfoServiceImpl implements UserInfoService {
 		msMemberMobileArea.setCityName(queryMobile.getCityName());
 		msMemberMobileArea.setSp(queryMobile.getTo());
 		msMemberMobileArea.setCreateDate(new Date());
-		baseDao.insert(msMemberMobileArea, "MSMemberMobileAreaMapper.insert");
+		MSMemberMobileArea mSMemberMobi = baseDao.selectOne("msMemberMobileArea", "MSMemberMobileAreaMapper");
+		if(!StringUtils.isEmpty(mSMemberMobi)){
+			logger.info("已经新增过: phone={},memId={} ", phone, memId);
+			return new ResBodyData(ApiStatusConst.SUCCESS, "已经新增过phone="+phone+", memId="+memId);
+		}else{
+			baseDao.insert(msMemberMobileArea, "MSMemberMobileAreaMapper.insert");
+		}
 		return new ResBodyData(ApiStatusConst.SUCCESS, "成功");
 	}
 
@@ -271,14 +277,18 @@ public class UserInfoServiceImpl implements UserInfoService {
 					if(StringUtil.isPhoneToRegex(mmaDTO.getMemPhone())){
 						String substr = mmaDTO.getMemPhone().substring(0,7);
 						MobileNumberInfo mobNum = queryMobile(substr);
-						MSMemberMobileArea memMoArea = new MSMemberMobileArea();
-						memMoArea.setMemId(mmaDTO.getMemId());
-						memMoArea.setPhone(mmaDTO.getMemPhone());
-						memMoArea.setProvinceName(mobNum.getProvinceName());
-						memMoArea.setCityName(mobNum.getCityName());
-						memMoArea.setSp(mobNum.getTo());
-						memMoArea.setCreateDate(new Date());
-						areas.add(memMoArea);
+						if(!StringUtils.isEmpty(mobNum) || !StringUtils.isEmpty(mobNum.getCityName())){
+							MSMemberMobileArea memMoArea = new MSMemberMobileArea();
+							memMoArea.setMemId(mmaDTO.getMemId());
+							memMoArea.setPhone(mmaDTO.getMemPhone());
+							memMoArea.setProvinceName(mobNum.getProvinceName());
+							memMoArea.setCityName(mobNum.getCityName());
+							memMoArea.setSp(mobNum.getTo());
+							memMoArea.setCreateDate(new Date());
+							areas.add(memMoArea);
+						}else{
+							logger.info("没有查询手机前7位: {} 归属地",substr);
+						}
 					}
 				} catch (MdSysException e) {
 					logger.error("查询手机前7位确定归属地异常: {}",e);

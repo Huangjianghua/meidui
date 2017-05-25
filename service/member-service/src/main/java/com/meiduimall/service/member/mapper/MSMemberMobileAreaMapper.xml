@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="MSMemberMobileAreaMapper">
-  <resultMap id="BaseResultMap" type="MSMemberMobileArea">
+  <resultMap id="BaseResultMap" type="com.meiduimall.service.member.model.MSMemberMobileArea">
     <result column="mem_id" jdbcType="VARCHAR" property="memId" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="province_name" jdbcType="VARCHAR" property="provinceName" />
@@ -11,7 +11,7 @@
   </resultMap>
   
   <!-- 注册时记录会员手机对应的区域  -->
-  <insert id="insert" parameterType="MSMemberMobileArea">
+  <insert id="insert" parameterType="com.meiduimall.service.member.model.MSMemberMobileArea">
     insert into ms_member_mobile_area (mem_id, phone, province_name, 
       city_name, sp, create_date
       )
@@ -21,47 +21,23 @@
   </insert>
   
   <!--  批量删插入会员手机对应的区域  -->
-  <insert id="insertSelective" parameterType="MSMemberMobileArea">
+  <insert id="insertSelective" parameterType="java.util.List">
     insert into ms_member_mobile_area
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="memId != null">
-        mem_id,
-      </if>
-      <if test="phone != null">
+        (mem_id,
         phone,
-      </if>
-      <if test="provinceName != null">
         province_name,
-      </if>
-      <if test="cityName != null">
         city_name,
-      </if>
-      <if test="sp != null">
         sp,
-      </if>
-      <if test="createDate != null">
-        create_date,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="memId != null">
-        #{memId,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null">
-        #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="provinceName != null">
-        #{provinceName,jdbcType=VARCHAR},
-      </if>
-      <if test="cityName != null">
-        #{cityName,jdbcType=VARCHAR},
-      </if>
-      <if test="sp != null">
-        #{sp,jdbcType=VARCHAR},
-      </if>
-      <if test="createDate != null">
-        #{createDate,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
+        create_date)
+        values 
+      <foreach collection ="list" item ="item" index ="index" separator =","> 
+        (#{item.memId,jdbcType=VARCHAR},
+        #{item.phone,jdbcType=VARCHAR},
+        #{item.provinceName,jdbcType=VARCHAR},
+        #{item.cityName,jdbcType=VARCHAR},
+        #{item.sp,jdbcType=VARCHAR},
+        #{item.createDate,jdbcType=TIMESTAMP})
+      </foreach> 
   </insert>
+  
 </mapper>
