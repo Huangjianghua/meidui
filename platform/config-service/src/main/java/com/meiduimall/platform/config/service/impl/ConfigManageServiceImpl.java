@@ -32,6 +32,7 @@ public class ConfigManageServiceImpl implements ConfigManageService {
 	 */
 	@Override
 	public void addConfigManage(ConfigerMsg configerMsg) throws MdBizException {
+		//step1 新增配置信息
 		YamlUtil.addDumpConfigManage(configerMsg);
 	}
 
@@ -41,6 +42,7 @@ public class ConfigManageServiceImpl implements ConfigManageService {
 	 */
 	@Override
 	public void updateConfigManage(ConfigerMsg configerMsg) throws MdBizException {
+		//step1 更新配置信息
 		YamlUtil.updateDumpConfigManage(configerMsg);
 	}
 
@@ -66,5 +68,4 @@ public class ConfigManageServiceImpl implements ConfigManageService {
 		}
 		return list;
 	}
-
 }
