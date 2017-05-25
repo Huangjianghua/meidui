@@ -17,8 +17,6 @@ import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PushCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
@@ -104,11 +102,8 @@ public class Test {
 	}
 
 	
-	   /** push到远程仓库<br>
-	     * @param string
-	     * @param string2
-	     * @param string3
-	     * @return
+	   /** push到远程仓库
+	     * 
 	     */
 	    public static String pushRepository(String localPath) {
 	        try {

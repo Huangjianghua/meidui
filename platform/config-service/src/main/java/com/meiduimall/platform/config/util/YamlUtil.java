@@ -43,7 +43,6 @@ public class YamlUtil {
 	 * @param typeConfig   区分配置名称   获取不同配置信息
 	 * @return
 	 * @author: jianhua.huang  2017年5月23日 下午4:38:35
-	 * @throws IOException 
 	 */
 	public static List<ConfigerMsg> loadData(String typeConfig)  {
 		ArrayList<ConfigerMsg> arraylist=null;
@@ -63,9 +62,8 @@ public class YamlUtil {
 	}
 	/**
 	 * 新增配置管理信息
-	 * @param typeConfig
+	 * @param configerMsg
 	 * @author: jianhua.huang  2017年5月23日 下午5:33:00
-	 * @throws IOException 
 	 */
 	public static void addDumpConfigManage(ConfigerMsg configerMsg){
 		URL url = YamlUtil.class.getClassLoader().getResource(configerMsg.getType() + configName);
@@ -87,7 +85,7 @@ public class YamlUtil {
 	
 	/**
 	 * 更新配置管理信息
-	 * @param typeConfig
+	 * @param configerMsg
 	 * @author: jianhua.huang  2017年5月23日 下午5:33:00
 	 */
 	public static void updateDumpConfigManage(ConfigerMsg configerMsg){
