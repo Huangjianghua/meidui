@@ -1,11 +1,7 @@
 package com.meiduimall.service.catalog.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-
 import javax.servlet.http.HttpServletRequest;
 
-import com.meiduimall.exception.ApiException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.ApiException;
 import com.meiduimall.service.catalog.constant.ServiceCatalogApiCode;
 import com.meiduimall.service.catalog.service.GoodsRecommendService;
 import com.meiduimall.service.catalog.util.HttpHeaderTools;
@@ -38,7 +35,7 @@ public class GoodsRecommendController {
 	private GoodsRecommendService goodsRecommendService;
 
 	/**
-	 * 批量插入，或者单个插入推荐商品    
+	 * 批量插入，或者单个插入推荐商品
 	 * 
 	 * @param itemIds
 	 *            商品编号，可以传一个或者多个，不能为空
@@ -51,8 +48,7 @@ public class GoodsRecommendController {
 	 * @return 状态信息
 	 */
 	@RequestMapping(value = "/insertBatch")
-	public ResBodyData insertBatchItems(
-			@RequestParam(value = "item_ids", required = false) String itemIds, String type,
+	public ResBodyData insertBatchItems(@RequestParam(value = "item_ids", required = false) String itemIds, String type,
 			@RequestParam(value = "opt_user", required = false) String optUser,
 			@RequestParam(value = "level", required = false, defaultValue = "0") String level) {
 
@@ -74,14 +70,6 @@ public class GoodsRecommendController {
 		} catch (NumberFormatException e) {
 			logger.error("批量插入，或者单个插入推荐商品，请求参数错误: " + e);
 			throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
-		}
-		
-		if (!StringUtils.isBlank(optUser)) {
-			try {
-				optUser = URLDecoder.decode(optUser, "utf-8");
-			} catch (UnsupportedEncodingException e) {
-				logger.error("批量插入，或者单个插入推荐商品，请求参数错误 optUser: " + e);
-			}
 		}
 
 		if (StringUtils.isBlank(itemIds)) {
