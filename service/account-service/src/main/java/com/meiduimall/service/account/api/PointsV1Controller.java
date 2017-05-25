@@ -169,7 +169,7 @@ public class PointsV1Controller {
 		List<MemberTransferHistory> list=null;
 		try {
 			//分页查询
-			if(transfer.getFlag().equals(Constants.CONSTANT_INT_ONE)){
+			if(transfer.getFlag().equals(Constants.CONSTANT_STR_ONE)){
 				//分页
 				PageHelper.startPage(transfer.getPageNum(), transfer.getPageSize());
 				PageHelper.orderBy("mth_created_date DESC");
