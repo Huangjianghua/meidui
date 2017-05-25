@@ -37,8 +37,11 @@ public class Test {
 		//method1();
 		//method2();
 		//cloneRepository("http://git.meiduimall.com/service/meiduimall.git","d:\\tmp\\test");
-		commitRepository("D:\\gitProject\\featureV4.0.2\\meiduimall","020-service-config.yml","配置文件变动提交");
 		//pushRepository("D:\\gitProject\\featureV4.0.2\\meiduimall");
+		 String projectURL = System.getProperty("user.dir");  
+		 projectURL=projectURL.substring(0,projectURL.indexOf("platform")-1);
+		 System.out.println(projectURL);
+		 commitRepository(projectURL,"020-service-config.yml","配置文件变动提交");
 	}
 	
 	   /**
