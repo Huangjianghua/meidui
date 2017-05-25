@@ -5,8 +5,8 @@ import java.io.Serializable;
 import org.apache.commons.lang3.StringUtils;
 
 import com.meiduimall.exception.MdSysException;
-import com.meiduimall.service.account.constant.ApplicationConstant;
-import com.meiduimall.service.account.constant.MemSignSourceEnum;
+import com.meiduimall.service.account.constant.ConstRegisterSource;
+import com.meiduimall.service.account.constant.ConstSysParamsDefination;
 import com.meiduimall.service.account.util.DESC;
 import com.meiduimall.service.account.util.DoubleCalculate;
 
@@ -70,7 +70,7 @@ public class MSAccountList implements Serializable {
 
 	public String getMemSignSource() {
 		if(StringUtils.isNotBlank(this.memSignSource)){
-			return MemSignSourceEnum.getNameByCode(Integer.parseInt(this.memSignSource));
+			return ConstRegisterSource.getNameByCode(Integer.parseInt(this.memSignSource));
 		}
 		return this.memSignSource;
 	}
@@ -147,7 +147,7 @@ public class MSAccountList implements Serializable {
 	}
 
 	public String getStatus() {
-		if(ApplicationConstant.MEMBER_STATUS_OK.equals(status)){
+		if(ConstSysParamsDefination.MEMBER_STATUS_OK.equals(status)){
 			status="正常";
 		}else{
 			status="禁用";

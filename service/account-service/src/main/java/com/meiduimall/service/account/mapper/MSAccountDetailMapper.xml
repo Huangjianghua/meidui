@@ -34,7 +34,7 @@
 			#{balance},
 			#{orderId},
 			#{remark},
-			now(),
+			#{createDate},
 			unix_timestamp()
 			)
 	</insert>

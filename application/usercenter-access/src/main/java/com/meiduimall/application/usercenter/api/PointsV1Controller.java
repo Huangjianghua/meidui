@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.usercenter.annotation.HasToken;
-import com.meiduimall.application.usercenter.interceptor.ValInterceptor;
+import com.meiduimall.application.usercenter.constant.ApiStatusConst;
 import com.meiduimall.application.usercenter.interceptor.ValRequest;
 import com.meiduimall.application.usercenter.service.PointsService;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.ApiException;
+import com.meiduimall.exception.MdSysException;
 
 /**
  * 积分相关
@@ -34,12 +36,14 @@ public class PointsV1Controller {
 	ResBodyData listConsumePointsDetail(){
 		ResBodyData resBodyData=null;
 		JSONObject reqJson=ValRequest.apiReqData.get();
-		resBodyData=ValInterceptor.apiValResult.get();
-		if(resBodyData.getStatus()!=0)
-			return resBodyData;
-		logger.info("收到积分流水分页API请求：{}",reqJson.toString());
-		resBodyData=pointsService.listConsumePointsDetail(reqJson);
-		logger.info("积分流水分页API请求结果：{}",resBodyData.toString());
+		logger.info("收到积分流水(分页)API请求：{}",reqJson.toString());
+		try {
+			resBodyData=pointsService.listConsumePointsDetail(reqJson);
+		} catch (MdSysException e) {
+			logger.error("积分流水(分页)API异常：{}",e.toString());
+			throw new ApiException(ApiStatusConst.SYSTEM_ERROR);
+		}
+		logger.info("积分流水(分页)API请求结果：{}",resBodyData.toString());
 		return resBodyData;
 	}
 	

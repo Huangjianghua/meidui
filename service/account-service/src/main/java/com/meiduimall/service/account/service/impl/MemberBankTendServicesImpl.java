@@ -10,12 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.meiduimall.service.account.constant.ApiStatusConst;
-import com.meiduimall.service.account.constant.ApplicationConstant;
-import com.meiduimall.service.account.constant.SysParamsConst;
+import com.meiduimall.service.account.constant.ConstSysParamsDefination;
 import com.meiduimall.service.account.model.MSBankAccount;
 import com.meiduimall.service.account.model.MSBankInfo;
-import com.meiduimall.service.account.service.AccountServices;
+import com.meiduimall.service.account.service.AccountService;
 import com.meiduimall.service.account.service.BankAccountService;
 import com.meiduimall.service.account.service.MemberBankTendServices;
 import com.meiduimall.service.account.util.CollectionsUtil;
@@ -35,7 +33,7 @@ public class MemberBankTendServicesImpl implements MemberBankTendServices {
 	private BankAccountService bankAccountService;
 	
 	@Autowired
-	private AccountServices accountServices;
+	private AccountService accountServices;
 
 	@Override
 	public JSONObject addBankAccount(JSONObject param) throws Exception {
@@ -122,14 +120,14 @@ public class MemberBankTendServicesImpl implements MemberBankTendServices {
 			return resultJson;
 		}
 		boolean updateBoolean = false;
-		if(ApplicationConstant.CHANGE_TYPE_UPDATE.equalsIgnoreCase(changeType)){
+		if(ConstSysParamsDefination.CHANGE_TYPE_UPDATE.equalsIgnoreCase(changeType)){
 			Map<String, String> updateMap = new HashMap<>();
 			String[] keys = {"account_idcard","account_no", "account_name", "account_bank", "account_province",
 					"account_city", "account_area", "account_sub_bank","is_default","remark" };
 			updateMap = CollectionsUtil.convertJSONToMap(keys, param);
 			//修改
 			updateBoolean = bankAccountService.updateBankAccount(memId, oldAccountNo, updateMap);
-		}else if(ApplicationConstant.CHANGE_TYPE_DELETE.equalsIgnoreCase(changeType)){
+		}else if(ConstSysParamsDefination.CHANGE_TYPE_DELETE.equalsIgnoreCase(changeType)){
 			//删除
 			updateBoolean = bankAccountService.deleteBankAccount(memId, oldAccountNo);
 		}
@@ -159,7 +157,7 @@ public class MemberBankTendServicesImpl implements MemberBankTendServices {
 		
 		List<MSBankInfo> bankInfoList = bankAccountService.getBankInfoList();
 		if(bankInfoList != null){
-			resultJson.put(SysParamsConst.RESULT, JSONArray.toJSON(bankInfoList).toString());
+			resultJson.put("result", JSONArray.toJSON(bankInfoList).toString());
 		}
 		return resultJson;
 	}
@@ -182,7 +180,7 @@ public class MemberBankTendServicesImpl implements MemberBankTendServices {
 		
 		List<MSBankAccount> bankAccountList = bankAccountService.getBankAccountList(memId);
 		if(bankAccountList != null){
-			resultJson.put(SysParamsConst.RESULT, JSONArray.toJSON(bankAccountList).toString());
+			resultJson.put("result", JSONArray.toJSON(bankAccountList).toString());
 		}
 		return resultJson;
 	}

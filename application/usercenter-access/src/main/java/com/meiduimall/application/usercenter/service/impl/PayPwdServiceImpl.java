@@ -3,7 +3,7 @@ package com.meiduimall.application.usercenter.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.meiduimall.exception.ServiceException;
+import com.meiduimall.exception.MdSysException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,106 +29,92 @@ public class PayPwdServiceImpl implements PayPwdService  {
 	private ProfileParamsConfig profile;
 
 	@Override
-	public ResBodyData validePaypwd(JSONObject reqJson) {
+	public ResBodyData validePaypwd(JSONObject reqJson) throws MdSysException {
 		ResBodyData resBodyData=new ResBodyData(null,null);
 		String url=profile.getServiceAccountUrl()+"v1/valide_pay_pwd";
-		resBodyData=MD5Utils.updateSign(reqJson,profile.getRouteClientID(),profile.getRouteKey());
-		if(resBodyData.getStatus()!=0)
-			return resBodyData;
-		logger.info("请求账户服务>>验证支付密码   URL:{}  Data:{}",url,reqJson.toString());
+		MD5Utils.updateSign(reqJson,profile.getRouteClientID(),profile.getRouteKey());
+		logger.info("调用账户服务>>验证支付密码API>>URL:{}  Data:{}",url,reqJson.toString());
 		try {
 			String result=HttpUtils.form(url,reqJson);
-			logger.info("请求账户服务>>验证支付密码，结果：{}",result);
+			logger.info("调用账户服务>>验证支付密码API>>结果：{}",result);
 			resBodyData=JSON.parseObject(result,ResBodyData.class);
 		} catch (Exception e) {
-			logger.error("请求账户服务异常:{}",e.toString());
-			resBodyData.setStatus(ApiStatusConst.REQUEST_GATEWAY_EX);
-			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.REQUEST_GATEWAY_EX));
+			logger.error("调用账户服务>>验证支付密码API>>异常:{}",e.toString());
+			throw new MdSysException(ApiStatusConst.REQUEST_GATEWAY_EX);
 		}
 		return resBodyData;
 	}
 
 	@Override
-	public ResBodyData setPaypwd(JSONObject reqJson) {
+	public ResBodyData setPaypwd(JSONObject reqJson) throws MdSysException {
 		ResBodyData resBodyData=new ResBodyData(null,null);
 		String url=profile.getServiceAccountUrl()+"v1/set_pay_pwd";
-		resBodyData=MD5Utils.updateSign(reqJson,profile.getRouteClientID(),profile.getRouteKey());
-		if(resBodyData.getStatus()!=0)
-			return resBodyData;
-		logger.info("请求账户服务>>设置支付密码   URL:{}  Data:{}",url,reqJson.toString());
+		MD5Utils.updateSign(reqJson,profile.getRouteClientID(),profile.getRouteKey());
+		logger.info("调用账户服务>>设置支付密码 API URL:{}  Data:{}",url,reqJson.toString());
 		try {
 			String result=HttpUtils.form(url,reqJson);
-			logger.info("请求账户服务>>设置支付密码，结果：{}",result);
+			logger.info("调用账户服务>>设置支付密码API>>结果：{}",result);
 			resBodyData=JSON.parseObject(result,ResBodyData.class);
 		} catch (Exception e) {
-			logger.error("请求账户服务异常:{}",e.toString());
-			resBodyData.setStatus(ApiStatusConst.REQUEST_GATEWAY_EX);
-			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.REQUEST_GATEWAY_EX));
+			logger.error("调用账户服务>>设置支付密码API>>异常:{}",e.toString());
+			throw new MdSysException(ApiStatusConst.REQUEST_GATEWAY_EX);
 		}
 		return resBodyData;
 	}
 
 	@Override
-	public ResBodyData setPaypwdStatus(JSONObject reqJson) {
+	public ResBodyData setPaypwdStatus(JSONObject reqJson) throws MdSysException {
 		ResBodyData resBodyData=new ResBodyData(null,null);
 		String url=profile.getServiceMemberUrl()+"v1/set_paypwd_status";
-		resBodyData=MD5Utils.updateSign(reqJson,profile.getRouteClientID(),profile.getRouteKey());
-		if(resBodyData.getStatus()!=0)
-			return resBodyData;
-		logger.info("请求账户服务>>设置支付密码开关状态   URL:{}  Data:{}",url,reqJson.toString());
+		MD5Utils.updateSign(reqJson,profile.getRouteClientID(),profile.getRouteKey());
+		logger.info("调用账户服务>>设置支付密码开关状态 API>>URL:{}  Data:{}",url,reqJson.toString());
 		try {
 			Map<String, String> headers=new HashMap<>	 ();
 			headers.put(SysParamsConst.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
 			String result=HttpUtils.post(url,reqJson.toString(),headers);
-			logger.info("请求账户服务>>设置支付密码开关状态，结果：{}",result);
+			logger.info("调用账户服务>>设置支付密码开关状态API>>结果：{}",result);
 			resBodyData=JSON.parseObject(result,ResBodyData.class);
 		} catch (Exception e) {
-			logger.error("请求账户服务异常:{}",e.toString());
+			logger.error("调用账户服务>>设置支付密码开关状态API>>异常:{}",e.toString());
 			resBodyData.setStatus(ApiStatusConst.REQUEST_GATEWAY_EX);
 		}
 		return resBodyData;
 	}
 
 	@Override
-	public ResBodyData updatePaypwd(JSONObject reqJson) {
+	public ResBodyData updatePaypwd(JSONObject reqJson) throws MdSysException {
 		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
 		String url=profile.getServiceAccountUrl()+"v1/update_pay_pwd";
-		resBodyData=MD5Utils.updateSign(reqJson,profile.getRouteClientID(),profile.getRouteKey());
-		if(resBodyData.getStatus()!=0){
-			throw new ServiceException(ApiStatusConst.GET_SIGN_EX);
-		}
-		logger.info("请求账户服务>>修改支付密码    URL:{}  DATA:{}",url,reqJson.toString());
+		MD5Utils.updateSign(reqJson,profile.getRouteClientID(),profile.getRouteKey());
+		logger.info("调用账户服务>>修改支付密码API>>URL:{}  DATA:{}",url,reqJson.toString());
 		Map<String, String> headers=new HashMap<>();
 		headers.put(SysParamsConst.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
 		try {
 			String result=HttpUtils.post(url,reqJson.toString(),headers);
-			logger.info("请求账户服务>>修改支付密码，结果：{}",result);
+			logger.info("调用账户服务>>修改支付密码API>>结果：{}",result);
 			resBodyData=JSON.parseObject(result,ResBodyData.class);
 		} catch (Exception e) {
-			logger.error("请求账户服务>>修改支付密码 异常：{}",e.toString());
-			throw new ServiceException(ApiStatusConst.REQUEST_GATEWAY_EX);
+			logger.error("调用账户服务>>修改支付密码API>>异常：{}",e.toString());
+			throw new MdSysException(ApiStatusConst.REQUEST_GATEWAY_EX);
 		}
 		return resBodyData;
 	}
 	
 	@Override
-	public ResBodyData retrievePaypwd(JSONObject reqJson) {
+	public ResBodyData retrievePaypwd(JSONObject reqJson) throws MdSysException {
 		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
 		String url=profile.getServiceAccountUrl()+"v1/retrieve_pay_pwd";
-		resBodyData=MD5Utils.updateSign(reqJson,profile.getRouteClientID(),profile.getRouteKey());
-		if(resBodyData.getStatus()!=0){
-			throw new ServiceException(ApiStatusConst.GET_SIGN_EX);
-		}
-		logger.info("请求账户服务>>找回支付密码    URL:{}  DATA:{}",url,reqJson.toString());
+		MD5Utils.updateSign(reqJson,profile.getRouteClientID(),profile.getRouteKey());
+		logger.info("调用账户服务>>找回支付密码API>>URL:{}  DATA:{}",url,reqJson.toString());
 		Map<String, String> headers=new HashMap<>();
 		headers.put(SysParamsConst.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
 		try {
 			String result=HttpUtils.post(url,reqJson.toString(),headers);
-			logger.info("请求账户服务>>找回支付密码，结果：{}",result);
+			logger.info("调用账户服务>>找回支付密码API>>结果：{}",result);
 			resBodyData=JSON.parseObject(result,ResBodyData.class);
 		} catch (Exception e) {
-			logger.error("请求账户服务>>找回支付密码 异常：{}",e.toString());
-			throw new ServiceException(ApiStatusConst.REQUEST_GATEWAY_EX);
+			logger.error("调用账户服务>>找回支付密码API>>异常：{}",e.toString());
+			throw new MdSysException(ApiStatusConst.REQUEST_GATEWAY_EX);
 		}
 		return resBodyData;
 	}

@@ -15,11 +15,9 @@ import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.redis.util.RedisTemplate;
-import com.meiduimall.service.account.constant.ApiStatusConst;
-import com.meiduimall.service.account.constant.SysEncrypParamsConst;
-import com.meiduimall.service.account.constant.SysParamsConst;
+import com.meiduimall.service.account.constant.ConstApiStatus;
+import com.meiduimall.service.account.constant.ConstPointsChangeType;
 import com.meiduimall.service.account.dao.BaseDao;
-import com.meiduimall.service.account.service.AccountServices;
 import com.meiduimall.service.account.service.MDMallServices;
 import com.meiduimall.service.account.service.MSConsumePointsDetailService;
 import com.meiduimall.service.account.util.DESC;
@@ -42,13 +40,12 @@ public class MDMallServicesImpl implements MDMallServices {
 	private  BaseDao  baseDao;
 	@Autowired
 	private  MSConsumePointsDetailService msConsumePointsDetailService;
-	@Autowired
-	private AccountServices accountServices;
+
 	@Override
 	public String addMallPoints(JSONObject jsonobj, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		JSONObject result = new JSONObject();
-		result.put(SysParamsConst.STATUS_CODE, ApiStatusConst.SUCCESS);
+		result.put("status_code", ConstApiStatus.SUCCESS);
 		String token = jsonobj.getString("token");    //用户标识
 		String memid=RedisTemplate.getJedisInstance().execGetFromCache(token);
 		String loginname = jsonobj.getString("show_login_name");//用户名
@@ -64,16 +61,16 @@ public class MDMallServicesImpl implements MDMallServices {
 		/*MemberGet member = baseDao.selectOne(param,"MemberMapper.getMemIdAndPhoneByUserId");*/
 		String member=null;
 		if(member == null){
-			result.put(SysParamsConst.STATUS_CODE, "1002");
-			result.put(SysParamsConst.RESULT_MSG, "当前用户在会员系统不存在");
+			result.put("status_code", "1002");
+			result.put("msg", "当前用户在会员系统不存在");
 			logger.warn("未获取到有效的会员信息，充值失败."+memid);
 			return result.toString();
 		}
 		/** 调用美兑接口充值，扣除GCI钱包消费 */
 		String orderId = "1GW+" + loginname + "+" + String.valueOf(System.currentTimeMillis()/1000L);
 		JSONObject resultAddBank = invokForAddBank(request, ip,"memId", loginname, password, topupnum, orderId);
-		if (!ApiStatusConst.SUCCESS.equals(resultAddBank
-				.getString(SysParamsConst.STATUS_CODE))) {
+		if (!ConstApiStatus.SUCCESS.equals(resultAddBank
+				.getString("status_code"))) {
 			return resultAddBank.toString();
 		}else{
 			result = resultAddBank;
@@ -84,17 +81,17 @@ public class MDMallServicesImpl implements MDMallServices {
 		if(member != null){
 			boolean resultBool  = addMDConsumePoints("memId",topupnum);
 			if(!resultBool){
-				/*result.put(SysParaNameConst.STATUS_CODE,ApiStatusConst.SERVER_ERROR);
+				/*result.put(SysParaNameConst.status_code,ApiStatusConst.SERVER_ERROR);
 				result.put(SysParaNameConst.RESULT_MSG,ApiStatusConst.SERVER_ERROR_C);*/
 				logger.info("addMallPoints处理完成，出现系统异常." +memid);
 				return result.toString();
 			} 
 			//插入账户明细表
-			msConsumePointsDetailService.saveAddConsumePoints(
+			/*msConsumePointsDetailService.saveAddConsumePoints(
 					"memId", orderId,
 					SerialStringUtil.getDictOrderSource(orderSource), topupnum,
-					SysEncrypParamsConst.POINTS_OPERATOR_TYPE_CZ,"memId", 
-					SerialStringUtil.getPointsRemark(SysEncrypParamsConst.POINTS_OPERATOR_TYPE_CZ,"phone"));
+					ConstPointsChangeType.POINTS_OPERATOR_TYPE_CZ,"memId", 
+					SerialStringUtil.getPointsRemark(ConstPointsChangeType.POINTS_OPERATOR_TYPE_CZ,"phone"));*/
 			logger.info("回写会员积分成功，积分数额：" + topupnum +memid);
 		}
 		logger.info("addMallPoints处理完成，没有异常."+memid);
@@ -118,7 +115,7 @@ public class MDMallServicesImpl implements MDMallServices {
 	public JSONObject invokForAddBank(HttpServletRequest request, String ip, String memid, String userid,
 			String password, String topupnum, String orderid) {
 		JSONObject result = new JSONObject();
-		result.put(SysParamsConst.STATUS_CODE,ApiStatusConst.SUCCESS);
+		result.put("status_code",ConstApiStatus.SUCCESS);
 		String appendMsg = "[" + orderid + "]"; 
 		//调用接口参数
 		String key = SystemConfig.configMap.get("MD_ADDBANK_KEY");
@@ -137,8 +134,8 @@ public class MDMallServicesImpl implements MDMallServices {
 		logger.info("调用美兑充值接口，返回参数：" + resultAddBank.toString() + appendMsg);
 		
 		if("false".equals(resultAddBank.getString("status"))){
-			result.put(SysParamsConst.STATUS_CODE, resultAddBank.getString("code"));
-			result.put(SysParamsConst.RESULT_MSG, resultAddBank.getString("error"));
+			result.put("status_code", resultAddBank.getString("code"));
+			result.put("msg", resultAddBank.getString("error"));
 		}
 		return result;
 	}
@@ -176,7 +173,7 @@ public class MDMallServicesImpl implements MDMallServices {
 	public String queryMallMoney(JSONObject obj, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		JSONObject  result  = new JSONObject();
-		result.put(SysParamsConst.STATUS_CODE,ApiStatusConst.SUCCESS);
+		result.put("status_code",ConstApiStatus.SUCCESS);
 		String oauthnonce =randomData(); //唯一标识
 		String userid = obj.getString("token");    //用户标识
 		userid=RedisTemplate.getJedisInstance().execGetFromCache(userid);
@@ -193,16 +190,16 @@ public class MDMallServicesImpl implements MDMallServices {
 		/*MemberGet member = baseDao.selectOne(param,"MemberMapper.getMemIdAndPhoneByUserId");*/
 		String member=null;
 		if(member == null){
-			result.put(SysParamsConst.STATUS_CODE, "1002");
-			result.put(SysParamsConst.RESULT_MSG, "当前用户在会员系统不存在");
+			result.put("status_code", "1002");
+			result.put("msg", "当前用户在会员系统不存在");
 			logger.warn("未获取到有效的会员信息，查询失败."+appendMsg);
 			return result.toString();
 		}
 		/** 调用美兑查询接口 */
 		JSONObject resultGetBank = invokForGetBank(request, ip,
 				"memId", loginname, password, oauthnonce);
-		if (!ApiStatusConst.SUCCESS.equals(resultGetBank
-				.getString(SysParamsConst.STATUS_CODE))) {
+		if (!ConstApiStatus.SUCCESS.equals(resultGetBank
+				.getString("status_code"))) {
 			return resultGetBank.toString();
 		}else{
 			result = resultGetBank;
@@ -226,7 +223,7 @@ public class MDMallServicesImpl implements MDMallServices {
 	public JSONObject invokForGetBank(HttpServletRequest request, String ip, String memid, String userid,
 			String password, String oauthnonce) throws Exception {
 		JSONObject result = new JSONObject();
-		result.put(SysParamsConst.STATUS_CODE,ApiStatusConst.SUCCESS);
+		result.put("status_code",ConstApiStatus.SUCCESS);
 		String appendMsg = "[" + oauthnonce + "]"; 
 		//调用接口参数
 		String key = SystemConfig.configMap.get("MD_GETBANK_KEY");
@@ -239,8 +236,8 @@ public class MDMallServicesImpl implements MDMallServices {
 		JSONObject resultAddBank = JSONObject.parseObject(RequestURL.getHttpsServer(SystemConfig.configMap.get("MD_GETBANK_URL"), paramJson));
 		Logger.info("调用美兑查询接口，返回参数：" + resultAddBank.toString() + appendMsg);
 		if("false".equals(resultAddBank.getString("status"))){
-			result.put(SysParamsConst.STATUS_CODE, resultAddBank.getString("code"));
-			result.put(SysParamsConst.RESULT_MSG, resultAddBank.getString("error"));
+			result.put("status_code", resultAddBank.getString("code"));
+			result.put("msg", resultAddBank.getString("error"));
 		}else{
 			//查询返回金额
 			JSONObject  dataObject = new JSONObject();
@@ -262,8 +259,8 @@ public class MDMallServicesImpl implements MDMallServices {
 				&& !StringUtil.isPhoneToRegex(intoUserId)
 				&& !StringUtil.isEmailToRegex(intoUserId)
 				&& !(StringUtil.stringByFilter(intoUserId).length() == intoUserId.length())) {
-			result.put(SysParamsConst.STATUS_CODE, 1013);
-			result.put(SysParamsConst.RESULT_MSG, "转入积分的会员账户输入错误");
+			result.put("status_code", 1013);
+			result.put("msg", "转入积分的会员账户输入错误");
 			logger.info("会员"+memid+"输入错误");
 			return result.toString();
 		}
@@ -273,16 +270,16 @@ public class MDMallServicesImpl implements MDMallServices {
 		param.put("depytValue",memid);
 	/*	MemberGet member1 = baseDao.selectOne(param,"MemberMapper.getMemIdAndPhoneByUserId");
 		if(member1 == null){
-			result.put(SysParamsConst.STATUS_CODE, 1014);
-			result.put(SysParamsConst.RESULT_MSG, "转出积分的用户在会员系统不存在");
+			result.put("status_code", 1014);
+			result.put("msg", "转出积分的用户在会员系统不存在");
 			return result.toString();
 		}
 		if (StringUtil.isEmptyByString(intoUserId)
 				&& !StringUtil.isPhoneToRegex(intoUserId)
 				&& !StringUtil.isEmailToRegex(intoUserId)
 				&& !(StringUtil.stringByFilter(intoUserId).length() == intoUserId.length())) {
-			result.put(SysParamsConst.STATUS_CODE, 1015);
-			result.put(SysParamsConst.RESULT_MSG, "转入积分的会员账户输入错误");
+			result.put("status_code", 1015);
+			result.put("msg", "转入积分的会员账户输入错误");
 			Logger.info("会员"+intoUserId+"输入错误");
 			return result.toString();
 		}
@@ -292,21 +289,21 @@ public class MDMallServicesImpl implements MDMallServices {
 		param.put("depytValue",DESC.deyption(DESC.encryption(intoUserId)));
 		MemberGet member2 = baseDao.selectOne(param,"MemberMapper.getMemIdAndPhoneByUserId");
 		if(member2 == null){
-			result.put(SysParamsConst.STATUS_CODE, 1016);
-			result.put(SysParamsConst.RESULT_MSG, "被转入积分的用户在会员系统不存在");
+			result.put("status_code", 1016);
+			result.put("msg", "被转入积分的用户在会员系统不存在");
 			Logger.warn("未获取到有效的会员信息，转账失败."+intoUserId);
 			return result.toString();
 		}
 		if (StringUtil.isEmptyByString(integralQuantity) || !StringUtil.isNumeric(integralQuantity)) {
-			result.put(SysParamsConst.STATUS_CODE, 1017);
-			result.put(SysParamsConst.RESULT_MSG, "积分值不能为空或应为包含小数点的纯数字");
+			result.put("status_code", 1017);
+			result.put("msg", "积分值不能为空或应为包含小数点的纯数字");
 			Logger.info("积分值"+integralQuantity+"输入错误");
 			return result.toString();
 		}
 		*//** 转出会员与转入会员相同 *//*
 		if(member1.getMemId().equals(member2.getMemId())){
-			result.put(SysParamsConst.STATUS_CODE, 1016);
-			result.put(SysParamsConst.RESULT_MSG, "转出会员与转入会员相同，无需转账.");
+			result.put("status_code", 1016);
+			result.put("msg", "转出会员与转入会员相同，无需转账.");
 			Logger.warn("转出会员与转入会员相同，转账失败.");
 			return result.toString();
 		}
@@ -314,15 +311,15 @@ public class MDMallServicesImpl implements MDMallServices {
 			double nowpoints =Double.valueOf(member1.getMemBasicAccountTotalQuantity());
 			double tfpoints = Double.valueOf(integralQuantity);
 			if(nowpoints < 0 || (nowpoints - tfpoints) < 0 ){
-				result.put(SysParamsConst.STATUS_CODE, "1015");
-				result.put(SysParamsConst.RESULT_MSG, "转出积分失败，积分不足.");
+				result.put("status_code", "1015");
+				result.put("msg", "转出积分失败，积分不足.");
 				Logger.info("会员"+intoUserId+"转出积分大于剩余积分总额.");
 				return result.toString();
 			}
 		}catch (Exception e) {
 			// TODO: handle exception
-			result.put(SysParamsConst.STATUS_CODE, "1015");
-			result.put(SysParamsConst.RESULT_MSG, "转出积分错误，积分不足.");
+			result.put("status_code", "1015");
+			result.put("msg", "转出积分错误，积分不足.");
 			Logger.info("会员"+intoUserId+"转出积分计算出现错误，错误原因："+e.getMessage());
 			return result.toString();
 		}
@@ -335,7 +332,7 @@ public class MDMallServicesImpl implements MDMallServices {
 		 SerialStringUtil.getPointsRemark(SysEncrypParamsConst.POINTS_OPERATOR_TYPE_JFZC, member2.getMemPhone()));
 		Logger.info("扣减用户名为："+memid+"的积分，扣减结果(isSuccess1)为：" + (isSuccess1 == true?"成功":"失败"));
 		if(!isSuccess1){
-			result.put(SysConstant.STATUS_CODE, 1019);
+			result.put(SysConstant.status_code, 1019);
 			result.put(SysConstant.RESULT_MSG,"转出积分失败");
 			return result.toString();
 		}
@@ -382,7 +379,7 @@ public class MDMallServicesImpl implements MDMallServices {
 				history2.setMthAccount(member1.getMemLoginName());//转出积分的账号
 				history2.setTransInMemberNickName(intoUserId); //被转入积分的账号
 				baseDao.insert(history2,"MemberTransferHistoryMapper.saveMemberTransferHistory");
-				result.put(SysConstant.STATUS_CODE, SysConstant.ZERO);
+				result.put(SysConstant.status_code, SysConstant.ZERO);
 				result.put(SysConstant.RESULT_MSG, SysConstant.SUCCESS);*/
 		return result.toString();
 	}

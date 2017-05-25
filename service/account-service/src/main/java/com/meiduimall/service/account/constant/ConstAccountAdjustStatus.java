@@ -1,21 +1,20 @@
 package com.meiduimall.service.account.constant;
+
 /**
- * 
- * @author:   jianhua.huang 
- * @version:  2017年5月5日 下午5:36:34 0.1 
- * Description:调整类型枚举
+ * 账户调整状态
+ * @author huangjianhua
+ *
  */
-public enum AccountReviseTypeEnum {
-	/**1表示调增  **/
-	UP("1", "调增"),
-	/**2表示 调减 **/
-	CUT_DOWN("2", "调减");
+public enum ConstAccountAdjustStatus {
+	
+	WAIT_CHECK("WR", "待审核"),
+	ALREADY_CHECK("AR", "已审核"),
+	ALREADY_REJECT("RR", "已拒绝");
 
 	private String code;
-	
 	private String name;
 
-	private AccountReviseTypeEnum(String code, String name) {
+	private ConstAccountAdjustStatus(String code, String name) {
 		this.code = code;
 		this.name = name;
 	}
@@ -37,8 +36,8 @@ public enum AccountReviseTypeEnum {
 	}
 	
 	public static String getNameByCode(String code){
-		AccountReviseTypeEnum[] values = AccountReviseTypeEnum.values();
-		for(AccountReviseTypeEnum val : values){
+		ConstAccountAdjustStatus[] values = ConstAccountAdjustStatus.values();
+		for(ConstAccountAdjustStatus val : values){
 			if(val.getCode().equals(code)){
 				return val.getName();
 			}

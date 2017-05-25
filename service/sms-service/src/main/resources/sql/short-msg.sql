@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 --线上环境短信内容对应的阿里大于短信通道模板的ID
 ﻿UPDATE msg_template_info SET external_template_no = 'SMS_56140232' WHERE id = 1;
 UPDATE msg_template_info SET external_template_no = 'SMS_56450016' WHERE id = 2;
@@ -34,3 +35,18 @@ UPDATE msg_template_info SET effective_time='60';
 ﻿UPDATE msg_template_info SET template_content = '【美兑】亲爱的{0}，您已成功注册并获赠100积分，推荐好友注册也可获赠100积分！客服热线：4006226555。' WHERE id = '8';
 ﻿UPDATE msg_template_info SET template_content = '【美兑】您的验证码是{VerificationCode}，10分钟内有效，请尽快完成验证。（如非本人操作，请忽略本短信）' WHERE id = '9';
 
+=======
+--线上环境短信内容对应的阿里大于短信通道模板的ID
+﻿update msg_template_info set external_template_no = 'SMS_56140232' where id = 1;
+update msg_template_info set external_template_no = 'SMS_56450016' where id = 2;
+update msg_template_info set external_template_no = 'SMS_56120198' where id = 3;
+update msg_template_info set external_template_no = 'SMS_56105203' where id = 4;
+update msg_template_info set external_template_no = 'SMS_56230232' where id = 5;
+update msg_template_info set external_template_no = 'SMS_56210163' where id = 6;
+update msg_template_info set external_template_no = 'SMS_56150202' where id = 7;
+update msg_template_info set external_template_no = 'SMS_56195208' where id = 8;
+update msg_template_info set external_template_no = 'SMS_56050275' where id = 11;
+update msg_template_info set external_template_no = 'SMS_56560005' where id = 12;
+update msg_template_info set external_template_no = 'SMS_56150201' where id = 13;
+update msg_template_info set external_template_no = 'SMS_56230230' where id = 14;
+>>>>>>> refs/remotes/origin/feature/V4.0.2-Team2

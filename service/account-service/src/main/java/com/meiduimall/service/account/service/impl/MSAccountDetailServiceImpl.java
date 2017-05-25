@@ -12,18 +12,19 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdBizException;
-import com.meiduimall.service.account.constant.AccountReviseStatusEnum;
-import com.meiduimall.service.account.constant.AccountReviseTypeEnum;
-import com.meiduimall.service.account.constant.ApiStatusConst;
-import com.meiduimall.service.account.constant.ApplicationConstant;
-import com.meiduimall.service.account.constant.Constant;
-import com.meiduimall.service.account.constant.MSBankWithDrawDepositStatusEnum;
+import com.meiduimall.service.account.constant.ConstAccountAdjustStatus;
+import com.meiduimall.service.account.constant.ConstApiStatus;
+import com.meiduimall.service.account.constant.ConstSysParamsDefination;
+import com.meiduimall.service.account.constant.ConstTradeType;
+import com.meiduimall.service.account.constant.ConstAccountAdjustType;
+import com.meiduimall.service.account.constant.ConstWithdrawStatus;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.AccountReviseDetail;
 import com.meiduimall.service.account.model.AddOrUpdateAccountReviseDetail;
@@ -40,14 +41,15 @@ import com.meiduimall.service.account.model.request.RequestAccountReviseDetail;
 import com.meiduimall.service.account.model.request.RequestMSAccountList;
 import com.meiduimall.service.account.model.request.RequestMSBankWithDrawDepostie;
 import com.meiduimall.service.account.service.AccountFreezeDetailService;
-import com.meiduimall.service.account.service.AccountServices;
+import com.meiduimall.service.account.service.AccountService;
 import com.meiduimall.service.account.service.BankAccountService;
 import com.meiduimall.service.account.service.MSAccountDetailService;
 import com.meiduimall.service.account.util.DateUtil;
 import com.meiduimall.service.account.util.DoubleCalculate;
 import com.meiduimall.service.account.util.GenerateNumber;
+
 @Transactional
-@Component
+@Service
 public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 
 	private final static Logger logger=LoggerFactory.getLogger(MSAccountDetailServiceImpl.class);
@@ -55,7 +57,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 	@Autowired
 	private BaseDao baseDao;
 	@Autowired
-	AccountServices accountServices;
+	AccountService accountServices;
 	@Autowired
 	private AccountFreezeDetailService  accountFreezeDetailService;
 	@Autowired
@@ -82,7 +84,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			selectList = baseDao.selectList(mSAccountDetailCondition, "listMSAccountCondition");
 		} catch (Exception e) {
 			logger.error("查询余额流水出现错误，错误信息：{}", e.getMessage());
-			throw new MdBizException(ApiStatusConst.SERVER_DEAL_WITH_EXCEPTION);
+			throw new MdBizException(ConstApiStatus.SERVER_DEAL_WITH_EXCEPTION);
 		}
 		return selectList;
 	}
@@ -101,7 +103,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			if(!CollectionUtils.isEmpty(selectList)) return selectList;
 		}catch(Exception e){
 			logger.error("查询会员列表出现错误,错误信息:{}", e.getMessage());
-			throw new MdBizException(ApiStatusConst.QUERY_MEMBER_LIST_ERROR);
+			throw new MdBizException(ConstApiStatus.QUERY_MEMBER_LIST_ERROR);
 		}
 		return selectList;
 	}
@@ -114,7 +116,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			 baseDao.insert(dto, "AccountReviseDetailMapper.insertAccountReviseDetail");
 		} catch (Exception e) {
 			logger.error("添加调整余额addMSAccountReviseDetail错误:{}", e.getMessage());
-			throw new MdBizException(ApiStatusConst.INSERT_MEMBER_REVISE_DETAIL_ERROR);
+			throw new MdBizException(ConstApiStatus.INSERT_MEMBER_REVISE_DETAIL_ERROR);
 		}
 	}
 
@@ -125,7 +127,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			result=baseDao.update(dto, "AccountReviseDetailMapper.updateAccountReviseDetail");
 		} catch (Exception e) {
 			logger.error("修改调整余额updateMSAccountReviseDetail异常:{}", e.getMessage());
-			throw new MdBizException(ApiStatusConst.UPDATE_ACCOUNT_REVISE_BALANCE_ERROR);
+			throw new MdBizException(ConstApiStatus.UPDATE_ACCOUNT_REVISE_BALANCE_ERROR);
 		}
 		return result;
 	}
@@ -133,13 +135,13 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 	@Override
 	public AccountReviseDetail getMSAccountReviseDetail(String id) throws MdBizException {
 		AccountReviseDetail detail=null;
-		if(StringUtils.isBlank(id)) throw new MdBizException(ApiStatusConst.REQUIRED_PARAM_EMPTY);
+		if(StringUtils.isBlank(id)) throw new MdBizException(ConstApiStatus.REQUIRED_PARAM_EMPTY);
 		try {
 			detail=baseDao.selectOne(id, "AccountReviseDetailMapper.getAccountReviseDetail");
 			if(detail!=null) return detail;
 		} catch (Exception e) {
 			logger.error("根据Id:{},查询会员余额明细getMSAccountReviseDetail异常:{}", id,e.getMessage());
-			throw new MdBizException(ApiStatusConst.ACCOUNT_REVISE_IS_NULL_ERROR);
+			throw new MdBizException(ConstApiStatus.ACCOUNT_REVISE_IS_NULL_ERROR);
 		}
 		return detail;
 	}
@@ -152,7 +154,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			if(!CollectionUtils.isEmpty(list)) return list;
 		} catch (Exception e) {
 			logger.error("查询会员余额明细列表queryMSAccountReviseDetailList异常:{}", e.getMessage());
-			throw new MdBizException(ApiStatusConst.ACCOUNT_REVISE_IS_NULL_ERROR);
+			throw new MdBizException(ConstApiStatus.ACCOUNT_REVISE_IS_NULL_ERROR);
 		}
 		return list;
 	}
@@ -160,18 +162,18 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 	@Override
 	public ResBodyData examineMSAccountReviseDetail(AddOrUpdateAccountReviseDetail dto) throws MdBizException {
 		//step1 查询余额调整记录
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS, ApiStatusConst.SUCCESS_M);
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M);
 		AccountReviseDetail detail=this.getMSAccountReviseDetail(dto.getId());
 		//审核同意操作
-		if(dto.getOperate().equals(Constant.OPERATE_AGREE)){
+		if(dto.getOperate().equals(ConstSysParamsDefination.OPERATE_AGREE)){
 			//step2 修改余额调整记录状态为"已审核"
-			dto.setStatus(AccountReviseStatusEnum.AUDITED_REVIEW.getCode());
+			dto.setStatus(ConstAccountAdjustStatus.ALREADY_CHECK.getCode());
 			this.updateMSAccountReviseDetail(dto);
 			//step3  查询用户余额 修改余额
 			resBodyData=dealWithAccountMoney(detail);
 		}else{
 			//驳回操作  修改状态为"已拒绝"
-			dto.setStatus(AccountReviseStatusEnum.REJECTED_REVIEW.getCode());
+			dto.setStatus(ConstAccountAdjustStatus.ALREADY_REJECT.getCode());
 			this.updateMSAccountReviseDetail(dto);
 		}
 		return resBodyData;
@@ -186,14 +188,14 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 	 */
 	private ResBodyData dealWithAccountMoney(AccountReviseDetail detail) throws MdBizException{
 		//step1 查询账号
-		Double balance=Constant.ZERO;
+		Double balance=Double.valueOf(Constants.CONSTANT_INT_ZERO);
 		MSAccount account=this.queryAccountByMemId(detail.getMemId());
 		//step2  判断调整类型   1-调增金额   2-调减金额  
-		String type=Constant.ONE; //表示余额明细 支出类型  1表示收入  -1表示支出
-		if(detail.getReviseType().equals(AccountReviseTypeEnum.CUT_DOWN.getName())){
+		String type=String.valueOf(Constants.CONSTANT_INT_ONE); //表示余额明细 支出类型  1表示收入  -1表示支出
+		if(detail.getReviseType().equals(ConstAccountAdjustType.CUTDOWN.getName())){
 			balance = DoubleCalculate.sub(Double.valueOf(account.getBalance()),detail.getReviseBalance().doubleValue());
-			if(balance<Constant.ZERO) throw new MdBizException(ApiStatusConst.ACCOUNT_REVISE_BALANCE_ERROR);
-			type=Constant.NEGATIVE_NUMBER_ONE;
+			if(balance<Constants.CONSTANT_INT_ZERO) throw new MdBizException(ConstApiStatus.ACCOUNT_REVISE_BALANCE_ERROR);
+			type=String.valueOf(Constants.CONSTANT_INT_INVALID);
 		}else{
 			balance = DoubleCalculate.add(Double.valueOf(account.getBalance()),detail.getReviseBalance().doubleValue());
 		}
@@ -201,7 +203,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		this.updateAccountBalance(account.getId(), balance);
 		//step4 记录调整金额流水记录
 		this.saveAccountDetail(detail,account,type,balance);
-		return new ResBodyData(ApiStatusConst.SUCCESS, ApiStatusConst.SUCCESS_M);
+		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M);
 	}
 	
 	/**
@@ -212,14 +214,14 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 	private Integer updateAccountBalance(String id, Double balance) throws MdBizException{
 		Map<String,String> paramsMap = new HashMap<String,String>();
 		paramsMap.put("id", id);
-		paramsMap.put("accountType", ApplicationConstant.ACCOUNT_TYPE_MONEY);
+		paramsMap.put("accountType", ConstSysParamsDefination.ACCOUNT_TYPE_MONEY);
 		paramsMap.put("balance", String.valueOf(balance));
 		Integer updateFlag=0;
 		try {
 			updateFlag = baseDao.update(paramsMap, "MSAccountMapper.updateAccountBalance");
 		} catch (Exception e) {
 			logger.error("修改会员账户余额updateAccountBalance接口,ID:{},balance:{},异常:{}", id,balance,e.getMessage());
-			throw new MdBizException(ApiStatusConst.UPDATE_ACCOUNT_BALANCE_ERROR);
+			throw new MdBizException(ConstApiStatus.UPDATE_ACCOUNT_BALANCE_ERROR);
 		}
 		return updateFlag;
 	}
@@ -231,7 +233,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 	 */
 	private void saveAccountDetail(AccountReviseDetail detail,MSAccount account,String type,Double balance) throws MdBizException{
 		//业务流水号  CWTZ+年月日时+6位随机数
-		StringBuffer businesNo=new StringBuffer(Constant.TRADETYPE);
+		StringBuffer businesNo=new StringBuffer(ConstSysParamsDefination.TRADETYPE);
 		businesNo.append(DateUtil.format(new Date(), DateUtil.YYYYMMDDHH));
 		businesNo.append(100000+new Random().nextInt(900000));
 		
@@ -241,17 +243,18 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		paramsMap.put("orderId", businesNo.toString());
 		paramsMap.put("accountId", account.getId());
 		paramsMap.put("accountType", account.getType());
-		paramsMap.put("tradeType", Constant.TRADETYPE);
+		paramsMap.put("tradeType", ConstSysParamsDefination.TRADETYPE);
 		paramsMap.put("tradeAmount", detail.getReviseBalance().toString());
 		paramsMap.put("balance", balance.toString());
-		paramsMap.put("remark", detail.getReviseRemark());
+		paramsMap.put("remark", detail.getWalletName());
 		paramsMap.put("inOrOut", type);
 		paramsMap.put("tradeDate", DateUtil.format(new Date(),DateUtil.YYYY_MM_DD_HH_MM_SS));
+		paramsMap.put("createDate", DateUtil.format(new Date(),DateUtil.YYYY_MM_DD_HH_MM_SS));
 		try {
 			baseDao.insert(paramsMap, "MSAccountDetailMapper.insertAccountDetail");
 		} catch (Exception e) {
 			logger.error("写入账户变动明细saveAccountDetail异常:{},会员编号:{},订单编号:{}",e.getMessage(),detail.getMemId(), detail.getId());
-			throw new MdBizException(ApiStatusConst.INSERT_ACCOUNT_DETAIL_ERROR);
+			throw new MdBizException(ConstApiStatus.INSERT_ACCOUNT_DETAIL_ERROR);
 		}
 	}
 
@@ -273,7 +276,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			baseDao.insert(detail, "MSBankWithDrawOperateDetail.insertOperateDetail");
 		} catch (Exception e) {
 			logger.error("修改提现记录updateWithDraw异常:{}", e.getMessage());
-			throw new MdBizException(ApiStatusConst.UPDATE_BANK_WITHDRAW_DEPOSIT_ERROR);
+			throw new MdBizException(ConstApiStatus.UPDATE_BANK_WITHDRAW_DEPOSIT_ERROR);
 		}
 		return result;
 	}
@@ -285,24 +288,24 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 	@Override
 	public void rejectWithDraw(RequestMSBankWithDrawDepostie deposit) throws MdBizException {
 		//step1 判断是否客服审核
-		if(Constant.CUSTOMER_OPERATE.equals(deposit.getOperate())){
-			deposit.setOperate(Constant.CUSTOMER_OPERATE_DESCRIPTION);
-			deposit.setStatus(MSBankWithDrawDepositStatusEnum.WR.getCode());
+		if(ConstSysParamsDefination.CUSTOMER_OPERATE.equals(deposit.getOperate())){
+			deposit.setOperate(ConstSysParamsDefination.CUSTOMER_OPERATE_DESCRIPTION);
+			deposit.setStatus(ConstWithdrawStatus.ALREADY_REJECT.getCode());
 		   //step2 查询提现记录
 			MSBankWithdrawDeposit withdrawDeposit=this.queryMSBankWithdrawDepositById(deposit.getId());
 			Date date=new Date();
 			//step3 修改会员金额变动
 			accountServices.cutConsumeFreezeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
-					ApplicationConstant.MONEY_TRADE_TYPE_YETX, date,
-					withdrawDeposit.getActualCarryCash(), Constant.ACCOUNT_BALANCE_DETAIL_REMARK);
+					ConstTradeType.TRADE_TYPE_YETX.getCode(), date,
+					withdrawDeposit.getActualCarryCash(), ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
 			
 			accountServices.cutConsumeFreezeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
-					ApplicationConstant.MONEY_TRADE_TYPE_TXSX, date,
-					withdrawDeposit.getCounterFee(), Constant.ACCOUNT_FEE_DETAIL_REMARK);
+					ConstTradeType.TRADE_TYPE_TXSX.getCode(), date,
+					withdrawDeposit.getCounterFee(), ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);
 		}else{
 			//财务审核驳回   修改状态为"待客服审核"
-			deposit.setOperate(Constant.FINANCE_OPERATE_DESCRIPTION);
-			deposit.setStatus(MSBankWithDrawDepositStatusEnum.WCR.getCode());
+			deposit.setOperate(ConstSysParamsDefination.FINANCE_OPERATE_DESCRIPTION);
+			deposit.setStatus(ConstWithdrawStatus.WAIT_CS_CHECK.getCode());
 		}
 		//step4 修改提现操作
 		this.updateWithDraw(deposit);
@@ -317,7 +320,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			if(!CollectionUtils.isEmpty(listDetail)) deposit.setListDetail(listDetail);
 		} catch (Exception e) {
 			logger.error("查看提现记录queryMSBankWithdrawDepositDetail异常:{}", e.getMessage());
-			throw new MdBizException(ApiStatusConst.QUERY_BANK_WITHDRAW__DETAIL_BY_ID_ERROR);
+			throw new MdBizException(ConstApiStatus.QUERY_BANK_WITHDRAW__DETAIL_BY_ID_ERROR);
 		}
 		return deposit;
 	}
@@ -330,20 +333,20 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		try {
 			//step2调用 提现处理冻结金额
 			accountServices.cutConsumeFreezeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
-					ApplicationConstant.MONEY_TRADE_TYPE_YETX, date,withdrawDeposit.getActualCarryCash(), Constant.ACCOUNT_BALANCE_DETAIL_REMARK);
+					ConstTradeType.TRADE_TYPE_YETX.getCode(), date,withdrawDeposit.getActualCarryCash(), ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
 			
 			accountServices.cutConsumeFreezeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
-					ApplicationConstant.MONEY_TRADE_TYPE_TXSX, date,withdrawDeposit.getCounterFee(), Constant.ACCOUNT_FEE_DETAIL_REMARK);
+					ConstTradeType.TRADE_TYPE_TXSX.getCode(), date,withdrawDeposit.getCounterFee(), ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);
 			
 			//step2调用 提现处理可用金额
 			accountServices.cutConsumeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
-					ApplicationConstant.MONEY_TRADE_TYPE_YETX, date,withdrawDeposit.getActualCarryCash(), Constant.ACCOUNT_BALANCE_DETAIL_REMARK);
+					ConstTradeType.TRADE_TYPE_YETX.getCode(), date,withdrawDeposit.getActualCarryCash(), ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
 			
 			accountServices.cutConsumeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
-					ApplicationConstant.MONEY_TRADE_TYPE_TXSX, date,withdrawDeposit.getCounterFee(), Constant.ACCOUNT_FEE_DETAIL_REMARK);
+					ConstTradeType.TRADE_TYPE_TXSX.getCode(), date,withdrawDeposit.getCounterFee(), ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);
 		} catch (Exception e) {
 			logger.error("结算操作settlementWithDraw 处理用户账号余额异常:{}", e.getMessage());
-			throw new MdBizException(ApiStatusConst.DEALWLTH_ACCOUNT_MONEY_ERROR);
+			throw new MdBizException(ConstApiStatus.DEALWLTH_ACCOUNT_MONEY_ERROR);
 		}
 		//step3 修改提现状态
 		this.updateWithDraw(deposit);
@@ -357,14 +360,14 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 	 */
 	private MSBankWithdrawDeposit queryMSBankWithdrawDepositById(String id)throws MdBizException{
 		MSBankWithdrawDeposit withdrawDeposit=null;
-		if(StringUtils.isBlank(id)) throw new MdBizException(ApiStatusConst.REQUIRED_PARAM_EMPTY);
+		if(StringUtils.isBlank(id)) throw new MdBizException(ConstApiStatus.REQUIRED_PARAM_EMPTY);
 		try {
 			Map<String, Object> map=new HashMap<String, Object>();
 			map.put("id", id);
 			withdrawDeposit=baseDao.selectOne(map, "MSBankWithdrawDepositMapper.queryWidthDrawById");
 		} catch (Exception e) {
 			logger.error("根据ID:{},查看提现记录queryMSBankWithdrawDepositById错误:{}",id,e.getMessage());
-			throw new MdBizException(ApiStatusConst.QUERY_BANK_WITHDRAW_BY_ID_ERROR);
+			throw new MdBizException(ConstApiStatus.QUERY_BANK_WITHDRAW_BY_ID_ERROR);
 		}
 		return withdrawDeposit;
 	}
@@ -380,8 +383,9 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		try {
 			Map<String,String> paramsMap = new HashMap<String,String>();
 			paramsMap.put("memId", memId);
-			paramsMap.put("accountType", ApplicationConstant.ACCOUNT_TYPE_MONEY);
+			paramsMap.put("accountType", ConstSysParamsDefination.ACCOUNT_TYPE_MONEY);
 			account=baseDao.selectOne(paramsMap, "MSAccountMapper.getAccountByMemId");
+<<<<<<< HEAD
 			if(account==null){
 				account = new MSAccount();//生成会员余额账户信息
 				account.setId(UUID.randomUUID().toString());
@@ -393,9 +397,12 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 				account.setUpdateDate(new Date());
 				baseDao.insert(account,"MSAccountMapper.insertMsAccount");
 			}
+=======
+			if(account==null) throw new MdBizException(ConstApiStatus.ACCOUNT_IS_NULL_ERROR);
+>>>>>>> refs/remotes/origin/feature/V4.0.2-Team2
 		} catch (Exception e) {
 			logger.error("根据memID:{},查询账号queryAccountByMemId错误:{}",memId,e);
-			throw new MdBizException(ApiStatusConst.ACCOUNT_IS_NULL_ERROR);
+			throw new MdBizException(ConstApiStatus.ACCOUNT_IS_NULL_ERROR);
 		}
 		return account;
 	}
@@ -425,25 +432,25 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		MSBankAccount bankAccount=bankAccountService.getBankAccount(memId, accountNo);
 		if(bankAccount==null){
 			logger.error("会员银行卡账户信息不存在memID:{},accountNo:{}",memId,accountNo);
-			throw new MdBizException(ApiStatusConst.ACCOUNT_BANK_CARD_IS_NULL);
+			throw new MdBizException(ConstApiStatus.ACCOUNT_BANK_CARD_IS_NULL);
 		}
 		//step3 检查申请余额，并计算  
 		final Double old_useMoney = accountServices.getUseConsumeMoney(memId);
 		final Double old_applyCarryCash = Double.valueOf(applyCarryCash);
 		//申请提现余额超过最大可提现金额50000
-		if(old_applyCarryCash > Constant.FIFTY_THOUSAND){
+		if(old_applyCarryCash > ConstSysParamsDefination.FIFTY_THOUSAND){
 			logger.error("超过最大可提现限制50000,memID:{},提现金额applyCarryCash:{}",memId,old_applyCarryCash);
-			throw new MdBizException(ApiStatusConst.ACCOUNT_APPLY_CARRY_CASH_ERROR);
+			throw new MdBizException(ConstApiStatus.ACCOUNT_APPLY_CARRY_CASH_ERROR);
 		}
 		//计算申请提现余额是否超最大余额
 		if(old_applyCarryCash > old_useMoney){
 			logger.error("余额不足无法支付,memID:{},提现金额applyCarryCash:{},账号余额:{}",memId,old_applyCarryCash,old_useMoney);
-			throw new MdBizException(ApiStatusConst.ACCOUNT_INSUFFICIENT_BALANCE_ERROR);
+			throw new MdBizException(ConstApiStatus.ACCOUNT_INSUFFICIENT_BALANCE_ERROR);
 		}
 		//计算当前余额是否低于最低提现金额
-		if(old_useMoney <= ApplicationConstant.MIN_APPLY_CARRY_CASH){
+		if(old_useMoney <= ConstSysParamsDefination.MIN_APPLY_CARRY_CASH){
 			logger.error("余额低于最低提现金额,无法支付,memID:{},账号余额:{}",memId,old_useMoney);
-			throw new MdBizException(ApiStatusConst.ACCOUNT_BALANCE_BELOW_WITHDRAW_ERROR);
+			throw new MdBizException(ConstApiStatus.ACCOUNT_BALANCE_BELOW_WITHDRAW_ERROR);
 		}
 		return account;
 	}
@@ -464,12 +471,12 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		// 数据检查 实际提现金额不能大于申请提现金额
 		if (Double.parseDouble(calcActualCarryCash) > Double.parseDouble(deposit.getApplyCarryCash())) {
 			logger.error("实际提现金额:{},不能大于申请提现金额:{}",calcActualCarryCash,deposit.getApplyCarryCash());
-			throw new MdBizException(ApiStatusConst.WITHDRAW_ERROR);
+			throw new MdBizException(ConstApiStatus.WITHDRAW_ERROR);
 		}
 		// 数据检查 实际提现金额必须大于0
-		if (Double.parseDouble(calcActualCarryCash) <= Constant.ZERO) {
+		if (Double.parseDouble(calcActualCarryCash) <=Constants.CONSTANT_INT_ZERO) {
 			logger.error("实际提现金额:{},必须大于最低提现手续费2元",memId,calcActualCarryCash);
-			throw new MdBizException(ApiStatusConst.ACTUAL_WITHDRAW_MONEY_THEN_ZERO_ERROR);
+			throw new MdBizException(ConstApiStatus.ACTUAL_WITHDRAW_MONEY_THEN_ZERO_ERROR);
 		}
 		deposit.setActualCarryCash(calcActualCarryCash);
 		deposit.setCounterFee(calcCounterFee);
@@ -478,17 +485,17 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		//插入提现记录返回业务单号
 		String businessNo = this.addBankWithdrawDeposit(deposit);
 			if(StringUtils.isNotBlank(businessNo)){
-				String freezeBalance = account.getFreezeBalance(); //当前冻结余额
+				String freezeBalance = account.getFreeze_balance(); //当前冻结余额
 				Double carryCashFreezeBalance = DoubleCalculate.add(Double.valueOf(freezeBalance), Double.valueOf(calcActualCarryCash)); //提现余额+当前冻结余额=提现后冻结余额
 				Double counterFeeBalance = DoubleCalculate.add(carryCashFreezeBalance, Double.valueOf(calcCounterFee)); //提现手续费+当前冻结余额=提现手续费后冻结余额
 				Double addFreezeMoney = DoubleCalculate.add(Double.valueOf(calcActualCarryCash), Double.valueOf(calcCounterFee));  //提现余额+手续费
 				//增加提现冻结余额
 				Double freezeFlag = accountServices.addConsumeFreezeMoney(memId, String.valueOf(addFreezeMoney));
-				if(freezeFlag >= Constant.ZERO){
+				if(freezeFlag >= Constants.CONSTANT_INT_ZERO){
 				//增加明细
-				accountFreezeDetailService.saveAccountFreezeDetail(memId, businessNo,account.getId(), account.getType(), ApplicationConstant.MONEY_TRADE_TYPE_YETX, calcActualCarryCash,deposit.getApplyDate(), String.valueOf(carryCashFreezeBalance),  Constant.ACCOUNT_BALANCE_DETAIL_REMARK);
+				accountFreezeDetailService.saveAccountFreezeDetail(memId, businessNo,account.getId(), account.getType(), ConstTradeType.TRADE_TYPE_YETX.getCode(), calcActualCarryCash,deposit.getApplyDate(), String.valueOf(carryCashFreezeBalance),  ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
 				//增加明细
-				accountFreezeDetailService.saveAccountFreezeDetail(memId, businessNo,account.getId(), account.getType(), ApplicationConstant.MONEY_TRADE_TYPE_TXSX, calcCounterFee,deposit.getApplyDate(), String.valueOf(counterFeeBalance),  Constant.ACCOUNT_FEE_DETAIL_REMARK);
+				accountFreezeDetailService.saveAccountFreezeDetail(memId, businessNo,account.getId(), account.getType(), ConstTradeType.TRADE_TYPE_TXSX.getCode(), calcCounterFee,deposit.getApplyDate(), String.valueOf(counterFeeBalance),  ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);
 			}
 		}
 	}
@@ -504,7 +511,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		String businessNo=null;
 		try{
 			String id = UUID.randomUUID().toString();
-		    businessNo = GenerateNumber.generateBusinessNo(ApplicationConstant.MONEY_TRADE_TYPE_YETX);
+		    businessNo = GenerateNumber.generateBusinessNo(ConstTradeType.TRADE_TYPE_YETX.getCode());
 		    
 			MSBankAccount bankAccount=bankAccountService.getBankAccount(dto.getMemId(), dto.getAccountNo());
 			MSBankWithdrawDeposit entity = new MSBankWithdrawDeposit();
@@ -526,13 +533,17 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			entity.setActualCarryCash(dto.getActualCarryCash());
 			entity.setRemark(dto.getRemark());
 			entity.setCreateDate(nowDate);
+<<<<<<< HEAD
 			entity.setIsDelete(Constant.IS_N);
 			entity.setWithdrawBalance(dto.getWithdrawBalance());
+=======
+			entity.setIsDelete(ConstSysParamsDefination.IS_N);
+>>>>>>> refs/remotes/origin/feature/V4.0.2-Team2
 			baseDao.insert(entity, "MSBankWithdrawDepositMapper.insertBankWithdrawDeposit");
 			return businessNo;
 		}catch(Exception e){
 			logger.error("新增提现记录addBankWithdrawDeposit异常:{}",e);
-			throw new MdBizException(ApiStatusConst.INSERT_WITHDRAW_ERROR);
+			throw new MdBizException(ConstApiStatus.INSERT_WITHDRAW_ERROR);
 		}
 	}
 	/**
@@ -546,10 +557,10 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		Map<String,String> returnMap = new HashMap<String, String>();
 		final Double old_useMoney = accountServices.getUseConsumeMoney(memId);
 		final Double old_applyCarryCash = Double.valueOf(applyCarryCash);
-		final Double calc_feeScale = Constant.FEESCALE; //手续费比例
-		final Double calc_minFee = ApplicationConstant.MIN_APPLY_CARRY_FEE;   //最小手续费
-		Double calc_counterFee = Constant.ZERO;
-		Double calc_actualCarryCash = Constant.ZERO;
+		final Double calc_feeScale = ConstSysParamsDefination.FEESCALE; //手续费比例
+		final Double calc_minFee = ConstSysParamsDefination.MIN_APPLY_CARRY_FEE;   //最小手续费
+		Double calc_counterFee = Double.valueOf(Constants.CONSTANT_INT_ZERO);
+		Double calc_actualCarryCash = Double.valueOf(Constants.CONSTANT_INT_ZERO);
 		//step1计算手续费
 		calc_counterFee = DoubleCalculate.mul(old_applyCarryCash, calc_feeScale);
 		if(calc_counterFee < calc_minFee){

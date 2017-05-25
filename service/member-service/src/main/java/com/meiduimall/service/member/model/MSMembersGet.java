@@ -341,8 +341,6 @@ public class MSMembersGet implements Serializable {
 
 
 	public String getMemLoginName() throws MdSysException  {
-
-	
 		return DESC.deyption(this.memLoginName);
 	}
 

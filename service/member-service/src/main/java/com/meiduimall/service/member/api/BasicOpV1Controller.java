@@ -95,14 +95,9 @@ public class BasicOpV1Controller {
 		return result;
 	    }
 	
-	/**
-	 * 会员登录
-	 * @param requestLogin 登录API请求映射实体
-	 * @return 统一数据返回格式
-	 * @throws MdSysException 系统异常
-	 */
+	/**会员登录*/
 	@PostMapping(value = "/login")
-	ResBodyData login(@RequestBody @Valid RequestLogin requestLogin) throws MdSysException{
+	ResBodyData login(@RequestBody @Valid RequestLogin requestLogin){
 		requestLogin.setIp(request.getRemoteAddr());
 		String tokenKey=request.getHeader(SysParamsConst.TERMINAL_ID);
 		if(StringUtils.isEmpty(tokenKey)){
@@ -121,16 +116,11 @@ public class BasicOpV1Controller {
 		return resBodyData;
 	}
 	
-	/**
-	 *　会员退出登录
-	 * @param token 登录令牌
-	 * @return 统一数据返回格式
-	 * @throws MdSysException
-	 */
+	/**会员退出登录*/
 	@PostMapping(value = "/exit")
-	ResBodyData exit(@RequestBody @Valid RequestExit model ) throws MdSysException{
-		logger.info("收到会员退出登录API请求：{}",model.getToken());
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+	ResBodyData exit(@RequestBody @Valid RequestExit model ){
+		logger.info("收到会员退出登录API请求，令牌：{}",model.getToken());
+		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,null);
 		try {
 			if(RedisTemplate.getJedisInstance().execExistsFromCache(model.getToken())){
 				RedisTemplate.getJedisInstance().execDelToCache(model.getToken());
@@ -138,7 +128,7 @@ public class BasicOpV1Controller {
 			}
 			else{
 				logger.warn("token在redis中不存在");
-				throw new ApiException(ApiStatusConst.EXIT_ERROR);
+				throw new ApiException(ApiStatusConst.TOKEN_NOT_EXISTS);
 			}
 		} catch (Exception e) {
 			logger.error("校验或删除token异常：{}",e.toString());

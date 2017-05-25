@@ -326,10 +326,15 @@ public class BasicOpServiceImpl implements BasicOpService {
 		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
 		boolean open_default_share_man=false;//是否分配默认推荐人
 		boolean open_default_login_name=false;//是否分配默认登录名
+<<<<<<< HEAD
 
 		String tokenKey=model.getTokenKey();//用于生成token的salt
 		
 		//校验该账号是否已注册
+=======
+		String tokenKey=model.getTokenKey();
+		/**校验该用户是否已存在*/
+>>>>>>> refs/remotes/origin/feature/V4.0.2-Team2
 		validateService.checkUserIdExistsThrowable(model.getPhone());
 		//校验注册来源是否合法
 		validateService.checkRegisterSource(model.getSource());
@@ -440,7 +445,11 @@ public class BasicOpServiceImpl implements BasicOpService {
 		requestSendSms.setTemplateId(SmsTemplateIDConst.getSmsTemplate(SmsTemplateIDConst.REGIST_SUCCESS));
 		requestSendSms.setParams(model.getPhone());
 		smsService.sendSms(requestSendSms);
+<<<<<<< HEAD
 		//给分享人发送获赠积分短信
+=======
+		/**发送分享人赠送积分短信*/
+>>>>>>> refs/remotes/origin/feature/V4.0.2-Team2
 		requestSendSms.setPhone(shareManInfo.getMemPhone());
 		requestSendSms.setTemplateId(SmsTemplateIDConst.getSmsTemplate(SmsTemplateIDConst.GIVE_POINT));
 		requestSendSms.setParams(shareManInfo.getMemPhone());
@@ -455,10 +464,15 @@ public class BasicOpServiceImpl implements BasicOpService {
 		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
 		boolean open_default_share_man=false;//是否分配默认推荐人
 		boolean open_default_login_name=false;//是否分配默认登录名
+<<<<<<< HEAD
 		String tokenKey=model.getTokenKey();
 
 		
 		//校验该账号是否已注册
+=======
+		String tokenKey=model.getTokenKey();
+		/**校验该用户是否已存在*/
+>>>>>>> refs/remotes/origin/feature/V4.0.2-Team2
 		validateService.checkUserIdExistsThrowable(model.getPhone());
 		
 
@@ -534,6 +548,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 		boolean open_default_share_man=false;//是否分配默认推荐人
 		boolean open_default_login_name=false;//是否分配默认登录名
 		String tokenKey=model.getTokenKey();
+		/**校验该用户是否已存在*/
 		validateService.checkUserIdExistsThrowable(model.getPhone());
 		/**校验推荐人,没传就分配默认的*/
 		if(!StringUtils.isEmpty(model.getShare_man())){

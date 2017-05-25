@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MSMemberMobileAreaMapper">
+  <resultMap id="BaseResultMap" type="com.meiduimall.service.member.model.MSMemberMobileArea">
+    <result column="mem_id" jdbcType="VARCHAR" property="memId" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="province_name" jdbcType="VARCHAR" property="provinceName" />
+    <result column="city_name" jdbcType="VARCHAR" property="cityName" />
+    <result column="sp" jdbcType="VARCHAR" property="sp" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+  </resultMap>
+  
+  <!-- 注册时记录会员手机对应的区域  -->
+  <insert id="insert" parameterType="com.meiduimall.service.member.model.MSMemberMobileArea">
+    insert into ms_member_mobile_area (mem_id, phone, province_name, 
+      city_name, sp, create_date
+      )
+    values (#{memId,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{provinceName,jdbcType=VARCHAR}, 
+      #{cityName,jdbcType=VARCHAR}, #{sp,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  
+  <!--  批量删插入会员手机对应的区域  -->
+  <insert id="insertSelective" parameterType="java.util.List">
+    insert into ms_member_mobile_area
+        (mem_id,
+        phone,
+        province_name,
+        city_name,
+        sp,
+        create_date)
+        values 
+      <foreach collection ="list" item ="item" index ="index" separator =","> 
+        (#{item.memId,jdbcType=VARCHAR},
+        #{item.phone,jdbcType=VARCHAR},
+        #{item.provinceName,jdbcType=VARCHAR},
+        #{item.cityName,jdbcType=VARCHAR},
+        #{item.sp,jdbcType=VARCHAR},
+        #{item.createDate,jdbcType=TIMESTAMP})
+      </foreach> 
+  </insert>
+  
+</mapper>

@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 短信操作类型
+ * 短信验证码类型
  * @author chencong
  *
  */
-public abstract class SmsTypeConst {
+public abstract class ConstSmsValidateCodeType {
 	
 	public static final Map<Integer, String> smsTypeMap = new HashMap<>(300);
 	

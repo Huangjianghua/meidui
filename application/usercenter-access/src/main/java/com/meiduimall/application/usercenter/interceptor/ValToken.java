@@ -9,7 +9,8 @@ import org.springframework.web.method.HandlerMethod;
 import com.meiduimall.application.usercenter.annotation.HasToken;
 import com.meiduimall.application.usercenter.constant.ApiStatusConst;
 import com.meiduimall.application.usercenter.util.StringUtil;
-import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.MdSysException;
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.redis.util.RedisTemplate;
 
 /**
@@ -25,54 +26,47 @@ public class ValToken {
 	 * 校验token
 	 * @param token
 	 * @return 统一数据返回格式
+	 * @throws MdSysException 系统异常
 	 */
-	public static ResBodyData valToken(String token) {
-		logger.info("拦截器开始校验token");
-		ResBodyData resBodyData = new ResBodyData(null,null);
+	public static String valToken(String token) throws MdSysException {
 		try {
 			if(RedisTemplate.getJedisInstance().execExistsFromCache(token)){
 				String memId = RedisTemplate.getJedisInstance().execGetFromCache(token);
 				if (!StringUtil.isEmptyByString(memId)) {
-					resBodyData.setStatus(ApiStatusConst.SUCCESS);
-					resBodyData.setData(memId);
+					return memId;
 				} else {
-					resBodyData.setStatus(ApiStatusConst.MEMID_OF_TOKEN_EMPTY);
-					resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.MEMID_OF_TOKEN_EMPTY));
+					logger.warn("redis中token:{}存在，但对应的memId为空",token);
+					throw new MdSysException(ApiStatusConst.SYSTEM_ERROR);
 				}
 			}
 			else {
-				resBodyData.setStatus(ApiStatusConst.TOKEN_NOT_EXIST);
-				resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.TOKEN_NOT_EXIST));
+				logger.warn("redis中未找到token:{}",token);
+				throw new ServiceException(ApiStatusConst.LOGIN_EXPIRE);
 			}
 		} catch (Exception e) {
-			logger.error("exec valToken() error:{}",e.getMessage());
-			resBodyData.setStatus(ApiStatusConst.VAL_REDIS_TOKEN_EX);
-			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.VAL_REDIS_TOKEN_EX));
+			logger.error("校验token程序异常:{}",e.toString());
+			throw new MdSysException(ApiStatusConst.SYSTEM_ERROR);
 		}
-		logger.info("拦截器校验token结果：{}",resBodyData.toString());
-		return resBodyData;
 	}
 	
 	/**
 	 * 判断API接口是否有token注解
 	 * @param handler API接口方法
-	 * @return 统一返回数据格式:flag=Y表示有token注解，flag=N表示无token注解
+	 * @return true:有token注解   false:无token注解
+	 * @throws MdSysException 系统异常
 	 */
-	public static ResBodyData valApiTokenFlag(HandlerMethod handler) {
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,null);
-		resBodyData.setData("Y");
+	public static boolean valApiTokenFlag(HandlerMethod handler) throws MdSysException {
 		try {
 			Method method = handler.getMethod();
 			if (method.getAnnotation(HasToken.class)==null){
-				resBodyData.setData("N");
+				return false;
 			}
 		}
 		catch (Exception e) {
-			logger.error("exec valApiTokenFlag() error:{}",e.getMessage());
-			resBodyData.setStatus(ApiStatusConst.VAL_TOKEN_ANNOTATION_EX);
-			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.VAL_TOKEN_ANNOTATION_EX));
+			logger.error("判断API接口是否有token注解异常:{}",e.toString());
+			throw new MdSysException(ApiStatusConst.SYSTEM_ERROR);
 		}
-		logger.info("拦截器判断API接口是否有token注解结果:{}",resBodyData.toString());
-		return resBodyData;
+		logger.info("判断API是否有token注解成功");
+		return true;
 	}
 }

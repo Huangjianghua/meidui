@@ -9,10 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSONObject;
-import com.meiduimall.service.account.constant.ApiStatusConst;
-import com.meiduimall.service.account.constant.ApplicationConstant;
-import com.meiduimall.service.account.constant.SysParamsConst;
-import com.meiduimall.service.account.service.AccountServices;
+import com.meiduimall.service.account.constant.ConstApiStatus;
+import com.meiduimall.service.account.constant.ConstSysParamsDefination;
+import com.meiduimall.service.account.service.AccountService;
 import com.meiduimall.service.account.service.MemberAccountServices;
 import com.meiduimall.service.account.util.StringUtil;
 /**
@@ -24,7 +23,7 @@ import com.meiduimall.service.account.util.StringUtil;
 public class MemberAccountServicesImpl implements MemberAccountServices {
 
 	@Autowired
-	private AccountServices accountServices;
+	private AccountService accountServices;
 
 	@Override
 	public JSONObject pointsBalanceChanges(JSONObject param) throws Exception {
@@ -54,11 +53,11 @@ public class MemberAccountServicesImpl implements MemberAccountServices {
 			return resultJson;
 		}
 		
-		if(ApplicationConstant.CAPITAL_IN.equalsIgnoreCase(direction)){
+		if(ConstSysParamsDefination.CAPITAL_IN.equalsIgnoreCase(direction)){
 			//积分调增
 			bsFlag = accountServices.addMDConsumePointsAndDetail(memId, tradeAmount, orderId, orderSource, tradeType,
 					memId, remark);
-		}else if(ApplicationConstant.CAPITAL_OUT.equalsIgnoreCase(direction)){
+		}else if(ConstSysParamsDefination.CAPITAL_OUT.equalsIgnoreCase(direction)){
 			//积分调减
 			bsFlag = accountServices.cutMDConsumePointsAndDetail(memId, tradeAmount, orderId, orderSource, tradeType,
 					memId, remark);
@@ -103,11 +102,11 @@ public class MemberAccountServicesImpl implements MemberAccountServices {
 			return resultJson;
 		}
 		
-		if(ApplicationConstant.CAPITAL_IN.equalsIgnoreCase(direction)){
+		if(ConstSysParamsDefination.CAPITAL_IN.equalsIgnoreCase(direction)){
 			//现金余额调增
 			bsFlag = accountServices.addConsumeMoneyAndDetail(memId, orderId, tradeType, tradeDate, tradeAmount,
 					remark);
-		}else if(ApplicationConstant.CAPITAL_OUT.equalsIgnoreCase(direction)){
+		}else if(ConstSysParamsDefination.CAPITAL_OUT.equalsIgnoreCase(direction)){
 			//现金余额调减
 			bsFlag = accountServices.cutConsumeMoneyAndDetail(memId, orderId, tradeType, tradeDate, tradeAmount,
 					remark);
@@ -169,7 +168,7 @@ public class MemberAccountServicesImpl implements MemberAccountServices {
 		}
 		
 		//数据添加到返回参数中
-		resultJson.put(SysParamsConst.RESULT, result);
+		resultJson.put("result", result);
 				
 		return resultJson;
 	}

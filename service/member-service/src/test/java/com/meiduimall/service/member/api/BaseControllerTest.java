@@ -1,8 +1,10 @@
 package com.meiduimall.service.member.api;
 
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -18,7 +20,12 @@ import com.meiduimall.redis.util.RedisTemplate;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @WebAppConfiguration
+<<<<<<< HEAD
 @ActiveProfiles(value="test")
+=======
+@ActiveProfiles(value="dev")
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+>>>>>>> refs/remotes/origin/feature/V4.0.2-Team2
 public class BaseControllerTest {
 	
 	protected MockMvc mockMvc;
