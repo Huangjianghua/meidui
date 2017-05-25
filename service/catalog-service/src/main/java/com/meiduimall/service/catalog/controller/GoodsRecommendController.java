@@ -1,5 +1,8 @@
 package com.meiduimall.service.catalog.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.meiduimall.exception.ApiException;
@@ -35,7 +38,7 @@ public class GoodsRecommendController {
 	private GoodsRecommendService goodsRecommendService;
 
 	/**
-	 * 批量插入，或者单个插入推荐商品
+	 * 批量插入，或者单个插入推荐商品    
 	 * 
 	 * @param itemIds
 	 *            商品编号，可以传一个或者多个，不能为空
@@ -71,6 +74,14 @@ public class GoodsRecommendController {
 		} catch (NumberFormatException e) {
 			logger.error("批量插入，或者单个插入推荐商品，请求参数错误: " + e);
 			throw new ApiException(ServiceCatalogApiCode.REQUEST_PARAMS_ERROR);
+		}
+		
+		if (!StringUtils.isBlank(optUser)) {
+			try {
+				optUser = URLDecoder.decode(optUser, "utf-8");
+			} catch (UnsupportedEncodingException e) {
+				logger.error("批量插入，或者单个插入推荐商品，请求参数错误 optUser: " + e);
+			}
 		}
 
 		if (StringUtils.isBlank(itemIds)) {
