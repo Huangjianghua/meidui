@@ -86,7 +86,7 @@ public class ConfigServerApplicationTest {
   @Test
   public void updateConfigManage(){
 	  ConfigerMsg conf=new ConfigerMsg();
-	  conf.setKey("huang1111update");
+	  conf.setKey("huang1111add");
 	  conf.setName("黄测试update");
 	  conf.setType("o2o");
 	  conf.setUpdateBy("huangupdate");
