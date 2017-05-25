@@ -141,7 +141,7 @@ public class MemberTransferHistory implements Serializable {
 	}
 
 	public String getDictMthCategory() {
-		if(StringUtils.isNotBlank(dictMthCategory)&&ConstPointsChangeType.POINTS_OPERATOR_TYPE_NBZZ.equals(dictMthCategory)){
+		if(StringUtils.isNotBlank(dictMthCategory)&&ConstPointsChangeType.POINTS_OPERATOR_TYPE_NBZZ.getCode().equals(dictMthCategory)){
 			return ConstPointsChangeType.POINTS_OPERATOR_TYPE_NBZZ.getName();
 		}
 		return this.dictMthCategory;

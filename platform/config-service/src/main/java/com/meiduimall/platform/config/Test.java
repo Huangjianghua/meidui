@@ -17,8 +17,6 @@ import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PushCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
@@ -39,8 +37,8 @@ public class Test {
 		//method1();
 		//method2();
 		//cloneRepository("http://git.meiduimall.com/service/meiduimall.git","d:\\tmp\\test");
-		//commitRepository("D:\\gitProject\\featureV4.0.2\\meiduimall","020-service-config.yml","测试提交jgit");
-		pushRepository("D:\\gitProject\\featureV4.0.2\\meiduimall");
+		commitRepository("D:\\gitProject\\featureV4.0.2\\meiduimall","020-service-config.yml","配置文件变动提交");
+		//pushRepository("D:\\gitProject\\featureV4.0.2\\meiduimall");
 	}
 	
 	   /**
@@ -104,11 +102,8 @@ public class Test {
 	}
 
 	
-	   /** push到远程仓库<br>
-	     * @param string
-	     * @param string2
-	     * @param string3
-	     * @return
+	   /** push到远程仓库
+	     * 
 	     */
 	    public static String pushRepository(String localPath) {
 	        try {
