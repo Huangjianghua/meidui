@@ -85,6 +85,7 @@ public class ConfigServerApplicationTest {
    */
   @Test
   public void updateConfigManage(){
+	  
 	  ConfigerMsg conf=new ConfigerMsg();
 	  conf.setKey("huang1111add");
 	  conf.setName("黄测试update");
@@ -100,5 +101,4 @@ public class ConfigServerApplicationTest {
 		logger.error("单元测试>>查询配置管理API>>执行异常");
 	}
   }
-  
 }

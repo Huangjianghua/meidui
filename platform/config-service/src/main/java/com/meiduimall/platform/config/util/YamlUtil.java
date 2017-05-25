@@ -26,6 +26,7 @@ import org.yaml.snakeyaml.Yaml;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.MdBizException;
 import com.meiduimall.platform.config.constant.ApiStatusConst;
+import com.meiduimall.platform.config.constant.Constant;
 import com.meiduimall.platform.config.model.ConfigerMsg;
 
 /**
@@ -54,7 +55,7 @@ public class YamlUtil {
 	 */
 	public static List<ConfigerMsg> loadData(String typeConfig)  {
 		ArrayList<ConfigerMsg> arraylist=null;
-	    String courseFile  = System.getProperty("user.dir")+findSrcResourceUrl+typeConfig+configName;
+	    String courseFile  = System.getProperty(Constant.PROJECT_DIR)+findSrcResourceUrl+typeConfig+configName;
 		try {
 			 Object obj =(Object)yaml.load(new FileInputStream(courseFile));
 			 if(obj==null){
@@ -75,7 +76,7 @@ public class YamlUtil {
 	 */
 	public static void addDumpConfigManage(ConfigerMsg configerMsg){
 		URL url = YamlUtil.class.getClassLoader().getResource(configerMsg.getType() + configName);
-		//判断是否存在配置资源文件
+		//step1判断是否存在配置资源文件
 		List<ConfigerMsg> listConfig=new ArrayList<>();
 		if (url == null) {
 			listConfig = new ArrayList<>();
@@ -89,7 +90,6 @@ public class YamlUtil {
 			listConfig.add(configerMsg);
 			operateYml(listConfig,configerMsg.getType());
 		}
-		//commintFilesToGitService();
 	}
 	
 	/**
@@ -102,7 +102,7 @@ public class YamlUtil {
 		 if(list==null){
 			return; 
 		 }
-		 //查找修改的配置信息   根据key判断
+		 //step1 查找修改的配置信息   根据key判断
 		 for(int i=0;i<list.size();i++){
 			 ConfigerMsg conf=list.get(i);
 			 if(conf.getKey().equals(configerMsg.getKey())){
@@ -111,7 +111,7 @@ public class YamlUtil {
 			 }
 		 }
 		 list.add(configerMsg);
-		 //修改yml文件
+		 //step2 修改yml文件
 		 operateYml(list,configerMsg.getType());
 	}
 	/**
@@ -139,9 +139,11 @@ public class YamlUtil {
 	 */
 	private static void commintFilesToGitService(String fileNames)throws MdBizException{
 		 try {
+			 	long beginDate= System.currentTimeMillis();
+			 	logger.info("config service开始提交文件:{}到Git服务器,提交开始时间:{}",fileNames,beginDate);
 			 	//获取本地分支信息
-			 	String projectURL = System.getProperty("user.dir");  
-			 	projectURL=projectURL.substring(0,projectURL.indexOf("platform")-1);
+			 	String projectURL = System.getProperty(Constant.PROJECT_DIR);  
+			 	projectURL=projectURL.substring(0,projectURL.indexOf(Constant.PROJECT_NAME)-1);
 	            Git git = Git.open(new File(projectURL));
 	            AddCommand addCommand = git.add();
 	            String[] fileArr = fileNames.split(",");
@@ -151,22 +153,21 @@ public class YamlUtil {
 	            //step1 本地提交
 	            addCommand.call();
 	            CommitCommand commitCommand = git.commit();
-	            commitCommand.setMessage("配置文件变动提交");
+	            commitCommand.setMessage(Constant.GIT_COMMINT_MESSAGE);
 	            commitCommand.setAll(true);
 	            commitCommand.call();
 	            //step2提交远程
 	            PushCommand pushCommand = git.push();
 	            CredentialsProvider credentialsProvider = new UsernamePasswordCredentialsProvider(
-	                    "jianhua.huang@meiduimall.com", "huang.123");
+	            		Constant.GIT_COMMINT_USER, Constant.GIT_COMMINT_USER_PASSWORD);
 	            pushCommand.setCredentialsProvider(credentialsProvider);
 	            pushCommand.setForce(true).setPushAll();
-	            Iterable<PushResult> iterable = pushCommand.call();
-	            for (PushResult pushResult : iterable) {
-	                System.out.println(pushResult.toString());
-	            }
+	            pushCommand.call();
+	            long endDate= System.currentTimeMillis();
+	            logger.info("config service开始提交文件:{}到Git服务器,提交结束时间:{},耗时:{}s",fileNames,endDate,(endDate-beginDate)/1000);
 	        } catch (Exception e) {
-	            e.printStackTrace();
-	           
+	        	logger.error("config配置文件提交到Git服务器异常:{}", e);
+				throw new MdBizException(ApiStatusConst.GIT_COMMINT_FILES_ERROR);
 	        }
 	}
 }	
