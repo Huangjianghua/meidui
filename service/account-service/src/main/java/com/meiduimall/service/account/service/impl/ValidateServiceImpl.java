@@ -1,5 +1,7 @@
 package com.meiduimall.service.account.service.impl;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,6 +16,7 @@ import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.constant.ConstSysParamsDefination;
 import com.meiduimall.service.account.constant.ConstTradeType;
 import com.meiduimall.service.account.dao.BaseDao;
+import com.meiduimall.service.account.model.MSAccountByWalletType;
 import com.meiduimall.service.account.service.ValidateService;
 
 
@@ -69,13 +72,5 @@ public class ValidateServiceImpl implements ValidateService {
 		}
 		logger.info("交易金额合法");
 	}
-
-	@Override
-	public void checkAccountByWalletTypeExist(String walletNo,String memId) {
-		
-	}
-
-
-	
 
 }

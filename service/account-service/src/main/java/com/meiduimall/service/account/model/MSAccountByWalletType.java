@@ -17,38 +17,132 @@ public class MSAccountByWalletType extends BaseModel implements Serializable {
 	private String id;
 	
 	/** 对应ms_wallet_type表的主键*/
-	private String wallet_type;
+	private String walletType;
 
 	/** 当前类型总金额明文*/
 	private String balance;
 
 	/**当前类型冻结余额明文 */
-	private String balance_encrypt;
+	private String balanceEncrypt;
 	
 	/**冻结总金额明文*/
-	private String freeze_balance;
+	private String freezeBalance;
 
 	/**当前类型冻结余额密文*/
-	private String freeze_balance_encrypt;
+	private String freezeBalanceEncrypt;
 	
 	/**账户状态,0 正常 1禁用*/
-	private String account_status;
+	private String accountStatus;
 	
 	/**账户状态密文,0 正常 1禁用*/
-	private String account_status_encrypt;
+	private String accountStatusEncrypt;
 
 	/** 创建时间 */
-	private Date create_date;
+	private Date createDate;
 
 	/** 修改时间 */
-	private Date update_date;
+	private Date updateDate;
 	
 	/**更新人*/
-	private String update_man;
+	private String updateMan;
 	
 	/**备注*/
 	private String remark;
 
-	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getWalletType() {
+		return walletType;
+	}
+
+	public void setWalletType(String walletType) {
+		this.walletType = walletType;
+	}
+
+	public String getBalance() {
+		return balance;
+	}
+
+	public void setBalance(String balance) {
+		this.balance = balance;
+	}
+
+	public String getBalanceEncrypt() {
+		return balanceEncrypt;
+	}
+
+	public void setBalanceEncrypt(String balanceEncrypt) {
+		this.balanceEncrypt = balanceEncrypt;
+	}
+
+	public String getFreezeBalance() {
+		return freezeBalance;
+	}
+
+	public void setFreezeBalance(String freezeBalance) {
+		this.freezeBalance = freezeBalance;
+	}
+
+	public String getFreezeBalanceEncrypt() {
+		return freezeBalanceEncrypt;
+	}
+
+	public void setFreezeBalanceEncrypt(String freezeBalanceEncrypt) {
+		this.freezeBalanceEncrypt = freezeBalanceEncrypt;
+	}
+
+	public String getAccountStatus() {
+		return accountStatus;
+	}
+
+	public void setAccountStatus(String accountStatus) {
+		this.accountStatus = accountStatus;
+	}
+
+	public String getAccountStatusEncrypt() {
+		return accountStatusEncrypt;
+	}
+
+	public void setAccountStatusEncrypt(String accountStatusEncrypt) {
+		this.accountStatusEncrypt = accountStatusEncrypt;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
+
+	public String getUpdateMan() {
+		return updateMan;
+	}
+
+	public void setUpdateMan(String updateMan) {
+		this.updateMan = updateMan;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
 	
 }

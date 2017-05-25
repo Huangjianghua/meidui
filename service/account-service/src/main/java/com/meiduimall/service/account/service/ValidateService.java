@@ -26,9 +26,4 @@ public interface ValidateService {
 	 * @param type 校验类型   "0+"：非负浮点数  "+"：正浮点数  "-0"：非正浮点数  "-"：负浮点数
 	 */
 	void checkTradeAmount(Double tradeAmount,String type);
-
-	/**
-	 * 校验当前会员某种类型的账户信息是否存在
-	 */
-	void checkAccountByWalletTypeExist(String walletNo,String memId);
 }

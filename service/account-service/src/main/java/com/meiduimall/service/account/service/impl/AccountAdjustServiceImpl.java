@@ -27,7 +27,6 @@ public class AccountAdjustServiceImpl implements AccountAdjustService {
 	@Override
 	public ResBodyData accountAdjustAmount(RequestAccountAdjustAmount model) {
 		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.SUCCESS_C);
-		
 		//校验调账类型是否合法
 		validateService.checkAdjustType(model.getDirection());
 		//校验交易类型是否合法

@@ -19,6 +19,11 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	public final static Integer ENCRYPTION_EXCEPTION= 1005;
 	public final static Integer HTTP_EXCEPTION= 1006;
 	public final static Integer SERVER_DEAL_WITH_EXCEPTION= 1007;
+	public final static Integer DB_SELECT_EXCEPTION= 1008;
+	public final static Integer DB_UPDATE_EXCEPTION= 1009;
+	public final static Integer DB_DELETE_EXCEPTION= 1010;
+	public final static Integer DB_INSERT_EXCEPTION= 1011;
+	public final static Integer SYSTEM_ERROR= 1012;
 	
 	/**操作数据库程序异常*/
 	public final static Integer OPERATION_DB_EX= 9001;
@@ -62,6 +67,10 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	public static final Integer TRADE_TYPE_UNNORMAL=7023;
 	/**交易金额不合法*/
 	public static final Integer TRADE_AMOUNT_UNNORMAL=7023;
+	
+	/*************   账户相关    ************/
+	/**账户不存在*/
+	public static final Integer ACCOUNT_NOT_EXIST=7024;
 	
 	
 	
@@ -133,6 +142,12 @@ public abstract class ConstApiStatus extends BaseApiCode {
 		zhMsgMap.put(ENCRYPTION_EXCEPTION, "加密程序异常");
 		zhMsgMap.put(HTTP_EXCEPTION, "HTTP请求异常");
 		zhMsgMap.put(SERVER_DEAL_WITH_EXCEPTION, "服务处理异常");
+		zhMsgMap.put(DB_SELECT_EXCEPTION, "数据库查询失败");
+		zhMsgMap.put(DB_UPDATE_EXCEPTION, "数据库更新失败");
+		zhMsgMap.put(DB_DELETE_EXCEPTION, "数据库删除失败");
+		zhMsgMap.put(DB_INSERT_EXCEPTION, "数据库插入失败");
+		zhMsgMap.put(SYSTEM_ERROR, "系统错误，请联系客服");
+		
 		zhMsgMap.put(POINTS_BIGGERTHAN_MONEY, "消费积分不能大于消费金额");
 		zhMsgMap.put(MIX_PAYTYPE_ERROR, "混合支付支付模式，美兑积分不能为小于或等于0");
 		zhMsgMap.put(PAYTYPE_ERROR, "支付类型错误");
@@ -187,6 +202,8 @@ public abstract class ConstApiStatus extends BaseApiCode {
 		zhMsgMap.put(ACCOUNT_ADJUST_TYPE_UNNORMAL, "调账类型不合法");
 		zhMsgMap.put(TRADE_TYPE_UNNORMAL, "交易类型不合法");
 		zhMsgMap.put(TRADE_AMOUNT_UNNORMAL, "交易金额不合法");
+		
+		zhMsgMap.put(ACCOUNT_NOT_EXIST, "账户不存在");
 		
 		
 	}
