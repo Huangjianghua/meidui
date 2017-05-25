@@ -385,21 +385,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			paramsMap.put("memId", memId);
 			paramsMap.put("accountType", ConstSysParamsDefination.ACCOUNT_TYPE_MONEY);
 			account=baseDao.selectOne(paramsMap, "MSAccountMapper.getAccountByMemId");
-<<<<<<< HEAD
-			if(account==null){
-				account = new MSAccount();//生成会员余额账户信息
-				account.setId(UUID.randomUUID().toString());
-				account.setMemId(memId);
-				account.setType(ApplicationConstant.ACCOUNT_TYPE_MONEY);
-				account.setBalance(String.valueOf(Constant.ZERO));
-				account.setFreezeBalance(String.valueOf(Constant.ZERO));
-				account.setCreateDate(new Date());
-				account.setUpdateDate(new Date());
-				baseDao.insert(account,"MSAccountMapper.insertMsAccount");
-			}
-=======
 			if(account==null) throw new MdBizException(ConstApiStatus.ACCOUNT_IS_NULL_ERROR);
->>>>>>> refs/remotes/origin/feature/V4.0.2-Team2
 		} catch (Exception e) {
 			logger.error("根据memID:{},查询账号queryAccountByMemId错误:{}",memId,e);
 			throw new MdBizException(ConstApiStatus.ACCOUNT_IS_NULL_ERROR);
@@ -480,8 +466,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		}
 		deposit.setActualCarryCash(calcActualCarryCash);
 		deposit.setCounterFee(calcCounterFee);
-		deposit.setWithdrawBalance(returnMap.get("withdraw_balance"));
-		
+
 		//插入提现记录返回业务单号
 		String businessNo = this.addBankWithdrawDeposit(deposit);
 			if(StringUtils.isNotBlank(businessNo)){
@@ -533,12 +518,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			entity.setActualCarryCash(dto.getActualCarryCash());
 			entity.setRemark(dto.getRemark());
 			entity.setCreateDate(nowDate);
-<<<<<<< HEAD
-			entity.setIsDelete(Constant.IS_N);
-			entity.setWithdrawBalance(dto.getWithdrawBalance());
-=======
 			entity.setIsDelete(ConstSysParamsDefination.IS_N);
->>>>>>> refs/remotes/origin/feature/V4.0.2-Team2
 			baseDao.insert(entity, "MSBankWithdrawDepositMapper.insertBankWithdrawDeposit");
 			return businessNo;
 		}catch(Exception e){
@@ -566,12 +546,23 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		if(calc_counterFee < calc_minFee){
 			calc_counterFee = calc_minFee;
 		}
-		//stpe2 实际提现金额=申请提取金额-手续费
-		calc_actualCarryCash = DoubleCalculate.sub(old_applyCarryCash, calc_counterFee);
-		
+		//stpe2 全部提取，手续费从申请申请提取金额中扣除，实际提现金额=申请提取金额-手续费
+		if(old_applyCarryCash == old_useMoney){
+			calc_actualCarryCash = DoubleCalculate.sub(old_applyCarryCash, calc_counterFee);
+		}else{
+			//部分提取，手续费直接从提现金额中扣除，实际提现金额=申请提取金额 -手续费     余额不足扣除手续费时，实际提现金额=申请提取金额-扣除余额后不足的手续费
+			Double subUseMoney = DoubleCalculate.sub(old_useMoney, old_applyCarryCash);
+			//余额够扣除手续费时，实际提现金额=申请提取金额-手续费
+			if(subUseMoney >= calc_counterFee){
+				calc_actualCarryCash =DoubleCalculate.sub(old_applyCarryCash, calc_counterFee);
+			}else{
+				//余额不足扣除手续费时，实际提现金额=申请提取金额-扣除余额后不足的手续费
+				Double subCounterFee = DoubleCalculate.sub(calc_counterFee,subUseMoney); //扣除余额后剩余未扣减手续费
+				calc_actualCarryCash = DoubleCalculate.sub(old_applyCarryCash, subCounterFee);
+			}
+		}
 		returnMap.put("calc_actualCarryCash", String.valueOf(calc_actualCarryCash));
 		returnMap.put("calc_counterFee", String.valueOf(calc_counterFee));
-		returnMap.put("withdraw_balance", String.valueOf(old_useMoney));
 		return returnMap;
 	}
 	}
