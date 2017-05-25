@@ -38,7 +38,7 @@ public class GoodsRecommendController {
 	private GoodsRecommendService goodsRecommendService;
 
 	/**
-	 * 批量插入，或者单个插入推荐商品
+	 * 批量插入，或者单个插入推荐商品 
 	 * 
 	 * @param itemIds
 	 *            商品编号，可以传一个或者多个，不能为空
