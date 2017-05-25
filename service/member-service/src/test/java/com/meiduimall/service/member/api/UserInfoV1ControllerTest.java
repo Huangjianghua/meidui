@@ -1,4 +1,4 @@
-/*package com.meiduimall.service.member.api;
+package com.meiduimall.service.member.api;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -18,16 +18,16 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.service.member.model.MSMemberMobileArea;
 
-*//**
+/**
  * 会员信息
  * @author chencong
  *
- *//*
+ */
 public class UserInfoV1ControllerTest extends BaseControllerTest {
 	
 	private final static Logger logger=LoggerFactory.getLogger(UserInfoV1ControllerTest.class);
 	   
-	   *//**获取当前会员基本信息*//*
+	   /**获取当前会员基本信息*/
 	    @Test
 	    public void getMemberBaicInfo() throws Exception{
 	    	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/get_member_basic_info?memId="+memId))
@@ -42,9 +42,6 @@ public class UserInfoV1ControllerTest extends BaseControllerTest {
 			});
 
 	    } 
-<<<<<<< HEAD
-}*/
-=======
 	    
 	    /**注册时记录会员手机对应的区域**/
 	    @Test
@@ -85,4 +82,3 @@ public class UserInfoV1ControllerTest extends BaseControllerTest {
 
 	    } 
 }
->>>>>>> refs/remotes/origin/feature/V4.0.2-Team2

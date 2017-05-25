@@ -20,11 +20,7 @@ import com.meiduimall.application.usercenter.util.HttpUtils;
 import com.meiduimall.application.usercenter.util.MD5Utils;
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
-<<<<<<< HEAD
-import com.meiduimall.core.util.JsonUtils;
-=======
 import com.meiduimall.exception.MdSysException;
->>>>>>> refs/remotes/origin/feature/V4.0.2-Team2
 
 @Service
 public class BaseOpServiceImpl implements BaseOpService {
@@ -77,36 +73,21 @@ public class BaseOpServiceImpl implements BaseOpService {
 	}
 
 	@Override
-<<<<<<< HEAD
-	public String getPut(JSONObject reqJson) {
-=======
 	public ResBodyDataShiPei getPut(JSONObject reqJson) throws MdSysException {
->>>>>>> refs/remotes/origin/feature/V4.0.2-Team2
 		ResBodyDataShiPei resBodyDataShiPei=new ResBodyDataShiPei(null,null);
 		String url=profile.getServiceMemberUrl()+"v1/getput";
 		MD5Utils.updateSign(reqJson,profile.getRouteClientID(),profile.getRouteKey());
-<<<<<<< HEAD
-		String result=null;
-		logger.info("请求账号服务，URL:{}  Data:{}",url,reqJson.toString());
-=======
 		logger.info("调用账号服务>>getput>>URL:{}  Data:{}",url,reqJson.toString());
->>>>>>> refs/remotes/origin/feature/V4.0.2-Team2
 		try {
-<<<<<<< HEAD
-			result=HttpUtils.get(url,reqJson);
-			logger.info("请求账号服务，结果：{}",result);
-=======
 			String result=HttpUtils.get(url,reqJson);
 			logger.info("调用账号服务>>getput>>结果：{}",result);
 			resBodyDataShiPei=JSON.parseObject(result,ResBodyDataShiPei.class);
->>>>>>> refs/remotes/origin/feature/V4.0.2-Team2
 		} catch (Exception e) {
 			logger.error("调用账号服务>>getput>>异常：{}",e.toString());
 			resBodyDataShiPei.setStatus_code(ApiStatusConst.REQUEST_GATEWAY_EX.toString());
 			resBodyDataShiPei.setResult_msg(ApiStatusConst.getZhMsg(ApiStatusConst.REQUEST_GATEWAY_EX));
-			result=JsonUtils.beanToJson(resBodyDataShiPei);
 		}
-		return result;
+		return resBodyDataShiPei;
 	}
 
 	@Override

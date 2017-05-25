@@ -33,11 +33,11 @@ public class BasicOpV2Controller {
 	 ResBodyData login(){
 	  ResBodyData resBodyData=null;
 	  JSONObject reqJson=ValRequest.apiReqData.get();
-	  resBodyData=ValInterceptor.apiValResult.get();
+//	  resBodyData=ValInterceptor.apiValResult.get();
 	  if(resBodyData.getStatus()!=0)
 	   return resBodyData;
 	  logger.info("收到登录API请求：{}",reqJson.toString());
-	  resBodyData=baseOpService.login(reqJson);
+//	  resBodyData=baseOpService.login(reqJson);
 	  if(resBodyData.getStatus()<=1){
 	   resBodyData.setStatus(ApiStatusConst.SUCCESS);
 	  }

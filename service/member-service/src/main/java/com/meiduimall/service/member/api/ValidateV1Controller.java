@@ -1,9 +1,6 @@
 package com.meiduimall.service.member.api;
 
-<<<<<<< HEAD
-=======
 
->>>>>>> refs/remotes/origin/feature/V4.0.2-Team2
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,25 +30,15 @@ public class ValidateV1Controller {
 	private ValidateService validateService;
 	
 	/**校验userId（包括手机号、登录名、邮箱）是否已存在*/
-<<<<<<< HEAD
 	@GetMapping(value = "/check_userid_exists")
 	ResBodyData checkUserIdExists(@RequestParam String userid) {
 		logger.info("收到校验userId：{}API请求",userid);
-=======
-	@GetMapping(value = "/check_userid_exists")
-	ResBodyData checkUserIdExists(@RequestParam String userid) {
-		logger.info("收到校验userId：{}API请求",userid);
->>>>>>> refs/remotes/origin/feature/V4.0.2-Team2
 		try { 
 			ResBodyData resBodyData=validateService.checkUserIdExists(userid);
 			return resBodyData;
 		} catch (MdSysException e) {
 			logger.error("校验userId：{}API请求异常：{}",userid,e.toString());
 			throw new ApiException(ApiStatusConst.SYSTEM_ERROR);
-<<<<<<< HEAD
 		}
-=======
-		}
->>>>>>> refs/remotes/origin/feature/V4.0.2-Team2
 	}
 }

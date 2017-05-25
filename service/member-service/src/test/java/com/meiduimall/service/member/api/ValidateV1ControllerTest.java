@@ -1,4 +1,4 @@
-/*package com.meiduimall.service.member.api;
+package com.meiduimall.service.member.api;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Matchers.isNotNull;
@@ -13,26 +13,22 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-*//**
+/**
  * 校验相关接口单元测试
  * @author chencong
  *
- *//*
+ */
 public class ValidateV1ControllerTest extends BaseControllerTest {
 
 	private final static Logger logger=LoggerFactory.getLogger(UserInfoV1ControllerTest.class);
 	   
-	   *//**校验userId在库中是否存在*//*
+	   /**校验userId在库中是否存在*/
 	    @Test
 	    public void validateUserIdExists() throws Exception{
 	    	/**存在的手机号*/
 	    	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/check_userid_exists?userid="+phone))
 	    	.andExpect(status().isOk())
-<<<<<<< HEAD
-	    	.andExpect(jsonPath("$.status",is(8031)));
-=======
 	    	.andExpect(jsonPath("$.status",is(8028)));
->>>>>>> refs/remotes/origin/feature/V4.0.2-Team2
 	    	
 	    	resultActions.andDo(new ResultHandler() {
 				@Override
@@ -54,4 +50,3 @@ public class ValidateV1ControllerTest extends BaseControllerTest {
 
 	    } 
 }
-*/

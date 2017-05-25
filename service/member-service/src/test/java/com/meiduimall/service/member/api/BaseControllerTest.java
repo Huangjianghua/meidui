@@ -20,17 +20,13 @@ import com.meiduimall.redis.util.RedisTemplate;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @WebAppConfiguration
-<<<<<<< HEAD
-@ActiveProfiles(value="test")
-=======
 @ActiveProfiles(value="dev")
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
->>>>>>> refs/remotes/origin/feature/V4.0.2-Team2
 public class BaseControllerTest {
 	
 	protected MockMvc mockMvc;
 	
-	protected final static String memId="4d43f7a7-e7e9-4927-aed6-4836633f9ed8";
+	protected final static String memId="81405e44-2178-44d7-822f-dec561022888";
 	protected final static String phone="13049847742";
 	protected final static String payPwd="123456";
 	protected  String token=null;
