@@ -15,6 +15,7 @@ public class SysParamsConst {
 	public final static String MSG= "msg";
 	public final static String TOKEN= "token";
 	public final static String CONNECTION= "&";
+	public final static String MEM_ID= "memId";
 	
 	/** 账户类型-积分账户：AT01 */
 	public static final String ACCOUNT_TYPE_POINTS = "AT01";

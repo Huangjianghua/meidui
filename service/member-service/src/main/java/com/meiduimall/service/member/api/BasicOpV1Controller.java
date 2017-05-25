@@ -205,7 +205,22 @@ public class BasicOpV1Controller {
 		return resBodyData; 
 	}
 	
-
+	/**我是谁（token转memId）*/
+	@GetMapping(value = "/get_memid_by_token")
+	ResBodyData getMemIdByToken(@RequestParam String token){
+		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,"");
+		logger.info("收到我是谁API请求：{}",token);
+		if(RedisTemplate.getJedisInstance().execExistsFromCache(token)){
+			String memId=RedisTemplate.getJedisInstance().execGetFromCache(token);
+			Map<String, Object> data=new HashMap<>();
+			data.put(SysParamsConst.MEM_ID,memId);
+			resBodyData.setData(data);
+			return resBodyData;
+		}
+		else{
+			throw new ApiException(ApiStatusConst.TOKEN_NOT_EXISTS);
+		}
+	}
 	
 	
 	/**token校验*/
