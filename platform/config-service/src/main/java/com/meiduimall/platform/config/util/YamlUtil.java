@@ -6,18 +6,20 @@ package com.meiduimall.platform.config.util;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jgit.api.AddCommand;
+import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PushCommand;
 import org.eclipse.jgit.transport.CredentialsProvider;
-import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,18 +80,13 @@ public class YamlUtil {
 		URL url = YamlUtil.class.getClassLoader().getResource(configerMsg.getType() + configName);
 		//step1判断是否存在配置资源文件
 		List<ConfigerMsg> listConfig=new ArrayList<>();
-		if (url == null) {
-			listConfig = new ArrayList<>();
-			listConfig.add(configerMsg);
-			operateYml(listConfig,configerMsg.getType());
-		}else{
+		if (url != null) {
+			//step2 加载已有的数据
 			listConfig=loadData(configerMsg.getType());
-			if(listConfig==null){
-			return; 
 		}
-			listConfig.add(configerMsg);
-			operateYml(listConfig,configerMsg.getType());
-		}
+		//step3 新增配置信息
+		listConfig.add(configerMsg);
+		operateYml(listConfig,configerMsg.getType());
 	}
 	
 	/**
@@ -122,10 +119,16 @@ public class YamlUtil {
 	private static void operateYml(List<ConfigerMsg> list,String typeConfig){
 		 try {
 			 String object=JsonUtils.beanToJson(list);
+			 String fileName=typeConfig+configName; //文件名称
 			 //step1 创建文件
-			 yaml.dump(object, new FileWriter(srcResourceUrl+typeConfig+configName));
-			 //step2 提交到服务器
-			 commintFilesToGitService(typeConfig+configName);
+			 yaml.dump(object, new FileWriter(srcResourceUrl+fileName));
+			 //step2 提交到config service git服务器
+			 String projectURL = System.getProperty(Constant.PROJECT_DIR);   //项目路径 
+			 String configProjectURL=projectURL.substring(0,projectURL.indexOf(Constant.PROJECT_NAME)-1);
+			 commintFilesToGitService(fileName,configProjectURL);
+			 //step3 提交到service-config-repo
+			 String fileSourceUrl=projectURL+findSrcResourceUrl+fileName; //生成的文件 绝对路径
+			 commintServiceConfigRepo(fileName,fileSourceUrl);
 		} catch (IOException e) {
 			logger.error("写入资源文件数据异常:{}", e);
 			throw new MdBizException(ApiStatusConst.WRITE_RESOURCES_FILE_ERROR);
@@ -134,17 +137,17 @@ public class YamlUtil {
 	
 	/**
 	 * 提交文件到git服务器上
-	 * @throws Exception
-	 * @author: jianhua.huang  2017年5月25日 下午3:52:21
+	 * @param fileNames
+	 * @param projectUrl
+	 * @throws MdBizException
+	 * @author: jianhua.huang  2017年5月25日 下午10:30:00
 	 */
-	private static void commintFilesToGitService(String fileNames)throws MdBizException{
+	private static void commintFilesToGitService(String fileNames,String projectUrl)throws MdBizException{
 		 try {
 			 	long beginDate= System.currentTimeMillis();
-			 	logger.info("config service开始提交文件:{}到Git服务器,提交开始时间:{}",fileNames,beginDate);
+			 	logger.info("开始提交文件:{}到Git服务器,提交开始时间:{}",fileNames,beginDate);
 			 	//获取本地分支信息
-			 	String projectURL = System.getProperty(Constant.PROJECT_DIR);  
-			 	projectURL=projectURL.substring(0,projectURL.indexOf(Constant.PROJECT_NAME)-1);
-	            Git git = Git.open(new File(projectURL));
+	            Git git = Git.open(new File(projectUrl));
 	            AddCommand addCommand = git.add();
 	            String[] fileArr = fileNames.split(",");
 	            for (String file : fileArr) {
@@ -164,10 +167,75 @@ public class YamlUtil {
 	            pushCommand.setForce(true).setPushAll();
 	            pushCommand.call();
 	            long endDate= System.currentTimeMillis();
-	            logger.info("config service开始提交文件:{}到Git服务器,提交结束时间:{},耗时:{}s",fileNames,endDate,(endDate-beginDate)/1000);
+	            logger.info("结束提交文件:{}到Git服务器,提交结束时间:{},耗时:{}s",fileNames,endDate,(endDate-beginDate)/1000);
 	        } catch (Exception e) {
-	        	logger.error("config配置文件提交到Git服务器异常:{}", e);
+	        	logger.error("配置文件提交到Git服务器异常:{}", e);
 				throw new MdBizException(ApiStatusConst.GIT_COMMINT_FILES_ERROR);
 	        }
+	}
+	
+	/**
+	 * 检测http://git.meiduimall.com/service/service-config-repo.git  是否存在本地分支
+	 * @param fileNames    文件名称
+	 * @param fileUrl  源文件所在绝对路径
+	 * @return
+	 * @throws MdBizException
+	 * @author: jianhua.huang  2017年5月25日 下午10:34:53
+	 * @throws IOException 
+	 */
+	private static void commintServiceConfigRepo(String fileNames,String fileUrl) throws MdBizException, IOException{
+		//step1 判断本地是否存在分支
+		File file=new File(Constant.DIR_TEM+fileNames);
+		if(!file.exists()){
+			//step2 下载分支代码
+			cloneRepository(Constant.DOWNLOAD_GIT_URL,Constant.DIR_TEM);
+		}
+		//step3复制文件 
+		copyFile(new File(fileUrl),new File(Constant.DIR_TEM+fileNames));
+		//step4  执行提交代码操作
+		commintFilesToGitService(fileNames,Constant.DIR_TEM);
+	}
+	
+	 /**
+     * 下载仓库
+     * @param url 远程url
+     * @param localPath 本地主仓路径
+     */
+    private static void cloneRepository(String url, String localPath) throws  MdBizException{
+        try {
+            CloneCommand cloneCommand = Git.cloneRepository().setURI(url);
+            cloneCommand.setDirectory(new File(localPath)).call();
+        } catch (Exception e) {
+        	logger.error("从Git服务器url:{},下载代码到本地仓库:{},异常:{}",url,localPath,e);
+			throw new MdBizException(ApiStatusConst.GIT_CLONE_REPOSITORY_ERROR);
+        }
+    }
+	/**
+	 * copy 文件信息
+	 * @param source
+	 * @param dest
+	 * @throws IOException
+	 * @author: jianhua.huang  2017年5月25日 下午10:49:27
+	 */
+	private static void copyFile(File source, File dest)throws IOException {
+		FileChannel inputChannel = null;
+		FileChannel outputChannel = null;
+		FileInputStream fis = null;
+	    FileOutputStream fos = null;
+		try {
+			fis = new FileInputStream(source);
+			fos = new FileOutputStream(dest);
+			inputChannel = fis.getChannel();
+			outputChannel = fos.getChannel();
+			outputChannel.transferFrom(inputChannel, 0, inputChannel.size());
+		} catch(Exception e){
+			logger.error("配置文件复制异常:{}",e);
+			throw new MdBizException(ApiStatusConst.FILE_COPY_ERROR);
+		}	finally {
+			fis.close();
+			fos.close();
+			inputChannel.close();
+			outputChannel.close();
+		}
 	}
 }	

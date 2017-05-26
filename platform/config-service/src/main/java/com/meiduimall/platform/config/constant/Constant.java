@@ -26,4 +26,12 @@ public class Constant {
 	 * 当前项目名称
 	 */
 	public static final String PROJECT_NAME="platform";
+	/**
+	 * 下载git 项目临时存放目录
+	 */
+	public static final String DIR_TEM="D:\\tmp\\";
+	/**
+	 * 下载git 路径
+	 */
+	public static final String DOWNLOAD_GIT_URL="http://git.meiduimall.com/service/service-config-repo.git";
 }
