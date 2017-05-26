@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +42,8 @@ public class YamlUtil {
 	
 	private static final String findSrcResourceUrl="\\src\\main\\resources\\config\\";
 	
+	private static final String projectURL = System.getProperty(Constant.PROJECT_DIR);   //项目路径 
+	
 	private static  Yaml yaml = new Yaml();
 	
 	/**
@@ -54,7 +55,7 @@ public class YamlUtil {
 	public static List<ConfigerMsg> loadData(String typeConfig) throws MdBizException {
 		ArrayList<ConfigerMsg> arraylist=null;
 		//step1 加载文件 判断是否存在
-		String courseFile  = System.getProperty(Constant.PROJECT_DIR)+findSrcResourceUrl+typeConfig+configName;
+		String courseFile  = projectURL+findSrcResourceUrl+typeConfig+configName;
 		File file=new File(courseFile);
 		if(!file.exists()) return arraylist;
 	    try {
@@ -76,10 +77,10 @@ public class YamlUtil {
 	 * @author: jianhua.huang  2017年5月23日 下午5:33:00
 	 */
 	public static void addDumpConfigManage(ConfigerMsg configerMsg)throws MdBizException{
-		URL url = YamlUtil.class.getClassLoader().getResource(configerMsg.getType() + configName);
+		File file=new File(projectURL+findSrcResourceUrl+configerMsg.getType() + configName);
 		//step1判断是否存在配置资源文件
 		List<ConfigerMsg> listConfig=new ArrayList<>();
-		if (url != null) {
+		if (file.exists()) {
 			//step2 加载已有的数据
 			listConfig=loadData(configerMsg.getType());
 		}
@@ -238,13 +239,11 @@ public class YamlUtil {
 	 * @author: jianhua.huang  2017年5月26日 下午3:46:00
 	 */
 	private static void asyncCommintGit(String fileName){
-		logger.info("异步线程开始处理git提交操作");
-		long beginDate=System.currentTimeMillis();
+		logger.info("异步线程开始处理git提交操作......");
 		new Thread(){
 			@Override
 			public void run() {
 				 //step2 提交到config service git服务器
-				 String projectURL = System.getProperty(Constant.PROJECT_DIR);   //项目路径 
 				 String configProjectURL=projectURL.substring(0,projectURL.indexOf(Constant.PROJECT_NAME));
 				 commintFilesToGitService(fileName,configProjectURL);
 				 //step3 提交到service-config-repo
@@ -256,7 +255,5 @@ public class YamlUtil {
 				}
 			}
 		}.start();
-		long endDate=System.currentTimeMillis();
-		logger.info("异步线程处理git提交操作结束,处理时间:{}s",(endDate-beginDate)/1000);
 	}
 }	
