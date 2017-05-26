@@ -191,7 +191,7 @@ public class YamlUtil {
 		//step3复制文件 
 		copyFile(new File(fileUrl),new File(Constant.DIR_TEM+fileNames));
 		//step4  执行提交代码操作
-		//commintFilesToGitService(fileNames,Constant.DIR_TEM);
+		commintFilesToGitService(fileNames,Constant.DIR_TEM);
 	}
 	
 	 /**
