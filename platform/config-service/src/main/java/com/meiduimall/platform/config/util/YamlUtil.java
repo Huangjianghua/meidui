@@ -147,7 +147,7 @@ public class YamlUtil {
 	private static void commintFilesToGitService(String fileNames,String projectUrl)throws MdBizException{
 		 try {
 			 	long beginDate= System.currentTimeMillis();
-			 	logger.info("开始提交文件:{}到Git服务器,提交开始时间:{}",fileNames,beginDate);
+			 	logger.info("开始提交文件:{}到Git服务器,提交开始时间:{}",projectUrl,beginDate);
 			 	//获取本地分支信息
 	            Git git = Git.open(new File(projectUrl));
 	            AddCommand addCommand = git.add();
