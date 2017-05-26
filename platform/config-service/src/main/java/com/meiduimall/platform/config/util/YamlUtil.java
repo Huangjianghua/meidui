@@ -130,7 +130,7 @@ public class YamlUtil {
 			 commintFilesToGitService(fileName,configProjectURL);
 			 //step3 提交到service-config-repo
 			 String fileSourceUrl=projectURL+findSrcResourceUrl+fileName; //生成的文件 绝对路径
-			// commintServiceConfigRepo(fileName,fileSourceUrl);
+			 commintServiceConfigRepo(fileName,fileSourceUrl);
 		} catch (Exception e) {
 			logger.error("写入资源文件数据异常:{}", e);
 			throw new MdBizException(ApiStatusConst.WRITE_RESOURCES_FILE_ERROR);
@@ -151,12 +151,8 @@ public class YamlUtil {
 			 	//获取本地分支信息
 	            Git git = Git.open(new File(projectUrl));
 	            AddCommand addCommand = git.add();
-	            String[] fileArr = fileNames.split(",");
-	            for (String file : fileArr) {
-	                addCommand.addFilepattern(file);
-	            }
 	            //step1 本地提交
-	            addCommand.call();
+	            addCommand.addFilepattern(".").call();
 	            CommitCommand commitCommand = git.commit();
 	            commitCommand.setMessage(Constant.GIT_COMMINT_MESSAGE);
 	            commitCommand.setAll(true);
