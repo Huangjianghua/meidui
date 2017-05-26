@@ -44,15 +44,15 @@ public class Test {
 	public static void main(String[] args) throws IOException, GitAPIException {
 		//method1();
 		//method2();
-		cloneRepository("http://git.meiduimall.com/service/service-config-repo.git","d:\\tmp\\test2");
+		//cloneRepository("http://git.meiduimall.com/service/service-config-repo.git","d:\\tmp\\test2");
 		//pushRepository("D:\\gitProject\\featureV4.0.2\\meiduimall");
 		 String projectURL = System.getProperty  ("user.dir");  
-		 //projectURL=projectURL.substring(0,projectURL.indexOf("platform")-1);
-		 System.out.println(projectURL+"\\src\\main\\resources\\config\\o2o-service-config.yml");
-		// commitRepository(projectURL,"020-service-config.yml","配置文件变动提交");
-		// pushRepository(projectURL);
-		 File source = new File(projectURL+"\\src\\main\\resources\\config\\o2o-service-config.yml");
-		 File	dest = new File("D:\\tmp\\020-service-config.yml");
+		 projectURL=projectURL.substring(0,projectURL.indexOf("platform")-1);
+		 System.out.println(projectURL+"\\src\\main\\resources\\config\\com-service-config.yml");
+		 commitRepository(projectURL,"020-service-config.yml","配置文件变动提交");
+		 //pushRepository(projectURL);
+		// File source = new File(projectURL+"\\src\\main\\resources\\config\\o2o-service-config.yml");
+		 //File	dest = new File("D:\\tmp\\020-service-config.yml");
 		 //copyFile(source, dest);
 		 
 		 //判断文件是否 已经在http://git.meiduimall.com/service/service-config-repo.git  里面
