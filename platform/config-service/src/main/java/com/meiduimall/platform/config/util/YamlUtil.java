@@ -126,7 +126,7 @@ public class YamlUtil {
 			 yaml.dump(object, new FileWriter(srcResourceUrl+fileName));
 			 //step2 提交到config service git服务器
 			 String projectURL = System.getProperty(Constant.PROJECT_DIR);   //项目路径 
-			 String configProjectURL=projectURL.substring(0,projectURL.indexOf(Constant.PROJECT_NAME)-1);
+			 String configProjectURL=projectURL.substring(0,projectURL.indexOf(Constant.PROJECT_NAME));
 			 commintFilesToGitService(fileName,configProjectURL);
 			 //step3 提交到service-config-repo
 			 String fileSourceUrl=projectURL+findSrcResourceUrl+fileName; //生成的文件 绝对路径
