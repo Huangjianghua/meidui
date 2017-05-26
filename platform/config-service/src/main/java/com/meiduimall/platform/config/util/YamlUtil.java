@@ -183,7 +183,7 @@ public class YamlUtil {
 	 */
 	private static void commintServiceConfigRepo(String fileNames,String fileUrl) throws MdBizException, IOException{
 		//step1 判断本地是否存在分支
-		File file=new File(Constant.DIR_TEM+fileNames);
+		File file=new File(Constant.DIR_TEM+Constant.GIT_IS_EXISTS);
 		if(!file.exists()){
 			//step2 下载分支代码
 			cloneRepository(Constant.DOWNLOAD_GIT_URL,Constant.DIR_TEM);
@@ -191,7 +191,7 @@ public class YamlUtil {
 		//step3复制文件 
 		copyFile(new File(fileUrl),new File(Constant.DIR_TEM+fileNames));
 		//step4  执行提交代码操作
-		commintFilesToGitService(fileNames,Constant.DIR_TEM);
+		//commintFilesToGitService(fileNames,Constant.DIR_TEM);
 	}
 	
 	 /**

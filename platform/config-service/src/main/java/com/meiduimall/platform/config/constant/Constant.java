@@ -34,4 +34,8 @@ public class Constant {
 	 * 下载git 路径
 	 */
 	public static final String DOWNLOAD_GIT_URL="http://git.meiduimall.com/service/service-config-repo.git";
+	/**
+	 * 判断.git 文件是否存在
+	 */
+	public static final String GIT_IS_EXISTS=".git";
 }
