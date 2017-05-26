@@ -36,7 +36,7 @@ member-access :
 ---
 spring:
   profiles: pro
-
+ 
 # 配置clientID和key
 sign : 
   clientID : mall_java
