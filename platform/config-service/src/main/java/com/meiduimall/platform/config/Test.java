@@ -243,7 +243,7 @@ public class Test {
             AddCommand addCommand = git.add();
             String[] fileArr = fileNames.split(",");
             for (String file : fileArr) {
-                addCommand.addFilepattern(file);
+                addCommand.addFilepattern(".");
             }
             DirCache index=addCommand.call();
             System.out.println(index.getEntryCount());
