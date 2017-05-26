@@ -65,7 +65,7 @@ public class ConfigServerApplicationTest {
 	  ConfigerMsg conf=new ConfigerMsg();
 	  conf.setKey("huang1111add");
 	  conf.setName("黄测试add");
-	  conf.setType("o2o");
+	  conf.setType("com");
 	  conf.setUpdateBy("huangadd");
 	  conf.setUpdateDate("2017-05-27 17:25:25");
 	  conf.setValue("huangValueadd");
