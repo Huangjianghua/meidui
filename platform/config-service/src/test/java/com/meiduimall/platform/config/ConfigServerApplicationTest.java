@@ -62,6 +62,7 @@ public class ConfigServerApplicationTest {
    */
   @Test
   public void addConfigManage(){
+	  long beginDate=System.currentTimeMillis();
 	  ConfigerMsg conf=new ConfigerMsg();
 	  conf.setKey("huang1111add");
 	  conf.setName("黄测试add");
@@ -72,7 +73,8 @@ public class ConfigServerApplicationTest {
 	  conf.setStatus("Y");
 	  try {
 		  ResBodyData data=  controller.addConfigManage(conf); 
-		  logger.info("单元测试>>新增配置管理API>>执行结果:{}",data.getData());
+		  long endDate=System.currentTimeMillis();
+		  logger.info("单元测试>>新增配置管理API>>执行结果:{},处理耗时:{}s",data.getData(),(endDate-beginDate)/1000);
 	} catch (Exception e) {
 		logger.error("单元测试>>>新增配置管理API>>执行异常");
 	}
@@ -85,7 +87,7 @@ public class ConfigServerApplicationTest {
    */
   @Test
   public void updateConfigManage(){
-	  
+	  long beginDate=System.currentTimeMillis();
 	  ConfigerMsg conf=new ConfigerMsg();
 	  conf.setKey("huang1111add");
 	  conf.setName("黄测试update");
@@ -96,7 +98,8 @@ public class ConfigServerApplicationTest {
 	  conf.setStatus("Y");
 	  try {
 		  ResBodyData data=  controller.updateConfigManage(conf); 
-		  logger.info("单元测试>>查询配置管理API>>执行结果:{}",data.getData());
+		  long endDate=System.currentTimeMillis();
+		  logger.info("单元测试>>查询配置管理API>>执行结果:{},处理耗时:{}s",data.getData(),(endDate-beginDate)/1000);
 	} catch (Exception e) {
 		logger.error("单元测试>>查询配置管理API>>执行异常");
 	}

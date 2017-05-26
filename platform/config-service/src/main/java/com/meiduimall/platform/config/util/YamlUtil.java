@@ -124,13 +124,8 @@ public class YamlUtil {
 			 logger.info("operateYml开始操作配置文件信息,文件名称:{}",fileName);
 			 //step1 创建文件
 			 yaml.dump(object, new FileWriter(srcResourceUrl+fileName));
-			 //step2 提交到config service git服务器
-			 String projectURL = System.getProperty(Constant.PROJECT_DIR);   //项目路径 
-			 String configProjectURL=projectURL.substring(0,projectURL.indexOf(Constant.PROJECT_NAME));
-			 commintFilesToGitService(fileName,configProjectURL);
-			 //step3 提交到service-config-repo
-			 String fileSourceUrl=projectURL+findSrcResourceUrl+fileName; //生成的文件 绝对路径
-			 commintServiceConfigRepo(fileName,fileSourceUrl);
+			 //step2 Git相关操作
+			 asyncCommintGit(fileName);
 		} catch (Exception e) {
 			logger.error("写入资源文件数据异常:{}", e);
 			throw new MdBizException(ApiStatusConst.WRITE_RESOURCES_FILE_ERROR);
@@ -236,5 +231,32 @@ public class YamlUtil {
 			inputChannel.close();
 			outputChannel.close();
 		}
+	}
+	/**
+	 * 异步处理Git提交相关操作
+	 * @param fileName
+	 * @author: jianhua.huang  2017年5月26日 下午3:46:00
+	 */
+	private static void asyncCommintGit(String fileName){
+		logger.info("异步线程开始处理git提交操作");
+		long beginDate=System.currentTimeMillis();
+		new Thread(){
+			@Override
+			public void run() {
+				 //step2 提交到config service git服务器
+				 String projectURL = System.getProperty(Constant.PROJECT_DIR);   //项目路径 
+				 String configProjectURL=projectURL.substring(0,projectURL.indexOf(Constant.PROJECT_NAME));
+				 commintFilesToGitService(fileName,configProjectURL);
+				 //step3 提交到service-config-repo
+				 String fileSourceUrl=projectURL+findSrcResourceUrl+fileName; //生成的文件 绝对路径
+				 try {
+					commintServiceConfigRepo(fileName,fileSourceUrl);
+				} catch (MdBizException | IOException e) {
+					logger.error("asyncCommintGit异步处理异常:{}",e);
+				}
+			}
+		}.start();
+		long endDate=System.currentTimeMillis();
+		logger.info("异步线程处理git提交操作结束,处理时间:{}s",(endDate-beginDate)/1000);
 	}
 }	
