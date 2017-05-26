@@ -55,19 +55,22 @@ public class YamlUtil {
 	 * @return
 	 * @author: jianhua.huang  2017年5月23日 下午4:38:35
 	 */
-	public static List<ConfigerMsg> loadData(String typeConfig)  {
+	public static List<ConfigerMsg> loadData(String typeConfig) throws MdBizException {
 		ArrayList<ConfigerMsg> arraylist=null;
-	    String courseFile  = System.getProperty(Constant.PROJECT_DIR)+findSrcResourceUrl+typeConfig+configName;
-		try {
+		//step1 加载文件 判断是否存在
+		String courseFile  = System.getProperty(Constant.PROJECT_DIR)+findSrcResourceUrl+typeConfig+configName;
+		File file=new File(courseFile);
+		if(!file.exists()) return arraylist;
+	    try {
 			 Object obj =(Object)yaml.load(new FileInputStream(courseFile));
 			 if(obj==null){
-				 return null;
+				 return arraylist;
 			 }
 			 List<ConfigerMsg> list=JsonUtils.jsonToList(obj.toString(), ConfigerMsg.class);
 			 arraylist = new ArrayList<>(list);
-		} catch (FileNotFoundException e) {
+		} catch (Exception e) {
 			logger.error("加载资源文件数据异常:{}", e);
-			return arraylist;
+			throw new MdBizException(ApiStatusConst.LOAD_RESOURCES_FILE_ERROR);
 		}
 		return arraylist;
 	}
@@ -76,7 +79,7 @@ public class YamlUtil {
 	 * @param configerMsg
 	 * @author: jianhua.huang  2017年5月23日 下午5:33:00
 	 */
-	public static void addDumpConfigManage(ConfigerMsg configerMsg){
+	public static void addDumpConfigManage(ConfigerMsg configerMsg)throws MdBizException{
 		URL url = YamlUtil.class.getClassLoader().getResource(configerMsg.getType() + configName);
 		//step1判断是否存在配置资源文件
 		List<ConfigerMsg> listConfig=new ArrayList<>();
@@ -94,12 +97,14 @@ public class YamlUtil {
 	 * @param configerMsg
 	 * @author: jianhua.huang  2017年5月23日 下午5:33:00
 	 */
-	public static void updateDumpConfigManage(ConfigerMsg configerMsg){
-		 List<ConfigerMsg> list=loadData(configerMsg.getType());
+	public static void updateDumpConfigManage(ConfigerMsg configerMsg)throws MdBizException{
+		//step1 首先去加载文件 
+		List<ConfigerMsg> list=loadData(configerMsg.getType());
 		 if(list==null){
-			return; 
+			logger.error("加载{}类型资源文件数据异常",configerMsg.getType());
+			throw new MdBizException(ApiStatusConst.UPDATE_CONFIG_FILE_ERROR);
 		 }
-		 //step1 查找修改的配置信息   根据key判断
+		 //step2 查找修改的配置信息   根据key判断
 		 for(int i=0;i<list.size();i++){
 			 ConfigerMsg conf=list.get(i);
 			 if(conf.getKey().equals(configerMsg.getKey())){
@@ -116,10 +121,11 @@ public class YamlUtil {
 	 * @param list
 	 * @author: jianhua.huang  2017年5月23日 下午10:09:43
 	 */
-	private static void operateYml(List<ConfigerMsg> list,String typeConfig){
+	private static void operateYml(List<ConfigerMsg> list,String typeConfig) throws MdBizException{
 		 try {
 			 String object=JsonUtils.beanToJson(list);
 			 String fileName=typeConfig+configName; //文件名称
+			 logger.info("operateYml开始操作配置文件信息,文件名称:{}",fileName);
 			 //step1 创建文件
 			 yaml.dump(object, new FileWriter(srcResourceUrl+fileName));
 			 //step2 提交到config service git服务器
@@ -129,7 +135,7 @@ public class YamlUtil {
 			 //step3 提交到service-config-repo
 			 String fileSourceUrl=projectURL+findSrcResourceUrl+fileName; //生成的文件 绝对路径
 			 commintServiceConfigRepo(fileName,fileSourceUrl);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			logger.error("写入资源文件数据异常:{}", e);
 			throw new MdBizException(ApiStatusConst.WRITE_RESOURCES_FILE_ERROR);
 		}
@@ -210,14 +216,15 @@ public class YamlUtil {
 			throw new MdBizException(ApiStatusConst.GIT_CLONE_REPOSITORY_ERROR);
         }
     }
-	/**
-	 * copy 文件信息
-	 * @param source
-	 * @param dest
-	 * @throws IOException
-	 * @author: jianhua.huang  2017年5月25日 下午10:49:27
-	 */
-	private static void copyFile(File source, File dest)throws IOException {
+    /**
+     * copy 文件信息
+     * @param source  源文件路径
+     * @param dest    目标文件路径
+     * @throws MdBizException
+     * @throws IOException
+     * @author: jianhua.huang  2017年5月26日 上午10:06:59
+     */
+	private static void copyFile(File source, File dest)throws MdBizException,IOException {
 		FileChannel inputChannel = null;
 		FileChannel outputChannel = null;
 		FileInputStream fis = null;
@@ -229,9 +236,9 @@ public class YamlUtil {
 			outputChannel = fos.getChannel();
 			outputChannel.transferFrom(inputChannel, 0, inputChannel.size());
 		} catch(Exception e){
-			logger.error("配置文件复制异常:{}",e);
+			logger.error("源文件url:{},目标路径url:{},配置文件复制异常:{}",source.getPath(),dest.getPath(),e);
 			throw new MdBizException(ApiStatusConst.FILE_COPY_ERROR);
-		}	finally {
+		}finally {
 			fis.close();
 			fos.close();
 			inputChannel.close();
