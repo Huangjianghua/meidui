@@ -1,5 +1,7 @@
 package com.meiduimall.application.usercenter.api;
 
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,22 +30,22 @@ public class BasicOpV2Controller {
 	private BaseOpService baseOpService;
 	
 	/**登录*/
-	@RequestMapping(value = "/login")
-	ResBodyData login(){
-		ResBodyData resBodyData=null;
-		JSONObject reqJson=ValRequest.apiReqData.get();
-		resBodyData=ValInterceptor.apiValResult.get();
-		if(resBodyData.getStatus()!=0)
-			return resBodyData;
-		logger.info("收到登录API请求：{}",reqJson.toString());
-		resBodyData=baseOpService.login(reqJson);
-		if(resBodyData.getStatus()<=1){
-			resBodyData.setStatus(ApiStatusConst.SUCCESS);
-		}
-		logger.info("会员登录API请求结果：{}",resBodyData.toString());
-		return resBodyData;
-	}
-	
-	
+	 @RequestMapping(value = "/login")
+	 ResBodyData login(){
+	  ResBodyData resBodyData=null;
+	  JSONObject reqJson=ValRequest.apiReqData.get();
+	  resBodyData=ValInterceptor.apiValResult.get();
+	  if(resBodyData.getStatus()!=0)
+	   return resBodyData;
+	  logger.info("收到登录API请求：{}",reqJson.toString());
+	  resBodyData=baseOpService.login(reqJson);
+	  if(resBodyData.getStatus()<=1){
+	   resBodyData.setStatus(ApiStatusConst.SUCCESS);
+	  }
+	  logger.info("会员登录API请求结果：{}",resBodyData.toString());
+	  return resBodyData;
+	 }
+
+
 
 }

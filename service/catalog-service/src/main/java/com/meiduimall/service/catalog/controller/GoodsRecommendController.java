@@ -2,7 +2,6 @@ package com.meiduimall.service.catalog.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.meiduimall.exception.ApiException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.ApiException;
 import com.meiduimall.service.catalog.constant.ServiceCatalogApiCode;
 import com.meiduimall.service.catalog.service.GoodsRecommendService;
 import com.meiduimall.service.catalog.util.HttpHeaderTools;
@@ -48,8 +48,7 @@ public class GoodsRecommendController {
 	 * @return 状态信息
 	 */
 	@RequestMapping(value = "/insertBatch")
-	public ResBodyData insertBatchItems(
-			@RequestParam(value = "item_ids", required = false) String itemIds, String type,
+	public ResBodyData insertBatchItems(@RequestParam(value = "item_ids", required = false) String itemIds, String type,
 			@RequestParam(value = "opt_user", required = false) String optUser,
 			@RequestParam(value = "level", required = false, defaultValue = "0") String level) {
 

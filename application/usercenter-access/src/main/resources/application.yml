@@ -60,7 +60,7 @@ service:
 
 route:
   clientID: member_java
-  key: Test123
+  key: 20822871
 
 
 ---
@@ -91,7 +91,7 @@ service:
 
 route:
   clientID: member_java
-  key: Test123
+  key: 20822871
 
 
 ---

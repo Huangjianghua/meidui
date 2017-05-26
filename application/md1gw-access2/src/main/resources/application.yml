@@ -24,7 +24,7 @@ spring:
 # 配置clientID和key
 sign : 
   clientID : mall_java
-  key :  
+  key :  20822875
 
 # 商品模块微服务地址
 catalog-service : 
@@ -36,11 +36,11 @@ member-access :
 ---
 spring:
   profiles: pro
-
+ 
 # 配置clientID和key
 sign : 
   clientID : mall_java
-  key :  
+  key :  20822875
 
 # 商品模块微服务地址
 catalog-service : 
