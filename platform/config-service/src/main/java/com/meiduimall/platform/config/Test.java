@@ -49,7 +49,7 @@ public class Test {
 		 String projectURL = System.getProperty  ("user.dir");  
 		 projectURL=projectURL.substring(0,projectURL.indexOf("platform")-1);
 		 System.out.println(projectURL+"\\src\\main\\resources\\config\\com-service-config.yml");
-		 commitRepository(projectURL,"020-service-config.yml","配置文件变动提交");
+		 commitRepository(projectURL,"o2o-service-config.yml","配置文件变动提交");
 		 //pushRepository(projectURL);
 		// File source = new File(projectURL+"\\src\\main\\resources\\config\\o2o-service-config.yml");
 		 //File	dest = new File("D:\\tmp\\020-service-config.yml");
