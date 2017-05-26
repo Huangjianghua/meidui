@@ -67,7 +67,7 @@ public class ConfigServerApplicationTest {
 	  conf.setName("黄测试add");
 	  conf.setType("o2o");
 	  conf.setUpdateBy("huangadd");
-	  conf.setUpdateDate("2017-05-27 17:22:22");
+	  conf.setUpdateDate("2017-05-27 17:25:25");
 	  conf.setValue("huangValueadd");
 	  conf.setStatus("Y");
 	  try {
