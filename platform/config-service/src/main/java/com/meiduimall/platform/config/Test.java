@@ -23,6 +23,7 @@ import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PushCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -48,7 +49,7 @@ public class Test {
 		//pushRepository("D:\\gitProject\\featureV4.0.2\\meiduimall");
 		 String projectURL = System.getProperty  ("user.dir");  
 		 projectURL=projectURL.substring(0,projectURL.indexOf("platform")-1);
-		 String fileNameurl=projectURL+"\\src\\main\\resources\\config\\com-service-config.yml";
+		 String fileNameurl=projectURL+"\\src\\main\\resources\\config";
 		 commitRepository(projectURL,fileNameurl,"配置文件变动提交");
 		 //pushRepository(projectURL);
 		// File source = new File(projectURL+"\\src\\main\\resources\\config\\o2o-service-config.yml");
@@ -244,7 +245,8 @@ public class Test {
             for (String file : fileArr) {
                 addCommand.addFilepattern(file);
             }
-            addCommand.call();
+            DirCache index=addCommand.call();
+            System.out.println(index.getEntryCount());
             CommitCommand commitCommand = git.commit();
             commitCommand.setMessage(message);
             commitCommand.setAll(true);
