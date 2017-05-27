@@ -104,7 +104,7 @@ spring:
   datasource :
     type : com.zaxxer.hikari.HikariDataSource
     driver-class-name : com.mysql.jdbc.Driver
-    url : jdbc:mysql://127.0.0.1:3306/smm_service?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
+    url : jdbc:mysql://127.0.0.1:3306/sms_service?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
     username : root
     password : 123456
     connectionTimeout : 30000
