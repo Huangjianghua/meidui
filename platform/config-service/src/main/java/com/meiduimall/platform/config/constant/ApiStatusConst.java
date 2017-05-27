@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.meiduimall.platform.config.constant;
 
 import com.meiduimall.core.BaseApiCode;

@@ -25,6 +25,7 @@ public class WeixinController {
 	 */
 	@RequestMapping("/send_weixin_msg_on_pay")
 	public ResBodyData sendTemplateMessageOnPaySuccess(@Validated WXMsgOnPaySuccessRequest model) {
-		return weixinService.sendTemplateMessageOnPaySuccess(model);
+		/*return weixinService.sendTemplateMessageOnPaySuccess(model);*/
+		return null;
 	}
 }

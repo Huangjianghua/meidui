@@ -226,7 +226,6 @@ public class BasicOpV1Controller {
 		}
 	}
 	
-	
 	/**token校验*/
 	@PostMapping(value = "/checktoken")
 	ResBodyData checktoken(@RequestBody @Valid RequestExit model) {	

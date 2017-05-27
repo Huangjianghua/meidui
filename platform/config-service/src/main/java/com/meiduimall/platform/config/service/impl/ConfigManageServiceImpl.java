@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.meiduimall.platform.config.service.impl;
 
 import java.util.List;

@@ -20,7 +20,7 @@ import com.meiduimall.core.ResBodyData;
  *
  */
 @RestController
-@RequestMapping("/member/front_user_center/v1")
+@RequestMapping("/member/front_user_center/v2")
 public class BasicOpV2Controller {
 	
 	private static Logger logger = LoggerFactory.getLogger(BasicOpV2Controller.class);

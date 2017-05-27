@@ -61,6 +61,8 @@ public abstract class ApiStatusConst extends BaseApiCode {
 	public static final Integer QUERY_MOBILE_EXCEPTION= 8104;
 	public static final Integer INSERT_SELECTIVE_EXCEPTION= 8105;
 
+	public final static Integer REGISTER_SOURCE_WRONG=8029;
+
 	static {
 		zhMsgMap.put(REQUIRED_PARAM_EMPTY, "必填参数为空");
 		zhMsgMap.put(MD5_EXCEPTION, "生成MD5程序异常");
@@ -106,11 +108,14 @@ public abstract class ApiStatusConst extends BaseApiCode {
 		zhMsgMap.put(NOT_BINGDING_WEIXIN_OPENID, "未绑定微信openID");
 		zhMsgMap.put(USERID_IS_NOT_EXIST, "该账号不存在");
 		zhMsgMap.put(USERID_IS_EXIST, "该账号已存在");
-		
+	
 		zhMsgMap.put(NOT_BINGDING_WEIXIN_OPENID, "未绑定微信openID");
 		zhMsgMap.put(FIND_MEMBER_EXCEPTION, "查询不在会员手机归属地表异常");
 		zhMsgMap.put(QUERY_MOBILE_EXCEPTION, "查询手机前7位确定归属地异常");
 		zhMsgMap.put(INSERT_SELECTIVE_EXCEPTION, "批量插入会员手机归属地表异常");
+		
+		zhMsgMap.put(REGISTER_SOURCE_WRONG, "注册来源不合法");
+		zhMsgMap.put(TOKEN_NOT_EXISTS, "token不存在");
 	}
 
 }
