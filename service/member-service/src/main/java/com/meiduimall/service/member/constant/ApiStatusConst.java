@@ -64,6 +64,7 @@ public abstract class ApiStatusConst extends BaseApiCode {
 	public final static Integer ACCOUNT_MEMBER_ID_NULL=8027;
 	public final static Integer USERID_IS_EXIST=8028;
 	public final static Integer REGISTER_SOURCE_WRONG=8029;
+	public final static Integer TOKEN_NOT_EXISTS=8030;
 
 	static {
 		zhMsgMap.put(REQUIRED_PARAM_EMPTY, "必填参数为空");
@@ -112,6 +113,7 @@ public abstract class ApiStatusConst extends BaseApiCode {
 		zhMsgMap.put(NOT_BINGDING_WEIXIN_OPENID, "未绑定微信openID");
 		
 		zhMsgMap.put(REGISTER_SOURCE_WRONG, "注册来源不合法");
+		zhMsgMap.put(TOKEN_NOT_EXISTS, "token不存在");
 	}
 
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
@@ -32,6 +33,10 @@ import com.meiduimall.service.member.model.request.RequestRegisterO2O;
 import com.meiduimall.service.member.service.BasicOpService;
 import com.meiduimall.service.member.service.UserInfoService;
 import com.meiduimall.service.member.util.HttpResolveUtils;
+
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * 用户基本操作相关接口
@@ -101,6 +106,10 @@ public class BasicOpV1Controller {
 	 * @return 统一数据返回格式
 	 * @throws MdSysException 系统异常
 	 */
+	@ApiOperation(value="会员登录", notes="会员登录")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "requestLogin", value = "登录实体", required = true, dataType = "RequestLogin"),
+	})
 	@PostMapping(value = "/login")
 	ResBodyData login(@RequestBody @Valid RequestLogin requestLogin) throws MdSysException{
 		requestLogin.setIp(request.getRemoteAddr());
@@ -203,6 +212,24 @@ public class BasicOpV1Controller {
 			throw new ApiException(ApiStatusConst.REGISTER_EXCEPTION);
 		}
 		return resBodyData; 
+	}
+	
+	
+	/**我是谁（token转memId）*/
+	@GetMapping(value = "/get_memid_by_token")
+	ResBodyData getMemIdByToken(@RequestParam String token){
+		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,"");
+		logger.info("收到我是谁API请求：{}",token);
+		if(RedisTemplate.getJedisInstance().execExistsFromCache(token)){
+			String memId=RedisTemplate.getJedisInstance().execGetFromCache(token);
+			Map<String, Object> data=new HashMap<>();
+			data.put(SysParamsConst.MEM_ID,memId);
+			resBodyData.setData(data);
+			return resBodyData;
+		}
+		else{
+			throw new ApiException(ApiStatusConst.TOKEN_NOT_EXISTS);
+		}
 	}
 	
 	

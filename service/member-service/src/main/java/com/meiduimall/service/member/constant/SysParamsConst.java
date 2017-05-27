@@ -100,5 +100,7 @@ public class SysParamsConst {
 	public static final String ADD_SYMBOL="+";
 	/**初始化解锁0 */
 	public static final String INIT_LOGIN_LOCK_COUNT = "0";
+	
+	public final static String MEM_ID= "memId";
 
 }
