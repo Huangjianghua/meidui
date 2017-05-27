@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.DaoException;
@@ -34,6 +33,10 @@ import com.meiduimall.service.member.model.request.RequestRegisterO2O;
 import com.meiduimall.service.member.service.BasicOpService;
 import com.meiduimall.service.member.service.UserInfoService;
 import com.meiduimall.service.member.util.HttpResolveUtils;
+
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * 用户基本操作相关接口
@@ -97,7 +100,16 @@ public class BasicOpV1Controller {
 		return result;
 	    }
 	
-	/**会员登录*/
+	/**
+	 * 会员登录
+	 * @param requestLogin 登录API请求映射实体
+	 * @return 统一数据返回格式
+	 * @throws MdSysException 系统异常
+	 */
+	@ApiOperation(value="会员登录", notes="会员登录")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "requestLogin", value = "登录实体", required = true, dataType = "RequestLogin"),
+	})
 	@PostMapping(value = "/login")
 	ResBodyData login(@RequestBody @Valid RequestLogin requestLogin){
 		requestLogin.setIp(request.getRemoteAddr());
