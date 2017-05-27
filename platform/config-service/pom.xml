@@ -26,6 +26,11 @@
                 <groupId>com.github.pagehelper</groupId>
                 <artifactId>pagehelper</artifactId>
             </dependency>
+                 <dependency>
+                <groupId>com.meiduimall</groupId>
+                <artifactId>meiduimall-support-core</artifactId>
+                <version>${meiduimall-support-core.version}</version>
+            </dependency>
 	</dependencies>
 	<build>
 		<plugins>
