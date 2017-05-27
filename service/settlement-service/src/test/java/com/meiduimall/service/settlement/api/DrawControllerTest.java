@@ -1,4 +1,4 @@
-package com.meiduimall.service.settlement.api;
+/*package com.meiduimall.service.settlement.api;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -11,18 +11,18 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.meiduimall.service.BaseTest;
 
 
-/**
+*//**
  * Copyright (C), 2002-2017, 美兑壹购物
  * FileName: DrawControllerTest.java
  * Author:   guidl
  * Description: 提现相关接口单元测试
- */
+ *//*
 public class DrawControllerTest extends BaseTest {
 
-	/**
+	*//**
 	 * 功能描述:  根据代理编号获取区代、个代或商家可提现金额
 	 * Author: guidl
-	 */
+	 *//*
 	@Test
 	public void testQueryAccoutBalance() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -37,10 +37,10 @@ public class DrawControllerTest extends BaseTest {
 		});
 	}
 
-	/**
+	*//**
 	 * 功能描述:  新增提现申请
 	 * Author: guidl
-	 */
+	 *//*
 	@Test
 	public void testDrawCash() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -59,10 +59,10 @@ public class DrawControllerTest extends BaseTest {
 		});
 	}
 
-	/**
+	*//**
 	 * 功能描述:  获取提现管理列表
 	 * Author: guidl
-	 */
+	 *//*
 	@Test
 	public void testQueryDrawCash() throws Exception {
 		ResultActions results = mockMvc
@@ -77,10 +77,10 @@ public class DrawControllerTest extends BaseTest {
 		});
 	}
 
-	/**
+	*//**
 	 * 功能描述:  根据提现编号获取提现详情
 	 * Author: guidl
-	 */
+	 *//*
 	@Test
 	public void testQueryDrawCashById() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -95,10 +95,10 @@ public class DrawControllerTest extends BaseTest {
 		});
 	}
 
-	/**
+	*//**
 	 * 功能描述:  审核提现申请
 	 * Author: guidl
-	 */
+	 *//*
 	@Test
 	public void testVerifyDrawCashById() throws Exception {
 		ResultActions results = mockMvc
@@ -114,10 +114,10 @@ public class DrawControllerTest extends BaseTest {
 		});
 	}
 
-	/**
+	*//**
 	 * 功能描述:  驳回提现申请
 	 * Author: guidl
-	 */
+	 *//*
 	@Test
 	public void testRejectDrawCashById() throws Exception {
 		ResultActions results = mockMvc
@@ -134,10 +134,10 @@ public class DrawControllerTest extends BaseTest {
 		});
 	}
 
-	/**
+	*//**
 	 * 功能描述:  确认提现转账成功（更改提现状态）
 	 * Author: guidl
-	 */
+	 *//*
 	@Test
 	public void testConfirmDrawCashByIdByType() throws Exception {
 		//type:1-成功，0-失败  financeId:财务审核人id
@@ -155,10 +155,10 @@ public class DrawControllerTest extends BaseTest {
 		});
 	}
 	
-	/**
+	*//**
 	 * 功能描述:  确认提现转账失败（插入新的流水记录）
 	 * Author: guidl
-	 */
+	 *//*
 	@Test
 	public void testConfirmDrawCashByIdByType1() throws Exception {
 		//type:1-成功，0-失败  financeId:财务审核人id
@@ -177,3 +177,4 @@ public class DrawControllerTest extends BaseTest {
 	}
 
 }
+*/

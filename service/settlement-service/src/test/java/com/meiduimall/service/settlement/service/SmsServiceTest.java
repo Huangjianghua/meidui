@@ -1,4 +1,4 @@
-package com.meiduimall.service.settlement.service;
+/*package com.meiduimall.service.settlement.service;
 
 import java.util.Map;
 
@@ -35,3 +35,4 @@ public class SmsServiceTest extends BaseTest {
 	}
 
 }
+*/

@@ -1,4 +1,4 @@
-package com.meiduimall.service.settlement.api;
+/*package com.meiduimall.service.settlement.api;
 
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -11,18 +11,18 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.meiduimall.service.BaseTest;
 
-/**
+*//**
  * Copyright (C), 2002-2017, 美兑壹购物
  * FileName: OrderControllerTest.java
  * Author:   guidl
  * Description: 订单分润接口单元测试
- */
+ *//*
 public class OrderControllerTest extends BaseTest {
 
-	/**
+	*//**
 	 * 功能描述:  订单分润
 	 * Author: guidl
-	 */
+	 *//*
 	@Test
 	public void testShareProfit() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -44,10 +44,10 @@ public class OrderControllerTest extends BaseTest {
 		});
 	}
 
-	/**
+	*//**
 	 * 功能描述:  根据订单号查询订单状态
 	 * Author: guidl
-	 */
+	 *//*
 	@Test
 	public void testQueryOrderStatus() throws Exception {
 		ResultActions results = mockMvc.perform(
@@ -63,10 +63,10 @@ public class OrderControllerTest extends BaseTest {
 		});
 	}
 
-	/**
+	*//**
 	 * 功能描述:  O2O审核订单时调用此接口，将审核信息同步至结算
 	 * Author: guidl
-	 */
+	 *//*
 	@Test
 	public void testSyncVerifyStatus() throws Exception {
 		ResultActions results = mockMvc
@@ -83,10 +83,10 @@ public class OrderControllerTest extends BaseTest {
 		});
 	}
 
-	/**
+	*//**
 	 * 功能描述:  根据订单号获取订单详情或根据多个订单号查询导出订单数据
 	 * Author: guidl
-	 */
+	 *//*
 	@Test
 	public void testQueryShareProfit() throws Exception {
 		ResultActions results = mockMvc.perform(
@@ -102,10 +102,10 @@ public class OrderControllerTest extends BaseTest {
 		});
 	}
 
-	/**
+	*//**
 	 * 功能描述:  根据区代/个代编号查询今日订单佣金和待结算金额
 	 * Author: guidl
-	 */
+	 *//*
 	@Test
 	public void testQueryProfitByRole() throws Exception {
 		ResultActions results = mockMvc.perform(
@@ -121,10 +121,10 @@ public class OrderControllerTest extends BaseTest {
 		});
 	}
 
-	/**
+	*//**
 	 * 功能描述:  根据代理或商家编号查询汇总分润数据
 	 * Author: guidl
-	 */
+	 *//*
 	@Test
 	public void testQueryTotalProfit() throws Exception {
 		ResultActions results = mockMvc.perform(
@@ -141,3 +141,4 @@ public class OrderControllerTest extends BaseTest {
 	}
 
 }
+*/

@@ -1,4 +1,4 @@
-package com.meiduimall.service.settlement.api;
+/*package com.meiduimall.service.settlement.api;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -10,18 +10,18 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.meiduimall.service.BaseTest;
 
-/**
+*//**
  * Copyright (C), 2002-2017, 美兑壹购物
  * FileName: SettingController.java
  * Author:   guidl
  * Description: 结算服务参数配置和查询接口单元测试
- */
+ *//*
 public class SettingControllerTest extends BaseTest {
 
-	/**
+	*//**
 	 * 功能描述:  更新分润比例配置接口
 	 * Author: guidl
-	 */
+	 *//*
 	@Test
 	public void testUpdatesystemsetting() throws Exception {
 		ResultActions results = mockMvc
@@ -38,10 +38,10 @@ public class SettingControllerTest extends BaseTest {
 		});
 	}
 
-	/**
+	*//**
 	 * 功能描述:  查询分润比例配置列表接口
 	 * Author: guidl
-	 */
+	 *//*
 	@Test
 	public void testListsystemsetting() throws Exception {
 		ResultActions results = mockMvc
@@ -59,3 +59,4 @@ public class SettingControllerTest extends BaseTest {
 	}
 
 }
+*/

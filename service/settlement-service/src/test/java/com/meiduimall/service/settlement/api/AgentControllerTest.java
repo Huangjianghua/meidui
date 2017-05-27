@@ -1,4 +1,4 @@
-package com.meiduimall.service.settlement.api;
+/*package com.meiduimall.service.settlement.api;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -10,18 +10,18 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.meiduimall.service.BaseTest;
 
-/**
+*//**
  * Copyright (C), 2002-2017, 美兑壹购物
  * FileName: AgentControllerTest.java
  * Author:   guidl
  * Description: 个代保证金分润单元测试
- */
+ *//*
 public class AgentControllerTest extends BaseTest {
 	
-	/**
+	*//**
 	 * 功能描述:  保证金分润
 	 * Author: guidl
-	 */
+	 *//*
 //	@Test
 //	public void testShareDeposit() throws Exception {
 //		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -42,10 +42,10 @@ public class AgentControllerTest extends BaseTest {
 //		});
 //	}
 	
-	/**
+	*//**
 	 * 功能描述:  新商家送积分
 	 * Author: guidl
-	 */
+	 *//*
 //	@Test
 //	public void testSendScore() throws Exception {
 //		ResultActions results = mockMvc
@@ -61,10 +61,10 @@ public class AgentControllerTest extends BaseTest {
 //		});
 //	}
 
-	/**
+	*//**
 	 * 功能描述:  创建区代、个代和商家账号
 	 * Author: guidl
-	 */
+	 *//*
 	@Test
 	public void testCreateAccoutBalance() throws Exception {
 		ResultActions results = mockMvc
@@ -81,3 +81,4 @@ public class AgentControllerTest extends BaseTest {
 	}
 
 }
+*/
