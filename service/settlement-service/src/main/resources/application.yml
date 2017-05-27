@@ -75,7 +75,7 @@ myProps :
   ##msg channel
   ##url from sms
   smsUrl : http://192.168.4.240:20000/
-  smsSendMessage : notify/short_msg_service/v1/send_common_sms_message
+  smsSendMessage : notify/short_msg_service/v1/new/send_common_sms_message
   ##phones:xuyanxiong,guidonglin
   smsPhones : 13410336992,13798431927
 

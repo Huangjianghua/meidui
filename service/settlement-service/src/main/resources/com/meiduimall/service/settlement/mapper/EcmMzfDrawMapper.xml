@@ -530,4 +530,13 @@
 	LIMIT 10 
   </select>
   
+  <select id="getDrawMoney" parameterType="java.lang.String" resultType="java.util.Map">
+	  	SELECT 
+	  SUM(money) money
+	FROM
+	  ecm_mzf_draw 
+	WHERE status = '1' 
+	  AND code = #{code}
+  </select>
+  
 </mapper>

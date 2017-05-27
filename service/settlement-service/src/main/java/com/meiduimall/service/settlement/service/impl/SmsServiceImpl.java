@@ -27,12 +27,14 @@ public class SmsServiceImpl implements SmsService {
 	@Autowired
 	private MyProps myProps;
 	
+	@Autowired
+	private RestTemplate restTemplate;
 	
 	@Override
 	public boolean sendMsm(SmsReqDTO smsReqDTO) {
 		boolean flag = false;
 		String api = myProps.getSmsUrl() + myProps.getSmsSendMessage();
-		RestTemplate restTemplate = new RestTemplate();
+		smsReqDTO.setSysKey("settlement-service");
 		String result = restTemplate.postForEntity(api, smsReqDTO, String.class).getBody();
 		ResBodyData resBodyData = JsonUtils.jsonToBean(result, ResBodyData.class);
 

@@ -40,4 +40,15 @@ public interface MemberService {
 	 * Date:   2017年2月20日 下午3:38:26
 	 */
     public void updateReferrerCash();
+    
+    /**
+     * 调用会员系统发放奖励金、商家余额转入至会员系统
+     * @param memId 会员id
+     * @param orderId 账单编号
+     * @param amount 金额
+     * @param remark 备注
+     * @return
+     * @throws Exception
+     */
+    public boolean accountAdjustAmount(String memId, String orderId, String amount, String remark) throws Exception;
 }

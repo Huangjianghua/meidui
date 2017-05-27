@@ -17,6 +17,7 @@ public class SmsReqDTO implements Serializable {
 	
 	private String clientID;
 	
+	private String sysKey;
 	
 	public SmsReqDTO() {
 		super();
@@ -61,4 +62,13 @@ public class SmsReqDTO implements Serializable {
 	public void setParams(String params) {
 		this.params = params;
 	}
+
+	public String getSysKey() {
+		return sysKey;
+	}
+
+	public void setSysKey(String sysKey) {
+		this.sysKey = sysKey;
+	}
+	
 }
