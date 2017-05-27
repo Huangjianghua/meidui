@@ -40,4 +40,9 @@
       </foreach> 
   </insert>
   
+  <!-- 查询会员手机对应的区域  -->
+  <select id="findMSMemberMobileArea" parameterType="com.meiduimall.service.member.model.MSMemberMobileArea" resultType="com.meiduimall.service.member.model.MSMemberMobileArea">
+     SELECT m.mem_id memId, m.phone FROM ms_member_mobile_area m WHERE m.mem_id = #{memId} AND m.phone = #{phone}
+  </select>
+  
 </mapper>

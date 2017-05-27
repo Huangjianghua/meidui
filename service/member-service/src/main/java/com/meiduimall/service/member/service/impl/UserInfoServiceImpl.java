@@ -250,7 +250,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 		msMemberMobileArea.setCityName(queryMobile.getCityName());
 		msMemberMobileArea.setSp(queryMobile.getTo());
 		msMemberMobileArea.setCreateDate(new Date());
-		MSMemberMobileArea mSMemberMobi = baseDao.selectOne("msMemberMobileArea", "MSMemberMobileAreaMapper");
+		MSMemberMobileArea mSMemberMobi = baseDao.selectOne(msMemberMobileArea, "MSMemberMobileAreaMapper.findMSMemberMobileArea");
 		if(!StringUtils.isEmpty(mSMemberMobi)){
 			logger.info("已经新增过: phone={},memId={} ", phone, memId);
 			return new ResBodyData(ApiStatusConst.SUCCESS, "已经新增过phone="+phone+", memId="+memId);
@@ -268,6 +268,9 @@ public class UserInfoServiceImpl implements UserInfoService {
 		List<MSMemberMobileArea> areas = new ArrayList<>(); 
 		try {
 		   memberMobileAreaDTO = baseDao.selectList(null, "MSMembersMapper.findNotInMemberMobileArea");
+		   if(StringUtils.isEmpty(memberMobileAreaDTO)){
+			   return new ResBodyData(ApiStatusConst.SUCCESS,"没有需要更新的会员");
+		   }
 		} catch (DaoException e) {
 			 logger.error("查询不在会员手机归属地表异常: {}",e);
 			 throw new ServiceException(ApiStatusConst.FIND_MEMBER_EXCEPTION);
