@@ -33,6 +33,10 @@ import com.meiduimall.service.member.service.BasicOpService;
 import com.meiduimall.service.member.service.UserInfoService;
 import com.meiduimall.service.member.util.HttpResolveUtils;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 /**
  * 用户基本操作相关接口
  * @author chencong
@@ -101,6 +105,10 @@ public class BasicOpV1Controller {
 	 * @return 统一数据返回格式
 	 * @throws MdSysException 系统异常
 	 */
+	@ApiOperation(value="会员登录", notes="会员登录")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "requestLogin", value = "登录实体", required = true, dataType = "RequestLogin"),
+	})
 	@PostMapping(value = "/login")
 	ResBodyData login(@RequestBody @Valid RequestLogin requestLogin) throws MdSysException{
 		requestLogin.setIp(request.getRemoteAddr());
