@@ -47,7 +47,7 @@ public class UserInfoV1ControllerTest extends BaseControllerTest {
 	    @Test
 	    public void recordArea() throws Exception{
 	    	MSMemberMobileArea mSMemberMobile = new MSMemberMobileArea();
-	    	mSMemberMobile.setMemId("015c013c-137a-4351-8919-b8463f6f838c");;
+	    	mSMemberMobile.setMemId("015c013c-137a-4351-8919-b8463f6f838c");
 	    	mSMemberMobile.setPhone("13800138000");
 	    	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/record_area")
 	    			.contentType(MediaType.APPLICATION_JSON_UTF8)
