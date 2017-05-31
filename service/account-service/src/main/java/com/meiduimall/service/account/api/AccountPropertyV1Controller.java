@@ -39,7 +39,7 @@ public class AccountPropertyV1Controller {
 	private MSAccountDetailService mSAccountDetailService;
 	
 	/**查询财务调整相关的账户类型信息*/
-	@RequestMapping("/list_wallet_type")
+	@RequestMapping("/list_account_type")
 	public ResBodyData listWalletType() {
 		List<MSWalletType> listWalletTypeInfo = null;
 		try {
