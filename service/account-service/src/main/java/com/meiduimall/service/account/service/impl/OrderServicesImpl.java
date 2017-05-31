@@ -356,16 +356,16 @@ public class OrderServicesImpl implements OrderService {
 		dto.setAccountCity(accountCity);
 		dto.setAccountArea(accountArea);
 		dto.setAccountSubBank(accountSubBank);
-		dto.setApplyCarryCash(applyCarryCash);
+		/*dto.setApplyCarryCash(applyCarryCash);
 		dto.setCounterFee(counterFee);
 		dto.setApplyDate(new Date(Long.parseLong(applyDate)));
 		dto.setStatus("0");
 		
 		//计算扣除金额与手续费
 		Map<String, String> returnMap = this.calcBankWithdrawDeposit(memId, dto.getApplyCarryCash(), 
-				dto.getCounterFee());
+				dto.getCounterFee());*/
 		//计算后实际金额
-		String calcActualCarryCash = returnMap.get("calc_actualCarryCash");
+		/*String calcActualCarryCash = returnMap.get("calc_actualCarryCash");
 		//计算后手续费
 		String calcCounterFee = returnMap.get("calc_counterFee");
 		//数据检查  实际提现金额不能大于申请提现金额
@@ -378,7 +378,7 @@ public class OrderServicesImpl implements OrderService {
 		}
 		//添加到dto中
 		dto.setActualCarryCash(calcActualCarryCash);
-		dto.setCounterFee(calcCounterFee);
+		dto.setCounterFee(calcCounterFee);*/
 		//提现申请时间
 		Date tradeDate = new Date(Long.parseLong(applyDate));
 		
@@ -387,12 +387,13 @@ public class OrderServicesImpl implements OrderService {
 		if(!StringUtil.isEmptyByString(id)){
 			MSAccount account = accountServices.getAccountMoney(memId);
 			if(account != null){
+				/*临时注销代码*/
 				//余额提现冻结余额
-				accountServices.addConsumeFreezeMoneyAndDetail(memId, businessNo,
+				/*accountServices.addConsumeFreezeMoneyAndDetail(memId, businessNo,
 						ConstTradeType.TRADE_TYPE_YETX.getCode(), tradeDate, calcActualCarryCash, "余额提现");
 				//余额提现冻结手续费
 				accountServices.addConsumeFreezeMoneyAndDetail(memId, businessNo,
-						ConstTradeType.TRADE_TYPE_TXSX.getCode(), tradeDate, calcActualCarryCash, "提现手续费");
+						ConstTradeType.TRADE_TYPE_TXSX.getCode(), tradeDate, calcActualCarryCash, "提现手续费");*/
 			}
 		}else{
 			throw new RuntimeException("bankWithdrawDepositApply-业务处理时出现错误-1003，回滚事务。");

@@ -45,7 +45,6 @@ public class PayPwdV1Controller {
 		logger.info("验证支付密码API请求结果：{}",resBodyData.toString());
 		return resBodyData;
 	}
-	
 
 	/**设置支付密码*/
 	@HasToken

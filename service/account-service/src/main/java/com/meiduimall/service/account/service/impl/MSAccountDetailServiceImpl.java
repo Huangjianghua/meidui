@@ -294,13 +294,14 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			MSBankWithdrawDeposit withdrawDeposit=this.queryMSBankWithdrawDepositById(deposit.getId());
 			Date date=new Date();
 			//step3 修改会员金额变动
-			accountServices.cutConsumeFreezeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
+			/*临时注销代码*/
+			/*accountServices.cutConsumeFreezeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
 					ConstTradeType.TRADE_TYPE_YETX.getCode(), date,
-					withdrawDeposit.getActualCarryCash(), ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
+					withdrawDeposit.getActualWithdrawAmount(), ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
 			
 			accountServices.cutConsumeFreezeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
 					ConstTradeType.TRADE_TYPE_TXSX.getCode(), date,
-					withdrawDeposit.getCounterFee(), ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);
+					withdrawDeposit.getCounterFee(), ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);*/
 		}else{
 			//财务审核驳回   修改状态为"待客服审核"
 			deposit.setOperate(ConstSysParamsDefination.FINANCE_OPERATE_DESCRIPTION);
@@ -316,7 +317,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		try {
 			//step2 查询提现操作记录
 			List<MSBankWithDrawOperateDetail> listDetail=baseDao.selectList(deposit.getId(), "MSBankWithDrawOperateDetail.queryOperateDetailList");
-			if(!CollectionUtils.isEmpty(listDetail)) deposit.setListDetail(listDetail);
+			/*if(!CollectionUtils.isEmpty(listDetail)) deposit.setListDetail(listDetail);*/
 		} catch (Exception e) {
 			logger.error("查看提现记录queryMSBankWithdrawDepositDetail异常:{}", e.getMessage());
 			throw new MdBizException(ConstApiStatus.QUERY_BANK_WITHDRAW__DETAIL_BY_ID_ERROR);
@@ -331,7 +332,8 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		Date date=new Date();
 		try {
 			//step2调用 提现处理冻结金额
-			accountServices.cutConsumeFreezeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
+			/*临时注销代码*/
+			/*accountServices.cutConsumeFreezeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
 					ConstTradeType.TRADE_TYPE_YETX.getCode(), date,withdrawDeposit.getActualCarryCash(), ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
 			
 			accountServices.cutConsumeFreezeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
@@ -342,7 +344,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 					ConstTradeType.TRADE_TYPE_YETX.getCode(), date,withdrawDeposit.getActualCarryCash(), ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
 			
 			accountServices.cutConsumeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
-					ConstTradeType.TRADE_TYPE_TXSX.getCode(), date,withdrawDeposit.getCounterFee(), ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);
+					ConstTradeType.TRADE_TYPE_TXSX.getCode(), date,withdrawDeposit.getCounterFee(), ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);*/
 		} catch (Exception e) {
 			logger.error("结算操作settlementWithDraw 处理用户账号余额异常:{}", e.getMessage());
 			throw new MdBizException(ConstApiStatus.DEALWLTH_ACCOUNT_MONEY_ERROR);
@@ -512,13 +514,13 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			entity.setAccountArea(bankAccount.getAccountArea());
 			entity.setAccountSubBank(bankAccount.getAccountSubBank());
 			entity.setApplyDate(nowDate);
-			entity.setApplyCarryCash(dto.getApplyCarryCash());
+		/*	entity.setApplyCarryCash(dto.getApplyCarryCash());
 			entity.setCounterFee(dto.getCounterFee());
 			entity.setActualCarryCash(dto.getActualCarryCash());
 			entity.setRemark(dto.getRemark());
 			entity.setCreateDate(nowDate);
 			entity.setIsDelete(ConstSysParamsDefination.IS_N);
-			baseDao.insert(entity, "MSBankWithdrawDepositMapper.insertBankWithdrawDeposit");
+			baseDao.insert(entity, "MSBankWithdrawDepositMapper.insertBankWithdrawDeposit");*/
 			return businessNo;
 		}catch(Exception e){
 			logger.error("新增提现记录addBankWithdrawDeposit异常:{}",e);

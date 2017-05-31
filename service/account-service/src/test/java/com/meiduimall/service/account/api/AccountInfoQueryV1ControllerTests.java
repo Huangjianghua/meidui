@@ -184,8 +184,8 @@ public class AccountInfoQueryV1ControllerTests extends BaseControllerTest {
 		 MSBankWithdrawDeposit deposit=new MSBankWithdrawDeposit();
 		 deposit.setId("d52e04eb-815c-443c-832d-5b4380b833d8");
 		 deposit.setStatus("3");
-		 deposit.setActualTransferCash("101");
-		 deposit.setOperate("客服审核");
+		/* deposit.setActualTransferCash("101");
+		 deposit.setOperate("客服审核");*/
 		 deposit.setRemark("查明无误");
 		 deposit.setAuditBy("huang");
 		 String object=JsonUtils.beanToJson(deposit);
@@ -220,7 +220,7 @@ public class AccountInfoQueryV1ControllerTests extends BaseControllerTest {
 		 String url = "/member/account_service/v1/reject_withdraw";
 		 MSBankWithdrawDeposit deposit=new MSBankWithdrawDeposit();
 		 deposit.setId("354b255e-7dde-42fc-8535-9438524a4536");
-		 deposit.setOperate("customer");
+		 /*deposit.setOperate("customer");*/
 		 deposit.setRemark("客服驳回操作");
 		 String object=JsonUtils.beanToJson(deposit);
 		 String json=object.toString();
@@ -237,7 +237,7 @@ public class AccountInfoQueryV1ControllerTests extends BaseControllerTest {
 		 String url = "/member/account_service/v1/settlement_withdraw";
 		 MSBankWithdrawDeposit deposit=new MSBankWithdrawDeposit();
 		 deposit.setId("7744988c-d71e-44d4-8ceb-00fc08ab9070");
-		 deposit.setOperate("财务结算");
+		 /*deposit.setOperate("财务结算");*/
 		 deposit.setRemark("财务已经打款完成");
 		 String object=JsonUtils.beanToJson(deposit);
 		 String json=object.toString();
@@ -257,7 +257,7 @@ public class AccountInfoQueryV1ControllerTests extends BaseControllerTest {
 		 
 		 deposit.setAccountNo("123456789123");
 		 deposit.setMemId("72063681-7408-435c-88fd-cd837c95c66e");
-		 deposit.setApplyCarryCash("10.5");
+		 /*deposit.setApplyCarryCash("10.5");*/
 		 deposit.setAuditBy("huangTest");
 		 deposit.setRemark("huangjianhuaTestDate");
 		 
