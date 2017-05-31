@@ -6,7 +6,7 @@
  *  @Copyright: ${year} www.meiduimall.com Inc. All rights reserved.
  *
  *  注意：本内容仅限于美兑壹购物公司内部传阅，禁止外泄以及用于其他的商业目的
- */
+ 
 
 package com.meiduimall.platform.discovery;
 
@@ -19,7 +19,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@ActiveProfiles("test")
+@ActiveProfiles("dev")
 public class DiscoveryServerApplicationTest {
 
   @Test
@@ -27,3 +27,4 @@ public class DiscoveryServerApplicationTest {
   }
 
 }
+*/
