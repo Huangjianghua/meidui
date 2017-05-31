@@ -1,6 +1,5 @@
 package com.meiduimall.service.account.api;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -28,7 +27,6 @@ import com.meiduimall.service.account.model.request.RequestAccountReviseDetail;
 import com.meiduimall.service.account.model.request.RequestMSAccountList;
 import com.meiduimall.service.account.service.AccountByWalletTypeService;
 import com.meiduimall.service.account.service.MSAccountDetailService;
-import com.meiduimall.service.account.util.DESC;
 
  
 /**
@@ -106,11 +104,12 @@ public class AccountInfoQueryV1Controller {
 			}
 			listMSAccountDetail=mSAccountDetailService.listMSAccountCondition(mSAccountDetailCondition);
 			for(int i=0;i<listMSAccountDetail.size();i++){
-				String phone= DESC.deyption(listMSAccountDetail.get(i).getPhone());
+				/*账户明细表实体类有改动，所以注释了，但是代码逻辑还是需要的*/
+				/*String phone= DESC.deyption(listMSAccountDetail.get(i).getPhone());
 				listMSAccountDetail.get(i).setPhone(phone);
 				
 				String loginName = DESC.deyption(listMSAccountDetail.get(i).getLoginName());
-				listMSAccountDetail.get(i).setLoginName(loginName);
+				listMSAccountDetail.get(i).setLoginName(loginName);*/
 			}
 		}catch(Exception e){
 			logger.error("根据条件查询余额流水listMSAccountCondition错误:{}", e);

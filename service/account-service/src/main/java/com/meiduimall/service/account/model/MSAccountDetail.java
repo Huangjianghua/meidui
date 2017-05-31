@@ -3,169 +3,84 @@ package com.meiduimall.service.account.model;
 import java.io.Serializable;
 import java.util.Date;
 
-
+/**
+ * 账户明细表ms_account_detail实体类
+ * @author chencong
+ *
+ */
 public class MSAccountDetail implements Serializable {
-    private String id;
+	
+	private static final long serialVersionUID = 2295995824548157186L;
 
-    private String accountId; //账户ID
+	private String id;
 
-    private String accountType; //账户类别（AT01：积分账户；AT02：现金账户；）
-
-    private String memId; //会员ID
-
-    private String tradeType; //交易类型
-
-    private String tradeAmount; //交易金额
-
-    private Date tradeDate; //发生时间
-
-    private Integer inOrOut; //账户变更标识（1：收入；-1：支出）
-
-    private String balance; //余额
-
-    private String businessNo; //业务单号
-
-    private String remark; //备注
-
-    private Date createDate; //创建时间
-
-    private Long currTime; //当前时间戳
+	/**ms_account表的account_no*/
+    private String accountNo;
     
-    private String loginName;//用户账号
+    /**交易类型*/
+    private String tradeType;
     
-    private String phone;//手机
+    /**交易金额*/
+    private Double tradeAmount;
     
-    private String bizType;
+    /**交易发生时间*/
+    private Date tradeDate;
     
+    /**账户变更标识（1：收入；-1：支出）*/
+    private int inOrOut;
+    
+    /**余额*/
+    private Double balance;
+    
+    /**业务单号*/
+    private String businessNo;
+    
+	/** 创建时间 */
+	private Date createDate;
+	
+	/** 创建人 */
+	private String createUser;
 
-    private static final long serialVersionUID = 1L;
-    
-    
-
-    public String getBizType() {
-		return bizType;
-	}
-
-	public void setBizType(String bizType) {
-		this.bizType = bizType;
-	}
+	/** 修改时间 */
+	private Date updateDate;
+	
+	/** 更新人*/
+	private String updateUser;
+	
+	/**备注*/
+	private String remark;
 
 	public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
-    }
-
-    public String getAccountId() {
-        return accountId;
-    }
-
-    public void setAccountId(String accountId) {
-        this.accountId = accountId == null ? null : accountId.trim();
-    }
-
-    public String getAccountType() {
-        return accountType;
-    }
-
-    public void setAccountType(String accountType) {
-        this.accountType = accountType == null ? null : accountType.trim();
-    }
-
-    public String getMemId() {
-        return memId;
-    }
-
-    public void setMemId(String memId) {
-        this.memId = memId == null ? null : memId.trim();
-    }
-
-    public String getTradeType() {
-        return tradeType;
-    }
-
-    public void setTradeType(String tradeType) {
-        this.tradeType = tradeType == null ? null : tradeType.trim();
-    }
-
-    public String getTradeAmount() {
-        return tradeAmount;
-    }
-
-    public void setTradeAmount(String tradeAmount) {
-        this.tradeAmount = tradeAmount == null ? null : tradeAmount.trim();
-    }
-
-   
-
-    public Integer getInOrOut() {
-        return inOrOut;
-    }
-
-    public void setInOrOut(Integer inOrOut) {
-        this.inOrOut = inOrOut;
-    }
-
-    public String getBalance() {
-        return balance;
-    }
-
-    public void setBalance(String balance) {
-        this.balance = balance == null ? null : balance.trim();
-    }
-
-    public String getBusinessNo() {
-        return businessNo;
-    }
-
-    public void setBusinessNo(String businessNo) {
-        this.businessNo = businessNo == null ? null : businessNo.trim();
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
-    }
-
-   
-    public Long getCurrTime() {
-        return currTime;
-    }
-
-    public void setCurrTime(Long currTime) {
-        this.currTime = currTime;
-    }
-    
-    
-    
-
-    public String getLoginName() {
-		return loginName;
+		return id;
 	}
 
-	public void setLoginName(String loginName) {
-		this.loginName = loginName;
+	public void setId(String id) {
+		this.id = id;
 	}
 
-	public String getPhone() {
-		return phone;
+	public String getAccountNo() {
+		return accountNo;
 	}
 
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setAccountNo(String accountNo) {
+		this.accountNo = accountNo;
 	}
-	
-	
-	
 
-	
+	public String getTradeType() {
+		return tradeType;
+	}
 
+	public void setTradeType(String tradeType) {
+		this.tradeType = tradeType;
+	}
 
+	public Double getTradeAmount() {
+		return tradeAmount;
+	}
+
+	public void setTradeAmount(Double tradeAmount) {
+		this.tradeAmount = tradeAmount;
+	}
 
 	public Date getTradeDate() {
 		return tradeDate;
@@ -173,6 +88,30 @@ public class MSAccountDetail implements Serializable {
 
 	public void setTradeDate(Date tradeDate) {
 		this.tradeDate = tradeDate;
+	}
+
+	public int getInOrOut() {
+		return inOrOut;
+	}
+
+	public void setInOrOut(int inOrOut) {
+		this.inOrOut = inOrOut;
+	}
+
+	public Double getBalance() {
+		return balance;
+	}
+
+	public void setBalance(Double balance) {
+		this.balance = balance;
+	}
+
+	public String getBusinessNo() {
+		return businessNo;
+	}
+
+	public void setBusinessNo(String businessNo) {
+		this.businessNo = businessNo;
 	}
 
 	public Date getCreateDate() {
@@ -183,27 +122,37 @@ public class MSAccountDetail implements Serializable {
 		this.createDate = createDate;
 	}
 
-	@Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", accountId=").append(accountId);
-        sb.append(", accountType=").append(accountType);
-        sb.append(", memId=").append(memId);
-        sb.append(", tradeType=").append(tradeType);
-        sb.append(", tradeAmount=").append(tradeAmount);
-        sb.append(", tradeDate=").append(tradeDate);
-        sb.append(", inOrOut=").append(inOrOut);
-        sb.append(", balance=").append(balance);
-        sb.append(", businessNo=").append(businessNo);
-        sb.append(", remark=").append(remark);
-        sb.append(", createDate=").append(createDate);
-        sb.append(", currTime=").append(currTime);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
-    }
+	public String getCreateUser() {
+		return createUser;
+	}
+
+	public void setCreateUser(String createUser) {
+		this.createUser = createUser;
+	}
+
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
+
+	public String getUpdateUser() {
+		return updateUser;
+	}
+
+	public void setUpdateUser(String updateUser) {
+		this.updateUser = updateUser;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+	
+   
 }
