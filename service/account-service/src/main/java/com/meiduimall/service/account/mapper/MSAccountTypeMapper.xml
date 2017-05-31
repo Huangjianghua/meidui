@@ -1,7 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- 会员按业务类型账户表ms_account_by_wallet_type相关操作 -->
-<mapper namespace="MSAccountByWalletTypeMapper">
+<!-- 会员账户类型管理表ms_account_type相关操作 -->
+<mapper namespace="MSAccountTypeMapper">
+
+  <!-- 查询财务调账相关的账户类型信息 -->
+  <select id="getCwtzWalletTypeList" resultType="com.meiduimall.service.account.model.MSWalletType">
+   SELECT id, 
+   wallet_name walletName, 
+   wallet_no walletNo, 
+   allow_withdraw allowWithdraw, 
+   need_poundage needPoundage, 
+   allow_refund allowRefund, 
+   poundage_scale poundageScale, 
+   account_type accountType, 
+   withdraw_level withdrawLevel, 
+   spend_level spendLevel, 
+   create_date createDate,
+   update_date updateDate, 
+   update_man updateMan, 
+   remark 
+   FROM ms_wallet_type m 
+   WHERE wallet_no IN ('CWTZ1','CWTZ2','CWTZ3')
+  </select>
+  
+  <!-- 根据条件查询账户类型信息 -->
+  <select id="getWalletInfoByCondition" parameterType="java.util.Map" resultType="com.meiduimall.service.account.model.MSWalletType">
+   SELECT id, 
+   wallet_name walletName, 
+   wallet_no walletNo, 
+   allow_withdraw allowWithdraw, 
+   need_poundage needPoundage, 
+   allow_refund allowRefund, 
+   poundage_scale poundageScale, 
+   account_type accountType, 
+   withdraw_level withdrawLevel, 
+   spend_level spendLevel, 
+   create_date createDate,
+   update_date updateDate, 
+   update_man updateMan, 
+   remark 
+   FROM ms_wallet_type m 
+   WHERE 1=1
+   <if test="walletNo != null and walletNo != ''">
+   AND m.wallet_no=#{walletNo}
+   </if>
+  </select>
 
   <!-- 查询会员指定类型的账户信息-->
   <select id="getAccountByWalletTypeInfoByNoAndMemId" parameterType="java.util.Map" resultType="com.meiduimall.service.account.model.MSAccountByWalletType">

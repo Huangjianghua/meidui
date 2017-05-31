@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!--会员账户表ms_account相关操作 -->
+<!--会员按账户类型账户表ms_account相关操作 -->
 <mapper namespace="MSAccountMapper">
 	
 	<!--  根据会员ID查询当前积分 -->

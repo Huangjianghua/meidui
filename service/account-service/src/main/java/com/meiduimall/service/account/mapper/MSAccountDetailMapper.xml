@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<!-- 余额变动明细表ms_account_detail相关操作 -->
+<!-- 账户变动明细表ms_account_detail相关操作 -->
 <mapper namespace="MSAccountDetailMapper" >
 
  <resultMap id="BaseResultMap" type="com.meiduimall.service.account.model.MSAccountDetail" >

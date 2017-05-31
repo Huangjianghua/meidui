@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- 会员提现主表ms_bank_withdraw_deposit相关操作 -->
-<mapper namespace="MSBankWithdrawDepositMapper">
+<!-- 会员按账户类型提现表ms_withdraw_info_by_account_type相关操作 -->
+<mapper namespace="MSWithdrawInfoByAccountTypeMapper">
 	
 	<!--  写入提现申请记录ms_bank_withdraw_deposit 2017-03-24 dengbibo   -->	
 	<insert id="insertBankWithdrawDeposit" parameterType="com.meiduimall.service.account.model.MSBankWithdrawDeposit">
