@@ -11,5 +11,14 @@ public interface WeixinService {
 	 */
 	String getAccessToken();
 
-	String sendTemplateMessageOnPaySuccess(WXMsgOnPaySuccessRequest model);
+	/**
+	 * 发送模板消息
+	 * 
+	 * @param phone
+	 *            用户手机号
+	 * @param model
+	 *            请求参数
+	 * @return 发送结果
+	 */
+	String sendTemplateMessageOnPaySuccess(String phone, WXMsgOnPaySuccessRequest model);
 }

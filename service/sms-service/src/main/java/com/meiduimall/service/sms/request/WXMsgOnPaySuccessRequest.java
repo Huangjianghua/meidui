@@ -60,4 +60,3 @@ public class WXMsgOnPaySuccessRequest {
 		this.totalPoint = totalPoint;
 	}
 }
-

@@ -9,10 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.usercenter.constant.ApiStatusConst;
-import com.meiduimall.application.usercenter.interceptor.ValInterceptor;
 import com.meiduimall.application.usercenter.interceptor.ValRequest;
 import com.meiduimall.application.usercenter.service.BaseOpService;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.ApiException;
+import com.meiduimall.exception.MdSysException;
 
 /**
  * 用户常规操作
@@ -33,11 +34,13 @@ public class BasicOpV2Controller {
 	 ResBodyData login(){
 	  ResBodyData resBodyData=null;
 	  JSONObject reqJson=ValRequest.apiReqData.get();
-//	  resBodyData=ValInterceptor.apiValResult.get();
-	  if(resBodyData.getStatus()!=0)
-	   return resBodyData;
-	  logger.info("收到登录API请求：{}",reqJson.toString());
-//	  resBodyData=baseOpService.login(reqJson);
+		logger.info("收到登录API请求：{}",reqJson.toString());
+		try {
+			resBodyData=baseOpService.login(reqJson);
+		} catch (MdSysException e) {
+			logger.error("登录API请求异常：{}",e.toString());
+			throw new ApiException(ApiStatusConst.SYSTEM_ERROR);
+		}
 	  if(resBodyData.getStatus()<=1){
 	   resBodyData.setStatus(ApiStatusConst.SUCCESS);
 	  }
