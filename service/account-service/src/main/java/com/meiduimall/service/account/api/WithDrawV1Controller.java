@@ -9,10 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.base.Strings;
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
@@ -20,9 +22,11 @@ import com.meiduimall.exception.MdBizException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.model.MSAccountDetailCondition;
 import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
+import com.meiduimall.service.account.model.request.RequestBankWithdrawDepositsForApp;
 import com.meiduimall.service.account.model.request.RequestMSBankWithDrawDepostie;
 import com.meiduimall.service.account.service.BankWithdrawDepositService;
 import com.meiduimall.service.account.service.MSAccountDetailService;
+import com.meiduimall.service.account.service.WithDrawService;
 
 
 /**
@@ -41,6 +45,9 @@ public class WithDrawV1Controller {
 	
 	@Autowired
 	private MSAccountDetailService mSAccountDetailService;
+	
+	@Autowired
+	private WithDrawService withDrawService;
 	
 	/**
 	 * 描述：提现记录查询接口实现
@@ -182,5 +189,40 @@ public class WithDrawV1Controller {
 			throw new ApiException(ConstApiStatus.SERVER_DEAL_WITH_EXCEPTION);
 		}
 		return resultData;
+	}
+	
+	/**
+	 * 提现申请列表---兼容旧版
+	 * @param memId
+	 * @param userId
+	 * @param currentPage
+	 * @param pageSize
+	 * @return
+	 */
+	@PostMapping(value = "/getBankWithdrawDepositsForApp_old")
+	public String getBankWithdrawDepositsForApp_old(String memId, @RequestParam(value = "user_id") String userId,
+			@RequestParam(value = "current_page") String currentPage,
+			@RequestParam(value = "page_size") String pageSize) {
+		RequestBankWithdrawDepositsForApp model = new RequestBankWithdrawDepositsForApp();
+		if (Strings.isNullOrEmpty(memId) || Strings.isNullOrEmpty(userId)) {
+			throw new ApiException(ConstApiStatus.REQUIRED_PARAM_EMPTY);
+		}
+		try {
+			model.setCurrentPage(Integer.parseInt(currentPage));
+		} catch (NumberFormatException e) {
+			model.setCurrentPage(1);
+			logger.error("current_page 参数错误： " + e);
+		}
+		
+		try {
+			model.setCurrentPage(Integer.parseInt(pageSize));
+		} catch (NumberFormatException e) {
+			model.setCurrentPage(20);
+			logger.error("page_size 参数错误： " + e);
+		}
+		model.setMemId(memId);
+		model.setUserId(userId);
+		withDrawService.getBankWithdrawDepositsList(model);
+		return null;
 	}
 }
