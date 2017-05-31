@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.meiduimall.service.account.dao.BaseDao;
-import com.meiduimall.service.account.model.MSAccountByWalletType;
+import com.meiduimall.service.account.model.MSAccount;
 import com.meiduimall.service.account.service.AccountByWalletTypeService;
 
 /**
@@ -26,7 +26,7 @@ public class AccountByWalletTypeServiceImpl implements AccountByWalletTypeServic
 	private BaseDao baseDao;
 
 	@Override
-	public MSAccountByWalletType getModelByWalletNoAndMemId(String walletNo, String memId) {
+	public MSAccount getModelByWalletNoAndMemId(String walletNo, String memId) {
 		Map<String, Object> mapCondition=new HashMap<>();
 		mapCondition.put("walletNo",walletNo);
 		mapCondition.put("memId",memId);

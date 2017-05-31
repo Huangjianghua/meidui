@@ -1,6 +1,6 @@
 package com.meiduimall.service.account.service;
 
-import com.meiduimall.service.account.model.MSAccountByWalletType;
+import com.meiduimall.service.account.model.MSAccount;
 
 /**
  * 按业务类型账户表相关业务逻辑接口
@@ -14,7 +14,7 @@ public interface AccountByWalletTypeService {
 	 * @param walletNo 账户编号
 	 * @param memId 会员ID
 	 */
-	MSAccountByWalletType getModelByWalletNoAndMemId(String walletNo,String memId);
+	MSAccount getModelByWalletNoAndMemId(String walletNo,String memId);
 	
 	/**
 	 * 根据memId和账户类型编号校验该账户是否存在
