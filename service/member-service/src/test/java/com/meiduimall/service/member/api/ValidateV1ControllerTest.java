@@ -1,6 +1,7 @@
 package com.meiduimall.service.member.api;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.Matchers.isNotNull;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -24,25 +25,26 @@ public class ValidateV1ControllerTest extends BaseControllerTest {
 	   /**校验userId在库中是否存在*/
 	    @Test
 	    public void validateUserIdExists() throws Exception{
+	    	/**存在的手机号*/
 	    	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/check_userid_exists?userid="+phone))
 	    	.andExpect(status().isOk())
-	    	.andExpect(jsonPath("$.status",is(0)));
+	    	.andExpect(jsonPath("$.status",is(8028)));
 	    	
 	    	resultActions.andDo(new ResultHandler() {
 				@Override
 				public void handle(MvcResult result) throws Exception {
-					logger.info("单元测试>>获取会员基本信息API>>正确的userId>>执行结果:{}",result.getResponse().getContentAsString());
+					logger.info("单元测试>>校验userId在库中是否存在API>>正确的userId>>执行结果:{}",result.getResponse().getContentAsString());
 				}
 			});
 	    	
 	    	resultActions=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/check_userid_exists?userid=11111111"))
 	    	    	.andExpect(status().isOk())
-	    	    	.andExpect(jsonPath("$.status",is(8031)));
+	    	    	.andExpect(jsonPath("$.status",is(0)));
 	    	    	
 	    	    	resultActions.andDo(new ResultHandler() {
 	    				@Override
 	    				public void handle(MvcResult result) throws Exception {
-	    					logger.info("单元测试>>获取会员基本信息API>>错误的userId>>执行结果:{}",result.getResponse().getContentAsString());
+	    					logger.info("单元测试>>校验userId在库中是否存在API>>错误的userId>>执行结果:{}",result.getResponse().getContentAsString());
 	    				}
 	    			});
 

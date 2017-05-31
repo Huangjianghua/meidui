@@ -10,5 +10,6 @@ import com.meiduimall.service.account.model.MSBankAccount;
 public interface BankService {
 	
 	public int addBankInfo(MSBankAccount mSBankAccount);
+	
 
 }

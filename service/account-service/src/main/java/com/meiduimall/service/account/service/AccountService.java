@@ -7,11 +7,11 @@ import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.model.MSAccount;
 
 /**
- * 类名:  AccountServices<br>
- * 描述:  会员帐户相关服务接口，与帐户直接关系的基础方法都在此类中定义 <br>
- * 创建时间: 2017-02-23
+ * 账户汇总操作接口
+ * @author chencong
+ *
  */
-public interface AccountServices {
+public interface AccountService {
 
 	/**
 	 * 方法名: getTotalConsumePoints<br>

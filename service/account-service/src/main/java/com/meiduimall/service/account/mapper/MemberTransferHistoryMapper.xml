@@ -51,4 +51,41 @@
 
 	</insert>
 	
+	<!-- 根据条件查询积分转账记录 -->
+	<select id="queryPointsTransferList" parameterType="com.meiduimall.service.account.model.request.RequestPointTransfer" resultType="com.meiduimall.service.account.model.MemberTransferHistory">
+			select 
+			    msm.mem_id as memId,
+				mth.mth_no as mthNo, /** 流水号      */
+				msm.mem_login_name as memName,/** 会员账号      */
+				msm.mem_phone as memPhone,/** 会员手机      */
+				mth.mth_created_date as mthCreatedDate,/** 转账时间      */
+				mth.dict_mth_category as dictMthCategory,/**  转账类型      */
+				mth.mth_account as mthAccount,/** 转入账号      */
+				mth.mth_quantity as mthQuantity,/** 转账积分      */
+				mth.dict_charge_formula as dictChargeFormula,/** 手续费      */
+				mth.mth_actual_quantity as mthActualQuantity/**实际扣费       */
+			from ms_member_transfer_history mth,ms_members msm
+		<where>
+			mth.mem_id=msm.mem_id
+			<if test="mthNo !=null and mthNo !=''">
+				AND mth.mth_no=#{mthNo}
+			</if>
+			<if test="accountTurnIN !=null and accountTurnIN !=''">
+				AND mth.mth_account=#{accountTurnIN}
+			</if>
+			<if test="accountTurnOut !=null and accountTurnOut !=''">
+				AND msm.mem_login_name=#{accountTurnOut}
+			</if>
+			<if test="type !=null and type !=''">
+				AND mth.dict_mth_category=#{type}
+			</if>
+			<if test="beginTurnDate !=null and beginTurnDate !=''">
+				AND mth.mth_created_date &gt;= #{beginTurnDate}
+			</if>
+			<if test="endTurnDate !=null and endTurnDate !=''">
+				AND mth.mth_created_date &lt;= #{endTurnDate}
+			</if>
+			
+		 </where>
+	</select>	
 </mapper>

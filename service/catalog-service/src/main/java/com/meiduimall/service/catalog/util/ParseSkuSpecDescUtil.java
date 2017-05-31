@@ -34,7 +34,7 @@ public class ParseSkuSpecDescUtil {
 	 *            0:"";i:43;s:0:"";i:44;s:0:"";i:45;s:0:"";}}
 	 * @return SKU信息列表
 	 */
-	public static List<ParseSkuSpecDescBean> parse(String content) throws Exception {
+	public static List<ParseSkuSpecDescBean> parse(String content) {
 
 		if (content == null || "null".equals(content) || content.trim().length() == 0) {
 			return null;
@@ -44,18 +44,16 @@ public class ParseSkuSpecDescUtil {
 		try {
 			array = (AssocArray) p.unserialize(content.getBytes());
 		} catch (Exception e) {
-			logger.error("解析商品SKU序列化数据，异常1，转换AssocArray异常： " + e);
+			logger.error("解析商品SKU序列化数据，异常： " + e);
 			return null;
 		}
 		if (array == null || array.isEmpty()) {
-			logger.error("解析商品SKU序列化数据，异常2，AssocArray为空： " + content);
 			return null;
 		}
 
 		@SuppressWarnings("unchecked")
 		HashMap<String, AssocArray> map = array.toHashMap();
 		if (map == null || map.isEmpty()) {
-			logger.error("解析商品SKU序列化数据，异常3，HashMap<String, AssocArray>为空： " + content);
 			return null;
 		}
 
@@ -76,22 +74,13 @@ public class ParseSkuSpecDescUtil {
 			for (Map.Entry<Integer, Object> entry2 : map2.entrySet()) {
 				Integer key2 = entry2.getKey();
 				Object value2 = entry2.getValue();
-				byte[] bs = null;
-				try {
-					if (value2 instanceof byte[]) {
-						bs = (byte[]) value2;
-					}
-				} catch (Exception e) {
-					logger.error("解析商品SKU序列化数据，异常4，转换byte[]异常： " + e);
-					continue;
-				}
+				byte[] bs = (byte[]) value2;
 				String result = null;
 				if (bs != null && bs.length > 0) {
 					try {
 						result = new String(bs, "utf-8");
 					} catch (UnsupportedEncodingException e) {
-						logger.error("解析商品SKU序列化数据，异常5，byte[]转换String异常： " + e);
-						continue;
+						logger.error("解析商品SKU序列化数据，异常： " + e);
 					}
 				} else {
 					continue;
@@ -118,9 +107,6 @@ public class ParseSkuSpecDescUtil {
 		List<ParseSkuSpecDescBean> list = new ArrayList<ParseSkuSpecDescBean>();
 		for (Map.Entry<Integer, ParseSkuSpecDescBean> entry : resultMap.entrySet()) {
 			list.add(entry.getValue());
-		}
-		if (list.isEmpty()) {
-			logger.error("解析商品SKU序列化数据，异常6，返回结果list为空： " + content);
 		}
 		return list;
 	}

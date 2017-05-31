@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.service.account.constant.ApiStatusConst;
+import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.model.MSBankAccount;
 import com.meiduimall.service.account.service.BankService;
 
@@ -34,7 +34,7 @@ public class BankController {
 	@PostMapping("/addBankInfo")
 	public ResBodyData addBankInfo(@RequestBody MSBankAccount mSBankAccount) {
 		int result = bankService.addBankInfo(mSBankAccount);
-		return new ResBodyData(ApiStatusConst.SUCCESS, ApiStatusConst.SUCCESS_M, result);
+		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M, result);
 	}
 	
 	/**

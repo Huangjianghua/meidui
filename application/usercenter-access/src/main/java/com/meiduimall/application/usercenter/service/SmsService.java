@@ -2,6 +2,7 @@ package com.meiduimall.application.usercenter.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.MdSysException;
 
 /**
  * 短信相关接口
@@ -10,10 +11,5 @@ import com.meiduimall.core.ResBodyData;
  */
 public interface SmsService {
 	
-	/**
-	 * 获取短信验证码
-	 * @param reqJson
-	 * @return
-	 */
-	ResBodyData getValidatCode(JSONObject reqJson);
+	ResBodyData getValidatCode(JSONObject reqJson) throws MdSysException;
 }

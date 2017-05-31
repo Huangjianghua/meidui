@@ -130,5 +130,17 @@
 			</if>
 		 </where>
 	</select>
-	
+		<!--添加账户信息，临时使用-->
+	<insert id="insertMsAccount" parameterType="com.meiduimall.service.account.model.MSAccount">
+	   INSERT INTO  ms_account
+		VALUES
+		(#{id},
+		#{memId},
+		#{type},
+		#{balance},
+		#{freezeBalance},
+		#{createDate},
+		#{updateDate}
+		)
+	</insert>
 </mapper>

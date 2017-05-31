@@ -11,6 +11,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.usercenter.constant.ApiStatusConst;
 import com.meiduimall.application.usercenter.constant.SysParamsConst;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.MdSysException;
 
 /**
  * MD5工具类
@@ -26,9 +27,9 @@ public class MD5Utils {
 	 * @param reqJson HTTP请求数据
 	 * @param secretkey 密钥
 	 * @return 统一返回数据格式
+	 * @throws MdSysException 系统异常
 	 */
-	public static ResBodyData getSign(JSONObject reqJson,String secretkey){
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+	public static String getSign(JSONObject reqJson,String secretkey) throws MdSysException{
 		String serverSign=null;
 		String[] arr = new String[reqJson.containsKey(SysParamsConst.SIGN)?(reqJson.size()- 1):reqJson.size()];
 		int i=0;
@@ -48,13 +49,11 @@ public class MD5Utils {
 			buffer.append(SysParamsConst.KEY_LAST);
 			buffer.append(secretkey);
 			serverSign=MD5Utils.MD5EncryptBy32(buffer.toString()).toUpperCase();
-			resBodyData.setData(serverSign);
 		} catch (Exception e) {
-			logger.error("exec getSign() error:{}",e.toString());
-			resBodyData.setStatus(ApiStatusConst.GET_SIGN_EX);
-			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.GET_SIGN_EX));
+			logger.error("生成签名程序异常",e.toString());
+			throw new MdSysException(ApiStatusConst.CREATE_SIGN_EXCEPTION);
 		}
-		return resBodyData;
+		return serverSign;
 	}
 	/**
 	 * MD5 32位加密
@@ -85,19 +84,11 @@ public class MD5Utils {
 		return buf.toString();
 	}
 	
-	public static ResBodyData updateSign(JSONObject reqJson,String clientID,String key){
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,null);
+	public static void updateSign(JSONObject reqJson,String clientID,String key) throws MdSysException{
 		reqJson.put(SysParamsConst.CLIENTID,clientID);
 		reqJson.put(SysParamsConst.TIMESATAMP,System.currentTimeMillis());
-		resBodyData=MD5Utils.getSign(reqJson,key);
-		if(resBodyData.getStatus()!=0){
-			logger.error("接入层请求网关更新签名失败");
-			return resBodyData;
-		}
-		String sign=resBodyData.getData().toString();
-		reqJson.put(SysParamsConst.SIGN,sign);
+		reqJson.put(SysParamsConst.SIGN,MD5Utils.getSign(reqJson,key));
 		logger.info("接入层请求网关更新签名成功");
-		return resBodyData;
 	}
 	
 }

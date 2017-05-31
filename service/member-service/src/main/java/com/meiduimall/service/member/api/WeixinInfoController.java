@@ -25,25 +25,11 @@ public class WeixinInfoController {
 	@Autowired
 	private WeixinInfoService weixinInfoService;
 
-	/**
-	 * 绑定会员与会员的微信openID
-	 * 
-	 * @param model
-	 *            请求参数封装对象
-	 * @return 绑定结果
-	 */
 	@RequestMapping("/bindingWeixinOpenID")
 	public ResBodyData bindingWeixinOpenID(@Validated RequestBindingWeixin model) {
 		return weixinInfoService.bindingWeixinOpenID(model);
 	}
 
-	/**
-	 * 根据会员手机号获取会员的微信openID和会员的部分信息
-	 * 
-	 * @param phone
-	 *            会员手机号
-	 * @return 获取结果
-	 */
 	@RequestMapping("/getOpenIDByPhone")
 	public ResBodyData getOpenIDByPhone(String phone) {
 		if (StringUtils.isBlank(phone)) {

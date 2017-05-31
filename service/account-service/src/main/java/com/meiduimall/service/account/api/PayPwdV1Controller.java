@@ -16,7 +16,7 @@ import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.MdBizException;
 import com.meiduimall.exception.MdSysException;
-import com.meiduimall.service.account.constant.ApiStatusConst;
+import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.model.MSMembersPaypwd;
 import com.meiduimall.service.account.model.request.RequestRetrievePaypwd;
 import com.meiduimall.service.account.model.request.RequestUpdatePaypwd;
@@ -45,7 +45,7 @@ public class PayPwdV1Controller {
 			return resBodyData;
 		} catch (Exception e) {
 			logger.error("验证支付密码API请求异常：{}",e.toString());
-			throw new ApiException(ApiStatusConst.VALIDATE_PAYPWD_EXCEPTION,ApiStatusConst.getZhMsg(ApiStatusConst.VALIDATE_PAYPWD_EXCEPTION));
+			throw new ApiException(ConstApiStatus.VALIDATE_PAYPWD_EXCEPTION,ConstApiStatus.getZhMsg(ConstApiStatus.VALIDATE_PAYPWD_EXCEPTION));
 		}
 	}
 	
@@ -59,7 +59,7 @@ public class PayPwdV1Controller {
 			return resBodyData;
 		} catch (Exception e) {
 			logger.error("设置支付密码API请求异常：{}",e.toString());
-			throw new ApiException(ApiStatusConst.SET_PAYPWD_EXCEPTION,ApiStatusConst.getZhMsg(ApiStatusConst.SET_PAYPWD_EXCEPTION));
+			throw new ApiException(ConstApiStatus.SET_PAYPWD_EXCEPTION,ConstApiStatus.getZhMsg(ConstApiStatus.SET_PAYPWD_EXCEPTION));
 		}
 	}
 	
@@ -74,7 +74,7 @@ public class PayPwdV1Controller {
 			return resBodyData;
 		} catch (MdBizException e) {
 			logger.error("根据memId查询是否存在支付密码API请求异常：{}",e.toString());
-			throw new ApiException(ApiStatusConst.SET_PAYPWD_EXCEPTION,ApiStatusConst.getZhMsg(ApiStatusConst.SET_PAYPWD_EXCEPTION));
+			throw new ApiException(ConstApiStatus.SET_PAYPWD_EXCEPTION,ConstApiStatus.getZhMsg(ConstApiStatus.SET_PAYPWD_EXCEPTION));
 		}
 	}
 	
@@ -89,7 +89,7 @@ public class PayPwdV1Controller {
 		} 
 		catch (Exception e) {
 			logger.error("修改支付密码API请求异常：{}",e.toString());
-			throw new ApiException(ApiStatusConst.UPDATE_PAYPWD_EXCEPTION);
+			throw new ApiException(ConstApiStatus.UPDATE_PAYPWD_EXCEPTION);
 		}
 	}
 	
@@ -97,12 +97,12 @@ public class PayPwdV1Controller {
 	@PostMapping(value = "/retrieve_pay_pwd")
 	public ResBodyData retrievePaypwd(@RequestBody @Valid RequestRetrievePaypwd requestRetrievePaypwd) {
 		logger.info("收到找回支付密码API请求  ：{}",requestRetrievePaypwd.toString());
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
 		try {
 			paypwdService.retrievePaypwd(requestRetrievePaypwd);
 		}catch (MdSysException e) {
 			logger.info("找回支付密码API请求异常  ：{}",e.toString());
-			throw new ApiException(ApiStatusConst.RETRIEVE_PAYPWD_EXCEPTION);
+			throw new ApiException(ConstApiStatus.RETRIEVE_PAYPWD_EXCEPTION);
 		}
 		return resBodyData;
 	}

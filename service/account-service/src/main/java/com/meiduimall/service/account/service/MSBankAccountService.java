@@ -7,5 +7,9 @@ public interface MSBankAccountService {
 	public MSBankAccount getBankAccount(String memId, String accountNo);
 	
 	public int addBankAccount(MSBankAccount bankAccount);
+	
+	public int deleteBankAccount(String memId, String accountNo);
+	
+	public int updateBankAccount();
 
 }

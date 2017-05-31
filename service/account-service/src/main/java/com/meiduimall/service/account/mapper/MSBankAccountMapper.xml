@@ -59,7 +59,7 @@
 	
 	<!--  删除会员银行账户ms_bank_account 2017-03-24 dengbibo   -->	
 	<delete id="deleteBankAccount" parameterType="java.util.Map">
-		delete from ms_bank_account where id = #{id}
+		DELETE FROM ms_bank_account WHERE mem_id = #{memId} and account_no = #{accountNo}
 	</delete>
 	
 	<!--  查询会员银行账户ms_bank_account 2017-03-24 dengbibo   -->	

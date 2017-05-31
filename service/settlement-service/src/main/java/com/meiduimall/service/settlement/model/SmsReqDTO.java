@@ -23,12 +23,11 @@ public class SmsReqDTO implements Serializable {
 		super();
 	}
 
-	public SmsReqDTO(String phones, String templateId, String params, String clientID) {
+	public SmsReqDTO(String phones, String templateId, String params) {
 		super();
 		this.phones = phones;
 		this.templateId = templateId;
 		this.params = params;
-		this.clientID = clientID;
 	}
 
 	public String getPhones() {

@@ -1,33 +1,16 @@
 package com.meiduimall.service.sms.request;
 
-import javax.validation.constraints.NotNull;
-
 public class WXMsgOnPaySuccessRequest {
 
-	@NotNull
 	private String phone;
-	@NotNull
-	private Long orderTime;
-	@NotNull
-	private String storeName;
-	@NotNull
-	private String addPoint;
-	@NotNull
-	private String sysKey;
-	
-	private String coupon;
-	
 	private String openID;
+	private String storeName;
+	private String addPoint;
+	private String coupon;
 	private String userName;
+	private String orderTime;
 	private String totalPoint;
-	private String memId;
 	
-	public String getSysKey() {
-		return sysKey;
-	}
-	public void setSysKey(String sysKey) {
-		this.sysKey = sysKey;
-	}
 	public String getPhone() {
 		return phone;
 	}
@@ -64,10 +47,10 @@ public class WXMsgOnPaySuccessRequest {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	public Long getOrderTime() {
+	public String getOrderTime() {
 		return orderTime;
 	}
-	public void setOrderTime(Long orderTime) {
+	public void setOrderTime(String orderTime) {
 		this.orderTime = orderTime;
 	}
 	public String getTotalPoint() {
@@ -76,10 +59,5 @@ public class WXMsgOnPaySuccessRequest {
 	public void setTotalPoint(String totalPoint) {
 		this.totalPoint = totalPoint;
 	}
-	public String getMemId() {
-		return memId;
-	}
-	public void setMemId(String memId) {
-		this.memId = memId;
-	}
 }
+

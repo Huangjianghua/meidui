@@ -25,7 +25,8 @@ eureka:
   healthcheck:
       enabled: true  
   instance:
-    hostname: 192.168.4.240
+    status-page-url: http://${eureka.instance.hostname:localhost}:${server.port}/swagger-ui.html
+    # hostname: 192.168.4.240
     lease-renewal-interval-in-seconds: 15      # 心跳时间，即服务续约间隔时间（缺省为30s）
     lease-expiration-duration-in-seconds: 30  # 发呆时间，即服务续约到期时间（缺省为90s）   
 
@@ -75,7 +76,8 @@ eureka:
   healthcheck:
       enabled: true  
   instance:
-    hostname: 10.45.178.235
+    status-page-url: http://${eureka.instance.hostname:localhost}:${server.port}/swagger-ui.html
+    # hostname: 10.45.178.235
     lease-renewal-interval-in-seconds: 15      # 心跳时间，即服务续约间隔时间（缺省为30s）
     lease-expiration-duration-in-seconds: 30  # 发呆时间，即服务续约到期时间（缺省为90s）   
 
@@ -125,7 +127,8 @@ eureka:
   healthcheck:
       enabled: true  
   instance:
-    hostname: 10.116.21.93
+    status-page-url: http://${eureka.instance.hostname:localhost}:${server.port}/swagger-ui.html
+    # hostname: 10.116.21.93
     lease-renewal-interval-in-seconds: 15      # 心跳时间，即服务续约间隔时间（缺省为30s）
     lease-expiration-duration-in-seconds: 30  # 发呆时间，即服务续约到期时间（缺省为90s）   
 
@@ -175,7 +178,8 @@ eureka:
   healthcheck:
       enabled: true  
   instance:
-    hostname: 192.168.4.111
+    status-page-url: http://${eureka.instance.hostname:localhost}:${server.port}/swagger-ui.html
+    # hostname: 192.168.4.111
     lease-renewal-interval-in-seconds: 15      # 心跳时间，即服务续约间隔时间（缺省为30s）
     lease-expiration-duration-in-seconds: 30  # 发呆时间，即服务续约到期时间（缺省为90s）   
 

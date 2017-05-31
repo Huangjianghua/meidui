@@ -67,35 +67,7 @@ public class MemberAccountController extends BaseController {
 		}
 	}
 	
-	*//**
-	 * 会员账户现金余额变动接口
-	 * <li>支持全业务类型现金余额变动
-	 * <li>记录积分变动明细
-	 *//*
-	@RequestMapping(value="/accountBalanceChanges",method=RequestMethod.POST)
-	public void accountBalanceChanges(){
-		final String title = "现金余额变动[accountBalanceChanges] ";
-		final JSONObject resultJson = new JSONObject();
-		PrintWriter writer = null;
-		try {
-			response.setCharacterEncoding("UTF-8");
-			writer = response.getWriter();
-			
-			JSONObject requestJson = HttpClientUtil.readStreamToJsonObject(request);
-			Logger.info(inputMsgStr, title ,requestJson.toJSONString());
-			
-			resultJson.putAll(memberAccountServices.accountBalanceChanges(requestJson));
-			
-			Logger.info(outputMsgStr, title ,resultJson.toJSONString());
-			
-			appendReturnJSON(resultJson);
-			
-			writer.print(resultJson.toJSONString());
-		} catch (Exception e) {
-			Logger.error(errMsgStr, title , e.getMessage());
-			writer.println(RuntimeExceptionProcess(e).toJSONString());
-		}
-	}
+
 	
 	*//**
 	 * 会员账户积分与现金余额查询

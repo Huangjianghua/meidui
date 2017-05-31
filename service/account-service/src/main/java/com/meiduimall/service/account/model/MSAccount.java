@@ -1,14 +1,15 @@
 package com.meiduimall.service.account.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
 /**
- * 会员账户表
+ * 会员账户汇总表操作
  * @author chencong
  *
  */
-public class MSAccount {
+public class MSAccount implements Serializable {
 
 	private static final long serialVersionUID = 8080490869514026587L;
 	
@@ -21,11 +22,17 @@ public class MSAccount {
 	/** 账户类型（AT01：积分账户；AT02：现金账户；） */
 	private String type;
 
-	/** 余额  */
+	/** 总金额明文*/
 	private String balance;
 
-	/** 冻结余额 */
-	private String freezeBalance;
+	/**总金额密文 */
+	private String balance_encrypt;
+	
+	/**冻结总金额明文*/
+	private String freeze_balance;
+
+	/**冻结总金额密文*/
+	private String freeze_balance_encrypt;
 
 	/** 创建时间 */
 	private Date createDate;
@@ -65,12 +72,28 @@ public class MSAccount {
 		this.balance = balance;
 	}
 
-	public String getFreezeBalance() {
-		return freezeBalance;
+	public String getBalance_encrypt() {
+		return balance_encrypt;
 	}
 
-	public void setFreezeBalance(String freezeBalance) {
-		this.freezeBalance = freezeBalance;
+	public void setBalance_encrypt(String balance_encrypt) {
+		this.balance_encrypt = balance_encrypt;
+	}
+
+	public String getFreeze_balance() {
+		return freeze_balance;
+	}
+
+	public void setFreeze_balance(String freeze_balance) {
+		this.freeze_balance = freeze_balance;
+	}
+
+	public String getFreeze_balance_encrypt() {
+		return freeze_balance_encrypt;
+	}
+
+	public void setFreeze_balance_encrypt(String freeze_balance_encrypt) {
+		this.freeze_balance_encrypt = freeze_balance_encrypt;
 	}
 
 	public Date getCreateDate() {
@@ -89,15 +112,12 @@ public class MSAccount {
 		this.updateDate = updateDate;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
 	@Override
 	public String toString() {
 		return "MSAccount [id=" + id + ", memId=" + memId + ", type=" + type + ", balance=" + balance
-				+ ", freezeBalance=" + freezeBalance + ", createDate=" + createDate + ", updateDate=" + updateDate
-				+ "]";
+				+ ", balance_encrypt=" + balance_encrypt + ", freeze_balance=" + freeze_balance
+				+ ", freeze_balance_encrypt=" + freeze_balance_encrypt + ", createDate=" + createDate + ", updateDate="
+				+ updateDate + "]";
 	}
 	
 }

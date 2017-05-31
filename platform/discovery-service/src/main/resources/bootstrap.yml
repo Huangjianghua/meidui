@@ -1,5 +1,12 @@
+<<<<<<< HEAD
+server:
+  port: 9001
+spring:
+  application:
+=======
 server:
   port: ${PORT:8761}
 spring:
   application:
+>>>>>>> refs/remotes/origin/feature/V4.0.2-Team2
     name: discovery-service

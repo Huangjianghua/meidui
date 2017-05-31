@@ -6,12 +6,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.member.constant.ApiStatusConst;
+import com.meiduimall.service.member.model.MSMemberMobileArea;
 import com.meiduimall.service.member.model.request.RequestGetMemberBasicInfo;
 import com.meiduimall.service.member.service.UserInfoService;
 
@@ -34,14 +38,9 @@ public class UserInfoV1Controller{
 	ResBodyData getmemberbasicinfo(@Valid RequestGetMemberBasicInfo requestGetMemberBasicInfo) {
 		String memId=requestGetMemberBasicInfo.getMemId();
 		logger.info("收到会员：{}获取基本信息API请求",memId);
-		try {
-			ResBodyData resBodyData = userInfoService.getBasicInfoByMemId(memId);
-			logger.info("获取会员：{}基本信息API请求结果  ：{}",memId,resBodyData.toString());
-			return resBodyData;
-		} catch (Exception e) {
-			logger.error("获取会员基本信息API请求异常：{}",e.toString());
-			throw new ApiException(ApiStatusConst.GET_USERINFO_EXCEPTION,ApiStatusConst.getZhMsg(ApiStatusConst.GET_USERINFO_EXCEPTION));
-		}
+		ResBodyData resBodyData = userInfoService.getBasicInfoByMemId(memId);
+		logger.info("获取会员：{}基本信息API请求结果  ：{}",memId,resBodyData.toString());
+		return resBodyData;
 	}
 	
 	
@@ -82,5 +81,28 @@ public class UserInfoV1Controller{
 	
 	/**校验手机号或登录名是否存在*/
 	
+	
+	
+	/**注册时记录会员手机对应的区域*/
+	@PostMapping(value = "/record_area")
+	ResBodyData recordArea(@RequestBody MSMemberMobileArea mSMemberMobileArea) throws MdSysException{
+		logger.info("接收到数据：memId={}, phone={}", mSMemberMobileArea.getMemId(), mSMemberMobileArea.getPhone());
+		ResBodyData recordArea = userInfoService.recordArea(mSMemberMobileArea.getMemId(), mSMemberMobileArea.getPhone());
+		logger.info("注册时记录会员手机对应的区域请求结果：{}",recordArea.toString());
+		return recordArea;
+    }
+	
+    /**
+     * 更新会员手机号归属地
+     * @return ResBodyData
+     */
+	@GetMapping(value = "/update_member_phone_area")
+	ResBodyData updateMemberArea() {
+		logger.info("更新开始");
+		ResBodyData resBodyData = userInfoService.updateMemberArea();
+		logger.info("更新结果  ：{}",resBodyData.toString());
+		logger.info("更新结束");
+		return resBodyData;
+	}
 	
 }

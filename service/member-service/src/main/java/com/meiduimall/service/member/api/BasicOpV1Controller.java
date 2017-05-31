@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
@@ -32,6 +33,10 @@ import com.meiduimall.service.member.model.request.RequestRegisterO2O;
 import com.meiduimall.service.member.service.BasicOpService;
 import com.meiduimall.service.member.service.UserInfoService;
 import com.meiduimall.service.member.util.HttpResolveUtils;
+
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * 用户基本操作相关接口
@@ -101,8 +106,12 @@ public class BasicOpV1Controller {
 	 * @return 统一数据返回格式
 	 * @throws MdSysException 系统异常
 	 */
+	@ApiOperation(value="会员登录", notes="会员登录")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "requestLogin", value = "登录实体", required = true, dataType = "RequestLogin"),
+	})
 	@PostMapping(value = "/login")
-	ResBodyData login(@RequestBody @Valid RequestLogin requestLogin) throws MdSysException{
+	ResBodyData login(@RequestBody @Valid RequestLogin requestLogin){
 		requestLogin.setIp(request.getRemoteAddr());
 		String tokenKey=request.getHeader(SysParamsConst.TERMINAL_ID);
 		if(StringUtils.isEmpty(tokenKey)){
@@ -121,16 +130,11 @@ public class BasicOpV1Controller {
 		return resBodyData;
 	}
 	
-	/**
-	 *　会员退出登录
-	 * @param token 登录令牌
-	 * @return 统一数据返回格式
-	 * @throws MdSysException
-	 */
+	/**会员退出登录*/
 	@PostMapping(value = "/exit")
-	ResBodyData exit(@RequestBody @Valid RequestExit model ) throws MdSysException{
-		logger.info("收到会员退出登录API请求：{}",model.getToken());
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+	ResBodyData exit(@RequestBody @Valid RequestExit model ){
+		logger.info("收到会员退出登录API请求，令牌：{}",model.getToken());
+		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,null);
 		try {
 			if(RedisTemplate.getJedisInstance().execExistsFromCache(model.getToken())){
 				RedisTemplate.getJedisInstance().execDelToCache(model.getToken());
@@ -138,7 +142,7 @@ public class BasicOpV1Controller {
 			}
 			else{
 				logger.warn("token在redis中不存在");
-				throw new ApiException(ApiStatusConst.EXIT_ERROR);
+				throw new ApiException(ApiStatusConst.TOKEN_NOT_EXISTS);
 			}
 		} catch (Exception e) {
 			logger.error("校验或删除token异常：{}",e.toString());
@@ -205,6 +209,22 @@ public class BasicOpV1Controller {
 		return resBodyData; 
 	}
 	
+	/**我是谁（token转memId）*/
+	@GetMapping(value = "/get_memid_by_token")
+	ResBodyData getMemIdByToken(@RequestParam String token){
+		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,"");
+		logger.info("收到我是谁API请求：{}",token);
+		if(RedisTemplate.getJedisInstance().execExistsFromCache(token)){
+			String memId=RedisTemplate.getJedisInstance().execGetFromCache(token);
+			Map<String, Object> data=new HashMap<>();
+			data.put(SysParamsConst.MEM_ID,memId);
+			resBodyData.setData(data);
+			return resBodyData;
+		}
+		else{
+			throw new ApiException(ApiStatusConst.TOKEN_NOT_EXISTS);
+		}
+	}
 	
 	/**token校验*/
 	@PostMapping(value = "/checktoken")

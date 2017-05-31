@@ -1,7 +1,9 @@
 package com.meiduimall.service.member.service.impl;
 
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +17,7 @@ import org.springframework.util.StringUtils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.redis.util.RedisTemplate;
@@ -23,9 +26,13 @@ import com.meiduimall.service.member.constant.ApiStatusConst;
 import com.meiduimall.service.member.constant.SysParamsConst;
 import com.meiduimall.service.member.dao.BaseDao;
 import com.meiduimall.service.member.model.MSMemberAddresses;
+import com.meiduimall.service.member.model.MSMemberMobileArea;
 import com.meiduimall.service.member.model.MSMembersGet;
 import com.meiduimall.service.member.model.MSMembersSet;
 import com.meiduimall.service.member.model.MemberAddressesSet;
+import com.meiduimall.service.member.model.MobileNumberInfo;
+import com.meiduimall.service.member.model.request.RequestMobile;
+import com.meiduimall.service.member.model.response.MemberMobileAreaDTO;
 import com.meiduimall.service.member.model.response.ResponseMemberBasicInfo;
 import com.meiduimall.service.member.service.MoneyService;
 import com.meiduimall.service.member.service.PointsService;
@@ -223,6 +230,85 @@ public class UserInfoServiceImpl implements UserInfoService {
 		}
 	}
 
+
+	@Override
+	public ResBodyData recordArea(String memId, String phone) throws MdSysException{
+		if(StringUtils.isEmpty(memId) || StringUtils.isEmpty(phone)){
+			logger.info("必要参数不能为空!");
+			return new ResBodyData(ApiStatusConst.REQUIRED_PARAM_EMPTY,ApiStatusConst.getZhMsg(ApiStatusConst.REQUIRED_PARAM_EMPTY));
+		}
+		
+		MobileNumberInfo queryMobile = queryMobile(phone.substring(0, 7));
+		if(StringUtils.isEmpty(queryMobile)){
+			logger.info("手机前7位查询归属地为空!");
+			return new ResBodyData(ApiStatusConst.QUERY_MOBILE_EXCEPTION,ApiStatusConst.getZhMsg(ApiStatusConst.QUERY_MOBILE_EXCEPTION));
+		}
+		MSMemberMobileArea msMemberMobileArea = new MSMemberMobileArea();
+		msMemberMobileArea.setMemId(memId);
+		msMemberMobileArea.setPhone(phone);
+		msMemberMobileArea.setProvinceName(queryMobile.getProvinceName());
+		msMemberMobileArea.setCityName(queryMobile.getCityName());
+		msMemberMobileArea.setSp(queryMobile.getTo());
+		msMemberMobileArea.setCreateDate(new Date());
+		MSMemberMobileArea mSMemberMobi = baseDao.selectOne("msMemberMobileArea", "MSMemberMobileAreaMapper");
+		if(!StringUtils.isEmpty(mSMemberMobi)){
+			logger.info("已经新增过: phone={},memId={} ", phone, memId);
+			return new ResBodyData(ApiStatusConst.SUCCESS, "已经新增过phone="+phone+", memId="+memId);
+		}else{
+			baseDao.insert(msMemberMobileArea, "MSMemberMobileAreaMapper.insert");
+		}
+		return new ResBodyData(ApiStatusConst.SUCCESS, "成功");
+	}
+
+
+	
+	@Override
+	public ResBodyData updateMemberArea() {
+		List<MemberMobileAreaDTO> memberMobileAreaDTO = null;
+		List<MSMemberMobileArea> areas = new ArrayList<>(); 
+		try {
+		   memberMobileAreaDTO = baseDao.selectList(null, "MSMembersMapper.findNotInMemberMobileArea");
+		} catch (DaoException e) {
+			 logger.error("查询不在会员手机归属地表异常: {}",e);
+			 throw new ServiceException(ApiStatusConst.FIND_MEMBER_EXCEPTION);
+		}	 
+		    for (MemberMobileAreaDTO mmaDTO : memberMobileAreaDTO) {
+		    	try {
+					if(StringUtil.isPhoneToRegex(mmaDTO.getMemPhone())){
+						String substr = mmaDTO.getMemPhone().substring(0,7);
+						MobileNumberInfo mobNum = queryMobile(substr);
+						if(!StringUtils.isEmpty(mobNum) || !StringUtils.isEmpty(mobNum.getCityName())){
+							MSMemberMobileArea memMoArea = new MSMemberMobileArea();
+							memMoArea.setMemId(mmaDTO.getMemId());
+							memMoArea.setPhone(mmaDTO.getMemPhone());
+							memMoArea.setProvinceName(mobNum.getProvinceName());
+							memMoArea.setCityName(mobNum.getCityName());
+							memMoArea.setSp(mobNum.getTo());
+							memMoArea.setCreateDate(new Date());
+							areas.add(memMoArea);
+						}else{
+							logger.info("没有查询手机前7位: {} 归属地",substr);
+						}
+					}
+				} catch (MdSysException e) {
+					logger.error("查询手机前7位确定归属地异常: {}",e);
+					throw new ServiceException(ApiStatusConst.QUERY_MOBILE_EXCEPTION);
+				}
+			}
+			try {
+				logger.error("要插入会员手机归属地表的数据 : {}",areas);
+				baseDao.insertBatch(areas, "MSMemberMobileAreaMapper.insertSelective");
+			} catch (DaoException e) {
+				logger.error("批量插入会员手机归属地表异常: {}",e);
+				throw new ServiceException(ApiStatusConst.INSERT_SELECTIVE_EXCEPTION);
+			}
+		return new ResBodyData(ApiStatusConst.SUCCESS, "执行完成");
+	}
+
+	
+	private MobileNumberInfo queryMobile(String substr){
+	    return baseDao.selectOne(new RequestMobile(substr), "MobileNumberInfoMapper.queryMobile");
+	}
 
 	
 }

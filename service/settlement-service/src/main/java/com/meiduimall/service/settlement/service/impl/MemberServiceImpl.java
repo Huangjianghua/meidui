@@ -195,7 +195,7 @@ public class MemberServiceImpl implements MemberService {
 				
 			if(!isCashStatusUpdated){
 				String params="一级推荐人1%现金成功送出,但送现金成功状态更新到表 ecm_mzf_order_status表失败,需要手动更新,订单数:"+orderSnList.size();
-				SmsReqDTO smsReqDTO = new SmsReqDTO(myProps.getSmsPhones(), ShareProfitUtil.TEMPLATE_ID_O2O_1009,params,"");
+				SmsReqDTO smsReqDTO = new SmsReqDTO(myProps.getSmsPhones(), ShareProfitUtil.TEMPLATE_ID_O2O_1009, params);
 
 				boolean flag = smsService.sendMessage(smsReqDTO);
 				if(flag){
@@ -238,14 +238,27 @@ public class MemberServiceImpl implements MemberService {
 		hashMap.put(URL,"Authorized/addConsumePoints");
 		hashMap.put(ORDER_ID,orderId);
 		String resultJsonStr = ConnectionUrlUtil.httpRequest(belongInfoUrl(hashMap), ShareProfitUtil.REQUEST_METHOD_POST, null);
-		ResBodyData resultJson = JsonUtils.jsonToBean(resultJsonStr, ResBodyData.class);
-		// 判断返回是否成功,如果不成功则不理会
-		if (resultJson.getStatus()==0) {
-			 return true;
-		} else {
-			log.error("errcode:{};errmsg:{};userId:{}", resultJson.getStatus(), resultJson.getMsg(), phone);
+		JSONObject resultJson = JSONObject.fromObject(resultJsonStr);
+		if(resultJson==null){
+			log.error("更新积分到会员系统 失败,userId:"+phone+" as resultJson in addConsumePoints() is null.");
 			return false;
+		}else{
+			// 判断返回是否成功,如果不成功则不理会
+			if ("0".equals(resultJson.get("status_code"))) {
+				 return true;
+			} else {
+				log.error("errcode:" + resultJson.get("status_code") + ";errmsg:" + resultJson.get("result_msg")+ ";userId:"+phone);
+				return false;
+			}
 		}
+//		ResBodyData resultJson = JsonUtils.jsonToBean(resultJsonStr, ResBodyData.class);
+//		// 判断返回是否成功,如果不成功则不理会
+//		if (resultJson.getStatus()==0) {
+//			 return true;
+//		} else {
+//			log.error("errcode:{};errmsg:{};userId:{}", resultJson.getStatus(), resultJson.getMsg(), phone);
+//			return false;
+//		}
 		
 	}
 	

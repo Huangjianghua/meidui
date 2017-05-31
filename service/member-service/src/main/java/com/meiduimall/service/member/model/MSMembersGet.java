@@ -158,7 +158,6 @@ public class MSMembersGet implements Serializable {
 	private String memLoginNameIsdefaultIschanged;
 	
 	private String memParentIsdefaultIschanged;
-
 	
 	public String getMemLockCount() throws MdSysException {
 		return "0".equals(memLockCount)?"0":DESC.deyption(memLockCount);
@@ -342,8 +341,6 @@ public class MSMembersGet implements Serializable {
 
 
 	public String getMemLoginName() throws MdSysException  {
-
-	
 		return DESC.deyption(this.memLoginName);
 	}
 

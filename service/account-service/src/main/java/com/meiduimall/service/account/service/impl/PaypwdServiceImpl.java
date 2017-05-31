@@ -15,13 +15,12 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.config.ServiceUrlProfileConfig;
-import com.meiduimall.service.account.constant.ApiStatusConst;
-import com.meiduimall.service.account.constant.SmsTemplateIDConst;
-import com.meiduimall.service.account.constant.SmsTypeConst;
-import com.meiduimall.service.account.constant.SysParamsConst;
+import com.meiduimall.service.account.constant.ConstApiStatus;
+import com.meiduimall.service.account.constant.ConstSmsTemplateType;
+import com.meiduimall.service.account.constant.ConstSmsValidateCodeType;
+import com.meiduimall.service.account.constant.ConstSysParamsDefination;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSMembersPaypwd;
 import com.meiduimall.service.account.model.MSMembersPaypwdRecord;
@@ -47,7 +46,7 @@ public class PaypwdServiceImpl implements PaypwdService {
 
 	@Override
 	public ResBodyData validePaypwd(MSMembersPaypwd msMembersPaypwd) throws MdSysException {
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
 		String paypwd=msMembersPaypwd.getPay_pwd();
 		
 		msMembersPaypwd.setPay_pwd(null);
@@ -62,28 +61,28 @@ public class PaypwdServiceImpl implements PaypwdService {
 					baseDao.selectOne(msMembersPaypwd, "MSMembersPaypwdMapper.updatePaypwdByMemId");
 				}
 				else{
-					resBodyData.setStatus(ApiStatusConst.PAYPWD_NOT_RIGHT);
-					resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.PAYPWD_NOT_RIGHT));
+					resBodyData.setStatus(ConstApiStatus.PAYPWD_NOT_RIGHT);
+					resBodyData.setMsg(ConstApiStatus.getZhMsg(ConstApiStatus.PAYPWD_NOT_RIGHT));
 				}
 			}
 			/**校验MD5密码*/
 			else{
 				if(!MD5Util.MD5EncryptBy32(paypwd).toLowerCase().equals(md5Paypwd)){
-					resBodyData.setStatus(ApiStatusConst.PAYPWD_NOT_RIGHT);
-					resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.PAYPWD_NOT_RIGHT));
+					resBodyData.setStatus(ConstApiStatus.PAYPWD_NOT_RIGHT);
+					resBodyData.setMsg(ConstApiStatus.getZhMsg(ConstApiStatus.PAYPWD_NOT_RIGHT));
 				}
 			}
 		}
 		else{
-			resBodyData.setStatus(ApiStatusConst.PAYPWD_NOT_EXIST);
-			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.PAYPWD_NOT_EXIST));
+			resBodyData.setStatus(ConstApiStatus.PAYPWD_NOT_EXIST);
+			resBodyData.setMsg(ConstApiStatus.getZhMsg(ConstApiStatus.PAYPWD_NOT_EXIST));
 		}
 		return resBodyData;
 	}
 
 	@Override
 	public ResBodyData setPaypwd(MSMembersPaypwd msMembersPaypwd) throws MdSysException {
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
 		String memId=msMembersPaypwd.getMemId();
 		String paypwd=msMembersPaypwd.getPay_pwd();
 		
@@ -109,11 +108,11 @@ public class PaypwdServiceImpl implements PaypwdService {
 	
 	@Override
 	public ResBodyData isExistPaypwd(String memId){
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
 		int i = baseDao.selectOne(memId,"MSMembersPaypwdMapper.getIsExistPaypwdByMemId");
 		if(i<1){
-			resBodyData.setStatus(ApiStatusConst.PAYPWD_NOT_EXIST);
-			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.PAYPWD_NOT_EXIST));
+			resBodyData.setStatus(ConstApiStatus.PAYPWD_NOT_EXIST);
+			resBodyData.setMsg(ConstApiStatus.getZhMsg(ConstApiStatus.PAYPWD_NOT_EXIST));
 		}
 		return resBodyData;
 	}
@@ -121,7 +120,7 @@ public class PaypwdServiceImpl implements PaypwdService {
 	@Transactional
 	@Override
 	public ResBodyData updatePaypwd(RequestUpdatePaypwd requestUpdatePaypwd) throws MdSysException {
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
 		
 		/**先验证旧支付密码*/
 		MSMembersPaypwd msMembersPaypwd=new MSMembersPaypwd();
@@ -130,8 +129,8 @@ public class PaypwdServiceImpl implements PaypwdService {
 		resBodyData=validePaypwd(msMembersPaypwd);
 		if(resBodyData.getStatus()!=0){
 			logger.warn("旧支付密码校验不通过");
-			resBodyData.setStatus(ApiStatusConst.OLD_PAYPWD_NOT_RIGHT);
-			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.OLD_PAYPWD_NOT_RIGHT));
+			resBodyData.setStatus(ConstApiStatus.OLD_PAYPWD_NOT_RIGHT);
+			resBodyData.setMsg(ConstApiStatus.getZhMsg(ConstApiStatus.OLD_PAYPWD_NOT_RIGHT));
 		}
 		logger.info("旧支付密码校验通过");
 		
@@ -144,7 +143,7 @@ public class PaypwdServiceImpl implements PaypwdService {
 
 
 	public void retrievePaypwd(RequestRetrievePaypwd requestRetrievePaypwd) throws MdSysException{
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
 		String memberServiceUrl=serviceUrlProfileConfig.getMemberServiceUrl()+"/v1/get_member_basic_info?memId="+requestRetrievePaypwd.getMemId();
 		String smsServiceUrl=serviceUrlProfileConfig.getSmsServiceUrl()+"/v1/new/check_sms_verification_code";
 		String memberBasicInfo=null;
@@ -153,19 +152,19 @@ public class PaypwdServiceImpl implements PaypwdService {
 			resBodyData=JSON.parseObject(memberBasicInfo,ResBodyData.class);
 		} catch (Exception e) {
 			logger.error("找回支付密码>>调用账号服务>>获取会员基本信息API>>异常:{}",e.toString());
-			throw new ServiceException(ApiStatusConst.RETRIEVE_PAYPWD_EXCEPTION);
+			throw new ServiceException(ConstApiStatus.RETRIEVE_PAYPWD_EXCEPTION);
 		}
 		if(resBodyData.getStatus()!=0){
 			logger.warn("找回支付密码>>调用账号服务>>获取会员基本信息API>>失败:{}",resBodyData.toString());
-			throw new ServiceException(ApiStatusConst.GET_MEMBER_BASIC_INFO_FAILED);
+			throw new ServiceException(ConstApiStatus.GET_MEMBER_BASIC_INFO_FAILED);
 		}
 		String phone=JSONObject.parseObject(resBodyData.getData().toString()).getString("phone");
 		Map<String,String> mapFormData=new HashMap<>();
 		mapFormData.put("phones",phone);
-		mapFormData.put("templateId",SmsTemplateIDConst.getSmsTemplate(SmsTemplateIDConst.SEND_VALIDATE_CODE));
+		mapFormData.put("templateId",ConstSmsTemplateType.getSmsTemplate(ConstSmsTemplateType.SEND_VALIDATE_CODE));
 		mapFormData.put("verificationCode",requestRetrievePaypwd.getValidate_code());
-		mapFormData.put("type",SmsTypeConst.getSmsType(Constants.CONSTANT_INT_ONE));
-		mapFormData.put("sysKey",SysParamsConst.SMS_SYSKEY);
+		mapFormData.put("type",ConstSmsValidateCodeType.getSmsType(Constants.CONSTANT_INT_ONE));
+		mapFormData.put("sysKey",ConstSysParamsDefination.SMS_SYSKEY);
 		String smsResult=null;
 		try {
 			smsResult=HttpUtils.form(smsServiceUrl,mapFormData);
@@ -173,11 +172,11 @@ public class PaypwdServiceImpl implements PaypwdService {
 			logger.warn("找回支付密码>>调用短信服务>>校验短信验证码API>>URL:{}  DATA:{}  RESULT:{}",smsServiceUrl,mapFormData.toString(),resBodyData.toString());
 		} catch (Exception e) {
 			logger.warn("找回支付密码>>短信服务>>校验短信验证码API>>异常:{}",resBodyData.toString());
-			throw new ServiceException(ApiStatusConst.RETRIEVE_PAYPWD_EXCEPTION);
+			throw new ServiceException(ConstApiStatus.RETRIEVE_PAYPWD_EXCEPTION);
 		}
 		if(resBodyData.getStatus()!=0){
 			logger.warn("找回支付密码>>调用短信服务>>校验短信验证码API>>不通过:{}",resBodyData.toString());
-			throw new ServiceException(ApiStatusConst.VALIDATE_CODE_NOT_PASS);
+			throw new ServiceException(ConstApiStatus.VALIDATE_CODE_NOT_PASS);
 		}
 		MSMembersPaypwd msMembersPaypwd=new MSMembersPaypwd();
 		msMembersPaypwd.setMemId(requestRetrievePaypwd.getMemId());
@@ -247,7 +246,7 @@ public class PaypwdServiceImpl implements PaypwdService {
 		resBodyData = setPaypwd(msMembersPaypwd);
 		if(resBodyData.getStatus()!=0){
 			logger.warn("设置新支付密码失败");
-			throw new ServiceException(ApiStatusConst.SET_PAYPWD_EXCEPTION);
+			throw new ServiceException(ConstApiStatus.SET_PAYPWD_EXCEPTION);
 		}
 		logger.info("设置新支付密码成功");
 	}

@@ -1,3 +1,71 @@
+<<<<<<< HEAD
+server:
+  port: ${PORT:10092}
+
+---
+spring:
+  profiles: dev
+
+# 配置clientID和key
+sign : 
+  clientID : mall_java
+  key : Test123 
+
+# 商品模块微服务地址
+catalog-service : 
+  host : http://192.168.4.240:9050
+# 会员系统接入层地址
+member-access : 
+  host : http://192.168.4.240:8097
+
+---
+spring:
+  profiles: prepro
+
+# 配置clientID和key
+sign : 
+  clientID : mall_java
+  key :  
+
+# 商品模块微服务地址
+catalog-service : 
+  host : http://10.45.178.235:9050
+# 会员系统接入层地址
+member-access : 
+  host : http://vip.api.meiduimall.com
+
+---
+spring:
+  profiles: pro
+
+# 配置clientID和key
+sign : 
+  clientID : mall_java
+  key :  
+
+# 商品模块微服务地址
+catalog-service : 
+  host : http://10.116.21.93:9050
+# 会员系统接入层地址
+member-access : 
+  host : http://vip.api.meiduimall.com
+
+---
+spring:
+  profiles: test
+
+# 配置clientID和key
+sign : 
+  clientID : mall_java
+  key : Test123 
+
+# 商品模块微服务地址
+catalog-service : 
+  host : http://192.168.4.111:9050
+# 会员系统接入层地址
+member-access : 
+  host : http://vipt.api.meiduimall.com
+=======
 server:
   port: ${PORT:10092}
 
@@ -64,3 +132,4 @@ catalog-service :
 # 会员系统接入层地址
 member-access : 
   host : vipt.api.meiduimall.com
+>>>>>>> refs/remotes/origin/feature/V4.0.2-Team2
