@@ -242,7 +242,6 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		paramsMap.put("memId", detail.getMemId());
 		paramsMap.put("orderId", businesNo.toString());
 		paramsMap.put("accountId", account.getId());
-		paramsMap.put("accountType", account.getType());
 		paramsMap.put("tradeType", ConstSysParamsDefination.TRADETYPE);
 		paramsMap.put("tradeAmount", detail.getReviseBalance().toString());
 		paramsMap.put("balance", balance.toString());
@@ -470,7 +469,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		//插入提现记录返回业务单号
 		String businessNo = this.addBankWithdrawDeposit(deposit);
 			if(StringUtils.isNotBlank(businessNo)){
-				String freezeBalance = account.getFreeze_balance(); //当前冻结余额
+				Double freezeBalance = account.getFreezeBalance(); //当前冻结余额
 				Double carryCashFreezeBalance = DoubleCalculate.add(Double.valueOf(freezeBalance), Double.valueOf(calcActualCarryCash)); //提现余额+当前冻结余额=提现后冻结余额
 				Double counterFeeBalance = DoubleCalculate.add(carryCashFreezeBalance, Double.valueOf(calcCounterFee)); //提现手续费+当前冻结余额=提现手续费后冻结余额
 				Double addFreezeMoney = DoubleCalculate.add(Double.valueOf(calcActualCarryCash), Double.valueOf(calcCounterFee));  //提现余额+手续费
@@ -478,9 +477,9 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 				Double freezeFlag = accountServices.addConsumeFreezeMoney(memId, String.valueOf(addFreezeMoney));
 				if(freezeFlag >= Constants.CONSTANT_INT_ZERO){
 				//增加明细
-				accountFreezeDetailService.saveAccountFreezeDetail(memId, businessNo,account.getId(), account.getType(), ConstTradeType.TRADE_TYPE_YETX.getCode(), calcActualCarryCash,deposit.getApplyDate(), String.valueOf(carryCashFreezeBalance),  ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
+				accountFreezeDetailService.saveAccountFreezeDetail(memId, businessNo,account.getId(),"", ConstTradeType.TRADE_TYPE_YETX.getCode(), calcActualCarryCash,deposit.getApplyDate(), String.valueOf(carryCashFreezeBalance),  ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
 				//增加明细
-				accountFreezeDetailService.saveAccountFreezeDetail(memId, businessNo,account.getId(), account.getType(), ConstTradeType.TRADE_TYPE_TXSX.getCode(), calcCounterFee,deposit.getApplyDate(), String.valueOf(counterFeeBalance),  ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);
+				accountFreezeDetailService.saveAccountFreezeDetail(memId, businessNo,account.getId(),"", ConstTradeType.TRADE_TYPE_TXSX.getCode(), calcCounterFee,deposit.getApplyDate(), String.valueOf(counterFeeBalance),  ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);
 			}
 		}
 	}

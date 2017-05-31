@@ -316,7 +316,7 @@ public class AccountServicesImpl implements AccountService {
 		try{
 			MSAccount account = getAccountMoney(memId);
 			if(account != null){
-				freezeBalance = Double.valueOf(account.getFreeze_balance());
+				freezeBalance = Double.valueOf(account.getFreezeBalance());
 			}
 		}catch(Exception e){
 			freezeBalance = Double.valueOf("0");
@@ -331,7 +331,7 @@ public class AccountServicesImpl implements AccountService {
 			MSAccount account = getAccountMoney(memId);
 			if(account != null){
 				Double balance = Double.valueOf(account.getBalance());
-				Double freezeBalance = Double.valueOf(account.getFreeze_balance());
+				Double freezeBalance = Double.valueOf(account.getFreezeBalance());
 				useBalance = DoubleCalculate.sub(balance, freezeBalance);
 			}
 		}catch(Exception e){
@@ -375,7 +375,7 @@ public class AccountServicesImpl implements AccountService {
 		if(account != null){
 			//判断余额是否能够扣减
 			Double useBalance = DoubleCalculate.sub(Double.valueOf(account.getBalance()),
-					Double.valueOf(account.getFreeze_balance()));
+					Double.valueOf(account.getFreezeBalance()));
 			if(useBalance >= Double.valueOf(tradeAmount)){
 				//增加会员账户余额
 				Double balance = DoubleCalculate.sub(Double.valueOf(account.getBalance()),
@@ -401,10 +401,10 @@ public class AccountServicesImpl implements AccountService {
 		if(account != null){
 			//判断余额是否能够扣减冻结
 			Double useBalance = DoubleCalculate.sub(Double.valueOf(account.getBalance()),
-					Double.valueOf(account.getFreeze_balance()));
+					Double.valueOf(account.getFreezeBalance()));
 			if(useBalance >= Double.valueOf(tradeAmount)){
 				//增加会员冻结账户余额
-				Double freezeBalance = DoubleCalculate.add(Double.valueOf(account.getFreeze_balance()),
+				Double freezeBalance = DoubleCalculate.add(Double.valueOf(account.getFreezeBalance()),
 						Double.valueOf(tradeAmount));
 				//判断如果计算后冻结账户余额小于0返回-1不成功
 				if(freezeBalance < 0){
@@ -426,7 +426,7 @@ public class AccountServicesImpl implements AccountService {
 		MSAccount account = getAccountMoney(memId);
 		if(account != null){
 			//减少会员冻结账户余额
-			Double freezeBalance = DoubleCalculate.sub(Double.valueOf(account.getFreeze_balance()),
+			Double freezeBalance = DoubleCalculate.sub(Double.valueOf(account.getFreezeBalance()),
 					Double.valueOf(tradeAmount));
 			//判断如果扣减后冻结账户余额小于0返回-1不成功
 			if(freezeBalance < 0){
@@ -451,7 +451,7 @@ public class AccountServicesImpl implements AccountService {
 			Double balance = DoubleCalculate.add(Double.valueOf(account.getBalance()),
 					Double.valueOf(tradeAmount));
 			//减少会员冻结账户余额
-			Double freezeBalance = DoubleCalculate.sub(Double.valueOf(account.getFreeze_balance()),
+			Double freezeBalance = DoubleCalculate.sub(Double.valueOf(account.getFreezeBalance()),
 					Double.valueOf(freezeTradeAmount));
 			//判断如果计算后账户余额小于0或如果扣减后冻结账户余额小于0返回-1不成功
 			if(freezeBalance < 0 || balance < 0){
@@ -473,7 +473,7 @@ public class AccountServicesImpl implements AccountService {
 		MSAccount account = getAccountMoney(memId);
 		if(account != null){
 			//减少会员冻结账户余额
-			Double freezeBalance = DoubleCalculate.sub(Double.valueOf(account.getFreeze_balance()),
+			Double freezeBalance = DoubleCalculate.sub(Double.valueOf(account.getFreezeBalance()),
 					Double.valueOf(freezeTradeAmount));
 			//扣减会员账户余额
 			Double balance = DoubleCalculate.sub(Double.valueOf(account.getBalance()),
@@ -500,7 +500,7 @@ public class AccountServicesImpl implements AccountService {
 			MSAccount account = getAccountMoney(memId);
 			//增加明细
 			accountDetailService.saveAddAccountDetail(memId, orderId,
-					account.getId(), account.getType(), tradeType, tradeAmount,
+					account.getId(),"", tradeType, tradeAmount,
 					tradeDate, String.valueOf(balance), remark);
 			
 			returnBool = true;
@@ -519,7 +519,7 @@ public class AccountServicesImpl implements AccountService {
 			MSAccount account = getAccountMoney(memId);
 			//增加明细
 			accountDetailService.saveCutAccountDetail(memId, orderId,
-					account.getId(), account.getType(), tradeType, tradeAmount,
+					account.getId(),"", tradeType, tradeAmount,
 					tradeDate, String.valueOf(balance), remark);
 			returnBool = true;
 		}else{
@@ -537,7 +537,7 @@ public class AccountServicesImpl implements AccountService {
 			MSAccount account = getAccountMoney(memId);
 			//增加明细
 			accountFreezeDetailService.saveAccountFreezeDetail(memId, orderId,
-					account.getId(), account.getType(), tradeType, tradeAmount,
+					account.getId(),"", tradeType, tradeAmount,
 					tradeDate, String.valueOf(balance), remark);
 			returnBool = true;
 		}else{
@@ -555,7 +555,7 @@ public class AccountServicesImpl implements AccountService {
 			MSAccount account = getAccountMoney(memId);
 			//增加明细
 			accountFreezeDetailService.saveAccountUnFreezeDetail(memId, orderId,
-					account.getId(), account.getType(), tradeType, tradeAmount,
+					account.getId(),"", tradeType, tradeAmount,
 					tradeDate, String.valueOf(balance), remark);
 			returnBool = true;
 		}else{

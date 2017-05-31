@@ -33,7 +33,7 @@ public class MoneyServiceImpl implements MoneyService {
 		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
 		if(this.updateAccountFreezeMoney(memId,consumeMoney)){
 			MSAccount account = this.getAccountByMemId(memId);
-			this.saveAccountFreezeDetail(memId,orderId,account.getId(),account.getType(),consumeMoney,account.getFreeze_balance());
+			this.saveAccountFreezeDetail(memId,orderId,account.getId(),consumeMoney,account.getFreezeBalance());
 		}
 		else{
 			resBodyData.setStatus(ConstApiStatus.OPERATION_DB_EX);
@@ -52,10 +52,10 @@ public class MoneyServiceImpl implements MoneyService {
 		MSAccount account = this.getAccountByMemId(memId);
 		if(account != null){
 			/**获取可用余额*/
-			Double availableMoney = DoubleCalculate.sub(Double.valueOf(account.getBalance()),Double.valueOf(account.getFreeze_balance()));
+			Double availableMoney = DoubleCalculate.sub(Double.valueOf(account.getBalance()),Double.valueOf(account.getFreezeBalance()));
 			/**判断可用余额是否能扣减消费金额*/
 			if(availableMoney>=consumeMoney){
-				Double newFreezeBalance = DoubleCalculate.add(Double.valueOf(account.getFreeze_balance()),consumeMoney);
+				Double newFreezeBalance = DoubleCalculate.add(Double.valueOf(account.getFreezeBalance()),consumeMoney);
 				if(newFreezeBalance < 0){
 					return false;
 				}
@@ -96,13 +96,12 @@ public class MoneyServiceImpl implements MoneyService {
 		}
 	}
 	
-	private void saveAccountFreezeDetail(String memId, String orderId,String accountId, String accountType,Double consumeMoney, String freezeBalance) {
+	private void saveAccountFreezeDetail(String memId, String orderId,String accountId,Double consumeMoney, Double freezeBalance) {
 		Map<String,Object> paramsMap=new HashMap<>();
 		paramsMap.put("id", UUID.randomUUID().toString());
 		paramsMap.put("memId", memId);
 		paramsMap.put("orderId", orderId);
 		paramsMap.put("accountId", accountId);
-		paramsMap.put("accountType", accountType);
 		paramsMap.put("tradeAmount", consumeMoney);
 		paramsMap.put("freezeBalance", freezeBalance);
 		paramsMap.put("tradeType",ConstTradeType.TRADE_TYPE_YEXF.getCode());
@@ -122,7 +121,7 @@ public class MoneyServiceImpl implements MoneyService {
 		dataMap.put("before_total_money",Double.valueOf(getAccountByMemId(memId).getBalance()));
 		if(balance >= 0){
 			MSAccount account = getAccountByMemId(memId);
-			this.saveAccountUnFreezeDetail(memId,orderId,account.getId(), account.getType(),"1",consumeMoney,null,balance,"");
+			this.saveAccountUnFreezeDetail(memId,orderId,account.getId(), "","1",consumeMoney,null,balance,"");
 		}else{
 			throw new RuntimeException("冻结余额变动失败");
 		}
@@ -133,7 +132,7 @@ public class MoneyServiceImpl implements MoneyService {
 		Double returnBalance = Double.valueOf("-1");
 		MSAccount account = getAccountByMemId(memId);
 		if(account != null){
-			Double freezeBalance = DoubleCalculate.sub(Double.valueOf(account.getFreeze_balance()),consumeMoney);
+			Double freezeBalance = DoubleCalculate.sub(Double.valueOf(account.getFreezeBalance()),consumeMoney);
 			if(freezeBalance < 0){
 				return returnBalance;
 			}
@@ -174,7 +173,7 @@ public class MoneyServiceImpl implements MoneyService {
 			MSAccount account = getAccountByMemId(memId);
 			dataMap.put("now_total_money",Double.valueOf(account.getBalance()));
 			saveCutAccountDetail(memId, orderId,
-					account.getId(), account.getType(),"", consumeMoney,
+					account.getId(), "","", consumeMoney,
 					null,balance, "");
 			returnBool = true;
 		}else{
@@ -188,7 +187,7 @@ public class MoneyServiceImpl implements MoneyService {
 		MSAccount account = getAccountByMemId(memId);
 		if(account != null){
 			Double useBalance = DoubleCalculate.sub(Double.valueOf(account.getBalance()),
-					Double.valueOf(account.getFreeze_balance()));
+					Double.valueOf(account.getFreezeBalance()));
 			if(useBalance >= Double.valueOf(consumeMoney)){
 				Double balance = DoubleCalculate.sub(Double.valueOf(account.getBalance()),consumeMoney);
 				if(balance < 0){

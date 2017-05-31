@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.meiduimall.service.account.dao.BaseDao;
-import com.meiduimall.service.account.model.MSWalletType;
+import com.meiduimall.service.account.model.MSAccountType;
 import com.meiduimall.service.account.service.AccountPropertyManageService;
 
 /**
@@ -21,7 +21,7 @@ public class AccountPropertyManageServiceImpl implements AccountPropertyManageSe
 	private BaseDao baseDao;
 
 	@Override
-	public List<MSWalletType> getCwtzWalletTypeList(){
+	public List<MSAccountType> getCwtzWalletTypeList(){
 		return baseDao.selectList(null,"MSWalletTypeMapper.getCwtzWalletTypeList");
 	}
 

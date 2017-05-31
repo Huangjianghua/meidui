@@ -2,40 +2,25 @@ package com.meiduimall.service.account.model;
 
 import java.io.Serializable;
 import java.util.Date;
-
-
 /**
- * 会员按账户类型账户表实体类
- * @author chencong
+ * 账户类型
+ * @author jun.wu@meiduimall.com
  *
  */
-public class MSAccount extends BaseModel implements Serializable {
+public class MSAccountType implements Serializable{
 
-	private static final long serialVersionUID = 8080490869514026587L;
-	
-	/** 账户标识 */
+	private static final long serialVersionUID = -6955727232474967171L;
+
 	private String id;
+	
+	/**账户类型名称*/
+    private String AccountTypeName;
 
-	/** 账户编号，account_type_no和account_no_sequence拼接而成*/
-	private String accountNo;
-	
-	/** 对应ms_account_type表的account_type_no */
-	private String accountTypeNo;
-	
-	/** 对应ms_account_type表的account_no_sequence */
+    /**账户类型编号*/
+    private String AccountTypeNo;
+
+    /** 对应ms_account_type表的account_no_sequence */
 	private Long accountNoSequence;
-	
-	/** 当前类型总金额明文*/
-	private Double balance;
-	
-	/** 当前类型总金额密文 */
-	private Double balanceEncrypt;
-	
-	/** 当前类型冻结余额明文 */
-	private Double freezeBalance;
-	
-	/** 当前类型冻结余额密文 */
-	private String freezeBalanceEncrypt;
 	
 	/**是否可提现 0可提现 1不可提现*/
 	private int allowWithdraw;
@@ -66,9 +51,6 @@ public class MSAccount extends BaseModel implements Serializable {
 	
 	/** 消费优先级 */
 	private int spendPriority;
-	
-	/**账户状态,0 正常 1禁用 */
-	private int accountStatus;
 
 	/** 创建时间 */
 	private Date createDate;
@@ -84,7 +66,7 @@ public class MSAccount extends BaseModel implements Serializable {
 	
 	/**备注*/
 	private String remark;
-	
+
 	public String getId() {
 		return id;
 	}
@@ -93,20 +75,20 @@ public class MSAccount extends BaseModel implements Serializable {
 		this.id = id;
 	}
 
-	public String getAccountNo() {
-		return accountNo;
+	public String getAccountTypeName() {
+		return AccountTypeName;
 	}
 
-	public void setAccountNo(String accountNo) {
-		this.accountNo = accountNo;
+	public void setAccountTypeName(String accountTypeName) {
+		AccountTypeName = accountTypeName;
 	}
 
 	public String getAccountTypeNo() {
-		return accountTypeNo;
+		return AccountTypeNo;
 	}
 
 	public void setAccountTypeNo(String accountTypeNo) {
-		this.accountTypeNo = accountTypeNo;
+		AccountTypeNo = accountTypeNo;
 	}
 
 	public Long getAccountNoSequence() {
@@ -115,38 +97,6 @@ public class MSAccount extends BaseModel implements Serializable {
 
 	public void setAccountNoSequence(Long accountNoSequence) {
 		this.accountNoSequence = accountNoSequence;
-	}
-
-	public Double getBalance() {
-		return balance;
-	}
-
-	public void setBalance(Double balance) {
-		this.balance = balance;
-	}
-
-	public Double getBalanceEncrypt() {
-		return balanceEncrypt;
-	}
-
-	public void setBalanceEncrypt(Double balanceEncrypt) {
-		this.balanceEncrypt = balanceEncrypt;
-	}
-
-	public Double getFreezeBalance() {
-		return freezeBalance;
-	}
-
-	public void setFreezeBalance(Double freezeBalance) {
-		this.freezeBalance = freezeBalance;
-	}
-
-	public String getFreezeBalanceEncrypt() {
-		return freezeBalanceEncrypt;
-	}
-
-	public void setFreezeBalanceEncrypt(String freezeBalanceEncrypt) {
-		this.freezeBalanceEncrypt = freezeBalanceEncrypt;
 	}
 
 	public int getAllowWithdraw() {
@@ -229,14 +179,6 @@ public class MSAccount extends BaseModel implements Serializable {
 		this.spendPriority = spendPriority;
 	}
 
-	public int getAccountStatus() {
-		return accountStatus;
-	}
-
-	public void setAccountStatus(int accountStatus) {
-		this.accountStatus = accountStatus;
-	}
-
 	public Date getCreateDate() {
 		return createDate;
 	}
@@ -276,5 +218,5 @@ public class MSAccount extends BaseModel implements Serializable {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-
+  
 }

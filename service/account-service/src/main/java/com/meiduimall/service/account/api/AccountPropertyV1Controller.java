@@ -15,7 +15,7 @@ import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.DaoException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.model.MSDict;
-import com.meiduimall.service.account.model.MSWalletType;
+import com.meiduimall.service.account.model.MSAccountType;
 import com.meiduimall.service.account.service.MSAccountDetailService;
 import com.meiduimall.service.account.service.AccountPropertyManageService;
 
@@ -41,7 +41,7 @@ public class AccountPropertyV1Controller {
 	/**查询财务调整相关的账户类型信息*/
 	@RequestMapping("/list_account_type")
 	public ResBodyData listWalletType() {
-		List<MSWalletType> listWalletTypeInfo = null;
+		List<MSAccountType> listWalletTypeInfo = null;
 		try {
 			 listWalletTypeInfo = mSWalletTypeService.getCwtzWalletTypeList();
 		} catch (DaoException e) {
