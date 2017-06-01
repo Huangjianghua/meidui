@@ -12,7 +12,7 @@ import com.meiduimall.service.account.model.MSAccount;
 public interface AccountService {
 	
 	/**
-	 * 根据memId和账户类型校验账户是否存在
+	 * 根据会员ID和账户类型编号校验账户是否存在
 	 * @param memId 会员ID
 	 * @param accountTypeNo 账户类型编号
 	 * @return true：存在   false：不存在
@@ -20,11 +20,27 @@ public interface AccountService {
 	public Boolean checkAccountExistByType(String memId,String accountTypeNo);
 	
 	/**
+	 * 根据会员ID和账户类型编号查询账户信息
+	 * @param memId 会员ID
+	 * @param accountTypeNo 账户类型编号
+	 * @return 账户信息实体
+	 */
+	public MSAccount getAccountInfo(String memId,String accountTypeNo);
+	
+	/**
+	 * 根据会员ID查询账户信息
+	 * @param memId 会员ID
+	 * @return 账户信息实体
+	 */
+	public MSAccount getAccountInfo(String memId);
+	
+	/**
 	 * 插入当前会员对应类型的账户信息
 	 * @param msAccount 账户信息实体
 	 * @return true：成功   false：失败
 	 */
 	public Boolean insertAccountByType(MSAccount msAccount);
+	
 
 	/**
 	 * 查询当前会员美兑积分总额

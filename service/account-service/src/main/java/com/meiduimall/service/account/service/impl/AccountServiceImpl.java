@@ -3,8 +3,6 @@ package com.meiduimall.service.account.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +22,6 @@ import com.meiduimall.service.account.util.DoubleCalculate;
 @Service
 public class AccountServiceImpl implements AccountService {
 	
-	private final static Logger logger=LoggerFactory.getLogger(AccountServiceImpl.class);
-
 	@Autowired
 	private BaseDao baseDao;
 	
@@ -33,31 +29,29 @@ public class AccountServiceImpl implements AccountService {
 	private MSConsumePointsFreezeService  pointsFreezeService;
 	
 	@Override
+	public MSAccount getAccountInfo(String memId, String accountTypeNo) {
+		Map<String, Object> mapCondition=new HashMap<>();
+		mapCondition.put("memId",memId);
+		mapCondition.put("accountTypeNo",accountTypeNo);
+		return baseDao.selectOne(mapCondition,"MSAccountMapper.getAccountByMemIdAndAccountTypeNo");
+	}
+
+	@Override
+	public MSAccount getAccountInfo(String memId) {
+		Map<String, Object> mapCondition=new HashMap<>();
+		mapCondition.put("memId",memId);
+		return baseDao.selectOne(mapCondition,"MSAccountMapper.getAccountByMemIdAndAccountTypeNo");
+	}
+	
+	@Override
 	public Boolean checkAccountExistByType(String memId, String accountTypeNo) {
-		// TODO Auto-generated method stub
-		return true;
+		return getAccountInfo(memId,accountTypeNo)!=null?true:false;
 	}
 
 	@Override
 	public Boolean insertAccountByType(MSAccount msAccount){
-		/*String accountId = UUID.randomUUID().toString();
-		Map<String,String> paramsMap = new HashMap<String,String>();
-		paramsMap.put("accountId", accountId);
-		paramsMap.put("memId", memId);
-		paramsMap.put("type", type);
-		paramsMap.put("balance", balance);
-		paramsMap.put("freezeBalance", freezeBalance);
-		try {
-			Integer insertFlag = baseDao.insert(paramsMap, "MSAccountMapper.insertAccount");
-			if(insertFlag <= 0){
-				return null;
-			}
-			return accountId;
-		} catch (Exception e) {
-			logger.error("新增会员账户信息出现错误，会员编号：%s，错误信息：%s", memId, e.getMessage());
-			return null;
-		}*/
-		return true;
+		int i=baseDao.insert(msAccount,"MSAccountMapper.insertAccount");
+		return i>0?true:false;
 	}
 
 	
