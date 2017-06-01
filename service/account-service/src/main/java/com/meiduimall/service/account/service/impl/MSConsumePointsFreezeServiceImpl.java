@@ -38,5 +38,20 @@ public class MSConsumePointsFreezeServiceImpl implements MSConsumePointsFreezeSe
 		}
 		return mcpfConsumePoints;
 	}
+	
+	@Override
+	public Double getFreezeConsumePoints(String memId) {
+		/** 冻结和解冻积分的总和 */
+		Double realPoints = Double.valueOf("0");
+		try{
+			String freezeAccountPoint = baseDao.selectOne(memId, "MSAccountMapper.getFreezeUnFreezePointsSumByMemId");
+			realPoints = Double.valueOf(freezeAccountPoint);
+		}catch(Exception e){
+			realPoints = Double.valueOf("0");
+		}
+		return realPoints;
+	}
+	
+	
 
 }

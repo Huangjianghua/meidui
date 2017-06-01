@@ -21,4 +21,13 @@ public interface MSConsumePointsFreezeService {
 	 * @return
 	 */
 	public Double queryFreezePoints(String memId) throws Exception;
+	
+	/**
+	 * 方法名: getFreezeConsumePoints<br>
+	 * 描述:  获取冻结美兑积分<br>
+	 * 创建时间: 2016-12-1
+	 * @param memId
+	 * @return
+	 */
+	public Double getFreezeConsumePoints(String memId);
 }
