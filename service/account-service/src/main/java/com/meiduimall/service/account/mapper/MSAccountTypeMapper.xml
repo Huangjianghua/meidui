@@ -45,8 +45,19 @@
    AND m.wallet_no=#{walletNo}
    </if>
   </select>
-
-
   
+  <!--   根据账户类型编号查询当前序列号  -->
+  <select id="getSequenceByAccountTypeNo" parameterType="java.lang.String" resultType="java.lang.Long">
+  SELECT m.account_no_sequence 
+  FROM ms_account_type m 
+  WHERE m.account_type_no=#{accountTypeNo}
+  </select>
+  
+    <!--   根据账户类型编号更新当前序列号  -->
+  <update id="updateSequenceByAccountTypeNo" parameterType="java.lang.Map">
+  UPDATE  ms_account_type m
+  SET  m.account_no_sequence=#{newSequence}
+  WHERE m.account_type_no=#{accountTypeNo}
+  </update>
 
   </mapper>
