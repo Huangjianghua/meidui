@@ -3,6 +3,7 @@ package com.meiduimall.service.account.model;
 import java.io.Serializable;
 import java.util.Date;
 
+
 /**
  * 账户明细表ms_account_detail实体类
  * @author chencong
@@ -49,6 +50,48 @@ public class MSAccountDetail implements Serializable {
 	
 	/**备注*/
 	private String remark;
+	
+	private String memId;
+	
+	private String loginName;
+	
+	private String phone;
+	
+	private String bizType;
+	
+	
+
+	public String getLoginName() {
+		return loginName;
+	}
+
+	public void setLoginName(String loginName) {
+		this.loginName = loginName;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getBizType() {
+		return bizType;
+	}
+
+	public void setBizType(String bizType) {
+		this.bizType = bizType;
+	}
+
+	public String getMemId() {
+		return memId;
+	}
+
+	public void setMemId(String memId) {
+		this.memId = memId;
+	}
 
 	public String getId() {
 		return id;

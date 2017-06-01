@@ -239,13 +239,13 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		
 		Map<String,String> paramsMap = new HashMap<String,String>();
 		paramsMap.put("id", UUID.randomUUID().toString());
-		paramsMap.put("memId", detail.getMemId());
+		paramsMap.put("accountTypeNo", detail.getAccountTypeNo());
 		paramsMap.put("orderId", businesNo.toString());
 		paramsMap.put("accountId", account.getId());
 		paramsMap.put("tradeType", ConstSysParamsDefination.TRADETYPE);
 		paramsMap.put("tradeAmount", detail.getReviseBalance().toString());
 		paramsMap.put("balance", balance.toString());
-		paramsMap.put("remark", detail.getWalletName());
+		paramsMap.put("remark", detail.getAccountTypeName());
 		paramsMap.put("inOrOut", type);
 		paramsMap.put("tradeDate", DateUtil.format(new Date(),DateUtil.YYYY_MM_DD_HH_MM_SS));
 		paramsMap.put("createDate", DateUtil.format(new Date(),DateUtil.YYYY_MM_DD_HH_MM_SS));
@@ -332,19 +332,18 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		Date date=new Date();
 		try {
 			//step2调用 提现处理冻结金额
-			/*临时注销代码*/
-			/*accountServices.cutConsumeFreezeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
-					ConstTradeType.TRADE_TYPE_YETX.getCode(), date,withdrawDeposit.getActualCarryCash(), ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
+			accountServices.cutConsumeFreezeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
+					ConstTradeType.TRADE_TYPE_YETX.getCode(), date, String.valueOf(withdrawDeposit.getActualWithdrawAmount()), ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
 			
 			accountServices.cutConsumeFreezeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
-					ConstTradeType.TRADE_TYPE_TXSX.getCode(), date,withdrawDeposit.getCounterFee(), ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);
+					ConstTradeType.TRADE_TYPE_TXSX.getCode(), date, String.valueOf(withdrawDeposit.getPoundageAmount()), ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);
 			
 			//step2调用 提现处理可用金额
 			accountServices.cutConsumeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
-					ConstTradeType.TRADE_TYPE_YETX.getCode(), date,withdrawDeposit.getActualCarryCash(), ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
+					ConstTradeType.TRADE_TYPE_YETX.getCode(), date, String.valueOf(withdrawDeposit.getActualWithdrawAmount()), ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
 			
 			accountServices.cutConsumeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
-					ConstTradeType.TRADE_TYPE_TXSX.getCode(), date,withdrawDeposit.getCounterFee(), ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);*/
+					ConstTradeType.TRADE_TYPE_TXSX.getCode(), date, String.valueOf(withdrawDeposit.getPoundageAmount()), ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);
 		} catch (Exception e) {
 			logger.error("结算操作settlementWithDraw 处理用户账号余额异常:{}", e.getMessage());
 			throw new MdBizException(ConstApiStatus.DEALWLTH_ACCOUNT_MONEY_ERROR);

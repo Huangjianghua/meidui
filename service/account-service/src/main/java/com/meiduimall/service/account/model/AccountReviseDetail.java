@@ -28,9 +28,9 @@ public class AccountReviseDetail implements Serializable {
 	/** 手机号 */
 	private String memPhone;
 	
-	/** 钱包类型  **/
-	private String walletType;
-	private String walletName;
+	private String accountTypeNo;
+	private String accountTypeName;
+	
 	
 	/**
 	 * 调整类型(1-调增,2-调减)
@@ -70,8 +70,36 @@ public class AccountReviseDetail implements Serializable {
 	private String updatedBy;
 
 	private String updatedDate;
-
+	
+	private String remark;
 	 
+	
+
+
+
+	public String getAccountTypeNo() {
+		return accountTypeNo;
+	}
+
+	public void setAccountTypeNo(String accountTypeNo) {
+		this.accountTypeNo = accountTypeNo;
+	}
+
+	public String getAccountTypeName() {
+		return accountTypeName;
+	}
+
+	public void setAccountTypeName(String accountTypeName) {
+		this.accountTypeName = accountTypeName;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
 
 	/**
 	 * agree -同意 reject-拒绝
@@ -80,22 +108,6 @@ public class AccountReviseDetail implements Serializable {
 
 	
 	
-	public String getWalletName() {
-		return walletName;
-	}
-
-	public void setWalletName(String walletName) {
-		this.walletName = walletName;
-	}
-
-	public String getWalletType() {
-		return walletType;
-	}
-
-	public void setWalletType(String walletType) {
-		this.walletType = walletType;
-	}
-
 	public String getId() {
 		return id;
 	}

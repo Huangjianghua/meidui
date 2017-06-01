@@ -22,7 +22,7 @@ public class AccountPropertyManageServiceImpl implements AccountPropertyManageSe
 
 	@Override
 	public List<MSAccountType> getCwtzWalletTypeList(){
-		return baseDao.selectList(null,"MSWalletTypeMapper.getCwtzWalletTypeList");
+		return baseDao.selectList(null,"MSAccountTypeMapper.getCwtzWalletTypeList");
 	}
 
 }

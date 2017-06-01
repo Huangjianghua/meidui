@@ -68,15 +68,18 @@ public class AccountFreezeDetailServiceImpl implements AccountFreezeDetailServic
 		Map<String,String> paramsMap = new HashMap<String,String>();
 		paramsMap.put("id", UUID.randomUUID().toString());
 		paramsMap.put("memId", memId);
-		paramsMap.put("orderId", orderId);
-		paramsMap.put("accountId", accountId);
-		paramsMap.put("accountType", accountType);
+		paramsMap.put("accountNo", accountId);
 		paramsMap.put("tradeType", tradeType);
 		paramsMap.put("tradeAmount", tradeAmount);
-		paramsMap.put("freezeBalance", freezeBalance);
-		paramsMap.put("remark", remark);
-		paramsMap.put("inOrOut", "-1");
 		paramsMap.put("tradeDate", DateUtil.format(tradeDate,DateUtil.YYYY_MM_DD_HH_MM_SS));
+		paramsMap.put("inOrOut", "-1");
+		paramsMap.put("freezeBalance", freezeBalance);
+		paramsMap.put("businessNo", orderId);
+		paramsMap.put("createDate", DateUtil.format(new Date(),DateUtil.YYYY_MM_DD_HH_MM_SS));
+		paramsMap.put("createUser", "sysadmin");
+		paramsMap.put("updateDate", DateUtil.format(new Date(),DateUtil.YYYY_MM_DD_HH_MM_SS));
+		paramsMap.put("updateUser", "sysadmin");
+		paramsMap.put("remark", remark);
 		
 		try {
 			baseDao.insert(paramsMap, "MSAccountFreezeDetailMapper.insertAccountFreezeDetail");

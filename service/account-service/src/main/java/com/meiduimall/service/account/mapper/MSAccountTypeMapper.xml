@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- 会员账户类型管理表ms_account_type相关操作 -->
+<!-- 会员账户类型管理表ms_account_type相关操作  -->
 <mapper namespace="MSAccountTypeMapper">
 
-  <!-- 查询财务调账相关的账户类型信息 -->
-  <select id="getCwtzWalletTypeList" resultType="com.meiduimall.service.account.model.MSWalletType">
+<!--   查询财务调账相关的账户类型信息  -->
+  <select id="getCwtzWalletTypeList" resultType="com.meiduimall.service.account.model.MSAccountType">
    SELECT id, 
    wallet_name walletName, 
    wallet_no walletNo, 
@@ -23,8 +23,8 @@
    WHERE wallet_no IN ('CWTZ1','CWTZ2','CWTZ3')
   </select>
   
-  <!-- 根据条件查询账户类型信息 -->
-  <select id="getWalletInfoByCondition" parameterType="java.util.Map" resultType="com.meiduimall.service.account.model.MSWalletType">
+<!--   根据条件查询账户类型信息  -->
+  <select id="getWalletInfoByCondition" parameterType="java.util.Map" resultType="com.meiduimall.service.account.model.MSAccountType">
    SELECT id, 
    wallet_name walletName, 
    wallet_no walletNo, 
@@ -46,7 +46,7 @@
    </if>
   </select>
 
-  <!-- 查询会员指定类型的账户信息-->
+<!--   查询会员指定类型的账户信息  -->
   <select id="getAccountByWalletTypeInfoByNoAndMemId" parameterType="java.util.Map" resultType="com.meiduimall.service.account.model.MSAccountByWalletType">
    SELECT 
    a.id AS id,
@@ -70,7 +70,7 @@
    AND b.wallet_no=#{walletNo}
   </select>
   
-   <!-- 插入当前会员指定类型的账户信息 -->
+<!--    插入当前会员指定类型的账户信息  -->
   <insert id="insertAccoutByWalletType" parameterType="com.meiduimall.service.account.model.MSAccountByWalletType" >
   INSERT INTO ms_account_by_wallet_type 
   VALUES (
@@ -90,7 +90,7 @@
   )
   </insert>
   
-    <!-- 更新当前会员指定类型的账户信息 -->
+<!--     更新当前会员指定类型的账户信息 -->
   <insert id="insertAccoutByWalletType" parameterType="java.util.Map" >
     UPDATE ms_account_by_wallet_type a
     INNER JOIN ms_wallet_type b
@@ -102,9 +102,10 @@
     a.freeze_balance_encrypt=#{freezeBalanceEncrypt},
     a.update_date=#{updateDate},
     a.update_man=#{updateMan}
-    WHERE 1=1
-    AND a.mem_id=#{memId}
-    AND b.wallet_no=#{walletNo}
-  </insert>
-
-</mapper>
+      WHERE 1=1
+      AND a.mem_id=#{memId}
+      AND b.wallet_no=#{walletNo}
+    </insert>
+    
+    
+  </mapper>

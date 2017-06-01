@@ -1,5 +1,6 @@
 package com.meiduimall.service.account.api;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -20,7 +21,9 @@ import com.meiduimall.exception.MdBizException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.model.AccountReviseDetail;
 import com.meiduimall.service.account.model.MSAccountDetail;
+import com.meiduimall.service.account.model.MSAccountDetailOld;
 import com.meiduimall.service.account.model.MSAccountDetailCondition;
+import com.meiduimall.service.account.model.MSAccountDetailGet;
 import com.meiduimall.service.account.model.MSAccountDetailGet;
 import com.meiduimall.service.account.model.MSAccountList;
 import com.meiduimall.service.account.model.request.RequestAccountReviseDetail;
@@ -61,6 +64,7 @@ public class AccountInfoQueryV1Controller {
 	
 	/**
 	 * 余额流水（分页）
+	 * @author wujun
 	 */
 	@PostMapping(value="/list_account_detail")
 	public ResBodyData listMSAccountDetail(@RequestBody MSAccountDetailGet mSAccountDetail) throws Exception{
@@ -81,6 +85,7 @@ public class AccountInfoQueryV1Controller {
 		}
 		return new ResBodyData(ConstApiStatus.SUCCESS,"成功",new PageInfo<>(listMSAccountDetail));
 	}
+	
 	
 	/**
 	 *  描述：根据条件查询余额流水
