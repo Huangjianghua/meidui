@@ -15,10 +15,13 @@ import com.github.pagehelper.PageInfo;
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
+import com.meiduimall.exception.MdBizException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
+import com.meiduimall.service.account.model.AccountReviseDetail;
 import com.meiduimall.service.account.model.MSAccountDetail;
 import com.meiduimall.service.account.model.MSAccountDetailCondition;
 import com.meiduimall.service.account.model.MSAccountDetailGet;
+import com.meiduimall.service.account.model.request.RequestAccountReviseDetail;
 import com.meiduimall.service.account.service.MSAccountDetailService;
 
 /**
@@ -157,7 +160,7 @@ public class AccountInfoQueryV1Controller {
 	 * @param id
 	 * @return
 	 * @author: jianhua.huang 2017年5月5日 下午5:32:18
-	 *//*
+	 */
 	@PostMapping(value = "/get_account_revision_detail")
 	public ResBodyData getMSAccountRevisionDetail(@RequestBody String id) {
 		AccountReviseDetail detail = null;
@@ -172,13 +175,13 @@ public class AccountInfoQueryV1Controller {
 		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M, detail);
 	}
 
-	*//**
+	/**
 	 * 查看会员余额调整明细集合 flg区别 分页
 	 * 
 	 * @param detailRequest
 	 * @return
 	 * @author: jianhua.huang 2017年5月5日 下午5:32:28
-	 *//*
+	 */
 	@PostMapping(value = "/query_account_revision_detail_list")
 	public ResBodyData queryMSAccountRevisionDetailList(@RequestBody RequestAccountReviseDetail detailRequest) {
 		List<AccountReviseDetail> list = null;
@@ -203,7 +206,7 @@ public class AccountInfoQueryV1Controller {
 		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M, new PageInfo<>(list));
 	}
 
-	*//**
+	/**
 	 * 根据会员memId，获取会员账户余额和积分余额---兼容旧版
 	 * 
 	 * @param memId

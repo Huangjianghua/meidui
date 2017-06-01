@@ -21,17 +21,18 @@
   
   <sql id="Base_Column_List" >
     id, 
-    account_id, 
-    account_type, 
-    mem_id, 
+    account_no, 
     trade_type,
     trade_amount, 
     trade_date, 
     in_or_out, 
     balance, 
-    business_no, 
+    business_no,
+    create_user,
+    create_date,
+    update_user,
+    update_date,
     remark, 
-    create_date
   </sql>
   
   <!-- 插入账户变动明细 -->
@@ -82,7 +83,7 @@
     DATE_FORMAT(mad.trade_date,'%Y-%m-%d %H:%i:%s') tradeDate, mad.in_or_out inOrOut, mad.balance, mad.business_no businessNo, 
     mad.create_user create_user, DATE_FORMAT(mad.create_date,'%Y-%m-%d %H:%i:%s') create_date, mad.update_user updateUser, 
     DATE_FORMAT(mad.update_date,'%Y-%m-%d %H:%i:%s') updateDate, mad.remark,
-    mm.mem_login_name loginName, m.mem_phone phone, md.dict_value bizType
+    mm.mem_login_name memLoginName, mm.mem_phone memPhone, md.dict_value bizType
     from ms_account_detail mad
     left join ms_account ma on ma.account_no = mad.account_no
     left join ms_members mm on mm.mem_id = mm.mem_id
