@@ -29,7 +29,7 @@ public class AccountReportServiceImpl implements AccountReportService {
 		MSAccountReport model=baseDao.selectOne(memId,"MSAccountReportMapper.getTotalAndFreezeBalanceByMemId");
 		if(model==null){
 			logger.warn("会员：{}不存在任何账户信息",memId);
-			throw new ServiceException(ConstApiStatus.ACCOUNT_ADJUST_TYPE_UNNORMAL);
+			throw new ServiceException(ConstApiStatus.ACCOUNT_NOT_EXIST);
 		}
 		return model;
 	}

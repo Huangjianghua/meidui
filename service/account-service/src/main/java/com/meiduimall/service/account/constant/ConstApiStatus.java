@@ -233,7 +233,6 @@ public abstract class ConstApiStatus extends BaseApiCode {
 		zhMsgMap.put(QUERY_WALLETTYPE_EXCEPTION, "查询钱包类型异常");
 		zhMsgMap.put(QUERY_TRANSFER_POINTS_ERROR, "查询转账积分列表错误");
 		
-		
 		zhMsgMap.put(VALIDATE_CODE_NOT_PASS, "短信验证码校验不通过");
 	}
 }
