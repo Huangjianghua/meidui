@@ -540,6 +540,11 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			//增加明细
 			accountFreezeDetailService.saveAccountFreezeDetail(account.getMemId(), businessNo,account.getId(),"", ConstTradeType.TRADE_TYPE_TXSX.getCode(), calcCounterFee,applyDate, String.valueOf(counterFeeBalance),  ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);
 			}
+			//step5 修改总的冻结金额
+			Map<String, Object> mapParam=new HashMap<>();
+			mapParam.put("memId", memId);
+			mapParam.put("freezeBalance", counterFeeBalance);
+			baseDao.update(mapParam, "MSBankWithdrawDepositMapper.updateAccountReportByMemId");
 		} catch (Exception e) {
 			throw new MdBizException(1);
 		}

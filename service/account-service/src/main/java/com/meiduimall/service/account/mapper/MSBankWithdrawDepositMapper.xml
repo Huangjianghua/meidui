@@ -249,5 +249,10 @@
 		SET freeze_balance = #{freezeBalance},update_date = now()
 		WHERE id = #{id}
 	</update>
-  
+  <!-- 修改总的账号冻结金额-->
+	<update id="updateAccountReportByMemId" parameterType="java.util.Map">
+		UPDATE ms_account_report
+		SET freeze_balance = #{freezeBalance},update_date = now()
+		WHERE mem_id = #{memId}
+	</update>
 </mapper>
