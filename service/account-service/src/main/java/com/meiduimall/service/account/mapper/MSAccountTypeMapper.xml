@@ -43,7 +43,7 @@
   </select>
   
     <!--   根据账户类型编号更新当前序列号  -->
-  <update id="updateSequenceByAccountTypeNo" parameterType="java.lang.Map">
+  <update id="updateSequenceByAccountTypeNo" parameterType="java.util.Map">
   UPDATE  ms_account_type m
   SET  m.account_no_sequence=#{newSequence}
   WHERE m.account_type_no=#{accountTypeNo}

@@ -88,7 +88,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 	public List<MSAccountDetail> listMSAccountCondition(MSAccountDetailCondition mSAccountDetailCondition) {
 		List<MSAccountDetail> selectList = null;
 		try {
-			selectList = baseDao.selectList(mSAccountDetailCondition, "listMSAccountCondition");
+			selectList = baseDao.selectList(mSAccountDetailCondition, "MSAccountDetailMapper.listMSAccountCondition");
 		} catch (Exception e) {
 			logger.error("查询余额流水出现错误，错误信息：{}", e.getMessage());
 			throw new MdBizException(ConstApiStatus.SERVER_DEAL_WITH_EXCEPTION);
