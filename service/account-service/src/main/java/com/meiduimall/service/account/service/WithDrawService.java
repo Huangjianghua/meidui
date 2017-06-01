@@ -1,6 +1,8 @@
 package com.meiduimall.service.account.service;
 
-import com.meiduimall.service.account.model.request.RequestBankWithdrawDepositsForApp;
+import java.util.List;
+
+import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
 
 /**
  * 提现相关
@@ -9,6 +11,6 @@ import com.meiduimall.service.account.model.request.RequestBankWithdrawDepositsF
  */
 public interface WithDrawService {
 
-	void getBankWithdrawDepositsList(RequestBankWithdrawDepositsForApp model);
+	List<MSBankWithdrawDeposit> getBankWithdrawDepositsList(String memId);
 	
 }
