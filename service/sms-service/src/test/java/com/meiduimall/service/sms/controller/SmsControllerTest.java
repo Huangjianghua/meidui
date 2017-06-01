@@ -178,6 +178,44 @@ public class SmsControllerTest {
 		});
 	}
 	
+	// 不指定发送渠道---手机号带86
+	@Test
+	public void sendSmsMessage_test_06() throws Exception {
+		ResultActions results = mockMvc.perform(
+				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/new/send_common_sms_message")
+				.param("phones", "86188000001")
+				.param("sysKey", "junit")
+				.param("templateId", "1GW_1004")
+				.param("params", "88.88,66元购物券"))
+				.andExpect(status().isOk());
+		
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("sendSmsMessage_test_03*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+	
+	// 不指定发送渠道---手机号带+86
+	@Test
+	public void sendSmsMessage_test_07() throws Exception {
+		ResultActions results = mockMvc.perform(
+				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/new/send_common_sms_message")
+				.param("phones", "+86188000002")
+				.param("sysKey", "junit")
+				.param("templateId", "1GW_1004")
+				.param("params", "88.88,66元购物券"))
+				.andExpect(status().isOk());
+		
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("sendSmsMessage_test_03*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+	
 	// 阿里大于模板未注册，通过漫道发送验证码
 	@Test
 	public void sendSmsVerificationCode_test_01() throws Exception {
