@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.ResBodyData;
@@ -34,7 +35,7 @@ import com.meiduimall.service.member.model.MobileNumberInfo;
 import com.meiduimall.service.member.model.request.RequestMobile;
 import com.meiduimall.service.member.model.response.MemberMobileAreaDTO;
 import com.meiduimall.service.member.model.response.ResponseMemberBasicInfo;
-import com.meiduimall.service.member.service.MoneyService;
+import com.meiduimall.service.member.service.AccountInfoService;
 import com.meiduimall.service.member.service.PointsService;
 import com.meiduimall.service.member.service.UserInfoService;
 import com.meiduimall.service.member.util.DESC;
@@ -60,22 +61,28 @@ public class UserInfoServiceImpl implements UserInfoService {
 	PointsService pointsService;
 	
 	@Autowired
-	MoneyService moneyService;
+	AccountInfoService moneyService;
 	
 	@Autowired
 	ServiceUrlProfileConfig serviceUrlProfileConfig;
+	
+	@Autowired
+	RestTemplate restTemplate;
 
 	@Override
 	public ResBodyData getBasicInfoByMemId(String memId) {
 		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
-		ResponseMemberBasicInfo memberBasicInfo=baseDao.selectOne(memId,"MSMembersMapper.getRespMemberBasicInfoByMemId");//根据memId查询会员基本信息
-		if(memberBasicInfo==null){//如果不存在这个会员
+		//根据memId查询会员基本信息
+		ResponseMemberBasicInfo memberBasicInfo=baseDao.selectOne(memId,"MSMembersMapper.getRespMemberBasicInfoByMemId");
+		if(memberBasicInfo==null){
 			throw new ServiceException(ApiStatusConst.MEMBER_NOT_EXIST);
 		}
-
-		MSMemberAddresses addresses=baseDao.selectOne(memId,"MSMemberAddressesMapper.getMemberAddressByMemId");//根据memId查询会员详细地址
+		memberBasicInfo.setPaypwd_isopen("Y".equals(memberBasicInfo.getPaypwd_isopen())?"1":"0");
+		//根据memId查询会员详细地址
+		MSMemberAddresses addresses=baseDao.selectOne(memId,"MSMemberAddressesMapper.getMemberAddressByMemId");
 		if(addresses!=null){
-			if(null!=addresses.getDictIdProvince()&&null!=addresses.getDictIdCity()&&null!=addresses.getDictIdArea()){//添加省市区地址信息，分号隔开
+			//添加省市区地址信息，分号隔开
+			if(null!=addresses.getDictIdProvince()&&null!=addresses.getDictIdCity()&&null!=addresses.getDictIdArea()){
 				StringBuffer addressShengShiQu = new StringBuffer();
 				addressShengShiQu.append(baseDao.selectOne(addresses.getDictIdProvince().toString(),"MSCityMapper.getNameByNo").toString());
 				addressShengShiQu.append(";");
@@ -85,23 +92,13 @@ public class UserInfoServiceImpl implements UserInfoService {
 				memberBasicInfo.setMemAddressShengShiQu(addressShengShiQu.toString());
 			}
 		}
-		/**调用账户服务>根据memId查询是否存在支付密码*/
-		String result=null;
-		try {
-			result=HttpUtils.get(serviceUrlProfileConfig.getAccountServiceUrl()+"/v1/is_exist_paypwd?memId="+memId);
-		} catch (Exception e) {
-			logger.error("调用账户服务http请求异常：{}",e.toString());
-		}
-		JSONObject j=JSONObject.parseObject(result);
-		
-		/**会员基本信息添加是否设置支付密码和支付密码开关状态*/
-		memberBasicInfo.setPaypwd_isopen("Y".equals(memberBasicInfo.getPaypwd_isopen())?"1":"0");
+		//调用账户服务>根据memId查询是否存在支付密码
+		ResBodyData result=restTemplate.getForEntity("http://ACCOUNT-SERVICE/v1/is_exist_paypwd?memId="+memId,ResBodyData.class).getBody();
 		memberBasicInfo.setPaypwd_isset("1");
-		if(!"0".equals(j.getString(SysParamsConst.STATUS))){
+		if(!"0".equals(result.getStatus())){
 			memberBasicInfo.setPaypwd_isset("0");
 		}			
-		
-		/**会员基本信息添加积分总额（包含冻结解冻的积分）和余额总额*/
+		//会员基本信息添加积分总额（包含冻结解冻的积分）和余额总额
 		memberBasicInfo.setTotalmoney(moneyService.getTotalMoney(memId));
 		memberBasicInfo.setTotalpoints(pointsService.getTotalPoints(memId,memberBasicInfo.getCurrentpoints()));
 		

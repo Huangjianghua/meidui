@@ -8,7 +8,7 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.meiduimall.exception.MdBizException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
@@ -20,11 +20,11 @@ import com.meiduimall.service.account.util.DateUtil;
 import com.meiduimall.service.account.util.DoubleCalculate;
 
 /**
- * 类名:  AccountFreezeDetailService<br>
- * 描述:  账户变更冻结明细业务服务层，与账户冻结明细相关的都定义在此 <br>
- * 创建时间: 2017-02-23
+ * 账户冻结解冻业务逻辑接口实现类{@link=AccountFreezeDetailService}
+ * @author chencong
+ *
  */
-@Component
+@Service
 public class AccountFreezeDetailServiceImpl implements AccountFreezeDetailService{
 	
 	private final static Logger logger=LoggerFactory.getLogger(AccountDetailServiceImpl.class);

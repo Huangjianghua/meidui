@@ -8,7 +8,7 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.meiduimall.exception.MdBizException;
 import com.meiduimall.exception.MdSysException;
@@ -24,14 +24,14 @@ import com.meiduimall.service.account.util.DoubleCalculate;
 import com.meiduimall.service.account.util.StringUtil;
 
 /**
- * 类名:  AccountServices<br>
- * 描述:  会员帐户相关服务实现类，与帐户直接关系的基础方法都在此类中定义 <br>
- * 创建时间: 2017-02-23
+ * 会员账户业务逻辑接口{@link=AccountService}实现类
+ * @author chencong
+ *
  */
-@Component
-public class AccountServicesImpl implements AccountService {
+@Service
+public class AccountServiceImpl implements AccountService {
 	
-	private final static Logger logger=LoggerFactory.getLogger(AccountServicesImpl.class);
+	private final static Logger logger=LoggerFactory.getLogger(AccountServiceImpl.class);
 
 	@Autowired
 	private BaseDao baseDao;
@@ -41,6 +41,24 @@ public class AccountServicesImpl implements AccountService {
 	
 	@Autowired
 	private AccountDetailService  accountDetailService;
+
+	@Override
+	public MSAccount getModelByWalletNoAndMemId(String walletNo, String memId) {
+		Map<String, Object> mapCondition=new HashMap<>();
+		mapCondition.put("walletNo",walletNo);
+		mapCondition.put("memId",memId);
+		return baseDao.selectOne(mapCondition,"MSAccountByWalletTypeMapper.getAccountByWalletTypeInfoByNoAndMemId");
+	}
+
+	@Override
+	public boolean checkAccountByWalletTypeExist(String walletNo, String memId) {
+		if(this.getModelByWalletNoAndMemId(walletNo,memId)==null){
+			logger.warn("会员{}类型为{}的账户不存在",memId,walletNo);
+			return false;
+		} 
+		logger.info("会员{}类型为{}的账户存在",memId,walletNo);
+		return true;
+	}
 	
 	/**
 	 * 修改会员积分数值

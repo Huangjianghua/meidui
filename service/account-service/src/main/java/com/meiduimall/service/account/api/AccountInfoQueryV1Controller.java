@@ -25,7 +25,7 @@ import com.meiduimall.service.account.model.MSAccountDetailGet;
 import com.meiduimall.service.account.model.MSAccountList;
 import com.meiduimall.service.account.model.request.RequestAccountReviseDetail;
 import com.meiduimall.service.account.model.request.RequestMSAccountList;
-import com.meiduimall.service.account.service.AccountByWalletTypeService;
+import com.meiduimall.service.account.service.MemberAccountService;
 import com.meiduimall.service.account.service.MSAccountDetailService;
 
  
@@ -44,7 +44,7 @@ public class AccountInfoQueryV1Controller {
 	private MSAccountDetailService mSAccountDetailService;
 	
 	@Autowired
-	private AccountByWalletTypeService accountByWalletTypeService;
+	private MemberAccountService accountByWalletTypeService;
 	
 	/**校验指定类型的账户是否存在*/
 	@RequestMapping(value = "/check_account_bytype_exist")

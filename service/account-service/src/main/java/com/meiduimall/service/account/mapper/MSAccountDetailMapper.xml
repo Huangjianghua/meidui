@@ -19,30 +19,41 @@
     <result column="curr_time" property="currTime" jdbcType="DECIMAL" />
   </resultMap>
   
-  	<!-- 插入余额变动明细记录 -->
-	<insert id="insertAccountDetail" parameterType="java.util.Map">
+  <sql id="Base_Column_List" >
+    id, 
+    account_id, 
+    account_type, 
+    mem_id, 
+    trade_type,
+    trade_amount, 
+    trade_date, 
+    in_or_out, 
+    balance, 
+    business_no, 
+    remark, 
+    create_date
+  </sql>
+  
+  <!-- 插入账户变动明细 -->
+  <insert id="insertAccountDetail" parameterType="com.meiduimall.service.account.model.MSAccountDetail">
 		INSERT INTO ms_account_detail
 		VALUES(
 			#{id},
-			#{accountId},
-			#{accountType},
-			#{memId},
+			#{accountNo},
 			#{tradeType},
 			#{tradeAmount},
 			#{tradeDate},
 			#{inOrOut},
 			#{balance},
-			#{orderId},
-			#{remark},
+			#{businessNo},
+			#{createUser},
 			#{createDate},
-			unix_timestamp()
+			#{updateUser},
+			#{updateDate},
+			#{remark}
 			)
 	</insert>
-	
-	  <sql id="Base_Column_List" >
-    id, account_id, account_type, mem_id, trade_type, trade_amount, trade_date, in_or_out, 
-    balance, business_no, remark, create_date, curr_time
-  </sql>
+  
   <select id="listMSAccountDetail" resultMap="BaseResultMap" parameterType="com.meiduimall.service.account.model.MSAccountDetailGet" >
     select 
     <include refid="Base_Column_List" />
