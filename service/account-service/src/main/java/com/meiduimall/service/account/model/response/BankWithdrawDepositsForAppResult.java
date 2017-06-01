@@ -1,4 +1,4 @@
-package com.meiduimall.service.account.model.result;
+package com.meiduimall.service.account.model.response;
 
 public class BankWithdrawDepositsForAppResult {
 

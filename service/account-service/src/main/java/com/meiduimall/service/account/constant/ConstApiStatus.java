@@ -60,107 +60,107 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	
 	/**账户调整相关*/
 	//调账类型不合法
-	public static final Integer ACCOUNT_ADJUST_TYPE_UNNORMAL=7022;
+	public static final Integer ACCOUNT_ADJUST_TYPE_UNNORMAL=7051;
 	//调减金额不能大于当前金额
-	public final static Integer ACCOUNT_REVISE_BALANCE_ERROR=7103;
+	public final static Integer ACCOUNT_REVISE_BALANCE_ERROR=7052;
 	//修改调整余额操作错误
-	public final static Integer UPDATE_ACCOUNT_REVISE_BALANCE_ERROR=7104;
+	public final static Integer UPDATE_ACCOUNT_REVISE_BALANCE_ERROR=7053;
 	//添加调整余额操作出现错误
-	public final static Integer INSERT_MEMBER_REVISE_DETAIL_ERROR=7124;
+	public final static Integer INSERT_MEMBER_REVISE_DETAIL_ERROR=7054;
 	
 	
 	/**交易相关*/
 	//交易类型不合法
-	public final static  Integer TRADE_TYPE_UNNORMAL=7023;
+	public final static  Integer TRADE_TYPE_UNNORMAL=7101;
 	//交易金额不合法
-	public final static  Integer TRADE_AMOUNT_UNNORMAL=7023;
+	public final static  Integer TRADE_AMOUNT_UNNORMAL=7102;
 	//消费积分不能大于消费金额
-	public final static Integer POINTS_BIGGERTHAN_MONEY=7001;
+	public final static Integer POINTS_BIGGERTHAN_MONEY=7103;
 	//混合支付支付模式，美兑积分不能为小于或等于0
-	public final static Integer MIX_PAYTYPE_ERROR=7002;
+	public final static Integer MIX_PAYTYPE_ERROR=7104;
 	//支付类型错误
-	public final static Integer PAYTYPE_ERROR=7003;
+	public final static Integer PAYTYPE_ERROR=7105;
 	//重复提交的订单
-	public final static Integer REPEAT_ORDER=7004;
+	public final static Integer REPEAT_ORDER=7106;
 	//积分余额不足
-	public final static Integer NOT_ENOUGH_POINTS=7005;
+	public final static Integer NOT_ENOUGH_POINTS=7107;
 	//重复提交的冻结或解冻订单
-	public final static Integer REPEAT_FREEZ_ORDER=7006;
+	public final static Integer REPEAT_FREEZ_ORDER=7108;
 	//订单解冻积分不等于冻结积分
-	public final static Integer DJ_NOT_EQUALS_DJ=7007;
+	public final static Integer DJ_NOT_EQUALS_DJ=7109;
 	//没有冻结的积分
-	public final static Integer NO_DJ_POINTS=7008;
+	public final static Integer NO_DJ_POINTS=7110;
 	//订单状态错误
-	public final static Integer ORDER_STATUS_ERROR=7009;
+	public final static Integer ORDER_STATUS_ERROR=7111;
 	
 	
 	/**账户相关*/
 	//账户不存在
-	public final static Integer ACCOUNT_NOT_EXIST=7024;
+	public final static Integer ACCOUNT_NOT_EXIST=7201;
 	//查询会员调整余额明细异常
-	public final static Integer ACCOUNT_REVISE_IS_NULL_ERROR=7102;
+	public final static Integer ACCOUNT_REVISE_IS_NULL_ERROR=7202;
 	//写入账户变动明细出现错误
-	public final static Integer INSERT_ACCOUNT_DETAIL_ERROR=7106;
+	public final static Integer INSERT_ACCOUNT_DETAIL_ERROR=7203;
 	//结算操作处理用户账号余额错误
-	public final static Integer DEALWLTH_ACCOUNT_MONEY_ERROR=7110;
+	public final static Integer DEALWLTH_ACCOUNT_MONEY_ERROR=7204;
 	//当前会员银行卡账户信息不存在
-	public final static Integer ACCOUNT_BANK_CARD_IS_NULL=7111;
+	public final static Integer ACCOUNT_BANK_CARD_IS_NULL=7205;
 	//余额不足无法支付
-	public final static Integer ACCOUNT_INSUFFICIENT_BALANCE_ERROR=7113;
+	public final static Integer ACCOUNT_INSUFFICIENT_BALANCE_ERROR=7206;
 	//修改会员账户余额出现错误
-	public final static Integer UPDATE_ACCOUNT_BALANCE_ERROR=7116;
+	public final static Integer UPDATE_ACCOUNT_BALANCE_ERROR=7207;
 	//冻结余额变动失败 
-	public final static Integer FROZEN_BALANCE_FAILED_ERROR=7122;
+	public final static Integer FROZEN_BALANCE_FAILED_ERROR=7208;
 	//添加账号冻结明细错误 
-	public final static Integer INSERT_MEMBER_FREEZE_DETAIL_ERROR=7125;
+	public final static Integer INSERT_MEMBER_FREEZE_DETAIL_ERROR=7209;
 	//查询钱包类型异常 
-	public final static Integer QUERY_WALLETTYPE_EXCEPTION=7126;
+	public final static Integer QUERY_WALLETTYPE_EXCEPTION=7210;
 	//查询转账积分列表错误
-	public final static Integer QUERY_TRANSFER_POINTS_ERROR=7127;
+	public final static Integer QUERY_TRANSFER_POINTS_ERROR=7211;
 	//当前会员银行卡账户信息已存在
-	public final static  Integer BANK_INFO_ALREADY_EXIST = 7019;
+	public final static  Integer BANK_INFO_ALREADY_EXIST = 7212;
 	
 	
 	/**提现相关*/
 	//修改提现记录操作出现错误
-	public final static Integer UPDATE_BANK_WITHDRAW_DEPOSIT_ERROR=7107;
+	public final static Integer UPDATE_BANK_WITHDRAW_DEPOSIT_ERROR=7301;
 	//根据ID 查看提现记录错误  
-	public final static Integer QUERY_BANK_WITHDRAW_BY_ID_ERROR=7108;
+	public final static Integer QUERY_BANK_WITHDRAW_BY_ID_ERROR=7302;
 	//查看提现记录明细错误
-	public final static Integer QUERY_BANK_WITHDRAW__DETAIL_BY_ID_ERROR=7109;
+	public final static Integer QUERY_BANK_WITHDRAW__DETAIL_BY_ID_ERROR=7303;
 	//余额低于最低提现金额
-	public final static Integer ACCOUNT_BALANCE_BELOW_WITHDRAW_ERROR=7113;
+	public final static Integer ACCOUNT_BALANCE_BELOW_WITHDRAW_ERROR=7304;
 	//实际提现金额不能大于申请提现金额 
-	public final static Integer WITHDRAW_ERROR=7114;
+	public final static Integer WITHDRAW_ERROR=7305;
 	//实际提现金额 大于提现手续费
-	public final static Integer ACTUAL_WITHDRAW_MONEY_THEN_ZERO_ERROR=7115;
+	public final static Integer ACTUAL_WITHDRAW_MONEY_THEN_ZERO_ERROR=7306;
 	//提现参数不能为null
-	public final static Integer PARAMETER_IS_NULL=7117;
+	public final static Integer PARAMETER_IS_NULL=7307;
 	//提现参数memId不能为null 
-	public final static Integer PARAMETER_MEMID_IS_NULL=7118;
+	public final static Integer PARAMETER_MEMID_IS_NULL=7308;
 	//提现参数accountNo不能为null
-	public final static Integer PARAMETER_ACCOUNTNO_IS_NULL=7119;
+	public final static Integer PARAMETER_ACCOUNTNO_IS_NULL=7309;
 	//提现参数applyCarryCash不能为null
-	public final static Integer PARAMETER_APPLYCARRYCASH_IS_NULL=7120;
+	public final static Integer PARAMETER_APPLYCARRYCASH_IS_NULL=7310;
 	//超过最大可提现限制50000 
-	public final static Integer ACCOUNT_APPLY_CARRY_CASH_ERROR=7112;
+	public final static Integer ACCOUNT_APPLY_CARRY_CASH_ERROR=7311;
 	//新增提现记录异常
-	public final static Integer INSERT_WITHDRAW_ERROR=7121;
+	public final static Integer INSERT_WITHDRAW_ERROR=7312;
 	
 	
 	/**会员信息相关*/
 	//查询会员为空
-	public final static Integer ACCOUNT_IS_NULL_ERROR=7101;
+	public final static Integer ACCOUNT_IS_NULL_ERROR=7901;
 	//查询会员列表出现错误 
-	public final static Integer QUERY_MEMBER_LIST_ERROR=7123;
+	public final static Integer QUERY_MEMBER_LIST_ERROR=7902;
 	
 	/**短信相关*/
 	//短信验证码校验不通过
-	public final static  Integer VALIDATE_CODE_NOT_PASS = 7021;
+	public final static  Integer VALIDATE_CODE_NOT_PASS = 7921;
 	//会员不存在
-	public final static  Integer USER_NOT_EXIST = 7018;
+	public final static  Integer USER_NOT_EXIST = 7922;
 	//获取会员基本信息失败
-	public final static  Integer GET_MEMBER_BASIC_INFO_FAILED = 7020;
+	public final static  Integer GET_MEMBER_BASIC_INFO_FAILED = 7923;
 	
 	static {
 		zhMsgMap.put(OPERATION_DB_EX, "操作数据库程序异常");
