@@ -8,8 +8,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.meiduimall.application.mall.catalog.constant.ApplMallApiCode;
-import com.meiduimall.application.mall.catalog.constant.ApplMallConstant;
+import com.meiduimall.application.mall.catalog.constant.MallApiCode;
+import com.meiduimall.application.mall.catalog.constant.MallConstant;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.HttpUtils;
 import com.meiduimall.core.util.JsonUtils;
@@ -53,8 +53,8 @@ public class HttpGatewayUtils {
 			return JsonUtils.jsonToBean(result, ResBodyData.class);
 		} catch (Exception e) {
 			logger.error("请求微服务异常： " + e);
-			throw new ServiceException(ApplMallApiCode.REQUEST_SERVICE_ERROR,
-					ApplMallApiCode.getZhMsg(ApplMallApiCode.REQUEST_SERVICE_ERROR));
+			throw new ServiceException(MallApiCode.REQUEST_SERVICE_ERROR,
+					MallApiCode.getZhMsg(MallApiCode.REQUEST_SERVICE_ERROR));
 		}
 	}
 
@@ -78,15 +78,15 @@ public class HttpGatewayUtils {
 			logger.info("POST实体内容：" + paramsContent);
 
 			Map<String, String> headers = new HashMap<String, String>();
-			headers.put(ApplMallConstant.CONTENT_TYPE, ApplMallConstant.CONTENT_TYPE_FORM);
+			headers.put(MallConstant.CONTENT_TYPE, MallConstant.CONTENT_TYPE_FORM);
 
 			String result = HttpUtils.post(url, paramsContent, headers);
 			logger.info("请求结果：" + result);
 			return JsonUtils.jsonToBean(result, ResBodyData.class);
 		} catch (Exception e) {
 			logger.error("请求微服务异常： " + e);
-			throw new ServiceException(ApplMallApiCode.REQUEST_SERVICE_ERROR,
-					ApplMallApiCode.getZhMsg(ApplMallApiCode.REQUEST_SERVICE_ERROR));
+			throw new ServiceException(MallApiCode.REQUEST_SERVICE_ERROR,
+					MallApiCode.getZhMsg(MallApiCode.REQUEST_SERVICE_ERROR));
 		}
 	}
 

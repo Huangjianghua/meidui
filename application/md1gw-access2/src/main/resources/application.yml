@@ -24,14 +24,14 @@ spring:
 # 配置clientID和key
 sign : 
   clientID : mall_java
-  key :  
+  key : 20822875
 
 # 商品模块微服务地址
 catalog-service : 
   host : http://10.45.178.235:9050
 # 会员系统接入层地址
 member-access : 
-  host : vip.api.meiduimall.com
+  host : http://vip.api.meiduimall.com
 
 ---
 spring:
@@ -40,14 +40,14 @@ spring:
 # 配置clientID和key
 sign : 
   clientID : mall_java
-  key :  
+  key : 20822875
 
 # 商品模块微服务地址
 catalog-service : 
   host : http://10.116.21.93:9050
 # 会员系统接入层地址
 member-access : 
-  host : vip.api.meiduimall.com
+  host : http://vip.api.meiduimall.com
 
 ---
 spring:
@@ -63,4 +63,4 @@ catalog-service :
   host : http://192.168.4.111:9050
 # 会员系统接入层地址
 member-access : 
-  host : vipt.api.meiduimall.com
+  host : http://vipt.api.meiduimall.com
