@@ -22,7 +22,6 @@ import com.meiduimall.service.account.service.AccountService;
 import com.meiduimall.service.account.util.DESC;
 import com.meiduimall.service.account.util.DoubleCalculate;
 import com.meiduimall.service.account.util.StringUtil;
-
 /**
  * 会员账户业务逻辑接口{@link=AccountService}实现类
  * @author chencong
@@ -42,7 +41,7 @@ public class AccountServiceImpl implements AccountService {
 	@Autowired
 	private AccountDetailService  accountDetailService;
 
-	@Override
+/*	@Override
 	public MSAccount getModelByWalletNoAndMemId(String walletNo, String memId) {
 		Map<String, Object> mapCondition=new HashMap<>();
 		mapCondition.put("walletNo",walletNo);
@@ -58,7 +57,7 @@ public class AccountServiceImpl implements AccountService {
 		} 
 		logger.info("会员{}类型为{}的账户存在",memId,walletNo);
 		return true;
-	}
+	}*/
 	
 	/**
 	 * 修改会员积分数值

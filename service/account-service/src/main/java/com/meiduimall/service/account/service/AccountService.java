@@ -308,5 +308,9 @@ public interface AccountService {
 	 * @return
 	 */
 	public boolean checkFreezeMoneyByOrderId(String orderId);
+
+/*	MSAccount getModelByWalletNoAndMemId(String walletNo, String memId);
+
+	boolean checkAccountByWalletTypeExist(String walletNo, String memId);*/
 	
 }
