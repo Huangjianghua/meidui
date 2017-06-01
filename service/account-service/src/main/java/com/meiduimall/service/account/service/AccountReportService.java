@@ -15,4 +15,11 @@ public interface AccountReportService {
 	 * @return
 	 */
 	public MSAccountReport getTotalAndFreezeBalanceByMemId(String memId);
+	
+	/**
+	 * 根据memId获取当前会员可用总余额
+	 * @param memId 会员ID
+	 * @return
+	 */
+	public Double getAvailableBalance(String memId);
 }
