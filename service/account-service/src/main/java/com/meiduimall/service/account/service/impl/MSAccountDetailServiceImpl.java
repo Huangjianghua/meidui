@@ -492,7 +492,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 //				//增加明细
 //				accountFreezeDetailService.saveAccountFreezeDetail(memId, businessNo,account.getId(),"", ConstTradeType.TRADE_TYPE_TXSX.getCode(), calcCounterFee,deposit.getApplyDate(), String.valueOf(counterFeeBalance),  ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);
 //			}
-				addConsumeFreezeMoney(memId,addFreezeMoney,calcCounterFee,carryCashFreezeBalance,counterFeeBalance,businessNo,deposit.getApplyDate());
+				addConsumeFreezeMoney(memId,addFreezeMoney,calcCounterFee,carryCashFreezeBalance,counterFeeBalance,businessNo,new Date());
 		}
 	}
 	
