@@ -4,23 +4,12 @@
 <mapper namespace="MSAccountTypeMapper">
 
 <!--   查询财务调账相关的账户类型信息  -->
-  <select id="getCwtzWalletTypeList" resultType="com.meiduimall.service.account.model.MSAccountType">
+  <select id="getAccountTypeList" resultType="com.meiduimall.service.account.model.MSAccountType">
    SELECT id, 
-   wallet_name walletName, 
-   wallet_no walletNo, 
-   allow_withdraw allowWithdraw, 
-   need_poundage needPoundage, 
-   allow_refund allowRefund, 
-   poundage_scale poundageScale, 
-   account_type accountType, 
-   withdraw_level withdrawLevel, 
-   spend_level spendLevel, 
-   create_date createDate,
-   update_date updateDate, 
-   update_man updateMan, 
-   remark 
-   FROM ms_account_type m 
-   WHERE wallet_no IN ('CWTZ1','CWTZ2','CWTZ3')
+   account_type_name accountTypeName, 
+   account_type_no accountTypeNo
+   FROM ms_account_type 
+   WHERE account_type_no IN ('CWTZ1','CWTZ2','CWTZ3')
   </select>
   
 <!--   根据条件查询账户类型信息  -->

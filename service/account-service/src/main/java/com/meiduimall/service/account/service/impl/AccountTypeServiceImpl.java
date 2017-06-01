@@ -24,8 +24,8 @@ public class AccountTypeServiceImpl implements AccountTypeService {
 	private BaseDao baseDao;
 
 	@Override
-	public List<MSAccountType> getCwtzWalletTypeList(){
-		return baseDao.selectList(null,"MSWalletTypeMapper.getCwtzWalletTypeList");
+	public List<MSAccountType> getAccountTypeList(){
+		return baseDao.selectList(null,"MSAccountTypeMapper.getAccountTypeList");
 	}
 
 	@Override

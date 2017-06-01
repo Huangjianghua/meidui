@@ -13,9 +13,9 @@ public interface AccountTypeService {
 	
 	/**
 	 * 查询财务调整相关的账户类型信息
-	 * @return
+	 * @author wujun
 	 */
-	public List<MSAccountType> getCwtzWalletTypeList();
+	public List<MSAccountType> getAccountTypeList();
 	
 	/**
 	 * 根据账户类型编号查询当前序列号

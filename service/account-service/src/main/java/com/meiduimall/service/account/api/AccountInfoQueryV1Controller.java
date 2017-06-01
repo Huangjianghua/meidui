@@ -4,22 +4,30 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.base.Strings;
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.ApiException;
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.model.MSAccountDetail;
 import com.meiduimall.service.account.model.MSAccountDetailCondition;
 import com.meiduimall.service.account.model.MSAccountDetailGet;
+import com.meiduimall.service.account.model.response.AccountBalanceResult;
+import com.meiduimall.service.account.model.response.OldAccountBalanceResult;
 import com.meiduimall.service.account.service.MSAccountDetailService;
+import com.meiduimall.service.account.service.MSMembersService;
 
 /**
  * 余额相关操作
@@ -36,13 +44,13 @@ public class AccountInfoQueryV1Controller {
 	@Autowired
 	private MSAccountDetailService mSAccountDetailService;
 
-	/*@Autowired
-	private MemberAccountService accountByWalletTypeService;
+//	@Autowired
+//	private MemberAccountService accountByWalletTypeService;
 	
 	@Autowired
 	private MSMembersService mSMembersService;
 
-	*//** 校验指定类型的账户是否存在 *//*
+	/** 校验指定类型的账户是否存在 *//*
 	@RequestMapping(value = "/check_account_bytype_exist")
 	public ResBodyData validePaypwd(@RequestParam String wallet_no, @RequestParam String memId) {
 		ResBodyData resBodyData = new ResBodyData(Constants.CONSTANT_INT_ZERO, "账户已存在");
@@ -203,13 +211,14 @@ public class AccountInfoQueryV1Controller {
 		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M, new PageInfo<>(list));
 	}
 
-	*//**
+	*/
+	/**
 	 * 根据会员memId，获取会员账户余额和积分余额---兼容旧版
 	 * 
 	 * @param memId
 	 * @param userId
 	 * @return
-	 *//*
+	 */
 	@PostMapping(value = "/getAccountBalanceForApp_old")
 	public String getAccountBalanceForApp_old(String memId, @RequestParam(value = "user_id") String userId) {
 		OldAccountBalanceResult result = new OldAccountBalanceResult();
@@ -232,13 +241,13 @@ public class AccountInfoQueryV1Controller {
 		return JsonUtils.beanToJson(result);
 	}
 
-	*//**
+	/**
 	 * 根据会员memId，获取会员账户余额和积分余额---按新接口规范
 	 * 
 	 * @param memId
 	 * @param userId
 	 * @return
-	 *//*
+	 */
 	@PostMapping(value = "/getAccountBalanceForApp")
 	public ResBodyData getAccountBalanceForApp(String memId, @RequestParam(value = "user_id") String userId) {
 		if (Strings.isNullOrEmpty(memId) || Strings.isNullOrEmpty(userId)) {
@@ -249,5 +258,5 @@ public class AccountInfoQueryV1Controller {
 		result.setStatus(ConstApiStatus.SUCCESS);
 		result.setMsg(ConstApiStatus.SUCCESS_C);
 		return result;
-	}*/
+	}
 }

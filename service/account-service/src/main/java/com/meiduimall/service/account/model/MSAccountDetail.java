@@ -53,28 +53,30 @@ public class MSAccountDetail implements Serializable {
 	
 	private String memId;
 	
-	private String loginName;
+	private String memLoginName;
 	
-	private String phone;
+	private String memPhone;
 	
 	private String bizType;
 	
 	
 
-	public String getLoginName() {
-		return loginName;
+	 
+
+	public String getMemLoginName() {
+		return memLoginName;
 	}
 
-	public void setLoginName(String loginName) {
-		this.loginName = loginName;
+	public void setMemLoginName(String memLoginName) {
+		this.memLoginName = memLoginName;
 	}
 
-	public String getPhone() {
-		return phone;
+	public String getMemPhone() {
+		return memPhone;
 	}
 
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setMemPhone(String memPhone) {
+		this.memPhone = memPhone;
 	}
 
 	public String getBizType() {
