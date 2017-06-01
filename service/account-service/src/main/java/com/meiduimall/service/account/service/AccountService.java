@@ -1,7 +1,5 @@
 package com.meiduimall.service.account.service;
 
-import java.util.List;
-
 import com.meiduimall.service.account.model.MSAccount;
 
 /**

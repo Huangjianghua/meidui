@@ -18,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.exception.ServiceException;
@@ -42,6 +43,7 @@ import com.meiduimall.service.member.util.DESC;
 import com.meiduimall.service.member.util.DateUtil;
 import com.meiduimall.service.member.util.DoubleCalculate;
 import com.meiduimall.service.member.util.HttpUtils;
+import com.meiduimall.service.member.util.JackSonUtil;
 import com.meiduimall.service.member.util.StringUtil;
 
 /**
@@ -70,7 +72,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 	RestTemplate restTemplate;
 
 	@Override
-	public ResBodyData getBasicInfoByMemId(String memId) {
+	public ResBodyData getBasicInfoByMemId(String memId) throws MdSysException {
 		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
 		//根据memId查询会员基本信息
 		ResponseMemberBasicInfo memberBasicInfo=baseDao.selectOne(memId,"MSMembersMapper.getRespMemberBasicInfoByMemId");
@@ -92,14 +94,16 @@ public class UserInfoServiceImpl implements UserInfoService {
 				memberBasicInfo.setMemAddressShengShiQu(addressShengShiQu.toString());
 			}
 		}
-		//调用账户服务>根据memId查询是否存在支付密码
-		ResBodyData result=restTemplate.getForEntity("http://ACCOUNT-SERVICE/v1/is_exist_paypwd?memId="+memId,ResBodyData.class).getBody();
+		//调用账户服务>查询当前会员是否存在支付密码
+		ResBodyData resIsExistPayPwd=restTemplate.getForEntity("http://ACCOUNT-SERVICE/v1/is_exist_paypwd?memId="+memId,ResBodyData.class).getBody();
+		//调用账户服务>查询当前会员可用余额
+		ResBodyData resAvailableBalance=restTemplate.getForEntity("http://ACCOUNT-SERVICE/v1/get_available_balance?memId="+memId,ResBodyData.class).getBody();
+		
 		memberBasicInfo.setPaypwd_isset("1");
-		if(!"0".equals(result.getStatus())){
+		if(!"0".equals(resIsExistPayPwd.getStatus())){
 			memberBasicInfo.setPaypwd_isset("0");
-		}			
-		//会员基本信息添加积分总额（包含冻结解冻的积分）和余额总额
-		/*memberBasicInfo.setTotalmoney(moneyService.getTotalMoney(memId));*/
+		}
+		memberBasicInfo.setTotalmoney(String.valueOf(JackSonUtil.getJsonMap(resAvailableBalance.getData()).get("available_balance")));
 		memberBasicInfo.setTotalpoints(pointsService.getTotalPoints(memId,memberBasicInfo.getCurrentpoints()));
 		
 		resBodyData.setData(memberBasicInfo);

@@ -6,12 +6,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.node.DoubleNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.node.TextNode;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Strings;
@@ -26,6 +30,7 @@ import com.meiduimall.service.account.model.MSAccountDetailCondition;
 import com.meiduimall.service.account.model.MSAccountDetailGet;
 import com.meiduimall.service.account.model.response.AccountBalanceResult;
 import com.meiduimall.service.account.model.response.OldAccountBalanceResult;
+import com.meiduimall.service.account.service.AccountReportService;
 import com.meiduimall.service.account.service.MSAccountDetailService;
 import com.meiduimall.service.account.service.MSMembersService;
 
@@ -45,6 +50,23 @@ public class AccountInfoQueryV1Controller {
 	
 	@Autowired
 	private MSMembersService mSMembersService;
+	
+	@Autowired
+	private AccountReportService accountReportService;
+	
+	/**查询当前会员可用余额*/
+	@GetMapping(value = "/get_available_balance")
+	public ResBodyData listMSAccountDetail(@RequestParam String memId ) {
+		ResBodyData resBodyData=new ResBodyData(Constants.CONSTANT_INT_ZERO,null);
+		
+		Double availableBalance=accountReportService.getAvailableBalance(memId);
+		
+		ObjectNode rootNode = JsonUtils.getInstance().createObjectNode();
+		rootNode.set("available_balance",new DoubleNode(availableBalance));
+		resBodyData.setData(rootNode);
+		
+		return resBodyData;
+	}
 
 	/**
 	 * 余额流水（分页）

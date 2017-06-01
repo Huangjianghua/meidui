@@ -1,5 +1,8 @@
 package com.meiduimall.service.account;
 
+import java.io.IOException;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,7 +15,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
 
-import com.meiduimall.exception.MdSysException;
+
 
 @EnableHystrix
 @EnableEurekaClient
@@ -30,8 +33,7 @@ public class AccountServiceApplication extends SpringBootServletInitializer {
         return builder.build();
     }  
 	
-	public static void main(String[] args) throws MdSysException  {
-		/*System.out.println(DESC.encryption("admin123"));*/
+	public static void main(String[] args) {
 		SpringApplication.run(AccountServiceApplication.class, args);
 	}
 	   

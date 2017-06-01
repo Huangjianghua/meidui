@@ -40,7 +40,7 @@ public class UserInfoV1Controller{
 		logger.info("收到会员：{}获取基本信息API请求",requestGetMemberBasicInfo.getMemId());
 		try {
 			return userInfoService.getBasicInfoByMemId(requestGetMemberBasicInfo.getMemId());
-		} catch (DaoException  e) {
+		} catch (DaoException | MdSysException e) {
 			logger.error("获取会员基本信息API请求异常：{}",e.toString());
 			throw new ApiException(ApiStatusConst.GET_USERINFO_EXCEPTION,ApiStatusConst.getZhMsg(ApiStatusConst.GET_USERINFO_EXCEPTION));
 		}
