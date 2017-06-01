@@ -37,6 +37,11 @@ public class SettlementApiCode extends BaseApiCode {
 	public static final Integer FIND_ACCOUNT_FAIL = 7028;
 	public static final Integer CREATE_ACCOUNT_FAIL = 7029;
 	public static final Integer INSERT_AGENT_WATER_FAIL = 7030;
+	public static final Integer INSERT_SELLER_FEE_FAIL = 7031;
+	public static final Integer INSERT_SELLER_BONUS_FAIL = 7032;
+	public static final Integer BILL_NOT_EXIST = 7033;
+	public static final Integer FEE_NOT_SEND = 7034;
+	public static final Integer BONUS_NOT_SEND = 7035;
 	
 	static {
 		Map<Integer, String> zhMsgMap = BaseApiCode.zhMsgMap;
@@ -70,6 +75,11 @@ public class SettlementApiCode extends BaseApiCode {
 		zhMsgMap.put(FIND_ACCOUNT_FAIL, "根据代理编号获取账户信息失败");
 		zhMsgMap.put(CREATE_ACCOUNT_FAIL, "创建新个代账户失败");
 		zhMsgMap.put(INSERT_AGENT_WATER_FAIL, "插入代理流水失败");
+		zhMsgMap.put(INSERT_SELLER_FEE_FAIL, "插入服务费活动账单失败");
+		zhMsgMap.put(INSERT_SELLER_BONUS_FAIL, "插入奖励金活动账单失败");
+		zhMsgMap.put(BILL_NOT_EXIST, "账单不存在");
+		zhMsgMap.put(FEE_NOT_SEND, "服务费不可发放");
+		zhMsgMap.put(BONUS_NOT_SEND, "奖励金不可发放");
 
 	}
 

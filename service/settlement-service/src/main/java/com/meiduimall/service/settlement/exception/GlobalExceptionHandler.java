@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.core.util.JsonUtils;
+import com.meiduimall.service.SettlementApiCode;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 
 /**
@@ -47,7 +49,7 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(value = ServiceException.class)
 	public ResBodyData serviceExceptionHandler(HttpServletRequest request, ServiceException exception) {
 		logger.error(request.getContextPath() + request.getRequestURI() + " " + exception.getLocalizedMessage());
-		return new ResBodyData(ShareProfitConstants.RESPONSE_STATUS_CODE_FAILURE, exception.getLocalizedMessage());
+		return new ResBodyData(exception.getCode(), SettlementApiCode.getZhMsg(exception.getCode()), JsonUtils.getInstance().createObjectNode());
 	}
 
 }
