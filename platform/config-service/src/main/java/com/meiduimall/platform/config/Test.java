@@ -42,15 +42,15 @@ import com.meiduimall.platform.config.model.ConfigerMsg;
  * @version: 2017年5月23日 上午11:44:28 0.1 Description:
  */
 public class Test {
-	public static void main(String[] args) throws IOException, GitAPIException {
+	//public static void main(String[] args) throws IOException, GitAPIException {
 		//method1();
 		//method2();
 		//cloneRepository("http://git.meiduimall.com/service/service-config-repo.git","d:\\tmp\\test2");
 		//pushRepository("D:\\gitProject\\featureV4.0.2\\meiduimall");
-		 String projectURL = System.getProperty  ("user.dir");  
-		 projectURL=projectURL.substring(0,projectURL.indexOf("platform")-1);
-		 String fileNameurl=projectURL+"\\src\\main\\resources\\config";
-		 commitRepository(projectURL,fileNameurl,"配置文件变动提交");
+		 //String projectURL = System.getProperty  ("user.dir");  
+		// projectURL=projectURL.substring(0,projectURL.indexOf("platform")-1);
+		 //String fileNameurl=projectURL+"\\src\\main\\resources\\config";
+		// commitRepository(projectURL,fileNameurl,"配置文件变动提交");
 		 //pushRepository(projectURL);
 		// File source = new File(projectURL+"\\src\\main\\resources\\config\\o2o-service-config.yml");
 		 //File	dest = new File("D:\\tmp\\020-service-config.yml");
@@ -63,7 +63,7 @@ public class Test {
 		//switchBranch("d:\\tmp\\test3","remotes/origin/master");
 		 
 		 //checkCommintServiceConfigRepo(null,null);
-	}
+	//}
 	
 	private static String checkCommintServiceConfigRepo(String fileNames,String projectUrl) throws MdBizException{
 		//step1 判断本地是否存在分支
