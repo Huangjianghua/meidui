@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="MsPersonalConsumptionMapper" >
+  <resultMap id="BaseResultMap" type="com.meiduimall.service.account.model.MsPersonalConsumption" >
+    <id column="id" property="id" jdbcType="CHAR" />
+    <result column="mem_id" property="memId" jdbcType="CHAR" />
+    <result column="allChild_money" property="allchildMoney" jdbcType="VARCHAR" />
+    <result column="personal_money" property="personalMoney" jdbcType="VARCHAR" />
+    <result column="consumption_rebate" property="consumptionRebate" jdbcType="VARCHAR" />
+    <result column="consumption_personal" property="consumptionPersonal" jdbcType="VARCHAR" />
+    <result column="allChild_amount" property="allchildAmount" jdbcType="INTEGER" />
+    <result column="allChild_integral" property="allchildIntegral" jdbcType="VARCHAR" />
+    <result column="created_date" property="createdDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <select id="getEntityByMemId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  	SELECT * FROM ms_personal_consumption WHERE mem_id=#{memId}
+  </select>
+  
+</mapper>

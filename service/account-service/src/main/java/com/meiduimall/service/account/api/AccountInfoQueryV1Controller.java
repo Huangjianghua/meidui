@@ -258,4 +258,14 @@ public class AccountInfoQueryV1Controller {
 		result.setMsg(ConstApiStatus.SUCCESS_C);
 		return result;
 	}
+	
+	/**
+	 * 查询个人消费管理信息接口--该接口不需要做旧版兼容
+	 * @param memId
+	 * @return
+	 */
+	@PostMapping(value = "/personalConsumptionPoints")
+	public ResBodyData personalConsumptionPoints(String memId){
+		return mSMembersService.personalConsumptionPoints(memId);
+	}
 }
