@@ -15,18 +15,18 @@
 		INSERT INTO ms_account_freeze_detail 
 		VALUES(
 			#{id},
-			#{accountId},
-			#{accountType},
-			#{memId},
+			#{accountNo},
 			#{tradeType},
 			#{tradeAmount},
-			now(),
+			#{tradeDate},
 			#{inOrOut},
 			#{freezeBalance},
-			#{orderId},
-			#{remark},
-			now(),
-			unix_timestamp()
+			#{businessNo},
+			#{createDate},
+			#{createUser},
+			#{updateDate},
+			#{updateUser},
+			#{remark}
 			)
 	</insert>
 	

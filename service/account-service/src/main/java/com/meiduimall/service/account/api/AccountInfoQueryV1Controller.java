@@ -4,34 +4,22 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.google.common.base.Strings;
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.ApiException;
-import com.meiduimall.exception.MdBizException;
-import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
-import com.meiduimall.service.account.model.AccountReviseDetail;
 import com.meiduimall.service.account.model.MSAccountDetail;
 import com.meiduimall.service.account.model.MSAccountDetailCondition;
-import com.meiduimall.service.account.model.request.RequestAccountReviseDetail;
-import com.meiduimall.service.account.model.request.RequestMSAccountList;
-import com.meiduimall.service.account.model.result.AccountBalanceResult;
-import com.meiduimall.service.account.model.result.OldAccountBalanceResult;
+import com.meiduimall.service.account.model.MSAccountDetailGet;
 import com.meiduimall.service.account.service.MSAccountDetailService;
-import com.meiduimall.service.account.service.MSMembersService;
 
 /**
  * 余额相关操作
@@ -68,7 +56,8 @@ public class AccountInfoQueryV1Controller {
 
 	/**
 	 * 余额流水（分页）
-	 *//*
+	 * @author wujun
+	 */
 	@PostMapping(value = "/list_account_detail")
 	public ResBodyData listMSAccountDetail(@RequestBody MSAccountDetailGet mSAccountDetail) throws Exception {
 		List<MSAccountDetail> listMSAccountDetail = null;
@@ -86,8 +75,9 @@ public class AccountInfoQueryV1Controller {
 			logger.error("查询余额流水listMSAccountDetail服务器错误:{}", e.getMessage());
 			throw new ApiException(ConstApiStatus.SERVER_DEAL_WITH_EXCEPTION);
 		}
-		return new ResBodyData(ConstApiStatus.SUCCESS, "成功", new PageInfo<>(listMSAccountDetail));
-	}*/
+		return new ResBodyData(ConstApiStatus.SUCCESS,"成功",new PageInfo<>(listMSAccountDetail));
+	}
+ 
 
 	/**
 	 * 描述：根据条件查询余额流水
