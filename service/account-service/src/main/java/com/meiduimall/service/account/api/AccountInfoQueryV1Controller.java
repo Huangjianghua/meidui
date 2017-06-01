@@ -30,8 +30,7 @@ import com.meiduimall.service.account.service.MSAccountDetailService;
 import com.meiduimall.service.account.service.MSMembersService;
 
 /**
- * 余额相关操作
- * 
+ * 账户信息查询相关API
  * @author chencong
  *
  */
