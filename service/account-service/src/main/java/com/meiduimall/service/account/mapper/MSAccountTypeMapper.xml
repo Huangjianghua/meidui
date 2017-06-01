@@ -19,7 +19,7 @@
    update_date updateDate, 
    update_man updateMan, 
    remark 
-   FROM ms_wallet_type m 
+   FROM ms_account_type m 
    WHERE wallet_no IN ('CWTZ1','CWTZ2','CWTZ3')
   </select>
   
@@ -39,73 +39,14 @@
    update_date updateDate, 
    update_man updateMan, 
    remark 
-   FROM ms_wallet_type m 
+   FROM ms_account_type m 
    WHERE 1=1
    <if test="walletNo != null and walletNo != ''">
    AND m.wallet_no=#{walletNo}
    </if>
   </select>
 
-<!--   查询会员指定类型的账户信息  -->
-  <select id="getAccountByWalletTypeInfoByNoAndMemId" parameterType="java.util.Map" resultType="com.meiduimall.service.account.model.MSAccountByWalletType">
-   SELECT 
-   a.id AS id,
-   a.mem_id AS memId,
-   a.wallet_type AS walletType,
-   a.balance AS id,
-   a.balance_encrypt AS balanceEncrypt,
-   a.freeze_balance AS freezeBalance,
-   a.freeze_balance_encrypt AS freezeBalanceEncrypt,
-   a.account_status AS accountStatus,
-   a.account_status_encrypt AS accountStatusEncrypt,
-   a.create_date AS createDate,
-   a.update_date AS updateDate,
-   a.update_man AS updateMan,
-   a.remark AS remark
-   FROM ms_account_by_wallet_type a 
-   INNER JOIN ms_wallet_type b 
-   ON a.wallet_type=b.id
-   WHERE 1=1
-   AND a.mem_id=#{memId} 
-   AND b.wallet_no=#{walletNo}
-  </select>
+
   
-<!--    插入当前会员指定类型的账户信息  -->
-  <insert id="insertAccoutByWalletType" parameterType="com.meiduimall.service.account.model.MSAccountByWalletType" >
-  INSERT INTO ms_account_by_wallet_type 
-  VALUES (
-  #{id},
-  #{memId},
-  #{walletType},
-  #{balance},
-  #{balanceEncrypt},
-  #{freezeBalance},
-  #{freezeBalanceEncrypt},
-  #{account_status},
-  #{accountStatusEncrypt},
-  #{createDate},
-  #{updateDate},
-  #{updateMan},
-  #{remark}
-  )
-  </insert>
-  
-<!--     更新当前会员指定类型的账户信息 -->
-  <insert id="insertAccoutByWalletType" parameterType="java.util.Map" >
-    UPDATE ms_account_by_wallet_type a
-    INNER JOIN ms_wallet_type b
-    ON a.wallet_type=b.id
-    SET 
-    a.balance=#{balance},
-    a.balance_encrypt=#{balanceEncrypt},
-    a.freeze_balance=#{freezeBalance},
-    a.freeze_balance_encrypt=#{freezeBalanceEncrypt},
-    a.update_date=#{updateDate},
-    a.update_man=#{updateMan}
-      WHERE 1=1
-      AND a.mem_id=#{memId}
-      AND b.wallet_no=#{walletNo}
-    </insert>
-    
-    
+
   </mapper>
