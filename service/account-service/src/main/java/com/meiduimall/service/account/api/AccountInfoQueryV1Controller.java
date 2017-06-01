@@ -24,8 +24,8 @@ import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.model.MSAccountDetail;
 import com.meiduimall.service.account.model.MSAccountDetailCondition;
 import com.meiduimall.service.account.model.MSAccountDetailGet;
-import com.meiduimall.service.account.model.result.AccountBalanceResult;
-import com.meiduimall.service.account.model.result.OldAccountBalanceResult;
+import com.meiduimall.service.account.model.response.AccountBalanceResult;
+import com.meiduimall.service.account.model.response.OldAccountBalanceResult;
 import com.meiduimall.service.account.service.MSAccountDetailService;
 import com.meiduimall.service.account.service.MSMembersService;
 
