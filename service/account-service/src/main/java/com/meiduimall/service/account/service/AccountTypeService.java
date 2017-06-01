@@ -5,8 +5,8 @@ import java.util.List;
 import com.meiduimall.service.account.model.MSAccountType;
 
 /**
- * 账户类型管理相关业务逻辑
- * @author jun.wu@meiduimall.com
+ * 账户类型相关业务逻辑
+ * @author chencong
  *
  */
 public interface AccountTypeService {
