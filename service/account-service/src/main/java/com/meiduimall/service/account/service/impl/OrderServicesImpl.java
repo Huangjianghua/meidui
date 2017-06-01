@@ -24,9 +24,11 @@ import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
 import com.meiduimall.service.account.model.MSMemberConsumeHistory;
 import com.meiduimall.service.account.model.request.RequestFreezeUnFreeze;
 import com.meiduimall.service.account.model.request.RequestUnfreezeDecut;
+import com.meiduimall.service.account.service.AccountAdjustService;
 import com.meiduimall.service.account.service.AccountService;
 import com.meiduimall.service.account.service.BankAccountService;
 import com.meiduimall.service.account.service.BankWithdrawDepositService;
+import com.meiduimall.service.account.service.MSConsumePointsDetailService;
 import com.meiduimall.service.account.service.MoneyService;
 import com.meiduimall.service.account.service.OrderService;
 import com.meiduimall.service.account.service.PointsService;
@@ -56,6 +58,12 @@ public class OrderServicesImpl implements OrderService {
 	
 	@Autowired
 	private BankAccountService bankAccountService;
+	
+	@Autowired
+	private AccountAdjustService accountAdjustService;
+	
+	@Autowired
+	private MSConsumePointsDetailService pointsDetailService;
 	
 	@Override
 	public ResBodyData freezeUnfreeze(RequestFreezeUnFreeze param){
@@ -162,7 +170,7 @@ public class OrderServicesImpl implements OrderService {
 		//解冻余额，并扣减余额
 		if(bsFlag){
 			if(accountServices.checkFreezeMoneyByOrderId(orderId)){
-				bsFlag = accountServices.cutConsumeFreezeMoneyAndDetail(memId, orderId, tradeType, tradeDate,
+				bsFlag = accountAdjustService.cutConsumeFreezeMoneyAndDetail(memId, orderId, tradeType, tradeDate,
 						tradeAmount, remark);
 			}
 		}
@@ -245,7 +253,7 @@ public class OrderServicesImpl implements OrderService {
 			if(accountServices.checkFreezePointByOrderId(orderId)){
 				if(!StringUtil.isEmptyByString(tradePoint)
 						&& StringUtil.checkNumber(tradePoint,"+")){
-					bsFlag = accountServices.addMDConsumePointsAndDetail(memId, tradePoint, orderId, orderSource,
+					bsFlag = pointsDetailService.addMDConsumePointsAndDetail(memId, tradePoint, orderId, orderSource,
 							tradeType, memId, remark);
 				}
 			}
@@ -255,7 +263,7 @@ public class OrderServicesImpl implements OrderService {
 			if(accountServices.checkFreezeMoneyByOrderId(orderId)){
 				if(!StringUtil.isEmptyByString(tradeAmount)
 						&& StringUtil.checkFloat(tradeAmount,"+")){
-					bsFlag = accountServices.addConsumeMoneyAndDetail(memId, orderId, tradeType, tradeDate,
+					bsFlag = accountAdjustService.addConsumeMoneyAndDetail(memId, orderId, tradeType, tradeDate,
 							tradeAmount, remark);
 				}
 			}

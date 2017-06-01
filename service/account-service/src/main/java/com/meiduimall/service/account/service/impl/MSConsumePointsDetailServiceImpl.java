@@ -17,6 +17,9 @@ import com.meiduimall.service.account.dto.InterfaceConsumePointsDetailsDTO;
 import com.meiduimall.service.account.dto.ServiceToServiceDTO;
 import com.meiduimall.service.account.model.MSConsumePointsDetail;
 import com.meiduimall.service.account.model.MSConsumePointsDetailGet;
+import com.meiduimall.service.account.service.AccountAdjustService;
+import com.meiduimall.service.account.service.AccountDetailService;
+import com.meiduimall.service.account.service.AccountService;
 import com.meiduimall.service.account.service.MSConsumePointsDetailService;
 import com.meiduimall.service.account.service.MSConsumePointsFreezeService;
 import com.meiduimall.service.account.util.DESC;
@@ -30,8 +33,19 @@ public class MSConsumePointsDetailServiceImpl implements MSConsumePointsDetailSe
 
 	@Autowired
 	private BaseDao baseDao;
+	
 	@Autowired
 	private MSConsumePointsFreezeService   msConsumePointsFreezeService;
+	
+	@Autowired
+	private AccountAdjustService   accountAdjustService;
+	
+	@Autowired
+	private AccountDetailService   accountDetailService;
+	
+	@Autowired
+	private AccountService   accountService;
+	
 	@Override
 	public void saveAddConsumePoints(String memId, String orderId, String orderSource, String consumePoints,
 			String operatorType, String operator, String remark) throws Exception {
@@ -184,5 +198,22 @@ public class MSConsumePointsDetailServiceImpl implements MSConsumePointsDetailSe
 		return selectList;
 	}
 
+	@Override
+	public boolean addMDConsumePointsAndDetail(String memId,
+			String consumePoints, String orderId, String orderSource,
+			String operatorType, String operator, String remark) throws MdSysException {
+		//增加基本账户总额
+		double addAtq = DoubleCalculate.add(accountService.getTotalConsumePoints(memId),
+				Double.valueOf(consumePoints));
+		//调用增加积分方法
+		boolean flag = accountAdjustService.addMDConsumePoints(memId, consumePoints, false);
+		if(flag){
+			//写入积分明细
+			accountDetailService.saveConsumePoints(memId,
+					orderId, orderSource, consumePoints, "0", String.valueOf(addAtq),
+					operatorType, operator, remark);
+		}
+		return flag;
+	}
 
 }

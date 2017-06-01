@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.meiduimall.service.account.dao.BaseDao;
+import com.meiduimall.service.account.model.request.RequestBankWithdrawDepositsForApp;
 import com.meiduimall.service.account.service.WithDrawService;
 
 /**
@@ -21,6 +22,8 @@ public class WithDrawServiceImpl implements WithDrawService {
 	@Autowired
 	private BaseDao baseDao;
 
-	
-
+	@Override
+	public void getBankWithdrawDepositsList(RequestBankWithdrawDepositsForApp model) {
+		
+	}
 }

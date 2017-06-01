@@ -11,9 +11,9 @@
 		WHERE business_no = #{orderId}
 	</select>
 	
-	<insert id="insertAccountFreezeDetail" parameterType="java.util.Map">
-		insert into ms_account_freeze_detail 
-		values(
+	<insert id="insertAccountFreezeDetail" parameterType="com.meiduimall.service.account.model.MSAccountFreezeDetail">
+		INSERT INTO ms_account_freeze_detail 
+		VALUES(
 			#{id},
 			#{accountNo},
 			#{tradeType},

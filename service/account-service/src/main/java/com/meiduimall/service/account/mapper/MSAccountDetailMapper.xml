@@ -19,8 +19,23 @@
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   
-  	<!-- 插入余额变动明细记录 -->
-	<insert id="insertAccountDetail" parameterType="java.util.Map">
+  <sql id="Base_Column_List" >
+    id, 
+    account_id, 
+    account_type, 
+    mem_id, 
+    trade_type,
+    trade_amount, 
+    trade_date, 
+    in_or_out, 
+    balance, 
+    business_no, 
+    remark, 
+    create_date
+  </sql>
+  
+  <!-- 插入账户变动明细 -->
+  <insert id="insertAccountDetail" parameterType="com.meiduimall.service.account.model.MSAccountDetail">
 		INSERT INTO ms_account_detail
 		VALUES(
 			#{id},
@@ -40,7 +55,8 @@
 	</insert>
 	
  
-  <select id="listMSAccountDetail" resultType="com.meiduimall.service.account.model.MSAccountDetail" parameterType="com.meiduimall.service.account.model.MSAccountDetailGet" >
+  
+  <select id="listMSAccountDetail" resultMap="BaseResultMap" parameterType="com.meiduimall.service.account.model.MSAccountDetailGet" >
     select 
     m.id, m.account_no accountNo, m.trade_type tradeType, m.trade_amount tradeAmount,
     DATE_FORMAT(m.trade_date,'%Y-%m-%d %H:%i:%s') tradeDate, m.in_or_out inOrOut, m.balance, m.business_no businessNo, 

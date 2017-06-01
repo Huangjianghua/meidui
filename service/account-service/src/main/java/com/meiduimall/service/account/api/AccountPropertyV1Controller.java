@@ -17,7 +17,7 @@ import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.model.MSDict;
 import com.meiduimall.service.account.model.MSAccountType;
 import com.meiduimall.service.account.service.MSAccountDetailService;
-import com.meiduimall.service.account.service.AccountPropertyManageService;
+import com.meiduimall.service.account.service.AccountTypeService;
 
 import net.sf.json.JSONObject;
 
@@ -33,7 +33,7 @@ public class AccountPropertyV1Controller {
 	private static final Logger logger = LoggerFactory.getLogger(AccountPropertyV1Controller.class);
 	
 	@Autowired
-	private AccountPropertyManageService mSWalletTypeService;
+	private AccountTypeService mSWalletTypeService;
 	
 	@Autowired
 	private MSAccountDetailService mSAccountDetailService;

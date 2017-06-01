@@ -9,7 +9,7 @@ import com.meiduimall.service.account.model.MSAccountType;
  * @author jun.wu@meiduimall.com
  *
  */
-public interface AccountPropertyManageService {
+public interface AccountTypeService {
 	
 	/**
 	 * 查询财务调整相关的账户类型信息

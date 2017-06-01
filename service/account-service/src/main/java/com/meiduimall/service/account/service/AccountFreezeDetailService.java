@@ -3,7 +3,7 @@ package com.meiduimall.service.account.service;
 import java.util.Date;
 
 /**
- * 账户冻结明细操作接口
+ * 账户冻结解冻明细业务逻辑接口
  * @author chencong
  *
  */

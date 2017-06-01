@@ -2,6 +2,7 @@ package com.meiduimall.service.account.service;
 
 import java.util.List;
 
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.dto.ServiceToServiceDTO;
 import com.meiduimall.service.account.model.MSConsumePointsDetail;
 import com.meiduimall.service.account.model.MSConsumePointsDetailGet;
@@ -56,4 +57,22 @@ public interface MSConsumePointsDetailService {
 	 * @throws Exception
 	 */
 	public List<MSConsumePointsDetail> listMSConsumePointsDetail(MSConsumePointsDetailGet mSConsumePointsDetail) throws Exception;
+	
+	/**
+	 * 方法名: addMDConsumePointsAndDetail<br>
+	 * 描述:  增加美兑积分并写入日志<br>
+	 * 创建时间: 2016-11-18
+	 * @param memId
+	 * @param consumePoints
+	 * @param orderId
+	 * @param orderSource
+	 * @param operatorType
+	 * @param operator
+	 * @param remark
+	 * @return
+	 * @throws MdSysException
+	 */
+	public boolean addMDConsumePointsAndDetail(String memId,
+			String consumePoints, String orderId, String orderSource,
+			String operatorType, String operator, String remark) throws MdSysException;
 }

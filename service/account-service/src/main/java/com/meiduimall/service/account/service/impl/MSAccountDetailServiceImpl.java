@@ -40,6 +40,7 @@ import com.meiduimall.service.account.model.MSDict;
 import com.meiduimall.service.account.model.request.RequestAccountReviseDetail;
 import com.meiduimall.service.account.model.request.RequestMSAccountList;
 import com.meiduimall.service.account.model.request.RequestMSBankWithDrawDepostie;
+import com.meiduimall.service.account.service.AccountAdjustService;
 import com.meiduimall.service.account.service.AccountFreezeDetailService;
 import com.meiduimall.service.account.service.AccountService;
 import com.meiduimall.service.account.service.BankAccountService;
@@ -56,12 +57,18 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 	
 	@Autowired
 	private BaseDao baseDao;
+	
 	@Autowired
 	AccountService accountServices;
+	
 	@Autowired
 	private AccountFreezeDetailService  accountFreezeDetailService;
+	
 	@Autowired
 	private BankAccountService bankAccountService;
+	
+	@Autowired
+	private AccountAdjustService accountAdjustService;
 	
 	@Override
 	public List<MSAccountDetail> listMSAccountDetail(MSAccountDetailGet mSAccountDetail) throws Exception {
@@ -332,18 +339,19 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		Date date=new Date();
 		try {
 			//step2调用 提现处理冻结金额
-			accountServices.cutConsumeFreezeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
-					ConstTradeType.TRADE_TYPE_YETX.getCode(), date, String.valueOf(withdrawDeposit.getActualWithdrawAmount()), ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
-			
-			accountServices.cutConsumeFreezeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
-					ConstTradeType.TRADE_TYPE_TXSX.getCode(), date, String.valueOf(withdrawDeposit.getPoundageAmount()), ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);
-			
-			//step2调用 提现处理可用金额
-			accountServices.cutConsumeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
-					ConstTradeType.TRADE_TYPE_YETX.getCode(), date, String.valueOf(withdrawDeposit.getActualWithdrawAmount()), ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
-			
-			accountServices.cutConsumeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
-					ConstTradeType.TRADE_TYPE_TXSX.getCode(), date, String.valueOf(withdrawDeposit.getPoundageAmount()), ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);
+			//临时注销
+//			accountServices.cutConsumeFreezeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
+//					ConstTradeType.TRADE_TYPE_YETX.getCode(), date, String.valueOf(withdrawDeposit.getActualWithdrawAmount()), ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
+//			
+//			accountServices.cutConsumeFreezeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
+//					ConstTradeType.TRADE_TYPE_TXSX.getCode(), date, String.valueOf(withdrawDeposit.getPoundageAmount()), ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);
+//			
+//			//step2调用 提现处理可用金额
+//			accountServices.cutConsumeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
+//					ConstTradeType.TRADE_TYPE_YETX.getCode(), date, String.valueOf(withdrawDeposit.getActualWithdrawAmount()), ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
+//			
+//			accountServices.cutConsumeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
+//					ConstTradeType.TRADE_TYPE_TXSX.getCode(), date, String.valueOf(withdrawDeposit.getPoundageAmount()), ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);
 		} catch (Exception e) {
 			logger.error("结算操作settlementWithDraw 处理用户账号余额异常:{}", e.getMessage());
 			throw new MdBizException(ConstApiStatus.DEALWLTH_ACCOUNT_MONEY_ERROR);
@@ -475,7 +483,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 				Double counterFeeBalance = DoubleCalculate.add(carryCashFreezeBalance, Double.valueOf(calcCounterFee)); //提现手续费+当前冻结余额=提现手续费后冻结余额
 				Double addFreezeMoney = DoubleCalculate.add(Double.valueOf(calcActualCarryCash), Double.valueOf(calcCounterFee));  //提现余额+手续费
 				//增加提现冻结余额
-				Double freezeFlag = accountServices.addConsumeFreezeMoney(memId, String.valueOf(addFreezeMoney));
+				Double freezeFlag = accountAdjustService.addConsumeFreezeMoney(memId, String.valueOf(addFreezeMoney));
 				if(freezeFlag >= Constants.CONSTANT_INT_ZERO){
 				//增加明细
 				accountFreezeDetailService.saveAccountFreezeDetail(memId, businessNo,account.getId(),"", ConstTradeType.TRADE_TYPE_YETX.getCode(), calcActualCarryCash,deposit.getApplyDate(), String.valueOf(carryCashFreezeBalance),  ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);

@@ -108,7 +108,7 @@ public class PaypwdServiceImpl implements PaypwdService {
 	
 	@Override
 	public ResBodyData isExistPaypwd(String memId){
-		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,"该会员存在支付密码");
 		int i = baseDao.selectOne(memId,"MSMembersPaypwdMapper.getIsExistPaypwdByMemId");
 		if(i<1){
 			resBodyData.setStatus(ConstApiStatus.PAYPWD_NOT_EXIST);
