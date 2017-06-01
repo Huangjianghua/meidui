@@ -1,6 +1,8 @@
 package com.meiduimall.service.account.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,8 +23,23 @@ public class AccountTypeServiceImpl implements AccountTypeService {
 	private BaseDao baseDao;
 
 	@Override
-	public List<MSAccountType> getCwtzWalletTypeList(){
-		return baseDao.selectList(null,"MSWalletTypeMapper.getCwtzWalletTypeList");
+	public List<MSAccountType> getAccountTypeList(){
+		return baseDao.selectList(null,"MSAccountTypeMapper.getAccountTypeList");
+	}
+
+	@Override
+	public Long getSequenceByAccountTypeNo(String accountTypeNo) {
+		return baseDao.selectOne(accountTypeNo,"MSAccountTypeMapper.getSequenceByAccountTypeNo");
+	}
+
+	@Override
+	public Long updateSequenceByAccountTypeNo(String accountTypeNo) {
+		Long newSequence=this.getSequenceByAccountTypeNo(accountTypeNo)+1;
+		Map<String,Object> mapCondition=new HashMap<>();
+		mapCondition.put("accountTypeNo", accountTypeNo);
+		mapCondition.put("newSequence", newSequence);
+		baseDao.update(mapCondition,"MSAccountTypeMapper.updateSequenceByAccountTypeNo");
+		return newSequence;
 	}
 
 }

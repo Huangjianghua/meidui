@@ -1,9 +1,17 @@
-package com.meiduimall.service.account.model.result;
+package com.meiduimall.service.account.model.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class AccountBalanceResult {
+public class OldAccountBalanceResult {
 
+	// 返回标志，0-成功，其他失败
+	@JsonProperty("status_code")
+	private String statusCode;
+	
+	// 返回消息，status_code="0"时返回"Success";status_code!="0"时返回失败消息
+	@JsonProperty("result_msg")
+	private String resultMsg;
+	
 	// 可使用积分，不含冻结积分
 	@JsonProperty("use_points")
 	private String usePoints;
@@ -27,6 +35,22 @@ public class AccountBalanceResult {
 	// 冻结余额
 	@JsonProperty("freeze_money")
 	private String freezeMoney;
+
+	public String getStatusCode() {
+		return statusCode;
+	}
+
+	public void setStatusCode(String statusCode) {
+		this.statusCode = statusCode;
+	}
+
+	public String getResultMsg() {
+		return resultMsg;
+	}
+
+	public void setResultMsg(String resultMsg) {
+		this.resultMsg = resultMsg;
+	}
 
 	public String getUsePoints() {
 		return usePoints;

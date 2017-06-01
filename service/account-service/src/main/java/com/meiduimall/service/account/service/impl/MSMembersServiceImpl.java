@@ -8,7 +8,7 @@ import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSMembers;
-import com.meiduimall.service.account.model.result.AccountBalanceResult;
+import com.meiduimall.service.account.model.response.AccountBalanceResult;
 import com.meiduimall.service.account.service.AccountService;
 import com.meiduimall.service.account.service.MSMembersService;
 

@@ -129,7 +129,6 @@
 				a.withdraw_balance as withdrawBalance /**提现时余额	*/
 				from ms_bank_withdraw_deposit a 
 				LEFT JOIN ms_members b on b.mem_id=a.mem_id
-				LEFT JOIN ms_account c on c.mem_id=a.mem_id AND c.type='AT02'
 	   		<where>
 	   		 	a.is_delete='N'
 	   		 <if test="id !=null and id !=''">

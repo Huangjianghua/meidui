@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
 
 import com.meiduimall.exception.MdSysException;
-import com.meiduimall.service.account.util.DESC;
 
 @EnableHystrix
 @EnableEurekaClient

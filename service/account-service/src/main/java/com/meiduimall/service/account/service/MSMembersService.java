@@ -1,7 +1,7 @@
 package com.meiduimall.service.account.service;
 
 import com.meiduimall.service.account.model.MSMembers;
-import com.meiduimall.service.account.model.result.AccountBalanceResult;
+import com.meiduimall.service.account.model.response.AccountBalanceResult;
 
 public interface MSMembersService {
 	

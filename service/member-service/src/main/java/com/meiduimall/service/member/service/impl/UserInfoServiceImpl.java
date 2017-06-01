@@ -99,7 +99,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 			memberBasicInfo.setPaypwd_isset("0");
 		}			
 		//会员基本信息添加积分总额（包含冻结解冻的积分）和余额总额
-		memberBasicInfo.setTotalmoney(moneyService.getTotalMoney(memId));
+		/*memberBasicInfo.setTotalmoney(moneyService.getTotalMoney(memId));*/
 		memberBasicInfo.setTotalpoints(pointsService.getTotalPoints(memId,memberBasicInfo.getCurrentpoints()));
 		
 		resBodyData.setData(memberBasicInfo);

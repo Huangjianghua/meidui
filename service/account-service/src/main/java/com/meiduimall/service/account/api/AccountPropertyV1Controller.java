@@ -33,22 +33,22 @@ public class AccountPropertyV1Controller {
 	private static final Logger logger = LoggerFactory.getLogger(AccountPropertyV1Controller.class);
 	
 	@Autowired
-	private AccountTypeService mSWalletTypeService;
+	private AccountTypeService accountTypeService;
 	
 	@Autowired
 	private MSAccountDetailService mSAccountDetailService;
 	
 	/**查询财务调整相关的账户类型信息*/
 	@RequestMapping("/list_account_type")
-	public ResBodyData listWalletType() {
-		List<MSAccountType> listWalletTypeInfo = null;
+	public ResBodyData getAccountTypeList() {
+		List<MSAccountType> mSAccountType = null;
 		try {
-			 listWalletTypeInfo = mSWalletTypeService.getCwtzWalletTypeList();
+			mSAccountType = accountTypeService.getAccountTypeList();
 		} catch (DaoException e) {
 			logger.info("查询所有账户类型异常：{}", e);
 			throw new ApiException(ConstApiStatus.QUERY_WALLETTYPE_EXCEPTION);
 		}
-		return new ResBodyData(ConstApiStatus.SUCCESS,"成功", listWalletTypeInfo);
+		return new ResBodyData(ConstApiStatus.SUCCESS,"成功", mSAccountType);
 	}
 	
 	/**
