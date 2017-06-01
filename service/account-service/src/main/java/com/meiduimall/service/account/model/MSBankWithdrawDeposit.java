@@ -23,7 +23,7 @@ public class MSBankWithdrawDeposit extends BaseModel implements Serializable{
 	private String accountIdcard;
 
 	/** 银行卡号 */
-	private String accountNo;
+	private String bankCardNo;
 
 	/** 银行卡户名 */
 	private String accountName;
@@ -84,6 +84,8 @@ public class MSBankWithdrawDeposit extends BaseModel implements Serializable{
 	
 	/**备注*/
 	private String remark;
+	
+	private String isDelete;
 
 	public String getId() {
 		return id;
@@ -117,12 +119,18 @@ public class MSBankWithdrawDeposit extends BaseModel implements Serializable{
 		this.accountIdcard = accountIdcard;
 	}
 
-	public String getAccountNo() {
-		return accountNo;
+	/**
+	 * @return the bankCardNo
+	 */
+	public String getBankCardNo() {
+		return bankCardNo;
 	}
 
-	public void setAccountNo(String accountNo) {
-		this.accountNo = accountNo;
+	/**
+	 * @param bankCardNo the bankCardNo to set
+	 */
+	public void setBankCardNo(String bankCardNo) {
+		this.bankCardNo = bankCardNo;
 	}
 
 	public String getAccountName() {
@@ -283,6 +291,20 @@ public class MSBankWithdrawDeposit extends BaseModel implements Serializable{
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	/**
+	 * @return the isDelete
+	 */
+	public String getIsDelete() {
+		return isDelete;
+	}
+
+	/**
+	 * @param isDelete the isDelete to set
+	 */
+	public void setIsDelete(String isDelete) {
+		this.isDelete = isDelete;
 	}
 
 }

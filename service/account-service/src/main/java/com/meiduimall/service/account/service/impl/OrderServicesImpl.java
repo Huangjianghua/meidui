@@ -357,7 +357,7 @@ public class OrderServicesImpl implements OrderService {
 		dto.setMemId(memId);
 		dto.setBankAccountId(bankAccount.getId());
 		dto.setAccountIdcard(accountIdcard);
-		dto.setAccountNo(accountNo);
+		//dto.setAccountNo(accountNo);
 		dto.setAccountBank(accountBank);
 		dto.setAccountName(accountName);
 		dto.setAccountProvince(accountProvince);
