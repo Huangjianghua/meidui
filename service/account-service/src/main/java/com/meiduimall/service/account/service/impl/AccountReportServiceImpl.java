@@ -33,7 +33,13 @@ public class AccountReportServiceImpl implements AccountReportService {
 		}
 		return model;
 	}
-	
 
+	@Override
+	public Double getAvailableBalance(String memId) {
+		MSAccountReport model=this.getTotalAndFreezeBalanceByMemId(memId);
+		return model.getBalance()-model.getFreezeBalance();
+	}
+	
+	
 
 }
