@@ -2,7 +2,6 @@ package com.meiduimall.service.account.service.impl;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,8 +11,6 @@ import org.springframework.stereotype.Service;
 import com.meiduimall.service.account.constant.ConstSysParamsDefination;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSAccount;
-import com.meiduimall.service.account.service.AccountDetailService;
-import com.meiduimall.service.account.service.AccountFreezeDetailService;
 import com.meiduimall.service.account.service.AccountService;
 import com.meiduimall.service.account.service.MSConsumePointsFreezeService;
 import com.meiduimall.service.account.util.DESC;
@@ -33,18 +30,17 @@ public class AccountServiceImpl implements AccountService {
 	private BaseDao baseDao;
 	
 	@Autowired
-	private AccountFreezeDetailService  accountFreezeDetailService;
-	
-	@Autowired
-	private AccountDetailService  accountDetailService;
-	
-	@Autowired
 	private MSConsumePointsFreezeService  pointsFreezeService;
+	
+	@Override
+	public Boolean checkAccountExistByType(String memId, String accountTypeNo) {
+		// TODO Auto-generated method stub
+		return true;
+	}
 
 	@Override
-	public String insertAccount(String memId, String type, String balance,
-			String freezeBalance){
-		String accountId = UUID.randomUUID().toString();
+	public Boolean insertAccountByType(MSAccount msAccount){
+		/*String accountId = UUID.randomUUID().toString();
 		Map<String,String> paramsMap = new HashMap<String,String>();
 		paramsMap.put("accountId", accountId);
 		paramsMap.put("memId", memId);
@@ -60,7 +56,8 @@ public class AccountServiceImpl implements AccountService {
 		} catch (Exception e) {
 			logger.error("新增会员账户信息出现错误，会员编号：%s，错误信息：%s", memId, e.getMessage());
 			return null;
-		}
+		}*/
+		return true;
 	}
 
 	
@@ -90,20 +87,7 @@ public class AccountServiceImpl implements AccountService {
 		}
 		return realPoints;
 	}
-	
-	@Override
-	public boolean addMDConsumePointsFreezeAndDetail(String memId, String consumePoints, String orderId,
-			String orderSource, String operatorType, String operator, String remark) {
-		accountFreezeDetailService.saveFreezePoints(memId, orderId, consumePoints, operator, remark);
-		return true;
-	}
 
-	@Override
-	public boolean cutMDConsumePointsFreezeAndDetail(String memId, String consumePoints, String orderId,
-			String orderSource, String operatorType, String operator, String remark) {
-		accountFreezeDetailService.saveUnFreezePoints(memId, orderId, consumePoints, operator, remark);
-		return true;
-	}
 
 	@Override
 	public MSAccount getAccountMoney(String memId) {

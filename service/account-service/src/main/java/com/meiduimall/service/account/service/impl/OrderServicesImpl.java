@@ -162,10 +162,10 @@ public class OrderServicesImpl implements OrderService {
 		
 		//解冻积分,并扣减积分
 		if(bsFlag){
-			if(accountServices.checkFreezePointByOrderId(orderId)){
+			/*if(accountServices.checkFreezePointByOrderId(orderId)){
 				bsFlag = accountServices.cutMDConsumePointsFreezeAndDetail(memId, tradePoint, orderId, orderSource,
 						tradeType, memId, remark);
-			}
+			}*/
 		}
 		//解冻余额，并扣减余额
 		if(bsFlag){
