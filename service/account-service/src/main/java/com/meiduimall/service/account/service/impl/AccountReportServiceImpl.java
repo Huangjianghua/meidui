@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.meiduimall.exception.ServiceException;
+import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSAccountReport;
 import com.meiduimall.service.account.service.AccountReportService;
@@ -24,8 +26,12 @@ public class AccountReportServiceImpl implements AccountReportService {
 
 	@Override
 	public MSAccountReport getTotalAndFreezeBalanceByMemId(String memId) {
-		
-		return null;
+		MSAccountReport model=baseDao.selectOne(memId,"MSAccountReportMapper.getTotalAndFreezeBalanceByMemId");
+		if(model==null){
+			logger.warn("会员：{}不存在任何账户信息",memId);
+			throw new ServiceException(ConstApiStatus.ACCOUNT_ADJUST_TYPE_UNNORMAL);
+		}
+		return model;
 	}
 	
 

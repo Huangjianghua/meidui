@@ -7,8 +7,8 @@
 	<!-- 根据会员ID查询总余额和冻结余额-->
 	<select id="getTotalAndFreezeBalanceByMemId" parameterType="java.lang.String" resultType="com.meiduimall.service.account.model.MSAccountReport">
      SELECT 
-     m.balance,
-     m.freeze_balance 
+     m.balance AS balance,
+     m.freeze_balance AS freezeBalance 
      FROM ms_account_report m 
      WHERE m.mem_id =#{memId}
 	</select>
