@@ -12,16 +12,16 @@
 				mem_id,
 				bank_account_id,
 				account_idcard,
-				account_no,
+				bank_card_no,
 				account_name,
 				account_bank,
 				account_province,
 				account_city,
 				account_area,
 				account_sub_bank,
-				apply_carry_cash,
-				counter_fee,
-				actual_carry_cash,
+				apply_withdraw_amount,
+				poundage_amount,
+				actual_withdraw_amount,
 				apply_date,
 				audit_by,
 				audit_date,
@@ -36,16 +36,16 @@
 				#{memId},
 				#{bankAccountId},
 				#{accountIdcard},
-				#{accountNo},
+				#{bankCardNo},
 				#{accountName},
 				#{accountBank},
 				#{accountProvince},
 				#{accountCity},
 				#{accountArea},
 				#{accountSubBank},
-				#{applyCarryCash},
-				#{counterFee},
-				#{actualCarryCash},
+				#{applyWithdrawAmount},
+				#{poundageAmount},
+				#{actualWithdrawAmount},
 				#{applyDate},
 				null,
 				null,
@@ -215,4 +215,39 @@
    	LEFT JOIN  ms_members msm on (msm.mem_id=bwd.mem_id)
     where bwd.id = #{id}
   </select>
+	
+	<!--查询可提现的账户信息  -->
+	<select id="queryAccountByMemIdList" resultType="com.meiduimall.service.account.model.MSAccount" parameterType="java.util.Map" >
+    		SELECT
+				msa.id as id,
+				msa.account_no as accountNo ,
+				msa.mem_id as memId ,
+				msa.account_type_no as accountTypeNo,
+				msa.account_no_sequence as accountNoSequence,
+				msa.balance as balance ,
+				msa.balance_encrypt as balanceEncrypt ,
+				msa.freeze_balance as freezeBalance,
+				msa.freeze_balance_encrypt as freezeBalanceEncrypt
+			 FROM
+			 ms_account  msa 
+			
+	   		<where>
+	   		 msa.account_status=0 AND msa.allow_withdraw=0  /**账号状态正常  并是可提现的		*/
+	   		 <if test="id !=null and id !=''">
+		         	and msa.id = #{id}
+	   		 </if>
+		     <if test="memId !=null and memId !=''">
+		         	and msa.mem_id = #{memId}
+		     </if> 
+     	</where>
+     	 ORDER BY msa.withdraw_priority DESC
+  </select>
+  
+  <!-- 根据会员ID和账户类型修改余额账户冻结金额 -->
+	<update id="updateFreezeBalanceByMemId" parameterType="java.util.Map">
+		UPDATE ms_account
+		SET freeze_balance = #{freezeBalance},update_date = now()
+		WHERE id = #{id}
+	</update>
+  
 </mapper>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="MsMemberIntegralMapper" >
+  <select id="selectConsumeByMemId" parameterType="java.lang.String" resultType="com.meiduimall.service.account.model.SubMemberIntegral">
+  	SELECT 
+	mint_total_consume_return AS mintTotalConsumeReturn,
+	mint_total_consume_profit AS mintTotalConsumeProfit,
+	mint_total_personal_consume_profit AS mintPersonalTotalConsumeProfit
+	FROM ms_member_integral 
+	WHERE mem_id=#{memId} 
+	ORDER BY sah_begin DESC
+  </select>
+</mapper>
