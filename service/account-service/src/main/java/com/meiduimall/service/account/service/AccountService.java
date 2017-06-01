@@ -1,9 +1,5 @@
 package com.meiduimall.service.account.service;
 
-import java.util.Date;
-
-import com.meiduimall.exception.MdBizException;
-import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.model.MSAccount;
 
 /**

@@ -4,6 +4,13 @@
 <!--会员账户表统计表ms_account_report相关操作 -->
 <mapper namespace="MSAccountReportMapper">
 	
-	
+	<!-- 根据会员ID查询总余额和冻结余额-->
+	<select id="getTotalAndFreezeBalanceByMemId" parameterType="java.lang.String" resultType="com.meiduimall.service.account.model.MSAccountReport">
+     SELECT 
+     m.balance,
+     m.freeze_balance 
+     FROM ms_account_report m 
+     WHERE m.mem_id =#{memId}
+	</select>
 	
 </mapper>
