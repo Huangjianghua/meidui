@@ -208,7 +208,7 @@ spring :
   datasource :
     type : com.zaxxer.hikari.HikariDataSource
     driver-class-name : com.mysql.jdbc.Driver
-    url : jdbc:mysql://192.168.4.178:3306/meiduishop?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
+    url : jdbc:mysql://192.168.4.110:3306/sqldb?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
     username : root
     password : 123456
     connectionTimeout : 30000
@@ -216,7 +216,7 @@ spring :
     maxLifetime : 1800000
     maximumPoolSize : 300
     minimumIdle : 10
-    autoCommit : true;
+    autoCommit : true
     connectionTestQuery : SELECT 1
     
 eureka:
