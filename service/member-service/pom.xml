@@ -31,6 +31,11 @@
                 <version>${meiduimall-support-core.version}</version>
             </dependency>
             
+           <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-ribbon</artifactId>
+    </dependency>
+            
             <!-- 热部署，修改了代码不需要重新启动spring boot -->
 		 <dependency>
             <groupId>org.springframework.boot</groupId>

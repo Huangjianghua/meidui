@@ -7,7 +7,7 @@ import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.model.MSAccount;
 
 /**
- * 账户汇总操作接口
+ * 会员账户操作业务逻辑接口
  * @author chencong
  *
  */
@@ -308,5 +308,9 @@ public interface AccountService {
 	 * @return
 	 */
 	public boolean checkFreezeMoneyByOrderId(String orderId);
+
+/*	MSAccount getModelByWalletNoAndMemId(String walletNo, String memId);
+
+	boolean checkAccountByWalletTypeExist(String walletNo, String memId);*/
 	
 }

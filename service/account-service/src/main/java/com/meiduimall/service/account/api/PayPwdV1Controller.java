@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
+import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.MdBizException;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
@@ -67,14 +68,14 @@ public class PayPwdV1Controller {
 	/**根据memId查询是否存在支付密码*/
 	@GetMapping(value = "/is_exist_paypwd")
 	ResBodyData  isExistPaypwd(String memId) {
-		logger.info("收到根据memId查询是否存在支付密码API请求:{}",request.getQueryString());
+		logger.info("收到查询会员：{}是否存在支付密码API请求",memId);
 		try {
 			ResBodyData resBodyData = paypwdService.isExistPaypwd(memId);
-			logger.info("根据memId查询是否存在支付密码API请求结果  ：{}",resBodyData.toString());
+			logger.info("查询memId：{}查询是否存在支付密码API请求结果  ：{}",memId,resBodyData.toString());
 			return resBodyData;
-		} catch (MdBizException e) {
+		} catch (DaoException e) {
 			logger.error("根据memId查询是否存在支付密码API请求异常：{}",e.toString());
-			throw new ApiException(ConstApiStatus.SET_PAYPWD_EXCEPTION,ConstApiStatus.getZhMsg(ConstApiStatus.SET_PAYPWD_EXCEPTION));
+			throw new ApiException(ConstApiStatus.SYSTEM_ERROR);
 		}
 	}
 	

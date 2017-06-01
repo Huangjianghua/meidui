@@ -26,13 +26,10 @@ import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.model.AccountReviseDetail;
 import com.meiduimall.service.account.model.MSAccountDetail;
 import com.meiduimall.service.account.model.MSAccountDetailCondition;
-import com.meiduimall.service.account.model.MSAccountDetailGet;
-import com.meiduimall.service.account.model.MSAccountList;
 import com.meiduimall.service.account.model.request.RequestAccountReviseDetail;
 import com.meiduimall.service.account.model.request.RequestMSAccountList;
 import com.meiduimall.service.account.model.result.AccountBalanceResult;
 import com.meiduimall.service.account.model.result.OldAccountBalanceResult;
-import com.meiduimall.service.account.service.AccountByWalletTypeService;
 import com.meiduimall.service.account.service.MSAccountDetailService;
 import com.meiduimall.service.account.service.MSMembersService;
 
@@ -51,13 +48,13 @@ public class AccountInfoQueryV1Controller {
 	@Autowired
 	private MSAccountDetailService mSAccountDetailService;
 
-	@Autowired
-	private AccountByWalletTypeService accountByWalletTypeService;
+	/*@Autowired
+	private MemberAccountService accountByWalletTypeService;
 	
 	@Autowired
 	private MSMembersService mSMembersService;
 
-	/** 校验指定类型的账户是否存在 */
+	*//** 校验指定类型的账户是否存在 *//*
 	@RequestMapping(value = "/check_account_bytype_exist")
 	public ResBodyData validePaypwd(@RequestParam String wallet_no, @RequestParam String memId) {
 		ResBodyData resBodyData = new ResBodyData(Constants.CONSTANT_INT_ZERO, "账户已存在");
@@ -67,11 +64,11 @@ public class AccountInfoQueryV1Controller {
 		} else {
 			throw new ApiException(ConstApiStatus.ACCOUNT_NOT_EXIST);
 		}
-	}
+	}*/
 
 	/**
 	 * 余额流水（分页）
-	 */
+	 *//*
 	@PostMapping(value = "/list_account_detail")
 	public ResBodyData listMSAccountDetail(@RequestBody MSAccountDetailGet mSAccountDetail) throws Exception {
 		List<MSAccountDetail> listMSAccountDetail = null;
@@ -90,7 +87,7 @@ public class AccountInfoQueryV1Controller {
 			throw new ApiException(ConstApiStatus.SERVER_DEAL_WITH_EXCEPTION);
 		}
 		return new ResBodyData(ConstApiStatus.SUCCESS, "成功", new PageInfo<>(listMSAccountDetail));
-	}
+	}*/
 
 	/**
 	 * 描述：根据条件查询余额流水
@@ -140,7 +137,7 @@ public class AccountInfoQueryV1Controller {
 	 * @return
 	 * @author: jianhua.huang 2017年5月5日 下午5:31:18
 	 */
-	@RequestMapping(value = "/list_account")
+	/*@RequestMapping(value = "/list_account")
 	public ResBodyData listMSAccount(@RequestBody RequestMSAccountList msAccountListRequest) {
 		List<MSAccountList> msAccountLists = null;
 		try {
@@ -164,13 +161,13 @@ public class AccountInfoQueryV1Controller {
 		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M, new PageInfo<>(msAccountLists));
 	}
 
-	/**
+	*//**
 	 * 查看会员余额调整明细
 	 * 
 	 * @param id
 	 * @return
 	 * @author: jianhua.huang 2017年5月5日 下午5:32:18
-	 */
+	 *//*
 	@PostMapping(value = "/get_account_revision_detail")
 	public ResBodyData getMSAccountRevisionDetail(@RequestBody String id) {
 		AccountReviseDetail detail = null;
@@ -185,13 +182,13 @@ public class AccountInfoQueryV1Controller {
 		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M, detail);
 	}
 
-	/**
+	*//**
 	 * 查看会员余额调整明细集合 flg区别 分页
 	 * 
 	 * @param detailRequest
 	 * @return
 	 * @author: jianhua.huang 2017年5月5日 下午5:32:28
-	 */
+	 *//*
 	@PostMapping(value = "/query_account_revision_detail_list")
 	public ResBodyData queryMSAccountRevisionDetailList(@RequestBody RequestAccountReviseDetail detailRequest) {
 		List<AccountReviseDetail> list = null;
@@ -216,13 +213,13 @@ public class AccountInfoQueryV1Controller {
 		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M, new PageInfo<>(list));
 	}
 
-	/**
+	*//**
 	 * 根据会员memId，获取会员账户余额和积分余额---兼容旧版
 	 * 
 	 * @param memId
 	 * @param userId
 	 * @return
-	 */
+	 *//*
 	@PostMapping(value = "/getAccountBalanceForApp_old")
 	public String getAccountBalanceForApp_old(String memId, @RequestParam(value = "user_id") String userId) {
 		OldAccountBalanceResult result = new OldAccountBalanceResult();
@@ -245,13 +242,13 @@ public class AccountInfoQueryV1Controller {
 		return JsonUtils.beanToJson(result);
 	}
 
-	/**
+	*//**
 	 * 根据会员memId，获取会员账户余额和积分余额---按新接口规范
 	 * 
 	 * @param memId
 	 * @param userId
 	 * @return
-	 */
+	 *//*
 	@PostMapping(value = "/getAccountBalanceForApp")
 	public ResBodyData getAccountBalanceForApp(String memId, @RequestParam(value = "user_id") String userId) {
 		if (Strings.isNullOrEmpty(memId) || Strings.isNullOrEmpty(userId)) {
@@ -262,5 +259,5 @@ public class AccountInfoQueryV1Controller {
 		result.setStatus(ConstApiStatus.SUCCESS);
 		result.setMsg(ConstApiStatus.SUCCESS_C);
 		return result;
-	}
+	}*/
 }
