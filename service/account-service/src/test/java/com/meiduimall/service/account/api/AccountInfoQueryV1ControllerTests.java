@@ -24,6 +24,7 @@ import com.meiduimall.service.account.model.MSAccountDetailCondition;
 import com.meiduimall.service.account.model.MSAccountDetailGet;
 import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
 import com.meiduimall.service.account.model.request.RequestAccountReviseDetail;
+import com.meiduimall.service.account.model.request.RequestMSBankWithDrawDepostie;
 import com.meiduimall.service.account.util.DESC;
 import com.meiduimall.service.account.util.DateUtil;
 
@@ -253,11 +254,11 @@ public class AccountInfoQueryV1ControllerTests extends BaseControllerTest {
 	@Test
 	public void saveBankWithDraw()throws Exception{
 		 String url = "/member/account_service/v1/save_withdraw";
-		 MSBankWithdrawDeposit deposit=new MSBankWithdrawDeposit();
+		 RequestMSBankWithDrawDepostie deposit=new RequestMSBankWithDrawDepostie();
 		 
-		 deposit.setAccountNo("123456789123");
-		 deposit.setMemId("72063681-7408-435c-88fd-cd837c95c66e");
-		 /*deposit.setApplyCarryCash("10.5");*/
+		 deposit.setAccountNo("123456");
+		 deposit.setMemId("a0db1419-f44a-48e8-9394-a49620e47940");
+		 deposit.setApplyCarryCash("10.05");
 		 deposit.setAuditBy("huangTest");
 		 deposit.setRemark("huangjianhuaTestDate");
 		 

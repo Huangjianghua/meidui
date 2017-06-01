@@ -523,7 +523,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			Double deductionMoney= DoubleCalculate.sub(addFreezeMoney, useBalance); // 扣减金额=提现金额-账号可用金额
 			//扣减金额<0 表示 第一个账号的钱足够扣除
 			if(deductionMoney<=0){
-				freezeBalance = DoubleCalculate.add(Double.valueOf(account.getFreezeBalance()),Double.valueOf(deductionMoney));
+				freezeBalance = DoubleCalculate.add(Double.valueOf(account.getFreezeBalance()),Math.abs(deductionMoney));
 				updateAccountFreezeBalance(account.getId(), freezeBalance);
 				//增加明细
 				accountFreezeDetailService.saveAccountFreezeDetail(account.getMemId(), businessNo,account.getId(),"", ConstTradeType.TRADE_TYPE_YETX.getCode(), String.valueOf(addFreezeMoney),applyDate, String.valueOf(carryCashFreezeBalance),  ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
