@@ -2,18 +2,13 @@ package com.meiduimall.service.account.service.impl;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.meiduimall.service.account.constant.ConstSysParamsDefination;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSAccount;
-import com.meiduimall.service.account.service.AccountDetailService;
-import com.meiduimall.service.account.service.AccountFreezeDetailService;
 import com.meiduimall.service.account.service.AccountService;
 import com.meiduimall.service.account.service.MSConsumePointsFreezeService;
 import com.meiduimall.service.account.util.DESC;
@@ -27,40 +22,36 @@ import com.meiduimall.service.account.util.DoubleCalculate;
 @Service
 public class AccountServiceImpl implements AccountService {
 	
-	private final static Logger logger=LoggerFactory.getLogger(AccountServiceImpl.class);
-
 	@Autowired
 	private BaseDao baseDao;
 	
 	@Autowired
-	private AccountFreezeDetailService  accountFreezeDetailService;
-	
-	@Autowired
-	private AccountDetailService  accountDetailService;
-	
-	@Autowired
 	private MSConsumePointsFreezeService  pointsFreezeService;
+	
+	@Override
+	public MSAccount getAccountInfo(String memId, String accountTypeNo) {
+		Map<String, Object> mapCondition=new HashMap<>();
+		mapCondition.put("memId",memId);
+		mapCondition.put("accountTypeNo",accountTypeNo);
+		return baseDao.selectOne(mapCondition,"MSAccountMapper.getAccountByMemIdAndAccountTypeNo");
+	}
 
 	@Override
-	public String insertAccount(String memId, String type, String balance,
-			String freezeBalance){
-		String accountId = UUID.randomUUID().toString();
-		Map<String,String> paramsMap = new HashMap<String,String>();
-		paramsMap.put("accountId", accountId);
-		paramsMap.put("memId", memId);
-		paramsMap.put("type", type);
-		paramsMap.put("balance", balance);
-		paramsMap.put("freezeBalance", freezeBalance);
-		try {
-			Integer insertFlag = baseDao.insert(paramsMap, "MSAccountMapper.insertAccount");
-			if(insertFlag <= 0){
-				return null;
-			}
-			return accountId;
-		} catch (Exception e) {
-			logger.error("新增会员账户信息出现错误，会员编号：%s，错误信息：%s", memId, e.getMessage());
-			return null;
-		}
+	public MSAccount getAccountInfo(String memId) {
+		Map<String, Object> mapCondition=new HashMap<>();
+		mapCondition.put("memId",memId);
+		return baseDao.selectOne(mapCondition,"MSAccountMapper.getAccountByMemIdAndAccountTypeNo");
+	}
+	
+	@Override
+	public Boolean checkAccountExistByType(String memId, String accountTypeNo) {
+		return getAccountInfo(memId,accountTypeNo)!=null?true:false;
+	}
+
+	@Override
+	public Boolean insertAccountByType(MSAccount msAccount){
+		int i=baseDao.insert(msAccount,"MSAccountMapper.insertAccount");
+		return i>0?true:false;
 	}
 
 	
@@ -90,20 +81,7 @@ public class AccountServiceImpl implements AccountService {
 		}
 		return realPoints;
 	}
-	
-	@Override
-	public boolean addMDConsumePointsFreezeAndDetail(String memId, String consumePoints, String orderId,
-			String orderSource, String operatorType, String operator, String remark) {
-		accountFreezeDetailService.saveFreezePoints(memId, orderId, consumePoints, operator, remark);
-		return true;
-	}
 
-	@Override
-	public boolean cutMDConsumePointsFreezeAndDetail(String memId, String consumePoints, String orderId,
-			String orderSource, String operatorType, String operator, String remark) {
-		accountFreezeDetailService.saveUnFreezePoints(memId, orderId, consumePoints, operator, remark);
-		return true;
-	}
 
 	@Override
 	public MSAccount getAccountMoney(String memId) {

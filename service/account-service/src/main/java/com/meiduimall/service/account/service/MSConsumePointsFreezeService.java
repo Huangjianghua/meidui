@@ -30,4 +30,34 @@ public interface MSConsumePointsFreezeService {
 	 * @return
 	 */
 	public Double getFreezeConsumePoints(String memId);
+	
+	/**
+	 * 添加冻结美兑积分
+	 * @param memId
+	 * @param consumePoints
+	 * @param orderId
+	 * @param orderSource
+	 * @param operatorType
+	 * @param operator
+	 * @param remark
+	 * @return
+	 */
+	public boolean addMDConsumePointsFreezeAndDetail(String memId,
+			String consumePoints, String orderId, String orderSource,
+			String operatorType, String operator, String remark);
+	
+	/**
+	 * 解冻美兑积分，并增加解冻记录
+	 * @param memId
+	 * @param consumePoints
+	 * @param orderId
+	 * @param orderSource
+	 * @param operatorType
+	 * @param operator
+	 * @param remark
+	 * @return
+	 */
+	public boolean cutMDConsumePointsFreezeAndDetail(String memId,
+			String consumePoints, String orderId, String orderSource,
+			String operatorType, String operator, String remark);
 }

@@ -42,24 +42,9 @@ public class AccountInfoQueryV1Controller {
 
 	@Autowired
 	private MSAccountDetailService mSAccountDetailService;
-
-//	@Autowired
-//	private MemberAccountService accountByWalletTypeService;
 	
 	@Autowired
 	private MSMembersService mSMembersService;
-
-	/** 校验指定类型的账户是否存在 *//*
-	@RequestMapping(value = "/check_account_bytype_exist")
-	public ResBodyData validePaypwd(@RequestParam String wallet_no, @RequestParam String memId) {
-		ResBodyData resBodyData = new ResBodyData(Constants.CONSTANT_INT_ZERO, "账户已存在");
-		logger.info("收到校验指定类型的账户是否存在API请求  ：{},{}", wallet_no, memId);
-		if (accountByWalletTypeService.checkAccountByWalletTypeExist(wallet_no, memId)) {
-			return resBodyData;
-		} else {
-			throw new ApiException(ConstApiStatus.ACCOUNT_NOT_EXIST);
-		}
-	}*/
 
 	/**
 	 * 余额流水（分页）
@@ -242,7 +227,6 @@ public class AccountInfoQueryV1Controller {
 
 	/**
 	 * 根据会员memId，获取会员账户余额和积分余额---按新接口规范
-	 * 
 	 * @param memId
 	 * @param userId
 	 * @return

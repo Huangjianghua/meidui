@@ -3,27 +3,93 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--会员按账户类型账户表ms_account相关操作 -->
 <mapper namespace="MSAccountMapper">
+
+  <resultMap id="MsAccountResultMap" type="com.meiduimall.service.account.model.MSAccount" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="account_no" property="accountNo" jdbcType="VARCHAR" />
+    <result column="mem_id" property="memId" jdbcType="VARCHAR" />
+    <result column="account_type_no" property="accountTypeNo" jdbcType="VARCHAR" />
+    <result column="account_no_sequence" property="accountNoSequence" jdbcType="BIGINT" />
+    <result column="balance" property="balance" jdbcType="DECIMAL" />
+    <result column="balance_encrypt" property="balanceEncrypt" jdbcType="VARCHAR" />
+    <result column="freeze_balance" property="freezeBalance" jdbcType="DECIMAL" />
+    <result column="freeze_balance_encrypt" property="freezeBalanceEncrypt" jdbcType="VARCHAR" />
+    <result column="allow_withdraw" property="allowWithdraw" jdbcType="INTEGER" />
+    <result column="withdraw_poundage_scale" property="withdrawPoundageScale" jdbcType="DECIMAL" />
+    <result column="withdraw_poundage_min" property="withdrawPoundageMin" jdbcType="DECIMAL" />
+    <result column="withdraw_poundage_max" property="withdrawPoundageMax" jdbcType="DECIMAL" />
+    <result column="allow_refund" property="allowRefund" jdbcType="INTEGER" />
+    <result column="refund_poundage_scale" property="refundPoundageScale" jdbcType="DECIMAL" />
+    <result column="refund_poundage_min" property="refundPoundageMin" jdbcType="DECIMAL" />
+    <result column="refund_poundage_max" property="refundPoundageMax" jdbcType="DECIMAL" />
+    <result column="withdraw_priority" property="withdrawPriority" jdbcType="DECIMAL" />
+    <result column="spend_priority" property="spendPriority" jdbcType="INTEGER" />
+    <result column="account_status" property="accountStatus" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="DATE" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="DATE" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
 	
 	<!--  根据会员ID查询当前积分 -->
+	<!-- 该代码不推荐使用，4.0.3版本会废弃 -->
 	<select id="getCurrentPointsByMemId" parameterType="java.lang.String" resultType="java.lang.String">
 		SELECT m.mem_basic_account_total_quantity 
 		FROM ms_members m 
 		WHERE m.mem_id=#{memId}
 	</select>
 	
-	<!-- 根据会员ID查询账户信息 -->
-	<select id="getAccountByMemId" parameterType="java.util.Map" resultType="com.meiduimall.service.account.model.MSAccount">
-		SELECT id AS id,
-		mem_id AS memId,
-		type AS type,
-		balance AS balance,
-		freeze_balance AS freezeBalance,
-		create_date AS createDate,
-		update_date AS updateDate
-		FROM ms_account 
-		WHERE mem_id = #{memId} 
-		AND type = #{accountType}
+	<!-- 根据会员ID和账户类型编号查询账户信息 -->
+	<select id="getAccountByMemIdAndAccountTypeNo" resultMap="MsAccountResultMap" parameterType="java.util.Map">
+		SELECT m.*
+		FROM ms_account m
+		WHERE 1=1
+		<if test="memId != null and memId != ''">
+		AND m.mem_id=#{memId}
+		</if>
+		<if test="accountTypeNo != null and accountTypeNo != ''">
+		AND m.account_type_no=#{accountTypeNo}
+		</if>
 	</select>
+	
+	<!-- 插入会员指定类型的账户信息 -->
+	  <insert id="insertAccount" parameterType="com.meiduimall.service.account.model.MSAccount" >
+	  INSERT INTO ms_account
+	  VALUES (
+	  #{id},
+	  #{accountNo},
+	  #{memId},
+	  #{accountTypeNo},
+	  #{accountNoSequence},
+	  #{balance},
+	  #{balanceEncrypt},
+	  #{freezeBalance},
+	  #{freezeBalanceEncrypt},
+	  #{allowWithdraw},
+	  #{withdrawPoundageScale},
+	  #{withdrawPoundageMin},
+	  #{withdrawPoundageMax},
+	  #{allowRefund},
+	  #{refundPoundageScale},
+	  #{refundPoundageMin},
+	  #{refundPoundageMax},
+	  #{withdrawPriority},
+	  #{accountStatus},
+	  #{createDate},
+	  #{createUser},
+	  #{updateDate},
+	  #{updateUser},
+	  #{remark}
+	  )
+	  </insert>
+	  
+	  
+	  <!--更新当前会员账户信息-->
+	<update id="updateAccountByMemId" parameterType="com.meiduimall.service.account.model.MSAccount" >
+	    <!-- 代码还没写 -->
+	</update>
+	   
 	
 	<!-- 根据会员ID和账户类型修改余额账户冻结金额 -->
 	<update id="updateFreezeBalanceByMemIdAndType" parameterType="java.util.Map">
@@ -130,68 +196,5 @@
 			</if>
 		 </where>
 	</select>
-	
-	
-	
-	<!--    插入当前会员指定类型的账户信息  -->
-	  <insert id="insertAccout" parameterType="com.meiduimall.service.account.model.MSAccount" >
-	  INSERT INTO ms_account
-	  VALUES (
-	  #{id},
-	  #{memId},
-	  #{walletType},
-	  #{balance},
-	  #{balanceEncrypt},
-	  #{freezeBalance},
-	  #{freezeBalanceEncrypt},
-	  #{account_status},
-	  #{accountStatusEncrypt},
-	  #{createDate},
-	  #{updateDate},
-	  #{updateMan},
-	  #{remark}
-	  )
-	  </insert>
-  
-	<!--   更新当前会员指定类型的账户信息 -->
-	  <insert id="insertAccoutByWalletType" parameterType="java.util.Map" >
-	    UPDATE ms_account a
-	    INNER JOIN ms_accout_type b
-	    ON a.wallet_type=b.id
-	    SET 
-	    a.balance=#{balance},
-	    a.balance_encrypt=#{balanceEncrypt},
-	    a.freeze_balance=#{freezeBalance},
-	    a.freeze_balance_encrypt=#{freezeBalanceEncrypt},
-	    a.update_date=#{updateDate},
-	    a.update_man=#{updateMan}
-	      WHERE 1=1
-	      AND a.mem_id=#{memId}
-	      AND b.wallet_no=#{walletNo}
-	    </insert>
-	    
-	    <!--   查询会员指定类型的账户信息  -->
-  <select id="getAccountByWalletTypeInfoByNoAndMemId" parameterType="java.util.Map" resultType="com.meiduimall.service.account.model.MSAccount">
-   SELECT 
-   a.id AS id,
-   a.mem_id AS memId,
-   a.wallet_type AS walletType,
-   a.balance AS id,
-   a.balance_encrypt AS balanceEncrypt,
-   a.freeze_balance AS freezeBalance,
-   a.freeze_balance_encrypt AS freezeBalanceEncrypt,
-   a.account_status AS accountStatus,
-   a.account_status_encrypt AS accountStatusEncrypt,
-   a.create_date AS createDate,
-   a.update_date AS updateDate,
-   a.update_man AS updateMan,
-   a.remark AS remark
-   FROM ms_account a 
-   INNER JOIN ms_account_type b 
-   ON a.wallet_type=b.id
-   WHERE 1=1
-   AND a.mem_id=#{memId} 
-   AND b.wallet_no=#{walletNo}
-  </select>
 	
 </mapper>

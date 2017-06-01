@@ -34,7 +34,7 @@ public class AccountTypeServiceImpl implements AccountTypeService {
 	}
 
 	@Override
-	public Long updateSequenceByAccountTypeNo(String accountTypeNo) {
+	public synchronized Long updateSequenceByAccountTypeNo(String accountTypeNo) {
 		Long newSequence=this.getSequenceByAccountTypeNo(accountTypeNo)+1;
 		Map<String,Object> mapCondition=new HashMap<>();
 		mapCondition.put("accountTypeNo", accountTypeNo);

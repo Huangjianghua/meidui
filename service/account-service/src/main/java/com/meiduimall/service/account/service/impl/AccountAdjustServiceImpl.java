@@ -110,11 +110,11 @@ public class AccountAdjustServiceImpl implements AccountAdjustService {
 			}
 		}else{
 			//无账户信息，新增会员账户
-			String id = accountService.insertAccount(memId, ConstSysParamsDefination.ACCOUNT_TYPE_MONEY, 
+		/*	String id = accountService.insertAccount(memId, ConstSysParamsDefination.ACCOUNT_TYPE_MONEY, 
 					tradeAmount, "0");
 			if(!StringUtil.isEmptyByString(id)){
 				returnBalance = Double.valueOf(tradeAmount);
-			}
+			}*/
 		}
 		return returnBalance;
 	}

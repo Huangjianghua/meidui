@@ -3,16 +3,21 @@ package com.meiduimall.service.account.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.meiduimall.service.account.dao.BaseDao;
+import com.meiduimall.service.account.service.AccountFreezeDetailService;
 import com.meiduimall.service.account.service.MSConsumePointsFreezeService;
 
-@Component
+@Service
 public class MSConsumePointsFreezeServiceImpl implements MSConsumePointsFreezeService {
 
 	@Autowired
 	private BaseDao  baseDao;
+	
+	@Autowired
+	private AccountFreezeDetailService  accountFreezeDetailService;
+	
 	@Override
 	public Double getConsumePoints(String memId) throws Exception {
 		/*MemberGet member = baseDao.selectOne(memId,"MemberMapper.getPhoneAndAccountScoreByMemId");*/
@@ -52,6 +57,19 @@ public class MSConsumePointsFreezeServiceImpl implements MSConsumePointsFreezeSe
 		return realPoints;
 	}
 	
+	@Override
+	public boolean addMDConsumePointsFreezeAndDetail(String memId, String consumePoints, String orderId,
+			String orderSource, String operatorType, String operator, String remark) {
+		accountFreezeDetailService.saveFreezePoints(memId, orderId, consumePoints, operator, remark);
+		return true;
+	}
+
+	@Override
+	public boolean cutMDConsumePointsFreezeAndDetail(String memId, String consumePoints, String orderId,
+			String orderSource, String operatorType, String operator, String remark) {
+		accountFreezeDetailService.saveUnFreezePoints(memId, orderId, consumePoints, operator, remark);
+		return true;
+	}
 	
 
 }
