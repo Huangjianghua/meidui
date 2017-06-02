@@ -25,8 +25,8 @@ import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.model.MSAccountDetailCondition;
 import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
 import com.meiduimall.service.account.model.request.RequestMSBankWithDrawDepostie;
-import com.meiduimall.service.account.model.response.BankWithdrawDepositsResult;
-import com.meiduimall.service.account.model.response.OldBankWithdrawDepositsResult;
+import com.meiduimall.service.account.model.response.ResponseBankWithdrawDeposits;
+import com.meiduimall.service.account.model.response.ResponseOldBankWithdrawDeposits;
 import com.meiduimall.service.account.service.BankWithdrawDepositService;
 import com.meiduimall.service.account.service.MSAccountDetailService;
 import com.meiduimall.service.account.service.WithDrawService;
@@ -222,7 +222,7 @@ public class AccountWithDrawV1Controller {
 		int intPgeNo = 1;
 		int intPageSize = 20;
 
-		OldBankWithdrawDepositsResult result = new OldBankWithdrawDepositsResult();
+		ResponseOldBankWithdrawDeposits result = new ResponseOldBankWithdrawDeposits();
 		if (Strings.isNullOrEmpty(memId)) {
 			// 请求参数错误
 			result.setResultMsg(ConstApiStatus.getZhMsg(ConstApiStatus.REQUIRED_PARAM_EMPTY));
@@ -289,7 +289,7 @@ public class AccountWithDrawV1Controller {
 		PageHelper.startPage(pageNo, pageSize);
 		List<MSBankWithdrawDeposit> list = withDrawService.getBankWithdrawDepositsList(memId);
 		PageInfo<MSBankWithdrawDeposit> pageInfo = new PageInfo<MSBankWithdrawDeposit>(list);
-		BankWithdrawDepositsResult data = new BankWithdrawDepositsResult();
+		ResponseBankWithdrawDeposits data = new ResponseBankWithdrawDeposits();
 		data.setTotalPage(pageInfo.getPages());
 		data.setResults(list);
 

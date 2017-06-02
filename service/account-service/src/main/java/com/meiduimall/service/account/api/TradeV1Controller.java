@@ -1,10 +1,9 @@
 package com.meiduimall.service.account.api;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,12 +30,14 @@ public class TradeV1Controller {
 	@Autowired
 	private TradeService tradeService;
 	
-	/**会员发起交易申请，冻结积分和余额/会员发起退单，解冻积分和余额*/
-	@RequestMapping(value="/freeze_unfreeze",method=RequestMethod.POST)
+	/**
+	 * 会员发起交易申请，冻结积分和余额/会员发起退单，解冻积分和余额
+	 * @author chencong
+	 */
+	@PostMapping(value="/freeze_unfreeze")
 	ResBodyData  freezeUnfreeze(@RequestBody RequestFreezeUnFreeze model){
 		logger.info("收到冻结解冻API请求   ：{}",model.toString());
 		ResBodyData resBodyData=tradeService.freezeUnfreeze(model);
-		logger.info("冻结解冻API请求结果：{}",resBodyData.toString());
 		return resBodyData;
 	}
 	

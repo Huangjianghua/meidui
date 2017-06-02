@@ -27,8 +27,8 @@ import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.model.MSAccountDetail;
 import com.meiduimall.service.account.model.MSAccountDetailCondition;
 import com.meiduimall.service.account.model.MSAccountDetailGet;
-import com.meiduimall.service.account.model.response.AccountBalanceResult;
-import com.meiduimall.service.account.model.response.OldAccountBalanceResult;
+import com.meiduimall.service.account.model.response.ResponseAccountBalance;
+import com.meiduimall.service.account.model.response.ResponseOldAccountBalance;
 import com.meiduimall.service.account.service.AccountReportService;
 import com.meiduimall.service.account.service.MSAccountDetailService;
 import com.meiduimall.service.account.service.MSMembersService;
@@ -226,13 +226,13 @@ public class AccountQueryV1Controller {
 	 */
 	@PostMapping(value = "/getAccountBalanceForApp_old")
 	public String getAccountBalanceForApp_old(String memId, @RequestParam(value = "user_id") String userId) {
-		OldAccountBalanceResult result = new OldAccountBalanceResult();
+		ResponseOldAccountBalance result = new ResponseOldAccountBalance();
 		if (Strings.isNullOrEmpty(memId) || Strings.isNullOrEmpty(userId)) {
 			result.setStatusCode(String.valueOf(ConstApiStatus.REQUIRED_PARAM_EMPTY));
 			result.setResultMsg(ConstApiStatus.getZhMsg(ConstApiStatus.REQUIRED_PARAM_EMPTY));
 			return JsonUtils.beanToJson(result);
 		}
-		AccountBalanceResult data = null;
+		ResponseAccountBalance data = null;
 		try {
 			data = mSMembersService.getAccountBalance(memId, userId);
 		} catch (ServiceException e) {

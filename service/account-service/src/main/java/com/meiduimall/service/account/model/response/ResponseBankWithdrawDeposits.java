@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
 
-public class BankWithdrawDepositsResult {
+public class ResponseBankWithdrawDeposits {
 
 	// 总页数
 	private int totalPage;

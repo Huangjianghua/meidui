@@ -13,8 +13,8 @@ import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSMembers;
 import com.meiduimall.service.account.model.MsPersonalConsumption;
 import com.meiduimall.service.account.model.SubMemberIntegral;
-import com.meiduimall.service.account.model.response.AccountBalanceResult;
-import com.meiduimall.service.account.model.response.PersonalConsumptionPointsResult;
+import com.meiduimall.service.account.model.response.ResponseAccountBalance;
+import com.meiduimall.service.account.model.response.ResponsePersonalConsumptionPoints;
 import com.meiduimall.service.account.service.AccountService;
 import com.meiduimall.service.account.service.MSMembersService;
 import com.meiduimall.service.account.util.Arith;
@@ -38,7 +38,7 @@ public class MSMembersServiceImpl implements MSMembersService {
 	}
 
 	@Override
-	public AccountBalanceResult getAccountBalance(String memId, String userId) {
+	public ResponseAccountBalance getAccountBalance(String memId, String userId) {
 
 		// 先查询用户是否存在
 		if (!checkUserIsExistByMemId(memId)) {
@@ -87,7 +87,7 @@ public class MSMembersServiceImpl implements MSMembersService {
 
 		// 获取个人账户积分
 		MSMembers members = getMemberInfo(memId);
-		PersonalConsumptionPointsResult data = new PersonalConsumptionPointsResult();
+		ResponsePersonalConsumptionPoints data = new ResponsePersonalConsumptionPoints();
 		try {
 			data.setAccountIntegral(
 					DoubleCalculate.getFormalValueTwo(DESC.deyption(members.getMemBasicAccountStatus(), memId)));
