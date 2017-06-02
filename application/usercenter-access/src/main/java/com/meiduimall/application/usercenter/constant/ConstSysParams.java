@@ -1,7 +1,7 @@
 package com.meiduimall.application.usercenter.constant;
 
 
-public class SysParamsConst {
+public class ConstSysParams {
 	
 	/**请求有效时间(5分钟)*/
 	public static final Long REQUEST_EFFECTIVE_TIME = 5 * 60 * 1000L;

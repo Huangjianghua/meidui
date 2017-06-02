@@ -5,7 +5,7 @@ import java.io.Serializable;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.meiduimall.service.member.constant.ApiStatusConst;
+import com.meiduimall.service.member.constant.ConstApiStatus;
 
 
 public class RequestDTO implements Serializable{
@@ -16,7 +16,7 @@ public class RequestDTO implements Serializable{
 	
 	private HttpServletResponse response;
 	
-	private String status_code = ApiStatusConst.SUCCESS.toString();
+	private String status_code = ConstApiStatus.SUCCESS.toString();
 	
 	private String result_msg ="0";
 	

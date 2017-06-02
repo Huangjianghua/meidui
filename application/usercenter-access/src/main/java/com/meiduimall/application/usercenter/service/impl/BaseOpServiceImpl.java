@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.usercenter.config.ProfileParamsConfig;
-import com.meiduimall.application.usercenter.constant.ApiStatusConst;
+import com.meiduimall.application.usercenter.constant.ConstApiStatus;
 import com.meiduimall.application.usercenter.constant.ResBodyDataShiPei;
-import com.meiduimall.application.usercenter.constant.SysParamsConst;
+import com.meiduimall.application.usercenter.constant.ConstSysParams;
 import com.meiduimall.application.usercenter.service.BaseOpService;
 import com.meiduimall.application.usercenter.util.HttpUtils;
 import com.meiduimall.application.usercenter.util.MD5Utils;
@@ -38,7 +38,7 @@ public class BaseOpServiceImpl implements BaseOpService {
 		logger.info("调用账号服务>>登录API>>URL:{}  Data:{}",url,reqJson.toString());
 		try {
 			Map<String, String> headers=new HashMap<>();
-			headers.put(SysParamsConst.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
+			headers.put(ConstSysParams.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
 			String result=HttpUtils.post(url,reqJson.toString(),headers);
 			logger.info("调用账号服务>>登录API>>结果：{}",result);
 			resBodyData=JSON.parseObject(result,ResBodyData.class);
@@ -48,7 +48,7 @@ public class BaseOpServiceImpl implements BaseOpService {
 			}
 		} catch (Exception e) {
 			logger.error("请求账号服务>>登录API>>异常：{}",e.toString());
-			throw new MdSysException(ApiStatusConst.REQUEST_GATEWAY_EX);
+			throw new MdSysException(ConstApiStatus.REQUEST_GATEWAY_EX);
 		}
 		return resBodyData;
 	}
@@ -61,13 +61,13 @@ public class BaseOpServiceImpl implements BaseOpService {
 		logger.info("调用账号服务>>普通会员注册>>URL:{}  Data:{}",url,reqJson.toString());
 		try {
 			Map<String, String> headers=new HashMap<>();
-			headers.put(SysParamsConst.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
+			headers.put(ConstSysParams.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
 			String result=HttpUtils.post(url,reqJson.toString(),headers);
 			logger.info("调用账号服务>>普通会员注册>>结果：{}",result);
 			resBodyData=JSON.parseObject(result,ResBodyData.class);
 		} catch (Exception e) {
 			logger.error("调用账号服务>>普通会员注册>>异常：{}",e.toString());
-			throw new MdSysException(ApiStatusConst.REQUEST_GATEWAY_EX);
+			throw new MdSysException(ConstApiStatus.REQUEST_GATEWAY_EX);
 		}
 		return resBodyData;
 	}
@@ -84,8 +84,8 @@ public class BaseOpServiceImpl implements BaseOpService {
 			resBodyDataShiPei=JSON.parseObject(result,ResBodyDataShiPei.class);
 		} catch (Exception e) {
 			logger.error("调用账号服务>>getput>>异常：{}",e.toString());
-			resBodyDataShiPei.setStatus_code(ApiStatusConst.REQUEST_GATEWAY_EX.toString());
-			resBodyDataShiPei.setResult_msg(ApiStatusConst.getZhMsg(ApiStatusConst.REQUEST_GATEWAY_EX));
+			resBodyDataShiPei.setStatus_code(ConstApiStatus.REQUEST_GATEWAY_EX.toString());
+			resBodyDataShiPei.setResult_msg(ConstApiStatus.getZhMsg(ConstApiStatus.REQUEST_GATEWAY_EX));
 		}
 		return resBodyDataShiPei;
 	}
@@ -102,8 +102,8 @@ public class BaseOpServiceImpl implements BaseOpService {
 			resBodyDataShiPei=JSON.parseObject(result,ResBodyDataShiPei.class);
 		} catch (Exception e) {
 			logger.error("调用账号服务>>handlesignout>>异常：{}",e.toString());
-			resBodyDataShiPei.setStatus_code(ApiStatusConst.REQUEST_GATEWAY_EX.toString());
-			resBodyDataShiPei.setResult_msg(ApiStatusConst.getZhMsg(ApiStatusConst.REQUEST_GATEWAY_EX));
+			resBodyDataShiPei.setStatus_code(ConstApiStatus.REQUEST_GATEWAY_EX.toString());
+			resBodyDataShiPei.setResult_msg(ConstApiStatus.getZhMsg(ConstApiStatus.REQUEST_GATEWAY_EX));
 		}
 		return resBodyDataShiPei;
 	}

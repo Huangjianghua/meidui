@@ -17,17 +17,14 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.service.account.model.request.RequestUpdatePaypwd;
 
-
 /**
- * 鏀粯瀵嗙爜鐩稿叧鎺ュ彛鍗曞厓娴嬭瘯
+ * 支付密码相关API{@link=PayPwdV1Controller}单元测试
  * @author chencong
  *
  */
-
 public class PayPwdV1ControllerTest extends BaseControllerTest {
 	
 	private final static Logger logger=LoggerFactory.getLogger(PayPwdV1ControllerTest.class);
-	
 
 	/**
 	 * 验证支付密码
@@ -37,7 +34,7 @@ public class PayPwdV1ControllerTest extends BaseControllerTest {
     public void validePaypwd() throws Exception{
     	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/valide_pay_pwd")
     			.param("memId",memId)
-    			.param("pay_pwd",payPwd))
+    			.param("pay_pwd","123456"))
     			.andExpect(status().isOk())
     			.andExpect(jsonPath("$.status",is(0)));
     	
@@ -57,7 +54,7 @@ public class PayPwdV1ControllerTest extends BaseControllerTest {
     public void setPaypwd() throws Exception{
     	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/set_pay_pwd")
     			.param("memId",memId)
-    			.param("pay_pwd",payPwd))
+    			.param("pay_pwd","123456"))
     			.andExpect(status().isOk())
     			.andExpect(jsonPath("$.status",is(0)));
     	

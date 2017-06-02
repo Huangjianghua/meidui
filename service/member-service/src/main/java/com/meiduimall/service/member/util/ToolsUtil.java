@@ -10,8 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.meiduimall.exception.MdSysException;
-import com.meiduimall.service.member.constant.ApiStatusConst;
-import com.meiduimall.service.member.constant.SysParamsConst;
+import com.meiduimall.service.member.constant.ConstApiStatus;
+import com.meiduimall.service.member.constant.ConstSysParams;
 
 /**
  * 常用工具类
@@ -32,7 +32,7 @@ public class ToolsUtil {
 	public final static String createToken(String userId,String tokenKey) throws MdSysException {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append(userId);
-		buffer.append(SysParamsConst.CONNECTION);
+		buffer.append(ConstSysParams.CONNECTION);
 		buffer.append(tokenKey);
 		return MD5Util.MD5EncryptBy32(buffer.toString());
 	}
@@ -77,7 +77,7 @@ public class ToolsUtil {
 			to = simpleFormat.parse(getTomorrowZeroClockTime()).getTime();
 		} catch (ParseException e) {
 			logger.error("执行getNowToTomorrowTimeSub()方法异常：{}",e.toString());
-			throw new MdSysException(ApiStatusConst.PARSE_DATE_EXCEPTION,ApiStatusConst.getZhMsg(ApiStatusConst.PARSE_DATE_EXCEPTION));
+			throw new MdSysException(ConstApiStatus.PARSE_DATE_EXCEPTION,ConstApiStatus.getZhMsg(ConstApiStatus.PARSE_DATE_EXCEPTION));
 		} 
 		int minutes = (int) (to - from)/1000;
 		return minutes;

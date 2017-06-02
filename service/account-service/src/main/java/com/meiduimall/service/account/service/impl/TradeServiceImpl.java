@@ -30,16 +30,16 @@ import com.meiduimall.service.account.service.BankAccountService;
 import com.meiduimall.service.account.service.BankWithdrawDepositService;
 import com.meiduimall.service.account.service.MSConsumePointsDetailService;
 import com.meiduimall.service.account.service.MoneyService;
-import com.meiduimall.service.account.service.OrderService;
+import com.meiduimall.service.account.service.TradeService;
 import com.meiduimall.service.account.service.PointsService;
 import com.meiduimall.service.account.util.DoubleCalculate;
 import com.meiduimall.service.account.util.GenerateNumber;
 import com.meiduimall.service.account.util.StringUtil;
 
 @Service
-public class OrderServicesImpl implements OrderService {
+public class TradeServiceImpl implements TradeService {
 	
-	private final static Logger logger=LoggerFactory.getLogger(OrderServicesImpl.class);
+	private final static Logger logger=LoggerFactory.getLogger(TradeServiceImpl.class);
 
 	@Autowired
 	private BaseDao baseDao;
@@ -357,7 +357,7 @@ public class OrderServicesImpl implements OrderService {
 		dto.setMemId(memId);
 		dto.setBankAccountId(bankAccount.getId());
 		dto.setAccountIdcard(accountIdcard);
-		dto.setAccountNo(accountNo);
+		//dto.setAccountNo(accountNo);
 		dto.setAccountBank(accountBank);
 		dto.setAccountName(accountName);
 		dto.setAccountProvince(accountProvince);

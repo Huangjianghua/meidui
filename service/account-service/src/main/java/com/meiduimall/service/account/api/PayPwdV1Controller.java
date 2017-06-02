@@ -1,6 +1,5 @@
 package com.meiduimall.service.account.api;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.DaoException;
-import com.meiduimall.exception.MdBizException;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.model.MSMembersPaypwd;
@@ -28,9 +26,6 @@ import com.meiduimall.service.account.service.PaypwdService;
 public class PayPwdV1Controller {
 	
 	private final static Logger logger=LoggerFactory.getLogger(PayPwdV1Controller.class);
-	
-	@Autowired
-	private HttpServletRequest request;
 
 	@Autowired
 	private PaypwdService paypwdService;

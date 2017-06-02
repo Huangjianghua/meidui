@@ -6,21 +6,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
-import com.meiduimall.service.account.constant.BaseController;
-import com.meiduimall.service.account.service.MemberBankTendServices;
-import com.meiduimall.service.account.util.HttpClientUtil;
-import com.meiduimall.service.account.util.Logger;
+import com.meiduimall.core.ResBodyData;
 
 *//**
- * 类名:  MemberBankController<br>
- * 描述:  会员银行账户控制类，所有与会员银行相关的操作，都在此处暴露<br>
- * 创建人: bibo.deng
- * 创建时间: 2017年3月23日
+ * 银行信息相关API
+ * @author chencong
+ *
  *//*
 @RestController
 @RequestMapping("/member/account_service/v1")
@@ -149,6 +147,38 @@ public class BankV1Controller extends BaseController{
 			Logger.error(errMsgStr, title , e.getMessage());
 			writer.println(RuntimeExceptionProcess(e).toJSONString());
 		}
+	}
+	
+	
+	@Autowired
+	private BankService bankService;
+	
+	*//**
+	 * 新增会员银行账户信息
+	 * @return
+	 *//*
+	@PostMapping("/addBankInfo")
+	public ResBodyData addBankInfo(@RequestBody MSBankAccount mSBankAccount) {
+		int result = bankService.addBankInfo(mSBankAccount);
+		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M, result);
+	}
+	
+	*//**
+	 * 修改会员银行账户信息
+	 * @return
+	 *//*
+	@PostMapping("/changeBankInfo")
+	public ResBodyData changeBankInfo() {
+		return null;
+	}
+	
+	*//**
+	 * 查询会员所有银行账户信息
+	 * @return
+	 *//*
+	@PostMapping("/getMemberBankInfo")
+	public ResBodyData getMemberBankInfo() {
+		return null;
 	}
 	
 }

@@ -15,13 +15,13 @@ import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.MdSysException;
-import com.meiduimall.service.member.constant.ApiStatusConst;
+import com.meiduimall.service.member.constant.ConstApiStatus;
 import com.meiduimall.service.member.model.MSMemberMobileArea;
 import com.meiduimall.service.member.model.request.RequestGetMemberBasicInfo;
 import com.meiduimall.service.member.service.UserInfoService;
 
 /**
- * 获取用户基本信息
+ * 会员信息相关API
  * @author chencong
  *
  */
@@ -40,9 +40,9 @@ public class UserInfoV1Controller{
 		logger.info("收到会员：{}获取基本信息API请求",requestGetMemberBasicInfo.getMemId());
 		try {
 			return userInfoService.getBasicInfoByMemId(requestGetMemberBasicInfo.getMemId());
-		} catch (DaoException  e) {
+		} catch (DaoException | MdSysException e) {
 			logger.error("获取会员基本信息API请求异常：{}",e.toString());
-			throw new ApiException(ApiStatusConst.GET_USERINFO_EXCEPTION,ApiStatusConst.getZhMsg(ApiStatusConst.GET_USERINFO_EXCEPTION));
+			throw new ApiException(ConstApiStatus.GET_USERINFO_EXCEPTION,ConstApiStatus.getZhMsg(ConstApiStatus.GET_USERINFO_EXCEPTION));
 		}
 	}
 	

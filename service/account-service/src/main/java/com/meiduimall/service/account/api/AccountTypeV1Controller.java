@@ -28,9 +28,9 @@ import net.sf.json.JSONObject;
  */
 @RestController
 @RequestMapping("/member/account_service/v1")
-public class AccountPropertyV1Controller {
+public class AccountTypeV1Controller {
 	
-	private static final Logger logger = LoggerFactory.getLogger(AccountPropertyV1Controller.class);
+	private static final Logger logger = LoggerFactory.getLogger(AccountTypeV1Controller.class);
 	
 	@Autowired
 	private AccountTypeService accountTypeService;

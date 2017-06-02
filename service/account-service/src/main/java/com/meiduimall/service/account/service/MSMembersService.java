@@ -1,5 +1,6 @@
 package com.meiduimall.service.account.service;
 
+import com.meiduimall.core.ResBodyData;
 import com.meiduimall.service.account.model.MSMembers;
 import com.meiduimall.service.account.model.response.AccountBalanceResult;
 
@@ -21,4 +22,6 @@ public interface MSMembersService {
 	public AccountBalanceResult getAccountBalance(String memId, String userId);
 	
 	public boolean checkUserIsExistByMemId(String memId);
+
+	public ResBodyData personalConsumptionPoints(String memId);
 }

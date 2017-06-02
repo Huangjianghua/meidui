@@ -39,9 +39,9 @@ import com.meiduimall.service.account.service.WithDrawService;
  */
 @RestController
 @RequestMapping("/member/account_service/v1")
-public class WithDrawV1Controller {
+public class AccountWithDrawV1Controller {
 
-	private static final Logger logger = LoggerFactory.getLogger(WithDrawV1Controller.class);
+	private static final Logger logger = LoggerFactory.getLogger(AccountWithDrawV1Controller.class);
 
 	@Autowired
 	private BankWithdrawDepositService bankWithdrawDepositService;

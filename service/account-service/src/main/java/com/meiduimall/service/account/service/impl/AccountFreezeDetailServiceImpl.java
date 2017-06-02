@@ -40,18 +40,21 @@ public class AccountFreezeDetailServiceImpl implements AccountFreezeDetailServic
 			String accountId, String accountType, String tradeType,
 			String tradeAmount, Date tradeDate, String freezeBalance,
 			String remark) throws MdBizException{
-		Map<String,String> paramsMap = new HashMap<String,String>();
+		Map<String,Object> paramsMap = new HashMap<String,Object>();
 		paramsMap.put("id", UUID.randomUUID().toString());
-		paramsMap.put("memId", memId);
-		paramsMap.put("orderId", orderId);
-		paramsMap.put("accountId", accountId);
-		paramsMap.put("accountType", accountType);
+		paramsMap.put("accountNo", orderId);
 		paramsMap.put("tradeType", tradeType);
-		paramsMap.put("tradeAmount", tradeAmount);
+		paramsMap.put("tradeAmount", Double.valueOf(tradeAmount));
 		paramsMap.put("freezeBalance", freezeBalance);
 		paramsMap.put("remark", remark);
 		paramsMap.put("inOrOut", "1");
 		paramsMap.put("tradeDate", DateUtil.format(tradeDate,DateUtil.YYYY_MM_DD_HH_MM_SS));
+		paramsMap.put("businessNo", orderId);
+		
+		paramsMap.put("createDate", DateUtil.format(tradeDate,DateUtil.YYYY_MM_DD_HH_MM_SS));
+		paramsMap.put("createUser", orderId);
+		paramsMap.put("updateDate", DateUtil.format(tradeDate,DateUtil.YYYY_MM_DD_HH_MM_SS));
+		paramsMap.put("updateUser", orderId);
 		try {
 			baseDao.insert(paramsMap, "MSAccountFreezeDetailMapper.insertAccountFreezeDetail");
 		} catch (Exception e) {

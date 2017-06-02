@@ -1,6 +1,5 @@
 package com.meiduimall.service.account.api;
 
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -16,24 +15,24 @@ import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.model.request.RequestFreezeUnFreeze;
 import com.meiduimall.service.account.model.request.RequestUnfreezeDecut;
-import com.meiduimall.service.account.service.OrderService;
+import com.meiduimall.service.account.service.TradeService;
 
 /**
- * 订单交易相关接口
+ * 订单交易相关API
  * @author chencong
  *
  */
 @RestController
 @RequestMapping("/member/account_service/v1")
-public class OrderV1Controller {
+public class TradeV1Controller {
 	
-	private final static Logger logger=LoggerFactory.getLogger(OrderV1Controller.class);
+	private final static Logger logger=LoggerFactory.getLogger(TradeV1Controller.class);
 
 	@Autowired
 	private HttpServletRequest request;
 	
 	@Autowired
-	private OrderService orderService;
+	private TradeService orderService;
 	
 	/**会员发起交易申请，冻结积分和余额/会员发起退单，解冻积分和余额*/
 	@RequestMapping(value="/freeze_unfreeze",method=RequestMethod.POST)

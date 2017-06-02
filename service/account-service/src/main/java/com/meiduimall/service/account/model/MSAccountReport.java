@@ -14,6 +14,8 @@ public class MSAccountReport extends BaseModel implements Serializable {
 	private static final long serialVersionUID = 8080490869514026587L;
 
 	private String id;
+	
+	private String memId;
 
 	/**美兑积分金额*/
 	private int balanceJFZH;
@@ -384,6 +386,14 @@ public class MSAccountReport extends BaseModel implements Serializable {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	public String getMemId() {
+		return memId;
+	}
+
+	public void setMemId(String memId) {
+		this.memId = memId;
 	}
 	
 }

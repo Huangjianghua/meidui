@@ -15,9 +15,9 @@ import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdBizException;
 import com.meiduimall.redis.util.RedisTemplate;
 import com.meiduimall.redis.util.RedisUtils;
-import com.meiduimall.service.member.constant.ApiStatusConst;
-import com.meiduimall.service.member.constant.SysEncrypParamsConst;
-import com.meiduimall.service.member.constant.SysParamsConst;
+import com.meiduimall.service.member.constant.ConstApiStatus;
+import com.meiduimall.service.member.constant.ConstSysEncrypParams;
+import com.meiduimall.service.member.constant.ConstSysParams;
 import com.meiduimall.service.member.dao.BaseDao;
 import com.meiduimall.service.member.model.MSMembersGet;
 import com.meiduimall.service.member.model.MSMembersSet;
@@ -34,7 +34,7 @@ public class SecurityServiceImpl implements SecurityService
 	
 	@Override
 	public ResBodyData setPaypwdStatus(MSMembersGet msMembersGet){
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
 		msMembersGet.setEnable("1".equals(msMembersGet.getEnable())
 				?"Y":"N");
 		baseDao.update(msMembersGet,"MSMembersMapper.updateMemberBasicInfoByCondition");
@@ -52,8 +52,8 @@ public class SecurityServiceImpl implements SecurityService
 		String memberId = obj.getString("memberId");
 		boolean blc = validateOldPwd_wai(memberId, old_pass_word);
 		if(!blc){
-			result.put(SysParamsConst.STATUS, "1023");
-			result.put(SysParamsConst.MSG, "原始密码输入错误");
+			result.put(ConstSysParams.STATUS, "1023");
+			result.put(ConstSysParams.MSG, "原始密码输入错误");
 			logger.info("外部当前请求找回登录密码IP地址=" + ip + "结束,原始密码输入错误");
 			return result.toString();
 		}
@@ -63,13 +63,13 @@ public class SecurityServiceImpl implements SecurityService
 		
 		int blean = baseDao.update(param,"MSMembersMapper.updateMemberBasicInfoByCondition");
 		if (blean>0) {
-			result.put(SysParamsConst.STATUS, "0");
-			result.put(SysParamsConst.MSG, "修改成功");
+			result.put(ConstSysParams.STATUS, "0");
+			result.put(ConstSysParams.MSG, "修改成功");
 			logger.info("外部当前请求邮箱找回登录密码IP地址=" + ip + "结束,修改成功");
 			return result.toString();
 		}else {
-			result.put(SysParamsConst.STATUS, "0");
-			result.put(SysParamsConst.MSG, "修改成功");
+			result.put(ConstSysParams.STATUS, "0");
+			result.put(ConstSysParams.MSG, "修改成功");
 			logger.info("外部当前请求邮箱找回登录密码IP地址=" + ip + "结束,修改登录密码 失败");
 			return result.toString();
 		}
@@ -77,7 +77,7 @@ public class SecurityServiceImpl implements SecurityService
 	@Override
 	public boolean validateOldPwd_wai(String id, String pwd) throws Exception {
 		//增加美兑会员密码规则
-		String[] pwds = pwd.split(SysParamsConst.MD_PASSWORD_SPLIT_STR);
+		String[] pwds = pwd.split(ConstSysParams.MD_PASSWORD_SPLIT_STR);
 		int  recordRows =0;
 		Map<String,Object> param = new HashMap<String,Object>();
 		if(pwds.length == 2){
@@ -111,8 +111,8 @@ public class SecurityServiceImpl implements SecurityService
 		String ip = obj.getString("ip");
 		MSMembersGet m = baseDao.selectOne(DESC.encryption(phone),"MSMembersMapper.getMemberIdByPLName");
 		if (null == m) {
-			result.put(SysParamsConst.STATUS, "9999");
-			result.put(SysParamsConst.MSG, "服务器错误。缺少认证参数或服务器错误统一返回此参数");
+			result.put(ConstSysParams.STATUS, "9999");
+			result.put(ConstSysParams.MSG, "服务器错误。缺少认证参数或服务器错误统一返回此参数");
 			logger.info("外部当前请求手机找回登录密码IP地址=" + ip + "结束,当前手机号码不存在");
 			return result.toString();
 		}
@@ -122,15 +122,15 @@ public class SecurityServiceImpl implements SecurityService
 		param.put("two_pass_word",two_pass_word);
 		int blean = baseDao.update(param, "MSMembersMapper.updateMemberBasicInfoByCondition");
 		if (blean>0) {
-			result.put(SysParamsConst.STATUS, "0");
-			result.put(SysParamsConst.MSG, "修改成功");
+			result.put(ConstSysParams.STATUS, "0");
+			result.put(ConstSysParams.MSG, "修改成功");
 			//找回密码，清理24小时密码错误缓存
 			jedisUtil.execDelToCache(m.getMemId());
 			logger.info("外部当前请求手机找回登录密码IP地址=" + ip + "结束,修改成功");
 			return result.toString();
 		} else {
-			result.put(SysParamsConst.STATUS, "9999");
-			result.put(SysParamsConst.MSG, "修改失败");
+			result.put(ConstSysParams.STATUS, "9999");
+			result.put(ConstSysParams.MSG, "修改失败");
 			logger.info("外部当前请求手机找回登录密码IP地址=" + ip + "结束,修改登录密码失败");
 			return result.toString();
 		}
@@ -195,11 +195,11 @@ public class SecurityServiceImpl implements SecurityService
 		try {
 			Map<String, Object> param=new HashMap<String, Object>();
 			param.put("memId", id);
-			param.put("status",SysEncrypParamsConst.MEMBER_FORBIDDEN_EN);
+			param.put("status",ConstSysEncrypParams.MEMBER_FORBIDDEN_EN);
 			baseDao.update(param, "MSAccountMapper.updateAccountById");
 		} catch (Exception e) {
 			logger.error("调用账号禁用API接口SecurityServiceImpl.disabledAccount异常:{}", e);
-			throw new MdBizException(ApiStatusConst.DISABLED_ACCOUNT_EXCEPTION);
+			throw new MdBizException(ConstApiStatus.DISABLED_ACCOUNT_EXCEPTION);
 		}
 	}
 	/**
@@ -211,11 +211,11 @@ public class SecurityServiceImpl implements SecurityService
 		try {
 			Map<String, Object> param=new HashMap<String, Object>();
 			param.put("memId", id);
-			param.put("status",SysEncrypParamsConst.MEMBER_STATUS_OK);
+			param.put("status",ConstSysEncrypParams.MEMBER_STATUS_OK);
 			baseDao.update(param, "MSAccountMapper.updateAccountById");
 		} catch (Exception e) {
 			logger.error("调用账号解禁API接口SecurityServiceImpl.unDisabledAccount异常:{}", e.getMessage());
-			throw new MdBizException(ApiStatusConst.UNDISABLED_ACCOUNT_EXCEPTION);
+			throw new MdBizException(ConstApiStatus.UNDISABLED_ACCOUNT_EXCEPTION);
 		}
 	}
 	/**
@@ -228,7 +228,7 @@ public class SecurityServiceImpl implements SecurityService
 			baseDao.update(param, "MSAccountMapper.updateAccountById");
 		} catch (Exception e) {
 			logger.error("调用重置密码API接口SecurityServiceImpl.resetAccountPwd异常:{}", e.getMessage());
-			throw new MdBizException(ApiStatusConst.RESET_ACCOUNT_PWD_EXCEPTION);
+			throw new MdBizException(ConstApiStatus.RESET_ACCOUNT_PWD_EXCEPTION);
 		}
 	}
 	/**
@@ -243,7 +243,7 @@ public class SecurityServiceImpl implements SecurityService
 			list=baseDao.selectList(loginUnlock, "MSMembersMapper.queryMemberLockList");
 		} catch (Exception e) {
 			logger.error("调用登陆解锁API接口SecurityServiceImpl.loginUnlockList异常:{}", e.getMessage());
-			throw new MdBizException(ApiStatusConst.LOGIN_UNLOCK_LIST_EXCEPTION);
+			throw new MdBizException(ConstApiStatus.LOGIN_UNLOCK_LIST_EXCEPTION);
 		}
 		return list;
 	}
@@ -256,18 +256,18 @@ public class SecurityServiceImpl implements SecurityService
 		try {
 			//step1 根据memId查询会员
 			MSMembersGet membersGet=baseDao.selectOne(param, "MSMembersMapper.getMemberBasicInfoByCondition");
-			if(membersGet==null) throw new MdBizException(ApiStatusConst.MEMBER_NOT_EXIST);
+			if(membersGet==null) throw new MdBizException(ConstApiStatus.MEMBER_NOT_EXIST);
 			//step2修改锁定次数为0
 			MSMembersSet getMember=new MSMembersSet();
 			getMember.setMemId(membersGet.getMemId());
-			getMember.setMemLockCountPlained(SysParamsConst.INIT_LOGIN_LOCK_COUNT);
-			getMember.setMemLockCount(SysParamsConst.INIT_LOGIN_LOCK_COUNT);
+			getMember.setMemLockCountPlained(ConstSysParams.INIT_LOGIN_LOCK_COUNT);
+			getMember.setMemLockCount(ConstSysParams.INIT_LOGIN_LOCK_COUNT);
 			baseDao.update(getMember, "MSMembersMapper.updateMemberBasicInfoByCondition");
 			//step3删除redis里面的key
-			RedisUtils.del(SysParamsConst.REDIS_LOGIN_LOCK+SysParamsConst.CONNECTION+membersGet.getMemId());
+			RedisUtils.del(ConstSysParams.REDIS_LOGIN_LOCK+ConstSysParams.CONNECTION+membersGet.getMemId());
 		} catch (Exception e) {
 			logger.error("调用解锁API接口SecurityServiceImpl.unlockMember异常:{}", e.getMessage());
-			throw new MdBizException(ApiStatusConst.LOGIN_UNLOCK_EXCEPTION);
+			throw new MdBizException(ConstApiStatus.LOGIN_UNLOCK_EXCEPTION);
 		}
 	}
 

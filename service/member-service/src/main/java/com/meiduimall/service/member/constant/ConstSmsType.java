@@ -8,7 +8,7 @@ import java.util.Map;
  * @author chencong
  *
  */
-public abstract class SmsTypeConst {
+public abstract class ConstSmsType {
 	
 	public static final Map<Integer, String> smsTypeMap = new HashMap<>(300);
 	

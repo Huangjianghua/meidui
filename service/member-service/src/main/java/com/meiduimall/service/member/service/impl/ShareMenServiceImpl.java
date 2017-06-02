@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.exception.ServiceException;
-import com.meiduimall.service.member.constant.ApiStatusConst;
-import com.meiduimall.service.member.constant.SysParamsConst;
+import com.meiduimall.service.member.constant.ConstApiStatus;
+import com.meiduimall.service.member.constant.ConstSysParams;
 import com.meiduimall.service.member.dao.BaseDao;
 import com.meiduimall.service.member.model.MSMembersGet;
 import com.meiduimall.service.member.service.ShareMenService;
@@ -45,7 +45,7 @@ public class ShareMenServiceImpl implements ShareMenService{
 		}
 		else{
 			logger.warn("推荐人:{}校验不通过",share_man);
-			throw new ServiceException(ApiStatusConst.SHARE_MAN_NOT_EXIST);
+			throw new ServiceException(ConstApiStatus.SHARE_MAN_NOT_EXIST);
 		}
 	}
 
@@ -83,17 +83,17 @@ public class ShareMenServiceImpl implements ShareMenService{
 					result.add(lv2ShareMember);
 					logger.info("查询出二级推荐人");
 				}
-				json.put(SysParamsConst.STATUS, "0");
-				json.put(SysParamsConst.MSG, "获取推荐人成功!");
-				json.put(SysParamsConst.DATA, result);
+				json.put(ConstSysParams.STATUS, "0");
+				json.put(ConstSysParams.MSG, "获取推荐人成功!");
+				json.put(ConstSysParams.DATA, result);
 			} else {
-				json.put(SysParamsConst.STATUS, "1020");
-				json.put(SysParamsConst.MSG, "当前会员的推荐人不存在!");
+				json.put(ConstSysParams.STATUS, "1020");
+				json.put(ConstSysParams.MSG, "当前会员的推荐人不存在!");
 				logger.info("当前会员ID:{}的推荐人不存在!", memId);
 			}
 		} else {
-			json.put(SysParamsConst.STATUS, "1020");
-			json.put(SysParamsConst.MSG, "当前会员不存在!");
+			json.put(ConstSysParams.STATUS, "1020");
+			json.put(ConstSysParams.MSG, "当前会员不存在!");
 			logger.info("当前会员ID:{}不存在!", memId);
 		}
 		return json;

@@ -9,17 +9,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.usercenter.annotation.HasToken;
-import com.meiduimall.application.usercenter.constant.ApiStatusConst;
-import com.meiduimall.application.usercenter.interceptor.ValInterceptor;
+import com.meiduimall.application.usercenter.constant.ConstApiStatus;
 import com.meiduimall.application.usercenter.interceptor.ValRequest;
 import com.meiduimall.application.usercenter.service.SmsService;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.MdSysException;
-import com.meiduimall.exception.ServiceException;
 
 /**
- * 短信相关接口
+ * 短信相关API
  * @author chencong
  *
  */
@@ -43,7 +41,7 @@ public class SmsV1Controller {
 			resBodyData=smsService.getValidatCode(reqJson);
 		} catch (MdSysException e) {
 			logger.error("获取短信验证码API处理异常：{}",e.toString());
-			throw new ApiException(ApiStatusConst.SYSTEM_ERROR);
+			throw new ApiException(ConstApiStatus.SYSTEM_ERROR);
 		}
 		logger.info("获取短信验证码API请求结果：{}",resBodyData.toString());
 		return resBodyData;
@@ -59,7 +57,7 @@ public class SmsV1Controller {
 			resBodyData=smsService.getValidatCode(reqJson);
 		} catch (MdSysException e) {
 			logger.error("获取短信验证码(不需要token)API处理异常：{}",e.toString());
-			throw new ApiException(ApiStatusConst.SYSTEM_ERROR);
+			throw new ApiException(ConstApiStatus.SYSTEM_ERROR);
 		}
 		logger.info("获取短信验证码(不需要token)API请求结果：{}",resBodyData.toString());
 		return resBodyData;
