@@ -30,7 +30,7 @@ public class MemberServiceApplication extends SpringBootServletInitializer{
         return builder.build();
     } 
 	
-	public static void main(String[] args){
+	public static void main(String[] args) {
 		SpringApplication.run(MemberServiceApplication.class, args);
 	}
 }
