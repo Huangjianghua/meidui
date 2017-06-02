@@ -74,7 +74,7 @@ public class MoneyServiceImpl implements MoneyService  {
 			String url = profile.getServiceAccountUrl() + "v1/getAccountBalanceForApp_old";
 			MD5Utils.updateSign(reqJson, profile.getRouteClientID(), profile.getRouteKey());
 			Map<String, String> headers = new HashMap<>();
-			headers.put(ConstSysParams.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+			headers.put(ConstSysParamsDefination.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 			return HttpUtils.post(url, reqJson.toString(), headers);
 		} catch (Exception e) {
 			logger.error("调用账户服务>>提现申请API>>异常:{}", e.toString());
