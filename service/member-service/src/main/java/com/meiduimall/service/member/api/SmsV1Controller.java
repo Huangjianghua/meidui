@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.service.member.constant.ApiStatusConst;
+import com.meiduimall.service.member.constant.ConstApiStatus;
 import com.meiduimall.service.member.model.request.RequestCheckValidateCode;
 import com.meiduimall.service.member.model.request.RequestGetValidateCode;
 import com.meiduimall.service.member.service.SmsService;
@@ -36,7 +36,7 @@ public class SmsV1Controller {
 	@GetMapping(value = "/get_validate_code")
 	ResBodyData getValidateCode(@Valid RequestGetValidateCode model) throws ClientProtocolException, IOException {
 		logger.info("收到获取短信验证码API请求：",model.toString());
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
 		smsService.getValidateCode(model);
 		return resBodyData;
 	}
@@ -45,7 +45,7 @@ public class SmsV1Controller {
 	@GetMapping(value = "/check_validate_code")
 	ResBodyData checkValidateCode(@Valid RequestCheckValidateCode model) throws ClientProtocolException, IOException {
 		logger.info("收到校验短信验证码API请求：",model.toString());
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
 		smsService.checkValidateCode(model);
 		return resBodyData;
 	}

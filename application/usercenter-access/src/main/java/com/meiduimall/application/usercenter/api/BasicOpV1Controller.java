@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.usercenter.annotation.HasToken;
-import com.meiduimall.application.usercenter.constant.ApiStatusConst;
+import com.meiduimall.application.usercenter.constant.ConstApiStatus;
 import com.meiduimall.application.usercenter.constant.ResBodyDataShiPei;
 import com.meiduimall.application.usercenter.constant.SysParamsConst;
 import com.meiduimall.application.usercenter.interceptor.ValRequest;
@@ -48,7 +48,7 @@ public class BasicOpV1Controller {
 			resBodyData=baseOpService.login(reqJson);
 		} catch (MdSysException e) {
 			logger.error("登录API请求异常：{}",e.toString());
-			throw new ApiException(ApiStatusConst.SYSTEM_ERROR);
+			throw new ApiException(ConstApiStatus.SYSTEM_ERROR);
 		}
 		logger.info("登录API请求结果：{}",resBodyData.toString());
 		return resBodyData;
@@ -64,7 +64,7 @@ public class BasicOpV1Controller {
 			resBodyData=baseOpService.register(reqJson);
 		} catch (MdSysException e) {
 			logger.error("普通会员注册API请求异常：{}",e.toString());
-			throw new ApiException(ApiStatusConst.SYSTEM_ERROR);
+			throw new ApiException(ConstApiStatus.SYSTEM_ERROR);
 		}
 		logger.info("普通会员注册API请求结果：{}",resBodyData.toString());
 		return resBodyData;
@@ -73,14 +73,14 @@ public class BasicOpV1Controller {
 	/**登出*/
 	@PostMapping(value = "/exit")
 	ResBodyData exit(){
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,null);
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,null);
 		JSONObject reqJson=ValRequest.apiReqData.get();
 		logger.info("收到登出API请求：{}",reqJson.toString());
 		try {
 			RedisTemplate.getJedisInstance().execDelToCache(reqJson.getString(SysParamsConst.TOKEN));
 		} catch (Exception e) {
 			logger.error("删除token异常：{}",e.toString());
-			throw new ApiException(ApiStatusConst.LOGIN_EXPIRE);
+			throw new ApiException(ConstApiStatus.LOGIN_EXPIRE);
 		}
 		logger.info("会员退出登录成功");
 		return resBodyData;
@@ -90,7 +90,7 @@ public class BasicOpV1Controller {
 	@HasToken
 	@GetMapping(value = "/get_memid_by_token")
 	ResBodyData getMemIdByToken(){
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,null);
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,null);
 		JSONObject reqJson=ValRequest.apiReqData.get();
 		logger.info("收到我是谁API请求：{}",reqJson.toString());
 		String memId=reqJson.getString(SysParamsConst.MEMID);
@@ -104,7 +104,7 @@ public class BasicOpV1Controller {
 	@HasToken
 	@GetMapping(value = "/checktoken")
 	ResBodyData checkToken(){
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,null);
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,null);
 		JSONObject reqJson=ValRequest.apiReqData.get();
 		logger.info("收到校验token API请求：{}",reqJson.toString());
 		if(reqJson.containsKey(SysParamsConst.MEMID)){
@@ -112,7 +112,7 @@ public class BasicOpV1Controller {
 			return resBodyData;
 		}
 		else {
-			throw new ApiException(ApiStatusConst.LOGIN_EXPIRE);
+			throw new ApiException(ConstApiStatus.LOGIN_EXPIRE);
 		}
 	}
 	
@@ -130,7 +130,7 @@ public class BasicOpV1Controller {
 			resBodyDataShiPei=baseOpService.getPut(reqJson);
 		} catch (MdSysException e) {
 			logger.info("旧会员系统getput API请求异常：{}",reqJson.toString());
-			resBodyDataShiPei.setStatus_code(String.valueOf(ApiStatusConst.SYSTEM_ERROR));
+			resBodyDataShiPei.setStatus_code(String.valueOf(ConstApiStatus.SYSTEM_ERROR));
 		}
 		logger.info("旧会员系统getput API请求结果：{}",resBodyDataShiPei.toString());
 		return resBodyDataShiPei;
@@ -146,7 +146,7 @@ public class BasicOpV1Controller {
 			resBodyDataShiPei=baseOpService.handleSignOut(reqJson);
 		} catch (Exception e) {
 			logger.info("旧会员系统handlesignout API请求异常：{}",reqJson.toString());
-			resBodyDataShiPei.setStatus_code(String.valueOf(ApiStatusConst.SYSTEM_ERROR));
+			resBodyDataShiPei.setStatus_code(String.valueOf(ConstApiStatus.SYSTEM_ERROR));
 		}
 		logger.info("旧会员系统handleSignout API请求结果：{}",resBodyDataShiPei.toString());
 		return resBodyDataShiPei;

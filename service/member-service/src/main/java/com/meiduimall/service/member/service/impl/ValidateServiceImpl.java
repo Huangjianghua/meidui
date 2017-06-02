@@ -15,7 +15,7 @@ import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.exception.ServiceException;
-import com.meiduimall.service.member.constant.ApiStatusConst;
+import com.meiduimall.service.member.constant.ConstApiStatus;
 import com.meiduimall.service.member.dao.BaseDao;
 import com.meiduimall.service.member.service.ValidateService;
 import com.meiduimall.service.member.util.DESC;
@@ -36,18 +36,18 @@ public class ValidateServiceImpl implements ValidateService {
 
 	@Override
 	public ResBodyData checkUserIdExists(String userId) throws MdSysException {
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,null);
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,null);
 		String encryUserId=DESC.encryption(userId);
 		List<String> listMemId=null;
 		try {
 			listMemId=baseDao.selectList(encryUserId,"MSMembersMapper.selectCountByUserId");
 		} catch (DaoException e) {
-			throw new ServiceException(ApiStatusConst.ACCOUNT_EXCEPTION);
+			throw new ServiceException(ConstApiStatus.ACCOUNT_EXCEPTION);
 		}
 		
 		if(listMemId.size()==0){
 			logger.info("会员：{}在库中不存在",userId);
-			throw new ServiceException(ApiStatusConst.USERID_IS_NOT_EXIST);
+			throw new ServiceException(ConstApiStatus.USERID_IS_NOT_EXIST);
 		}
 		else if(listMemId.size()==1){
 			logger.info("会员：{}在库中存在一条记录",userId);
@@ -59,7 +59,7 @@ public class ValidateServiceImpl implements ValidateService {
 		}
 		else {
 			logger.info("会员：{}在库中存在多条记录，账号异常",userId);
-			throw new ServiceException(ApiStatusConst.ACCOUNT_EXCEPTION);
+			throw new ServiceException(ConstApiStatus.ACCOUNT_EXCEPTION);
 		}
 		
 	}
@@ -67,7 +67,7 @@ public class ValidateServiceImpl implements ValidateService {
 	@Override
 	public void checkUserIdExistsThrowable(String userId) throws MdSysException{
 		if(checkUserIdExists(userId).getStatus()==0){
-			throw new ServiceException(ApiStatusConst.USERID_IS_EXIST);
+			throw new ServiceException(ConstApiStatus.USERID_IS_EXIST);
 		}
 	}
 

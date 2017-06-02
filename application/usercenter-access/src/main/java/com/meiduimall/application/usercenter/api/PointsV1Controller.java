@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.usercenter.annotation.HasToken;
-import com.meiduimall.application.usercenter.constant.ApiStatusConst;
+import com.meiduimall.application.usercenter.constant.ConstApiStatus;
 import com.meiduimall.application.usercenter.interceptor.ValRequest;
 import com.meiduimall.application.usercenter.service.PointsService;
 import com.meiduimall.core.ResBodyData;
@@ -41,7 +41,7 @@ public class PointsV1Controller {
 			resBodyData=pointsService.listConsumePointsDetail(reqJson);
 		} catch (MdSysException e) {
 			logger.error("积分流水(分页)API异常：{}",e.toString());
-			throw new ApiException(ApiStatusConst.SYSTEM_ERROR);
+			throw new ApiException(ConstApiStatus.SYSTEM_ERROR);
 		}
 		logger.info("积分流水(分页)API请求结果：{}",resBodyData.toString());
 		return resBodyData;

@@ -24,7 +24,7 @@ import com.meiduimall.exception.MdSysException;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.redis.util.RedisTemplate;
 import com.meiduimall.service.member.config.ServiceUrlProfileConfig;
-import com.meiduimall.service.member.constant.ApiStatusConst;
+import com.meiduimall.service.member.constant.ConstApiStatus;
 import com.meiduimall.service.member.constant.SysParamsConst;
 import com.meiduimall.service.member.dao.BaseDao;
 import com.meiduimall.service.member.model.MSMemberAddresses;
@@ -73,11 +73,11 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 	@Override
 	public ResBodyData getBasicInfoByMemId(String memId) throws MdSysException {
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
 		//根据memId查询会员基本信息
 		ResponseMemberBasicInfo memberBasicInfo=baseDao.selectOne(memId,"MSMembersMapper.getRespMemberBasicInfoByMemId");
 		if(memberBasicInfo==null){
-			throw new ServiceException(ApiStatusConst.MEMBER_NOT_EXIST);
+			throw new ServiceException(ConstApiStatus.MEMBER_NOT_EXIST);
 		}
 		memberBasicInfo.setPaypwd_isopen("Y".equals(memberBasicInfo.getPaypwd_isopen())?"1":"0");
 		//根据memId查询会员详细地址
@@ -227,7 +227,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 		}
 		else{
 			logger.info("memId：{}对应的手机号和登录名都为空",memId);
-			throw new ServiceException(ApiStatusConst.ACCOUNT_EXCEPTION);
+			throw new ServiceException(ConstApiStatus.ACCOUNT_EXCEPTION);
 		}
 	}
 
@@ -236,13 +236,13 @@ public class UserInfoServiceImpl implements UserInfoService {
 	public ResBodyData recordArea(String memId, String phone) throws MdSysException{
 		if(StringUtils.isEmpty(memId) || StringUtils.isEmpty(phone)){
 			logger.info("必要参数不能为空!");
-			return new ResBodyData(ApiStatusConst.REQUIRED_PARAM_EMPTY,ApiStatusConst.getZhMsg(ApiStatusConst.REQUIRED_PARAM_EMPTY));
+			return new ResBodyData(ConstApiStatus.REQUIRED_PARAM_EMPTY,ConstApiStatus.getZhMsg(ConstApiStatus.REQUIRED_PARAM_EMPTY));
 		}
 		
 		MobileNumberInfo queryMobile = queryMobile(phone.substring(0, 7));
 		if(StringUtils.isEmpty(queryMobile)){
 			logger.info("手机前7位查询归属地为空!");
-			return new ResBodyData(ApiStatusConst.QUERY_MOBILE_EXCEPTION,ApiStatusConst.getZhMsg(ApiStatusConst.QUERY_MOBILE_EXCEPTION));
+			return new ResBodyData(ConstApiStatus.QUERY_MOBILE_EXCEPTION,ConstApiStatus.getZhMsg(ConstApiStatus.QUERY_MOBILE_EXCEPTION));
 		}
 		MSMemberMobileArea msMemberMobileArea = new MSMemberMobileArea();
 		msMemberMobileArea.setMemId(memId);
@@ -254,11 +254,11 @@ public class UserInfoServiceImpl implements UserInfoService {
 		MSMemberMobileArea mSMemberMobi = baseDao.selectOne(msMemberMobileArea, "MSMemberMobileAreaMapper.findMSMemberMobileArea");
 		if(!StringUtils.isEmpty(mSMemberMobi)){
 			logger.info("已经新增过: phone={},memId={} ", phone, memId);
-			return new ResBodyData(ApiStatusConst.SUCCESS, "已经新增过phone="+phone+", memId="+memId);
+			return new ResBodyData(ConstApiStatus.SUCCESS, "已经新增过phone="+phone+", memId="+memId);
 		}else{
 			baseDao.insert(msMemberMobileArea, "MSMemberMobileAreaMapper.insert");
 		}
-		return new ResBodyData(ApiStatusConst.SUCCESS, "成功");
+		return new ResBodyData(ConstApiStatus.SUCCESS, "成功");
 	}
 
 
@@ -270,11 +270,11 @@ public class UserInfoServiceImpl implements UserInfoService {
 		try {
 		   memberMobileAreaDTO = baseDao.selectList(null, "MSMembersMapper.findNotInMemberMobileArea");
 		   if(StringUtils.isEmpty(memberMobileAreaDTO)){
-			   return new ResBodyData(ApiStatusConst.SUCCESS,"没有需要更新的会员");
+			   return new ResBodyData(ConstApiStatus.SUCCESS,"没有需要更新的会员");
 		   }
 		} catch (DaoException e) {
 			 logger.error("查询不在会员手机归属地表异常: {}",e);
-			 throw new ServiceException(ApiStatusConst.FIND_MEMBER_EXCEPTION);
+			 throw new ServiceException(ConstApiStatus.FIND_MEMBER_EXCEPTION);
 		}	 
 		    for (MemberMobileAreaDTO mmaDTO : memberMobileAreaDTO) {
 		    	try {
@@ -296,7 +296,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 					}
 				} catch (MdSysException e) {
 					logger.error("查询手机前7位确定归属地异常: {}",e);
-					throw new ServiceException(ApiStatusConst.QUERY_MOBILE_EXCEPTION);
+					throw new ServiceException(ConstApiStatus.QUERY_MOBILE_EXCEPTION);
 				}
 			}
 			try {
@@ -304,9 +304,9 @@ public class UserInfoServiceImpl implements UserInfoService {
 				baseDao.insertBatch(areas, "MSMemberMobileAreaMapper.insertSelective");
 			} catch (DaoException e) {
 				logger.error("批量插入会员手机归属地表异常: {}",e);
-				throw new ServiceException(ApiStatusConst.INSERT_SELECTIVE_EXCEPTION);
+				throw new ServiceException(ConstApiStatus.INSERT_SELECTIVE_EXCEPTION);
 			}
-		return new ResBodyData(ApiStatusConst.SUCCESS, "执行完成");
+		return new ResBodyData(ConstApiStatus.SUCCESS, "执行完成");
 	}
 
 	

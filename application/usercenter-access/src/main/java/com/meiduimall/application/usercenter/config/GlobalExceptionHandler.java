@@ -11,7 +11,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.meiduimall.application.usercenter.constant.ApiStatusConst;
+import com.meiduimall.application.usercenter.constant.ConstApiStatus;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdSysException;
 
@@ -30,14 +30,14 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(value = MdBizException.class)
   public ResBodyData bizeExceptionHandler(HttpServletRequest request, MdBizException exception) {
-    logger.error(request.getContextPath()+request.getRequestURI()+" "+ApiStatusConst.getZhMsg(exception.getCode()));
-    return new ResBodyData(exception.getCode(),ApiStatusConst.getZhMsg(exception.getCode()));
+    logger.error(request.getContextPath()+request.getRequestURI()+" "+ConstApiStatus.getZhMsg(exception.getCode()));
+    return new ResBodyData(exception.getCode(),ConstApiStatus.getZhMsg(exception.getCode()));
   }
   
   @ExceptionHandler(value = MdSysException.class)
   public ResBodyData systemExceptionHandler(HttpServletRequest request, MdSysException exception) {
-    logger.error(request.getContextPath()+request.getRequestURI()+" "+ApiStatusConst.getZhMsg(exception.getCode()));
-    return new ResBodyData(exception.getCode(),ApiStatusConst.getZhMsg(exception.getCode()));
+    logger.error(request.getContextPath()+request.getRequestURI()+" "+ConstApiStatus.getZhMsg(exception.getCode()));
+    return new ResBodyData(exception.getCode(),ConstApiStatus.getZhMsg(exception.getCode()));
   }
 
 

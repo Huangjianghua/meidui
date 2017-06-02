@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.meiduimall.exception.MdSysException;
-import com.meiduimall.service.member.constant.ApiStatusConst;
+import com.meiduimall.service.member.constant.ConstApiStatus;
 import com.meiduimall.service.member.constant.SysParamsConst;
 
 /**
@@ -77,7 +77,7 @@ public class ToolsUtil {
 			to = simpleFormat.parse(getTomorrowZeroClockTime()).getTime();
 		} catch (ParseException e) {
 			logger.error("执行getNowToTomorrowTimeSub()方法异常：{}",e.toString());
-			throw new MdSysException(ApiStatusConst.PARSE_DATE_EXCEPTION,ApiStatusConst.getZhMsg(ApiStatusConst.PARSE_DATE_EXCEPTION));
+			throw new MdSysException(ConstApiStatus.PARSE_DATE_EXCEPTION,ConstApiStatus.getZhMsg(ConstApiStatus.PARSE_DATE_EXCEPTION));
 		} 
 		int minutes = (int) (to - from)/1000;
 		return minutes;

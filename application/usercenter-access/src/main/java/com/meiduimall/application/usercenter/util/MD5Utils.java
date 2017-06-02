@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSONObject;
-import com.meiduimall.application.usercenter.constant.ApiStatusConst;
+import com.meiduimall.application.usercenter.constant.ConstApiStatus;
 import com.meiduimall.application.usercenter.constant.SysParamsConst;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdSysException;
@@ -51,7 +51,7 @@ public class MD5Utils {
 			serverSign=MD5Utils.MD5EncryptBy32(buffer.toString()).toUpperCase();
 		} catch (Exception e) {
 			logger.error("生成签名程序异常",e.toString());
-			throw new MdSysException(ApiStatusConst.CREATE_SIGN_EXCEPTION);
+			throw new MdSysException(ConstApiStatus.CREATE_SIGN_EXCEPTION);
 		}
 		return serverSign;
 	}

@@ -7,7 +7,7 @@ import com.meiduimall.core.BaseApiCode;
  * @author chencong
  *
  */
-public class ApiStatusConst extends BaseApiCode {
+public class ConstApiStatus extends BaseApiCode {
 	
 	public final static Integer SYSTEM_ERROR=9001;
 	public final static Integer REQUEST_GATEWAY_EX=9002;

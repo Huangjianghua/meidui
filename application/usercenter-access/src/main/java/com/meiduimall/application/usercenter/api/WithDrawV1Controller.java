@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.usercenter.annotation.HasToken;
-import com.meiduimall.application.usercenter.constant.ApiStatusConst;
+import com.meiduimall.application.usercenter.constant.ConstApiStatus;
 import com.meiduimall.application.usercenter.interceptor.ValRequest;
 import com.meiduimall.application.usercenter.service.WithDrawService;
 import com.meiduimall.core.ResBodyData;
@@ -37,7 +37,7 @@ public class WithDrawV1Controller {
 			resBodyData=withdrawService.queryWithDrawDetail(reqJson);
 		} catch (Exception e) {
 			logger.info("提现明细API请求异常：{}",e.toString());
-			throw new ApiException(ApiStatusConst.SYSTEM_ERROR);
+			throw new ApiException(ConstApiStatus.SYSTEM_ERROR);
 		}
 		logger.info("提现明细API请求结果：{}",resBodyData.toString());
 		return resBodyData;

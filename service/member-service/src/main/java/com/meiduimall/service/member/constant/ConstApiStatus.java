@@ -4,62 +4,113 @@ import com.meiduimall.core.BaseApiCode;
 
 /**
  * API返回状态编码和编码语义
- * 
  * @author chencong
  *
  */
-public abstract class ApiStatusConst extends BaseApiCode {
+public abstract class ConstApiStatus extends BaseApiCode {
 	
-    /**公共*/
+    /**系统内部错误*/
+	//请求参数为空
 	public final static Integer REQUIRED_PARAM_EMPTY= 1002;
+	//MD5错误
 	public final static Integer MD5_EXCEPTION= 1003;
+	//解密异常
 	public final static Integer DECRYPTION_EXCEPTION= 1004;
+	//加密异常
 	public final static Integer ENCRYPTION_EXCEPTION= 1005;
+	//HTTP请求异常
 	public final static Integer HTTP_EXCEPTION= 1006;
+	//解析数据异常
 	public final static Integer PARSE_DATE_EXCEPTION= 1007;
+	//数据库查询异常
 	public final static Integer DB_SELECT_EXCEPTION= 1008;
+	//数据库更新异常
 	public final static Integer DB_UPDATE_EXCEPTION= 1009;
+	//数据库删除异常
 	public final static Integer DB_DELETE_EXCEPTION= 1010;
+	//数据库删除异常
 	public final static Integer DB_INSERT_EXCEPTION= 1011;
+	//系统错误
 	public final static Integer SYSTEM_ERROR= 1012;
 	
+	/**会员账号校验相关*/
+	//用户名错误
 	public final static Integer USERNAME_ERROR=8001;
+	//当前会员不存在
 	public final static Integer MEMBER_NOT_EXIST=8002;
+	//登录密码错误
 	public final static Integer PASSWORD_ERROR=8003;
-	public final static Integer TOKEN_NOT_EXISTS=8004;
-	public final static Integer EXIT_ERROR=8005;
+	//该手机号已经被注册
 	public final static Integer PHONE_ALREADY_REGISTED=8006;
+	//该登录名已被注册
 	public final static Integer LOGINNAME_ALREADY_REGISTED=8007;
+	//分享人不能是自己
 	public final static Integer SHARE_MAN_CANNOT_IS_ITSELF=8008;
+	//分享人不存在
 	public final static Integer SHARE_MAN_NOT_EXIST=8009;
-	public final static Integer MEMBER_FORBIDDEN=8011;
-	public final static Integer MEMBER_LOCK=8012;
+	//账号异常
+	public final static Integer ACCOUNT_EXCEPTION=8010;
+	//会员账号ID不能为空
+	public final static Integer ACCOUNT_MEMBER_ID_NULL=8011;
+	//该账号不存在
+	public final static Integer USERID_IS_NOT_EXIST=8012;
+	//该账号已存在
+	public final static Integer USERID_IS_EXIST=8013;
 	
-	public final static Integer GET_USERINFO_EXCEPTION=8013;
-	public final static Integer SET_PAYPWD_STATUS_EXCEPTION=8014;
-	public final static Integer LOGIN_EXCEPTION=8015;
-	public final static Integer GET_VALIDATE_CODE_EXCEPTION=8016;
-	public final static Integer REGISTER_EXCEPTION=8017;
-	public final static Integer CHECK_TOKEN_NOT_PASS=8018;
-	public final static Integer ACCOUNT_EXCEPTION=8019;
-	public final static Integer CHECK_VALIDATE_CODE_NOT_PASS=8020;
-	public final static Integer SEND_SMS_FAILED=8021;
+	/**会员账号权限相关*/
+	//token不存在
+	public final static Integer TOKEN_NOT_EXISTS=8201;
+	//token校验不通过
+	public final static Integer CHECK_TOKEN_NOT_PASS=8202;
+	//会员被禁用
+	public final static Integer MEMBER_FORBIDDEN=8203;
+	//会员已被锁定
+	public final static Integer MEMBER_LOCK=8204;
+	//解禁账号异常
+	public final static Integer UNDISABLED_ACCOUNT_EXCEPTION=8205;
+	//禁用账号异常
+	public final static Integer DISABLED_ACCOUNT_EXCEPTION=8206;
+	//获取用户登陆解锁列表异常
+	public final static Integer LOGIN_UNLOCK_LIST_EXCEPTION=8207;
+	//解锁异常
+	public final static Integer LOGIN_UNLOCK_EXCEPTION=8208;
+	//重置账号密码异常
+	public final static Integer RESET_ACCOUNT_PWD_EXCEPTION=8209;
 	
-	public final static Integer LOGIN_UNLOCK_LIST_EXCEPTION=8022;
-	public final static Integer LOGIN_UNLOCK_EXCEPTION=8023;
-	public final static Integer RESET_ACCOUNT_PWD_EXCEPTION=8024;
-	public final static Integer UNDISABLED_ACCOUNT_EXCEPTION=8025;
-	public final static Integer DISABLED_ACCOUNT_EXCEPTION=8026;
+	/**API请求异常相关*/
+	//获取会员基本信息异常
+	public final static Integer GET_USERINFO_EXCEPTION=8301;
+	//设置支付密码开关状态异常
+	public final static Integer SET_PAYPWD_STATUS_EXCEPTION=8302;
+	//登录异常
+	public final static Integer LOGIN_EXCEPTION=8304;
+	//注册异常
+	public final static Integer REGISTER_EXCEPTION=8305;
+	//退出异常
+	public final static Integer EXIT_ERROR=8306;
+
 	
-	public final static Integer ACCOUNT_MEMBER_ID_NULL=8027;
-	public final static Integer USERID_IS_NOT_EXIST=8028;
-	public final static Integer USERID_IS_EXIST=8029;
+	/**短信相关*/
+	//校验短信验证码不通过
+	public final static Integer CHECK_VALIDATE_CODE_NOT_PASS=8801;
+	//发送短信失败
+	public final static Integer SEND_SMS_FAILED=8802;
+	//获取短信验证码异常
+	public final static Integer GET_VALIDATE_CODE_EXCEPTION=8803;
 	
-	public static final Integer WEIXIN_OPENID_BINGDING_FAIL = 8101;
-	public static final Integer NOT_BINGDING_WEIXIN_OPENID = 8102;
-	public static final Integer FIND_MEMBER_EXCEPTION= 8103;
-	public static final Integer QUERY_MOBILE_EXCEPTION= 8104;
-	public static final Integer INSERT_SELECTIVE_EXCEPTION= 8105;
+	/**第三方SDK（例如微信）相关*/
+	//微信openID绑定失败
+	public static final Integer WEIXIN_OPENID_BINGDING_FAIL = 8821;
+	//未绑定微信openID
+	public static final Integer NOT_BINGDING_WEIXIN_OPENID = 8822;
+
+	/**其他*/
+	//查询不在会员手机归属地表异常
+	public static final Integer FIND_MEMBER_EXCEPTION= 8841;
+	//查询手机前7位确定归属地异常
+	public static final Integer QUERY_MOBILE_EXCEPTION= 8842;
+	//批量插入会员手机归属地表异常
+	public static final Integer INSERT_SELECTIVE_EXCEPTION= 8843;
 
 	static {
 		zhMsgMap.put(REQUIRED_PARAM_EMPTY, "必填参数为空");

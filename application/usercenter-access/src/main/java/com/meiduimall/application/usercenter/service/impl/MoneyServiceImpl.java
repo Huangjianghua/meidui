@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.usercenter.config.ProfileParamsConfig;
-import com.meiduimall.application.usercenter.constant.ApiStatusConst;
+import com.meiduimall.application.usercenter.constant.ConstApiStatus;
 import com.meiduimall.application.usercenter.constant.SysParamsConst;
 import com.meiduimall.application.usercenter.service.MoneyService;
 import com.meiduimall.application.usercenter.util.HttpUtils;
@@ -42,7 +42,7 @@ public class MoneyServiceImpl implements MoneyService  {
 			resBodyData=JSON.parseObject(result,ResBodyData.class);
 		} catch (Exception e) {
 			logger.error("调用账户服务>>余额流水（分页）API>>异常:{}",e.toString());
-			throw new MdSysException(ApiStatusConst.REQUEST_GATEWAY_EX);
+			throw new MdSysException(ConstApiStatus.REQUEST_GATEWAY_EX);
 		}
 		return resBodyData;
 	}
@@ -61,7 +61,7 @@ public class MoneyServiceImpl implements MoneyService  {
 			resBodyData=JSON.parseObject(result,ResBodyData.class);
 		} catch (Exception e) {
 			logger.error("调用账户服务>>提现申请API>>异常:{}",e.toString());
-			throw new MdSysException(ApiStatusConst.REQUEST_GATEWAY_EX);
+			throw new MdSysException(ConstApiStatus.REQUEST_GATEWAY_EX);
 		}
 		return resBodyData;
 	}

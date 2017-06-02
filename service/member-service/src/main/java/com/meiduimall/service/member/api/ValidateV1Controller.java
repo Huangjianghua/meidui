@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.MdSysException;
-import com.meiduimall.service.member.constant.ApiStatusConst;
+import com.meiduimall.service.member.constant.ConstApiStatus;
 import com.meiduimall.service.member.service.ValidateService;
 
 /**
@@ -38,7 +38,7 @@ public class ValidateV1Controller {
 			return resBodyData;
 		} catch (MdSysException e) {
 			logger.error("校验userId：{}API请求异常：{}",userid,e.toString());
-			throw new ApiException(ApiStatusConst.SYSTEM_ERROR);
+			throw new ApiException(ConstApiStatus.SYSTEM_ERROR);
 		}
 	}
 }

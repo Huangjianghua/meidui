@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.usercenter.config.ProfileParamsConfig;
-import com.meiduimall.application.usercenter.constant.ApiStatusConst;
+import com.meiduimall.application.usercenter.constant.ConstApiStatus;
 import com.meiduimall.application.usercenter.constant.SysParamsConst;
 import com.meiduimall.application.usercenter.service.PayPwdService;
 import com.meiduimall.application.usercenter.util.HttpUtils;
@@ -40,7 +40,7 @@ public class PayPwdServiceImpl implements PayPwdService  {
 			resBodyData=JSON.parseObject(result,ResBodyData.class);
 		} catch (Exception e) {
 			logger.error("调用账户服务>>验证支付密码API>>异常:{}",e.toString());
-			throw new MdSysException(ApiStatusConst.REQUEST_GATEWAY_EX);
+			throw new MdSysException(ConstApiStatus.REQUEST_GATEWAY_EX);
 		}
 		return resBodyData;
 	}
@@ -57,7 +57,7 @@ public class PayPwdServiceImpl implements PayPwdService  {
 			resBodyData=JSON.parseObject(result,ResBodyData.class);
 		} catch (Exception e) {
 			logger.error("调用账户服务>>设置支付密码API>>异常:{}",e.toString());
-			throw new MdSysException(ApiStatusConst.REQUEST_GATEWAY_EX);
+			throw new MdSysException(ConstApiStatus.REQUEST_GATEWAY_EX);
 		}
 		return resBodyData;
 	}
@@ -76,14 +76,14 @@ public class PayPwdServiceImpl implements PayPwdService  {
 			resBodyData=JSON.parseObject(result,ResBodyData.class);
 		} catch (Exception e) {
 			logger.error("调用账户服务>>设置支付密码开关状态API>>异常:{}",e.toString());
-			resBodyData.setStatus(ApiStatusConst.REQUEST_GATEWAY_EX);
+			resBodyData.setStatus(ConstApiStatus.REQUEST_GATEWAY_EX);
 		}
 		return resBodyData;
 	}
 
 	@Override
 	public ResBodyData updatePaypwd(JSONObject reqJson) throws MdSysException {
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
 		String url=profile.getServiceAccountUrl()+"v1/update_pay_pwd";
 		MD5Utils.updateSign(reqJson,profile.getRouteClientID(),profile.getRouteKey());
 		logger.info("调用账户服务>>修改支付密码API>>URL:{}  DATA:{}",url,reqJson.toString());
@@ -95,14 +95,14 @@ public class PayPwdServiceImpl implements PayPwdService  {
 			resBodyData=JSON.parseObject(result,ResBodyData.class);
 		} catch (Exception e) {
 			logger.error("调用账户服务>>修改支付密码API>>异常：{}",e.toString());
-			throw new MdSysException(ApiStatusConst.REQUEST_GATEWAY_EX);
+			throw new MdSysException(ConstApiStatus.REQUEST_GATEWAY_EX);
 		}
 		return resBodyData;
 	}
 	
 	@Override
 	public ResBodyData retrievePaypwd(JSONObject reqJson) throws MdSysException {
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
 		String url=profile.getServiceAccountUrl()+"v1/retrieve_pay_pwd";
 		MD5Utils.updateSign(reqJson,profile.getRouteClientID(),profile.getRouteKey());
 		logger.info("调用账户服务>>找回支付密码API>>URL:{}  DATA:{}",url,reqJson.toString());
@@ -114,7 +114,7 @@ public class PayPwdServiceImpl implements PayPwdService  {
 			resBodyData=JSON.parseObject(result,ResBodyData.class);
 		} catch (Exception e) {
 			logger.error("调用账户服务>>找回支付密码API>>异常：{}",e.toString());
-			throw new MdSysException(ApiStatusConst.REQUEST_GATEWAY_EX);
+			throw new MdSysException(ConstApiStatus.REQUEST_GATEWAY_EX);
 		}
 		return resBodyData;
 	}

@@ -12,7 +12,7 @@ import com.alibaba.fastjson.JSON;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.member.config.ServiceUrlProfileConfig;
-import com.meiduimall.service.member.constant.ApiStatusConst;
+import com.meiduimall.service.member.constant.ConstApiStatus;
 import com.meiduimall.service.member.constant.SmsTemplateIDConst;
 import com.meiduimall.service.member.constant.SmsTypeConst;
 import com.meiduimall.service.member.constant.SysParamsConst;
@@ -46,7 +46,7 @@ public class SmsServiceImpl implements SmsService
 			result=HttpUtils.form(smsServiceUrl,mapSmsData);
 		} catch (Exception e) {
 			logger.error("账号服务>>调用短信服务>>获取短信验证码API>>异常：{}",e.toString());
-			throw new ServiceException(ApiStatusConst.GET_VALIDATE_CODE_EXCEPTION);
+			throw new ServiceException(ConstApiStatus.GET_VALIDATE_CODE_EXCEPTION);
 		} 
 		ResBodyData resBodyData=JSON.parseObject(result,ResBodyData.class);
 		logger.info("调用短信服务>>获取短信验证码API>>RESULT:{}",resBodyData.toString());
@@ -56,7 +56,7 @@ public class SmsServiceImpl implements SmsService
 		}
 		else{
 			logger.info("手机号：{}短信验证码获取失败",model.getPhone());
-			throw new ServiceException(ApiStatusConst.GET_VALIDATE_CODE_EXCEPTION);
+			throw new ServiceException(ConstApiStatus.GET_VALIDATE_CODE_EXCEPTION);
 		}
 	}
 	
@@ -75,7 +75,7 @@ public class SmsServiceImpl implements SmsService
 			result=HttpUtils.form(smsServiceUrl,mapSmsData);
 		} catch (Exception e) {
 			logger.error("账号服务>>调用短信服务>>校验短信验证码API>>异常：{}",e.toString());
-			throw new ServiceException(ApiStatusConst.CHECK_VALIDATE_CODE_NOT_PASS);
+			throw new ServiceException(ConstApiStatus.CHECK_VALIDATE_CODE_NOT_PASS);
 		} 
 		ResBodyData resBodyData=JSON.parseObject(result,ResBodyData.class);
 		logger.info("调用短信服务>>校验短信验证码API>>RESULT:{}",resBodyData.toString());
@@ -85,7 +85,7 @@ public class SmsServiceImpl implements SmsService
 		}
 		else {
 			logger.info("手机号：{}短信验证码校验不通过",model.getPhone());
-			throw new ServiceException(ApiStatusConst.CHECK_VALIDATE_CODE_NOT_PASS);
+			throw new ServiceException(ConstApiStatus.CHECK_VALIDATE_CODE_NOT_PASS);
 		}
 	}
 

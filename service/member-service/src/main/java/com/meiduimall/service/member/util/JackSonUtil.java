@@ -4,7 +4,7 @@ import java.util.Map;
 
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.MdSysException;
-import com.meiduimall.service.member.constant.ApiStatusConst;
+import com.meiduimall.service.member.constant.ConstApiStatus;
 
 public class JackSonUtil {
 
@@ -14,7 +14,7 @@ public class JackSonUtil {
 		try {
 			return JsonUtils.getInstance().readValue(json,Map.class);
 		} catch (Exception e) {
-			throw new MdSysException(ApiStatusConst.ACCOUNT_EXCEPTION);
+			throw new MdSysException(ConstApiStatus.ACCOUNT_EXCEPTION);
 		}
 	}
 }

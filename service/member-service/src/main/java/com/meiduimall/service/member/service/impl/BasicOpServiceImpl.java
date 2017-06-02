@@ -20,7 +20,7 @@ import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.redis.util.RedisTemplate;
-import com.meiduimall.service.member.constant.ApiStatusConst;
+import com.meiduimall.service.member.constant.ConstApiStatus;
 import com.meiduimall.service.member.constant.SmsTemplateIDConst;
 import com.meiduimall.service.member.constant.SysEncrypParamsConst;
 import com.meiduimall.service.member.constant.SysParamsConst;
@@ -82,7 +82,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 		String memid=msMembersGet.getMemId();
 		//如果不存在这个memid
 		if(StringUtil.isEmptyByString(memid)){
-			map.put("status_code", ApiStatusConst.MEMBER_NOT_EXIST);
+			map.put("status_code", ConstApiStatus.MEMBER_NOT_EXIST);
 			return map;
 		}
 		try {
@@ -164,7 +164,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 				memid=msMembersGet.getMemId();
 				//如果不存在这个memid
 				if(StringUtil.isEmptyByString(memid)){
-					map.put("status_code", ApiStatusConst.MEMBER_NOT_EXIST);
+					map.put("status_code", ConstApiStatus.MEMBER_NOT_EXIST);
 					return map;
 				}	
 			}
@@ -238,7 +238,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 	
 	@Transactional
 	public ResBodyData login(RequestLogin requestLogin) throws MdSysException {
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
 		String userid=requestLogin.getUser_name();//用户名
 		String password=requestLogin.getPassword();//密码
 		String tokenKey=requestLogin.getTokenKey();
@@ -247,7 +247,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 		mapCondition.put("userid",DESC.encryption(userid));
 		MSMembersGet msMembersGet=baseDao.selectOne(mapCondition,"MSMembersMapper.getMemberBasicInfoByCondition");//根据userid判断该用户是否存在
 		if(msMembersGet==null){
-			throw new ServiceException(ApiStatusConst.MEMBER_NOT_EXIST);
+			throw new ServiceException(ConstApiStatus.MEMBER_NOT_EXIST);
 		}
 		String memLockCount=msMembersGet.getMemLockCount();//锁定次数密文
 		String memLockCountPlained=msMembersGet.getMemLockCountPlained();//锁定次数明文
@@ -258,7 +258,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 			String count=RedisTemplate.getJedisInstance().execGetFromCache(redisLoginFail);
 			if(Integer.valueOf(count)>=SysParamsConst.MAX_LOGIN_FAIL_COUNT){
 				logger.warn("该会员当天登录失败次数已达到5次，暂时被锁定 ");
-				throw new ServiceException(ApiStatusConst.MEMBER_LOCK);
+				throw new ServiceException(ConstApiStatus.MEMBER_LOCK);
 			}
 		}
 		
@@ -275,7 +275,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 			logger.info("会员：{}用户名和密码输入正确",userid);
 			if(msMembersGet.getDictMemStatus().equals(SysEncrypParamsConst.MEMBER_FORBIDDEN_EN)){//如果该会员账号已被禁用
 				logger.info("会员{}被禁用，无法登录！",userid);
-				throw new ServiceException(ApiStatusConst.MEMBER_FORBIDDEN);
+				throw new ServiceException(ConstApiStatus.MEMBER_FORBIDDEN);
 			}
 			String redisToken=ToolsUtil.createToken(userid,tokenKey);//生成token
 			logger.info("token创建成功：{}",redisToken);
@@ -312,8 +312,8 @@ public class BasicOpServiceImpl implements BasicOpService {
 			msMembersSet.setMemLockCount(String.valueOf(newLoginLockCount));
 			msMembersSet.setMemLockCountPlained(String.valueOf(newLoginLockCountPlained));
 			baseDao.update(msMembersSet,"MSMembersMapper.updateMemberBasicInfoByCondition");
-			resBodyData.setStatus(ApiStatusConst.PASSWORD_ERROR);
-			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.PASSWORD_ERROR));
+			resBodyData.setStatus(ConstApiStatus.PASSWORD_ERROR);
+			resBodyData.setMsg(ConstApiStatus.getZhMsg(ConstApiStatus.PASSWORD_ERROR));
 		}
 		return resBodyData;
 	}
@@ -321,7 +321,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 	@Transactional
 	@Override
 	public ResBodyData register(RequestRegister model) throws MdSysException{
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
 		boolean open_default_share_man=false;//是否分配默认推荐人
 		boolean open_default_login_name=false;//是否分配默认登录名
 		String tokenKey=model.getTokenKey();
@@ -335,7 +335,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 		/**校验推荐人,没传就分配默认的*/
 		if(!StringUtils.isEmpty(model.getShare_man())){
 			if(model.getLogin_name().equals(model.getShare_man())||model.getPhone().equals(model.getShare_man())){
-				throw new ServiceException(ApiStatusConst.SHARE_MAN_CANNOT_IS_ITSELF);
+				throw new ServiceException(ConstApiStatus.SHARE_MAN_CANNOT_IS_ITSELF);
 			}
 		}
 		else {
@@ -439,7 +439,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 	@Transactional
 	@Override
 	public ResBodyData registerO2O(RequestRegisterO2O model) throws MdSysException {
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
 		boolean open_default_share_man=false;//是否分配默认推荐人
 		boolean open_default_login_name=false;//是否分配默认登录名
 		String tokenKey=model.getTokenKey();
@@ -515,7 +515,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 	@Transactional
 	@Override
 	public ResBodyData registerScanCode(RequestRegister model) throws MdSysException {
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
 		boolean open_default_share_man=false;//是否分配默认推荐人
 		boolean open_default_login_name=false;//是否分配默认登录名
 		String tokenKey=model.getTokenKey();
@@ -524,7 +524,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 		/**校验推荐人,没传就分配默认的*/
 		if(!StringUtils.isEmpty(model.getShare_man())){
 			if(model.getPhone().equals(model.getShare_man())){
-				throw new ServiceException(ApiStatusConst.SHARE_MAN_CANNOT_IS_ITSELF);
+				throw new ServiceException(ConstApiStatus.SHARE_MAN_CANNOT_IS_ITSELF);
 			}
 		}
 		else {

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.exception.ServiceException;
-import com.meiduimall.service.member.constant.ApiStatusConst;
+import com.meiduimall.service.member.constant.ConstApiStatus;
 import com.meiduimall.service.member.constant.SysParamsConst;
 import com.meiduimall.service.member.dao.BaseDao;
 import com.meiduimall.service.member.model.MSMembersGet;
@@ -45,7 +45,7 @@ public class ShareMenServiceImpl implements ShareMenService{
 		}
 		else{
 			logger.warn("推荐人:{}校验不通过",share_man);
-			throw new ServiceException(ApiStatusConst.SHARE_MAN_NOT_EXIST);
+			throw new ServiceException(ConstApiStatus.SHARE_MAN_NOT_EXIST);
 		}
 	}
 

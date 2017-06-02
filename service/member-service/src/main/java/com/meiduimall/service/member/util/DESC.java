@@ -18,7 +18,7 @@ import org.springframework.util.StringUtils;
 
 import com.meiduimall.core.Constants;
 import com.meiduimall.exception.MdSysException;
-import com.meiduimall.service.member.constant.ApiStatusConst;
+import com.meiduimall.service.member.constant.ConstApiStatus;
 import com.meiduimall.service.member.constant.SysParamsConst;
 
 /**
@@ -84,7 +84,7 @@ public class DESC {
 			result=Base64.encodeBase64String(cipher.doFinal(data.getBytes(SysParamsConst.GBK)));
 		} catch (Exception e) {
 			logger.error("加密程序异常：{}",e.toString());
-			throw new MdSysException(ApiStatusConst.ENCRYPTION_EXCEPTION);
+			throw new MdSysException(ConstApiStatus.ENCRYPTION_EXCEPTION);
 		}
 		return result;
 	}
@@ -104,7 +104,7 @@ public class DESC {
 			result=new String(cipher.doFinal(Base64.decodeBase64(data)),SysParamsConst.GBK);
 		} catch (Exception e) {
 			logger.error("解密程序异常：{}",e.toString());
-			throw new MdSysException(ApiStatusConst.DECRYPTION_EXCEPTION);
+			throw new MdSysException(ConstApiStatus.DECRYPTION_EXCEPTION);
 		}
 		return result;
 	}

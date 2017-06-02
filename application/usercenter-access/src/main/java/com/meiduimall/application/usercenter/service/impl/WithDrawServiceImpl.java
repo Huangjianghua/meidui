@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.usercenter.config.ProfileParamsConfig;
-import com.meiduimall.application.usercenter.constant.ApiStatusConst;
+import com.meiduimall.application.usercenter.constant.ConstApiStatus;
 import com.meiduimall.application.usercenter.constant.SysParamsConst;
 import com.meiduimall.application.usercenter.service.WithDrawService;
 import com.meiduimall.application.usercenter.util.HttpUtils;
@@ -42,7 +42,7 @@ public class WithDrawServiceImpl implements WithDrawService{
 			resBodyData=JSON.parseObject(result,ResBodyData.class);
 		} catch (Exception e) {
 			logger.error("提现明细API>>异常:{}",e.toString());
-			throw new MdSysException(ApiStatusConst.REQUEST_GATEWAY_EX);
+			throw new MdSysException(ConstApiStatus.REQUEST_GATEWAY_EX);
 		}
 		return resBodyData;
 	}
