@@ -14,11 +14,16 @@ import com.meiduimall.application.usercenter.service.WithDrawService;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
 
+/**
+ * 提现相关API
+ * @author chencong
+ *
+ */
 @RestController
 @RequestMapping("/member/front_user_center/v1")
 public class WithDrawV1Controller {
 
-	private static Logger logger = LoggerFactory.getLogger(MoneyV1Controller.class);
+	private static Logger logger = LoggerFactory.getLogger(WithDrawV1Controller.class);
 	
 	@Autowired
 	private WithDrawService withdrawService;
