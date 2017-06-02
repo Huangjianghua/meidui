@@ -32,6 +32,8 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	public final static Integer DB_INSERT_EXCEPTION= 1011;
 	//系统错误
 	public final static Integer SYSTEM_ERROR= 1012;
+	//json解析异常
+	public final static Integer JSON_PARSE_EXCEPTION= 1013;
 	
 	/**会员账号校验相关*/
 	//用户名错误
