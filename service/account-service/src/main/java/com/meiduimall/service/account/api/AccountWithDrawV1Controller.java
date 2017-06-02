@@ -25,6 +25,7 @@ import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.model.MSAccountDetailCondition;
 import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
 import com.meiduimall.service.account.model.request.RequestMSBankWithDrawDepostie;
+import com.meiduimall.service.account.model.request.RequestSaveBankWithdrawDeposit;
 import com.meiduimall.service.account.model.response.ResponseBankWithdrawDeposits;
 import com.meiduimall.service.account.model.response.ResponseOldBankWithdrawDeposits;
 import com.meiduimall.service.account.service.BankWithdrawDepositService;
@@ -299,5 +300,10 @@ public class AccountWithDrawV1Controller {
 		result.setMsg(ConstApiStatus.SUCCESS_C);
 		result.setData(data);
 		return result;
+	}
+	
+	@PostMapping(value = "/saveBankWithdrawDeposit_old")
+	public String saveBankWithdrawDeposit_old(RequestSaveBankWithdrawDeposit model){
+		return null;
 	}
 }
