@@ -1,11 +1,14 @@
 package com.meiduimall.service.member.constant;
 
 /**
- * 系统参数名称以及其他特殊字符常量
+ * 其他系统参数名称定义
  * @author chencong
  *
  */
-public class ConstSysParams {
+public class ConstSysParamsDefination {
+	
+	/**会员ID*/
+	public static final String MEM_ID = "memId";
 	
 	/**最大失败登录次数*/
 	public final static int MAX_LOGIN_FAIL_COUNT=5;
