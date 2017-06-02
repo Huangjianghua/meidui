@@ -20,10 +20,10 @@ import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdBizException;
 import com.meiduimall.service.account.constant.ConstAccountAdjustStatus;
+import com.meiduimall.service.account.constant.ConstAccountAdjustType;
 import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.constant.ConstSysParamsDefination;
 import com.meiduimall.service.account.constant.ConstTradeType;
-import com.meiduimall.service.account.constant.ConstAccountAdjustType;
 import com.meiduimall.service.account.constant.ConstWithdrawStatus;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.AccountReviseDetail;
@@ -215,7 +215,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		//step3 修改会员账户余额
 		this.updateAccountBalance(account.getId(), balance);
 		//step4 记录调整金额流水记录
-		//this.saveAccountDetail(detail,account,type,balance);
+		this.saveAccountDetail(detail,account,type,balance);
 		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M);
 	}
 	
@@ -244,7 +244,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月20日 下午4:49:13
 	 */
-	private void saveAccountDetail(AccountReviseDetail detail,MSAccount account,String type,Double balance) throws MdBizException{
+	private void saveAccountDetail(AccountReviseDetail detail,MSAccountReport account,String type,Double balance) throws MdBizException{
 		//业务流水号  CWTZ+年月日时+6位随机数
 		StringBuffer businesNo=new StringBuffer(ConstSysParamsDefination.TRADETYPE);
 		businesNo.append(DateUtil.format(new Date(), DateUtil.YYYYMMDDHH));
@@ -305,7 +305,6 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			deposit.setStatus(ConstWithdrawStatus.ALREADY_REJECT.getCode());
 		   //step2 查询提现记录
 			MSBankWithdrawDeposit withdrawDeposit=this.queryMSBankWithdrawDepositById(deposit.getId());
-			Date date=new Date();
 			//step3 修改会员金额变动
 			/*临时注销代码*/
 			/*accountServices.cutConsumeFreezeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
@@ -338,7 +337,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		if(CollectionUtils.isEmpty(list)) throw new MdBizException(ConstApiStatus.QUERY_WITHDRAW_BY_ACCOUNT_TYPE_ERROR);
 		//step2 遍历数据  更新相关账号的金额
 		for(MSWithdrawInfoByAccountType accountType:list){
-			updateAccountFreezeBalance(null,accountType.getWithdrawAmount(),accountType.getAccount_no());
+			updateAccountFreezeBalance(null,-accountType.getWithdrawAmount(),accountType.getAccount_no());
 			//记录解冻明细
 			accountFreezeDetailService.saveAccountUnFreezeDetail(withdrawDeposit.getMemId(), withdrawDeposit.getBusinessNo(),"","", ConstTradeType.TRADE_TYPE_TXSX.getCode(),  String.valueOf(accountType.getWithdrawAmount()),new Date(), String.valueOf(accountType.getWithdrawBalance()),  ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
 		}
@@ -357,7 +356,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		try {
 			//step2 查询提现操作记录
 			List<MSBankWithDrawOperateDetail> listDetail=baseDao.selectList(deposit.getId(), "MSBankWithDrawOperateDetail.queryOperateDetailList");
-		/*	if(!CollectionUtils.isEmpty(listDetail)) deposit.setListDetail(listDetail);*/
+			if(!CollectionUtils.isEmpty(listDetail)) deposit.setListDetail(listDetail);
 		} catch (Exception e) {
 			logger.error("查看提现记录queryMSBankWithdrawDepositDetail异常:{}", e.getMessage());
 			throw new MdBizException(ConstApiStatus.QUERY_BANK_WITHDRAW__DETAIL_BY_ID_ERROR);
@@ -550,11 +549,11 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			if(deductionMoney<=0){
 				freezeBalance = DoubleCalculate.add(Double.valueOf(account.getFreezeBalance()),Math.abs(addFreezeMoney));
 				//插入提现ms_withdraw_info_by_account_type  子表里
-				addWithDrawInfoByAccountType(id,account.getAccountNo(),addFreezeMoney,useBalance);
+				addWithDrawInfoByAccountType(id,account.getAccountNo(),freezeBalance,useBalance);
 				//更新用户冻结金额
-				updateAccountFreezeBalance(account.getId(), freezeBalance,null);
+				updateAccountFreezeBalance(account.getId(), Math.abs(addFreezeMoney),null);
 				//增加明细
-				accountFreezeDetailService.saveAccountFreezeDetail(account.getMemId(), businessNo,account.getId(),"", ConstTradeType.TRADE_TYPE_YETX.getCode(), String.valueOf(deductionMoney),applyDate, String.valueOf(freezeBalance),  ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
+				accountFreezeDetailService.saveAccountFreezeDetail(account.getMemId(), businessNo,account.getId(),"", ConstTradeType.TRADE_TYPE_YETX.getCode(), String.valueOf(addFreezeMoney),applyDate, String.valueOf(freezeBalance),  ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
 				//增加明细
 				Double free=DoubleCalculate.mul(deductionMoney, account.getWithdrawPoundageScale());  //单个账号的手续费比例
 				freezeBalance=DoubleCalculate.add(freezeBalance, free); //加上冻结手续费
@@ -565,7 +564,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			//根据优先级 修改账号的冻结金额  =以前的冻结金额+可用的余额
 			freezeBalance = DoubleCalculate.add(Double.valueOf(account.getFreezeBalance()),Double.valueOf(useBalance));
 			//更新用户冻结金额
-			updateAccountFreezeBalance(account.getId(), freezeBalance,null);
+			updateAccountFreezeBalance(account.getId(), useBalance,null);
 			//插入提现ms_withdraw_info_by_account_type  子表里
 			addWithDrawInfoByAccountType(id,account.getAccountNo(),useBalance,useBalance);
 			//增加明细

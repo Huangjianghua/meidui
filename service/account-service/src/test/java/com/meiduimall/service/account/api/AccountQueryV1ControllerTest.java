@@ -251,8 +251,8 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 	public void rejectWithDrawTest()throws Exception{
 		 String url = "/member/account_service/v1/reject_withdraw";
 		 MSBankWithdrawDeposit deposit=new MSBankWithdrawDeposit();
-		 deposit.setId("354b255e-7dde-42fc-8535-9438524a4536");
-		 /*deposit.setOperate("customer");*/
+		 deposit.setId("e422b739-7e62-4a2e-8933-860828a39347");
+		 deposit.setOperate("customer");
 		 deposit.setRemark("客服驳回操作");
 		 String object=JsonUtils.beanToJson(deposit);
 		 String json=object.toString();
@@ -289,7 +289,7 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 		 
 		 deposit.setAccountNo("123456");
 		 deposit.setMemId("a0db1419-f44a-48e8-9394-a49620e47940");
-		 deposit.setApplyCarryCash("10.05");
+		 deposit.setApplyCarryCash("100.05");
 		 deposit.setAuditBy("huangTest");
 		 deposit.setRemark("huangjianhuaTestDate");
 		 

@@ -2,6 +2,7 @@ package com.meiduimall.service.account.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 提现主表ms_bank_withdraw_deposit实体类
@@ -86,6 +87,10 @@ public class MSBankWithdrawDeposit extends BaseModel implements Serializable{
 	private String remark;
 	
 	private String isDelete;
+	
+	private String operate;
+	
+	private List<MSBankWithDrawOperateDetail> listDetail;
 
 	public String getId() {
 		return id;
@@ -305,6 +310,34 @@ public class MSBankWithdrawDeposit extends BaseModel implements Serializable{
 	 */
 	public void setIsDelete(String isDelete) {
 		this.isDelete = isDelete;
+	}
+
+	/**
+	 * @return the operate
+	 */
+	public String getOperate() {
+		return operate;
+	}
+
+	/**
+	 * @param operate the operate to set
+	 */
+	public void setOperate(String operate) {
+		this.operate = operate;
+	}
+
+	/**
+	 * @return the listDetail
+	 */
+	public List<MSBankWithDrawOperateDetail> getListDetail() {
+		return listDetail;
+	}
+
+	/**
+	 * @param listDetail the listDetail to set
+	 */
+	public void setListDetail(List<MSBankWithDrawOperateDetail> listDetail) {
+		this.listDetail = listDetail;
 	}
 
 }

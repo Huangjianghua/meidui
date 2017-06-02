@@ -193,16 +193,16 @@
 	    msm.mem_phone as phone,
 	    bwd.bank_account_id as bankAccountId,
 	    bwd.account_idcard as accountIdcard,
-	    bwd.account_no as accountNo,
+	    bwd.bank_card_no as bankCardNo,
 	    bwd.account_name as accountName,
 	    bwd.account_bank as accountBank,
 	    bwd.account_province as accountProvince,
 	    bwd.account_city as accountCity,
 	    bwd.account_area as accountArea,
 	    bwd.account_sub_bank as accountSubBank,
-	    bwd.apply_carry_cash as applyCarryCash,
-	    bwd.counter_fee as counterFee,
-	    bwd.actual_carry_cash as actualCarryCash,
+	    bwd.apply_withdraw_amount as applyWithdrawAmount,
+	    bwd.poundage_amount as poundageAmount,
+	    bwd.actual_withdraw_amount as actualWithdrawAmount,
 	    bwd.actual_transfer_cash as actualTransferCash,
 	    bwd.apply_date as applyDate,
 	    bwd.audit_by as auditBy,
@@ -251,7 +251,7 @@
   <!-- 根据会员ID和账户类型修改余额账户冻结金额 -->
 	<update id="updateFreezeBalanceByMemId" parameterType="java.util.Map">
 		UPDATE ms_account
-		SET freeze_balance = #{freezeBalance},update_date = now()
+		SET freeze_balance =freeze_balance + #{freezeBalance},update_date = now()
 		<where>
 		  <if test="id !=null and id !=''">
 		        and id = #{id}
