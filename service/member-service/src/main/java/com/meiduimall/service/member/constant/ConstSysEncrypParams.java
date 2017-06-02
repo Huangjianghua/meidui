@@ -5,7 +5,7 @@ package com.meiduimall.service.member.constant;
  * @author chencong
  *
  */
-public class SysEncrypParamsConst {
+public class ConstSysEncrypParams {
 
 	/**账号状态 正常*/
 	public static final String MEMBER_STATUS_OK="21B260C3-A230-4601-8D62-420OPT20AT44";

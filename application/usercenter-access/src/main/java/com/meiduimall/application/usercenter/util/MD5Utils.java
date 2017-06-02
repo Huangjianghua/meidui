@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.usercenter.constant.ConstApiStatus;
-import com.meiduimall.application.usercenter.constant.SysParamsConst;
+import com.meiduimall.application.usercenter.constant.ConstSysParams;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdSysException;
 
@@ -31,22 +31,22 @@ public class MD5Utils {
 	 */
 	public static String getSign(JSONObject reqJson,String secretkey) throws MdSysException{
 		String serverSign=null;
-		String[] arr = new String[reqJson.containsKey(SysParamsConst.SIGN)?(reqJson.size()- 1):reqJson.size()];
+		String[] arr = new String[reqJson.containsKey(ConstSysParams.SIGN)?(reqJson.size()- 1):reqJson.size()];
 		int i=0;
 		try {
 			for (String key: reqJson.keySet()) {
-				if (SysParamsConst.SIGN.equals(key))
+				if (ConstSysParams.SIGN.equals(key))
 					continue;
-				arr[i] = key+ SysParamsConst.EQUALS_SYMBOL +reqJson.getString(key);
+				arr[i] = key+ ConstSysParams.EQUALS_SYMBOL +reqJson.getString(key);
 				i++;
 			}
 			Arrays.sort(arr);
 			StringBuffer buffer = new StringBuffer();
 			for (int k = 0; k < arr.length; k++) {
 				buffer.append(arr[k]);
-				buffer.append(SysParamsConst.CONNECTION_SYMBOL);
+				buffer.append(ConstSysParams.CONNECTION_SYMBOL);
 			}
-			buffer.append(SysParamsConst.KEY_LAST);
+			buffer.append(ConstSysParams.KEY_LAST);
 			buffer.append(secretkey);
 			serverSign=MD5Utils.MD5EncryptBy32(buffer.toString()).toUpperCase();
 		} catch (Exception e) {
@@ -85,9 +85,9 @@ public class MD5Utils {
 	}
 	
 	public static void updateSign(JSONObject reqJson,String clientID,String key) throws MdSysException{
-		reqJson.put(SysParamsConst.CLIENTID,clientID);
-		reqJson.put(SysParamsConst.TIMESATAMP,System.currentTimeMillis());
-		reqJson.put(SysParamsConst.SIGN,MD5Utils.getSign(reqJson,key));
+		reqJson.put(ConstSysParams.CLIENTID,clientID);
+		reqJson.put(ConstSysParams.TIMESATAMP,System.currentTimeMillis());
+		reqJson.put(ConstSysParams.SIGN,MD5Utils.getSign(reqJson,key));
 		logger.info("接入层请求网关更新签名成功");
 	}
 	

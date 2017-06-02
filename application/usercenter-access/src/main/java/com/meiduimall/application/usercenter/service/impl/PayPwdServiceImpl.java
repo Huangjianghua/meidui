@@ -14,7 +14,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.usercenter.config.ProfileParamsConfig;
 import com.meiduimall.application.usercenter.constant.ConstApiStatus;
-import com.meiduimall.application.usercenter.constant.SysParamsConst;
+import com.meiduimall.application.usercenter.constant.ConstSysParams;
 import com.meiduimall.application.usercenter.service.PayPwdService;
 import com.meiduimall.application.usercenter.util.HttpUtils;
 import com.meiduimall.application.usercenter.util.MD5Utils;
@@ -70,7 +70,7 @@ public class PayPwdServiceImpl implements PayPwdService  {
 		logger.info("调用账户服务>>设置支付密码开关状态 API>>URL:{}  Data:{}",url,reqJson.toString());
 		try {
 			Map<String, String> headers=new HashMap<>	 ();
-			headers.put(SysParamsConst.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
+			headers.put(ConstSysParams.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
 			String result=HttpUtils.post(url,reqJson.toString(),headers);
 			logger.info("调用账户服务>>设置支付密码开关状态API>>结果：{}",result);
 			resBodyData=JSON.parseObject(result,ResBodyData.class);
@@ -88,7 +88,7 @@ public class PayPwdServiceImpl implements PayPwdService  {
 		MD5Utils.updateSign(reqJson,profile.getRouteClientID(),profile.getRouteKey());
 		logger.info("调用账户服务>>修改支付密码API>>URL:{}  DATA:{}",url,reqJson.toString());
 		Map<String, String> headers=new HashMap<>();
-		headers.put(SysParamsConst.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
+		headers.put(ConstSysParams.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
 		try {
 			String result=HttpUtils.post(url,reqJson.toString(),headers);
 			logger.info("调用账户服务>>修改支付密码API>>结果：{}",result);
@@ -107,7 +107,7 @@ public class PayPwdServiceImpl implements PayPwdService  {
 		MD5Utils.updateSign(reqJson,profile.getRouteClientID(),profile.getRouteKey());
 		logger.info("调用账户服务>>找回支付密码API>>URL:{}  DATA:{}",url,reqJson.toString());
 		Map<String, String> headers=new HashMap<>();
-		headers.put(SysParamsConst.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
+		headers.put(ConstSysParams.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
 		try {
 			String result=HttpUtils.post(url,reqJson.toString(),headers);
 			logger.info("调用账户服务>>找回支付密码API>>结果：{}",result);

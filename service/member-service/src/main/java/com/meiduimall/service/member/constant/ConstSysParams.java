@@ -5,7 +5,7 @@ package com.meiduimall.service.member.constant;
  * @author chencong
  *
  */
-public class SysParamsConst {
+public class ConstSysParams {
 	
 	/**最大失败登录次数*/
 	public final static int MAX_LOGIN_FAIL_COUNT=5;

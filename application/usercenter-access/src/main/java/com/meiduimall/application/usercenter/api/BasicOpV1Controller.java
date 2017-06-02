@@ -16,7 +16,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.usercenter.annotation.HasToken;
 import com.meiduimall.application.usercenter.constant.ConstApiStatus;
 import com.meiduimall.application.usercenter.constant.ResBodyDataShiPei;
-import com.meiduimall.application.usercenter.constant.SysParamsConst;
+import com.meiduimall.application.usercenter.constant.ConstSysParams;
 import com.meiduimall.application.usercenter.interceptor.ValRequest;
 import com.meiduimall.application.usercenter.service.BaseOpService;
 import com.meiduimall.core.ResBodyData;
@@ -77,7 +77,7 @@ public class BasicOpV1Controller {
 		JSONObject reqJson=ValRequest.apiReqData.get();
 		logger.info("收到登出API请求：{}",reqJson.toString());
 		try {
-			RedisTemplate.getJedisInstance().execDelToCache(reqJson.getString(SysParamsConst.TOKEN));
+			RedisTemplate.getJedisInstance().execDelToCache(reqJson.getString(ConstSysParams.TOKEN));
 		} catch (Exception e) {
 			logger.error("删除token异常：{}",e.toString());
 			throw new ApiException(ConstApiStatus.LOGIN_EXPIRE);
@@ -93,9 +93,9 @@ public class BasicOpV1Controller {
 		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,null);
 		JSONObject reqJson=ValRequest.apiReqData.get();
 		logger.info("收到我是谁API请求：{}",reqJson.toString());
-		String memId=reqJson.getString(SysParamsConst.MEMID);
+		String memId=reqJson.getString(ConstSysParams.MEMID);
 		Map<String, Object> data=new HashMap<>();
-		data.put(SysParamsConst.MEMID,memId);
+		data.put(ConstSysParams.MEMID,memId);
 		resBodyData.setData(data);
 		return resBodyData;
 	}
@@ -107,7 +107,7 @@ public class BasicOpV1Controller {
 		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,null);
 		JSONObject reqJson=ValRequest.apiReqData.get();
 		logger.info("收到校验token API请求：{}",reqJson.toString());
-		if(reqJson.containsKey(SysParamsConst.MEMID)){
+		if(reqJson.containsKey(ConstSysParams.MEMID)){
 			logger.info("校验token API成功");
 			return resBodyData;
 		}

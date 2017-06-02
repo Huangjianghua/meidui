@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
-import com.meiduimall.service.member.constant.SysParamsConst;
+import com.meiduimall.service.member.constant.ConstSysParams;
 import com.meiduimall.service.member.service.ShareMenService;
 
 /**
@@ -51,8 +51,8 @@ public class ShareMenV1Controller {
 		} catch (Exception e) {
 			try {
 				out = response.getWriter();
-				json.put(SysParamsConst.STATUS, "9999");
-				json.put(SysParamsConst.MSG, "服务器错误!");
+				json.put(ConstSysParams.STATUS, "9999");
+				json.put(ConstSysParams.MSG, "服务器错误!");
 				logger.error("服务器错误:{}", e.getMessage());
 			} catch (IOException e1) {
 				logger.error("服务器错误:{}", e1.getMessage());

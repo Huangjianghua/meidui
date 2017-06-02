@@ -13,9 +13,9 @@ import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.member.config.ServiceUrlProfileConfig;
 import com.meiduimall.service.member.constant.ConstApiStatus;
-import com.meiduimall.service.member.constant.SmsTemplateIDConst;
-import com.meiduimall.service.member.constant.SmsTypeConst;
-import com.meiduimall.service.member.constant.SysParamsConst;
+import com.meiduimall.service.member.constant.ConstSmsTemplateID;
+import com.meiduimall.service.member.constant.ConstSmsType;
+import com.meiduimall.service.member.constant.ConstSysParams;
 import com.meiduimall.service.member.model.request.RequestCheckValidateCode;
 import com.meiduimall.service.member.model.request.RequestGetValidateCode;
 import com.meiduimall.service.member.model.request.RequestSendSms;
@@ -37,9 +37,9 @@ public class SmsServiceImpl implements SmsService
 		Map<String,String> mapSmsData=new HashMap<>();
 		mapSmsData.put("timeout",String.valueOf(model.getTimeout()));
 		mapSmsData.put("phones",model.getPhone());
-		mapSmsData.put("templateId",SmsTemplateIDConst.getSmsTemplate(SmsTemplateIDConst.SEND_VALIDATE_CODE));
-		mapSmsData.put("type",SmsTypeConst.getSmsType(model.getType()));
-		mapSmsData.put("sysKey",SysParamsConst.SMS_SYSKEY);
+		mapSmsData.put("templateId",ConstSmsTemplateID.getSmsTemplate(ConstSmsTemplateID.SEND_VALIDATE_CODE));
+		mapSmsData.put("type",ConstSmsType.getSmsType(model.getType()));
+		mapSmsData.put("sysKey",ConstSysParams.SMS_SYSKEY);
 		logger.info("调用短信服务>>获取短信验证码API>>URL:{},DATA:{}",smsServiceUrl,mapSmsData.toString());
 		String result=null;
 		try {
@@ -66,9 +66,9 @@ public class SmsServiceImpl implements SmsService
 		Map<String,String> mapSmsData=new HashMap<>();
 		mapSmsData.put("verificationCode",model.getValidate_code());
 		mapSmsData.put("phones",model.getPhone());
-		mapSmsData.put("templateId",SmsTemplateIDConst.getSmsTemplate(SmsTemplateIDConst.SEND_VALIDATE_CODE));
-		mapSmsData.put("type",SmsTypeConst.getSmsType(model.getType()));
-		mapSmsData.put("sysKey",SysParamsConst.SMS_SYSKEY);
+		mapSmsData.put("templateId",ConstSmsTemplateID.getSmsTemplate(ConstSmsTemplateID.SEND_VALIDATE_CODE));
+		mapSmsData.put("type",ConstSmsType.getSmsType(model.getType()));
+		mapSmsData.put("sysKey",ConstSysParams.SMS_SYSKEY);
 		logger.info("调用短信服务>>校验短信验证码API>>URL:{},DATA:{}",smsServiceUrl,mapSmsData.toString());
 		String result=null;
 		try {
@@ -95,7 +95,7 @@ public class SmsServiceImpl implements SmsService
 		Map<String,String> mapSmsData=new HashMap<>();
 		mapSmsData.put("phones",model.getPhone());
 		mapSmsData.put("templateId",model.getTemplateId());
-		mapSmsData.put("sysKey",SysParamsConst.SMS_SYSKEY);
+		mapSmsData.put("sysKey",ConstSysParams.SMS_SYSKEY);
 		mapSmsData.put("params",model.getParams());
 		logger.info("调用短信服务>>发送普通短信API>>URL:{},DATA:{}",smsServiceUrl,mapSmsData.toString());
 		String result=null;

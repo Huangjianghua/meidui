@@ -25,7 +25,7 @@ import com.meiduimall.exception.ServiceException;
 import com.meiduimall.redis.util.RedisTemplate;
 import com.meiduimall.service.member.config.ServiceUrlProfileConfig;
 import com.meiduimall.service.member.constant.ConstApiStatus;
-import com.meiduimall.service.member.constant.SysParamsConst;
+import com.meiduimall.service.member.constant.ConstSysParams;
 import com.meiduimall.service.member.dao.BaseDao;
 import com.meiduimall.service.member.model.MSMemberAddresses;
 import com.meiduimall.service.member.model.MSMemberMobileArea;
@@ -135,21 +135,21 @@ public class UserInfoServiceImpl implements UserInfoService {
 					resultMap.put("phone", StringUtil.checkStr(member.getMemPhone()) == true ? member.getMemPhone() : "");
 					resultMap.put("login_name", StringUtil.checkStr(member.getMemLoginName()) == true ? member.getMemLoginName() : "");
 					resultMap.put("pic_url", StringUtil.checkStr(member.getMemPic()) == true ? member.getMemPic() : "");
-					json.put(SysParamsConst.STATUS, "0");
-					json.put(SysParamsConst.MSG, "Success");
+					json.put(ConstSysParams.STATUS, "0");
+					json.put(ConstSysParams.MSG, "Success");
 					result.add(resultMap);
-					json.put(SysParamsConst.DATA, result);
+					json.put(ConstSysParams.DATA, result);
 				} else {
-					json.put(SysParamsConst.STATUS, "1020");
-					json.put(SysParamsConst.MSG, "当前会员不存在!");
+					json.put(ConstSysParams.STATUS, "1020");
+					json.put(ConstSysParams.MSG, "当前会员不存在!");
 					logger.info("当前会员ID:{}不存在!", memId);
 				}
 			} else {
-				json.put(SysParamsConst.STATUS,"999");
+				json.put(ConstSysParams.STATUS,"999");
 				logger.info("手机号码:{}错误!", phone);
 			}
 		} else {
-			json.put(SysParamsConst.STATUS,"999");
+			json.put(ConstSysParams.STATUS,"999");
 			logger.info("手机号码:{}错误!", phone);
 		}
 		return json;
@@ -176,8 +176,8 @@ public class UserInfoServiceImpl implements UserInfoService {
 			if (StringUtil.checkStr(mem_address_area) || StringUtil.checkStr(mem_address)) {
 				String[] memAddress = mem_address_area.split("[;]");
 				if (memAddress.length != 3) {
-					json.put(SysParamsConst.STATUS, "9998");
-					json.put(SysParamsConst.MSG, "省市区参数有误!");
+					json.put(ConstSysParams.STATUS, "9998");
+					json.put(ConstSysParams.MSG, "省市区参数有误!");
 					/*Logger.info("修改会员信息省市区参数有误:%s!", mem_address_area);*/
 					return json;
 				} else {
@@ -204,11 +204,11 @@ public class UserInfoServiceImpl implements UserInfoService {
 				}*/
 			}
 			baseDao.update(member, "MSMembersMapper.updateMemberInfoByMemId");
-			json.put(SysParamsConst.STATUS, "0");
-			json.put(SysParamsConst.MSG, "Success");
+			json.put(ConstSysParams.STATUS, "0");
+			json.put(ConstSysParams.MSG, "Success");
 		} else {
-			json.put(SysParamsConst.STATUS, "1020");
-			json.put(SysParamsConst.MSG, "当前会员不存在!");
+			json.put(ConstSysParams.STATUS, "1020");
+			json.put(ConstSysParams.MSG, "当前会员不存在!");
 			logger.info("当前会员ID:{}不存在!", memId);
 		}
 		return json;

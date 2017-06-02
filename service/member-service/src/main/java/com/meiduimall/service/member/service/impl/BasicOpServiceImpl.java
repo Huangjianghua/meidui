@@ -21,9 +21,9 @@ import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.redis.util.RedisTemplate;
 import com.meiduimall.service.member.constant.ConstApiStatus;
-import com.meiduimall.service.member.constant.SmsTemplateIDConst;
-import com.meiduimall.service.member.constant.SysEncrypParamsConst;
-import com.meiduimall.service.member.constant.SysParamsConst;
+import com.meiduimall.service.member.constant.ConstSmsTemplateID;
+import com.meiduimall.service.member.constant.ConstSysEncrypParams;
+import com.meiduimall.service.member.constant.ConstSysParams;
 import com.meiduimall.service.member.dao.BaseDao;
 import com.meiduimall.service.member.model.MSAccount;
 import com.meiduimall.service.member.model.MSConsumePointsDetail;
@@ -253,17 +253,17 @@ public class BasicOpServiceImpl implements BasicOpService {
 		String memLockCountPlained=msMembersGet.getMemLockCountPlained();//锁定次数明文
 		String memId=msMembersGet.getMemId();
 		/**判断这个用户是否由于登录失败次数过多被锁定*/
-		String redisLoginFail=SysParamsConst.REDIS_LOGIN_LOCK+SysParamsConst.CONNECTION+msMembersGet.getMemId();
+		String redisLoginFail=ConstSysParams.REDIS_LOGIN_LOCK+ConstSysParams.CONNECTION+msMembersGet.getMemId();
 		if(RedisTemplate.getJedisInstance().execExistsFromCache(redisLoginFail)){
 			String count=RedisTemplate.getJedisInstance().execGetFromCache(redisLoginFail);
-			if(Integer.valueOf(count)>=SysParamsConst.MAX_LOGIN_FAIL_COUNT){
+			if(Integer.valueOf(count)>=ConstSysParams.MAX_LOGIN_FAIL_COUNT){
 				logger.warn("该会员当天登录失败次数已达到5次，暂时被锁定 ");
 				throw new ServiceException(ConstApiStatus.MEMBER_LOCK);
 			}
 		}
 		
 		/**根据userid和密码查询会员信息*/
-		String[] ps=password.split(SysParamsConst.MD_PASSWORD_SPLIT_STR);//1GW会员密码和美兑会员密码用"-"隔开，第一个是1GW会员密码
+		String[] ps=password.split(ConstSysParams.MD_PASSWORD_SPLIT_STR);//1GW会员密码和美兑会员密码用"-"隔开，第一个是1GW会员密码
 		mapCondition.put("ygw_pwd",ps[0]);
 		mapCondition.put("md_pwd",ps[0]);
 		if(ps.length>=2)
@@ -273,7 +273,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 		msMembersSet.setMemId(memId);
 		if(msMembersGet!=null){
 			logger.info("会员：{}用户名和密码输入正确",userid);
-			if(msMembersGet.getDictMemStatus().equals(SysEncrypParamsConst.MEMBER_FORBIDDEN_EN)){//如果该会员账号已被禁用
+			if(msMembersGet.getDictMemStatus().equals(ConstSysEncrypParams.MEMBER_FORBIDDEN_EN)){//如果该会员账号已被禁用
 				logger.info("会员{}被禁用，无法登录！",userid);
 				throw new ServiceException(ConstApiStatus.MEMBER_FORBIDDEN);
 			}
@@ -307,7 +307,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 				RedisTemplate.getJedisInstance().execSetexToCache(redisLoginFail,lockTime,String.valueOf(newlockCount));//更新失败次数，0点0分自动解除
 			}
 			else{//如果没有登录失败过，就设置一次
-				RedisTemplate.getJedisInstance().execSetexToCache(redisLoginFail,Constants.REDIS_ONEDAY,SysParamsConst.REDIS_INIT_LOGIN_LOCK_COUNT);
+				RedisTemplate.getJedisInstance().execSetexToCache(redisLoginFail,Constants.REDIS_ONEDAY,ConstSysParams.REDIS_INIT_LOGIN_LOCK_COUNT);
 			}
 			msMembersSet.setMemLockCount(String.valueOf(newLoginLockCount));
 			msMembersSet.setMemLockCountPlained(String.valueOf(newLoginLockCountPlained));
@@ -330,7 +330,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 		/**登录名没传就分配默认的*/
 		if(StringUtils.isEmpty(model.getLogin_name())){
 			open_default_login_name=true;
-			model.setLogin_name(SysParamsConst.DEFAULT_LOGIN_NAME_PREFIX+model.getPhone()+String.valueOf(Constants.CONSTANT_INT_ZERO));
+			model.setLogin_name(ConstSysParams.DEFAULT_LOGIN_NAME_PREFIX+model.getPhone()+String.valueOf(Constants.CONSTANT_INT_ZERO));
 		}
 		/**校验推荐人,没传就分配默认的*/
 		if(!StringUtils.isEmpty(model.getShare_man())){
@@ -340,7 +340,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 		}
 		else {
 			open_default_share_man=true;
-			model.setShare_man(SysParamsConst.MD1GW_DEFAULT_SHARE_LOGIN_NAME);
+			model.setShare_man(ConstSysParams.MD1GW_DEFAULT_SHARE_LOGIN_NAME);
 		}
 		MSMembersGet shareManInfo=shareMenService.checkShareMan(model.getShare_man());
 		/**校验注册验证码*/
@@ -363,13 +363,13 @@ public class BasicOpServiceImpl implements BasicOpService {
 		memberSet.setMemNickName(model.getPhone());
 		memberSet.setMemCreatedDate(date);
 		memberSet.setMemCreatedCategory(1);
-		memberSet.setDictMemStatus(SysEncrypParamsConst.MEMBER_STATUS_OK);
+		memberSet.setDictMemStatus(ConstSysEncrypParams.MEMBER_STATUS_OK);
 		memberSet.setMemParentId(shareManInfo.getMemId());
 		memberSet.setMemSignSource(model.getSource());
 		memberSet.setMemIsAllActivated(true);
 		switch(model.getRole_type()){
-		case "1":memberSet.setMemIsAllowShop(SysEncrypParamsConst.MEMBERKAIDIAN_YES);
-		case "2":memberSet.setMemIsAllowShop(SysEncrypParamsConst.MEMBERKAIDIAN_NO);
+		case "1":memberSet.setMemIsAllowShop(ConstSysEncrypParams.MEMBERKAIDIAN_YES);
+		case "2":memberSet.setMemIsAllowShop(ConstSysEncrypParams.MEMBERKAIDIAN_NO);
 		}
 		memberSet.setMemBasicAccountTotal(String.valueOf(Constants.CONSTANT_INT_ZERO));
 		memberSet.setMemParentIsdefaultIschanged(open_default_share_man?"0_1":"1_0");
@@ -384,7 +384,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 		MSAccount msAccount = new MSAccount();//生成会员余额账户信息
 		msAccount.setId(UUID.randomUUID().toString());
 		msAccount.setMemId(memid);
-		msAccount.setType(SysParamsConst.ACCOUNT_TYPE_MONEY);
+		msAccount.setType(ConstSysParams.ACCOUNT_TYPE_MONEY);
 		msAccount.setBalance(String.valueOf(Constants.CONSTANT_INT_ZERO));
 		msAccount.setFreezeBalance(String.valueOf(Constants.CONSTANT_INT_ZERO));
 		msAccount.setCreateDate(new Date());
@@ -406,13 +406,13 @@ public class BasicOpServiceImpl implements BasicOpService {
 		//更新父类字符串（获取粉丝明细会用到）...暂时忽略
 	
 		/**增加积分并写入积分流水*/
-		userInfoService.updateCurrentPointByMemId(memid,String.valueOf(Constants.CONSTANT_INT_ZERO),SysParamsConst.MD1GW_REGISTER_ADD_POINTS);
-		String orderId=SysParamsConst.DEFAULT_ORDERID_PREFIX+ model.getLogin_name()+SysParamsConst.ADD_SYMBOL+String.valueOf(System.currentTimeMillis()/1000L);
-		insertConsumePointDetail(memid,orderId,model.getSource(),SysParamsConst.MD1GW_REGISTER_ADD_POINTS,SysParamsConst.MD1GW_REGISTER_ADD_POINTS,model.getPhone(),SysEncrypParamsConst.POINTS_OPERATOR_TYPE_ZCZS);
+		userInfoService.updateCurrentPointByMemId(memid,String.valueOf(Constants.CONSTANT_INT_ZERO),ConstSysParams.MD1GW_REGISTER_ADD_POINTS);
+		String orderId=ConstSysParams.DEFAULT_ORDERID_PREFIX+ model.getLogin_name()+ConstSysParams.ADD_SYMBOL+String.valueOf(System.currentTimeMillis()/1000L);
+		insertConsumePointDetail(memid,orderId,model.getSource(),ConstSysParams.MD1GW_REGISTER_ADD_POINTS,ConstSysParams.MD1GW_REGISTER_ADD_POINTS,model.getPhone(),ConstSysEncrypParams.POINTS_OPERATOR_TYPE_ZCZS);
 		if (!open_default_share_man) {//如果推荐人非系统默认
-			userInfoService.updateCurrentPointByMemId(shareManInfo.getMemId(),shareManInfo.getMemBasicAccountTotalQuantity(),SysParamsConst.MD1GW_REGISTER_ADD_POINTS);//一级分享人增加100积分
-			orderId=SysParamsConst.DEFAULT_ORDERID_PREFIX+ model.getShare_man()+SysParamsConst.ADD_SYMBOL+String.valueOf(System.currentTimeMillis()/1000L);
-			insertConsumePointDetail(shareManInfo.getMemId(),orderId,model.getSource(),SysParamsConst.MD1GW_REGISTER_ADD_POINTS,SysParamsConst.MD1GW_REGISTER_ADD_POINTS,model.getPhone(),SysEncrypParamsConst.POINTS_OPERATOR_TYPE_YQZCZS);
+			userInfoService.updateCurrentPointByMemId(shareManInfo.getMemId(),shareManInfo.getMemBasicAccountTotalQuantity(),ConstSysParams.MD1GW_REGISTER_ADD_POINTS);//一级分享人增加100积分
+			orderId=ConstSysParams.DEFAULT_ORDERID_PREFIX+ model.getShare_man()+ConstSysParams.ADD_SYMBOL+String.valueOf(System.currentTimeMillis()/1000L);
+			insertConsumePointDetail(shareManInfo.getMemId(),orderId,model.getSource(),ConstSysParams.MD1GW_REGISTER_ADD_POINTS,ConstSysParams.MD1GW_REGISTER_ADD_POINTS,model.getPhone(),ConstSysEncrypParams.POINTS_OPERATOR_TYPE_YQZCZS);
 		}
 		
 		String redisToken=ToolsUtil.createToken(model.getPhone(),tokenKey);//生成token
@@ -425,12 +425,12 @@ public class BasicOpServiceImpl implements BasicOpService {
 		/**发送注册成功短信*/
 		RequestSendSms requestSendSms=new RequestSendSms();
 		requestSendSms.setPhone(model.getPhone());
-		requestSendSms.setTemplateId(SmsTemplateIDConst.getSmsTemplate(SmsTemplateIDConst.REGIST_SUCCESS));
+		requestSendSms.setTemplateId(ConstSmsTemplateID.getSmsTemplate(ConstSmsTemplateID.REGIST_SUCCESS));
 		requestSendSms.setParams(model.getPhone());
 		smsService.sendSms(requestSendSms);
 		/**发送分享人赠送积分短信*/
 		requestSendSms.setPhone(shareManInfo.getMemPhone());
-		requestSendSms.setTemplateId(SmsTemplateIDConst.getSmsTemplate(SmsTemplateIDConst.GIVE_POINT));
+		requestSendSms.setTemplateId(ConstSmsTemplateID.getSmsTemplate(ConstSmsTemplateID.GIVE_POINT));
 		requestSendSms.setParams(shareManInfo.getMemPhone());
 		smsService.sendSms(requestSendSms);
 		return resBodyData;
@@ -445,7 +445,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 		String tokenKey=model.getTokenKey();
 		/**校验该用户是否已存在*/
 		validateService.checkUserIdExistsThrowable(model.getPhone());
-		MSMembersGet shareManInfo=shareMenService.checkShareMan(SysParamsConst.MD1GW_DEFAULT_SHARE_LOGIN_NAME);
+		MSMembersGet shareManInfo=shareMenService.checkShareMan(ConstSysParams.MD1GW_DEFAULT_SHARE_LOGIN_NAME);
 
 		/**开始生成会员信息*/
 		MSMembersSet memberSet=new MSMembersSet();//生成会员基本信息
@@ -454,7 +454,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 		memberSet.setMemId(memid);
 		memberSet.setMemCreatedBy(memid);
 		
-		memberSet.setMemLoginName(SysParamsConst.DEFAULT_LOGIN_NAME_PREFIX+model.getPhone()+String.valueOf(Constants.CONSTANT_INT_ZERO));
+		memberSet.setMemLoginName(ConstSysParams.DEFAULT_LOGIN_NAME_PREFIX+model.getPhone()+String.valueOf(Constants.CONSTANT_INT_ZERO));
 		memberSet.setMemLoginNameIsdefaultIschanged(open_default_login_name?"0_1":"1_0");
 		memberSet.setMemOldPhone(model.getPhone());
 		memberSet.setMemPhone(model.getPhone());
@@ -462,11 +462,11 @@ public class BasicOpServiceImpl implements BasicOpService {
 		memberSet.setMemNickName(model.getPhone());
 		memberSet.setMemCreatedDate(date);
 		memberSet.setMemCreatedCategory(1);
-		memberSet.setDictMemStatus(SysEncrypParamsConst.MEMBER_STATUS_OK);
+		memberSet.setDictMemStatus(ConstSysEncrypParams.MEMBER_STATUS_OK);
 		memberSet.setMemParentId(shareManInfo.getMemId());
 		memberSet.setMemSignSource("8");
 		memberSet.setMemIsAllActivated(true);
-		memberSet.setMemIsAllowShop(SysEncrypParamsConst.MEMBERKAIDIAN_NO);
+		memberSet.setMemIsAllowShop(ConstSysEncrypParams.MEMBERKAIDIAN_NO);
 		memberSet.setMemBasicAccountTotal(String.valueOf(Constants.CONSTANT_INT_ZERO));
 		memberSet.setMemParentIsdefaultIschanged(open_default_share_man?"0_1":"1_0");
 		baseDao.insert(memberSet,"MSMembersMapper.insertMsMember");
@@ -480,7 +480,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 		MSAccount msAccount = new MSAccount();//生成会员余额账户信息
 		msAccount.setId(UUID.randomUUID().toString());
 		msAccount.setMemId(memid);
-		msAccount.setType(SysParamsConst.ACCOUNT_TYPE_MONEY);
+		msAccount.setType(ConstSysParams.ACCOUNT_TYPE_MONEY);
 		msAccount.setBalance(String.valueOf(Constants.CONSTANT_INT_ZERO));
 		msAccount.setFreezeBalance(String.valueOf(Constants.CONSTANT_INT_ZERO));
 		msAccount.setCreateDate(new Date());
@@ -529,7 +529,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 		}
 		else {
 			open_default_share_man=true;
-			model.setShare_man(SysParamsConst.MD1GW_DEFAULT_SHARE_LOGIN_NAME);
+			model.setShare_man(ConstSysParams.MD1GW_DEFAULT_SHARE_LOGIN_NAME);
 		}
 		MSMembersGet shareManInfo=shareMenService.checkShareMan(model.getShare_man());
 		/**校验注册验证码*/
@@ -544,7 +544,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 		String memid=UUID.randomUUID().toString();
 		memberSet.setMemId(memid);
 		memberSet.setMemCreatedBy(memid);
-		memberSet.setMemLoginName(SysParamsConst.DEFAULT_LOGIN_NAME_PREFIX+model.getPhone()+String.valueOf(Constants.CONSTANT_INT_ZERO));
+		memberSet.setMemLoginName(ConstSysParams.DEFAULT_LOGIN_NAME_PREFIX+model.getPhone()+String.valueOf(Constants.CONSTANT_INT_ZERO));
 		memberSet.setMemLoginNameIsdefaultIschanged(open_default_login_name?"0_1":"1_0");
 		memberSet.setMemOldPhone(model.getPhone());
 		memberSet.setMemPhone(model.getPhone());
@@ -553,12 +553,12 @@ public class BasicOpServiceImpl implements BasicOpService {
 		memberSet.setMemIsAllActivated(true);
 		memberSet.setMemCreatedDate(date);
 		memberSet.setMemCreatedCategory(1);
-		memberSet.setDictMemStatus(SysEncrypParamsConst.MEMBER_STATUS_OK);
+		memberSet.setDictMemStatus(ConstSysEncrypParams.MEMBER_STATUS_OK);
 		memberSet.setMemParentId(shareManInfo.getMemId());
 		memberSet.setMemSignSource(model.getSource());
 		switch(model.getRole_type()){
-		case "1":memberSet.setMemIsAllowShop(SysEncrypParamsConst.MEMBERKAIDIAN_YES);
-		case "2":memberSet.setMemIsAllowShop(SysEncrypParamsConst.MEMBERKAIDIAN_NO);
+		case "1":memberSet.setMemIsAllowShop(ConstSysEncrypParams.MEMBERKAIDIAN_YES);
+		case "2":memberSet.setMemIsAllowShop(ConstSysEncrypParams.MEMBERKAIDIAN_NO);
 		}
 		memberSet.setMemBasicAccountTotal(String.valueOf(Constants.CONSTANT_INT_ZERO));
 		memberSet.setMemBasicAccountTotal(String.valueOf(Constants.CONSTANT_INT_ZERO));
@@ -574,7 +574,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 		MSAccount msAccount = new MSAccount();//生成会员余额账户信息
 		msAccount.setId(UUID.randomUUID().toString());
 		msAccount.setMemId(memid);
-		msAccount.setType(SysParamsConst.ACCOUNT_TYPE_MONEY);
+		msAccount.setType(ConstSysParams.ACCOUNT_TYPE_MONEY);
 		msAccount.setBalance(String.valueOf(Constants.CONSTANT_INT_ZERO));
 		msAccount.setFreezeBalance(String.valueOf(Constants.CONSTANT_INT_ZERO));
 		msAccount.setCreateDate(new Date());
@@ -596,13 +596,13 @@ public class BasicOpServiceImpl implements BasicOpService {
 		//更新父类字符串（获取粉丝明细会用到）...暂时忽略
 	
 		/**增加积分并写入积分流水*/
-		userInfoService.updateCurrentPointByMemId(memid,String.valueOf(Constants.CONSTANT_INT_ZERO),SysParamsConst.MD1GW_REGISTER_ADD_POINTS);
-		String orderId=SysParamsConst.DEFAULT_ORDERID_PREFIX+ model.getLogin_name()+SysParamsConst.ADD_SYMBOL+String.valueOf(System.currentTimeMillis()/1000L);
-		insertConsumePointDetail(memid,orderId,model.getSource(),SysParamsConst.MD1GW_REGISTER_ADD_POINTS,SysParamsConst.MD1GW_REGISTER_ADD_POINTS,model.getPhone(),SysEncrypParamsConst.POINTS_OPERATOR_TYPE_ZCZS);
+		userInfoService.updateCurrentPointByMemId(memid,String.valueOf(Constants.CONSTANT_INT_ZERO),ConstSysParams.MD1GW_REGISTER_ADD_POINTS);
+		String orderId=ConstSysParams.DEFAULT_ORDERID_PREFIX+ model.getLogin_name()+ConstSysParams.ADD_SYMBOL+String.valueOf(System.currentTimeMillis()/1000L);
+		insertConsumePointDetail(memid,orderId,model.getSource(),ConstSysParams.MD1GW_REGISTER_ADD_POINTS,ConstSysParams.MD1GW_REGISTER_ADD_POINTS,model.getPhone(),ConstSysEncrypParams.POINTS_OPERATOR_TYPE_ZCZS);
 		if (!open_default_share_man) {//如果推荐人非系统默认
-			userInfoService.updateCurrentPointByMemId(shareManInfo.getMemId(),shareManInfo.getMemBasicAccountTotalQuantity(),SysParamsConst.MD1GW_REGISTER_ADD_POINTS);//一级分享人增加100积分
-			orderId=SysParamsConst.DEFAULT_ORDERID_PREFIX+ model.getShare_man()+SysParamsConst.ADD_SYMBOL+String.valueOf(System.currentTimeMillis()/1000L);
-			insertConsumePointDetail(shareManInfo.getMemId(),orderId,model.getSource(),SysParamsConst.MD1GW_REGISTER_ADD_POINTS,SysParamsConst.MD1GW_REGISTER_ADD_POINTS,model.getPhone(),SysEncrypParamsConst.POINTS_OPERATOR_TYPE_YQZCZS);
+			userInfoService.updateCurrentPointByMemId(shareManInfo.getMemId(),shareManInfo.getMemBasicAccountTotalQuantity(),ConstSysParams.MD1GW_REGISTER_ADD_POINTS);//一级分享人增加100积分
+			orderId=ConstSysParams.DEFAULT_ORDERID_PREFIX+ model.getShare_man()+ConstSysParams.ADD_SYMBOL+String.valueOf(System.currentTimeMillis()/1000L);
+			insertConsumePointDetail(shareManInfo.getMemId(),orderId,model.getSource(),ConstSysParams.MD1GW_REGISTER_ADD_POINTS,ConstSysParams.MD1GW_REGISTER_ADD_POINTS,model.getPhone(),ConstSysEncrypParams.POINTS_OPERATOR_TYPE_YQZCZS);
 		}
 		
 		String redisToken=ToolsUtil.createToken(model.getPhone(),tokenKey);//生成token
@@ -615,12 +615,12 @@ public class BasicOpServiceImpl implements BasicOpService {
 		/**发送注册成功短信*/
 		RequestSendSms requestSendSms=new RequestSendSms();
 		requestSendSms.setPhone(model.getPhone());
-		requestSendSms.setTemplateId(SmsTemplateIDConst.getSmsTemplate(SmsTemplateIDConst.REGIST_SCAN_CODE_SUCCESS));
+		requestSendSms.setTemplateId(ConstSmsTemplateID.getSmsTemplate(ConstSmsTemplateID.REGIST_SCAN_CODE_SUCCESS));
 		requestSendSms.setParams(model.getPhone());
 		smsService.sendSms(requestSendSms);
 		/**发送分享人赠送积分短信...*/
 		requestSendSms.setPhone(shareManInfo.getMemPhone());
-		requestSendSms.setTemplateId(SmsTemplateIDConst.getSmsTemplate(SmsTemplateIDConst.GIVE_POINT));
+		requestSendSms.setTemplateId(ConstSmsTemplateID.getSmsTemplate(ConstSmsTemplateID.GIVE_POINT));
 		requestSendSms.setParams(shareManInfo.getMemPhone());
 		smsService.sendSms(requestSendSms);
 		return resBodyData;
