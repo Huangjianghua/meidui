@@ -34,7 +34,7 @@ public class PayPwdV1ControllerTest extends BaseControllerTest {
     public void validePaypwd() throws Exception{
     	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/valide_pay_pwd")
     			.param("memId",memId)
-    			.param("pay_pwd",payPwd))
+    			.param("pay_pwd","123456"))
     			.andExpect(status().isOk())
     			.andExpect(jsonPath("$.status",is(0)));
     	
@@ -54,7 +54,7 @@ public class PayPwdV1ControllerTest extends BaseControllerTest {
     public void setPaypwd() throws Exception{
     	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/set_pay_pwd")
     			.param("memId",memId)
-    			.param("pay_pwd",payPwd))
+    			.param("pay_pwd","123456"))
     			.andExpect(status().isOk())
     			.andExpect(jsonPath("$.status",is(0)));
     	
