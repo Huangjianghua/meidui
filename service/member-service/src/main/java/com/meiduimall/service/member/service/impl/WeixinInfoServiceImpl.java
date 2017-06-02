@@ -12,7 +12,7 @@ import com.meiduimall.service.member.constant.ConstApiStatus;
 import com.meiduimall.service.member.dao.BaseDao;
 import com.meiduimall.service.member.model.MsMemberWeixin;
 import com.meiduimall.service.member.model.request.RequestBindingWeixin;
-import com.meiduimall.service.member.model.response.MemberOpenIdDTO;
+import com.meiduimall.service.member.model.response.ResponseMemberOpenId;
 import com.meiduimall.service.member.service.WeixinInfoService;
 import com.meiduimall.service.member.util.DESC;
 
@@ -70,7 +70,7 @@ public class WeixinInfoServiceImpl implements WeixinInfoService {
 			throw new ServiceException(ConstApiStatus.ENCRYPTION_EXCEPTION);
 		}
 		
-		MemberOpenIdDTO record = baseDao.selectOne(desPhone, "MsMemberWeixinMapper.selectMemInfoByPhone");
+		ResponseMemberOpenId record = baseDao.selectOne(desPhone, "MsMemberWeixinMapper.selectMemInfoByPhone");
 		if(record == null){
 			throw new ServiceException(ConstApiStatus.NOT_BINGDING_WEIXIN_OPENID);
 		}

@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.meiduimall.service.member.constant.ConstSysParams;
+import com.meiduimall.service.member.constant.ConstSysParamsDefination;
 import com.meiduimall.service.member.dao.BaseDao;
 import com.meiduimall.service.member.model.MSMembersGet;
 import com.meiduimall.service.member.service.FunsService;
@@ -67,10 +67,10 @@ public class FunsServiceImpl implements FunsService{
 							lv1MemberInfo.put("memPic", StringUtil.checkStr(memberInfo.getMemPic()) == true ? memberInfo.getMemPic() : "");
 							result.add(lv1MemberInfo);
 						}
-						json.put(ConstSysParams.STATUS, "0");
-						json.put(ConstSysParams.MSG, "获取粉丝成功!");
+						json.put(ConstSysParamsDefination.STATUS, "0");
+						json.put(ConstSysParamsDefination.MSG, "获取粉丝成功!");
 						json.put("totalPages", "" + (lv1FansInfo.size() % limit == 0 ? lv1FansInfo.size() / limit : lv1FansInfo.size() / limit + 1));
-						json.put(ConstSysParams.DATA, result);
+						json.put(ConstSysParamsDefination.DATA, result);
 						logger.info("获取1级粉丝成功!");
 					} else if ("2".equals(fansLv)) {
 						param.clear();
@@ -101,35 +101,35 @@ public class FunsServiceImpl implements FunsService{
 								lv2MemberInfo.put("memPic", StringUtil.checkStr(memberInfo.getMemPic()) == true ? memberInfo.getMemPic() : "");
 								result.add(lv2MemberInfo);
 							}
-							json.put(ConstSysParams.STATUS, "0");
-							json.put(ConstSysParams.MSG, "获取粉丝成功!");
+							json.put(ConstSysParamsDefination.STATUS, "0");
+							json.put(ConstSysParamsDefination.MSG, "获取粉丝成功!");
 							json.put("totalPages", "" + (lv2MemberInfo.size() % limit == 0 ? lv2MemberInfo.size() / limit : lv2MemberInfo.size() / limit + 1));
-							json.put(ConstSysParams.DATA, result);
+							json.put(ConstSysParamsDefination.DATA, result);
 							logger.info("获取2级粉丝成功!");
 						} else {
-							json.put(ConstSysParams.STATUS, "0");
-							json.put(ConstSysParams.MSG, "当前会员不存在" + fansLv + "级粉丝!");
+							json.put(ConstSysParamsDefination.STATUS, "0");
+							json.put(ConstSysParamsDefination.MSG, "当前会员不存在" + fansLv + "级粉丝!");
 							logger.info("当前会员ID:%s不存在" + fansLv + "级粉丝!", memId);
 						}
 					} else {
-						json.put(ConstSysParams.STATUS, "9998");
-						json.put(ConstSysParams.MSG, "粉丝级别输入有误!仅支持2级!粉丝级别:" + fansLv);
+						json.put(ConstSysParamsDefination.STATUS, "9998");
+						json.put(ConstSysParamsDefination.MSG, "粉丝级别输入有误!仅支持2级!粉丝级别:" + fansLv);
 						logger.info("粉丝级别输入有误!fansLv=%s" + fansLv);
 					}
 					
 				} else {
-					json.put(ConstSysParams.STATUS, "0");
-					json.put(ConstSysParams.MSG, "当前会员不存在" + fansLv + "级粉丝!");
+					json.put(ConstSysParamsDefination.STATUS, "0");
+					json.put(ConstSysParamsDefination.MSG, "当前会员不存在" + fansLv + "级粉丝!");
 					logger.info("当前会员ID:%s不存在" + fansLv + "级粉丝!", memId);
 				}
 			} else {
-				json.put(ConstSysParams.STATUS, "1020");
-				json.put(ConstSysParams.MSG, "当前会员不存在!");
+				json.put(ConstSysParamsDefination.STATUS, "1020");
+				json.put(ConstSysParamsDefination.MSG, "当前会员不存在!");
 				logger.info("当前会员ID:%s不存在!", memId);
 			}
 		} else {
-			json.put(ConstSysParams.STATUS, "9998");
-			json.put(ConstSysParams.MSG, "参数有误!");
+			json.put(ConstSysParamsDefination.STATUS, "9998");
+			json.put(ConstSysParamsDefination.MSG, "参数有误!");
 			logger.info("参数有误!limit:" + limit + ";pageNum:" + pageNum + "; fansLv:" + fansLv);
 		}
 		return json;
@@ -164,23 +164,23 @@ public class FunsServiceImpl implements FunsService{
 						lv2FansNum += lv2FansId.length;
 					}
 				}
-				json.put(ConstSysParams.STATUS, "0");
-				json.put(ConstSysParams.MSG, "获取粉丝数量成功!");
+				json.put(ConstSysParamsDefination.STATUS, "0");
+				json.put(ConstSysParamsDefination.MSG, "获取粉丝数量成功!");
 				fansNumber.put("level_1_count", "" + lv1FansId.length);
 				fansNumber.put("level_2_count", "" + lv2FansNum);
-				json.put(ConstSysParams.DATA, fansNumber);
+				json.put(ConstSysParamsDefination.DATA, fansNumber);
 				logger.info("一级粉丝数量为:" + lv1FansId.length + ";二级粉丝数量为:" + lv2FansNum);
 			} else {
-				json.put(ConstSysParams.STATUS, "0");
-				json.put(ConstSysParams.MSG, "获取粉丝数量成功!");
+				json.put(ConstSysParamsDefination.STATUS, "0");
+				json.put(ConstSysParamsDefination.MSG, "获取粉丝数量成功!");
 				fansNumber.put("level_1_count", "0");
 				fansNumber.put("level_2_count", "0");
-				json.put(ConstSysParams.DATA, fansNumber);
+				json.put(ConstSysParamsDefination.DATA, fansNumber);
 				logger.info("一级粉丝数量为:0;二级粉丝数量为:0");
 			}
 		} else {
-			json.put(ConstSysParams.STATUS, "1020");
-			json.put(ConstSysParams.MSG, "当前会员不存在!");
+			json.put(ConstSysParamsDefination.STATUS, "1020");
+			json.put(ConstSysParamsDefination.MSG, "当前会员不存在!");
 			logger.info("当前会员ID:%s不存在!", memId);
 		}
 		return json;

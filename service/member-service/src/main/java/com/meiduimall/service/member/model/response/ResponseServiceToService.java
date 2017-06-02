@@ -12,7 +12,7 @@ import com.alibaba.fastjson.JSONObject;
  * 描述:  service到service数据传递对像<br>
  * 创建时间: 2016-12-2
  */
-public class ServiceToServiceDTO extends RequestDTO{
+public class ResponseServiceToService extends ResponseRequest{
 
 	private static final long serialVersionUID = 4523354427763027082L;
 	

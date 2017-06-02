@@ -2,7 +2,7 @@ package com.meiduimall.service.member.model.response;
 
 import java.io.Serializable;
 
-public class DictDTO implements Serializable {
+public class ResponseDict implements Serializable {
 
 	
 private static final long serialVersionUID = 1L;

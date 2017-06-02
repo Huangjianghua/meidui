@@ -26,7 +26,7 @@ import com.meiduimall.service.member.constant.ConstApiStatus;
 import com.meiduimall.service.member.model.MSMembersGet;
 import com.meiduimall.service.member.model.request.RequestLoginUnlock;
 import com.meiduimall.service.member.model.request.RequestSetPaypwdStatus;
-import com.meiduimall.service.member.model.response.MemberLockDTO;
+import com.meiduimall.service.member.model.response.ResponseMemberLock;
 import com.meiduimall.service.member.service.SecurityService;
 
 /**
@@ -205,7 +205,7 @@ public class SecurityV1Controller {
 	 */
 	@RequestMapping(value = "/loginUnlockList",method=RequestMethod.POST)
     public ResBodyData loginUnlockList(@RequestBody RequestLoginUnlock loginUnlock) throws Exception {
-		List<MemberLockDTO> list=null;
+		List<ResponseMemberLock> list=null;
 		try {
 			//分页查询
 			if(loginUnlock.getFlag().equals("1")){

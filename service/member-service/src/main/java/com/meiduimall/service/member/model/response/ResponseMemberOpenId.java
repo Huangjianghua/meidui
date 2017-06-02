@@ -1,6 +1,6 @@
 package com.meiduimall.service.member.model.response;
 
-public class MemberOpenIdDTO {
+public class ResponseMemberOpenId {
 
 	private String memId;
 	private String memPhone;

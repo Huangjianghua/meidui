@@ -11,7 +11,7 @@ import org.springframework.util.StringUtils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.usercenter.constant.ConstApiStatus;
-import com.meiduimall.application.usercenter.constant.ConstSysParams;
+import com.meiduimall.application.usercenter.constant.ConstSysParamsDefination;
 import com.meiduimall.application.usercenter.util.HttpResolveUtils;
 import com.meiduimall.application.usercenter.util.MD5Utils;
 import com.meiduimall.exception.MdSysException;
@@ -42,13 +42,13 @@ public class ValRequest {
 		logger.info("API请求数据类型：{},请求方式：{},是否标识token注解：{}",contentType,method,hasToken);
 		JSONObject reqJson=null;
 		try {
-			if(ConstSysParams.HTTP_GET.equals(method)){
+			if(ConstSysParamsDefination.HTTP_GET.equals(method)){
 				reqJson=HttpResolveUtils.readGetStringToJsonObject(request);
 			}				
-			if(ConstSysParams.HTTP_POST.equals(method)&&contentType.contains(MediaType.APPLICATION_JSON_VALUE)){
+			if(ConstSysParamsDefination.HTTP_POST.equals(method)&&contentType.contains(MediaType.APPLICATION_JSON_VALUE)){
 				reqJson=HttpResolveUtils.readStreamToJsonObject(request);
 			}				
-			if(ConstSysParams.HTTP_POST.equals(method)&&MediaType.APPLICATION_FORM_URLENCODED_VALUE.equals(contentType)){
+			if(ConstSysParamsDefination.HTTP_POST.equals(method)&&MediaType.APPLICATION_FORM_URLENCODED_VALUE.equals(contentType)){
 				reqJson=HttpResolveUtils.readPostFormToJsonObject(request);
 			}
 		} catch (Exception e) {
@@ -62,14 +62,14 @@ public class ValRequest {
 		validateSign(reqJson);*/
 		/**校验token，将token转换为memId*/
 		if (hasToken) {
-			if (reqJson.containsKey(ConstSysParams.TOKEN)){ 
-				if(StringUtils.isEmpty(reqJson.getString(ConstSysParams.TOKEN))){
+			if (reqJson.containsKey(ConstSysParamsDefination.TOKEN)){ 
+				if(StringUtils.isEmpty(reqJson.getString(ConstSysParamsDefination.TOKEN))){
 					logger.warn("token参数为空");
 					throw new MdSysException(ConstApiStatus.TOKEN_EMPTY);
 				}
-				String memId=ValToken.valToken(reqJson.getString(ConstSysParams.TOKEN));
-				reqJson.remove(ConstSysParams.TOKEN);
-				reqJson.put(ConstSysParams.MEMID,memId);
+				String memId=ValToken.valToken(reqJson.getString(ConstSysParamsDefination.TOKEN));
+				reqJson.remove(ConstSysParamsDefination.TOKEN);
+				reqJson.put(ConstSysParamsDefination.MEMID,memId);
 			}
 			else{
 				logger.warn("请求缺少token参数");
@@ -86,15 +86,15 @@ public class ValRequest {
 	 * @throws MdSysException 系统异常
 	 */
 	private static void validateParamters(JSONObject reqJson) throws MdSysException{
-		if(!reqJson.containsKey(ConstSysParams.CLIENTID)){
+		if(!reqJson.containsKey(ConstSysParamsDefination.CLIENTID)){
 			logger.warn("校验必填参数>>clientID为空");
 			throw new MdSysException(ConstApiStatus.CLIENTID_EMPTY);
 		}
-		if(!reqJson.containsKey(ConstSysParams.TIMESATAMP)){
+		if(!reqJson.containsKey(ConstSysParamsDefination.TIMESATAMP)){
 			logger.warn("校验必填参数>>时间戳为空");
 			throw new MdSysException(ConstApiStatus.TIMESTAMP_EMPTY);
 		}
-		if(!reqJson.containsKey(ConstSysParams.SIGN)){
+		if(!reqJson.containsKey(ConstSysParamsDefination.SIGN)){
 			logger.warn("校验必填参数>>签名为空");
 			throw new MdSysException(ConstApiStatus.SIGN_EMPTY);
 		}
@@ -109,7 +109,7 @@ public class ValRequest {
 	 */
 	private static void validateTimesatamp(Long timesatamp) throws MdSysException{
 		Long currentTime = System.currentTimeMillis();
-		Long beforeTime = currentTime - ConstSysParams.REQUEST_EFFECTIVE_TIME;
+		Long beforeTime = currentTime - ConstSysParamsDefination.REQUEST_EFFECTIVE_TIME;
 		if(timesatamp.toString().length()!=13){
 			logger.warn("校验时间戳>>时间戳格式错误，非13位");
 			throw new MdSysException(ConstApiStatus.TIMESTAMP_FORMAT_ERROR);
@@ -128,13 +128,13 @@ public class ValRequest {
 	 * @throws MdSysException 系统异常
 	 */
 	private static void validateSign(JSONObject reqJson) throws MdSysException{
-		if(reqJson.getString(ConstSysParams.SIGN).length()!=32){
+		if(reqJson.getString(ConstSysParamsDefination.SIGN).length()!=32){
 			logger.warn("校验签名>>签名格式错误，非32位");
 			throw new MdSysException(ConstApiStatus.SIGN_FORMAT_ERROR);
 		}
-		String clientSign=reqJson.getString(ConstSysParams.SIGN);		
-		String memberSecretJson=RedisTemplate.getJedisInstance().execGetFromCache(ConstSysParams.memberSecretJson);
-		String clientID=reqJson.getString(ConstSysParams.CLIENTID);
+		String clientSign=reqJson.getString(ConstSysParamsDefination.SIGN);		
+		String memberSecretJson=RedisTemplate.getJedisInstance().execGetFromCache(ConstSysParamsDefination.memberSecretJson);
+		String clientID=reqJson.getString(ConstSysParamsDefination.CLIENTID);
 		String secretkey=JSONObject.parseObject(memberSecretJson).getString(clientID);
 		String serverSign = MD5Utils.getSign(reqJson,secretkey);
 		if (!clientSign.equals(serverSign)){
