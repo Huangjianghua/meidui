@@ -13,7 +13,7 @@ import com.meiduimall.service.member.model.request.RequestBindingWeixin;
 import com.meiduimall.service.member.service.WeixinInfoService;
 
 /**
- * 微信资料相关操作
+ * 微信资料相关操作 
  * 
  * @author yangchang
  *

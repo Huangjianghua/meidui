@@ -15,7 +15,7 @@ public class CouponController {
 	private CouponService couponService;
 
 	/**
-	 * 查询所有的优惠券规则
+	 * 查询所有的优惠券规则 
 	 * 
 	 * @return 优惠券赠送规则
 	 */
