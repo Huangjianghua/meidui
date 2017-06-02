@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSAccountType;
@@ -16,6 +17,7 @@ import com.meiduimall.service.account.service.AccountTypeService;
  * @author chencong
  *
  */
+@Transactional
 @Service
 public class AccountTypeServiceImpl implements AccountTypeService {
 	

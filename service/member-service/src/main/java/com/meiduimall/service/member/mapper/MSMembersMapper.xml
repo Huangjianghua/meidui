@@ -247,7 +247,7 @@
 	</insert>
 	
 		<!-- 根据条件查询会员锁定列表信息-->
-	<select id="queryMemberLockList" parameterType="com.meiduimall.service.member.model.request.RequestLoginUnlock" resultType="com.meiduimall.service.member.model.response.MemberLockDTO">
+	<select id="queryMemberLockList" parameterType="com.meiduimall.service.member.model.request.RequestLoginUnlock" resultType="com.meiduimall.service.member.model.response.ResponseMemberLock">
 		SELECT 
 		m.mem_id AS memId,
 		m.mem_email AS memEmail,
@@ -270,7 +270,7 @@
 	</select>
 	
     <!--  查询会员手机归属表中没有的会员数据   -->	
-	<select id="findNotInMemberMobileArea" resultType="com.meiduimall.service.member.model.response.MemberMobileAreaDTO">
+	<select id="findNotInMemberMobileArea" resultType="com.meiduimall.service.member.model.response.ResponseMemberMobileArea">
 	 SELECT ms.mem_id memId, ms.mem_phone memPhone FROM  ms_members ms WHERE ms.mem_id NOT IN(
    		SELECT  m.mem_id  FROM ms_members m  INNER JOIN
    		ms_member_mobile_area ma  ON m.`mem_id` = ma.mem_id)
