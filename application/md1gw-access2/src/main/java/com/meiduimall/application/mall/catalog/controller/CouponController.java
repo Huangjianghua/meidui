@@ -20,7 +20,7 @@ public class CouponController {
 	private CouponService couponService;
 
 	/**
-	 * 获取所有优惠券赠送规则
+	 * 获取所有优惠券赠送规则 
 	 * 
 	 * @return 优惠券赠送规则
 	 */
