@@ -10,16 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.usercenter.annotation.HasToken;
 import com.meiduimall.application.usercenter.constant.ConstApiStatus;
-import com.meiduimall.application.usercenter.interceptor.ValInterceptor;
 import com.meiduimall.application.usercenter.interceptor.ValRequest;
 import com.meiduimall.application.usercenter.service.SmsService;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.MdSysException;
-import com.meiduimall.exception.ServiceException;
 
 /**
- * 短信相关接口
+ * 短信相关API
  * @author chencong
  *
  */

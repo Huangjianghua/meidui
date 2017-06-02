@@ -34,7 +34,7 @@ import com.meiduimall.service.member.service.UserInfoService;
 import com.meiduimall.service.member.util.HttpResolveUtils;
 
 /**
- * 用户基本操作相关接口
+ * 会员基本行为相关API
  * @author chencong
  *
  */

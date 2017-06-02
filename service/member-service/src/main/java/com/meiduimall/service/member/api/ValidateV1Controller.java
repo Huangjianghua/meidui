@@ -16,7 +16,7 @@ import com.meiduimall.service.member.constant.ConstApiStatus;
 import com.meiduimall.service.member.service.ValidateService;
 
 /**
- * 账号校验相关接口
+ * 账号校验相关API
  * @author chencong
  *
  */

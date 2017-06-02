@@ -21,7 +21,7 @@ import com.meiduimall.service.member.model.request.RequestGetMemberBasicInfo;
 import com.meiduimall.service.member.service.UserInfoService;
 
 /**
- * 获取用户基本信息
+ * 会员信息相关API
  * @author chencong
  *
  */

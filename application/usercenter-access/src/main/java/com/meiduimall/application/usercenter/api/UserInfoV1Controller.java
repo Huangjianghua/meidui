@@ -18,7 +18,7 @@ import com.meiduimall.exception.MdSysException;
 
 
 /**
- * 会员信息相关接口
+ * 会员信息相关API
  * @author chencong
  *
  */

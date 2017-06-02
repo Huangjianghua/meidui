@@ -19,7 +19,7 @@ import com.meiduimall.service.member.model.request.RequestGetValidateCode;
 import com.meiduimall.service.member.service.SmsService;
 
 /**
- * 短信相关接口
+ * 短信相关API
  * @author chencong
  *
  */

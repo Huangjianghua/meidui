@@ -17,8 +17,8 @@ import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.MdSysException;
 
 /**
- * 积分相关
- * @author jun.wu@meiduimall.com
+ * 提现相关API
+ * @author chencong
  *
  */
 @RestController

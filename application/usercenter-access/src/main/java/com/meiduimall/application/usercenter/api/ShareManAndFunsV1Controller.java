@@ -21,7 +21,7 @@ import com.meiduimall.util.Logger;
 import com.meiduimall.util.SystemConfig;
 
 *//**
- * 推荐人和粉丝相关
+ * 推荐人和粉丝相关API
  * @author chencong
  *
  *//*

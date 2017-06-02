@@ -25,7 +25,7 @@ import com.meiduimall.exception.MdSysException;
 import com.meiduimall.redis.util.RedisTemplate;
 
 /**
- * 用户常规操作
+ * 用户基本行为API
  * @author chencong
  *
  */

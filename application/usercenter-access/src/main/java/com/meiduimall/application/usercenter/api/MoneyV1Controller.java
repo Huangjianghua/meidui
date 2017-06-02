@@ -15,10 +15,9 @@ import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.MdSysException;
 
-
 /**
- * 余额相关
- * @author jun.wu@meiduimall.com
+ * 余额相关API
+ * @author chencong
  *
  */
 @RestController

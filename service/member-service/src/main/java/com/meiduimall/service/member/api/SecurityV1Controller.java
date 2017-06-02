@@ -30,7 +30,7 @@ import com.meiduimall.service.member.model.response.MemberLockDTO;
 import com.meiduimall.service.member.service.SecurityService;
 
 /**
- * 账号安全相关接口
+ * 账号安全和权限相关API
  * @author chencong
  *
  */
