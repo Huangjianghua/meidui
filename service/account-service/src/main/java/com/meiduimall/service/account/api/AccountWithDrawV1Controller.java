@@ -204,7 +204,7 @@ public class AccountWithDrawV1Controller {
 	}
 
 	/**
-	 * 提现申请列表---兼容旧版
+	 * 提现申请查询接口---兼容旧版--该接口不需要兼容，可以删除
 	 * 
 	 * @param memId
 	 *            会员ID
@@ -214,6 +214,7 @@ public class AccountWithDrawV1Controller {
 	 *            每页数量
 	 * @return
 	 */
+	@Deprecated
 	@PostMapping(value = "/getBankWithdrawDepositsForApp_old")
 	public String getBankWithdrawDepositsForApp_old(String memId,
 			@RequestParam(value = "current_page") String currentPage,
@@ -268,7 +269,7 @@ public class AccountWithDrawV1Controller {
 	}
 
 	/**
-	 * 提现申请列表---新接口规范
+	 * 提现申请查询接口---新接口规范
 	 * 
 	 * @param memId
 	 *            会员ID

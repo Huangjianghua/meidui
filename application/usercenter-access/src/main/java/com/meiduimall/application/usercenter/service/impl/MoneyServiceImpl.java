@@ -18,7 +18,9 @@ import com.meiduimall.application.usercenter.service.MoneyService;
 import com.meiduimall.application.usercenter.util.HttpUtils;
 import com.meiduimall.application.usercenter.util.MD5Utils;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.MdSysException;
+import com.meiduimall.exception.ServiceException;
 
 @Service
 public class MoneyServiceImpl implements MoneyService  {
@@ -64,6 +66,20 @@ public class MoneyServiceImpl implements MoneyService  {
 			throw new MdSysException(ConstApiStatus.REQUEST_GATEWAY_EX);
 		}
 		return resBodyData;
+	}
+
+	@Override
+	public String getAccountBalanceForApp(JSONObject reqJson) throws MdSysException {
+		try {
+			String url = profile.getServiceAccountUrl() + "v1/getAccountBalanceForApp_old";
+			MD5Utils.updateSign(reqJson, profile.getRouteClientID(), profile.getRouteKey());
+			Map<String, String> headers = new HashMap<>();
+			headers.put(ConstSysParams.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+			return HttpUtils.post(url, reqJson.toString(), headers);
+		} catch (Exception e) {
+			logger.error("调用账户服务>>提现申请API>>异常:{}", e.toString());
+			throw new MdSysException(ConstApiStatus.REQUEST_GATEWAY_EX);
+		}
 	}
 
 }

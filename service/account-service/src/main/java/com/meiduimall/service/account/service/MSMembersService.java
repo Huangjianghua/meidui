@@ -19,7 +19,7 @@ public interface MSMembersService {
 	 * @param userId
 	 * @return
 	 */
-	public ResponseAccountBalance getAccountBalance(String memId, String userId);
+	public ResponseAccountBalance getAccountBalance(String memId);
 	
 	public boolean checkUserIsExistByMemId(String memId);
 

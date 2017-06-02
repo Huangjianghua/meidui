@@ -321,5 +321,42 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 		System.out.println(DESC.encryption(s, "b9d78165-1483-42f7-a48c-fbfcc3b06431"));
 	}
 
+	/**
+     * 查询个人消费管理信息接口
+     * @throws Exception
+     */
+    @Test
+	public void personalConsumptionPoints_test_01() throws Exception {
+		ResultActions results = mockMvc.perform(
+				MockMvcRequestBuilders.post("/member/account_service/v1/personalConsumptionPoints")
+				.param("memId", "a0db1419-f44a-48e8-9394-a49620e47940"))
+				.andExpect(status().isOk());
+
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("personalConsumptionPoints_test_01*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+    
+    /**
+     * 查询个人消费管理信息接口---memId不存在
+     * @throws Exception
+     */
+    @Test
+	public void personalConsumptionPoints_test_02() throws Exception {
+		ResultActions results = mockMvc.perform(
+				MockMvcRequestBuilders.post("/member/account_service/v1/personalConsumptionPoints")
+				.param("memId", "a0db1419"))
+				.andExpect(status().isOk());
+
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("personalConsumptionPoints_test_02*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
 }
 

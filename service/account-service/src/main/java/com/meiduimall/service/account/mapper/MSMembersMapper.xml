@@ -15,5 +15,12 @@
 	<select id="selectMemIdByPhone" parameterType="java.lang.String" resultType="java.lang.String">
 		SELECT mem_id FROM ms_members WHERE mem_phone=#{phone}
 	</select>
+	
+	<select id="getQuantityByMemId" parameterType="java.lang.String" resultType="com.meiduimall.service.account.model.MSMembers">
+		SELECT 
+		mem_parent_value2 AS memParentValue2,
+		mem_basic_account_total_quantity AS memBasicAccountTotalQuantity
+		FROM v_ms_members WHERE memId = #{memId}
+	</select>
 
 </mapper>

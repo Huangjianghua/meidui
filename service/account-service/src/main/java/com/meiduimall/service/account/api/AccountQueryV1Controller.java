@@ -225,16 +225,16 @@ public class AccountQueryV1Controller {
 	 * @return
 	 */
 	@PostMapping(value = "/getAccountBalanceForApp_old")
-	public String getAccountBalanceForApp_old(String memId, @RequestParam(value = "user_id") String userId) {
+	public String getAccountBalanceForApp_old(String memId) {
 		ResponseOldAccountBalance result = new ResponseOldAccountBalance();
-		if (Strings.isNullOrEmpty(memId) || Strings.isNullOrEmpty(userId)) {
+		if (Strings.isNullOrEmpty(memId)) {
 			result.setStatusCode(String.valueOf(ConstApiStatus.REQUIRED_PARAM_EMPTY));
 			result.setResultMsg(ConstApiStatus.getZhMsg(ConstApiStatus.REQUIRED_PARAM_EMPTY));
 			return JsonUtils.beanToJson(result);
 		}
 		ResponseAccountBalance data = null;
 		try {
-			data = mSMembersService.getAccountBalance(memId, userId);
+			data = mSMembersService.getAccountBalance(memId);
 		} catch (ServiceException e) {
 			result.setStatusCode(String.valueOf(ConstApiStatus.USER_NOT_EXIST));
 			result.setResultMsg(ConstApiStatus.getZhMsg(ConstApiStatus.USER_NOT_EXIST));
@@ -253,12 +253,12 @@ public class AccountQueryV1Controller {
 	 * @return
 	 */
 	@PostMapping(value = "/getAccountBalanceForApp")
-	public ResBodyData getAccountBalanceForApp(String memId, @RequestParam(value = "user_id") String userId) {
-		if (Strings.isNullOrEmpty(memId) || Strings.isNullOrEmpty(userId)) {
+	public ResBodyData getAccountBalanceForApp(String memId) {
+		if (Strings.isNullOrEmpty(memId)) {
 			throw new ApiException(ConstApiStatus.REQUIRED_PARAM_EMPTY);
 		}
 		ResBodyData result = new ResBodyData();
-		result.setData(mSMembersService.getAccountBalance(memId, userId));
+		result.setData(mSMembersService.getAccountBalance(memId));
 		result.setStatus(ConstApiStatus.SUCCESS);
 		result.setMsg(ConstApiStatus.SUCCESS_C);
 		return result;

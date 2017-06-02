@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.google.common.base.Strings;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.exception.ServiceException;
@@ -38,7 +39,7 @@ public class MSMembersServiceImpl implements MSMembersService {
 	}
 
 	@Override
-	public ResponseAccountBalance getAccountBalance(String memId, String userId) {
+	public ResponseAccountBalance getAccountBalance(String memId) {
 
 		// 先查询用户是否存在
 		if (!checkUserIsExistByMemId(memId)) {
@@ -46,26 +47,27 @@ public class MSMembersServiceImpl implements MSMembersService {
 		}
 
 		// 目前暂时使用accountService提供的方法，不过这些方法还不确定是否正常，待确定后再调整
-		// Double totalConsumePoints =
-		// accountService.getTotalConsumePoints(memId);
-		// Double useConsumePoints = accountService.getUseConsumePoints(memId);
-		// Double freezeConsumePoints =
-		// accountService.getFreezeConsumePoints(memId);
-		// Double totalConsumeMoney =
-		// accountService.getTotalConsumeMoney(memId);
-		// Double useConsumeMoney = accountService.getUseConsumeMoney(memId);
-		// Double freezeConsumeMoney =
-		// accountService.getFreezeConsumeMoney(memId);
-		//
-		// AccountBalanceResult data = new AccountBalanceResult();
-		// data.setAllPoints(String.valueOf(totalConsumePoints));
-		// data.setUsePoints(String.valueOf(useConsumePoints));
-		// data.setFreezePoints(String.valueOf(freezeConsumePoints));
-		// data.setAllMoney(String.valueOf(totalConsumeMoney));
-		// data.setUseMoney(String.valueOf(useConsumeMoney));
-		// data.setFreezeMoney(String.valueOf(freezeConsumeMoney));
-		// return data;
-		return null;
+//		// 全部积分，含冻结积分
+//		Double totalConsumePoints = accountService.getTotalConsumePoints(memId);
+//		// 可使用积分，不含冻结积分
+//		Double useConsumePoints = accountService.getUseConsumePoints(memId);
+//		// 冻结积分
+//		Double freezeConsumePoints = accountService.getFreezeConsumePoints(memId);
+//		// 全部余额，含冻结余额
+//		Double totalConsumeMoney = accountService.getTotalConsumeMoney(memId);
+//		// 可使用账户余额，不含冻结余额
+//		Double useConsumeMoney = accountService.getUseConsumeMoney(memId);
+//		// 冻结余额
+//		Double freezeConsumeMoney = accountService.getFreezeConsumeMoney(memId);
+
+		ResponseAccountBalance data = new ResponseAccountBalance();
+//		data.setAllPoints(String.valueOf(totalConsumePoints));
+//		data.setUsePoints(String.valueOf(useConsumePoints));
+//		data.setFreezePoints(String.valueOf(freezeConsumePoints));
+//		data.setAllMoney(String.valueOf(totalConsumeMoney));
+//		data.setUseMoney(String.valueOf(useConsumeMoney));
+//		data.setFreezeMoney(String.valueOf(freezeConsumeMoney));
+		return data;
 	}
 
 	@Override
@@ -86,11 +88,15 @@ public class MSMembersServiceImpl implements MSMembersService {
 		}
 
 		// 获取个人账户积分
-		MSMembers members = getMemberInfo(memId);
+		MSMembers members = baseDao.selectOne(memId, "MSMembersMapper.getQuantityByMemId");
 		ResponsePersonalConsumptionPoints data = new ResponsePersonalConsumptionPoints();
 		try {
-			data.setAccountIntegral(
-					DoubleCalculate.getFormalValueTwo(DESC.deyption(members.getMemBasicAccountStatus(), memId)));
+			if (!Strings.isNullOrEmpty(members.getMemBasicAccountTotalQuantity())) {
+				data.setAccountIntegral(DoubleCalculate
+						.getFormalValueTwo(DESC.deyption(members.getMemBasicAccountTotalQuantity(), memId)));
+			} else {
+				data.setAccountIntegral("0.000");
+			}
 		} catch (MdSysException e) {
 			logger.error("解密会员积分异常：" + e);
 			throw new ServiceException(ConstApiStatus.DECRYPTION_EXCEPTION);
@@ -112,19 +118,33 @@ public class MSMembersServiceImpl implements MSMembersService {
 		String consumptionPersonal = "0.00";
 		String allChildIntegral = "0.00";
 		if (integralVo != null) {
-			// 消费返本累计
-			double consumePerPrincipal = Double.valueOf(integralVo.getMintTotalConsumeReturn());
-			// 消费返利累计（总）
-			double consumeRebate = Double.valueOf(integralVo.getMintTotalConsumeProfit());
-			// 个人消费返利累计（个人）
-			double perRebate = Double.valueOf(integralVo.getMintPersonalTotalConsumeProfit());
-			double xfc = Arith.add(consumePerPrincipal, perRebate);
-			double allFansXfc = Arith.sub(consumeRebate, perRebate);
-			if (allFansXfc < 0) {
-				allFansXfc = 0.000;
+			try {
+				// 消费返本累计
+				double consumePerPrincipal = 0;
+				if (!Strings.isNullOrEmpty(integralVo.getMintTotalConsumeReturn())) {
+					consumePerPrincipal = Double.valueOf(DESC.deyption(integralVo.getMintTotalConsumeReturn(), memId));
+				}
+				// 消费返利累计（总）
+				double consumeRebate = 0;
+				if (!Strings.isNullOrEmpty(integralVo.getMintTotalConsumeProfit())) {
+					consumeRebate = Double.valueOf(DESC.deyption(integralVo.getMintTotalConsumeProfit(), memId));
+				}
+				// 个人消费返利累计（个人）
+				double perRebate = 0;
+				if (!Strings.isNullOrEmpty(integralVo.getMintPersonalTotalConsumeProfit())) {
+					perRebate = Double.valueOf(DESC.deyption(integralVo.getMintPersonalTotalConsumeProfit(), memId));
+				}
+				double xfc = Arith.add(consumePerPrincipal, perRebate);
+				double allFansXfc = Arith.sub(consumeRebate, perRebate);
+				if (allFansXfc < 0) {
+					allFansXfc = 0.000;
+				}
+				consumptionPersonal = DoubleCalculate.getFormalValueTwo(String.valueOf(xfc));
+				allChildIntegral = DoubleCalculate.getFormalValueTwo(String.valueOf(allFansXfc));
+			} catch (MdSysException e) {
+				logger.error("解密会员积分异常：" + e);
+				throw new ServiceException(ConstApiStatus.DECRYPTION_EXCEPTION);
 			}
-			consumptionPersonal = DoubleCalculate.getFormalValueTwo(String.valueOf(xfc));
-			allChildIntegral = DoubleCalculate.getFormalValueTwo(String.valueOf(allFansXfc));
 		}
 		data.setConsumptionPersonal(consumptionPersonal);
 		data.setAllChildIntegral(allChildIntegral);
