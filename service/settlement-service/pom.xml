@@ -10,7 +10,7 @@
     <groupId>com.meiduimall.service</groupId>
     <artifactId>settlement-service</artifactId>
 	<name>service::settlement-service</name>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
 	<dependencies>
