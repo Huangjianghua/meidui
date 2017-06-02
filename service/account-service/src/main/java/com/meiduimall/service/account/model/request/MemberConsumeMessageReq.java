@@ -1,8 +1,8 @@
-package com.meiduimall.service.member.model.request;
+package com.meiduimall.service.account.model.request;
 
 import java.io.Serializable;
 
-public class MemberConsumeMessageDTO implements Serializable{
+public class MemberConsumeMessageReq implements Serializable{
 
  
 	private static final long serialVersionUID = -4100412753193648648L;

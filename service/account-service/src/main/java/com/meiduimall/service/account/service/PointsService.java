@@ -62,4 +62,12 @@ public interface PointsService {
 	 * @author: jianhua.huang  2017年5月18日 上午11:44:00
 	 */
 	List<MemberTransferHistory> queryPointsTransferList(RequestPointTransfer pointTransfer)throws MdBizException;
+	
+	/**
+	 * 根据会员ID查询当前可用积分
+	 * 计算公式：  会员当前可用积分=冻结解冻积分的总和+会员当前积分（会员表mem_basic_account_total_quantity字段）
+	 * @param memId 会员ID
+	 * @return 会员当前可用积分
+	 */
+	Double getAvailablePointsByMemId(String memId);
 }

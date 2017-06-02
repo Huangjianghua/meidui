@@ -61,7 +61,7 @@ public class PointsServiceImpl implements PointsService {
 	 * @param memId 会员ID
 	 * @return 会员当前可用积分
 	 */
-	private Double getAvailablePointsByMemId(String memId) {
+	public Double getAvailablePointsByMemId(String memId) {
 		Double realPoints = Double.valueOf("0");
 		try{
 			realPoints = DoubleCalculate.add(getFreezeUnFreezePointsSumByMemId(memId), 

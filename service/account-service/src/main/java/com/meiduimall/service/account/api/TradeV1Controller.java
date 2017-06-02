@@ -5,14 +5,18 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
+import com.meiduimall.service.account.model.request.MemberConsumeMessageReq;
 import com.meiduimall.service.account.model.request.RequestFreezeUnFreeze;
 import com.meiduimall.service.account.model.request.RequestUnfreezeDecut;
 import com.meiduimall.service.account.service.TradeService;
@@ -194,5 +198,49 @@ public class TradeV1Controller {
 			writer.println(RuntimeExceptionProcess(e).toJSONString());
 		}
 	}*/
+	
+	
+	
+	
+	/**
+	 * 当前商家退会员订单信息接口  http://IP:PORT/Authorized/BusinessRecedeOrder
+	 */
+	@PostMapping(value = "/business_recede_order")
+	ResBodyData businessRecedeOrder(@Validated JSONObject json)   {
+		logger.info("接收 当前商家退会员订单信息接口 数据：{}", json);
+		logger.info("当前商家退会员订单信息接口  请求结果：{}", "");
+		try {
+		} catch (Exception e) {
+			 
+		}
+		return null;
+	} 
+	
+	
+	/**
+	 * 保存当前会员订单信息接口(免token校验) http://IP:PORT/Authorized/saveOrderNotoken
+	 * @return ResBodyData
+	 */
+	@PostMapping(value = "/save_order_notoken")
+	ResBodyData saveOrderNotoken(@Validated JSONObject json) throws MdSysException{
+		logger.info("接收到数据：memId={}, phone={}", "");
+		logger.info("注册时记录会员手机对应的区域请求结果：{}", "");
+		return null;
+    }
+ 
+	/**
+	 * 当前会员退单信息接口  http://IP:PORT/Authorized/RecedeOrder
+	 * @return ResBodyData
+	 */
+	@PostMapping(value = "/recede_order")
+	ResBodyData recedeOrder() {
+		logger.info("更新开始");
+		MemberConsumeMessageReq  mmt = new MemberConsumeMessageReq();
+		Double xfc = new Double(0);
+		orderService.updateMemberOrder(mmt, xfc);
+		logger.info("更新结果  ：{}", "");
+		logger.info("更新结束");
+		return null;
+	}
 	
 }

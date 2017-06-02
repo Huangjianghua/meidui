@@ -8,10 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.usercenter.annotation.HasToken;
-import com.meiduimall.application.usercenter.constant.ApiStatusConst;
+import com.meiduimall.application.usercenter.constant.ConstApiStatus;
 import com.meiduimall.application.usercenter.interceptor.ValRequest;
 import com.meiduimall.application.usercenter.service.MemberOrderService;
-import com.meiduimall.application.usercenter.service.WithDrawService;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
 
@@ -41,7 +40,7 @@ public class MemberOrderV1Controller {
 			resBodyData=memberOrderService.businessRecedeOrder(reqJson);
 		} catch (Exception e) {
 			logger.info("当前商家退会员订单信息接口 API请求异常：{}",e.toString());
-			throw new ApiException(ApiStatusConst.SYSTEM_ERROR);
+			throw new ApiException(ConstApiStatus.SYSTEM_ERROR);
 		}
 		logger.info("当前商家退会员订单信息接口 API请求结果：{}",resBodyData.toString());
 		return resBodyData;
@@ -62,7 +61,7 @@ public class MemberOrderV1Controller {
 			resBodyData=memberOrderService.saveOrderNotoken(reqJson);
 		} catch (Exception e) {
 			logger.info("保存当前会员订单信息接口(免token校验) API请求异常：{}",e.toString());
-			throw new ApiException(ApiStatusConst.SYSTEM_ERROR);
+			throw new ApiException(ConstApiStatus.SYSTEM_ERROR);
 		}
 		logger.info("保存当前会员订单信息接口(免token校验) API请求结果：{}",resBodyData.toString());
 		return resBodyData;
@@ -82,7 +81,7 @@ public class MemberOrderV1Controller {
 			resBodyData=memberOrderService.recedeOrder(reqJson);
 		} catch (Exception e) {
 			logger.info("当前会员退单信息接口 API请求异常：{}",e.toString());
-			throw new ApiException(ApiStatusConst.SYSTEM_ERROR);
+			throw new ApiException(ConstApiStatus.SYSTEM_ERROR);
 		}
 		logger.info("当前会员退单信息接口 API请求结果：{}",resBodyData.toString());
 		return resBodyData;

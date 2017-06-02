@@ -1,4 +1,4 @@
-package com.meiduimall.service.account.model;
+package com.meiduimall.service.account.model.request;
 
 import java.io.Serializable;
 
@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @author chencong
  *
  */
-public class MSMemberConsumeHistory  implements Serializable{
+public class MSMemberConsumeHistoryReq  implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
@@ -20,6 +20,12 @@ public class MSMemberConsumeHistory  implements Serializable{
 
 	/** 订单号 **/
 	private String orderId;
+	
+	/**消费金额**/
+	private String mchMoney;
+	
+	/**商家赠送积分**/
+	private String mchBshopGiveIntegral;
 
 	/** 消费时间 **/
 	private java.util.Date mchCreatedDate;
@@ -51,6 +57,8 @@ public class MSMemberConsumeHistory  implements Serializable{
 	/** 发放状态 0已发放 1未发放 **/
 	private Integer mchIssueStatus;
 	
+	/**消费劵消费金额**/
+	private String mchConsumeCouponCount;
 	
 	/** 美兑积分 **/
 	private Double mchConsumePointsCount;
@@ -66,7 +74,29 @@ public class MSMemberConsumeHistory  implements Serializable{
 	
 	
 	
+	public String getMchConsumeCouponCount() {
+		return mchConsumeCouponCount;
+	}
 
+	public void setMchConsumeCouponCount(String mchConsumeCouponCount) {
+		this.mchConsumeCouponCount = mchConsumeCouponCount;
+	}
+
+	public String getMchBshopGiveIntegral() {
+		return mchBshopGiveIntegral;
+	}
+
+	public void setMchBshopGiveIntegral(String mchBshopGiveIntegral) {
+		this.mchBshopGiveIntegral = mchBshopGiveIntegral;
+	}
+
+	public String getMchMoney() {
+		return mchMoney;
+	}
+
+	public void setMchMoney(String mchMoney) {
+		this.mchMoney = mchMoney;
+	}
 
 	public Integer getMchIssueStatus() {
 		return mchIssueStatus;
