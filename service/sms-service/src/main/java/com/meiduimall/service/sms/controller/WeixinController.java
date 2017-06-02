@@ -17,7 +17,7 @@ public class WeixinController {
 	private WeixinService weixinService;
 
 	/**
-	 * 支付成功，发送微信模板消息
+	 * 支付成功，发送微信模板消息 
 	 * 
 	 * @param model
 	 *            请求参数封装对象
