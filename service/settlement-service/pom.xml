@@ -11,6 +11,7 @@
     <artifactId>settlement-service</artifactId>
 	<name>service::settlement-service</name>
 	<version>1.0.0</version>
+
 	<packaging>jar</packaging>
 
 	<dependencies>
