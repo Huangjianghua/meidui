@@ -146,6 +146,10 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	public final static Integer ACCOUNT_APPLY_CARRY_CASH_ERROR=7311;
 	//新增提现记录异常
 	public final static Integer INSERT_WITHDRAW_ERROR=7312;
+	//提现申请操作异常
+	public final static Integer WITHDRAW_APPLY_ERROR=7313;
+	//查询提现账号相关类型表异常
+	public final static Integer QUERY_WITHDRAW_BY_ACCOUNT_TYPE_ERROR=7314;
 	
 	
 	/**会员信息相关*/
@@ -234,5 +238,8 @@ public abstract class ConstApiStatus extends BaseApiCode {
 		zhMsgMap.put(QUERY_TRANSFER_POINTS_ERROR, "查询转账积分列表错误");
 		
 		zhMsgMap.put(VALIDATE_CODE_NOT_PASS, "短信验证码校验不通过");
+		zhMsgMap.put(WITHDRAW_APPLY_ERROR, "提现申请错误");
+		zhMsgMap.put(QUERY_WITHDRAW_BY_ACCOUNT_TYPE_ERROR, "提现子表查询异常");
+		
 	}
 }
