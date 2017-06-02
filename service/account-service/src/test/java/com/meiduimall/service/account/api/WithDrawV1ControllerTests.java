@@ -21,7 +21,7 @@ import com.meiduimall.service.account.model.MSAccountDetailCondition;
  * 提现相关测试
  * @author jun.wu@meiduimall.com
  *
- */
+ */ 
 public class WithDrawV1ControllerTests extends BaseControllerTest {
 	private final static Logger logger=LoggerFactory.getLogger(WithDrawV1ControllerTests.class);
 	 
