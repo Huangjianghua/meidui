@@ -22,11 +22,14 @@ import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.ApiException;
+import com.meiduimall.exception.MdBizException;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.model.MSAccountDetail;
 import com.meiduimall.service.account.model.MSAccountDetailCondition;
 import com.meiduimall.service.account.model.MSAccountDetailGet;
+import com.meiduimall.service.account.model.MSAccountList;
+import com.meiduimall.service.account.model.request.RequestMSAccountList;
 import com.meiduimall.service.account.model.response.ResponseAccountBalance;
 import com.meiduimall.service.account.model.response.ResponseOldAccountBalance;
 import com.meiduimall.service.account.service.AccountReportService;
@@ -140,7 +143,7 @@ public class AccountQueryV1Controller {
 	 * @return
 	 * @author: jianhua.huang 2017年5月5日 下午5:31:18
 	 */
-	/*@RequestMapping(value = "/list_account")
+	@RequestMapping(value = "/list_account")
 	public ResBodyData listMSAccount(@RequestBody RequestMSAccountList msAccountListRequest) {
 		List<MSAccountList> msAccountLists = null;
 		try {
@@ -164,7 +167,7 @@ public class AccountQueryV1Controller {
 		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M, new PageInfo<>(msAccountLists));
 	}
 
-	*//**
+	/**
 	 * 查看会员余额调整明细
 	 * 
 	 * @param id
