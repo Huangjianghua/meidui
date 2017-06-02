@@ -35,7 +35,7 @@ import com.meiduimall.service.account.service.MembersPointsOpService;
 import com.meiduimall.service.account.service.PointsService;
 
 /**
- * 用户积分相关操作
+ * 会员积分相关API
  * @author chencong
  *
  */

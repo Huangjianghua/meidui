@@ -11,7 +11,7 @@ import com.meiduimall.service.account.model.request.RequestUnfreezeDecut;
  * @author chencong
  *
  */
-public interface OrderService {
+public interface TradeService {
 
 	/**
 	 * 会员发起交易申请，冻结积分和余额/会员发起退单，解冻积分和余额

@@ -30,19 +30,35 @@ import com.meiduimall.service.account.util.DateUtil;
 
 import net.sf.json.JSONObject;
 
-
 /**
- * @FileName: MoneyV1ControllerTests.java
- * @Author:   jianhua.huang 
- * @Date:     2017年4月18日 下午3:39:45
- * @Description: 测试新会员列表接口	
+ * 账户信息查询单元测试
+ * @author chencong
+ *
  */
-public class AccountInfoQueryV1ControllerTests extends BaseControllerTest {
-	private final static Logger logger=LoggerFactory.getLogger(AccountInfoQueryV1ControllerTests.class);
+public class AccountQueryV1ControllerTest extends BaseControllerTest {
+	
+	private final static Logger logger=LoggerFactory.getLogger(AccountQueryV1ControllerTest.class);
+	
 	/**
-	 * 余额流水
+	 * 查询当前会员可用余额
 	 * @throws Exception
 	 */
+    @Test
+    public void getAvailableBalance() throws Exception{
+    	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/v1/get_available_balance")
+    			.param("memId",memId))
+    			.andExpect(status().isOk())
+    			.andExpect(jsonPath("$.status",is(0)));
+    	
+    	postResultAction.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				logger.info("单元测试>>查询当前会员可用余额API>>执行结果:{}",result.getResponse().getContentAsString());;
+			}
+		});
+    }
+	
+	/**余额流水*/
     @Test
     public void listMSAccountDetail() throws Exception{
     	MSAccountDetailGet model=new MSAccountDetailGet();

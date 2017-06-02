@@ -11,5 +11,9 @@
 	<select id="selectCountByMemId" parameterType="java.lang.String" resultType="java.lang.Integer">
 		SELECT COUNT(*) FROM ms_members WHERE mem_id=#{memId}
 	</select>
+	
+	<select id="selectMemIdByPhone" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT mem_id FROM ms_members WHERE mem_phone=#{phone}
+	</select>
 
 </mapper>

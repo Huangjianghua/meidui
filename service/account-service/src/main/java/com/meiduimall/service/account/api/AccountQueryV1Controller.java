@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.node.DoubleNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.databind.node.TextNode;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Strings;
@@ -41,7 +40,7 @@ import com.meiduimall.service.account.service.MSMembersService;
  */
 @RestController
 @RequestMapping("/member/account_service/v1")
-public class AccountInfoQueryV1Controller {
+public class AccountQueryV1Controller {
 
 	private final static Logger logger = LoggerFactory.getLogger(GciV1Controller.class);
 
@@ -54,17 +53,17 @@ public class AccountInfoQueryV1Controller {
 	@Autowired
 	private AccountReportService accountReportService;
 	
-	/**查询当前会员可用余额*/
+	/**
+	 * 查询当前会员可用余额
+	 * @author chencong
+	 */
 	@GetMapping(value = "/get_available_balance")
-	public ResBodyData listMSAccountDetail(@RequestParam String memId ) {
+	public ResBodyData getAvailableBalance(@RequestParam String memId ) {
 		ResBodyData resBodyData=new ResBodyData(Constants.CONSTANT_INT_ZERO,null);
-		
 		Double availableBalance=accountReportService.getAvailableBalance(memId);
-		
 		ObjectNode rootNode = JsonUtils.getInstance().createObjectNode();
 		rootNode.set("available_balance",new DoubleNode(availableBalance));
 		resBodyData.setData(rootNode);
-		
 		return resBodyData;
 	}
 

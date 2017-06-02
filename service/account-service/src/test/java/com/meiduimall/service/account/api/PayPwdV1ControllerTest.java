@@ -17,17 +17,14 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.service.account.model.request.RequestUpdatePaypwd;
 
-
 /**
- * 鏀粯瀵嗙爜鐩稿叧鎺ュ彛鍗曞厓娴嬭瘯
+ * 支付密码相关API{@link=PayPwdV1Controller}单元测试
  * @author chencong
  *
  */
-
 public class PayPwdV1ControllerTest extends BaseControllerTest {
 	
 	private final static Logger logger=LoggerFactory.getLogger(PayPwdV1ControllerTest.class);
-	
 
 	/**
 	 * 验证支付密码
