@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.meiduimall.service.member.constant.ConstApiStatus;
 
 
-public class RequestDTO implements Serializable{
+public class ResponseRequest implements Serializable{
 
 	private static final long serialVersionUID = 6428066573289350974L;
 

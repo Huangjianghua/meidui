@@ -34,7 +34,7 @@ import com.meiduimall.service.member.model.MSMembersSet;
 import com.meiduimall.service.member.model.MemberAddressesSet;
 import com.meiduimall.service.member.model.MobileNumberInfo;
 import com.meiduimall.service.member.model.request.RequestMobile;
-import com.meiduimall.service.member.model.response.MemberMobileAreaDTO;
+import com.meiduimall.service.member.model.response.ResponseMemberMobileArea;
 import com.meiduimall.service.member.model.response.ResponseMemberBasicInfo;
 import com.meiduimall.service.member.service.AccountInfoService;
 import com.meiduimall.service.member.service.PointsService;
@@ -265,7 +265,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 	
 	@Override
 	public ResBodyData updateMemberArea() {
-		List<MemberMobileAreaDTO> memberMobileAreaDTO = null;
+		List<ResponseMemberMobileArea> memberMobileAreaDTO = null;
 		List<MSMemberMobileArea> areas = new ArrayList<>(); 
 		try {
 		   memberMobileAreaDTO = baseDao.selectList(null, "MSMembersMapper.findNotInMemberMobileArea");
@@ -276,7 +276,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 			 logger.error("查询不在会员手机归属地表异常: {}",e);
 			 throw new ServiceException(ConstApiStatus.FIND_MEMBER_EXCEPTION);
 		}	 
-		    for (MemberMobileAreaDTO mmaDTO : memberMobileAreaDTO) {
+		    for (ResponseMemberMobileArea mmaDTO : memberMobileAreaDTO) {
 		    	try {
 					if(StringUtil.isPhoneToRegex(mmaDTO.getMemPhone())){
 						String substr = mmaDTO.getMemPhone().substring(0,7);

@@ -7,7 +7,7 @@ import java.util.Date;
  * @author chencong
  *
  */
-public class MemberConsumeMessageDTO {
+public class ResponseMemberConsumeMessage {
 	
 	/**memid*/
 	private String memId;

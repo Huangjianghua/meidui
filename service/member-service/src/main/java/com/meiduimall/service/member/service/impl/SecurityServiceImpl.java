@@ -22,7 +22,7 @@ import com.meiduimall.service.member.dao.BaseDao;
 import com.meiduimall.service.member.model.MSMembersGet;
 import com.meiduimall.service.member.model.MSMembersSet;
 import com.meiduimall.service.member.model.request.RequestLoginUnlock;
-import com.meiduimall.service.member.model.response.MemberLockDTO;
+import com.meiduimall.service.member.model.response.ResponseMemberLock;
 import com.meiduimall.service.member.service.SecurityService;
 import com.meiduimall.service.member.util.DESC;
 
@@ -237,8 +237,8 @@ public class SecurityServiceImpl implements SecurityService
 	 * @throws MdBizException
 	 */
 	@Override
-	public List<MemberLockDTO> loginUnlockList(RequestLoginUnlock loginUnlock) throws MdBizException {
-		List<MemberLockDTO> list=null;
+	public List<ResponseMemberLock> loginUnlockList(RequestLoginUnlock loginUnlock) throws MdBizException {
+		List<ResponseMemberLock> list=null;
 		try {
 			list=baseDao.selectList(loginUnlock, "MSMembersMapper.queryMemberLockList");
 		} catch (Exception e) {
