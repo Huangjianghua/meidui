@@ -17,8 +17,10 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import com.meiduimall.core.Constants;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.MdSysException;
+import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.model.AddOrUpdateAccountReviseDetail;
 import com.meiduimall.service.account.model.MSAccountDetailCondition;
 import com.meiduimall.service.account.model.MSAccountDetailGet;
@@ -31,7 +33,7 @@ import com.meiduimall.service.account.util.DateUtil;
 import net.sf.json.JSONObject;
 
 /**
- * 账户信息查询单元测试
+ * 账户信息查询API{@link=AccountQueryV1Controller}单元测试
  * @author chencong
  *
  */
@@ -41,19 +43,32 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 	
 	/**
 	 * 查询当前会员可用余额
+	 * @author chencong
 	 * @throws Exception
 	 */
     @Test
     public void getAvailableBalance() throws Exception{
-    	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/v1/get_available_balance")
-    			.param("memId",memId))
+    	//账户存在
+    	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/v1/get_available_balance?memId="+memId))
     			.andExpect(status().isOk())
-    			.andExpect(jsonPath("$.status",is(0)));
+    			.andExpect(jsonPath("$.status",is(Constants.CONSTANT_INT_ZERO)));
     	
     	postResultAction.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				logger.info("单元测试>>查询当前会员可用余额API>>执行结果:{}",result.getResponse().getContentAsString());;
+				logger.info("单元测试>>查询当前会员可用余额API>>账户存在>>执行结果:{}",result.getResponse().getContentAsString());;
+			}
+		});
+    	
+    	//账户不存在
+    	postResultAction=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/v1/get_available_balance?memId=123456789"))
+    			.andExpect(status().isOk())
+    			.andExpect(jsonPath("$.status",is(ConstApiStatus.ACCOUNT_NOT_EXIST)));
+    	
+    	postResultAction.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				logger.info("单元测试>>查询当前会员可用余额API>>账户不存在>>执行结果:{}",result.getResponse().getContentAsString());;
 			}
 		});
     }

@@ -27,18 +27,15 @@ import com.meiduimall.service.account.service.TradeService;
 public class TradeV1Controller {
 	
 	private final static Logger logger=LoggerFactory.getLogger(TradeV1Controller.class);
-
-	@Autowired
-	private HttpServletRequest request;
 	
 	@Autowired
-	private TradeService orderService;
+	private TradeService tradeService;
 	
 	/**会员发起交易申请，冻结积分和余额/会员发起退单，解冻积分和余额*/
 	@RequestMapping(value="/freeze_unfreeze",method=RequestMethod.POST)
-	ResBodyData  freezeUnfreeze(@RequestBody RequestFreezeUnFreeze param){
-		logger.info("收到冻结解冻API请求  URL: {}  DATA: {}",request.getRequestURL(),param.toString());
-		ResBodyData resBodyData=orderService.freezeUnfreeze(param);
+	ResBodyData  freezeUnfreeze(@RequestBody RequestFreezeUnFreeze model){
+		logger.info("收到冻结解冻API请求   ：{}",model.toString());
+		ResBodyData resBodyData=tradeService.freezeUnfreeze(model);
 		logger.info("冻结解冻API请求结果：{}",resBodyData.toString());
 		return resBodyData;
 	}
@@ -46,10 +43,10 @@ public class TradeV1Controller {
 	/**会员支付成功，解冻并扣减积分和余额
 	 * @throws MdSysException */
 	@RequestMapping(value="/unfreeze_deduct",method=RequestMethod.POST)
-	ResBodyData unfreezeDeduct(@RequestBody RequestUnfreezeDecut param) throws MdSysException {
+	ResBodyData unfreezeDeduct(@RequestBody RequestUnfreezeDecut model) throws MdSysException {
 		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
-		logger.info("收到解冻并扣减积分和余额API请求  URL: {}  DATA: {}",request.getRequestURL(),param.toString());
-		orderService.unfreezeDeduct(param);
+		logger.info("收到解冻并扣减积分和余额API请求 ：{}",model.toString());
+		tradeService.unfreezeDeduct(model);
 		logger.info("解冻并扣减积分和余额API请求结果：{}",resBodyData.toString());
 		return resBodyData;
 	}

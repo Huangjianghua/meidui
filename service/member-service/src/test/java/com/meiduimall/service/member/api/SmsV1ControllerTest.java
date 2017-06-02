@@ -31,7 +31,7 @@ public class SmsV1ControllerTest extends BaseControllerTest {
 	    	RequestSetPaypwdStatus requestSetPaypwdStatus=new RequestSetPaypwdStatus();
 	    	requestSetPaypwdStatus.setMemId(memId);
 	    	requestSetPaypwdStatus.setEnable("1");
-	    	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/set_paypwd_status")
+	    	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/set_paypwd_status")
 	    			.contentType(MediaType.APPLICATION_JSON_UTF8)
 	    			.content(JsonUtils.beanToJson(requestSetPaypwdStatus)))
 	    			.andExpect(status().isOk())
