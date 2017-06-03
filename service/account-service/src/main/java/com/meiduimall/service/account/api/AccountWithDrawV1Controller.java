@@ -302,8 +302,18 @@ public class AccountWithDrawV1Controller {
 		return result;
 	}
 	
-	@PostMapping(value = "/saveBankWithdrawDeposit_old")
-	public String saveBankWithdrawDeposit_old(RequestSaveBankWithdrawDeposit model){
-		return null;
+	/**
+	 * 账户余额提现申请接口
+	 * @param model
+	 * @return
+	 */
+	@PostMapping(value = "/saveBankWithdrawDeposit")
+	public ResBodyData saveBankWithdrawDeposit(RequestSaveBankWithdrawDeposit model){
+		withDrawService.saveBankWithdrawDeposit(model);
+		ResBodyData result = new ResBodyData();
+		result.setStatus(ConstApiStatus.SUCCESS);
+		result.setMsg(ConstApiStatus.SUCCESS_C);
+		result.setData(JsonUtils.getInstance().createObjectNode());
+		return result;
 	}
 }
