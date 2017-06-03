@@ -130,7 +130,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		String reviseId = UUID.randomUUID().toString();
 		dto.setId(reviseId);
 		try {
-			 baseDao.insert(dto, "AccountReviseDetailMapper.insertAccountReviseDetail");
+			 baseDao.insert(dto, "MSAccountReviseDetailMapper.insertAccountReviseDetail");
 		} catch (Exception e) {
 			logger.error("添加调整余额addMSAccountReviseDetail错误:{}", e.getMessage());
 			throw new MdBizException(ConstApiStatus.INSERT_MEMBER_REVISE_DETAIL_ERROR);
@@ -141,7 +141,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 	public Integer updateMSAccountReviseDetail(AddOrUpdateAccountReviseDetail dto) throws MdBizException {
 		Integer result=0;
 		try {
-			result=baseDao.update(dto, "AccountReviseDetailMapper.updateAccountReviseDetail");
+			result=baseDao.update(dto, "MSAccountReviseDetailMapper.updateAccountReviseDetail");
 		} catch (Exception e) {
 			logger.error("修改调整余额updateMSAccountReviseDetail异常:{}", e.getMessage());
 			throw new MdBizException(ConstApiStatus.UPDATE_ACCOUNT_REVISE_BALANCE_ERROR);
@@ -154,7 +154,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		AccountReviseDetail detail=null;
 		if(StringUtils.isBlank(id)) throw new MdBizException(ConstApiStatus.REQUIRED_PARAM_EMPTY);
 		try {
-			detail=baseDao.selectOne(id, "AccountReviseDetailMapper.getAccountReviseDetail");
+			detail=baseDao.selectOne(id, "MSAccountReviseDetailMapper.getAccountReviseDetail");
 			if(detail!=null) return detail;
 		} catch (Exception e) {
 			logger.error("根据Id:{},查询会员余额明细getMSAccountReviseDetail异常:{}", id,e.getMessage());
@@ -167,7 +167,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 	public List<AccountReviseDetail> queryMSAccountReviseDetailList(RequestAccountReviseDetail dto) throws MdBizException {
 		List<AccountReviseDetail> list=null;
 		try {
-			list=baseDao.selectList(dto, "AccountReviseDetailMapper.queryAccountReviseDetailList");
+			list=baseDao.selectList(dto, "MSAccountReviseDetailMapper.queryAccountReviseDetailList");
 			if(!CollectionUtils.isEmpty(list)) return list;
 		} catch (Exception e) {
 			logger.error("查询会员余额明细列表queryMSAccountReviseDetailList异常:{}", e.getMessage());
@@ -257,10 +257,10 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		
 		Map<String,Object> paramsMap = new HashMap<String,Object>();
 		paramsMap.put("id", UUID.randomUUID().toString());
-		paramsMap.put("accountNo", detail.getAccountTypeNo());
+		paramsMap.put("accountNo", detail.getAccountNo());
 		paramsMap.put("createUser", "system");
 		paramsMap.put("updateUser", "system");
-		paramsMap.put("businessNo", businesNo);
+		paramsMap.put("businessNo", businesNo.toString());
 		paramsMap.put("tradeType", ConstSysParamsDefination.TRADETYPE);
 		paramsMap.put("tradeAmount", detail.getReviseBalance().toString());
 		paramsMap.put("balance", balance.toString());

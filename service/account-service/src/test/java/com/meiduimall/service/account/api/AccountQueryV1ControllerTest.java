@@ -196,7 +196,7 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 	public void agreeExamineMSAccountReviseDetailTest() throws Exception {
 		 String url = "/member/account_service/v1/examine_account_revision_detail";
 		 AddOrUpdateAccountReviseDetail detail=new AddOrUpdateAccountReviseDetail();
-		 detail.setId("f320c1aa-bce2-4cd2-9c3a-1e605761d242");
+		 detail.setId("1");
 		 detail.setReviseRemark("财务调整");
 		 detail.setOperate("agree");//同意
 		 String json=JsonUtils.beanToJson(detail);
