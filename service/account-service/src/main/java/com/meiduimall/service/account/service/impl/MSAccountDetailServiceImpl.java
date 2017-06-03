@@ -206,7 +206,8 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 	private ResBodyData dealWithAccountMoney(AccountReviseDetail detail) throws MdBizException{
 		//step1 查询账号
 		Double balance=Double.valueOf(Constants.CONSTANT_INT_ZERO);
-		MSAccountReport account=this.queryAccountByMemId(detail.getMemId());
+		List<MSAccount> accountList=this.queryAccountList(null,null,detail.getAccountNo());
+		MSAccount account=accountList.get(0);
 		//step2  判断调整类型   1-调增金额   2-调减金额  
 		String type=String.valueOf(Constants.CONSTANT_INT_ONE); //表示余额明细 支出类型  1表示收入  -1表示支出
 		if(detail.getReviseType().equals(ConstAccountAdjustType.CUTDOWN.getName())){
@@ -217,7 +218,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			balance = DoubleCalculate.add(Double.valueOf(account.getBalance()),detail.getReviseBalance().doubleValue());
 		}
 		//step3 修改会员账户余额
-		this.updateAccountBalance(account.getId(), balance,null);
+		this.updateAccountBalance(null, balance,detail.getAccountNo());
 		//step4 记录调整金额流水记录
 		this.saveAccountDetail(detail,account,type,balance);
 		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M);
@@ -248,17 +249,18 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月20日 下午4:49:13
 	 */
-	private void saveAccountDetail(AccountReviseDetail detail,MSAccountReport account,String type,Double balance) throws MdBizException{
+	private void saveAccountDetail(AccountReviseDetail detail,MSAccount account,String type,Double balance) throws MdBizException{
 		//业务流水号  CWTZ+年月日时+6位随机数
 		StringBuffer businesNo=new StringBuffer(ConstSysParamsDefination.TRADETYPE);
 		businesNo.append(DateUtil.format(new Date(), DateUtil.YYYYMMDDHH));
 		businesNo.append(100000+new Random().nextInt(900000));
 		
-		Map<String,String> paramsMap = new HashMap<String,String>();
+		Map<String,Object> paramsMap = new HashMap<String,Object>();
 		paramsMap.put("id", UUID.randomUUID().toString());
-		paramsMap.put("accountTypeNo", detail.getAccountTypeNo());
-		paramsMap.put("orderId", businesNo.toString());
-		paramsMap.put("accountId", account.getId());
+		paramsMap.put("accountNo", detail.getAccountTypeNo());
+		paramsMap.put("createUser", "system");
+		paramsMap.put("updateUser", "system");
+		paramsMap.put("businessNo", businesNo);
 		paramsMap.put("tradeType", ConstSysParamsDefination.TRADETYPE);
 		paramsMap.put("tradeAmount", detail.getReviseBalance().toString());
 		paramsMap.put("balance", balance.toString());
@@ -266,6 +268,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		paramsMap.put("inOrOut", type);
 		paramsMap.put("tradeDate", DateUtil.format(new Date(),DateUtil.YYYY_MM_DD_HH_MM_SS));
 		paramsMap.put("createDate", DateUtil.format(new Date(),DateUtil.YYYY_MM_DD_HH_MM_SS));
+		paramsMap.put("updateDate", DateUtil.format(new Date(),DateUtil.YYYY_MM_DD_HH_MM_SS));
 		try {
 			baseDao.insert(paramsMap, "MSAccountDetailMapper.insertAccountDetail");
 		} catch (Exception e) {

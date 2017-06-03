@@ -54,8 +54,14 @@ public class YamlUtil {
 	 */
 	public static List<ConfigerMsg> loadData(String typeConfig) throws MdBizException {
 		ArrayList<ConfigerMsg> arraylist=null;
-		//step1 加载文件 判断是否存在
-		String courseFile  = projectURL+findSrcResourceUrl+typeConfig+configName;
+		//step1 判断git service-config-repo.git 是否已经存在分支在本地
+		File repoBranchDir=new File(Constant.DIR_TEM+Constant.GIT_IS_EXISTS);
+		if(!repoBranchDir.exists()){
+			//下载分支代码到 /var/tmp目录下
+			cloneRepository(Constant.DOWNLOAD_GIT_URL,Constant.DIR_TEM);
+		}
+		//step2  判断git service-config-repo.git  是否存在配置文件
+		String courseFile  = Constant.DIR_TEM+typeConfig+configName;
 		File file=new File(courseFile);
 		if(!file.exists()) return arraylist;
 	    try {
@@ -77,7 +83,7 @@ public class YamlUtil {
 	 * @author: jianhua.huang  2017年5月23日 下午5:33:00
 	 */
 	public static void addDumpConfigManage(ConfigerMsg configerMsg)throws MdBizException{
-		File file=new File(projectURL+findSrcResourceUrl+configerMsg.getType() + configName);
+		File file=new File(Constant.DIR_TEM+configerMsg.getType() + configName);
 		//step1判断是否存在配置资源文件
 		List<ConfigerMsg> listConfig=new ArrayList<>();
 		if (file.exists()) {
@@ -187,7 +193,7 @@ public class YamlUtil {
 		//step3复制文件 
 		copyFile(new File(fileUrl),new File(Constant.DIR_TEM+fileNames));
 		//step4  执行提交代码操作
-		commintFilesToGitService(fileNames,Constant.DIR_TEM);
+		//commintFilesToGitService(fileNames,Constant.DIR_TEM);
 	}
 	
 	 /**
@@ -245,7 +251,7 @@ public class YamlUtil {
 			public void run() {
 				 //step2 提交到config service git服务器
 				 String configProjectURL=projectURL.substring(0,projectURL.indexOf(Constant.PROJECT_NAME));
-				 commintFilesToGitService(fileName,configProjectURL);
+				 //commintFilesToGitService(fileName,configProjectURL);
 				 //step3 提交到service-config-repo
 				 String fileSourceUrl=projectURL+findSrcResourceUrl+fileName; //生成的文件 绝对路径
 				 try {

@@ -31,6 +31,7 @@ public class AccountReviseDetail implements Serializable {
 	private String accountTypeNo;
 	private String accountTypeName;
 	
+	private String accountNo;
 	
 	/**
 	 * 调整类型(1-调增,2-调减)
@@ -227,6 +228,20 @@ public class AccountReviseDetail implements Serializable {
 
 	public void setOperate(String operate) {
 		this.operate = operate;
+	}
+
+	/**
+	 * @return the accountNo
+	 */
+	public String getAccountNo() {
+		return accountNo;
+	}
+
+	/**
+	 * @param accountNo the accountNo to set
+	 */
+	public void setAccountNo(String accountNo) {
+		this.accountNo = accountNo;
 	}
 
 }
