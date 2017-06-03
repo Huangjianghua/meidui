@@ -232,12 +232,17 @@
 			 FROM
 			 ms_account  msa 
 	   		<where>
-	   		 msa.account_status=0 AND msa.allow_withdraw=0  /**账号状态正常  并是可提现的		*/
+	   		<if test="orderByName !=null and orderByName !=''">
+	   		 		AND msa.account_status=0 AND msa.allow_withdraw=0  /**账号状态正常  并是可提现的		*/
+	   		 </if> 
 	   		 <if test="id !=null and id !=''">
-		         	and msa.id = #{id}
+		         	AND msa.id = #{id}
 	   		 </if>
 		     <if test="memId !=null and memId !=''">
-		         	and msa.mem_id = #{memId}
+		         	AND msa.mem_id = #{memId}
+		     </if> 
+		     <if test="accountNo !=null and accountNo !=''">
+		         	AND msa.account_no = #{accountNo}
 		     </if> 
      	</where>
      	 <if test="orderByName !=null and orderByName ==1">
@@ -261,10 +266,32 @@
 	   	</if>
 		</where>
 	</update>
+	
+	 <!-- 根据会员ID和账户类型修改余额账户金额 -->
+	<update id="updateAccountBalance" parameterType="java.util.Map">
+		UPDATE ms_account
+		SET balance =#{balance},update_date = now()
+		<where>
+		  <if test="id !=null and id !=''">
+		        and id = #{id}
+	   	</if>
+	   	<if test="accountNo !=null and accountNo !=''">
+		        and account_no = #{accountNo}
+	   	</if>
+		</where>
+	</update>
+	
   <!-- 修改总的账号冻结金额-->
 	<update id="updateAccountReportByMemId" parameterType="java.util.Map">
 		UPDATE ms_account_report
 		SET freeze_balance =freeze_balance + #{freezeBalance},update_date = now()
+		WHERE mem_id = #{memId}
+	</update>
+	
+	 <!-- 修改总的账号金额-->
+	<update id="updateAccountReportBalanceByMemId" parameterType="java.util.Map">
+		UPDATE ms_account_report
+		SET balance =balance + #{balance},update_date = now()
 		WHERE mem_id = #{memId}
 	</update>
 	

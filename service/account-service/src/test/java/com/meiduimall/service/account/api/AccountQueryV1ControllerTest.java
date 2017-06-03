@@ -268,7 +268,7 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 	public void settlementWithDrawTest()throws Exception{
 		 String url = "/member/account_service/v1/settlement_withdraw";
 		 MSBankWithdrawDeposit deposit=new MSBankWithdrawDeposit();
-		 deposit.setId("7744988c-d71e-44d4-8ceb-00fc08ab9070");
+		 deposit.setId("0bbe582b-6454-471f-839e-021f15df15cb");
 		 /*deposit.setOperate("财务结算");*/
 		 deposit.setRemark("财务已经打款完成");
 		 String object=JsonUtils.beanToJson(deposit);
