@@ -23,6 +23,6 @@ public interface WithDrawService {
 	 * 账户余额提现申请接口
 	 * @param model
 	 */
-	void saveBankWithdrawDeposit(RequestSaveBankWithdrawDeposit model);
+	String saveBankWithdrawDeposit(RequestSaveBankWithdrawDeposit model);
 	
 }

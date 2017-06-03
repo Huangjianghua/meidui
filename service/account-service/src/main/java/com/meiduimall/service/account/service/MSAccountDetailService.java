@@ -128,5 +128,5 @@ public interface MSAccountDetailService {
 	 * @throws MdBizException
 	 * @author: jianhua.huang  2017年4月28日 上午10:48:37
 	 */
-	public void saveBankWithdrawDeposit(RequestMSBankWithDrawDepostie deposit)throws MdBizException;
+	public String saveBankWithdrawDeposit(RequestMSBankWithDrawDepostie deposit)throws MdBizException;
 }

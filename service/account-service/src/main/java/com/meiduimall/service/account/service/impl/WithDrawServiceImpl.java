@@ -63,7 +63,7 @@ public class WithDrawServiceImpl implements WithDrawService {
 	}
 
 	@Override
-	public void saveBankWithdrawDeposit(RequestSaveBankWithdrawDeposit model) {
+	public String saveBankWithdrawDeposit(RequestSaveBankWithdrawDeposit model) {
 //		/** 关键数据校验开始 */
 //		/** 检查该用户是否存在 */
 //		if (!mSMembersService.checkUserIsExistByMemId(model.getMemId())) {
@@ -96,6 +96,6 @@ public class WithDrawServiceImpl implements WithDrawService {
 		deposit.setMemId(model.getMemId());
 		deposit.setAccountNo(model.getAccountNo());
 		deposit.setApplyCarryCash(model.getApplyCarryCash());
-		mSAccountDetailService.saveBankWithdrawDeposit(deposit);
+		return mSAccountDetailService.saveBankWithdrawDeposit(deposit);
 	}
 }

@@ -478,11 +478,11 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 	 * @throws MdBizException
 	 */
 	@Override
-	public void saveBankWithdrawDeposit(RequestMSBankWithDrawDepostie deposit) throws MdBizException {
+	public String saveBankWithdrawDeposit(RequestMSBankWithDrawDepostie deposit) throws MdBizException {
 		//step1 检查账号信息
 		MSAccountReport account=this.checkAccountMeg(deposit.getMemId(),deposit.getAccountNo(),deposit.getApplyWithdrawAmount());
 		//step2 提现
-		this.applyBankWithdrawDeposit(deposit,account);
+		return this.applyBankWithdrawDeposit(deposit,account);
 	}
 	
 	/**
@@ -526,7 +526,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 	 * @throws MdBizException
 	 * @author: jianhua.huang  2017年4月28日 上午10:55:00
 	 */
-	private void applyBankWithdrawDeposit(RequestMSBankWithDrawDepostie deposit,MSAccountReport account)throws MdBizException{
+	private String applyBankWithdrawDeposit(RequestMSBankWithDrawDepostie deposit,MSAccountReport account)throws MdBizException{
 		String memId = deposit.getMemId();
 		// 计算扣除金额与手续费
 		Map<String, String> returnMap = this.calcBankWithdrawDeposit(memId, deposit.getApplyCarryCash());
@@ -566,6 +566,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 //			}
 				addConsumeFreezeMoney(id,memId,Double.valueOf(deposit.getApplyCarryCash()),businessNo,new Date());
 		}
+		return businessNo;
 	}
 	
 	/**
