@@ -197,4 +197,45 @@
 		 </where>
 	</select>
 	
+	<!-- 根据条件查询订单记录 -->
+	<select id="queryListMSAccountCount" parameterType="com.meiduimall.service.account.model.request.RequestMSAccountList" resultType="Integer">
+			SELECT
+				count(1)
+			FROM
+				ms_members msm
+			LEFT JOIN ms_account_report msar on (msar.mem_id=msm.mem_id)/**取类型为现金账号的数据  */
+		<where>
+		    <if test="memId !=null and memId !=''">
+				AND msm.mem_id=#{memId}
+			</if>
+			<if test="memLoginName !=null and memLoginName !=''">
+				AND msm.mem_login_name=#{memLoginName}
+			</if>
+			<if test="memPhone !=null and memPhone !=''">
+				AND msm.mem_phone=#{memPhone}
+			</if>
+			<if test="status !=null and status !=''">
+				AND msm.dict_mem_status=#{status}
+			</if>
+			<if test="memSignSource !=null and memSignSource !=''">
+				AND mem_sign_source=#{memSignSource}
+			</if>
+			<if test="memRegTimeBegin !=null and memRegTimeBegin !=''">
+				AND msm.mem_created_date &gt;= #{memRegTimeBegin}
+			</if>
+			<if test="memRegTimeEnd !=null and memRegTimeEnd !=''">
+				AND msm.mem_created_date &lt;= #{memRegTimeEnd}
+			</if>
+			<if test="lastLoginTimeBegin !=null and lastLoginTimeBegin !=''">
+				AND msm.mem_last_login_time &gt;= #{lastLoginTimeBegin}
+			</if>
+			<if test="lastLoginTimeEnd !=null and lastLoginTimeEnd !=''">
+				AND msm.mem_last_login_time &lt;= #{lastLoginTimeEnd}
+			</if>
+			 <if test="memParentIdPhone !=null and memParentIdPhone !=''">
+				AND msm.mem_parent_id in (SELECT mem_id FROM ms_members WHERE mem_phone=#{memParentIdPhone}) 
+			</if>
+		 </where>
+	</select>
+	
 </mapper>

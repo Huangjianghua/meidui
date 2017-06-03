@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.node.DoubleNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Strings;
@@ -145,26 +146,16 @@ public class AccountQueryV1Controller {
 	 */
 	@RequestMapping(value = "/list_account")
 	public ResBodyData listMSAccount(@RequestBody RequestMSAccountList msAccountListRequest) {
-		List<MSAccountList> msAccountLists = null;
-		try {
-			// 分页查询
-			if (msAccountListRequest.getFlg().equals(Constants.CONSTANT_STR_ONE)) {
-				// 分页
-				PageHelper.startPage(msAccountListRequest.getPageNum(), msAccountListRequest.getPageSize());
-				PageHelper.orderBy("memRegTime DESC");
-			} else {
-				// 不分页
-				PageHelper.startPage(msAccountListRequest.getPageNum(), 0, false, false, true);
-				PageHelper.orderBy("memRegTime DESC");
-			}
-			msAccountLists = mSAccountDetailService.listMSAccount(msAccountListRequest);
-		} catch (MdBizException e) {
-			throw new ApiException(e.getCode(), e.getMessage());
-		} catch (Exception e) {
+		Page<MSAccountList> pageInfo=null;
+		try{
+			pageInfo=mSAccountDetailService.listMSAccount(msAccountListRequest);
+		}catch(MdBizException e){
+			throw new ApiException(e.getCode(),e.getMessage());
+		}catch(Exception e){
 			logger.error("查询会员列表Controller异常:{}", e.getMessage());
 			throw new ApiException(ConstApiStatus.SERVER_DEAL_WITH_EXCEPTION);
 		}
-		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M, new PageInfo<>(msAccountLists));
+		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M,new PageInfo<>(pageInfo));
 	}
 
 	/**

@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdBizException;
@@ -42,7 +44,6 @@ import com.meiduimall.service.account.model.MSWithdrawInfoByAccountType;
 import com.meiduimall.service.account.model.request.RequestAccountReviseDetail;
 import com.meiduimall.service.account.model.request.RequestMSAccountList;
 import com.meiduimall.service.account.model.request.RequestMSBankWithDrawDepostie;
-import com.meiduimall.service.account.service.AccountAdjustService;
 import com.meiduimall.service.account.service.AccountDetailService;
 import com.meiduimall.service.account.service.AccountFreezeDetailService;
 import com.meiduimall.service.account.service.AccountReportService;
@@ -70,9 +71,6 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 	
 	@Autowired
 	private BankAccountService bankAccountService;
-	
-	@Autowired
-	private AccountAdjustService accountAdjustService;
 	
 	@Autowired
 	private AccountReportService accountReportService;
@@ -113,16 +111,29 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 	}
 
 	@Override
-	public List<MSAccountList> listMSAccount(RequestMSAccountList msAccountListRequest) throws MdBizException {
+	public Page<MSAccountList> listMSAccount(RequestMSAccountList msAccountListRequest) throws MdBizException {
 		List<MSAccountList> selectList=null;
+		Page<MSAccountList> pageInfo=null;
 		try {
+			Integer count=baseDao.selectOne(msAccountListRequest, "MSAccountMapper.queryListMSAccountCount");
+			//分页查询
+			if(msAccountListRequest.getFlg().equals(Constants.CONSTANT_STR_ONE)){
+				//分页
+				PageHelper.startPage(msAccountListRequest.getPageNum(), msAccountListRequest.getPageSize(),false);
+				PageHelper.orderBy("memRegTime DESC");
+			}else{
+				//不分页
+				PageHelper.startPage(msAccountListRequest.getPageNum(), 0, false, false, true);
+				PageHelper.orderBy("memRegTime DESC");
+			}
 			selectList=baseDao.selectList(msAccountListRequest, "MSAccountMapper.queryListMSAccount");
-			if(!CollectionUtils.isEmpty(selectList)) return selectList;
+			pageInfo=(Page<MSAccountList>) selectList;
+			pageInfo.setTotal(count);
 		}catch(Exception e){
 			logger.error("查询会员列表出现错误,错误信息:{}", e.getMessage());
 			throw new MdBizException(ConstApiStatus.QUERY_MEMBER_LIST_ERROR);
 		}
-		return selectList;
+		return pageInfo;
 	}
 
 	@Override
@@ -375,22 +386,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 	public void settlementWithDraw(RequestMSBankWithDrawDepostie deposit) throws MdBizException {
 		//step1查询提现记录
 		MSBankWithdrawDeposit withdrawDeposit=this.queryMSBankWithdrawDepositById(deposit.getId());
-		Date date=new Date();
 		try {
-			//step2调用 提现处理冻结金额
-			//cutConsumeFreezeMoneyAndDetail(withdrawDeposit);
-//			accountServices.cutConsumeFreezeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
-//					ConstTradeType.TRADE_TYPE_YETX.getCode(), date, String.valueOf(withdrawDeposit.getActualWithdrawAmount()), ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
-//			
-//			accountServices.cutConsumeFreezeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
-//					ConstTradeType.TRADE_TYPE_TXSX.getCode(), date, String.valueOf(withdrawDeposit.getPoundageAmount()), ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);
-//			
-			//step3调用 提现处理可用金额
-//			accountServices.cutConsumeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
-//					ConstTradeType.TRADE_TYPE_YETX.getCode(), date, String.valueOf(withdrawDeposit.getActualWithdrawAmount()), ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
-//			
-//			accountServices.cutConsumeMoneyAndDetail(withdrawDeposit.getMemId(),withdrawDeposit.getBusinessNo(),
-//					ConstTradeType.TRADE_TYPE_TXSX.getCode(), date, String.valueOf(withdrawDeposit.getPoundageAmount()), ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);
 			//step2调用 提现处理冻结金额
 			cutConsumeFreezeMoneyAndDetail(withdrawDeposit);
 			//step3调用 提现处理可用金额
