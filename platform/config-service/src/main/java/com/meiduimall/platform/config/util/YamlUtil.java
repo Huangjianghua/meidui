@@ -193,7 +193,7 @@ public class YamlUtil {
 		//step3复制文件 
 		copyFile(new File(fileUrl),new File(Constant.DIR_TEM+fileNames));
 		//step4  执行提交代码操作
-		//commintFilesToGitService(fileNames,Constant.DIR_TEM);
+		commintFilesToGitService(fileNames,Constant.DIR_TEM);
 	}
 	
 	 /**
@@ -251,7 +251,7 @@ public class YamlUtil {
 			public void run() {
 				 //step2 提交到config service git服务器
 				 String configProjectURL=projectURL.substring(0,projectURL.indexOf(Constant.PROJECT_NAME));
-				 //commintFilesToGitService(fileName,configProjectURL);
+				 commintFilesToGitService(fileName,configProjectURL);
 				 //step3 提交到service-config-repo
 				 String fileSourceUrl=projectURL+findSrcResourceUrl+fileName; //生成的文件 绝对路径
 				 try {
