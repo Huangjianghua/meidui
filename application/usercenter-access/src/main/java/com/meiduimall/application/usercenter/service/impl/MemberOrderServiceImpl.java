@@ -12,7 +12,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.usercenter.config.ProfileParamsConfig;
 import com.meiduimall.application.usercenter.constant.ConstApiStatus;
-import com.meiduimall.application.usercenter.constant.ConstSysParams;
+import com.meiduimall.application.usercenter.constant.ConstSysParamsDefination;
 import com.meiduimall.application.usercenter.service.MemberOrderService;
 import com.meiduimall.application.usercenter.util.HttpUtils;
 import com.meiduimall.application.usercenter.util.MD5Utils;
@@ -37,7 +37,7 @@ public class MemberOrderServiceImpl implements MemberOrderService{
 		logger.info("当前商家退会员订单信息接口 API>>URL:{}  Data:{}",url,reqJson.toString());
 		try {
 			Map<String, String> headers=new HashMap<>();
-			headers.put(ConstSysParams.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
+			headers.put(ConstSysParamsDefination.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
 			String result=HttpUtils.post(url,reqJson.toString(),headers);
 			logger.info("当前商家退会员订单信息接口 API>>结果：{}",result);
 			resBodyData=JSON.parseObject(result,ResBodyData.class);
@@ -57,7 +57,7 @@ public class MemberOrderServiceImpl implements MemberOrderService{
 		logger.info("保存当前会员订单信息接口(免token校验) API>>URL:{}  Data:{}",url,reqJson.toString());
 		try {
 			Map<String, String> headers=new HashMap<>();
-			headers.put(ConstSysParams.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
+			headers.put(ConstSysParamsDefination.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
 			String result=HttpUtils.post(url,reqJson.toString(),headers);
 			logger.info("保存当前会员订单信息接口(免token校验) API>>结果：{}",result);
 			resBodyData=JSON.parseObject(result,ResBodyData.class);
@@ -77,7 +77,7 @@ public class MemberOrderServiceImpl implements MemberOrderService{
 		logger.info("当前会员退单信息接口 API>>URL:{}  Data:{}",url,reqJson.toString());
 		try {
 			Map<String, String> headers=new HashMap<>();
-			headers.put(ConstSysParams.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
+			headers.put(ConstSysParamsDefination.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
 			String result=HttpUtils.post(url,reqJson.toString(),headers);
 			logger.info("当前会员退单信息接口 API>>结果：{}",result);
 			resBodyData=JSON.parseObject(result,ResBodyData.class);
