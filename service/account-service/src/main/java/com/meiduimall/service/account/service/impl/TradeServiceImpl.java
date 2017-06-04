@@ -1,7 +1,5 @@
 package com.meiduimall.service.account.service.impl;
 
-import static org.assertj.core.api.Assertions.in;
-import static org.mockito.Matchers.endsWith;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -33,9 +31,9 @@ import com.meiduimall.service.account.model.MSAccountReport;
 import com.meiduimall.service.account.model.MSBankAccount;
 import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
 import com.meiduimall.service.account.model.MSConsumePointsFreezeInfo;
-import com.meiduimall.service.account.model.MSMemberConsumeHistory;
+import com.meiduimall.service.account.model.MSMemberConsumeRecords;
 import com.meiduimall.service.account.model.MSMemberIntegral;
-import com.meiduimall.service.account.model.request.MSMemberConsumeHistoryReq;
+import com.meiduimall.service.account.model.request.MSMemberConsumeRecordsReq;
 import com.meiduimall.service.account.model.request.MemberConsumeMessageReq;
 import com.meiduimall.service.account.model.request.RequestSaveOrder;
 import com.meiduimall.service.account.model.request.RequestCancelOrder;
@@ -47,7 +45,7 @@ import com.meiduimall.service.account.service.AccountService;
 import com.meiduimall.service.account.service.BankAccountService;
 import com.meiduimall.service.account.service.BankWithdrawDepositService;
 import com.meiduimall.service.account.service.MSConsumePointsDetailService;
-import com.meiduimall.service.account.service.MemberConsumeHistoryService;
+import com.meiduimall.service.account.service.MSMemberConsumeRecordsService;
 import com.meiduimall.service.account.service.MoneyService;
 import com.meiduimall.service.account.service.TradeService;
 import com.meiduimall.service.account.service.ValidateService;
@@ -94,7 +92,7 @@ public class TradeServiceImpl implements TradeService {
 	private MSConsumePointsDetailService pointsDetailService;
 
 	@Autowired
-	private MemberConsumeHistoryService memberConsumeHistoryService;
+	private MSMemberConsumeRecordsService memberConsumeHistoryService;
 
 	@Autowired
 	private AccountReportService accountReportService;
@@ -150,8 +148,8 @@ public class TradeServiceImpl implements TradeService {
 			moneyService.deductMoneyAndAddRecord(memId,consumeMoney,orderId,orderSource,dataMap);
 		}*/
 		resBodyData.setData(dataMap);
-		/** 写入会员消费记录 */
-		MSMemberConsumeHistory history = new MSMemberConsumeHistory();
+		/**写入会员消费记录*/
+		/*MSMemberConsumeHistory history = new MSMemberConsumeHistory();*/
 		/*history.setMchId(UUID.randomUUID().toString());
 		history.setMemId(memId);
 		history.setOrderId(orderId);
@@ -163,12 +161,13 @@ public class TradeServiceImpl implements TradeService {
 		history.setMchConsumePointsCount(consumePoints);
 		history.setMchShoppingCouponCount(consumeMoney);
 		history.setMchSettingStatus(1);*/
-		history.setMchIssueStatus(1);
+		/*history.setMchIssueStatus(1);
 		try {
 			this.saveMemberTradeHistory(history);
 		} catch (Exception e) {
-
-		}
+ 
+		
+		}*/
 		return resBodyData;
 	}
 
@@ -307,9 +306,9 @@ public class TradeServiceImpl implements TradeService {
 				}
 			}
 		}
-		// 消费记录
-		if (bsFlag) {
-			MSMemberConsumeHistory history = new MSMemberConsumeHistory();
+		//消费记录
+		if(bsFlag){
+			/*MSMemberConsumeHistory history = new MSMemberConsumeHistory();
 			history.setMchId(UUID.randomUUID().toString());
 			history.setMemId(memId);
 			history.setOrderId(orderId);
@@ -319,13 +318,12 @@ public class TradeServiceImpl implements TradeService {
 			history.setMchCreatedDate(tradeDate);
 			history.setMchPayType(payType);
 			history.setMchStatus("2");
-			/*
-			 * history.setMchConsumePointsCount(tradePoint);
-			 * history.setMchShoppingCouponCount(tradeAmount);
-			 */
+ 
+			history.setMchConsumePointsCount(tradePoint);
+			history.setMchShoppingCouponCount(tradeAmount);
 			history.setMchSettingStatus(1);
 			history.setMchIssueStatus(1);
-			saveMemberTradeHistory(history);
+			saveMemberTradeHistory(history);*/
 		}
 
 		// 出现错误返回运行时异常回滚事务
@@ -557,14 +555,14 @@ public class TradeServiceImpl implements TradeService {
 		return returnMap;
 	}
 
-	private boolean saveMemberTradeHistory(MSMemberConsumeHistory history) throws Exception {
+	/*private boolean saveMemberTradeHistory(MSMemberConsumeHistory history) throws Exception {
 		int flag = baseDao.insert(history, "MSAccountMapper.insertMemberConsumeHistory");
 		if (flag <= 0) {
 			logger.error("写入会员消费记录表失败，会员编号：{}，订单编号：{}", history.getMemId(), history.getOrderId());
 			return false;
 		}
 		return true;
-	}
+	}*/
 
 	@Override
 	@Transactional
@@ -578,25 +576,25 @@ public class TradeServiceImpl implements TradeService {
 			double old_consume_money = 0; // 原订单的消费金额
 			double old_consume_points = 0; // 美兑积分
 
-			MSMemberConsumeHistory mConHis = new MSMemberConsumeHistory();
+			MSMemberConsumeRecords mConHis = new MSMemberConsumeRecords();
 
-			mConHis.setMchId(UUID.randomUUID().toString());
+			mConHis.setId(UUID.randomUUID().toString());
 			// 会员ID
 			mConHis.setMemId(mmt.getMemId());
 			// 订单ID
 			mConHis.setOrderId(mmt.getOrderId());
 
 			// 消费商品名称
-			mConHis.setMchProductName(mmt.getProductName());
+			mConHis.setProductName(mmt.getProductName());
 
 			// 消费来源
-			mConHis.setMchOrginType(mmt.getOrderSource());
+			mConHis.setOrderSource(mmt.getOrderSource());
 			// O2O会员ID
 			mConHis.setMchOrginMemId(mmt.getOrginalUserId());
 			// 消费时间
-			mConHis.setMchCreatedDate(new Date(System.currentTimeMillis()));
+			mConHis.setCreateDate(new Date(System.currentTimeMillis()));
 			// 支付方式
-			mConHis.setMchPayType(mmt.getPayType());
+			mConHis.setPayType(mmt.getPayType());
 			// 订单状态
 			mConHis.setMchStatus(mmt.getMchStatus());
 
@@ -604,10 +602,10 @@ public class TradeServiceImpl implements TradeService {
 			mConHis.setMchIssueStatus(1);
 
 			// 查询数据库是否已存在该订单，如果不存在则直接保存，如果存在则修改
-			MSMemberConsumeHistory history = memberConsumeHistoryService
-					.queryByOrderIdInfo(new MSMemberConsumeHistoryReq());
-			List<MSMemberConsumeHistory> listhistory = memberConsumeHistoryService
-					.listByOrderIdInfo(new MSMemberConsumeHistoryReq());
+			MSMemberConsumeRecords history = memberConsumeHistoryService
+					.queryByOrderIdInfo(new MSMemberConsumeRecordsReq());
+			List<MSMemberConsumeRecords> listhistory = memberConsumeHistoryService
+					.listByOrderIdInfo(new MSMemberConsumeRecordsReq());
 
 			/** 订单状态1表示已经完，2表示已退单 */
 			if ("1".equals(mmt.getMchStatus())) {
@@ -780,7 +778,7 @@ public class TradeServiceImpl implements TradeService {
 		memConHis.setMchIssueStatus(1);
 		// 查询数据库是否已存在该订单，如果不存在则直接保存，如果存在则修改
 		List<MSMemberConsumeHistory> listByOrderIdInfo = memberConsumeHistoryService
-				.listByOrderIdInfo(new MSMemberConsumeHistoryReq());
+				.listByOrderIdInfo(new MSMemberConsumeRecordsReq());
 		if (StringUtils.isEmpty(listByOrderIdInfo)) {
 			return new ResBodyData(ConstApiStatus.REPEAT_ORDER, ConstApiStatus.getZhMsg(ConstApiStatus.REPEAT_ORDER));
 		} else {

@@ -1,16 +1,17 @@
-package com.meiduimall.service.account.model;
+package com.meiduimall.service.account.model.request;
 
 import java.io.Serializable;
 import java.util.Date;
 
+
 /**
- * 会员消费记录表ms_member_consume_records实体类
+ * 会员消费记录
  * @author chencong
  *
  */
-public class MSMemberConsumeRecords extends BaseModel  implements Serializable{
-	
-	private static final long serialVersionUID = 4973129173785277755L;
+public class MSMemberConsumeRecordsReq  implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	/** 会员消费记录表ID **/
 	private String id;
@@ -188,5 +189,14 @@ public class MSMemberConsumeRecords extends BaseModel  implements Serializable{
 		this.remark = remark;
 	}
 
+	@Override
+	public String toString() {
+		return "MSMemberConsumeRecordsReq [id=" + id + ", memId=" + memId + ", orderId=" + orderId + ", consumeAmount="
+				+ consumeAmount + ", consumeMoney=" + consumeMoney + ", consumePoints=" + consumePoints + ", tradeTime="
+				+ tradeTime + ", orderSource=" + orderSource + ", productName=" + productName + ", payType=" + payType
+				+ ", orderStatus=" + orderStatus + ", createDate=" + createDate + ", createUser=" + createUser
+				+ ", updateDate=" + updateDate + ", updateUser=" + updateUser + ", remark=" + remark + "]";
+	}
+	
 	
 }

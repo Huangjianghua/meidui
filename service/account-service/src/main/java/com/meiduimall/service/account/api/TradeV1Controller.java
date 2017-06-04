@@ -404,7 +404,7 @@ public class TradeV1Controller {
 			  if(obj.containsKey("consume_points_count")){
 					if (Double.valueOf(consumePointsCount) > Double.valueOf(consumerMoney)) {
 						logger.info("消费积分不能大于消费金额");
-						return new ResBodyData(ConstApiStatus.POINTS_BIGGERTHAN_MONEY, ConstApiStatus.getZhMsg(ConstApiStatus.POINTS_BIGGERTHAN_MONEY));
+						return new ResBodyData(ConstApiStatus.POINTS_BIGGER_THAN_MONEY, ConstApiStatus.getZhMsg(ConstApiStatus.POINTS_BIGGER_THAN_MONEY));
 					}
 			   }
 			  
@@ -449,7 +449,7 @@ public class TradeV1Controller {
 			//增加美兑积分逻辑  2016-10-31
 		    
 			//提交订单请求
-			ResBodyData saveMemberOrder = orderService.saveMemberOrder(mp);
+			ResBodyData saveMemberOrder = tradeService.saveMemberOrder(mp);
 			
 			logger.info("保存当前会员订单信息接口(免token校验)输出参数：{}", saveMemberOrder.toString());
 			return saveMemberOrder;
@@ -523,7 +523,7 @@ public class TradeV1Controller {
 			}
 			
 			logger.info("提交退单请求");
-			ResBodyData updateMemberOrder = orderService.updateMemberOrder(mp);
+			ResBodyData updateMemberOrder = tradeService.updateMemberOrder(mp);
 			 
 			
 			logger.info("当前会员退单信息接口输出参数：{}", updateMemberOrder.toString());

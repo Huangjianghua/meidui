@@ -38,5 +38,19 @@
 				#{mchConsumePointsCount}
 				)
 	</insert>
+	
+	 <!-- 根据订单id查订单信息 -->
+    <select id="queryByOrderIdInfo" parameterType="com.meiduimall.service.account.model.request.MSMemberConsumeHistoryReq" resultType="com.meiduimall.service.account.model.MSMemberConsumeHistory">
+      select m.mch_id mchId, m.mem_id memId, m.order_id orderId, m.mch_money mchMoney,
+      		 m.mch_bshop_give_integral mchBshopGiveIntegral,m.mch_created_date mchCreatedDate,
+      		 m.mch_updated_date mchUpdatedDate, m.mch_updated_by mchUpdatedBy, m.mch_orgin_category mchOrginCategory,
+      		 m.mch_product_name mchProductName, m.mch_orgin_type mchOrginType, m.mch_orgin_mem_id mchOrginMemId,
+      		 m.mch_remark mchRemark, m.mch_setting_status mchSettingStatus, m.mch_issue_status mchIssueStatus,
+      		 m.mch_consume_coupon_count mchConsumeCouponCount, m.mch_consume_points_count mchConsumePointsCount, 
+      		 m.mch_shopping_coupon_count mchShoppingCouponCount, m.mch_pay_type mchPayType, m.mch_status mchStatus
+      from ms_member_consume_history m 
+      where m.order_id = #{orderId}
+			  and m.mch_orgin_type = #{mchOrginType} and m.mch_status = #{mchStatus}
+    </select>
 
 </mapper>
