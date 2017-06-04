@@ -214,9 +214,9 @@ public class AccountQueryV1Controller {
 	/**
 	 * 根据会员memId，获取会员账户余额和积分余额---兼容旧版
 	 * 
-	 * @param memId
-	 * @param userId
-	 * @return
+	 * @param memId 会员Id
+	 * @return json串
+	 * @author yangchangfu
 	 */
 	@PostMapping(value = "/getAccountBalanceForApp_old")
 	public String getAccountBalanceForApp_old(String memId) {
@@ -242,9 +242,9 @@ public class AccountQueryV1Controller {
 
 	/**
 	 * 根据会员memId，获取会员账户余额和积分余额---按新接口规范
-	 * @param memId
-	 * @param userId
-	 * @return
+	 * @param memId 会员Id
+	 * @return 结果数据
+	 * @author yangchangfu
 	 */
 	@PostMapping(value = "/getAccountBalanceForApp")
 	public ResBodyData getAccountBalanceForApp(String memId) {
@@ -260,10 +260,11 @@ public class AccountQueryV1Controller {
 	
 	/**
 	 * 查询个人消费管理信息接口--该接口不需要做旧版兼容
-	 * @param memId
-	 * @return
+	 * @param memId 会员Id
+	 * @return 结果数据
+	 * @author yangchangfu
 	 */
-	@PostMapping(value = "/personalConsumptionPoints")
+	@RequestMapping(value = "/personalConsumptionPoints")
 	public ResBodyData personalConsumptionPoints(String memId){
 		return mSMembersService.personalConsumptionPoints(memId);
 	}

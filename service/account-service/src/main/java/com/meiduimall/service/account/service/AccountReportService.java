@@ -10,7 +10,7 @@ import com.meiduimall.service.account.model.MSAccountReport;
 public interface AccountReportService {
 	
 	/**
-	 * 根据memId获取当前会员总余额和冻结余额
+	 * 根据memId获取当前会员的MSAccountReport对象，该对象包含总余额和冻结余额
 	 * @param memId 会员ID
 	 * @return
 	 */

@@ -11,12 +11,15 @@ import com.meiduimall.exception.MdSysException;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.dao.BaseDao;
+import com.meiduimall.service.account.model.MSAccountReport;
 import com.meiduimall.service.account.model.MSMembers;
 import com.meiduimall.service.account.model.MsPersonalConsumption;
 import com.meiduimall.service.account.model.SubMemberIntegral;
 import com.meiduimall.service.account.model.response.ResponseAccountBalance;
 import com.meiduimall.service.account.model.response.ResponsePersonalConsumptionPoints;
+import com.meiduimall.service.account.service.AccountReportService;
 import com.meiduimall.service.account.service.AccountService;
+import com.meiduimall.service.account.service.MSConsumePointsFreezeService;
 import com.meiduimall.service.account.service.MSMembersService;
 import com.meiduimall.service.account.util.Arith;
 import com.meiduimall.service.account.util.DESC;
@@ -32,6 +35,12 @@ public class MSMembersServiceImpl implements MSMembersService {
 
 	@Autowired
 	private AccountService accountService;
+	
+	@Autowired
+	private MSConsumePointsFreezeService mSConsumePointsFreezeService;
+	
+	@Autowired
+	private AccountReportService accountReportService;
 
 	@Override
 	public MSMembers getMemberInfo(String memId) {
@@ -47,26 +56,29 @@ public class MSMembersServiceImpl implements MSMembersService {
 		}
 
 		// 目前暂时使用accountService提供的方法，不过这些方法还不确定是否正常，待确定后再调整
-//		// 全部积分，含冻结积分
-//		Double totalConsumePoints = accountService.getTotalConsumePoints(memId);
-//		// 可使用积分，不含冻结积分
+		// 全部积分，含冻结积分
+		Double totalConsumePoints = accountService.getTotalConsumePoints(memId);
+		// 冻结积分
+		Double freezeConsumePoints = mSConsumePointsFreezeService.getFreezeConsumePoints(memId);
+		// 可使用积分，不含冻结积分
 //		Double useConsumePoints = accountService.getUseConsumePoints(memId);
-//		// 冻结积分
-//		Double freezeConsumePoints = accountService.getFreezeConsumePoints(memId);
-//		// 全部余额，含冻结余额
-//		Double totalConsumeMoney = accountService.getTotalConsumeMoney(memId);
-//		// 可使用账户余额，不含冻结余额
-//		Double useConsumeMoney = accountService.getUseConsumeMoney(memId);
-//		// 冻结余额
-//		Double freezeConsumeMoney = accountService.getFreezeConsumeMoney(memId);
+		Double useConsumePoints = totalConsumePoints - freezeConsumePoints;
+		
+		MSAccountReport report = accountReportService.getTotalAndFreezeBalanceByMemId(memId);
+		// 全部余额，含冻结余额
+		Double totalConsumeMoney = report.getBalance();
+		// 冻结余额
+		Double freezeConsumeMoney = report.getFreezeBalance();
+		// 可使用账户余额，不含冻结余额
+		Double useConsumeMoney = totalConsumeMoney - freezeConsumeMoney;
 
 		ResponseAccountBalance data = new ResponseAccountBalance();
-//		data.setAllPoints(String.valueOf(totalConsumePoints));
-//		data.setUsePoints(String.valueOf(useConsumePoints));
-//		data.setFreezePoints(String.valueOf(freezeConsumePoints));
-//		data.setAllMoney(String.valueOf(totalConsumeMoney));
-//		data.setUseMoney(String.valueOf(useConsumeMoney));
-//		data.setFreezeMoney(String.valueOf(freezeConsumeMoney));
+		data.setAllPoints(String.valueOf(totalConsumePoints));
+		data.setUsePoints(String.valueOf(useConsumePoints));
+		data.setFreezePoints(String.valueOf(freezeConsumePoints));
+		data.setAllMoney(String.valueOf(totalConsumeMoney));
+		data.setUseMoney(String.valueOf(useConsumeMoney));
+		data.setFreezeMoney(String.valueOf(freezeConsumeMoney));
 		return data;
 	}
 
@@ -84,6 +96,7 @@ public class MSMembersServiceImpl implements MSMembersService {
 	public ResBodyData personalConsumptionPoints(String memId) {
 		// 先查询用户是否存在
 		if (!checkUserIsExistByMemId(memId)) {
+			logger.info("当前用户在会员系统不存在，查询不到memId: " + memId);
 			throw new ServiceException(ConstApiStatus.USER_NOT_EXIST);
 		}
 

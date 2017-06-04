@@ -49,7 +49,7 @@ public class MSConsumePointsFreezeServiceImpl implements MSConsumePointsFreezeSe
 		/** 冻结和解冻积分的总和 */
 		Double realPoints = Double.valueOf("0");
 		try{
-			String freezeAccountPoint = baseDao.selectOne(memId, "MSAccountMapper.getFreezeUnFreezePointsSumByMemId");
+			String freezeAccountPoint = baseDao.selectOne(memId, "MSConsumePointsFreezeInfoMapper.getFreezeUnFreezePointsSumByMemId");
 			realPoints = Double.valueOf(freezeAccountPoint);
 		}catch(Exception e){
 			realPoints = Double.valueOf("0");

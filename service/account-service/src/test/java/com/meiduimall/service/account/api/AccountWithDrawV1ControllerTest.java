@@ -57,6 +57,7 @@ public class AccountWithDrawV1ControllerTest extends BaseControllerTest {
 	public void getBankWithdrawDepositsForApp_test_01() throws Exception {
 		ResultActions results = mockMvc.perform(
 				MockMvcRequestBuilders.post("/member/account_service/v1/getBankWithdrawDepositsForApp")
+				.param("pageSize", "3")
 				.param("memId", "a0db1419-f44a-48e8-9394-a49620e47940"))
 				.andExpect(status().isOk());
 
