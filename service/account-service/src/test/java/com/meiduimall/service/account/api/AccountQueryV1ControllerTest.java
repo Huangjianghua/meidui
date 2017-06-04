@@ -358,5 +358,42 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 			}
 		});
 	}
-}
+    
+    /**
+     * 根据会员memId，获取会员账户余额和积分余额---按新接口规范
+     * @throws Exception
+     */
+    @Test
+	public void getAccountBalanceForApp_test_01() throws Exception {
+		ResultActions results = mockMvc.perform(
+				MockMvcRequestBuilders.post("/member/account_service/v1/getAccountBalanceForApp")
+				.param("memId", "a0db1419-f44a-48e8-9394-a49620e47940"))
+				.andExpect(status().isOk());
 
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("getAccountBalanceForApp_test_01*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+    
+    /**
+     * 根据会员memId，获取会员账户余额和积分余额---兼容旧版
+     * @throws Exception
+     */
+    @Test
+	public void getAccountBalanceForApp_old_test_01() throws Exception {
+		ResultActions results = mockMvc.perform(
+				MockMvcRequestBuilders.post("/member/account_service/v1/getAccountBalanceForApp_old")
+				.param("memId", "a0db1419-f44a-48e8-9394-a49620e47940"))
+				.andExpect(status().isOk());
+
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("getAccountBalanceForApp_old_test_01*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+}

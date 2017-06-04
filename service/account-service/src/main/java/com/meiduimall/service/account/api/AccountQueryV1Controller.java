@@ -218,7 +218,7 @@ public class AccountQueryV1Controller {
 	 * @return json串
 	 * @author yangchangfu
 	 */
-	@PostMapping(value = "/getAccountBalanceForApp_old")
+	@RequestMapping(value = "/getAccountBalanceForApp_old")
 	public String getAccountBalanceForApp_old(String memId) {
 		ResponseOldAccountBalance result = new ResponseOldAccountBalance();
 		if (Strings.isNullOrEmpty(memId)) {
@@ -246,7 +246,7 @@ public class AccountQueryV1Controller {
 	 * @return 结果数据
 	 * @author yangchangfu
 	 */
-	@PostMapping(value = "/getAccountBalanceForApp")
+	@RequestMapping(value = "/getAccountBalanceForApp")
 	public ResBodyData getAccountBalanceForApp(String memId) {
 		if (Strings.isNullOrEmpty(memId)) {
 			throw new ApiException(ConstApiStatus.REQUIRED_PARAM_EMPTY);

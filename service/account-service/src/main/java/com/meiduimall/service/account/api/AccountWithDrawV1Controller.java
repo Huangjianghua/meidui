@@ -23,6 +23,7 @@ import com.meiduimall.exception.MdBizException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.model.MSAccountDetailCondition;
 import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
+import com.meiduimall.service.account.model.request.RequestBankWithdrawDepositsList;
 import com.meiduimall.service.account.model.request.RequestMSBankWithDrawDepostie;
 import com.meiduimall.service.account.model.request.RequestSaveBankWithdrawDeposit;
 import com.meiduimall.service.account.model.response.ResponseBankWithdrawDeposits;
@@ -215,15 +216,18 @@ public class AccountWithDrawV1Controller {
 	 * @return 结果数据
 	 */
 	@RequestMapping(value = "/getBankWithdrawDepositsForApp")
-	public ResBodyData getBankWithdrawDepositsForApp(String memId, int pageNo, int pageSize) {
-		if (pageNo == 0) {
-			pageNo = 1;
+	public ResBodyData getBankWithdrawDepositsForApp(@Validated RequestBankWithdrawDepositsList model) {
+		int pageNo = 1;
+		if(model.getPageNo() > 0){
+			pageNo = model.getPageNo();
 		}
-		if (pageSize == 0) {
-			pageSize = 20;
+		int pageSize = 10;
+		if(model.getPageSize() > 0){
+			pageSize = model.getPageSize();
 		}
+		
 		PageHelper.startPage(pageNo, pageSize);
-		List<MSBankWithdrawDeposit> list = withDrawService.getBankWithdrawDepositsList(memId);
+		List<MSBankWithdrawDeposit> list = withDrawService.getBankWithdrawDepositsList(model.getMemId());
 		PageInfo<MSBankWithdrawDeposit> pageInfo = new PageInfo<MSBankWithdrawDeposit>(list);
 		ResponseBankWithdrawDeposits data = new ResponseBankWithdrawDeposits();
 		data.setTotalPage(pageInfo.getPages());
@@ -243,7 +247,7 @@ public class AccountWithDrawV1Controller {
 	 * @return 结果数据
 	 * @author yangchangfu
 	 */
-	@PostMapping(value = "/saveBankWithdrawDeposit")
+	@RequestMapping(value = "/saveBankWithdrawDeposit")
 	public ResBodyData saveBankWithdrawDeposit(@Validated RequestSaveBankWithdrawDeposit model) {
 		String businessNo = withDrawService.saveBankWithdrawDeposit(model);
 		ResBodyData result = new ResBodyData();
