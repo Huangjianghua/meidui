@@ -1,7 +1,11 @@
 package com.meiduimall.application.usercenter.constant;
 
-
-public class ConstSysParams {
+/**
+ * 其他系统参数名称定义
+ * @author chencong
+ *
+ */
+public class ConstSysParamsDefination {
 	
 	/**请求有效时间(5分钟)*/
 	public static final Long REQUEST_EFFECTIVE_TIME = 5 * 60 * 1000L;

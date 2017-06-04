@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
@@ -24,7 +25,7 @@ import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.redis.util.RedisTemplate;
 import com.meiduimall.service.member.constant.ConstApiStatus;
-import com.meiduimall.service.member.constant.ConstSysParams;
+import com.meiduimall.service.member.constant.ConstSysParamsDefination;
 import com.meiduimall.service.member.model.request.RequestExit;
 import com.meiduimall.service.member.model.request.RequestLogin;
 import com.meiduimall.service.member.model.request.RequestRegister;
@@ -98,9 +99,9 @@ public class BasicOpV1Controller {
 	@PostMapping(value = "/login")
 	ResBodyData login(@RequestBody @Valid RequestLogin requestLogin){
 		requestLogin.setIp(request.getRemoteAddr());
-		String tokenKey=request.getHeader(ConstSysParams.TERMINAL_ID);
+		String tokenKey=request.getHeader(ConstSysParamsDefination.TERMINAL_ID);
 		if(StringUtils.isEmpty(tokenKey)){
-			 tokenKey=request.getHeader(ConstSysParams.USER_AGENT);
+			 tokenKey=request.getHeader(ConstSysParamsDefination.USER_AGENT);
 		}
 		requestLogin.setTokenKey(tokenKey);
 		logger.info("收到会员登录API请求：",requestLogin.toString());
@@ -140,9 +141,9 @@ public class BasicOpV1Controller {
 	/**普通会员注册*/
 	@PostMapping(value = "/register")
 	ResBodyData register(@RequestBody @Valid RequestRegister model){
-		String tokenKey=request.getHeader(ConstSysParams.TERMINAL_ID);
+		String tokenKey=request.getHeader(ConstSysParamsDefination.TERMINAL_ID);
 		if(StringUtils.isEmpty(tokenKey)){
-			 tokenKey=request.getHeader(ConstSysParams.USER_AGENT);
+			 tokenKey=request.getHeader(ConstSysParamsDefination.USER_AGENT);
 		}
 		model.setTokenKey(tokenKey);
 		logger.info("收到普通会员注册API请求：{}",model.toString());
@@ -159,9 +160,9 @@ public class BasicOpV1Controller {
 	/**扫码注册（临时接口，不推荐使用）*/
 	@PostMapping(value = "/register_scan_code")
 	ResBodyData registerScanCode(@RequestBody @Valid RequestRegister model){
-		String tokenKey=request.getHeader(ConstSysParams.TERMINAL_ID);
+		String tokenKey=request.getHeader(ConstSysParamsDefination.TERMINAL_ID);
 		if(StringUtils.isEmpty(tokenKey)){
-			 tokenKey=request.getHeader(ConstSysParams.USER_AGENT);
+			 tokenKey=request.getHeader(ConstSysParamsDefination.USER_AGENT);
 		}
 		model.setTokenKey(tokenKey);
 		logger.info("收到扫码注册API请求：{}",model.toString());
@@ -178,9 +179,9 @@ public class BasicOpV1Controller {
 	/**O2O系统（商家，代理，个代）注册*/
 	@PostMapping(value = "/register_o2o")
 	ResBodyData registerO2O(@RequestBody @Valid RequestRegisterO2O model){
-		String tokenKey=request.getHeader(ConstSysParams.TERMINAL_ID);
+		String tokenKey=request.getHeader(ConstSysParamsDefination.TERMINAL_ID);
 		if(StringUtils.isEmpty(tokenKey)){
-			 tokenKey=request.getHeader(ConstSysParams.USER_AGENT);
+			 tokenKey=request.getHeader(ConstSysParamsDefination.USER_AGENT);
 		}
 		model.setTokenKey(tokenKey);
 		logger.info("收到O2O系统注册API请求：{}",model.toString());
@@ -192,6 +193,24 @@ public class BasicOpV1Controller {
 			throw new ApiException(ConstApiStatus.REGISTER_EXCEPTION);
 		}
 		return resBodyData; 
+	}
+	
+	/**我是谁（token转memId）*/
+	@GetMapping(value = "/get_memid_by_token")
+	ResBodyData getMemIdByToken(@RequestParam String token){
+		logger.info("收到我是谁API请求：{}",token);
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,"");
+		if(RedisTemplate.getJedisInstance().execExistsFromCache(token)){
+			String memId=RedisTemplate.getJedisInstance().execGetFromCache(token);
+			Map<String, Object> data=new HashMap<>();
+			data.put(ConstSysParamsDefination.MEM_ID,memId);
+			resBodyData.setData(data);
+			return resBodyData;
+		}
+		else{
+			logger.info("token：{}在redis中不存在",token);
+			throw new ApiException(ConstApiStatus.TOKEN_NOT_EXISTS);
+		}
 	}
 	
 	

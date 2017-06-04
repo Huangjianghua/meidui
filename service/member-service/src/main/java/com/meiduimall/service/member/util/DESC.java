@@ -19,7 +19,7 @@ import org.springframework.util.StringUtils;
 import com.meiduimall.core.Constants;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.member.constant.ConstApiStatus;
-import com.meiduimall.service.member.constant.ConstSysParams;
+import com.meiduimall.service.member.constant.ConstSysParamsDefination;
 
 /**
  * 数据库加密解密类
@@ -30,7 +30,7 @@ public class DESC {
 	
 	private final static Logger logger=LoggerFactory.getLogger(DESC.class);
 	
-	private final static String key=SystemConfig.configMap.get(ConstSysParams.DESC_KEY);//加密解密需要的key
+	private final static String key=SystemConfig.configMap.get(ConstSysParamsDefination.DESC_KEY);//加密解密需要的key
 	
 	/**
 	 * 字符串加密 系统默认方式
@@ -81,7 +81,7 @@ public class DESC {
 			Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
 			SecureRandom random = new SecureRandom();
 			cipher.init(Cipher.ENCRYPT_MODE, deskey, random);
-			result=Base64.encodeBase64String(cipher.doFinal(data.getBytes(ConstSysParams.GBK)));
+			result=Base64.encodeBase64String(cipher.doFinal(data.getBytes(ConstSysParamsDefination.GBK)));
 		} catch (Exception e) {
 			logger.error("加密程序异常：{}",e.toString());
 			throw new MdSysException(ConstApiStatus.ENCRYPTION_EXCEPTION);
@@ -101,7 +101,7 @@ public class DESC {
 			Key deskey = keyGenerator(key);
 			Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
 			cipher.init(Cipher.DECRYPT_MODE, deskey);
-			result=new String(cipher.doFinal(Base64.decodeBase64(data)),ConstSysParams.GBK);
+			result=new String(cipher.doFinal(Base64.decodeBase64(data)),ConstSysParamsDefination.GBK);
 		} catch (Exception e) {
 			logger.error("解密程序异常：{}",e.toString());
 			throw new MdSysException(ConstApiStatus.DECRYPTION_EXCEPTION);
@@ -113,7 +113,7 @@ public class DESC {
 		byte input[] = HexString2Bytes(keyStr);
 		DESKeySpec desKey;
 		desKey = new DESKeySpec(input);
-		SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(ConstSysParams.DES);
+		SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(ConstSysParamsDefination.DES);
 		SecretKey securekey = keyFactory.generateSecret(desKey);
 		return securekey;
 	}

@@ -14,7 +14,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.usercenter.config.ProfileParamsConfig;
 import com.meiduimall.application.usercenter.constant.ConstApiStatus;
 import com.meiduimall.application.usercenter.constant.ResBodyDataShiPei;
-import com.meiduimall.application.usercenter.constant.ConstSysParams;
+import com.meiduimall.application.usercenter.constant.ConstSysParamsDefination;
 import com.meiduimall.application.usercenter.service.BaseOpService;
 import com.meiduimall.application.usercenter.util.HttpUtils;
 import com.meiduimall.application.usercenter.util.MD5Utils;
@@ -38,7 +38,7 @@ public class BaseOpServiceImpl implements BaseOpService {
 		logger.info("调用账号服务>>登录API>>URL:{}  Data:{}",url,reqJson.toString());
 		try {
 			Map<String, String> headers=new HashMap<>();
-			headers.put(ConstSysParams.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
+			headers.put(ConstSysParamsDefination.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
 			String result=HttpUtils.post(url,reqJson.toString(),headers);
 			logger.info("调用账号服务>>登录API>>结果：{}",result);
 			resBodyData=JSON.parseObject(result,ResBodyData.class);
@@ -61,7 +61,7 @@ public class BaseOpServiceImpl implements BaseOpService {
 		logger.info("调用账号服务>>普通会员注册>>URL:{}  Data:{}",url,reqJson.toString());
 		try {
 			Map<String, String> headers=new HashMap<>();
-			headers.put(ConstSysParams.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
+			headers.put(ConstSysParamsDefination.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
 			String result=HttpUtils.post(url,reqJson.toString(),headers);
 			logger.info("调用账号服务>>普通会员注册>>结果：{}",result);
 			resBodyData=JSON.parseObject(result,ResBodyData.class);

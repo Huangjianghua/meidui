@@ -15,6 +15,7 @@ import com.meiduimall.service.account.constant.ConstSysParamsDefination;
 import com.meiduimall.service.account.constant.ConstTradeType;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.service.ValidateService;
+import com.meiduimall.service.account.util.DoubleCalculate;
 
 
 /**
@@ -27,9 +28,6 @@ public class ValidateServiceImpl implements ValidateService {
 	
 	private final static Logger logger=LoggerFactory.getLogger(ValidateServiceImpl.class);
 	
-	@Autowired
-	private BaseDao baseDao;
-
 	@Override
 	public void checkTradeType(String tradeType) {
 		if(StringUtils.isEmpty(ConstTradeType.getNameByCode(tradeType))){
@@ -68,6 +66,22 @@ public class ValidateServiceImpl implements ValidateService {
 			throw new ServiceException(ConstApiStatus.ACCOUNT_ADJUST_TYPE_UNNORMAL);
 		}
 		logger.info("交易金额合法");
+	}
+
+	@Override
+	public void checkConsumeAmountRelation(Double consumeAmount, Double consumeMoney, Double consumePoints) {
+		if(consumeMoney>consumeAmount){
+			throw new ServiceException(ConstApiStatus.MONEY_BIGGER_THAN_COMSUME_AMOUNT);
+		}
+		if(consumePoints>consumeAmount){
+			throw new ServiceException(ConstApiStatus.POINTS_BIGGER_THAN_COMSUME_AMOUNT);
+		}
+		if(consumePoints>consumeMoney){
+			throw new ServiceException(ConstApiStatus.POINTS_BIGGER_THAN_MONEY);
+		}
+		if(DoubleCalculate.add(consumeMoney,consumePoints)>consumeAmount){
+			throw new ServiceException(ConstApiStatus.MONEY_ADD_POINTS_BIGGER_THAN_COMSUME_AMOUNT);
+		}
 	}
 
 }

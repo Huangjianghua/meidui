@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSAccountType;
@@ -16,6 +17,7 @@ import com.meiduimall.service.account.service.AccountTypeService;
  * @author chencong
  *
  */
+@Transactional
 @Service
 public class AccountTypeServiceImpl implements AccountTypeService {
 	
@@ -33,13 +35,13 @@ public class AccountTypeServiceImpl implements AccountTypeService {
 	}
 
 	@Override
-	public synchronized Long updateSequenceByAccountTypeNo(String accountTypeNo) {
-		Long newSequence=this.getSequenceByAccountTypeNo(accountTypeNo)+1;
+	public Long updateSequenceByAccountTypeNo(String accountTypeNo) {
+		Long sequence=this.getSequenceByAccountTypeNo(accountTypeNo);
 		Map<String,Object> mapCondition=new HashMap<>();
 		mapCondition.put("accountTypeNo", accountTypeNo);
-		mapCondition.put("newSequence", newSequence);
+		mapCondition.put("sequence", sequence);
 		baseDao.update(mapCondition,"MSAccountTypeMapper.updateSequenceByAccountTypeNo");
-		return newSequence;
+		return this.getSequenceByAccountTypeNo(accountTypeNo);
 	}
 
 }

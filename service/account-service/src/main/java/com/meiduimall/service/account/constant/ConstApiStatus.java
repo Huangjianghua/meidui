@@ -74,8 +74,8 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	public final static  Integer TRADE_TYPE_UNNORMAL=7101;
 	//交易金额不合法
 	public final static  Integer TRADE_AMOUNT_UNNORMAL=7102;
-	//消费积分不能大于消费金额
-	public final static Integer POINTS_BIGGERTHAN_MONEY=7103;
+	//消费积分不能大于消费余额
+	public final static Integer POINTS_BIGGER_THAN_MONEY=7103;
 	//混合支付支付模式，美兑积分不能为小于或等于0
 	public final static Integer MIX_PAYTYPE_ERROR=7104;
 	//支付类型错误
@@ -92,16 +92,23 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	public final static Integer NO_DJ_POINTS=7110;
 	//订单状态错误
 	public final static Integer ORDER_STATUS_ERROR=7111;
+	//消费积分不能大于消费总金额
+	public final static Integer POINTS_BIGGER_THAN_COMSUME_AMOUNT=7112;
+	//消费余额不能大于消费总金额
+	public final static Integer MONEY_BIGGER_THAN_COMSUME_AMOUNT=7113;
+	//消费积分+消费余额不能大于消费总金额
+	public final static Integer MONEY_ADD_POINTS_BIGGER_THAN_COMSUME_AMOUNT=7114;
 	//退单返回美兑积分错误
-	public final static Integer MD_POINTS_ERROR=7112;
+	public final static Integer MD_POINTS_ERROR=7115;
 	//余额支付金额不能大于消费金额
-	public final static Integer PAYMONEY_ERROR=7113;
+	public final static Integer PAYMONEY_ERROR=7116;
 	//支付积分加余额不能大于消费金额
-	public final static Integer PAY_POINTS_MONEY_ERROR=7114;
+	public final static Integer PAY_POINTS_MONEY_ERROR=7117;
 	//订单解冻余额不等于冻结余额
-	public final static Integer MONEY_DJ_NOT_EQUALS_DJ=7115;
+	public final static Integer MONEY_DJ_NOT_EQUALS_DJ=7118;
 	//没有冻结的余额
-	public final static Integer NO_DJ_MONEY=7116;
+	public final static Integer NO_DJ_MONEY=7119;
+	
 	
 	
 	/**账户相关*/
@@ -156,6 +163,10 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	public final static Integer ACCOUNT_APPLY_CARRY_CASH_ERROR=7311;
 	//新增提现记录异常
 	public final static Integer INSERT_WITHDRAW_ERROR=7312;
+	//提现申请操作异常
+	public final static Integer WITHDRAW_APPLY_ERROR=7313;
+	//查询提现账号相关类型表异常
+	public final static Integer QUERY_WITHDRAW_BY_ACCOUNT_TYPE_ERROR=7314;
 	
 	
 	/**会员信息相关*/
@@ -202,7 +213,7 @@ public abstract class ConstApiStatus extends BaseApiCode {
 		
 		zhMsgMap.put(TRADE_TYPE_UNNORMAL, "交易类型不合法");
 		zhMsgMap.put(TRADE_AMOUNT_UNNORMAL, "交易金额不合法");
-		zhMsgMap.put(POINTS_BIGGERTHAN_MONEY, "消费积分不能大于消费金额");
+		zhMsgMap.put(POINTS_BIGGER_THAN_MONEY, "消费积分不能大于消费金额");
 		zhMsgMap.put(MIX_PAYTYPE_ERROR, "混合支付支付模式，美兑积分不能为小于或等于0");
 		zhMsgMap.put(PAYTYPE_ERROR, "支付类型错误");
 		zhMsgMap.put(REPEAT_ORDER, "重复提交的订单");
@@ -216,6 +227,8 @@ public abstract class ConstApiStatus extends BaseApiCode {
 		zhMsgMap.put(MD_POINTS_ERROR, "退单返回美兑积分错误");
 		zhMsgMap.put(PAYMONEY_ERROR, "余额支付金额不能大于消费金额");
 		zhMsgMap.put(PAY_POINTS_MONEY_ERROR, "支付积分加余额不能大于消费金额");
+		zhMsgMap.put(POINTS_BIGGER_THAN_COMSUME_AMOUNT, "消费积分不能大于消费总金额");
+		zhMsgMap.put(MONEY_BIGGER_THAN_COMSUME_AMOUNT, "消费余额不能大于消费总金额");
 		
 		zhMsgMap.put(ACCOUNT_NOT_EXIST, "账户不存在");
 		zhMsgMap.put(ACCOUNT_REVISE_IS_NULL_ERROR, "查询会员调整余额明细错误");
@@ -249,5 +262,8 @@ public abstract class ConstApiStatus extends BaseApiCode {
 		zhMsgMap.put(QUERY_TRANSFER_POINTS_ERROR, "查询转账积分列表错误");
 		
 		zhMsgMap.put(VALIDATE_CODE_NOT_PASS, "短信验证码校验不通过");
+		zhMsgMap.put(WITHDRAW_APPLY_ERROR, "提现申请错误");
+		zhMsgMap.put(QUERY_WITHDRAW_BY_ACCOUNT_TYPE_ERROR, "提现子表查询异常");
+		
 	}
 }

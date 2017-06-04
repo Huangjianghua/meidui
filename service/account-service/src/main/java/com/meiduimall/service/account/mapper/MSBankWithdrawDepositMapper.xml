@@ -193,16 +193,16 @@
 	    msm.mem_phone as phone,
 	    bwd.bank_account_id as bankAccountId,
 	    bwd.account_idcard as accountIdcard,
-	    bwd.account_no as accountNo,
+	    bwd.bank_card_no as bankCardNo,
 	    bwd.account_name as accountName,
 	    bwd.account_bank as accountBank,
 	    bwd.account_province as accountProvince,
 	    bwd.account_city as accountCity,
 	    bwd.account_area as accountArea,
 	    bwd.account_sub_bank as accountSubBank,
-	    bwd.apply_carry_cash as applyCarryCash,
-	    bwd.counter_fee as counterFee,
-	    bwd.actual_carry_cash as actualCarryCash,
+	    bwd.apply_withdraw_amount as applyWithdrawAmount,
+	    bwd.poundage_amount as poundageAmount,
+	    bwd.actual_withdraw_amount as actualWithdrawAmount,
 	    bwd.actual_transfer_cash as actualTransferCash,
 	    bwd.apply_date as applyDate,
 	    bwd.audit_by as auditBy,
@@ -227,32 +227,120 @@
 				msa.balance as balance ,
 				msa.balance_encrypt as balanceEncrypt ,
 				msa.freeze_balance as freezeBalance,
-				msa.freeze_balance_encrypt as freezeBalanceEncrypt
+				msa.freeze_balance_encrypt as freezeBalanceEncrypt,
+				msa.withdraw_poundage_scale as withdrawPoundageScale
 			 FROM
 			 ms_account  msa 
-			
 	   		<where>
-	   		 msa.account_status=0 AND msa.allow_withdraw=0  /**账号状态正常  并是可提现的		*/
+	   		<if test="orderByName !=null and orderByName !=''">
+	   		 		AND msa.account_status=0 AND msa.allow_withdraw=0  /**账号状态正常  并是可提现的		*/
+	   		 </if> 
 	   		 <if test="id !=null and id !=''">
-		         	and msa.id = #{id}
+		         	AND msa.id = #{id}
 	   		 </if>
 		     <if test="memId !=null and memId !=''">
-		         	and msa.mem_id = #{memId}
+		         	AND msa.mem_id = #{memId}
+		     </if> 
+		     <if test="accountNo !=null and accountNo !=''">
+		         	AND msa.account_no = #{accountNo}
 		     </if> 
      	</where>
-     	 ORDER BY msa.withdraw_priority DESC
+     	 <if test="orderByName !=null and orderByName ==1">
+		        ORDER BY msa.withdraw_priority DESC  	/**优先级排序  1表示提现扣款  2表示驳回倒序退		*/  
+		 </if> 
+		 <if test="orderByName !=null and orderByName ==2">
+		        ORDER BY msa.withdraw_priority ASC  	
+		 </if> 
   </select>
   
   <!-- 根据会员ID和账户类型修改余额账户冻结金额 -->
 	<update id="updateFreezeBalanceByMemId" parameterType="java.util.Map">
 		UPDATE ms_account
-		SET freeze_balance = #{freezeBalance},update_date = now()
-		WHERE id = #{id}
+		SET freeze_balance =freeze_balance + #{freezeBalance},update_date = now()
+		<where>
+		  <if test="id !=null and id !=''">
+		        and id = #{id}
+	   	</if>
+	   	<if test="accountNo !=null and accountNo !=''">
+		        and account_no = #{accountNo}
+	   	</if>
+		</where>
 	</update>
+	
+	 <!-- 根据会员ID和账户类型修改余额账户金额 -->
+	<update id="updateAccountBalance" parameterType="java.util.Map">
+		UPDATE ms_account
+		SET balance =#{balance},update_date = now()
+		<where>
+		  <if test="id !=null and id !=''">
+		        and id = #{id}
+	   	</if>
+	   	<if test="accountNo !=null and accountNo !=''">
+		        and account_no = #{accountNo}
+	   	</if>
+		</where>
+	</update>
+	
   <!-- 修改总的账号冻结金额-->
 	<update id="updateAccountReportByMemId" parameterType="java.util.Map">
 		UPDATE ms_account_report
-		SET freeze_balance = #{freezeBalance},update_date = now()
+		SET freeze_balance =freeze_balance + #{freezeBalance},update_date = now()
 		WHERE mem_id = #{memId}
 	</update>
+	
+	 <!-- 修改总的账号金额-->
+	<update id="updateAccountReportBalanceByMemId" parameterType="java.util.Map">
+		UPDATE ms_account_report
+		SET balance =balance + #{balance},update_date = now()
+		WHERE mem_id = #{memId}
+	</update>
+	
+	<!--  写入提现申请记录ms_withdraw_info_by_account_type    -->	
+	<insert id="insertWithDrawInfoByAccountType" parameterType="java.util.Map">
+		insert into ms_withdraw_info_by_account_type
+			   (id,
+				master_id,
+				account_no,
+				withdraw_amount,
+				withdraw_balance,
+				apply_date,
+				create_date,
+				create_user,
+				update_date,
+				update_user,
+				remark
+				)
+	 	 values(#{id},
+				#{masterId},
+				#{accountNo},
+				#{withdrawAmount},
+				#{withdrawBalance},
+				#{applyDate},
+				#{createDate},
+				null,
+				#{createDate},
+				null,
+				null
+			   )
+	</insert>
+	
+	
+	<!--查询会员按账户类型提现表  -->
+	<select id="queryWithdrawInfoByAccountTypeList" resultType="com.meiduimall.service.account.model.MSWithdrawInfoByAccountType" parameterType="java.util.Map" >
+    			SELECT
+				msa.id as id,
+				msa.master_id as master_id ,
+				msa.account_no as account_no ,
+				msa.withdraw_amount as withdrawAmount,
+				msa.withdraw_balance as withdrawBalance,
+				msa.apply_date as applyDate 
+			 FROM
+			 ms_withdraw_info_by_account_type  msa 
+	   		<where>
+	   		 <if test="id !=null and id !=''">
+		         	and msa.master_id = #{id}
+	   		 </if>
+     	</where>
+  </select>
+  
 </mapper>

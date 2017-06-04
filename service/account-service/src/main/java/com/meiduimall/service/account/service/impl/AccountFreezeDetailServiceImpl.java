@@ -54,9 +54,9 @@ public class AccountFreezeDetailServiceImpl implements AccountFreezeDetailServic
 		paramsMap.put("businessNo", orderId);
 		
 		paramsMap.put("createDate", DateUtil.format(tradeDate,DateUtil.YYYY_MM_DD_HH_MM_SS));
-		paramsMap.put("createUser", orderId);
+		paramsMap.put("createUser", "sysadmin");
 		paramsMap.put("updateDate", DateUtil.format(tradeDate,DateUtil.YYYY_MM_DD_HH_MM_SS));
-		paramsMap.put("updateUser", orderId);
+		paramsMap.put("updateUser", "sysadmin");
 		try {
 			baseDao.insert(paramsMap, "MSAccountFreezeDetailMapper.insertAccountFreezeDetail");
 		} catch (Exception e) {

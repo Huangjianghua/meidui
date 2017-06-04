@@ -1,6 +1,6 @@
 package com.meiduimall.service.account.model.response;
 
-public class PersonalConsumptionPointsResult {
+public class ResponsePersonalConsumptionPoints {
 
 	private String accountIntegral;//个人账户积分
 	

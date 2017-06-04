@@ -2,7 +2,7 @@ package com.meiduimall.service.account.service;
 
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.service.account.model.MSMembers;
-import com.meiduimall.service.account.model.response.AccountBalanceResult;
+import com.meiduimall.service.account.model.response.ResponseAccountBalance;
 
 public interface MSMembersService {
 	
@@ -19,7 +19,7 @@ public interface MSMembersService {
 	 * @param userId
 	 * @return
 	 */
-	public AccountBalanceResult getAccountBalance(String memId, String userId);
+	public ResponseAccountBalance getAccountBalance(String memId);
 	
 	public boolean checkUserIsExistByMemId(String memId);
 

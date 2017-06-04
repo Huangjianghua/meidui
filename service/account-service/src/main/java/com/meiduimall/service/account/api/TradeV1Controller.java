@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,22 +15,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
-import com.first.membersystem.constant.ApplicationConstant;
-import com.first.membersystem.constant.SysConstant;
-import com.first.membersystem.dto.MemberConsumeMessageDTO;
-import com.first.oauth.OAuth;
-import com.first.oauth.OAuthAccessor;
-import com.first.oauth.OAuthConsumer;
-import com.first.oauth.OAuthMessage;
-import com.first.oauth.OAuth.Parameter;
-import com.first.oauth.provider.core.OAuthProvider;
-import com.first.utility.DESC;
-import com.first.utility.StringUtil;
-import com.first.utility.checkparameter.AuthorizationCheckParameter;
+ 
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.MdSysException;
@@ -37,8 +26,9 @@ import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.constant.ConstDataAppSource;
 import com.meiduimall.service.account.model.request.MemberConsumeMessageReq;
-import com.meiduimall.service.account.model.request.RequestFreezeUnFreeze;
-import com.meiduimall.service.account.model.request.RequestUnfreezeDecut;
+
+import com.meiduimall.service.account.model.request.RequestSaveOrder;
+import com.meiduimall.service.account.model.request.RequestCancelOrder;
 import com.meiduimall.service.account.service.TradeService;
 import com.meiduimall.service.account.util.SerialStringUtil;
 
@@ -52,31 +42,30 @@ import com.meiduimall.service.account.util.SerialStringUtil;
 public class TradeV1Controller {
 	
 	private final static Logger logger=LoggerFactory.getLogger(TradeV1Controller.class);
-
-	@Autowired
-	private HttpServletRequest request;
 	
 	@Autowired
-	private TradeService orderService;
+	private TradeService tradeService;
 	
-	/**会员发起交易申请，冻结积分和余额/会员发起退单，解冻积分和余额*/
-	@RequestMapping(value="/freeze_unfreeze",method=RequestMethod.POST)
-	ResBodyData  freezeUnfreeze(@RequestBody RequestFreezeUnFreeze param){
-		logger.info("收到冻结解冻API请求  URL: {}  DATA: {}",request.getRequestURL(),param.toString());
-		ResBodyData resBodyData=orderService.freezeUnfreeze(param);
-		logger.info("冻结解冻API请求结果：{}",resBodyData.toString());
-		return resBodyData;
+	/**
+	 * 会员保存订单
+	 * @author chencong
+	 */
+	@PostMapping(value="/save_order")
+	ResBodyData  freezeUnfreeze(@Valid RequestSaveOrder model){
+		logger.info("收到保存订单API请求   ：{}",model.toString());
+		return tradeService.saveOrder(model);
 	}
 	
-	/**会员支付成功，解冻并扣减积分和余额
-	 * @throws MdSysException */
-	@RequestMapping(value="/unfreeze_deduct",method=RequestMethod.POST)
-	ResBodyData unfreezeDeduct(@RequestBody RequestUnfreezeDecut param) throws MdSysException {
-		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
-		logger.info("收到解冻并扣减积分和余额API请求  URL: {}  DATA: {}",request.getRequestURL(),param.toString());
-		orderService.unfreezeDeduct(param);
-		logger.info("解冻并扣减积分和余额API请求结果：{}",resBodyData.toString());
-		return resBodyData;
+	/**
+	 * 会员取消订单
+	 * @param model
+	 * @return
+	 * @throws MdSysException
+	 */
+	@PostMapping(value="/cancel_order")
+	ResBodyData unfreezeDeduct(@Valid RequestCancelOrder model) throws MdSysException {
+		logger.info("收到会员取消订单API请求 ：{}",model.toString());
+		return tradeService.cancelOrder(model);
 	}
 	
 

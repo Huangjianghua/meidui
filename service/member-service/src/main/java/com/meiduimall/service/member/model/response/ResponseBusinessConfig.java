@@ -2,7 +2,7 @@ package com.meiduimall.service.member.model.response;
 
 import java.io.Serializable;
 
-public class BusinessConfigDTO implements Serializable {
+public class ResponseBusinessConfig implements Serializable {
 
 	
 	/**

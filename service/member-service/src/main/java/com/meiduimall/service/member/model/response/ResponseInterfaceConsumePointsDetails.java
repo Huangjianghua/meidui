@@ -7,7 +7,7 @@ import java.io.Serializable;
  * 描述:  会员积分明细DTO <br>
  * 创建时间: 2016-12-2
  */
-public class InterfaceConsumePointsDetailsDTO implements Serializable{
+public class ResponseInterfaceConsumePointsDetails implements Serializable{
 
 	private static final long serialVersionUID = -1664408792644056966L;
 

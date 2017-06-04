@@ -17,8 +17,10 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import com.meiduimall.core.Constants;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.MdSysException;
+import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.model.AddOrUpdateAccountReviseDetail;
 import com.meiduimall.service.account.model.MSAccountDetailCondition;
 import com.meiduimall.service.account.model.MSAccountDetailGet;
@@ -31,7 +33,7 @@ import com.meiduimall.service.account.util.DateUtil;
 import net.sf.json.JSONObject;
 
 /**
- * 账户信息查询单元测试
+ * 账户信息查询API{@link=AccountQueryV1Controller}单元测试
  * @author chencong
  *
  */
@@ -41,19 +43,32 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 	
 	/**
 	 * 查询当前会员可用余额
+	 * @author chencong
 	 * @throws Exception
 	 */
     @Test
     public void getAvailableBalance() throws Exception{
-    	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/v1/get_available_balance")
-    			.param("memId",memId))
+    	//当前会员账户存在
+    	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/v1/get_available_balance?memId="+memId))
     			.andExpect(status().isOk())
-    			.andExpect(jsonPath("$.status",is(0)));
+    			.andExpect(jsonPath("$.status",is(Constants.CONSTANT_INT_ZERO)));
     	
     	postResultAction.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				logger.info("单元测试>>查询当前会员可用余额API>>执行结果:{}",result.getResponse().getContentAsString());;
+				logger.info("单元测试>>查询当前会员可用余额API>>账户存在>>执行结果:{}",result.getResponse().getContentAsString());;
+			}
+		});
+    	
+    	//账户不存在
+    	postResultAction=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/v1/get_available_balance?memId=123456789"))
+    			.andExpect(status().isOk())
+    			.andExpect(jsonPath("$.status",is(ConstApiStatus.ACCOUNT_NOT_EXIST)));
+    	
+    	postResultAction.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				logger.info("单元测试>>查询当前会员可用余额API>>账户不存在>>执行结果:{}",result.getResponse().getContentAsString());
 			}
 		});
     }
@@ -72,7 +87,7 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
     	postResultAction.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				logger.info("单元测试>>余额流水分页API>>执行结果:{}",result.getResponse().getContentAsString());;
+				logger.info("单元测试>>余额流水分页API>>执行结果:{}",result.getResponse().getContentAsString());
 
 			}
 		});
@@ -181,7 +196,7 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 	public void agreeExamineMSAccountReviseDetailTest() throws Exception {
 		 String url = "/member/account_service/v1/examine_account_revision_detail";
 		 AddOrUpdateAccountReviseDetail detail=new AddOrUpdateAccountReviseDetail();
-		 detail.setId("f320c1aa-bce2-4cd2-9c3a-1e605761d242");
+		 detail.setId("1");
 		 detail.setReviseRemark("财务调整");
 		 detail.setOperate("agree");//同意
 		 String json=JsonUtils.beanToJson(detail);
@@ -236,8 +251,8 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 	public void rejectWithDrawTest()throws Exception{
 		 String url = "/member/account_service/v1/reject_withdraw";
 		 MSBankWithdrawDeposit deposit=new MSBankWithdrawDeposit();
-		 deposit.setId("354b255e-7dde-42fc-8535-9438524a4536");
-		 /*deposit.setOperate("customer");*/
+		 deposit.setId("e422b739-7e62-4a2e-8933-860828a39347");
+		 deposit.setOperate("customer");
 		 deposit.setRemark("客服驳回操作");
 		 String object=JsonUtils.beanToJson(deposit);
 		 String json=object.toString();
@@ -253,7 +268,7 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 	public void settlementWithDrawTest()throws Exception{
 		 String url = "/member/account_service/v1/settlement_withdraw";
 		 MSBankWithdrawDeposit deposit=new MSBankWithdrawDeposit();
-		 deposit.setId("7744988c-d71e-44d4-8ceb-00fc08ab9070");
+		 deposit.setId("0bbe582b-6454-471f-839e-021f15df15cb");
 		 /*deposit.setOperate("财务结算");*/
 		 deposit.setRemark("财务已经打款完成");
 		 String object=JsonUtils.beanToJson(deposit);
@@ -274,7 +289,7 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 		 
 		 deposit.setAccountNo("123456");
 		 deposit.setMemId("a0db1419-f44a-48e8-9394-a49620e47940");
-		 deposit.setApplyCarryCash("10.05");
+		 deposit.setApplyCarryCash("100.05");
 		 deposit.setAuditBy("huangTest");
 		 deposit.setRemark("huangjianhuaTestDate");
 		 
@@ -306,5 +321,42 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 		System.out.println(DESC.encryption(s, "b9d78165-1483-42f7-a48c-fbfcc3b06431"));
 	}
 
+	/**
+     * 查询个人消费管理信息接口
+     * @throws Exception
+     */
+    @Test
+	public void personalConsumptionPoints_test_01() throws Exception {
+		ResultActions results = mockMvc.perform(
+				MockMvcRequestBuilders.post("/member/account_service/v1/personalConsumptionPoints")
+				.param("memId", "a0db1419-f44a-48e8-9394-a49620e47940"))
+				.andExpect(status().isOk());
+
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("personalConsumptionPoints_test_01*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+    
+    /**
+     * 查询个人消费管理信息接口---memId不存在
+     * @throws Exception
+     */
+    @Test
+	public void personalConsumptionPoints_test_02() throws Exception {
+		ResultActions results = mockMvc.perform(
+				MockMvcRequestBuilders.post("/member/account_service/v1/personalConsumptionPoints")
+				.param("memId", "a0db1419"))
+				.andExpect(status().isOk());
+
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("personalConsumptionPoints_test_02*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
 }
 

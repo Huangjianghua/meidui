@@ -6,12 +6,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Strings;
@@ -25,8 +27,9 @@ import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.model.MSAccountDetailCondition;
 import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
 import com.meiduimall.service.account.model.request.RequestMSBankWithDrawDepostie;
-import com.meiduimall.service.account.model.response.BankWithdrawDepositsResult;
-import com.meiduimall.service.account.model.response.OldBankWithdrawDepositsResult;
+import com.meiduimall.service.account.model.request.RequestSaveBankWithdrawDeposit;
+import com.meiduimall.service.account.model.response.ResponseBankWithdrawDeposits;
+import com.meiduimall.service.account.model.response.ResponseOldBankWithdrawDeposits;
 import com.meiduimall.service.account.service.BankWithdrawDepositService;
 import com.meiduimall.service.account.service.MSAccountDetailService;
 import com.meiduimall.service.account.service.WithDrawService;
@@ -204,7 +207,7 @@ public class AccountWithDrawV1Controller {
 	}
 
 	/**
-	 * 提现申请列表---兼容旧版
+	 * 提现申请查询接口---兼容旧版--该接口不需要兼容，可以删除
 	 * 
 	 * @param memId
 	 *            会员ID
@@ -214,6 +217,7 @@ public class AccountWithDrawV1Controller {
 	 *            每页数量
 	 * @return
 	 */
+	@Deprecated
 	@PostMapping(value = "/getBankWithdrawDepositsForApp_old")
 	public String getBankWithdrawDepositsForApp_old(String memId,
 			@RequestParam(value = "current_page") String currentPage,
@@ -222,7 +226,7 @@ public class AccountWithDrawV1Controller {
 		int intPgeNo = 1;
 		int intPageSize = 20;
 
-		OldBankWithdrawDepositsResult result = new OldBankWithdrawDepositsResult();
+		ResponseOldBankWithdrawDeposits result = new ResponseOldBankWithdrawDeposits();
 		if (Strings.isNullOrEmpty(memId)) {
 			// 请求参数错误
 			result.setResultMsg(ConstApiStatus.getZhMsg(ConstApiStatus.REQUIRED_PARAM_EMPTY));
@@ -268,7 +272,7 @@ public class AccountWithDrawV1Controller {
 	}
 
 	/**
-	 * 提现申请列表---新接口规范
+	 * 提现申请查询接口---新接口规范
 	 * 
 	 * @param memId
 	 *            会员ID
@@ -289,7 +293,7 @@ public class AccountWithDrawV1Controller {
 		PageHelper.startPage(pageNo, pageSize);
 		List<MSBankWithdrawDeposit> list = withDrawService.getBankWithdrawDepositsList(memId);
 		PageInfo<MSBankWithdrawDeposit> pageInfo = new PageInfo<MSBankWithdrawDeposit>(list);
-		BankWithdrawDepositsResult data = new BankWithdrawDepositsResult();
+		ResponseBankWithdrawDeposits data = new ResponseBankWithdrawDeposits();
 		data.setTotalPage(pageInfo.getPages());
 		data.setResults(list);
 
@@ -297,6 +301,22 @@ public class AccountWithDrawV1Controller {
 		result.setStatus(ConstApiStatus.SUCCESS);
 		result.setMsg(ConstApiStatus.SUCCESS_C);
 		result.setData(data);
+		return result;
+	}
+	
+	/**
+	 * 账户余额提现申请接口
+	 * @param model
+	 * @return
+	 */
+	@PostMapping(value = "/saveBankWithdrawDeposit")
+	public ResBodyData saveBankWithdrawDeposit(@Validated RequestSaveBankWithdrawDeposit model){
+		String businessNo = withDrawService.saveBankWithdrawDeposit(model);
+		ResBodyData result = new ResBodyData();
+		result.setStatus(ConstApiStatus.SUCCESS);
+		result.setMsg(ConstApiStatus.SUCCESS_C);
+		ObjectNode objectNode = JsonUtils.getInstance().createObjectNode().put("businessNo", businessNo);
+		result.setData(objectNode);
 		return result;
 	}
 }

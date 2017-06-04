@@ -43,11 +43,48 @@ public class AccountWithDrawV1ControllerTest extends BaseControllerTest {
     	postResultAction.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				logger.info("单元测试>>提现明细API>>执行结果:{}",result.getResponse().getContentAsString());;
+				logger.info("单元测试>>提现明细API>>执行结果:{}",result.getResponse().getContentAsString());
 
 			}
 		});
     }
 
+    /**
+     * 提现申请查询接口
+     * @throws Exception
+     */
+    @Test
+	public void getBankWithdrawDepositsForApp_test_01() throws Exception {
+		ResultActions results = mockMvc.perform(
+				MockMvcRequestBuilders.post("/member/account_service/v1/getBankWithdrawDepositsForApp")
+				.param("memId", "a0db1419-f44a-48e8-9394-a49620e47940"))
+				.andExpect(status().isOk());
+
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("getBankWithdrawDepositsForApp_test_01*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+    
+    /**
+     * 提现申请查询接口---memId不存在
+     * @throws Exception
+     */
+    @Test
+	public void getBankWithdrawDepositsForApp_test_02() throws Exception {
+		ResultActions results = mockMvc.perform(
+				MockMvcRequestBuilders.post("/member/account_service/v1/getBankWithdrawDepositsForApp")
+				.param("memId", "a0db1419"))
+				.andExpect(status().isOk());
+
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("getBankWithdrawDepositsForApp_test_02*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
 }
 

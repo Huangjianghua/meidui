@@ -15,7 +15,7 @@ import com.meiduimall.service.member.config.ServiceUrlProfileConfig;
 import com.meiduimall.service.member.constant.ConstApiStatus;
 import com.meiduimall.service.member.constant.ConstSmsTemplateID;
 import com.meiduimall.service.member.constant.ConstSmsType;
-import com.meiduimall.service.member.constant.ConstSysParams;
+import com.meiduimall.service.member.constant.ConstSysParamsDefination;
 import com.meiduimall.service.member.model.request.RequestCheckValidateCode;
 import com.meiduimall.service.member.model.request.RequestGetValidateCode;
 import com.meiduimall.service.member.model.request.RequestSendSms;
@@ -39,7 +39,7 @@ public class SmsServiceImpl implements SmsService
 		mapSmsData.put("phones",model.getPhone());
 		mapSmsData.put("templateId",ConstSmsTemplateID.getSmsTemplate(ConstSmsTemplateID.SEND_VALIDATE_CODE));
 		mapSmsData.put("type",ConstSmsType.getSmsType(model.getType()));
-		mapSmsData.put("sysKey",ConstSysParams.SMS_SYSKEY);
+		mapSmsData.put("sysKey",ConstSysParamsDefination.SMS_SYSKEY);
 		logger.info("调用短信服务>>获取短信验证码API>>URL:{},DATA:{}",smsServiceUrl,mapSmsData.toString());
 		String result=null;
 		try {
@@ -68,7 +68,7 @@ public class SmsServiceImpl implements SmsService
 		mapSmsData.put("phones",model.getPhone());
 		mapSmsData.put("templateId",ConstSmsTemplateID.getSmsTemplate(ConstSmsTemplateID.SEND_VALIDATE_CODE));
 		mapSmsData.put("type",ConstSmsType.getSmsType(model.getType()));
-		mapSmsData.put("sysKey",ConstSysParams.SMS_SYSKEY);
+		mapSmsData.put("sysKey",ConstSysParamsDefination.SMS_SYSKEY);
 		logger.info("调用短信服务>>校验短信验证码API>>URL:{},DATA:{}",smsServiceUrl,mapSmsData.toString());
 		String result=null;
 		try {
@@ -95,7 +95,7 @@ public class SmsServiceImpl implements SmsService
 		Map<String,String> mapSmsData=new HashMap<>();
 		mapSmsData.put("phones",model.getPhone());
 		mapSmsData.put("templateId",model.getTemplateId());
-		mapSmsData.put("sysKey",ConstSysParams.SMS_SYSKEY);
+		mapSmsData.put("sysKey",ConstSysParamsDefination.SMS_SYSKEY);
 		mapSmsData.put("params",model.getParams());
 		logger.info("调用短信服务>>发送普通短信API>>URL:{},DATA:{}",smsServiceUrl,mapSmsData.toString());
 		String result=null;

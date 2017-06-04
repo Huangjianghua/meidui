@@ -33,6 +33,8 @@ public class AddOrUpdateAccountReviseDetail implements Serializable {
  
 	private String walletName;
 	
+	private String accountNo;
+	
 	/**
 	 * 调整类型(1-调增,2-调减)
 	 */
@@ -79,7 +81,7 @@ public class AddOrUpdateAccountReviseDetail implements Serializable {
 	 */
 	private String operate;
 
-	
+	private String remark;
 	
 	public String getWalletName() {
 		return walletName;
@@ -225,6 +227,34 @@ public class AddOrUpdateAccountReviseDetail implements Serializable {
 
 	public void setOperate(String operate) {
 		this.operate = operate;
+	}
+
+	/**
+	 * @return the accountNo
+	 */
+	public String getAccountNo() {
+		return accountNo;
+	}
+
+	/**
+	 * @param accountNo the accountNo to set
+	 */
+	public void setAccountNo(String accountNo) {
+		this.accountNo = accountNo;
+	}
+
+	/**
+	 * @return the remark
+	 */
+	public String getRemark() {
+		return remark;
+	}
+
+	/**
+	 * @param remark the remark to set
+	 */
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 }

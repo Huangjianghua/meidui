@@ -17,6 +17,8 @@ import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.meiduimall.application.usercenter.constant.ConstApiStatus;
 import com.meiduimall.core.util.JsonUtils;
 
 /**
@@ -73,5 +75,23 @@ public class MoneyV1ControllerTest extends BaseControllerTest {
 			}
 		});
     }
-	      
+	
+    /**
+     * 获取会员账户余额和积分余额
+     * @throws Exception
+     */
+    @Test
+    public void getAccountBalanceForApp_test01() throws Exception {
+    	ResultActions results = mockMvc.perform(
+				MockMvcRequestBuilders.post(baseUrl + "/getAccountBalanceForApp")
+				.param("token", "a0db1419"))
+				.andExpect(status().isOk());
+
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("getAccountBalanceForApp_test01*********" + result.getResponse().getContentAsString());
+			}
+		});
+    }
 }

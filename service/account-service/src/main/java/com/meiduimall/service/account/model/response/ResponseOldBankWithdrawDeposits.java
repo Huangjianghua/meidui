@@ -5,7 +5,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
 
-public class OldBankWithdrawDepositsResult {
+public class ResponseOldBankWithdrawDeposits {
 
 	// 返回标志，0-成功，其他失败
 	@JsonProperty("status_code")

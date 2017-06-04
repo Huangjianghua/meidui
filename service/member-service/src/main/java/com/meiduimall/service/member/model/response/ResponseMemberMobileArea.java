@@ -13,7 +13,7 @@ import com.meiduimall.service.member.util.DESC;
  * @version:  2017年5月3日 下午5:51:39 0.1 
  * Description: 返回会员锁定列表
  */
-public class MemberMobileAreaDTO implements Serializable {
+public class ResponseMemberMobileArea implements Serializable {
 
 	private static final long serialVersionUID = 949660461284006757L;
 	/** 会员系统ID **/

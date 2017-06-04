@@ -34,6 +34,7 @@ public class MSMembers implements Serializable {
 	private String memParentValue1;
 	private String memParentValue2;
 	private String memParentValue3;
+	private String memBasicAccountTotalQuantity;
 	private String memBasicAccountStatus;
 	private String memIntegralConsumeOriginal;
 	private String memIntegralCurrentResults;
@@ -537,6 +538,12 @@ public class MSMembers implements Serializable {
 	}
 	public void setEnable(String enable) {
 		this.enable = enable;
+	}
+	public String getMemBasicAccountTotalQuantity() {
+		return memBasicAccountTotalQuantity;
+	}
+	public void setMemBasicAccountTotalQuantity(String memBasicAccountTotalQuantity) {
+		this.memBasicAccountTotalQuantity = memBasicAccountTotalQuantity;
 	}
 	
 }

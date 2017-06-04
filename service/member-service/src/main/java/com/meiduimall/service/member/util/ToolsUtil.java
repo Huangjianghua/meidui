@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.member.constant.ConstApiStatus;
-import com.meiduimall.service.member.constant.ConstSysParams;
+import com.meiduimall.service.member.constant.ConstSysParamsDefination;
 
 /**
  * 常用工具类
@@ -32,7 +32,7 @@ public class ToolsUtil {
 	public final static String createToken(String userId,String tokenKey) throws MdSysException {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append(userId);
-		buffer.append(ConstSysParams.CONNECTION);
+		buffer.append(ConstSysParamsDefination.CONNECTION);
 		buffer.append(tokenKey);
 		return MD5Util.MD5EncryptBy32(buffer.toString());
 	}
