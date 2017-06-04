@@ -14,14 +14,15 @@ public interface WithDrawService {
 
 	/**
 	 * 提现申请查询接口
-	 * @param memId
-	 * @return
+	 * @param memId 会员Id
+	 * @return 提现声请历史集合
 	 */
 	List<MSBankWithdrawDeposit> getBankWithdrawDepositsList(String memId);
 
 	/**
 	 * 账户余额提现申请接口
-	 * @param model
+	 * @param model 提现相关信息(这里只需要银行卡号、会员memId、提现金额)
+	 * @return 提现业务单号，对应ms_bank_withdraw_deposit表的business_no字段
 	 */
 	String saveBankWithdrawDeposit(RequestSaveBankWithdrawDeposit model);
 	
