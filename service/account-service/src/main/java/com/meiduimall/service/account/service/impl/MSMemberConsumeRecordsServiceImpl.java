@@ -20,19 +20,19 @@ public class MSMemberConsumeRecordsServiceImpl implements MSMemberConsumeRecords
 	@Override
 	public MSMemberConsumeRecords queryByOrderIdInfo(MSMemberConsumeRecordsReq MemberConsum) {
 		 
-		return baseDao.selectOne(MemberConsum, "MSMemberConsumeRecordsMapper.queryByOrderIdInfo");
+		return baseDao.selectOne(MemberConsum, "MSMemberConsumeRecordsMapper.getConsumeRecordsByContidion");
 	}
 
 	@Override
 	public List<MSMemberConsumeRecords> listByOrderIdInfo(MSMemberConsumeRecordsReq MemberConsum) {
 
-		return baseDao.selectList(MemberConsum, "MSMemberConsumeRecordsMapper.queryByOrderIdInfo");
+		return baseDao.selectList(MemberConsum, "MSMemberConsumeRecordsMapper.getConsumeRecordsByContidion");
 	}
 
 	@Override
 	public void save(MSMemberConsumeRecords mConHis) {
 		 
-		baseDao.insert(mConHis, "MSMemberConsumeRecordsMapper.insertMemberConsumeHistory");
+		baseDao.insert(mConHis, "MSMemberConsumeRecordsMapper.insertConsumeRecords");
 		
 	}
 
