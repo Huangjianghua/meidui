@@ -15,9 +15,6 @@ public class MSMemberConsumeRecords extends BaseModel  implements Serializable{
 	/** 会员消费记录表ID **/
 	private String id;
 
-	/** 会员ID **/
-	private String memId;
-
 	/** 订单号 **/
 	private String orderId;
 	
@@ -66,14 +63,6 @@ public class MSMemberConsumeRecords extends BaseModel  implements Serializable{
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public String getMemId() {
-		return memId;
-	}
-
-	public void setMemId(String memId) {
-		this.memId = memId;
 	}
 
 	public String getOrderId() {

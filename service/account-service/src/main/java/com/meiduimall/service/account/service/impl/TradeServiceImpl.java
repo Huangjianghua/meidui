@@ -19,6 +19,7 @@ import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSAccount;
 import com.meiduimall.service.account.model.MSBankAccount;
 import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
+import com.meiduimall.service.account.model.MSMemberConsumeRecords;
 import com.meiduimall.service.account.model.request.RequestSaveOrder;
 import com.meiduimall.service.account.model.request.RequestCancelOrder;
 import com.meiduimall.service.account.service.AccountAdjustService;
@@ -74,12 +75,14 @@ public class TradeServiceImpl implements TradeService {
 	
 	@Override
 	public ResBodyData saveOrder(RequestSaveOrder model){
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,"保存订单成功");
+		
 		//校验交易金额
 		validateService.checkConsumeAmountRelation(model.getConsumeAmount(),model.getConsumeMoney(),model.getConsumePoints());
 		//将数据来源转换为字典值
 		model.setOrderSource(SerialStringUtil.getDictOrderSource(model.getOrderSource()));
-		
-		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,"保存订单成功");
+		//查询消费记录表是否存在该订单
+		MSMemberConsumeRecords consumeRecords=baseDao.selectOne(null,"MSMemberConsumeRecordsMapper");
 		
 		/**冻结积分*/
 		/*resBodyData=pointsService.freezePointsAndAddRecord(memId,consumePoints,orderId,orderSource);*/
