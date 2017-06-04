@@ -2,7 +2,7 @@ package com.meiduimall.service.account.model.request;
 
 import java.io.Serializable;
 
-public class MemberConsumeMessageReq implements Serializable{
+public class MemberConsumeMessage implements Serializable{
 
  
 	private static final long serialVersionUID = -4100412753193648648L;

@@ -10,7 +10,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.usercenter.annotation.HasToken;
 import com.meiduimall.application.usercenter.constant.ConstApiStatus;
 import com.meiduimall.application.usercenter.interceptor.ValRequest;
-import com.meiduimall.application.usercenter.service.MemberOrderService;
+import com.meiduimall.application.usercenter.service.TradeService;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
 
@@ -19,12 +19,12 @@ import com.meiduimall.exception.ApiException;
  */
 @RestController
 @RequestMapping("/member/front_user_center/v1")
-public class MemberOrderV1Controller {
+public class TradeV1Controller {
 
-	private static Logger logger = LoggerFactory.getLogger(MemberOrderV1Controller.class);
+	private static Logger logger = LoggerFactory.getLogger(TradeV1Controller.class);
 	
 	@Autowired
-	private MemberOrderService memberOrderService;
+	private TradeService memberOrderService;
 	
 	/**
 	 * 当前商家退会员订单信息接口  http://IP:PORT/Authorized/BusinessRecedeOrder
@@ -45,7 +45,6 @@ public class MemberOrderV1Controller {
 		logger.info("当前商家退会员订单信息接口 API请求结果：{}",resBodyData.toString());
 		return resBodyData;
 	}
-	
 	
 	/**
 	 * 保存当前会员订单信息接口(免token校验) http://IP:PORT/Authorized/saveOrderNotoken

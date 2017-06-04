@@ -13,16 +13,16 @@ import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.usercenter.config.ProfileParamsConfig;
 import com.meiduimall.application.usercenter.constant.ConstApiStatus;
 import com.meiduimall.application.usercenter.constant.ConstSysParamsDefination;
-import com.meiduimall.application.usercenter.service.MemberOrderService;
+import com.meiduimall.application.usercenter.service.TradeService;
 import com.meiduimall.application.usercenter.util.HttpUtils;
 import com.meiduimall.application.usercenter.util.MD5Utils;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdSysException;
 
 @Component
-public class MemberOrderServiceImpl implements MemberOrderService{
+public class TradeServiceImpl implements TradeService{
 
-	private static Logger logger = LoggerFactory.getLogger(MemberOrderServiceImpl.class);	 
+	private static Logger logger = LoggerFactory.getLogger(TradeServiceImpl.class);	 
 	
 	@Autowired
 	private ProfileParamsConfig profile;

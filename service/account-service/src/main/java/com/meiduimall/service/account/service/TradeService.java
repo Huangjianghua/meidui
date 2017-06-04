@@ -2,7 +2,7 @@ package com.meiduimall.service.account.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.service.account.model.request.MemberConsumeMessageReq;
+import com.meiduimall.service.account.model.request.MSMemberConsumeRecordsReq;
 import com.meiduimall.service.account.model.request.RequestSaveOrder;
 import com.meiduimall.service.account.model.request.RequestCancelOrder;
 
@@ -70,13 +70,13 @@ public interface TradeService {
 	 * @param mmt
 	 * @return
 	 */
-	ResBodyData updateMemberOrder(MemberConsumeMessageReq mmt);
+	ResBodyData updateMemberOrder(MSMemberConsumeRecordsReq mmt);
 	
 	/**
 	 * 提交订单请求
 	 * @param mmt
 	 * @return
 	 */
-	ResBodyData saveMemberOrder(MemberConsumeMessageReq mmt);
+	ResBodyData saveMemberOrder(MSMemberConsumeRecordsReq mmt);
 
 }

@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdSysException;
 
-public interface MemberOrderService {
+public interface TradeService {
 
 	/**
 	 * 当前商家退会员订单信息接口
