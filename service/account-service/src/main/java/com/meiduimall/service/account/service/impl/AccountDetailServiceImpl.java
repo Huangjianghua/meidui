@@ -10,8 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.service.AccountDetailService;
+import com.meiduimall.service.account.service.AccountReportService;
 import com.meiduimall.service.account.service.AccountService;
 import com.meiduimall.service.account.util.DateUtil;
 import com.meiduimall.service.account.util.DoubleCalculate;
@@ -32,6 +34,9 @@ public class AccountDetailServiceImpl implements AccountDetailService{
 	
 	@Autowired
 	private AccountService accountServices;
+	
+	@Autowired
+	private AccountReportService accountReportService;
 	
 	@Override
 	public void saveAddAccountDetail(String memId, String orderId,
@@ -88,9 +93,9 @@ public class AccountDetailServiceImpl implements AccountDetailService{
 	@Override
 	public void saveAddConsumePoints(String memId, String orderId,
 			String orderSource, String consumePoints, String operatorType,
-			String operator, String remark) {
+			String operator, String remark) throws MdSysException {
 		
-		double realPoints = accountServices.getUseConsumePoints(memId);
+		double realPoints =accountReportService.getAvailablePoints(memId);
 
 		String balancePoints = String.valueOf(DoubleCalculate.add(realPoints,
 				Double.valueOf(consumePoints)));
@@ -103,9 +108,9 @@ public class AccountDetailServiceImpl implements AccountDetailService{
 	@Override
 	public void saveCutConsumePoints(String memId, String orderId,
 			String orderSource, String consumePoints, String operatorType,
-			String operator, String remark) {
+			String operator, String remark) throws MdSysException {
 		
-		double realPoints = accountServices.getUseConsumePoints(memId);
+		double realPoints = accountReportService.getAvailablePoints(memId);
 
 		String balancePoints = String.valueOf(DoubleCalculate.sub(realPoints,
 				Double.valueOf(consumePoints)));
@@ -119,8 +124,8 @@ public class AccountDetailServiceImpl implements AccountDetailService{
 	public void saveConsumePoints(String memId, String orderId,
 			String orderSource, String inConsumePoints,
 			String outConsumePoints, String operatorType, String operator,
-			String remark) {
-		double realPoints = accountServices.getUseConsumePoints(memId);
+			String remark) throws MdSysException {
+		double realPoints = accountReportService.getAvailablePoints(memId);
 
 		String balancePoints = String.valueOf(DoubleCalculate.add(realPoints,
 				Double.valueOf(inConsumePoints))); //收入

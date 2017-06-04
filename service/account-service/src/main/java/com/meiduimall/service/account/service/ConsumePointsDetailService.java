@@ -7,23 +7,13 @@ import com.meiduimall.service.account.dto.ServiceToServiceDTO;
 import com.meiduimall.service.account.model.MSConsumePointsDetail;
 import com.meiduimall.service.account.model.MSConsumePointsDetailGet;
 
+/**
+ * 积分明细业务逻辑接口
+ * @author chencong
+ *
+ */
+public interface ConsumePointsDetailService {
 
-public interface MSConsumePointsDetailService {
-
-	/**
-	 * 方法名: saveAddConsumePoints<br>
-	 * 描述:  保存会员积分明细，交易收入时调用<br>
-	 * 编写者:  admin <br>
-	 * 创建时间: 2016-10-28
-	 * @param memId
-	 * @param orderId
-	 * @param orderSource
-	 * @param consumePoints
-	 * @param operatorType
-	 * @param operator
-	 * @param remark
-	 */
-	public void saveAddConsumePoints(String memId, String orderId,String orderSource, String consumePoints, String operatorType,String operator, String remark) throws Exception;
 	
 	/**
 	 * 方法名: saveConsumePoints<br>

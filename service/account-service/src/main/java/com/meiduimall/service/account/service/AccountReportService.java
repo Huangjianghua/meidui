@@ -1,5 +1,6 @@
 package com.meiduimall.service.account.service;
 
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.model.MSAccountReport;
 
 /**
@@ -14,12 +15,28 @@ public interface AccountReportService {
 	 * @param memId 会员ID
 	 * @return
 	 */
-	public MSAccountReport getTotalAndFreezeBalanceByMemId(String memId);
+	MSAccountReport getTotalAndFreezeBalanceByMemId(String memId);
 	
 	/**
 	 * 根据memId获取当前会员可用总余额
 	 * @param memId 会员ID
 	 * @return
 	 */
-	public Double getAvailableBalance(String memId);
+	Double getAvailableBalance(String memId);
+
+	/**
+	 * 根据memId获取当前会员可用总积分
+	 * @param memId 会员ID
+	 * @return
+	 * @throws MdSysException 
+	 */
+	Double getAvailablePoints(String memId) throws MdSysException;
+
+	/**
+	 * 根据memId获取当前会员非冻结解冻的积分
+	 * @param memId 会员ID
+	 * @return
+	 * @throws MdSysException
+	 */
+	Double getCurrentPointsByMemId(String memId) throws MdSysException;
 }

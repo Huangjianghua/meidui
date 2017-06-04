@@ -1,5 +1,7 @@
 package com.meiduimall.service.account.service;
 
+import com.meiduimall.exception.MdSysException;
+
 /**
  * 积分冻结解冻明细业务逻辑接口
  * @author chencong
@@ -7,34 +9,13 @@ package com.meiduimall.service.account.service;
  */
 public interface ConsumePointsFreezeInfoService {
 
+		
 	/**
-	 * 方法名: getConsumePoints<br>
-	 * 描述:  获取可用美兑积分<br>
-	 * 编写者:  admin <br>
-	 * 创建时间: 2016-10-31
-	 * @param memId
-	 * @return
+	 * 根据memId查询当前会员冻结解冻积分的总和
+	 * @param memId 会员ID
+	 * @return 冻结解冻积分的总和
 	 */
-	public Double getConsumePoints(String memId) throws Exception;
-	
-	/**
-	 * 方法名: queryFreezePoints<br>
-	 * 描述:  查询会员冻结积分<br>
-	 * 编写者:  admin <br>
-	 * 创建时间: 2016-10-28
-	 * @param memId
-	 * @return
-	 */
-	public Double queryFreezePoints(String memId) throws Exception;
-	
-	/**
-	 * 方法名: getFreezeConsumePoints<br>
-	 * 描述:  获取冻结美兑积分<br>
-	 * 创建时间: 2016-12-1
-	 * @param memId
-	 * @return
-	 */
-	public Double getFreezeConsumePoints(String memId);
+	public Double getFreezeUnFreezePointsSumByMemId(String memId);
 	
 	/**
 	 * 添加冻结美兑积分
@@ -46,10 +27,11 @@ public interface ConsumePointsFreezeInfoService {
 	 * @param operator
 	 * @param remark
 	 * @return
+	 * @throws MdSysException 
 	 */
 	public boolean addMDConsumePointsFreezeAndDetail(String memId,
 			String consumePoints, String orderId, String orderSource,
-			String operatorType, String operator, String remark);
+			String operatorType, String operator, String remark) throws MdSysException;
 	
 	/**
 	 * 解冻美兑积分，并增加解冻记录
@@ -61,8 +43,9 @@ public interface ConsumePointsFreezeInfoService {
 	 * @param operator
 	 * @param remark
 	 * @return
+	 * @throws MdSysException 
 	 */
 	public boolean cutMDConsumePointsFreezeAndDetail(String memId,
 			String consumePoints, String orderId, String orderSource,
-			String operatorType, String operator, String remark);
+			String operatorType, String operator, String remark) throws MdSysException;
 }

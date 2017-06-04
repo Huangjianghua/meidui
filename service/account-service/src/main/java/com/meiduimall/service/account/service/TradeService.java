@@ -2,6 +2,7 @@ package com.meiduimall.service.account.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.model.request.MSMemberConsumeRecordsReq;
 import com.meiduimall.service.account.model.request.RequestSaveOrder;
 import com.meiduimall.service.account.model.request.RequestCancelOrder;
@@ -76,7 +77,8 @@ public interface TradeService {
 	 * 提交订单请求
 	 * @param mmt
 	 * @return
+	 * @throws MdSysException 
 	 */
-	ResBodyData saveMemberOrder(MSMemberConsumeRecordsReq mmt);
+	ResBodyData saveMemberOrder(MSMemberConsumeRecordsReq mmt) throws MdSysException;
 
 }

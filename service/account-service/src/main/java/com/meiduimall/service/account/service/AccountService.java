@@ -39,24 +39,6 @@ public interface AccountService {
 	 */
 	public Boolean insertAccountByType(MSAccount msAccount);
 	
-
-	/**
-	 * 查询当前会员美兑积分总额
-	 * @param memId 会员ID
-	 * @return 美兑积分总额
-	 */
-	public Double getTotalConsumePoints(String memId);
-
-	
-	/**
-	 * 查询当前会员可用美兑积分总额
-	 * @param memId 会员ID
-	 * @return 可用美兑积分总额
-	 */
-	public Double getUseConsumePoints(String memId);
-	
-	
-	
 	/**
 	 * 方法名: getAccount<br>
 	 * 描述: 获取会员余额账户信息 <br>

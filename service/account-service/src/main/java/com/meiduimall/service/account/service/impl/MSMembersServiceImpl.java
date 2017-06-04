@@ -18,7 +18,6 @@ import com.meiduimall.service.account.model.SubMemberIntegral;
 import com.meiduimall.service.account.model.response.ResponseAccountBalance;
 import com.meiduimall.service.account.model.response.ResponsePersonalConsumptionPoints;
 import com.meiduimall.service.account.service.AccountReportService;
-import com.meiduimall.service.account.service.AccountService;
 import com.meiduimall.service.account.service.MSMembersService;
 import com.meiduimall.service.account.util.Arith;
 import com.meiduimall.service.account.util.DESC;
@@ -30,12 +29,6 @@ public class MSMembersServiceImpl implements MSMembersService {
 
 	@Autowired
 	private BaseDao baseDao;
-
-	@Autowired
-	private AccountService accountService;
-	
-/*	@Autowired
-	private MSConsumePointsFreezeService mSConsumePointsFreezeService;*/
 	
 	@Autowired
 	private AccountReportService accountReportService;
@@ -46,7 +39,7 @@ public class MSMembersServiceImpl implements MSMembersService {
 	}
 
 	@Override
-	public ResponseAccountBalance getAccountBalance(String memId) {
+	public ResponseAccountBalance getAccountBalance(String memId) throws MdSysException {
 
 		// 先查询用户是否存在
 		if (!checkUserIsExistByMemId(memId)) {
@@ -55,7 +48,7 @@ public class MSMembersServiceImpl implements MSMembersService {
 
 		// 目前暂时使用accountService提供的方法，不过这些方法还不确定是否正常，待确定后再调整
 		// 全部积分，含冻结积分
-		Double totalConsumePoints = accountService.getTotalConsumePoints(memId);
+		Double totalConsumePoints = accountReportService.getCurrentPointsByMemId(memId);
 		// 冻结积分
 /*		Double freezeConsumePoints = mSConsumePointsFreezeService.getFreezeConsumePoints(memId);*/
 		Double freezeConsumePoints =0.00;

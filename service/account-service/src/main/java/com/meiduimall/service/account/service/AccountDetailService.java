@@ -2,6 +2,8 @@ package com.meiduimall.service.account.service;
 
 import java.util.Date;
 
+import com.meiduimall.exception.MdSysException;
+
 /**
  * 账户明细操作接口
  * @author chencong
@@ -57,10 +59,11 @@ public interface AccountDetailService {
 	 * @param operatorType
 	 * @param operator
 	 * @param remark
+	 * @throws MdSysException 
 	 */
 	public void saveAddConsumePoints(String memId, String orderId,
 			String orderSource, String consumePoints, String operatorType,
-			String operator, String remark);
+			String operator, String remark) throws MdSysException;
 	
 	/**
 	 * 方法名: saveCutConsumePoints<br>
@@ -74,10 +77,11 @@ public interface AccountDetailService {
 	 * @param operatorType
 	 * @param operator
 	 * @param remark
+	 * @throws MdSysException 
 	 */
 	public void saveCutConsumePoints(String memId, String orderId,
 			String orderSource, String consumePoints, String operatorType,
-			String operator, String remark);
+			String operator, String remark) throws MdSysException;
 
 	/**
 	 * 方法名: saveConsumePoints<br>
@@ -92,11 +96,12 @@ public interface AccountDetailService {
 	 * @param operatorType
 	 * @param operator
 	 * @param remark
+	 * @throws MdSysException 
 	 */
 	public void saveConsumePoints(String memId, String orderId,
 			String orderSource, String inConsumePoints,
 			String outConsumePoints, String operatorType, String operator,
-			String remark);
+			String remark) throws MdSysException;
 	
 	/**
 	 * 方法名: saveConsumePoints<br>

@@ -17,7 +17,7 @@ import com.meiduimall.redis.util.RedisTemplate;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.dto.ServiceToServiceDTO;
 import com.meiduimall.service.account.service.AuthorizationPointsService;
-import com.meiduimall.service.account.service.MSConsumePointsDetailService;
+import com.meiduimall.service.account.service.ConsumePointsDetailService;
 
 /**
  * 类名:  AuthorizationPointsAction<br>
@@ -32,7 +32,7 @@ public class AuthorizationPointsServiceImpl implements AuthorizationPointsServic
 	@Autowired
 	private  BaseDao baseDao;
 	@Autowired
-	private  MSConsumePointsDetailService   mSConsumePointsDetailService;
+	private  ConsumePointsDetailService   mSConsumePointsDetailService;
 	@Override
 	public String getPointsDetailOfToken(JSONObject jsonobj,HttpServletRequest request,
 			HttpServletResponse response) throws Exception {

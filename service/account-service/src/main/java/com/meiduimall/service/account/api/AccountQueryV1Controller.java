@@ -24,6 +24,7 @@ import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.MdBizException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.model.MSAccountDetail;
@@ -217,9 +218,10 @@ public class AccountQueryV1Controller {
 	 * @param memId 会员Id
 	 * @return json串
 	 * @author yangchangfu
+	 * @throws MdSysException 
 	 */
 	@RequestMapping(value = "/getAccountBalanceForApp_old")
-	public String getAccountBalanceForApp_old(String memId) {
+	public String getAccountBalanceForApp_old(String memId) throws MdSysException {
 		ResponseOldAccountBalance result = new ResponseOldAccountBalance();
 		if (Strings.isNullOrEmpty(memId)) {
 			result.setStatusCode(String.valueOf(ConstApiStatus.REQUIRED_PARAM_EMPTY));
@@ -245,9 +247,10 @@ public class AccountQueryV1Controller {
 	 * @param memId 会员Id
 	 * @return 结果数据
 	 * @author yangchangfu
+	 * @throws MdSysException 
 	 */
 	@RequestMapping(value = "/getAccountBalanceForApp")
-	public ResBodyData getAccountBalanceForApp(String memId) {
+	public ResBodyData getAccountBalanceForApp(String memId) throws MdSysException {
 		if (Strings.isNullOrEmpty(memId)) {
 			throw new ApiException(ConstApiStatus.REQUIRED_PARAM_EMPTY);
 		}

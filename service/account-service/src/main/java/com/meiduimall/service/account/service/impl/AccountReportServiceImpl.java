@@ -5,11 +5,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSAccountReport;
 import com.meiduimall.service.account.service.AccountReportService;
+import com.meiduimall.service.account.service.ConsumePointsFreezeInfoService;
+import com.meiduimall.service.account.util.DESC;
+import com.meiduimall.service.account.util.DoubleCalculate;
 
 /**
  * 会员账户汇总信息业务逻辑接口{@link=AccountReportService}实现类
@@ -23,6 +27,9 @@ public class AccountReportServiceImpl implements AccountReportService {
 
 	@Autowired
 	private BaseDao baseDao;
+	
+	@Autowired
+	private ConsumePointsFreezeInfoService consumePointsFreezeInfoService;
 
 	@Override
 	public MSAccountReport getTotalAndFreezeBalanceByMemId(String memId) {
@@ -40,6 +47,16 @@ public class AccountReportServiceImpl implements AccountReportService {
 		return model.getBalance()-model.getFreezeBalance();
 	}
 	
+	@Override
+	public Double getAvailablePoints(String memId) throws MdSysException {
+		return  DoubleCalculate.add(this.getCurrentPointsByMemId(memId),consumePointsFreezeInfoService.getFreezeUnFreezePointsSumByMemId(memId));
+	}
 	
+	@Override
+	public Double getCurrentPointsByMemId(String memId) throws MdSysException {
+		String currentPoints=baseDao.selectOne(memId,"MSMembersMapper.getCurrentPointsByMemId");
+		return Double.valueOf(DESC.deyption(currentPoints,memId));
+	}
+
 
 }

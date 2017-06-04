@@ -3,6 +3,7 @@ package com.meiduimall.service.account.service;
 import java.util.Date;
 import java.util.List;
 
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.model.MSAccountFreezeDetail;
 
 /**
@@ -58,9 +59,10 @@ public interface AccountFreezeDetailService {
 	 * @param freezePoints
 	 * @param operator
 	 * @param remark
+	 * @throws MdSysException 
 	 */
 	public void saveFreezePoints(String memId, String orderId,
-			String freezePoints, String operator, String remark);
+			String freezePoints, String operator, String remark) throws MdSysException;
 	
 	/**
 	 * 方法名: saveUnFreezePoints<br>
@@ -72,9 +74,10 @@ public interface AccountFreezeDetailService {
 	 * @param unFreezePoints
 	 * @param operator
 	 * @param remark
+	 * @throws MdSysException 
 	 */
 	public void saveUnFreezePoints(String memId, String orderId,
-			String unFreezePoints, String operator, String remark);
+			String unFreezePoints, String operator, String remark) throws MdSysException;
 	
 	/**
 	 * 方法名: getAccountFreezeByOrderId<br>

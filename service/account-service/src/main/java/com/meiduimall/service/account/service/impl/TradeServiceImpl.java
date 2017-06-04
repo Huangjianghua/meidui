@@ -20,20 +20,17 @@ import com.meiduimall.exception.MdSysException;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.constant.ConstPointsChangeType;
-import com.meiduimall.service.account.constant.ConstPointsFinalType;
 import com.meiduimall.service.account.constant.ConstSysParamsDefination;
 import com.meiduimall.service.account.constant.ConstTradeType;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSAccount;
 import com.meiduimall.service.account.model.MSAccountFreezeDetail;
-import com.meiduimall.service.account.model.MSAccountReport;
 import com.meiduimall.service.account.model.MSBankAccount;
 import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
 import com.meiduimall.service.account.model.MSConsumePointsFreezeInfo;
 import com.meiduimall.service.account.model.MSMemberConsumeRecords;
 import com.meiduimall.service.account.model.MSMemberIntegral;
 import com.meiduimall.service.account.model.request.MSMemberConsumeRecordsReq;
-import com.meiduimall.service.account.model.request.MemberConsumeMessage;
 import com.meiduimall.service.account.model.request.RequestSaveOrder;
 import com.meiduimall.service.account.model.request.RequestCancelOrder;
 import com.meiduimall.service.account.service.AccountAdjustService;
@@ -44,9 +41,8 @@ import com.meiduimall.service.account.service.AccountService;
 import com.meiduimall.service.account.service.BankAccountService;
 import com.meiduimall.service.account.service.BankWithdrawDepositService;
 import com.meiduimall.service.account.service.ConsumeRecordsService;
-import com.meiduimall.service.account.service.MSConsumePointsDetailService;
+import com.meiduimall.service.account.service.ConsumePointsDetailService;
 import com.meiduimall.service.account.service.MSMemberConsumeRecordsService;
-import com.meiduimall.service.account.service.MoneyService;
 import com.meiduimall.service.account.service.TradeService;
 import com.meiduimall.service.account.service.ValidateService;
 import com.meiduimall.service.account.service.PointsService;
@@ -73,9 +69,6 @@ public class TradeServiceImpl implements TradeService {
 	private PointsService pointsService;
 
 	@Autowired
-	private MoneyService moneyService;
-
-	@Autowired
 	private AccountService accountServices;
 
 	@Autowired
@@ -88,7 +81,7 @@ public class TradeServiceImpl implements TradeService {
 	private AccountAdjustService accountAdjustService;
 
 	@Autowired
-	private MSConsumePointsDetailService pointsDetailService;
+	private ConsumePointsDetailService pointsDetailService;
 
 	@Autowired
 	private MSMemberConsumeRecordsService memberConsumeHistoryService;
@@ -735,7 +728,7 @@ public class TradeServiceImpl implements TradeService {
 
 	@Override
 	@Transactional
-	public ResBodyData saveMemberOrder(MSMemberConsumeRecordsReq mmt) {
+	public ResBodyData saveMemberOrder(MSMemberConsumeRecordsReq mmt) throws MdSysException {
 		JSONObject result = new JSONObject();
 		MSMemberConsumeRecords memConHis = new MSMemberConsumeRecords();
 

@@ -20,6 +20,7 @@ import com.meiduimall.service.account.model.request.RequestAccountAdjustAmount;
 import com.meiduimall.service.account.service.AccountAdjustService;
 import com.meiduimall.service.account.service.AccountDetailService;
 import com.meiduimall.service.account.service.AccountFreezeDetailService;
+import com.meiduimall.service.account.service.AccountReportService;
 import com.meiduimall.service.account.service.AccountService;
 import com.meiduimall.service.account.service.ValidateService;
 import com.meiduimall.service.account.util.DESC;
@@ -50,6 +51,9 @@ public class AccountAdjustServiceImpl implements AccountAdjustService {
 	
 	@Autowired
 	private AccountFreezeDetailService accountFreezeDetailService;
+	
+	@Autowired
+	private AccountReportService accountReportService;
 
 	@Override
 	public ResBodyData accountAdjustAmount(RequestAccountAdjustAmount model) {
@@ -69,7 +73,7 @@ public class AccountAdjustServiceImpl implements AccountAdjustService {
 	public boolean addMDConsumePoints(String memId, String consumePoints, boolean isLock) throws MdSysException {
 		boolean returnBool = false;
 		//增加基本账户总额
-		double addAtq = DoubleCalculate.add(accountService.getTotalConsumePoints(memId),
+		double addAtq = DoubleCalculate.add(accountReportService.getCurrentPointsByMemId(memId),
 				Double.valueOf(consumePoints));
 		//修改会员基本账户总额
 		if(updateAccountPoint(memId,addAtq)){
@@ -82,7 +86,7 @@ public class AccountAdjustServiceImpl implements AccountAdjustService {
 	public boolean cutMDConsumePoints(String memId, String consumePoints, boolean isLock) throws MdSysException {
 		boolean returnBool = false;
 		//扣除基本账户总额
-		double cutAtq = DoubleCalculate.sub(accountService.getTotalConsumePoints(memId),
+		double cutAtq = DoubleCalculate.sub(accountReportService.getCurrentPointsByMemId(memId),
 				Double.valueOf(consumePoints));
 		//修改会员基本账户总额
 		if(updateAccountPoint(memId,cutAtq)){
@@ -150,7 +154,7 @@ public class AccountAdjustServiceImpl implements AccountAdjustService {
 			String consumePoints, String orderId, String orderSource,
 			String operatorType, String operator, String remark) throws MdSysException {
 		//计算扣除后基本账户总额
-		double cutAtq = DoubleCalculate.sub(accountService.getTotalConsumePoints(memId),
+		double cutAtq = DoubleCalculate.sub(accountReportService.getCurrentPointsByMemId(memId),
 				Double.valueOf(consumePoints));
 		//调用扣除方法
 		boolean flag = cutMDConsumePoints(memId, consumePoints, false);

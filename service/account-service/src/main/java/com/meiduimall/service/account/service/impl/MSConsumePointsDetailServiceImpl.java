@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.meiduimall.exception.MdSysException;
@@ -19,23 +20,25 @@ import com.meiduimall.service.account.model.MSConsumePointsDetail;
 import com.meiduimall.service.account.model.MSConsumePointsDetailGet;
 import com.meiduimall.service.account.service.AccountAdjustService;
 import com.meiduimall.service.account.service.AccountDetailService;
+import com.meiduimall.service.account.service.AccountReportService;
 import com.meiduimall.service.account.service.AccountService;
-import com.meiduimall.service.account.service.MSConsumePointsDetailService;
+import com.meiduimall.service.account.service.ConsumePointsDetailService;
 import com.meiduimall.service.account.service.ConsumePointsFreezeInfoService;
 import com.meiduimall.service.account.util.DESC;
 import com.meiduimall.service.account.util.DateUtil;
 import com.meiduimall.service.account.util.DoubleCalculate;
 import com.meiduimall.service.account.util.StringUtil;
 
-
-@Component
-public class MSConsumePointsDetailServiceImpl implements MSConsumePointsDetailService {
+/**
+ * 积分明细业务逻辑接口{@link=ConsumePointsDetailService}实现类
+ * @author chencong
+ *
+ */
+@Service
+public class MSConsumePointsDetailServiceImpl implements ConsumePointsDetailService {
 
 	@Autowired
 	private BaseDao baseDao;
-	
-	@Autowired
-	private ConsumePointsFreezeInfoService   msConsumePointsFreezeService;
 	
 	@Autowired
 	private AccountAdjustService   accountAdjustService;
@@ -46,16 +49,9 @@ public class MSConsumePointsDetailServiceImpl implements MSConsumePointsDetailSe
 	@Autowired
 	private AccountService   accountService;
 	
-	@Override
-	public void saveAddConsumePoints(String memId, String orderId, String orderSource, String consumePoints,
-			String operatorType, String operator, String remark) throws Exception {
-		double realPoints = msConsumePointsFreezeService.getConsumePoints(memId);
-		String balancePoints = String.valueOf(DoubleCalculate.add(realPoints,Double.valueOf(consumePoints)));
-
-		insertConsumePointsDetail(memId, orderId, orderSource, consumePoints,
-				"0", balancePoints, operatorType, operator, remark);
-
-	}
+	@Autowired
+	private AccountReportService   accountReportService;
+	
 	/**
 	 * 方法名: insertConsumePointsDetail<br>
 	 * 描述:  写入会员积分消费明细<br>
@@ -203,7 +199,7 @@ public class MSConsumePointsDetailServiceImpl implements MSConsumePointsDetailSe
 			String consumePoints, String orderId, String orderSource,
 			String operatorType, String operator, String remark) throws MdSysException {
 		//增加基本账户总额
-		double addAtq = DoubleCalculate.add(accountService.getTotalConsumePoints(memId),
+		double addAtq = DoubleCalculate.add(accountReportService.getCurrentPointsByMemId(memId),
 				Double.valueOf(consumePoints));
 		//调用增加积分方法
 		boolean flag = accountAdjustService.addMDConsumePoints(memId, consumePoints, false);

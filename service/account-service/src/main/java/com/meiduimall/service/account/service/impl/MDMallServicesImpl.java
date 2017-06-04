@@ -19,7 +19,7 @@ import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.constant.ConstPointsChangeType;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.service.MDMallServices;
-import com.meiduimall.service.account.service.MSConsumePointsDetailService;
+import com.meiduimall.service.account.service.ConsumePointsDetailService;
 import com.meiduimall.service.account.util.DESC;
 import com.meiduimall.service.account.util.RequestURL;
 import com.meiduimall.service.account.util.SerialStringUtil;
@@ -39,7 +39,7 @@ public class MDMallServicesImpl implements MDMallServices {
 	@Autowired
 	private  BaseDao  baseDao;
 	@Autowired
-	private  MSConsumePointsDetailService msConsumePointsDetailService;
+	private  ConsumePointsDetailService msConsumePointsDetailService;
 
 	@Override
 	public String addMallPoints(JSONObject jsonobj, HttpServletRequest request, HttpServletResponse response)

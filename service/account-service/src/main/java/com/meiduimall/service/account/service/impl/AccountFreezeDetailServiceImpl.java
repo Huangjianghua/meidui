@@ -12,11 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.meiduimall.exception.MdBizException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.constant.ConstPointsChangeType;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSAccountFreezeDetail;
 import com.meiduimall.service.account.service.AccountFreezeDetailService;
+import com.meiduimall.service.account.service.AccountReportService;
 import com.meiduimall.service.account.service.AccountService;
 import com.meiduimall.service.account.util.DateUtil;
 import com.meiduimall.service.account.util.DoubleCalculate;
@@ -36,6 +38,9 @@ public class AccountFreezeDetailServiceImpl implements AccountFreezeDetailServic
 	
 	@Autowired
 	private AccountService accountServices;
+	
+	@Autowired
+	private AccountReportService accountReportService;
 	
 	@Override
 	public void saveAccountFreezeDetail(String memId, String orderId,
@@ -96,9 +101,9 @@ public class AccountFreezeDetailServiceImpl implements AccountFreezeDetailServic
 	
 	@Override
 	public void saveFreezePoints(String memId, String orderId,
-			String freezePoints, String operator, String remark) {
+			String freezePoints, String operator, String remark) throws MdSysException {
 		/** 冻结后积分余额 */
-		String balancePoints = String.valueOf(DoubleCalculate.sub(accountServices.getUseConsumePoints(memId), 
+		String balancePoints = String.valueOf(DoubleCalculate.sub(accountReportService.getAvailablePoints(memId), 
 				Double.valueOf(freezePoints)));
 		
 		Map<String,String> paramsMap = new HashMap<String,String>();
@@ -120,9 +125,9 @@ public class AccountFreezeDetailServiceImpl implements AccountFreezeDetailServic
 
 	@Override
 	public void saveUnFreezePoints(String memId, String orderId,
-			String unFreezePoints, String operator, String remark) {
+			String unFreezePoints, String operator, String remark) throws  MdSysException {
 		/** 解冻后积分余额 */
-		String balancePoints = String.valueOf(DoubleCalculate.add(accountServices.getUseConsumePoints(memId), 
+		String balancePoints = String.valueOf(DoubleCalculate.add(accountReportService.getAvailablePoints(memId), 
 				Double.valueOf(unFreezePoints)));
 		
 		Map<String,String> paramsMap = new HashMap<String,String>();

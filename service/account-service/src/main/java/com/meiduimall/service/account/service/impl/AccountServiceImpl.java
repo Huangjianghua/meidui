@@ -10,7 +10,6 @@ import com.meiduimall.service.account.constant.ConstSysParamsDefination;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSAccount;
 import com.meiduimall.service.account.service.AccountService;
-import com.meiduimall.service.account.service.ConsumePointsFreezeInfoService;
 import com.meiduimall.service.account.util.DESC;
 import com.meiduimall.service.account.util.DoubleCalculate;
 
@@ -24,9 +23,6 @@ public class AccountServiceImpl implements AccountService {
 	
 	@Autowired
 	private BaseDao baseDao;
-	
-	@Autowired
-	private ConsumePointsFreezeInfoService  pointsFreezeService;
 	
 	@Override
 	public MSAccount getAccountInfo(String memId, String accountTypeNo) {
@@ -53,35 +49,6 @@ public class AccountServiceImpl implements AccountService {
 		int i=baseDao.insert(msAccount,"MSAccountMapper.insertAccount");
 		return i>0?true:false;
 	}
-
-	
-	@Override
-	public Double getTotalConsumePoints(String memId) {
-		/** 获取当前积分总额   */
-		Double realPoints = Double.valueOf("0");
-		try{
-			String accountPoint = baseDao.selectOne(memId, "MSAccountMapper.getCurrentPointsByMemId");
-			realPoints = Double.valueOf(DESC.deyption(accountPoint,memId));
-		}catch(Exception e){
-			realPoints = Double.valueOf("0");
-		}
-		return realPoints;
-	}
-	
-
-	@Override
-	public Double getUseConsumePoints(String memId) {
-		/*** 计算积分余额 = 冻结前当前积分余额-当前冻结积分 **/
-		Double realPoints = Double.valueOf("0");
-		try{
-			realPoints = DoubleCalculate.add(pointsFreezeService.getFreezeConsumePoints(memId), 
-					getTotalConsumePoints(memId));
-		}catch(Exception e){
-			realPoints = Double.valueOf("0");
-		}
-		return realPoints;
-	}
-
 
 	@Override
 	public MSAccount getAccountMoney(String memId) {

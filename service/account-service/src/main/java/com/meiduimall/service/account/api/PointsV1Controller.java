@@ -30,7 +30,7 @@ import com.meiduimall.service.account.model.MSConsumePointsDetailGet;
 import com.meiduimall.service.account.model.MemberTransferHistory;
 import com.meiduimall.service.account.model.request.RequestPointTransfer;
 import com.meiduimall.service.account.service.MDMallServices;
-import com.meiduimall.service.account.service.MSConsumePointsDetailService;
+import com.meiduimall.service.account.service.ConsumePointsDetailService;
 import com.meiduimall.service.account.service.MembersPointsOpService;
 import com.meiduimall.service.account.service.PointsService;
 
@@ -58,7 +58,7 @@ public class PointsV1Controller {
 	private  MDMallServices mdmallServices;
 	
 	@Autowired
-	private MSConsumePointsDetailService mSConsumePointsDetailService;
+	private ConsumePointsDetailService mSConsumePointsDetailService;
 	
 	@Autowired
 	private PointsService pointsService;

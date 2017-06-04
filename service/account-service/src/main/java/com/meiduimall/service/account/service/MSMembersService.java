@@ -1,6 +1,7 @@
 package com.meiduimall.service.account.service;
 
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.model.MSMembers;
 import com.meiduimall.service.account.model.response.ResponseAccountBalance;
 
@@ -18,8 +19,9 @@ public interface MSMembersService {
 	 * @param memId
 	 * @param userId
 	 * @return
+	 * @throws MdSysException 
 	 */
-	public ResponseAccountBalance getAccountBalance(String memId);
+	public ResponseAccountBalance getAccountBalance(String memId) throws MdSysException;
 	
 	public boolean checkUserIsExistByMemId(String memId);
 
