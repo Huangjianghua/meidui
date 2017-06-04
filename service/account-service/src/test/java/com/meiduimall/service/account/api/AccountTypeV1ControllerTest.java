@@ -35,7 +35,7 @@ public class AccountTypeV1ControllerTest extends BaseControllerTest {
     	postResultAction.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				logger.info("单元测试>>查询财务调整相关的账户类型信息API>>执行结果:{}",result.getResponse().getContentAsString());;
+				logger.info("单元测试>>查询财务调整相关的账户类型信息API>>执行结果:{}",result.getResponse().getContentAsString());
 
 			}
 		});

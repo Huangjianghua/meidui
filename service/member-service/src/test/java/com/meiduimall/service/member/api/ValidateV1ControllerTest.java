@@ -1,7 +1,6 @@
 package com.meiduimall.service.member.api;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.mockito.Matchers.isNotNull;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -13,8 +12,11 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import com.meiduimall.core.Constants;
+import com.meiduimall.service.member.constant.ConstApiStatus;
+
 /**
- * 校验相关接口单元测试
+ * 校验相关API{@link=ValidateV1Controller}单元测试
  * @author chencong
  *
  */
@@ -28,7 +30,7 @@ public class ValidateV1ControllerTest extends BaseControllerTest {
 	    	/**存在的手机号*/
 	    	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/check_userid_exists?userid="+phone))
 	    	.andExpect(status().isOk())
-	    	.andExpect(jsonPath("$.status",is(8028)));
+	    	.andExpect(jsonPath("$.status",is(Constants.CONSTANT_INT_ZERO)));
 	    	
 	    	resultActions.andDo(new ResultHandler() {
 				@Override
@@ -39,7 +41,7 @@ public class ValidateV1ControllerTest extends BaseControllerTest {
 	    	
 	    	resultActions=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/check_userid_exists?userid=11111111"))
 	    	    	.andExpect(status().isOk())
-	    	    	.andExpect(jsonPath("$.status",is(0)));
+	    	    	.andExpect(jsonPath("$.status",is(ConstApiStatus.USERID_IS_NOT_EXIST)));
 	    	    	
 	    	    	resultActions.andDo(new ResultHandler() {
 	    				@Override

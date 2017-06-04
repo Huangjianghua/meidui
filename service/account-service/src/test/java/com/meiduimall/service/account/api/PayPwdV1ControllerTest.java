@@ -41,7 +41,7 @@ public class PayPwdV1ControllerTest extends BaseControllerTest {
     	postResultAction.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				logger.info("单元测试>>验证支付密码API>>执行结果:{}",result.getResponse().getContentAsString());;
+				logger.info("单元测试>>验证支付密码API>>执行结果:{}",result.getResponse().getContentAsString());
 			}
 		});
     }
@@ -61,7 +61,7 @@ public class PayPwdV1ControllerTest extends BaseControllerTest {
     	postResultAction.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				logger.info("单元测试>>设置支付密码API>>执行结果:{}",result.getResponse().getContentAsString());;
+				logger.info("单元测试>>设置支付密码API>>执行结果:{}",result.getResponse().getContentAsString());
 
 			}
 		});
@@ -86,8 +86,7 @@ public class PayPwdV1ControllerTest extends BaseControllerTest {
     	postResultAction.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-
-				logger.info("单元测试>>修改支付密码API>>正确的旧密码>>执行结果:{}",result.getResponse().getContentAsString());;
+				logger.info("单元测试>>修改支付密码API>>正确的旧密码>>执行结果:{}",result.getResponse().getContentAsString());
 			}
 		});
     	
@@ -103,8 +102,7 @@ public class PayPwdV1ControllerTest extends BaseControllerTest {
     	postResultAction.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				logger.info("单元测试>>修改支付密码API>>不正确的旧密码>>执行结果:{}",result.getResponse().getContentAsString());;
-
+				logger.info("单元测试>>修改支付密码API>>不正确的旧密码>>执行结果:{}",result.getResponse().getContentAsString());
 			}
 		});
     }

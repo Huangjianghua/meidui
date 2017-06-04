@@ -22,8 +22,8 @@ import com.meiduimall.service.account.model.MSAccount;
 import com.meiduimall.service.account.model.MSBankAccount;
 import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
 import com.meiduimall.service.account.model.MSMemberConsumeHistory;
-import com.meiduimall.service.account.model.request.RequestFreezeUnFreeze;
-import com.meiduimall.service.account.model.request.RequestUnfreezeDecut;
+import com.meiduimall.service.account.model.request.RequestSaveOrder;
+import com.meiduimall.service.account.model.request.RequestCancelOrder;
 import com.meiduimall.service.account.service.AccountAdjustService;
 import com.meiduimall.service.account.service.AccountService;
 import com.meiduimall.service.account.service.BankAccountService;
@@ -31,11 +31,18 @@ import com.meiduimall.service.account.service.BankWithdrawDepositService;
 import com.meiduimall.service.account.service.MSConsumePointsDetailService;
 import com.meiduimall.service.account.service.MoneyService;
 import com.meiduimall.service.account.service.TradeService;
+import com.meiduimall.service.account.service.ValidateService;
 import com.meiduimall.service.account.service.PointsService;
 import com.meiduimall.service.account.util.DoubleCalculate;
 import com.meiduimall.service.account.util.GenerateNumber;
+import com.meiduimall.service.account.util.SerialStringUtil;
 import com.meiduimall.service.account.util.StringUtil;
 
+/**
+ * 订单交易相关逻辑接口{@link=TradeService}实现类
+ * @author chencong
+ *
+ */
 @Service
 public class TradeServiceImpl implements TradeService {
 	
@@ -65,24 +72,27 @@ public class TradeServiceImpl implements TradeService {
 	@Autowired
 	private MSConsumePointsDetailService pointsDetailService;
 	
+	@Autowired
+	private ValidateService validateService;
+	
 	@Override
-	public ResBodyData freezeUnfreeze(RequestFreezeUnFreeze param){
-		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
-		String memId=param.getMemId();
-		Double consumePoints=param.getConsume_points();
-		Double consumeMoney=param.getConsume_money();
-		String orderId=param.getOrderID();
-		String orderSource=param.getOrder_source();
+	public ResBodyData saveOrder(RequestSaveOrder model){
+		//校验交易金额
+		validateService.checkConsumeAmountRelation(model.getConsumeAmount(),model.getConsumeMoney(),model.getConsumePoints());
+		//将数据来源转换为字典值
+		model.setOrderSource(SerialStringUtil.getDictOrderSource(model.getOrderSource()));
+		
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,"保存订单成功");
 		
 		/**冻结积分*/
-		resBodyData=pointsService.freezePointsAndAddRecord(memId,consumePoints,orderId,orderSource);
+		/*resBodyData=pointsService.freezePointsAndAddRecord(memId,consumePoints,orderId,orderSource);*/
 		logger.info("冻结积分结果：{}",resBodyData.toString());
 		if(resBodyData.getStatus()!=0){
 			return resBodyData;
 		}
 		
 		/**冻结余额*/
-		resBodyData=moneyService.freezeMoneyAndAddRecord(memId,consumeMoney,orderId,orderSource);
+		/*resBodyData=moneyService.freezeMoneyAndAddRecord(memId,consumeMoney,orderId,orderSource);*/
 		logger.info("冻结余额结果：{}",resBodyData.toString());
 		if(resBodyData.getStatus()!=0){
 			return resBodyData;
@@ -92,30 +102,24 @@ public class TradeServiceImpl implements TradeService {
 	}
 	
 	@Override
-	public ResBodyData unfreezeDeduct(RequestUnfreezeDecut param) throws MdSysException {
+	public ResBodyData cancelOrder(RequestCancelOrder model)  {
 		ResBodyData resBodyData=new ResBodyData(null,null);
-		String memId=param.getMemId();
-		Double consumePoints=param.getConsume_points();
-		Double consumeMoney=param.getConsume_money();
-		String orderId=param.getOrderID();
-		String orderSource=param.getOrder_source();
-		String productName=param.getProduct_name();
-		String payType=param.getPay_type();
+		String memId=model.getMemId();
 		/**解冻并扣减积分*/
 		Map<String,Object> dataMap=new HashMap<>();
-		if(pointsService.getFreezeUnfreezeRecordByOrderId(orderId)){
+		/*if(pointsService.getFreezeUnfreezeRecordByOrderId(orderId)){
 			pointsService.unFreezePointsAndAddRecord(memId,consumePoints,orderId,orderSource,dataMap);
 			pointsService.deductPointsAndAddRecord(memId,consumePoints,orderId,orderSource,dataMap);
 			}
-		/**解冻并扣减余额*/
+		*//**解冻并扣减余额*//*
 		if(moneyService.getFreezeUnfreezeRecordByOrderId(orderId)){
 			moneyService.unFreezeMoneyAndAddRecord(memId,consumeMoney,orderId,orderSource,dataMap);
 			moneyService.deductMoneyAndAddRecord(memId,consumeMoney,orderId,orderSource,dataMap);
-		}
+		}*/
 		resBodyData.setData(dataMap);
 		/**写入会员消费记录*/
 		MSMemberConsumeHistory history = new MSMemberConsumeHistory();
-		history.setMchId(UUID.randomUUID().toString());
+		/*history.setMchId(UUID.randomUUID().toString());
 		history.setMemId(memId);
 		history.setOrderId(orderId);
 		history.setMchProductName(productName);
@@ -125,7 +129,7 @@ public class TradeServiceImpl implements TradeService {
 		history.setMchStatus("1");
 		history.setMchConsumePointsCount(consumePoints);
 		history.setMchShoppingCouponCount(consumeMoney);
-		history.setMchSettingStatus(1);
+		history.setMchSettingStatus(1);*/
 		history.setMchIssueStatus(1);
 		try {
 			this.saveMemberTradeHistory(history);

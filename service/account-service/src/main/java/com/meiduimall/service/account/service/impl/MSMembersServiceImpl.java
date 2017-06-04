@@ -90,7 +90,7 @@ public class MSMembersServiceImpl implements MSMembersService {
 		// 获取个人账户积分
 		MSMembers members = baseDao.selectOne(memId, "MSMembersMapper.getQuantityByMemId");
 		ResponsePersonalConsumptionPoints data = new ResponsePersonalConsumptionPoints();
-		try {
+		/*try {
 			if (!Strings.isNullOrEmpty(members.getMemBasicAccountTotalQuantity())) {
 				data.setAccountIntegral(DoubleCalculate
 						.getFormalValueTwo(DESC.deyption(members.getMemBasicAccountTotalQuantity(), memId)));
@@ -100,15 +100,15 @@ public class MSMembersServiceImpl implements MSMembersService {
 		} catch (MdSysException e) {
 			logger.error("解密会员积分异常：" + e);
 			throw new ServiceException(ConstApiStatus.DECRYPTION_EXCEPTION);
-		}
+		}*/
 
 		// 个人消费金额、粉丝团总消费
 		MsPersonalConsumption consumption = baseDao.selectOne(memId, "MsPersonalConsumptionMapper.getEntityByMemId");
 		String consumMoney = "0.00";
 		String allChildMoney = "0.00";
 		if (consumption != null) {
-			consumMoney = DoubleCalculate.getFormalValueTwo(consumption.getPersonalMoney());
-			allChildMoney = DoubleCalculate.getFormalValueTwo(consumption.getAllchildMoney());
+			/*consumMoney = DoubleCalculate.getFormalValueTwo(consumption.getPersonalMoney());
+			allChildMoney = DoubleCalculate.getFormalValueTwo(consumption.getAllchildMoney());*/
 		}
 		data.setConsumMoney(consumMoney);
 		data.setAllChildMoney(allChildMoney);
@@ -139,8 +139,8 @@ public class MSMembersServiceImpl implements MSMembersService {
 				if (allFansXfc < 0) {
 					allFansXfc = 0.000;
 				}
-				consumptionPersonal = DoubleCalculate.getFormalValueTwo(String.valueOf(xfc));
-				allChildIntegral = DoubleCalculate.getFormalValueTwo(String.valueOf(allFansXfc));
+			/*	consumptionPersonal = DoubleCalculate.getFormalValueTwo(String.valueOf(xfc));
+				allChildIntegral = DoubleCalculate.getFormalValueTwo(String.valueOf(allFansXfc));*/
 			} catch (MdSysException e) {
 				logger.error("解密会员积分异常：" + e);
 				throw new ServiceException(ConstApiStatus.DECRYPTION_EXCEPTION);

@@ -35,13 +35,13 @@ public class AccountTypeServiceImpl implements AccountTypeService {
 	}
 
 	@Override
-	public synchronized Long updateSequenceByAccountTypeNo(String accountTypeNo) {
-		Long newSequence=this.getSequenceByAccountTypeNo(accountTypeNo)+1;
+	public Long updateSequenceByAccountTypeNo(String accountTypeNo) {
+		Long sequence=this.getSequenceByAccountTypeNo(accountTypeNo);
 		Map<String,Object> mapCondition=new HashMap<>();
 		mapCondition.put("accountTypeNo", accountTypeNo);
-		mapCondition.put("newSequence", newSequence);
+		mapCondition.put("sequence", sequence);
 		baseDao.update(mapCondition,"MSAccountTypeMapper.updateSequenceByAccountTypeNo");
-		return newSequence;
+		return this.getSequenceByAccountTypeNo(accountTypeNo);
 	}
 
 }
