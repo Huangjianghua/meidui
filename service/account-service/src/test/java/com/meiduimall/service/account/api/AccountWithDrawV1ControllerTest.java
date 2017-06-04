@@ -43,7 +43,7 @@ public class AccountWithDrawV1ControllerTest extends BaseControllerTest {
     	postResultAction.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				logger.info("单元测试>>提现明细API>>执行结果:{}",result.getResponse().getContentAsString());;
+				logger.info("单元测试>>提现明细API>>执行结果:{}",result.getResponse().getContentAsString());
 
 			}
 		});

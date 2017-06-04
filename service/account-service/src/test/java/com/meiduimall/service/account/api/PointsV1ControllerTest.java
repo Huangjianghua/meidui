@@ -43,7 +43,7 @@ public class PointsV1ControllerTest extends BaseControllerTest {
     	postResultAction.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				logger.info("单元测试>>积分流水分页API>>执行结果:{}",result.getResponse().getContentAsString());;
+				logger.info("单元测试>>积分流水分页API>>执行结果:{}",result.getResponse().getContentAsString());
 			}
 		});
     }
@@ -66,7 +66,7 @@ public class PointsV1ControllerTest extends BaseControllerTest {
     	postResultAction.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				logger.info("单元测试>>积分转账列表API>>执行结果:{}",result.getResponse().getContentAsString());;
+				logger.info("单元测试>>积分转账列表API>>执行结果:{}",result.getResponse().getContentAsString());
 			}
 		});
     }

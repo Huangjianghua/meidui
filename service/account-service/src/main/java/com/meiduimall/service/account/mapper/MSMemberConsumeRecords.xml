@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 会员消费记录表ms_member_consume_records相关操作 -->
+<mapper namespace="MSMemberConsumeRecordsMapper">
+
+ <resultMap id="MsConcumeRecordsResultMap" type="com.meiduimall.service.account.model.MSMemberConsumeRecords" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="mem_id" property="memId" jdbcType="VARCHAR" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="consume_amount" property="consumeAmount" jdbcType="DECIMAL" />
+    <result column="consume_money" property="consumeMoney" jdbcType="DECIMAL" />
+    <result column="consume_points" property="consumePoints" jdbcType="DECIMAL" />
+    <result column="trade_time" property="tradeTime" jdbcType="DATE" />
+    <result column="order_source" property="orderSource" jdbcType="VARCHAR" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="pay_type" property="payType" jdbcType="INTEGER" />
+    <result column="order_status" property="orderStatus" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="DATE" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="DATE" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+	
+	<!-- 根据条件查询会员消费记录信息 -->
+	<select id="getConsumeRecordsByContidion" parameterType="com.meiduimall.service.account.model.MSMemberConsumeRecords" resultMap="MsConcumeRecordsResultMap">
+		SELECT m.* 
+		FROM ms_member_consume_records m 
+		WHERE 1=1
+		AND m.order_id=#{orderId},
+		AND m.order_source=#{orderSource},
+		AND m.order_status=#{orderStatus}
+	</select>
+
+	<!-- 插入会员消费记录 -->
+	<insert id="insertConsumeRecords" parameterType="com.meiduimall.service.account.model.MSMemberConsumeRecords">
+		INSERT INTO ms_member_consume_records
+			VALUES(
+				#{id},
+				#{memId},
+				#{orderId},
+				#{consumeAmount},
+				#{consumeMoney},
+				#{consumePoints},
+				#{tradeTime},
+				#{orderSource},
+				#{productName},
+				#{payType},
+				#{orderStatus},
+				#{createDate},
+				#{createUser},
+				#{updateDate},
+				#{updateUser},
+				#{remark}
+				)
+	</insert>
+
+</mapper>

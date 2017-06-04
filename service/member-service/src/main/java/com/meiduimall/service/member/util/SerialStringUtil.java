@@ -16,7 +16,7 @@ public class SerialStringUtil {
 	 */
 	public static String getDictOrderSource(String orderSource){
 		String dictOrderSource = "";
-		String upperOrderSource = orderSource.toUpperCase();
+		String upperOrderSource = orderSource.toLowerCase();
 		switch (upperOrderSource) {
 		case "1gw":
 			dictOrderSource = ConstSysEncrypParams.ORDER_SOURCE_1GW;

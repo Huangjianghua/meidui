@@ -48,7 +48,7 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 	 */
     @Test
     public void getAvailableBalance() throws Exception{
-    	//账户存在
+    	//当前会员账户存在
     	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/v1/get_available_balance?memId="+memId))
     			.andExpect(status().isOk())
     			.andExpect(jsonPath("$.status",is(Constants.CONSTANT_INT_ZERO)));
@@ -68,7 +68,7 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
     	postResultAction.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				logger.info("单元测试>>查询当前会员可用余额API>>账户不存在>>执行结果:{}",result.getResponse().getContentAsString());;
+				logger.info("单元测试>>查询当前会员可用余额API>>账户不存在>>执行结果:{}",result.getResponse().getContentAsString());
 			}
 		});
     }
@@ -87,7 +87,7 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
     	postResultAction.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				logger.info("单元测试>>余额流水分页API>>执行结果:{}",result.getResponse().getContentAsString());;
+				logger.info("单元测试>>余额流水分页API>>执行结果:{}",result.getResponse().getContentAsString());
 
 			}
 		});

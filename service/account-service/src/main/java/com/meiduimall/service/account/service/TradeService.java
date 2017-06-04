@@ -2,31 +2,29 @@ package com.meiduimall.service.account.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.exception.MdSysException;
-import com.meiduimall.service.account.model.request.RequestFreezeUnFreeze;
-import com.meiduimall.service.account.model.request.RequestUnfreezeDecut;
+import com.meiduimall.service.account.model.request.RequestSaveOrder;
+import com.meiduimall.service.account.model.request.RequestCancelOrder;
 
 /**
- * 订单交易相关
+ * 订单交易相关逻辑接口
  * @author chencong
  *
  */
 public interface TradeService {
 
 	/**
-	 * 会员发起交易申请，冻结积分和余额/会员发起退单，解冻积分和余额
-	 * @param param 冻结解冻API请求映射model
+	 * 保存订单
+	 * @param param 保存订单API请求映射实体
 	 * @return 统一数据返回格式
 	 */
-	ResBodyData freezeUnfreeze(RequestFreezeUnFreeze param);
+	ResBodyData saveOrder(RequestSaveOrder model);
 	
 	/**
-	 * 会员支付成功，解冻并扣减积分和余额
-	 * @param param 解冻扣减积分和余额API请求映射model
+	 * 取消订单
+	 * @param param 取消订单API请求映射实体
 	 * @return 统一数据返回格式
-	 * @throws MdSysException
 	 */
-	ResBodyData unfreezeDeduct(RequestUnfreezeDecut param) throws MdSysException;
+	ResBodyData cancelOrder(RequestCancelOrder model);
 	
 	/**
 	 * 交易取消，解冻积分与余额

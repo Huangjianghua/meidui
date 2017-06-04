@@ -74,8 +74,8 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	public final static  Integer TRADE_TYPE_UNNORMAL=7101;
 	//交易金额不合法
 	public final static  Integer TRADE_AMOUNT_UNNORMAL=7102;
-	//消费积分不能大于消费金额
-	public final static Integer POINTS_BIGGERTHAN_MONEY=7103;
+	//消费积分不能大于消费余额
+	public final static Integer POINTS_BIGGER_THAN_MONEY=7103;
 	//混合支付支付模式，美兑积分不能为小于或等于0
 	public final static Integer MIX_PAYTYPE_ERROR=7104;
 	//支付类型错误
@@ -92,6 +92,12 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	public final static Integer NO_DJ_POINTS=7110;
 	//订单状态错误
 	public final static Integer ORDER_STATUS_ERROR=7111;
+	//消费积分不能大于消费总金额
+	public final static Integer POINTS_BIGGER_THAN_COMSUME_AMOUNT=7112;
+	//消费余额不能大于消费总金额
+	public final static Integer MONEY_BIGGER_THAN_COMSUME_AMOUNT=7113;
+	//消费积分+消费余额不能大于消费总金额
+	public final static Integer MONEY_ADD_POINTS_BIGGER_THAN_COMSUME_AMOUNT=7114;
 	
 	
 	/**账户相关*/
@@ -196,7 +202,7 @@ public abstract class ConstApiStatus extends BaseApiCode {
 		
 		zhMsgMap.put(TRADE_TYPE_UNNORMAL, "交易类型不合法");
 		zhMsgMap.put(TRADE_AMOUNT_UNNORMAL, "交易金额不合法");
-		zhMsgMap.put(POINTS_BIGGERTHAN_MONEY, "消费积分不能大于消费金额");
+		zhMsgMap.put(POINTS_BIGGER_THAN_MONEY, "消费积分不能大于消费金额");
 		zhMsgMap.put(MIX_PAYTYPE_ERROR, "混合支付支付模式，美兑积分不能为小于或等于0");
 		zhMsgMap.put(PAYTYPE_ERROR, "支付类型错误");
 		zhMsgMap.put(REPEAT_ORDER, "重复提交的订单");
@@ -205,6 +211,8 @@ public abstract class ConstApiStatus extends BaseApiCode {
 		zhMsgMap.put(DJ_NOT_EQUALS_DJ, "订单解冻积分不等于冻结积分");
 		zhMsgMap.put(NO_DJ_POINTS, "没有冻结的积分");
 		zhMsgMap.put(ORDER_STATUS_ERROR, "订单状态错误");
+		zhMsgMap.put(POINTS_BIGGER_THAN_COMSUME_AMOUNT, "消费积分不能大于消费总金额");
+		zhMsgMap.put(MONEY_BIGGER_THAN_COMSUME_AMOUNT, "消费余额不能大于消费总金额");
 		
 		zhMsgMap.put(ACCOUNT_NOT_EXIST, "账户不存在");
 		zhMsgMap.put(ACCOUNT_REVISE_IS_NULL_ERROR, "查询会员调整余额明细错误");

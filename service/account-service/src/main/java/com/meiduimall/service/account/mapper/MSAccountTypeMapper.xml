@@ -42,11 +42,13 @@
   WHERE m.account_type_no=#{accountTypeNo}
   </select>
   
-    <!--   根据账户类型编号更新当前序列号  -->
+    <!--   根据账户类型编号更新当前序列号 乐观锁 -->
   <update id="updateSequenceByAccountTypeNo" parameterType="java.util.Map">
   UPDATE  ms_account_type m
-  SET  m.account_no_sequence=#{newSequence}
-  WHERE m.account_type_no=#{accountTypeNo}
+  SET  m.account_no_sequence=#{sequence}+1
+  WHERE 1=1
+  AND  m.account_type_no=#{accountTypeNo} 
+  AND  m.account_no_sequence=#{sequence}
   </update>
 
   </mapper>
