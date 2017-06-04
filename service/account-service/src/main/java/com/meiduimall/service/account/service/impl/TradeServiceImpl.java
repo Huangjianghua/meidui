@@ -9,9 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.constant.ConstSysParamsDefination;
 import com.meiduimall.service.account.constant.ConstTradeType;
@@ -26,11 +28,10 @@ import com.meiduimall.service.account.service.AccountAdjustService;
 import com.meiduimall.service.account.service.AccountService;
 import com.meiduimall.service.account.service.BankAccountService;
 import com.meiduimall.service.account.service.BankWithdrawDepositService;
+import com.meiduimall.service.account.service.ConsumeRecordsService;
 import com.meiduimall.service.account.service.MSConsumePointsDetailService;
-import com.meiduimall.service.account.service.MoneyService;
 import com.meiduimall.service.account.service.TradeService;
 import com.meiduimall.service.account.service.ValidateService;
-import com.meiduimall.service.account.service.PointsService;
 import com.meiduimall.service.account.util.DoubleCalculate;
 import com.meiduimall.service.account.util.GenerateNumber;
 import com.meiduimall.service.account.util.SerialStringUtil;
@@ -50,12 +51,6 @@ public class TradeServiceImpl implements TradeService {
 	private BaseDao baseDao;
 	
 	@Autowired
-	private PointsService pointsService;
-	
-	@Autowired
-	private MoneyService moneyService;
-	
-	@Autowired
 	private AccountService accountServices;
 	
 	@Autowired
@@ -73,31 +68,34 @@ public class TradeServiceImpl implements TradeService {
 	@Autowired
 	private ValidateService validateService;
 	
+	@Autowired
+	private ConsumeRecordsService consumeRecordsService;
+	
 	@Override
+	@Transactional
 	public ResBodyData saveOrder(RequestSaveOrder model){
 		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,"保存订单成功");
 		
-		//校验交易金额
+		//校验交易金额合法性
 		validateService.checkConsumeAmountRelation(model.getConsumeAmount(),model.getConsumeMoney(),model.getConsumePoints());
 		//将数据来源转换为字典值
 		model.setOrderSource(SerialStringUtil.getDictOrderSource(model.getOrderSource()));
-		//查询消费记录表是否存在该订单
-		MSMemberConsumeRecords consumeRecords=baseDao.selectOne(null,"MSMemberConsumeRecordsMapper");
-		
-		/**冻结积分*/
-		/*resBodyData=pointsService.freezePointsAndAddRecord(memId,consumePoints,orderId,orderSource);*/
-		logger.info("冻结积分结果：{}",resBodyData.toString());
-		if(resBodyData.getStatus()!=0){
-			return resBodyData;
+		//将前端请求的订单状态转换为会员消费记录的订单状态
+		int recordsOrderStatus=0;
+		switch(model.getOrderStatus()){
+		case 1:recordsOrderStatus=0;break;
+		case 2:recordsOrderStatus=1;break;
+		default:;
 		}
-		
-		/**冻结余额*/
-		/*resBodyData=moneyService.freezeMoneyAndAddRecord(memId,consumeMoney,orderId,orderSource);*/
-		logger.info("冻结余额结果：{}",resBodyData.toString());
-		if(resBodyData.getStatus()!=0){
-			return resBodyData;
+		//查询该笔交易是否已写入消费记录表
+		MSMemberConsumeRecords consumeRecords=consumeRecordsService.getConsumeRecords(model.getOrderId(),model.getOrderSource(),recordsOrderStatus);
+		if(consumeRecords!=null){
+			logger.warn("重复提交的订单：{}",model.getOrderId());
+			throw new ServiceException(ConstApiStatus.REPEAT_ORDER);
 		}
-		
+		else {
+			
+		}	
 		return resBodyData;
 	}
 	

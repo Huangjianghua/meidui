@@ -7,10 +7,15 @@ import org.springframework.stereotype.Service;
 
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.service.AccountFreezeDetailService;
-import com.meiduimall.service.account.service.MSConsumePointsFreezeService;
+import com.meiduimall.service.account.service.ConsumePointsFreezeInfoService;
 
+/**
+ * 积分冻结解冻明细业务逻辑接口{@link=ConsumePointsFreezeInfoService}实现类
+ * @author chencong
+ *
+ */
 @Service
-public class MSConsumePointsFreezeServiceImpl implements MSConsumePointsFreezeService {
+public class ConsumePointsFreezeInfoServiceImpl implements ConsumePointsFreezeInfoService {
 
 	@Autowired
 	private BaseDao  baseDao;

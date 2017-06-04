@@ -5,7 +5,7 @@ import java.util.List;
 import com.meiduimall.service.account.model.MSAccountType;
 
 /**
- * 账户类型相关业务逻辑
+ * 账户类型业务逻辑接口
  * @author chencong
  *
  */

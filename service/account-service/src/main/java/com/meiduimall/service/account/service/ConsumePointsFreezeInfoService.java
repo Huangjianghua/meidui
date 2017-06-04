@@ -1,6 +1,11 @@
 package com.meiduimall.service.account.service;
 
-public interface MSConsumePointsFreezeService {
+/**
+ * 积分冻结解冻明细业务逻辑接口
+ * @author chencong
+ *
+ */
+public interface ConsumePointsFreezeInfoService {
 
 	/**
 	 * 方法名: getConsumePoints<br>

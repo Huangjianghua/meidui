@@ -40,7 +40,7 @@ public class MSMemberConsumeRecords extends BaseModel  implements Serializable{
 	private String payType;
 	
 	/**订单状态1表示已完成2表示其他已退单 **/
-	private String orderStatus;
+	private Integer orderStatus;
 	
 	/** 创建时间 */
 	private Date createDate;
@@ -129,11 +129,11 @@ public class MSMemberConsumeRecords extends BaseModel  implements Serializable{
 		this.payType = payType;
 	}
 
-	public String getOrderStatus() {
+	public Integer getOrderStatus() {
 		return orderStatus;
 	}
 
-	public void setOrderStatus(String orderStatus) {
+	public void setOrderStatus(Integer orderStatus) {
 		this.orderStatus = orderStatus;
 	}
 

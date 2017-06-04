@@ -10,7 +10,7 @@ import com.meiduimall.service.account.constant.ConstSysParamsDefination;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSAccount;
 import com.meiduimall.service.account.service.AccountService;
-import com.meiduimall.service.account.service.MSConsumePointsFreezeService;
+import com.meiduimall.service.account.service.ConsumePointsFreezeInfoService;
 import com.meiduimall.service.account.util.DESC;
 import com.meiduimall.service.account.util.DoubleCalculate;
 
@@ -26,7 +26,7 @@ public class AccountServiceImpl implements AccountService {
 	private BaseDao baseDao;
 	
 	@Autowired
-	private MSConsumePointsFreezeService  pointsFreezeService;
+	private ConsumePointsFreezeInfoService  pointsFreezeService;
 	
 	@Override
 	public MSAccount getAccountInfo(String memId, String accountTypeNo) {

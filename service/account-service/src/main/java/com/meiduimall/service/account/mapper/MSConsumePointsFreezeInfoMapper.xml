@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- 会员积分冻结解冻记录表ms_consume_points_freeze_info相关操作 -->
+<!-- 会员积分冻结解冻明细表ms_consume_points_freeze_info相关操作 -->
 <mapper namespace="MSConsumePointsFreezeInfoMapper">
 
 	<!-- 根据会员ID查询当前冻结解冻积分的总和 -->

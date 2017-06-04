@@ -21,7 +21,7 @@ import com.meiduimall.service.account.service.AccountAdjustService;
 import com.meiduimall.service.account.service.AccountDetailService;
 import com.meiduimall.service.account.service.AccountService;
 import com.meiduimall.service.account.service.MSConsumePointsDetailService;
-import com.meiduimall.service.account.service.MSConsumePointsFreezeService;
+import com.meiduimall.service.account.service.ConsumePointsFreezeInfoService;
 import com.meiduimall.service.account.util.DESC;
 import com.meiduimall.service.account.util.DateUtil;
 import com.meiduimall.service.account.util.DoubleCalculate;
@@ -35,7 +35,7 @@ public class MSConsumePointsDetailServiceImpl implements MSConsumePointsDetailSe
 	private BaseDao baseDao;
 	
 	@Autowired
-	private MSConsumePointsFreezeService   msConsumePointsFreezeService;
+	private ConsumePointsFreezeInfoService   msConsumePointsFreezeService;
 	
 	@Autowired
 	private AccountAdjustService   accountAdjustService;
