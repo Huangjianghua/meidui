@@ -11,14 +11,10 @@ import org.springframework.stereotype.Service;
 
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
-import com.meiduimall.service.account.constant.ConstSysParamsDefination;
 import com.meiduimall.service.account.dao.BaseDao;
-import com.meiduimall.service.account.model.MSBankAccount;
 import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
 import com.meiduimall.service.account.model.request.RequestMSBankWithDrawDepostie;
 import com.meiduimall.service.account.model.request.RequestSaveBankWithdrawDeposit;
-import com.meiduimall.service.account.service.AccountReportService;
-import com.meiduimall.service.account.service.BankAccountService;
 import com.meiduimall.service.account.service.MSAccountDetailService;
 import com.meiduimall.service.account.service.MSMembersService;
 import com.meiduimall.service.account.service.WithDrawService;
@@ -41,18 +37,13 @@ public class WithDrawServiceImpl implements WithDrawService {
 	private MSMembersService mSMembersService;
 	
 	@Autowired
-	private BankAccountService bankAccountService;
-	
-	@Autowired
-	private AccountReportService accountReportService;
-	
-	@Autowired
 	private MSAccountDetailService mSAccountDetailService;
 
 	@Override
 	public List<MSBankWithdrawDeposit> getBankWithdrawDepositsList(String memId) {
 		// 检查该用户是否存在
 		if (!mSMembersService.checkUserIsExistByMemId(memId)) {
+			logger.error("当前用户在会员系统不存在,memId: " + memId);
 			throw new ServiceException(ConstApiStatus.USER_NOT_EXIST);
 		}
 		Map<String, String> params = new HashMap<>();

@@ -57,6 +57,7 @@ public class AccountWithDrawV1ControllerTest extends BaseControllerTest {
 	public void getBankWithdrawDepositsForApp_test_01() throws Exception {
 		ResultActions results = mockMvc.perform(
 				MockMvcRequestBuilders.post("/member/account_service/v1/getBankWithdrawDepositsForApp")
+				.param("pageSize", "3")
 				.param("memId", "a0db1419-f44a-48e8-9394-a49620e47940"))
 				.andExpect(status().isOk());
 
@@ -69,6 +70,7 @@ public class AccountWithDrawV1ControllerTest extends BaseControllerTest {
 	}
     
     /**
+     * 
      * 提现申请查询接口---memId不存在
      * @throws Exception
      */
@@ -83,6 +85,69 @@ public class AccountWithDrawV1ControllerTest extends BaseControllerTest {
 			@Override
 			public void handle(MvcResult result) throws Exception {
 				System.out.println("getBankWithdrawDepositsForApp_test_02*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+    
+    /**
+     * 账户余额提现申请接口
+     * @throws Exception
+     */
+    @Test
+	public void saveBankWithdrawDeposit_test_01() throws Exception {
+		ResultActions results = mockMvc.perform(
+				MockMvcRequestBuilders.post("/member/account_service/v1/saveBankWithdrawDeposit")
+				.param("accountNo", "123456")
+				.param("applyCarryCash", "0.99")
+				.param("memId", "a0db1419-f44a-48e8-9394-a49620e47940"))
+				.andExpect(status().isOk());
+
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("saveBankWithdrawDeposit_test_01*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+    
+    /**
+     * 账户余额提现申请接口---银行卡不存在
+     * @throws Exception
+     */
+    @Test
+	public void saveBankWithdrawDeposit_test_02() throws Exception {
+		ResultActions results = mockMvc.perform(
+				MockMvcRequestBuilders.post("/member/account_service/v1/saveBankWithdrawDeposit")
+				.param("accountNo", "88888888999999")
+				.param("applyCarryCash", "0.99")
+				.param("memId", "a0db1419-f44a-48e8-9394-a49620e47940"))
+				.andExpect(status().isOk());
+
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("saveBankWithdrawDeposit_test_02*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+    
+    /**
+     * 账户余额提现申请接口---memId不存在
+     * @throws Exception
+     */
+    @Test
+	public void saveBankWithdrawDeposit_test_03() throws Exception {
+		ResultActions results = mockMvc.perform(
+				MockMvcRequestBuilders.post("/member/account_service/v1/saveBankWithdrawDeposit")
+				.param("accountNo", "88888888999999")
+				.param("applyCarryCash", "0.99")
+				.param("memId", "a0db1419"))
+				.andExpect(status().isOk());
+
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("saveBankWithdrawDeposit_test_03*********" + result.getResponse().getContentAsString());
 			}
 		});
 	}

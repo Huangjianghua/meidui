@@ -1,7 +1,10 @@
 package com.meiduimall.service.account.util;
 
+import org.springframework.util.StringUtils;
+
 import com.meiduimall.service.account.constant.ConstDataAppSource;
 import com.meiduimall.service.account.constant.ConstPointsChangeType;
+import com.meiduimall.service.account.constant.ConstPointsFinalType;
 
 /**
  * 字符串序列转化为指定值
@@ -126,51 +129,51 @@ public class SerialStringUtil {
 	 * @param userid
 	 * @return
 	 */
-	/*public static String getPointsRemark(String oprDictId,String userid){
+	public static String getPointsRemark(String oprDictId,String userid){
 		String returnStr = "";
 		String code = oprDictId.toUpperCase();
 		String appendStr = StringUtil.isEmptyByString(userid) ? "" : ("-"+userid);
 		switch (code) {
-		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_QT.getCode():
+		case ConstPointsFinalType.POINTS_OPERATOR_TYPE_QT:
 			returnStr = "外部[其他交易" + appendStr + "]";
 			break;
-		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_CZ.getCode():
+		case ConstPointsFinalType.POINTS_OPERATOR_TYPE_CZ:
 			returnStr = "充值[积分充值" + appendStr + "]";
 			break;
-		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_CW.getCode():
+		case ConstPointsFinalType.POINTS_OPERATOR_TYPE_CW:
 			returnStr = "系统[后台调整" + appendStr + "]";
 			break;
-		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_TK.getCode():
+		case ConstPointsFinalType.POINTS_OPERATOR_TYPE_TK:
 			returnStr = "退款[售后退款" + appendStr + "]";
 			break;
-		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_QX.getCode():
+		case ConstPointsFinalType.POINTS_OPERATOR_TYPE_QX:
 			returnStr = "退款[取消订单" + appendStr + "]";
 			break;
-		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_FJXF.getCode():
+		case ConstPointsFinalType.POINTS_OPERATOR_TYPE_FJXF:
 			returnStr = "赠送[附近消费" + appendStr + "]";
 			 break;
-		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_QMTG.getCode():
+		case ConstPointsFinalType.POINTS_OPERATOR_TYPE_QMTG:
 			returnStr = "提成[全民推广" + appendStr + "]";
 			 break;
-		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_XF.getCode():
+		case ConstPointsFinalType.POINTS_OPERATOR_TYPE_XF:
 			returnStr = "消费[积分支付" + appendStr + "]";
 			 break;
-		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_ZCZS.getCode():
+		case ConstPointsFinalType.POINTS_OPERATOR_TYPE_ZCZS:
 			returnStr = "赠送[新注册送积分" + appendStr + "]";
 			 break;
-		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_YQZCZS.getCode():
+		case ConstPointsFinalType.POINTS_OPERATOR_TYPE_YQZCZS:
 			returnStr = "赠送[推荐注册送积分" + appendStr + "]";
 			 break;
-		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_XJCZ.getCode():
+		case ConstPointsFinalType.POINTS_OPERATOR_TYPE_XJCZ:
 			returnStr = "充值[现金充值" + appendStr + "]";
 			 break;
-		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_JFZC.getCode():
+		case ConstPointsFinalType.POINTS_OPERATOR_TYPE_JFZC:
 			returnStr = "转帐[转出到" + userid + "]";
 			if(StringUtil.isEmptyByString(userid)){
 				returnStr = "转帐[积分转出]";
 			}
 			 break;
-		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_JFZR:
+		case ConstPointsFinalType.POINTS_OPERATOR_TYPE_JFZR:
 			returnStr = "转帐[从" + userid + "转入]";
 			if(StringUtil.isEmptyByString(userid)){
 				returnStr = "转帐[积分转入]";
@@ -180,6 +183,6 @@ public class SerialStringUtil {
 			returnStr = "外部[其他交易" + appendStr + "]";
 		}
 		return returnStr;
-	}*/
+	}
 
 }

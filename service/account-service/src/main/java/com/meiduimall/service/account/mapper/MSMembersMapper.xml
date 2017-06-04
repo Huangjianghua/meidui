@@ -20,7 +20,7 @@
 		SELECT 
 		mem_parent_value2 AS memParentValue2,
 		mem_basic_account_total_quantity AS memBasicAccountTotalQuantity
-		FROM v_ms_members WHERE memId = #{memId}
+		FROM ms_members WHERE mem_id = #{memId}
 	</select>
 
 </mapper>

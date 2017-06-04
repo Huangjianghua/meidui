@@ -98,6 +98,17 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	public final static Integer MONEY_BIGGER_THAN_COMSUME_AMOUNT=7113;
 	//消费积分+消费余额不能大于消费总金额
 	public final static Integer MONEY_ADD_POINTS_BIGGER_THAN_COMSUME_AMOUNT=7114;
+	//退单返回美兑积分错误
+	public final static Integer MD_POINTS_ERROR=7115;
+	//余额支付金额不能大于消费金额
+	public final static Integer PAYMONEY_ERROR=7116;
+	//支付积分加余额不能大于消费金额
+	public final static Integer PAY_POINTS_MONEY_ERROR=7117;
+	//订单解冻余额不等于冻结余额
+	public final static Integer MONEY_DJ_NOT_EQUALS_DJ=7118;
+	//没有冻结的余额
+	public final static Integer NO_DJ_MONEY=7119;
+	
 	
 	
 	/**账户相关*/
@@ -209,8 +220,13 @@ public abstract class ConstApiStatus extends BaseApiCode {
 		zhMsgMap.put(NOT_ENOUGH_POINTS, "积分余额不足");
 		zhMsgMap.put(REPEAT_FREEZ_ORDER, "重复提交的冻结或解冻订单");
 		zhMsgMap.put(DJ_NOT_EQUALS_DJ, "订单解冻积分不等于冻结积分");
+		zhMsgMap.put(MONEY_DJ_NOT_EQUALS_DJ, "订单解冻余额不等于冻结余额");
 		zhMsgMap.put(NO_DJ_POINTS, "没有冻结的积分");
+		zhMsgMap.put(NO_DJ_MONEY, "没有冻结的余额");
 		zhMsgMap.put(ORDER_STATUS_ERROR, "订单状态错误");
+		zhMsgMap.put(MD_POINTS_ERROR, "退单返回美兑积分错误");
+		zhMsgMap.put(PAYMONEY_ERROR, "余额支付金额不能大于消费金额");
+		zhMsgMap.put(PAY_POINTS_MONEY_ERROR, "支付积分加余额不能大于消费金额");
 		zhMsgMap.put(POINTS_BIGGER_THAN_COMSUME_AMOUNT, "消费积分不能大于消费总金额");
 		zhMsgMap.put(MONEY_BIGGER_THAN_COMSUME_AMOUNT, "消费余额不能大于消费总金额");
 		

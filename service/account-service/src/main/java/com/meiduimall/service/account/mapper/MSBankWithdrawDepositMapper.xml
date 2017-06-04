@@ -74,16 +74,16 @@
 				mem_id as memId,
 				bank_account_id as bankAccountId,
 				account_idcard as accountIdcard,
-				account_no as accountNo,
+				bank_card_no as accountNo,
 				account_name as accountName,
 				account_bank as accountBank,
 				account_province as accountProvince,
 				account_city as accountCity,
 				account_area as accountArea,
 				account_sub_bank as accountSubBank,
-				apply_carry_cash as applyCarryCash,
-				counter_fee as counterFee,
-				actual_carry_cash as actualCarryCash,
+				apply_withdraw_amount as applyCarryCash,
+				poundage_amount as counterFee,
+				actual_withdraw_amount as actualCarryCash,
 				apply_date as applyDate,
 				audit_by as auditBy,
 				audit_date as auditDate,
@@ -96,7 +96,7 @@
 		 <if test="id != null and id != ''"> and id = #{id} </if>
 		 <if test="businessNo != null and businessNo != ''"> and business_no = #{businessNo} </if>
 		 <if test="status != null and status != ''"> and status = #{status} </if>
-		 order by applyDate desc
+		 order by apply_date desc
 	</select>
 	
 	<!--查询提现记录  -->

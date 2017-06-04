@@ -2,6 +2,7 @@ package com.meiduimall.service.account.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.service.account.model.request.MSMemberConsumeRecordsReq;
 import com.meiduimall.service.account.model.request.RequestSaveOrder;
 import com.meiduimall.service.account.model.request.RequestCancelOrder;
 
@@ -63,5 +64,19 @@ public interface TradeService {
 	 * @throws Exception
 	 */
 	public JSONObject getBankWithdrawDeposits(JSONObject param) throws Exception;
+
+	/**
+	 * 更新退单
+	 * @param mmt
+	 * @return
+	 */
+	ResBodyData updateMemberOrder(MSMemberConsumeRecordsReq mmt);
+	
+	/**
+	 * 提交订单请求
+	 * @param mmt
+	 * @return
+	 */
+	ResBodyData saveMemberOrder(MSMemberConsumeRecordsReq mmt);
 
 }
