@@ -516,4 +516,16 @@ public class MSMemberIntegral implements Serializable{
     public void setIncubationCenterRebateTotal(String incubationCenterRebateTotal) {
         this.incubationCenterRebateTotal = incubationCenterRebateTotal == null ? null : incubationCenterRebateTotal.trim();
     }
+
+	public MSMemberIntegral() {
+		super();
+	}
+
+	public MSMemberIntegral(String memId, Date sahBegin) {
+		super();
+		this.memId = memId;
+		this.sahBegin = sahBegin;
+	}
+    
+    
 }

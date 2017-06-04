@@ -1,10 +1,15 @@
 package com.meiduimall.service.account.api;
 
+
+import java.math.BigDecimal;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,13 +18,29 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
+import com.first.membersystem.constant.ApplicationConstant;
+import com.first.membersystem.constant.SysConstant;
+import com.first.membersystem.dto.MemberConsumeMessageDTO;
+import com.first.oauth.OAuth;
+import com.first.oauth.OAuthAccessor;
+import com.first.oauth.OAuthConsumer;
+import com.first.oauth.OAuthMessage;
+import com.first.oauth.OAuth.Parameter;
+import com.first.oauth.provider.core.OAuthProvider;
+import com.first.utility.DESC;
+import com.first.utility.StringUtil;
+import com.first.utility.checkparameter.AuthorizationCheckParameter;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.MdSysException;
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
+import com.meiduimall.service.account.constant.ConstDataAppSource;
 import com.meiduimall.service.account.model.request.MemberConsumeMessageReq;
 import com.meiduimall.service.account.model.request.RequestFreezeUnFreeze;
 import com.meiduimall.service.account.model.request.RequestUnfreezeDecut;
 import com.meiduimall.service.account.service.TradeService;
+import com.meiduimall.service.account.util.SerialStringUtil;
 
 /**
  * 订单交易相关API
@@ -204,43 +225,327 @@ public class TradeV1Controller {
 	
 	/**
 	 * 当前商家退会员订单信息接口  http://IP:PORT/Authorized/BusinessRecedeOrder
+	 * @author wujun
 	 */
 	@PostMapping(value = "/business_recede_order")
-	ResBodyData businessRecedeOrder(@Validated JSONObject json)   {
-		logger.info("接收 当前商家退会员订单信息接口 数据：{}", json);
-		logger.info("当前商家退会员订单信息接口  请求结果：{}", "");
+	ResBodyData businessRecedeOrder(@Validated JSONObject obj)   {
+		JSONObject result = new JSONObject();
+		String userId = obj.getString("user_id");
+		String orderId = obj.getString("order_id");// 用户产品的订单号
+		String consumerMoney = obj.getString("consumer_money");// 消费金额
+		String productName = obj.getString("product_name");// 消费项目名称
+		String backIntegral = obj.getString("back_integral");// 消费返还积分数量
+		String orderSource = obj.getString("order_source");// 订单来源如果是O2O平台请直接填写O2O,如果是1gw(商城)就直接填写1gw
+		String orginalUserId = obj.getString("orginal_user_id");// O2O或1gw系统会员ID
+		String mchPayType = obj.getString("pay_type");// 支付类型
+		String mchStatus = obj.getString("status");
+		String consumeCouponCount = obj.getString("consume_coupon_count");// 消费劵支付金额(必须小于等于消费金额)
+	 
+		logger.info("BusinessRecedeOrder接口请求输入参数："+ obj.toString());
+		
+		
 		try {
-		} catch (Exception e) {
+			logger.info("用户产品的订单号="+orderId+";消费金额="+consumerMoney);
+			logger.info("消费项目名称="+productName+";消费返还积分数量="+backIntegral);
+			logger.info("订单来源="+orderSource+";系统会员ID="+orginalUserId);
+			logger.info("支付类型="+mchPayType+";消费劵支付金额="+consumeCouponCount);
 			 
+		 
+			//增加美兑积分逻辑  2016-10-31
+			String consumePointsCount = null; //美兑积分
+			if(obj.containsKey("consume_points_count")) {
+				consumePointsCount = obj.getString("consume_points_count");
+			}
+			
+			 
+			if (StringUtil.isEmptyByString(memberId)) {
+				result.put(SysConstant.STATUS_CODE, 1002);
+				result.put(SysConstant.RESULT_MSG, "当前用户不存在");
+				message = result.toString();
+			 
+				return SUCCESS;
+			}
+			obj.put("memberId", memberId);
+			obj.put("ip", ip);
+			JSONObject result1 = new AuthorizationCheckParameter()
+			.vilidetePar(obj);
+			if (!Boolean.valueOf(result1.getString("boolean_result"))) {
+				result1.remove("boolean_result");
+				message = result1.toString();
+				 
+				return SUCCESS;
+			}
+			
+			if (!"2".equals(mch_status)) {
+				result.put(SysConstant.STATUS_CODE, 2022);
+				result.put(SysConstant.RESULT_MSG, "订单状态输入错误");
+				message = result.toString();
+				 
+				return SUCCESS;
+			}
+			
+			if (shopping_coupon_count != null && 
+					Double.valueOf(shopping_coupon_count) > Double.valueOf(consumer_money)) {
+				result.put(SysConstant.STATUS_CODE, 2038);
+				result.put(SysConstant.RESULT_MSG, "消费的余额不能大于消费金额");
+				message = result.toString();
+				 
+				return SUCCESS;
+			}
+			
+			if (consume_points_count != null && 
+					Double.valueOf(consume_points_count) > Double.valueOf(consumer_money)) {
+				result.put(SysConstant.STATUS_CODE, 2038);
+				result.put(SysConstant.RESULT_MSG, "消费的积分不能大于消费金额");
+				message = result.toString();
+				 
+				return SUCCESS;
+			}
+			
+			// 支付类型
+			MemberConsumeMessageDTO mp = new MemberConsumeMessageDTO();
+			mp.setOrder_id(order_id);
+			mp.setProduct_name(product_name);
+			mp.setBack_integral(back_integral);
+			mp.setConsumer_money(consumer_money);
+			//增加美兑积分逻辑  2016-10-31
+			mp.setOrder_source(SerialStringUtil.getDictOrderSource(order_source));
+			mp.setOrginal_user_id(orginal_user_id);
+			mp.setMem_id(memberId);
+			mp.setPay_type(mch_pay_type);
+			mp.setMch_status(mch_status);
+			mp.setConsume_coupon_count(consume_coupon_count);
+			
+			if(shopping_coupon_count != null && !"".equals(shopping_coupon_count)) {
+				mp.setShopping_coupon_count(shopping_coupon_count);
+			}
+			//增加美兑积分逻辑  2016-10-31
+			if(consume_points_count != null && !"".equals(consume_points_count)) {
+				mp.setConsume_points_count(consume_points_count);
+			}
+			double xfc = (double) 0;
+			log.info("外部接口当前"+user_id+"提交退单请求");
+			message = memberServices.updateMemberOrder(mp, xfc);
+			addMemberLog(memberId,
+					ApplicationConstant.ERJI_MEMBER_MENU_SCXF_XFFLJF,
+					ApplicationConstant.QUERY_SUB_WB, "外部接口提交退单信息", "外部接口提交退单信息");
+			
+			log.info("BusinessRecedeOrder接口请求输出参数："+ message);
+			
+			return SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.put(SysConstant.STATUS_CODE, "9999");
+			result.put(SysConstant.RESULT_MSG, SysConstant.EXCEPTION_MSG);
+			log.info("外部服务认证出现异常:", e);
+			message = result.toString();
+			String memberId = memberServices.getMemberIdByPLName(obj.getString("user_id"));
+			addMemberLog(memberId,
+					ApplicationConstant.ERJI_MEMBER_MENU_SCXF_XFFLJF,
+					ApplicationConstant.QUERY_SUB_WB, "外部接口提交退单信息失败", "外部接口提交退单信息失败");
+			return SUCCESS;
 		}
-		return null;
+		
+		
 	} 
 	
 	
 	/**
 	 * 保存当前会员订单信息接口(免token校验) http://IP:PORT/Authorized/saveOrderNotoken
 	 * @return ResBodyData
+	 * @author wujun
 	 */
 	@PostMapping(value = "/save_order_notoken")
-	ResBodyData saveOrderNotoken(@Validated JSONObject json) throws MdSysException{
-		logger.info("接收到数据：memId={}, phone={}", "");
-		logger.info("注册时记录会员手机对应的区域请求结果：{}", "");
-		return null;
+	ResBodyData saveOrderNotoken(@Validated JSONObject obj) throws MdSysException{
+	 
+		logger.info("保存当前会员订单信息接口(免token校验)请求输入参数："+obj.toString());
+		String memId = obj.getString("mem_id");
+		String orderId = obj.getString("order_id");// 用户产品的订单号
+		String consumerMoney = obj.getString("consumer_money");// 消费金额
+		String productName = obj.getString("product_name");// 消费项目名称
+		String backIntegral = obj.getString("back_integral");// 消费返还积分数量
+		String orderSource = obj.getString("order_source");// 订单来源如果是O2O平台请直接填写O2O,如果是1gw(商城)就直接填写1gw
+		String orginalUserId = obj.getString("orginal_user_id");// O2O或1gw系统会员ID
+		String mchPayType = obj.getString("pay_type");// 支付类型
+		String mchStatus = obj.getString("status");
+		String consumeCouponCount = "0";// 消费劵支付金额(必须小于等于消费金额)
+		String shoppingCouponCount="0";  //余额
+		String consumePointsCount = "0"; //美兑积分
+		try {
+			logger.info("用户产品的订单号="+orderId+";消费金额="+consumerMoney);
+			logger.info("消费项目名称="+productName+";消费返还积分数量="+backIntegral);
+			logger.info("订单来源="+orderSource+";系统会员ID="+orginalUserId);
+			logger.info("支付类型="+mchPayType+";消费劵支付金额="+consumeCouponCount);
+			
+			if(obj.containsKey("consume_coupon_count")){
+				consumeCouponCount = obj.getString("consume_coupon_count");
+				 
+			}
+			
+			if(obj.containsKey("shopping_coupon_count")){
+				shoppingCouponCount = obj.getString("shopping_coupon_count");
+			 
+			}
+			
+			//增加美兑积分逻辑  2016-10-31
+			if(obj.containsKey("consume_points_count")){
+				consumePointsCount = obj.getString("consume_points_count");
+			 
+			}
+			 
+			if (StringUtils.isEmpty(memId)) {
+				logger.info("当前用户不存在: {}",memId);
+				return new ResBodyData(ConstApiStatus.ACCOUNT_NOT_EXIST, ConstApiStatus.getZhMsg(ConstApiStatus.ACCOUNT_NOT_EXIST));
+			}
+			
+			if (!"1".equals(mchStatus)) {
+				logger.info("订单状态输入错误");
+				return new ResBodyData(ConstApiStatus.ORDER_STATUS_ERROR, ConstApiStatus.getZhMsg(ConstApiStatus.ORDER_STATUS_ERROR));
+			}
+			
+			//余额支付金额 2017-03-02
+			if(obj.containsKey("shopping_coupon_count")){
+				if (Double.valueOf(shoppingCouponCount) > Double.valueOf(consumerMoney)) {
+					logger.info("余额支付金额不能大于消费金额");
+					return new ResBodyData(ConstApiStatus.PAYMONEY_ERROR, ConstApiStatus.getZhMsg(ConstApiStatus.PAYMONEY_ERROR));
+				}
+			}
+			
+			  //增加美兑积分逻辑  2016-10-31
+			  if(obj.containsKey("consume_points_count")){
+					if (Double.valueOf(consumePointsCount) > Double.valueOf(consumerMoney)) {
+						logger.info("消费积分不能大于消费金额");
+						return new ResBodyData(ConstApiStatus.POINTS_BIGGERTHAN_MONEY, ConstApiStatus.getZhMsg(ConstApiStatus.POINTS_BIGGERTHAN_MONEY));
+					}
+			   }
+			  
+			//如果是支付积分+余额 判断(支付积分+余额<消费总金额)
+			  if(obj.containsKey("shopping_coupon_count") && obj.containsKey("consume_points_count")){
+				  double count = new BigDecimal(shoppingCouponCount).add(new BigDecimal(consumePointsCount)).doubleValue();
+				   if(Double.valueOf(count) > Double.valueOf(consumerMoney)){
+						logger.info("支付积分加余额不能大于消费金额");
+						return new ResBodyData(ConstApiStatus.PAY_POINTS_MONEY_ERROR, ConstApiStatus.getZhMsg(ConstApiStatus.PAY_POINTS_MONEY_ERROR));
+				   }
+			  }  
+			   
+			//增加美兑积分逻辑  2016-10-31
+		  	if ("1".equals(mchPayType)) {
+		  		logger.info("支付类型输入错误");
+		  		return new ResBodyData(ConstApiStatus.PAYTYPE_ERROR, ConstApiStatus.getZhMsg(ConstApiStatus.PAYTYPE_ERROR));
+			}
+		  
+		  //增加美兑积分逻辑  2016-10-31
+			if("2".equals(mchPayType)){
+				if(Double.valueOf(consumePointsCount) <= 0 && Double.valueOf(shoppingCouponCount) <= 0){
+					logger.info("混合支付支付模式，支付积分+余额不能为小于或等于0");
+					return new ResBodyData(ConstApiStatus.MIX_PAYTYPE_ERROR, ConstApiStatus.getZhMsg(ConstApiStatus.MIX_PAYTYPE_ERROR));
+				}
+			}
+				
+			// 支付类型
+			MemberConsumeMessageReq mp = new MemberConsumeMessageReq();
+			mp.setOrderId(orderId);
+			mp.setProductName(productName);
+			mp.setBackIntegral(backIntegral);
+			mp.setConsumerMoney(consumerMoney);
+			//增加美兑积分逻辑  2016-10-31
+			mp.setOrderSource(SerialStringUtil.getDictOrderSource(orderSource));
+			mp.setOrginalUserId(orginalUserId);
+			mp.setMemId(memId);
+			mp.setPayType(mchPayType);
+			mp.setMchStatus(mchStatus);
+			mp.setConsumeCouponCount(consumeCouponCount);
+			mp.setShoppingCouponCount(shoppingCouponCount);
+			mp.setConsumePointsCount(consumePointsCount);
+			//增加美兑积分逻辑  2016-10-31
+		    
+			//提交订单请求
+			ResBodyData saveMemberOrder = orderService.saveMemberOrder(mp);
+			
+			logger.info("保存当前会员订单信息接口(免token校验)输出参数：{}", saveMemberOrder.toString());
+			return saveMemberOrder;
+		} catch (ServiceException e) {
+			logger.info(ConstApiStatus.getZhMsg(ConstApiStatus.SERVER_DEAL_WITH_EXCEPTION) + " :{}", e);
+			throw new ApiException(ConstApiStatus.SERVER_DEAL_WITH_EXCEPTION, ConstApiStatus.getZhMsg(ConstApiStatus.SERVER_DEAL_WITH_EXCEPTION));
+		}
+		
     }
  
 	/**
 	 * 当前会员退单信息接口  http://IP:PORT/Authorized/RecedeOrder
 	 * @return ResBodyData
+	 * @author wuun
 	 */
 	@PostMapping(value = "/recede_order")
-	ResBodyData recedeOrder() {
-		logger.info("更新开始");
-		MemberConsumeMessageReq  mmt = new MemberConsumeMessageReq();
-		Double xfc = new Double(0);
-		orderService.updateMemberOrder(mmt, xfc);
-		logger.info("更新结果  ：{}", "");
-		logger.info("更新结束");
-		return null;
+	ResBodyData recedeOrder(JSONObject obj) {
+	 
+		String memId = obj.getString("mem_id");
+		String orderId = obj.getString("order_id");// 用户产品的订单号
+		String consumerMoney = obj.getString("consumer_money");// 消费金额
+		String productName = obj.getString("product_name");// 消费项目名称
+		String backIntegral = obj.getString("back_integral");// 消费返还积分数量
+		String orderSource = obj.getString("order_source");// 订单来源如果是O2O平台请直接填写O2O,如果是1gw(商城)就直接填写1gw
+		String orginalUserId = obj.getString("orginal_user_id");// O2O或1gw系统会员ID
+		String mchPayType = obj.getString("pay_type"); // 支付类型
+		String mchStatus = obj.getString("status");
+		String consumeCouponCount = obj.getString("consume_coupon_count");// 消费劵支付金额(必须小于等于消费金额)
+		String shoppingCouponCount = obj.getString("shopping_coupon_count"); // 消费劵支付金额(必须小于等于消费金额)
+
+		logger.info("当前会员退单信息接口请求输入参数："+ obj.toString());
+		
+		try {
+			logger.info("用户产品的订单号="+orderId+";消费金额="+consumerMoney);
+			logger.info("消费项目名称="+productName+";消费返还积分数量="+backIntegral);
+			logger.info("订单来源="+orderSource+";系统会员ID="+orginalUserId);
+			logger.info("支付类型="+mchPayType+";消费劵支付金额="+consumeCouponCount);
+			
+			 
+			if (StringUtils.isEmpty(memId)) {
+				logger.info("当前用户不存在: {}",memId);
+				return new ResBodyData(ConstApiStatus.ACCOUNT_NOT_EXIST, ConstApiStatus.getZhMsg(ConstApiStatus.ACCOUNT_NOT_EXIST));
+			}
+			
+			if (!"2".equals(mchStatus)) {
+				logger.info("外部请求订单状态输入错误");
+				return new ResBodyData(ConstApiStatus.ORDER_STATUS_ERROR, ConstApiStatus.getZhMsg(ConstApiStatus.ORDER_STATUS_ERROR));
+			}
+
+			 
+			// 支付类型
+			MemberConsumeMessageReq mp = new MemberConsumeMessageReq();
+			mp.setOrderId(orderId);
+			mp.setProductName(productName);
+			mp.setBackIntegral(backIntegral);
+			mp.setConsumerMoney(consumerMoney);
+			if ("O2O".equals(orderSource)) {
+				mp.setOrderSource(ConstDataAppSource.ORDER_SOURCE_O2O);
+			}
+			if ("1gw".equals(orderSource)) {
+				mp.setOrderSource(ConstDataAppSource.ORDER_SOURCE_1GW);
+			}
+			mp.setOrginalUserId(orginalUserId);
+			mp.setMemId(memId);
+			mp.setPayType(mchPayType);
+			mp.setMchStatus(mchStatus);
+			mp.setConsumeCouponCount(consumeCouponCount);
+			
+			if(obj.containsKey("shopping_coupon_count")) {
+				mp.setShoppingCouponCount(shoppingCouponCount);
+			}
+			
+			logger.info("提交退单请求");
+			ResBodyData updateMemberOrder = orderService.updateMemberOrder(mp);
+			 
+			
+			logger.info("当前会员退单信息接口输出参数：{}", updateMemberOrder.toString());
+			
+			return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M);
+		} catch (ServiceException e) {
+			logger.info(ConstApiStatus.getZhMsg(ConstApiStatus.SERVER_DEAL_WITH_EXCEPTION) + " :{}", e);
+			throw new ApiException(ConstApiStatus.SERVER_DEAL_WITH_EXCEPTION, ConstApiStatus.getZhMsg(ConstApiStatus.SERVER_DEAL_WITH_EXCEPTION));
+		}		
+		
+		 
 	}
 	
 }

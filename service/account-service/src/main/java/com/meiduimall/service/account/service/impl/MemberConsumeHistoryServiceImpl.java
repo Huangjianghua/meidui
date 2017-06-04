@@ -29,4 +29,11 @@ public class MemberConsumeHistoryServiceImpl implements MemberConsumeHistoryServ
 		return baseDao.selectList(MemberConsum, "MSMemberConsumeHistoryMapper.queryByOrderIdInfo");
 	}
 
+	@Override
+	public void save(MSMemberConsumeHistory mConHis) {
+		 
+		baseDao.insert(mConHis, "MSMemberConsumeHistoryMapper.insertMemberConsumeHistory");
+		
+	}
+
 }

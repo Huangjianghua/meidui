@@ -68,11 +68,17 @@ public interface TradeService {
 	public JSONObject getBankWithdrawDeposits(JSONObject param) throws Exception;
 
 	/**
-	 * 外调接口调用方法退单
+	 * 更新退单
 	 * @param mmt
-	 * @param xfc
 	 * @return
 	 */
-	ResBodyData updateMemberOrder(MemberConsumeMessageReq mmt, Double xfc);
+	ResBodyData updateMemberOrder(MemberConsumeMessageReq mmt);
+	
+	/**
+	 * 提交订单请求
+	 * @param mmt
+	 * @return
+	 */
+	ResBodyData saveMemberOrder(MemberConsumeMessageReq mmt);
 
 }

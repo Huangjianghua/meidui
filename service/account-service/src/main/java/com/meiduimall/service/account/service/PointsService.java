@@ -6,6 +6,7 @@ import java.util.Map;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdBizException;
 import com.meiduimall.exception.MdSysException;
+import com.meiduimall.service.account.model.MSConsumePointsFreezeInfo;
 import com.meiduimall.service.account.model.MemberTransferHistory;
 import com.meiduimall.service.account.model.request.RequestPointTransfer;
 
@@ -55,6 +56,13 @@ public interface PointsService {
 	boolean getFreezeUnfreezeRecordByOrderId(String orderId);
 	
 	/**
+	 * 根据交易订单号查询积分冻结解冻记录
+	 * @param orderId 交易订单号
+	 * @return 
+	 */
+	List<MSConsumePointsFreezeInfo> queryRecordByOrderId(String orderId);
+	
+	/**
 	 * 查询积分转账列表
 	 * @return
 	 * @param pointTransfer
@@ -70,4 +78,6 @@ public interface PointsService {
 	 * @return 会员当前可用积分
 	 */
 	Double getAvailablePointsByMemId(String memId);
+	
+	
 }

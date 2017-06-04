@@ -2,6 +2,7 @@ package com.meiduimall.service.account.service.impl;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -14,6 +15,7 @@ import com.meiduimall.exception.MdBizException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.constant.ConstPointsChangeType;
 import com.meiduimall.service.account.dao.BaseDao;
+import com.meiduimall.service.account.model.MSAccountFreezeDetail;
 import com.meiduimall.service.account.service.AccountFreezeDetailService;
 import com.meiduimall.service.account.service.AccountService;
 import com.meiduimall.service.account.util.DateUtil;
@@ -138,6 +140,12 @@ public class AccountFreezeDetailServiceImpl implements AccountFreezeDetailServic
 		} catch (Exception e) {
 			logger.error("写入积分冻结明细出现错误-2002，会员编号：%s，订单编号：%s，错误信息：%s", memId, orderId, e.getMessage());
 		}
+	}
+
+	@Override
+	public List<MSAccountFreezeDetail> queryRecordByOrderId(String orderId) {
+		
+		return baseDao.selectList(orderId, "MSAccountFreezeDetailMapper.queryRecordByOrderId");
 	}
 
 
