@@ -31,7 +31,7 @@ public class MSMemberConsumeRecords extends BaseModel  implements Serializable{
 	private String consumePoints;
 
 	/** 消费时间 **/
-	private Date trade_time;
+	private Date tradeTime;
 	
 	/**订单来源 **/
 	private String orderSource;
@@ -108,12 +108,12 @@ public class MSMemberConsumeRecords extends BaseModel  implements Serializable{
 		this.consumePoints = consumePoints;
 	}
 
-	public Date getTrade_time() {
-		return trade_time;
+	public Date getTradeTime() {
+		return tradeTime;
 	}
 
-	public void setTrade_time(Date trade_time) {
-		this.trade_time = trade_time;
+	public void setTradeTime(Date tradeTime) {
+		this.tradeTime = tradeTime;
 	}
 
 	public String getOrderSource() {

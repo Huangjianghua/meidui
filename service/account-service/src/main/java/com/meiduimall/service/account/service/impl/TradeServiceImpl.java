@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.constant.ConstSysParamsDefination;
 import com.meiduimall.service.account.constant.ConstTradeType;
@@ -21,7 +19,6 @@ import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSAccount;
 import com.meiduimall.service.account.model.MSBankAccount;
 import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
-import com.meiduimall.service.account.model.MSMemberConsumeHistory;
 import com.meiduimall.service.account.model.request.RequestSaveOrder;
 import com.meiduimall.service.account.model.request.RequestCancelOrder;
 import com.meiduimall.service.account.service.AccountAdjustService;
@@ -118,7 +115,7 @@ public class TradeServiceImpl implements TradeService {
 		}*/
 		resBodyData.setData(dataMap);
 		/**写入会员消费记录*/
-		MSMemberConsumeHistory history = new MSMemberConsumeHistory();
+		/*MSMemberConsumeHistory history = new MSMemberConsumeHistory();*/
 		/*history.setMchId(UUID.randomUUID().toString());
 		history.setMemId(memId);
 		history.setOrderId(orderId);
@@ -130,12 +127,12 @@ public class TradeServiceImpl implements TradeService {
 		history.setMchConsumePointsCount(consumePoints);
 		history.setMchShoppingCouponCount(consumeMoney);
 		history.setMchSettingStatus(1);*/
-		history.setMchIssueStatus(1);
+		/*history.setMchIssueStatus(1);
 		try {
 			this.saveMemberTradeHistory(history);
 		} catch (Exception e) {
 		
-		}
+		}*/
 		return resBodyData;
 	}
 
@@ -274,7 +271,7 @@ public class TradeServiceImpl implements TradeService {
 		}
 		//消费记录
 		if(bsFlag){
-			MSMemberConsumeHistory history = new MSMemberConsumeHistory();
+			/*MSMemberConsumeHistory history = new MSMemberConsumeHistory();
 			history.setMchId(UUID.randomUUID().toString());
 			history.setMemId(memId);
 			history.setOrderId(orderId);
@@ -284,11 +281,11 @@ public class TradeServiceImpl implements TradeService {
 			history.setMchCreatedDate(tradeDate);
 			history.setMchPayType(payType);
 			history.setMchStatus("2");
-/*			history.setMchConsumePointsCount(tradePoint);
-			history.setMchShoppingCouponCount(tradeAmount);*/
+			history.setMchConsumePointsCount(tradePoint);
+			history.setMchShoppingCouponCount(tradeAmount);
 			history.setMchSettingStatus(1);
 			history.setMchIssueStatus(1);
-			saveMemberTradeHistory(history);
+			saveMemberTradeHistory(history);*/
 		}
 				
 		//出现错误返回运行时异常回滚事务
@@ -503,13 +500,13 @@ public class TradeServiceImpl implements TradeService {
 	}
 	
 
-	private boolean saveMemberTradeHistory(MSMemberConsumeHistory history) throws Exception {
+	/*private boolean saveMemberTradeHistory(MSMemberConsumeHistory history) throws Exception {
 		int flag = baseDao.insert(history, "MSAccountMapper.insertMemberConsumeHistory");
 		if(flag <= 0){
 			logger.error("写入会员消费记录表失败，会员编号：{}，订单编号：{}", history.getMemId(), history.getOrderId());
 			return false;
 		}
 		return true;
-	}
+	}*/
 
 }
