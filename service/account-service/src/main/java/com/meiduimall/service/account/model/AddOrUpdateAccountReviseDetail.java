@@ -2,6 +2,7 @@ package com.meiduimall.service.account.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -61,17 +62,17 @@ public class AddOrUpdateAccountReviseDetail implements Serializable {
 	/**
 	 * 
 	 */
-	private String createdBy;
+	private String createUser;
 	/**
 	 * 
 	 */
-	private String createdDate;
+	private Date createDate;
 	/**
 	 * 
 	 */
-	private String updatedBy;
+	private String updateUser;
 
-	private String updatedDate;
+	private Date updateDate;
 
 	private String isDelete;
 
@@ -140,28 +141,38 @@ public class AddOrUpdateAccountReviseDetail implements Serializable {
 		this.reviseBalance = reviseBalance;
 	}
 
-	public String getCreatedBy() {
-		return createdBy;
+	 
+
+	public String getCreateUser() {
+		return createUser;
 	}
 
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy == null ? null : createdBy.trim();
+	public void setCreateUser(String createUser) {
+		this.createUser = createUser;
 	}
 
-	public String getCreatedDate() {
-		return createdDate;
+	public Date getCreateDate() {
+		return createDate;
 	}
 
-	public void setCreatedDate(String createdDate) {
-		this.createdDate = createdDate;
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 
-	public String getUpdatedBy() {
-		return updatedBy;
+	public String getUpdateUser() {
+		return updateUser;
 	}
 
-	public void setUpdatedBy(String updatedBy) {
-		this.updatedBy = updatedBy == null ? null : updatedBy.trim();
+	public void setUpdateUser(String updateUser) {
+		this.updateUser = updateUser;
+	}
+
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
 	}
 
 	public String getStatus() {
@@ -172,13 +183,7 @@ public class AddOrUpdateAccountReviseDetail implements Serializable {
 		this.status = status == null ? null : status.trim();
 	}
 
-	public String getUpdatedDate() {
-		return updatedDate;
-	}
-
-	public void setUpdatedDate(String updatedDate) {
-		this.updatedDate = updatedDate;
-	}
+	 
 
 	public String getReviseRemark() {
 		return reviseRemark;

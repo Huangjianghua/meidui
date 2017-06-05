@@ -1,6 +1,5 @@
 package com.meiduimall.service.account.service.impl;
 
-import static org.mockito.Matchers.anyDouble;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -146,10 +145,11 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 	}
 
 	@Override
-	@Transactional
 	public void addMSAccountReviseDetail(AddOrUpdateAccountReviseDetail dto) throws MdBizException {
 		String reviseId = UUID.randomUUID().toString();
 		dto.setId(reviseId);
+		dto.setCreateDate(new Date());
+		dto.setUpdateDate(new Date());
 		try {
 			 baseDao.insert(dto, "MSAccountReviseDetailMapper.insertAccountReviseDetail");
 			 MSAccount accountInfo = accountServices.getAccountInfo(dto.getMemId(), dto.getAccountNo());
@@ -195,6 +195,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 	@Override
 	public Integer updateMSAccountReviseDetail(AddOrUpdateAccountReviseDetail dto) throws MdBizException {
 		Integer result=0;
+		dto.setUpdateDate(new Date());
 		try {
 			result=baseDao.update(dto, "MSAccountReviseDetailMapper.updateAccountReviseDetail");
 		} catch (Exception e) {

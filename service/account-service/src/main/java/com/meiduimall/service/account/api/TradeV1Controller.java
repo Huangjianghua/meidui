@@ -348,7 +348,7 @@ public class TradeV1Controller {
 		try {
 			 
 			if (StringUtils.isEmpty(ms.getMemId())) {
-				logger.info("当前用户不存在: {}",ms.getMemId());
+				logger.info("当前用户不能为空");
 				return new ResBodyData(ConstApiStatus.ACCOUNT_NOT_EXIST, ConstApiStatus.getZhMsg(ConstApiStatus.ACCOUNT_NOT_EXIST));
 			}
 			

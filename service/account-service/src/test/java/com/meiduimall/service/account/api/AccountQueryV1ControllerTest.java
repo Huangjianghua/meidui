@@ -95,7 +95,6 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 
 	
 	/**
-	 * 用户列表
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月18日 下午3:46:31
 	 */
@@ -117,11 +116,14 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 		 String url = "/member/account_service/v1/add_account_revision_detail";
 		 AddOrUpdateAccountReviseDetail dto=new AddOrUpdateAccountReviseDetail();
 		 dto.setMemId("72063681-7408-435c-88fd-cd837c95c66e");
+		 dto.setAccountNo("CWTZ300001000008");
 		 dto.setReviseType("1");
 		 dto.setStatus("WR");
 		 dto.setIsDelete("N");
-		 dto.setCreatedBy("huang");
-		 dto.setUpdatedBy("huang2");
+		 dto.setBeforeBalance(BigDecimal.TEN);
+		 dto.setReviseBalance(BigDecimal.ONE);
+		 dto.setCreateUser("huang");
+		 dto.setUpdateUser("huang2");
 		 dto.setReviewRemark("是肯定会罚款决定付款后会计师的疯狂的11");
 		 dto.setReviseRemark("但是离开泛海建设啦看见哈佛I未来那块地方22");
 		 String object=JsonUtils.beanToJson(dto);
@@ -142,15 +144,14 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 		 dto.setMemId("72063681-7408-435c-88fd-cd837c95c66e");
 		 dto.setMemLoginName("很test1");
 		 dto.setMemPhone("15112347555");
+		 dto.setAccountNo("CWTZ300001000008");
 		 dto.setReviseType("1");
 		 dto.setStatus("AR");
 		 dto.setIsDelete("N");
 		 dto.setBeforeBalance(BigDecimal.TEN);
 		 dto.setReviseBalance(BigDecimal.ONE);
-		 dto.setCreatedBy("huangTestUpdate1");
-		 dto.setCreatedDate(DateUtil.formatDateTime(new Date()));
-		 dto.setUpdatedDate(DateUtil.formatDateTime(new Date()));
-		 dto.setUpdatedBy("huangTestUpdate2");
+		 dto.setCreateUser("huangTestUpdate1");
+		 dto.setUpdateUser("huangTestUpdate2");
 		 dto.setReviewRemark("财务处理");
 		 dto.setReviseRemark("通过");
 		 String json=JsonUtils.beanToJson(dto);
