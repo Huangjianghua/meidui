@@ -1,5 +1,7 @@
 package com.meiduimall.service.account.service;
 
+import java.util.List;
+
 import com.meiduimall.service.account.model.MSAccount;
 
 /**
@@ -97,5 +99,17 @@ public interface AccountService {
 	 */
 	public boolean checkFreezeMoneyByOrderId(String orderId);
 
+	/**
+	 * 按照账户优先级冻结账户
+	 * @param listAccount 账户列表
+	 */
+	public void freezeAccountByPriority(List<MSAccount> listAccount);
+	
+	/**
+	 * 根据会员ID查询账户列表
+	 * @param memId 会员ID
+	 * @return 账户列表
+	 */
+	public List<MSAccount> getAccountList(String memId);
 	
 }

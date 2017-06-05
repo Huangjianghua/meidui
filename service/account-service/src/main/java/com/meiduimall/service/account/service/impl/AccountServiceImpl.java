@@ -1,6 +1,7 @@
 package com.meiduimall.service.account.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.meiduimall.service.account.constant.ConstSysParamsDefination;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSAccount;
+import com.meiduimall.service.account.service.AccountFreezeDetailService;
 import com.meiduimall.service.account.service.AccountService;
 import com.meiduimall.service.account.util.DESC;
 import com.meiduimall.service.account.util.DoubleCalculate;
@@ -24,19 +26,22 @@ public class AccountServiceImpl implements AccountService {
 	@Autowired
 	private BaseDao baseDao;
 	
+	@Autowired
+	private AccountFreezeDetailService  accountFreezeDetailService;
+	
 	@Override
 	public MSAccount getAccountInfo(String memId, String accountTypeNo) {
 		Map<String, Object> mapCondition=new HashMap<>();
 		mapCondition.put("memId",memId);
 		mapCondition.put("accountTypeNo",accountTypeNo);
-		return baseDao.selectOne(mapCondition,"MSAccountMapper.getAccountByMemIdAndAccountTypeNo");
+		return baseDao.selectOne(mapCondition,"MSAccountMapper.getAccountByCondition");
 	}
 
 	@Override
 	public MSAccount getAccountInfo(String memId) {
 		Map<String, Object> mapCondition=new HashMap<>();
 		mapCondition.put("memId",memId);
-		return baseDao.selectOne(mapCondition,"MSAccountMapper.getAccountByMemIdAndAccountTypeNo");
+		return baseDao.selectOne(mapCondition,"MSAccountMapper.getAccountByCondition");
 	}
 	
 	@Override
@@ -152,5 +157,19 @@ public class AccountServiceImpl implements AccountService {
 			return false;
 		}
 	}
+
+	@Override
+	public void freezeAccountByPriority(List<MSAccount> listAccount) {
+		
+	}
+
+	@Override
+	public List<MSAccount> getAccountList(String memId) {
+		Map<String,Object> mapCondition=new HashMap<>();
+		mapCondition.put("memId",memId);
+		return baseDao.selectList(mapCondition,"MSAccountMapper.getAccountByCondition");
+	}
+
+	
 
 }

@@ -40,8 +40,8 @@
 		WHERE m.mem_id=#{memId}
 	</select>
 	
-	<!-- 根据会员ID和账户类型编号查询账户信息 -->
-	<select id="getAccountByMemIdAndAccountTypeNo" resultMap="MsAccountResultMap" parameterType="java.util.Map">
+	<!-- 根据条件查询账户信息 -->
+	<select id="getAccountByCondition" resultMap="MsAccountResultMap" parameterType="java.util.Map">
 		SELECT m.*
 		FROM ms_account m
 		WHERE 1=1
@@ -51,6 +51,20 @@
 		<if test="accountTypeNo != null and accountTypeNo != ''">
 		AND m.account_type_no=#{accountTypeNo}
 		</if>
+	</select>
+	
+	<!-- 根据条件查询余额相关的账户信息 -->
+	<select id="getBalanceAccountByCondition" resultMap="MsAccountResultMap" parameterType="java.util.Map">
+		SELECT m.*
+		FROM ms_account m
+		WHERE 1=1
+		<if test="memId != null and memId != ''">
+		AND m.mem_id=#{memId}
+		</if>
+		<if test="accountTypeNo != null and accountTypeNo != ''">
+		AND m.account_type_no=#{accountTypeNo}
+		</if>
+		AND m.account_type_no IN ('CWTZ1','CWTZ2','CWTZ3','FJJL','GDYE','KFCZ1','KFCZ2','QDYE','SCJL','SJJL','SJYE','YEDR')
 	</select>
 	
 	<!-- 插入会员指定类型的账户信息 -->
