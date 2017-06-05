@@ -144,7 +144,11 @@ public class TradeServiceImpl implements TradeService {
 				//写入积分冻结解冻记录表
 				MSConsumePointsFreezeInfo freezeInfo=new MSConsumePointsFreezeInfo();
 				freezeInfo.setMcpfId(UUID.randomUUID().toString());
-				/*pointsFreezeInfoService.insertConsumeFreezeInfo(model,ConstPointsChangeType.POINTS_FREEZE_TYPE_DJ.getCode());*/
+				freezeInfo.setMemId(model.getMemId());
+				freezeInfo.setMcpfOrderId(model.getOrderId());
+				freezeInfo.setMcpfConsumePoints(String.valueOf(model.getConsumePoints()));
+				freezeInfo.setMcpfRemark("冻结消费积分");
+				pointsFreezeInfoService.insertConsumePointsFreezeInfo(freezeInfo,ConstPointsChangeType.POINTS_FREEZE_TYPE_DJ.getCode());
 			}
 			//订单状态为2表示已支付，需要解冻并扣减积分和余额
 			else if (model.getOrderStatus()==2) {
