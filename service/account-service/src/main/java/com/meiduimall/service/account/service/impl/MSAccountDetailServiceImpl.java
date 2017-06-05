@@ -1,5 +1,7 @@
 package com.meiduimall.service.account.service.impl;
 
+import static org.mockito.Matchers.anyDouble;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -36,6 +38,7 @@ import com.meiduimall.service.account.model.MSAccountDetailCondition;
 import com.meiduimall.service.account.model.MSAccountDetailGet;
 import com.meiduimall.service.account.model.MSAccountList;
 import com.meiduimall.service.account.model.MSAccountReport;
+import com.meiduimall.service.account.model.MSAccountType;
 import com.meiduimall.service.account.model.MSBankAccount;
 import com.meiduimall.service.account.model.MSBankWithDrawOperateDetail;
 import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
@@ -148,19 +151,37 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		dto.setId(reviseId);
 		try {
 			 baseDao.insert(dto, "MSAccountReviseDetailMapper.insertAccountReviseDetail");
-			 
 			 MSAccount accountInfo = accountServices.getAccountInfo(dto.getMemId(), dto.getAccountNo());
 			 if(org.springframework.util.StringUtils.isEmpty(accountInfo)){
 				 MSAccount msAccount = new MSAccount();
 				 msAccount.setId(UUID.randomUUID().toString());
 				 msAccount.setMemId(dto.getMemId());
-				 Long sequenceByAccountTypeNo = accountTypeService.getSequenceByAccountTypeNo(dto.getAccountNo());
-				 msAccount.setAccountNo(dto.getAccountNo()+sequenceByAccountTypeNo);
-				 msAccount.setAccountTypeNo(dto.getAccountNo());
-				 msAccount.setAccountNoSequence(sequenceByAccountTypeNo);
+				 Map<String, Object> map = new HashMap<>();
+				 map.put("account_type_no",dto.getAccountNo());
+				 MSAccountType accountType = accountTypeService.getByAccountTypeCondition(map);
+				 msAccount.setAccountNo(dto.getAccountNo()+accountType.getAccountNoSequence());
+				 msAccount.setAccountTypeNo(accountType.getAccountTypeNo());
+				 msAccount.setAccountNoSequence(accountType.getAccountNoSequence());
 				 msAccount.setBalance(Double.valueOf(dto.getReviseBalance().toString()));
-//				 msAccount.setBalanceEncrypt(DESC.encryption(dto.getReviseBalance().toString(), dto.getMemId()));
-				 
+				 msAccount.setBalanceEncrypt(DESC.encryption(dto.getReviseBalance().toString(), dto.getMemId()));
+				 msAccount.setFreezeBalance(0.00);
+				 msAccount.setFreezeBalanceEncrypt(DESC.encryption(String.valueOf(0.00), dto.getMemId()));
+				 msAccount.setAllowWithdraw(accountType.getAllowWithdraw());
+				 msAccount.setWithdrawPoundageScale(accountType.getWithdrawPoundageScale());
+				 msAccount.setWithdrawPoundageMin(accountType.getWithdrawPoundageMin());
+				 msAccount.setWithdrawPoundageMax(accountType.getRefundPoundageMax());
+				 msAccount.setAllowRefund(accountType.getAllowRefund());
+				 msAccount.setRefundPoundageScale(accountType.getRefundPoundageScale());
+				 msAccount.setRefundPoundageMin(accountType.getRefundPoundageMin());
+				 msAccount.setRefundPoundageMax(accountType.getRefundPoundageMax());
+				 msAccount.setWithdrawPriority(accountType.getWithdrawPriority());
+				 msAccount.setSpendPriority(accountType.getSpendPriority());
+				 msAccount.setAccountStatus(0); //账户状态,0 正常 1禁用
+				 msAccount.setCreateDate(new Date());
+				 msAccount.setCreateUser("账户服务");
+				 msAccount.setUpdateDate(new Date());
+				 msAccount.setUpdateUser("账户服务");
+				 msAccount.setRemark(accountType.getAccountTypeName());
 				 accountServices.insertAccountByType(msAccount);
 			 }
 		} catch (Exception e) {
