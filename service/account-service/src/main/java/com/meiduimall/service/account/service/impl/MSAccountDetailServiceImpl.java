@@ -1,7 +1,5 @@
 package com.meiduimall.service.account.service.impl;
 
-import static org.mockito.Matchers.anyDouble;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
