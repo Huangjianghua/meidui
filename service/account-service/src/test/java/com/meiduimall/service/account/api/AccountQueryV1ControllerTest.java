@@ -290,7 +290,7 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 		 
 		 deposit.setAccountNo("123456");
 		 deposit.setMemId("a0db1419-f44a-48e8-9394-a49620e47940");
-		 deposit.setApplyCarryCash("100.05");
+		 deposit.setApplyCarryCash("10");
 		 deposit.setAuditBy("huangTest");
 		 deposit.setRemark("huangjianhuaTestDate");
 		 
