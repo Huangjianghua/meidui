@@ -81,9 +81,9 @@
 				account_city as accountCity,
 				account_area as accountArea,
 				account_sub_bank as accountSubBank,
-				apply_withdraw_amount as applyCarryCash,
+				apply_withdraw_amount as applyWithdrawAmount,
 				poundage_amount as counterFee,
-				actual_withdraw_amount as actualCarryCash,
+				actual_withdraw_amount as actualWithdrawAmount,
 				apply_date as applyDate,
 				audit_by as auditBy,
 				audit_date as auditDate,
@@ -113,9 +113,9 @@
 				a.account_city as accountCity,
 				a.account_area as accountArea,
 				a.account_sub_bank as accountSubBank,
-				a.apply_carry_cash as applyCarryCash,
-				a.counter_fee as counterFee,
-				a.apply_withdraw_amount as actualCarryCash,
+				a.apply_withdraw_amount as applyWithdrawAmount,
+				a.poundage_amount as poundageAmount,
+				a.actual_withdraw_amount as actualWithdrawAmount,
 				a.apply_date as applyDate,
 				a.audit_by as auditBy,
 				a.audit_date as auditDate,
@@ -125,7 +125,7 @@
 				a.create_date as createDate,
 				b.mem_phone as phone,
 				b.mem_login_name as loginName, 
-				a.actual_transfer_cash as actualTransferCash,
+				a.actual_transfer_amount as actualTransferAmount,
 				a.withdraw_balance as withdrawBalance /**提现时余额	*/
 				from ms_bank_withdraw_deposit a 
 				LEFT JOIN ms_members b on b.mem_id=a.mem_id
@@ -164,7 +164,7 @@
 	        status = #{status},
 	      </if>
 	      <if test="actualTransferCash != null and actualTransferCash !=''" >
-	        actual_transfer_cash = #{actualTransferCash},
+	        actual_transfer_amount = #{actualTransferCash},
 	      </if>
 	      <if test="auditBy != null and auditBy !=''" >
 	        audit_by = #{auditBy},
@@ -203,7 +203,7 @@
 	    bwd.apply_withdraw_amount as applyWithdrawAmount,
 	    bwd.poundage_amount as poundageAmount,
 	    bwd.actual_withdraw_amount as actualWithdrawAmount,
-	    bwd.actual_transfer_cash as actualTransferCash,
+	    bwd.actual_transfer_amount as actualTransferAmount,
 	    bwd.apply_date as applyDate,
 	    bwd.audit_by as auditBy,
 	    bwd.audit_date as auditDate,
