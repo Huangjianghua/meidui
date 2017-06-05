@@ -44,4 +44,9 @@ public class AccountTypeServiceImpl implements AccountTypeService {
 		return this.getSequenceByAccountTypeNo(accountTypeNo);
 	}
 
+	@Override
+	public MSAccountType getByAccountTypeCondition(Map<String, Object> map) {
+		return baseDao.selectOne(map, "MSAccountTypeMapper.getByAccountTypeCondition");
+	}
+
 }

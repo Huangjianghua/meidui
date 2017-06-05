@@ -1,5 +1,7 @@
 package com.meiduimall.service.account.service.impl;
 
+import static org.mockito.Matchers.anyDouble;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -37,6 +39,7 @@ import com.meiduimall.service.account.model.MSAccountDetailGet;
 import com.meiduimall.service.account.model.MSAccountFreezeDetail;
 import com.meiduimall.service.account.model.MSAccountList;
 import com.meiduimall.service.account.model.MSAccountReport;
+import com.meiduimall.service.account.model.MSAccountType;
 import com.meiduimall.service.account.model.MSBankAccount;
 import com.meiduimall.service.account.model.MSBankWithDrawOperateDetail;
 import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
@@ -49,8 +52,10 @@ import com.meiduimall.service.account.service.AccountDetailService;
 import com.meiduimall.service.account.service.AccountFreezeDetailService;
 import com.meiduimall.service.account.service.AccountReportService;
 import com.meiduimall.service.account.service.AccountService;
+import com.meiduimall.service.account.service.AccountTypeService;
 import com.meiduimall.service.account.service.BankAccountService;
 import com.meiduimall.service.account.service.MSAccountDetailService;
+import com.meiduimall.service.account.util.DESC;
 import com.meiduimall.service.account.util.DateUtil;
 import com.meiduimall.service.account.util.DoubleCalculate;
 import com.meiduimall.service.account.util.GenerateNumber;
@@ -78,6 +83,9 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 	
 	@Autowired
 	private AccountDetailService accountDetailService;
+	
+	@Autowired
+	private AccountTypeService accountTypeService;
 	
 	@Override
 	public List<MSAccountDetail> listMSAccountDetail(MSAccountDetailGet mSAccountDetail) throws Exception {
@@ -138,11 +146,45 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 	}
 
 	@Override
+	@Transactional
 	public void addMSAccountReviseDetail(AddOrUpdateAccountReviseDetail dto) throws MdBizException {
 		String reviseId = UUID.randomUUID().toString();
 		dto.setId(reviseId);
 		try {
 			 baseDao.insert(dto, "MSAccountReviseDetailMapper.insertAccountReviseDetail");
+			 MSAccount accountInfo = accountServices.getAccountInfo(dto.getMemId(), dto.getAccountNo());
+			 if(org.springframework.util.StringUtils.isEmpty(accountInfo)){
+				 MSAccount msAccount = new MSAccount();
+				 msAccount.setId(UUID.randomUUID().toString());
+				 msAccount.setMemId(dto.getMemId());
+				 Map<String, Object> map = new HashMap<>();
+				 map.put("accountTypeNo",dto.getAccountNo());
+				 MSAccountType accountType = accountTypeService.getByAccountTypeCondition(map);
+				 msAccount.setAccountNo(dto.getAccountNo()+accountType.getAccountNoSequence());
+				 msAccount.setAccountTypeNo(accountType.getAccountTypeNo());
+				 msAccount.setAccountNoSequence(accountType.getAccountNoSequence());
+				 msAccount.setBalance(Double.valueOf(dto.getReviseBalance().toString()));
+				 msAccount.setBalanceEncrypt(DESC.encryption(dto.getReviseBalance().toString(), dto.getMemId()));
+				 msAccount.setFreezeBalance(0.00);
+				 msAccount.setFreezeBalanceEncrypt(DESC.encryption(String.valueOf(0.00), dto.getMemId()));
+				 msAccount.setAllowWithdraw(accountType.getAllowWithdraw());
+				 msAccount.setWithdrawPoundageScale(accountType.getWithdrawPoundageScale());
+				 msAccount.setWithdrawPoundageMin(accountType.getWithdrawPoundageMin());
+				 msAccount.setWithdrawPoundageMax(accountType.getRefundPoundageMax());
+				 msAccount.setAllowRefund(accountType.getAllowRefund());
+				 msAccount.setRefundPoundageScale(accountType.getRefundPoundageScale());
+				 msAccount.setRefundPoundageMin(accountType.getRefundPoundageMin());
+				 msAccount.setRefundPoundageMax(accountType.getRefundPoundageMax());
+				 msAccount.setWithdrawPriority(accountType.getWithdrawPriority());
+				 msAccount.setSpendPriority(accountType.getSpendPriority());
+				 msAccount.setAccountStatus(0); //账户状态,0 正常 1禁用
+				 msAccount.setCreateDate(new Date());
+				 msAccount.setCreateUser("账户服务");
+				 msAccount.setUpdateDate(new Date());
+				 msAccount.setUpdateUser("账户服务");
+				 msAccount.setRemark(accountType.getAccountTypeName());
+				 accountServices.insertAccountByType(msAccount);
+			 }
 		} catch (Exception e) {
 			logger.error("添加调整余额addMSAccountReviseDetail错误:{}", e.getMessage());
 			throw new MdBizException(ConstApiStatus.INSERT_MEMBER_REVISE_DETAIL_ERROR);
