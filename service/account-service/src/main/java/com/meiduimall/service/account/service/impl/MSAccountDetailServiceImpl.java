@@ -157,7 +157,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 				 msAccount.setId(UUID.randomUUID().toString());
 				 msAccount.setMemId(dto.getMemId());
 				 Map<String, Object> map = new HashMap<>();
-				 map.put("account_type_no",dto.getAccountNo());
+				 map.put("accountTypeNo",dto.getAccountNo());
 				 MSAccountType accountType = accountTypeService.getByAccountTypeCondition(map);
 				 msAccount.setAccountNo(dto.getAccountNo()+accountType.getAccountNoSequence());
 				 msAccount.setAccountTypeNo(accountType.getAccountTypeNo());
