@@ -20,13 +20,14 @@ public class AccountFreezeDetailServiceImpl implements AccountFreezeDetailServic
 	@Autowired
 	private BaseDao baseDao;
 	
+	@Override
 	public void insertAccoutFreezeDetail(MSAccountFreezeDetail model){
-		baseDao.insert(model, "MSAccountFreezeDetailMapper.insertAccountFreezeDetail");
+		baseDao.insert(model,"MSAccountFreezeDetailMapper.insertAccountFreezeDetail");
 	}
 
 	@Override
 	public List<MSAccountFreezeDetail> getRecordsByOrderId(String orderId) {
-		return baseDao.selectList(orderId, "MSAccountFreezeDetailMapper.getRecordsByOrderId");
+		return baseDao.selectList(orderId,"MSAccountFreezeDetailMapper.getRecordsByOrderId");
 	}
 
 

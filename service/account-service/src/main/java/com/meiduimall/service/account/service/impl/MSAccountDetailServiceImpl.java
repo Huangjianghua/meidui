@@ -378,7 +378,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		for(MSWithdrawInfoByAccountType accountType:list){
 			updateAccountFreezeBalance(null,-accountType.getWithdrawAmount(),accountType.getAccount_no());
 			//记录解冻明细
-			accountFreezeDetailService.saveAccountUnFreezeDetail(withdrawDeposit.getMemId(), withdrawDeposit.getBusinessNo(),"","", ConstTradeType.TRADE_TYPE_TXSX.getCode(),  String.valueOf(accountType.getWithdrawAmount()),new Date(), String.valueOf(accountType.getWithdrawBalance()),  ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
+			/*accountFreezeDetailService.saveAccountUnFreezeDetail(withdrawDeposit.getMemId(), withdrawDeposit.getBusinessNo(),"","", ConstTradeType.TRADE_TYPE_TXSX.getCode(),  String.valueOf(accountType.getWithdrawAmount()),new Date(), String.valueOf(accountType.getWithdrawBalance()),  ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);*/
 		}
 		//step5 修改总的冻结金额
 		Map<String, Object> mapParam=new HashMap<>();
@@ -617,11 +617,11 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 				//更新用户冻结金额
 				updateAccountFreezeBalance(account.getId(), Math.abs(addFreezeMoney),null);
 				//增加明细
-				accountFreezeDetailService.saveAccountFreezeDetail(account.getMemId(), businessNo,account.getAccountNo(),"", ConstTradeType.TRADE_TYPE_YETX.getCode(), String.valueOf(addFreezeMoney),applyDate, String.valueOf(freezeBalance),  ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
+				/*accountFreezeDetailService.saveAccountFreezeDetail(account.getMemId(), businessNo,account.getAccountNo(),"", ConstTradeType.TRADE_TYPE_YETX.getCode(), String.valueOf(addFreezeMoney),applyDate, String.valueOf(freezeBalance),  ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);*/
 				//增加明细
 				Double free=DoubleCalculate.mul(deductionMoney, account.getWithdrawPoundageScale());  //单个账号的手续费比例
 				freezeBalance=DoubleCalculate.add(freezeBalance, free); //加上冻结手续费
-				accountFreezeDetailService.saveAccountFreezeDetail(account.getMemId(), businessNo,account.getAccountNo(),"", ConstTradeType.TRADE_TYPE_TXSX.getCode(),  String.valueOf(free),applyDate, String.valueOf(freezeBalance),  ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);
+				/*accountFreezeDetailService.saveAccountFreezeDetail(account.getMemId(), businessNo,account.getAccountNo(),"", ConstTradeType.TRADE_TYPE_TXSX.getCode(),  String.valueOf(free),applyDate, String.valueOf(freezeBalance),  ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);*/
 				break;
 			}
 			addFreezeMoney=deductionMoney;
@@ -632,12 +632,12 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			//插入提现ms_withdraw_info_by_account_type  子表里
 			addWithDrawInfoByAccountType(id,account.getAccountNo(),useBalance,useBalance);
 			//增加明细
-			accountFreezeDetailService.saveAccountFreezeDetail(account.getMemId(), businessNo,account.getAccountNo(),"", ConstTradeType.TRADE_TYPE_YETX.getCode(), String.valueOf(useBalance),applyDate, String.valueOf(freezeBalance),  ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
+			/*accountFreezeDetailService.saveAccountFreezeDetail(account.getMemId(), businessNo,account.getAccountNo(),"", ConstTradeType.TRADE_TYPE_YETX.getCode(), String.valueOf(useBalance),applyDate, String.valueOf(freezeBalance),  ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);*/
 			//增加明细
 			//增加明细
 			Double free=DoubleCalculate.mul(useBalance, account.getWithdrawPoundageScale());  //单个账号的手续费比例
 			freezeBalance=DoubleCalculate.add(freezeBalance, free); //加上冻结手续费
-			accountFreezeDetailService.saveAccountFreezeDetail(account.getMemId(), businessNo,account.getAccountNo(),"", ConstTradeType.TRADE_TYPE_TXSX.getCode(), String.valueOf(free),applyDate, String.valueOf(freezeBalance),  ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);
+			/*accountFreezeDetailService.saveAccountFreezeDetail(account.getMemId(), businessNo,account.getAccountNo(),"", ConstTradeType.TRADE_TYPE_TXSX.getCode(), String.valueOf(free),applyDate, String.valueOf(freezeBalance),  ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);*/
 			}
 			//step5 修改总的冻结金额
 			Map<String, Object> mapParam=new HashMap<>();

@@ -17,5 +17,11 @@ public interface AccountFreezeDetailService {
 	 * @return 冻结解冻记录列表
 	 */
 	public List<MSAccountFreezeDetail> getRecordsByOrderId(String orderId);
+
+	/**
+	 * 插入余额冻结解冻记录
+	 * @param model 余额冻结解冻记录表实体
+	 */
+	void insertAccoutFreezeDetail(MSAccountFreezeDetail model);
 	
 }
