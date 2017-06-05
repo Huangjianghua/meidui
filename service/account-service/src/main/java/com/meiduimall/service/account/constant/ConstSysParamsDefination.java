@@ -84,5 +84,10 @@ public class ConstSysParamsDefination {
 	public final static Integer THAW=-1;
 	/**	表示系统用户			*/
 	public final static String SYSTEM_USER="system";
+	
+	/** 余额修改操作  */
+	public final static String BALANCE_UPDATE_OPERATE="balance";
+	/** 冻结余额修改操作  */
+	public final static String FREE_ALANCE_UPDATE_OPERATE="freeze";
 
 }

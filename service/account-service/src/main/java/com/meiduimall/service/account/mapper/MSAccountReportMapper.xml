@@ -20,55 +20,55 @@
 		UPDATE ms_account_report
 		<set>
 		 <if test="JFZH !=null and JFZH !=''">
-           balance_JFZH =#{JFZH},
+           balance_JFZH =balance_JFZH + #{JFZH},
         </if>
         
          <if test="KFCZ1 !=null and KFCZ1 !=''">
-           balance_KFCZ1 =#{KFCZ1},
+           balance_KFCZ1 =balance_KFCZ1 + #{KFCZ1},
         </if>
          
          <if test="KFCZ2 !=null and KFCZ2 !=''">
-           balance_KFCZ2 =#{KFCZ2},
+           balance_KFCZ2 =balance_KFCZ2 + #{KFCZ2},
         </if>
         
          <if test="CWTZ1 !=null and CWTZ1 !=''">
-           balance_CWTZ1 =#{CWTZ1},
+           balance_CWTZ1 =balance_CWTZ1 + #{CWTZ1},
         </if>
         
          <if test="CWTZ2 !=null and CWTZ2 !=''">
-           balance_CWTZ2 =#{CWTZ2},
+           balance_CWTZ2 =balance_CWTZ2 + #{CWTZ2},
         </if>
          
          <if test="CWTZ3 !=null and CWTZ3 !=''">
-           balance_CWTZ3 =#{CWTZ3},
+           balance_CWTZ3 =balance_CWTZ3 + #{CWTZ3},
         </if>
         
          <if test="SJJL !=null and SJJL !=''">
-           balance_SJJL =#{SJJL},
+           balance_SJJL =balance_SJJL + #{SJJL},
         </if>
          
          <if test="SJYE !=null and SJYE !=''">
-           balance_SJYE =#{SJYE},
+           balance_SJYE =balance_SJYE + #{SJYE},
         </if>
          
          <if test="GDYE !=null and GDYE !=''">
-           balance_GDYE =#{GDYE},
+           balance_GDYE =balance_GDYE + #{GDYE},
         </if>
          
          <if test="QDYE !=null and QDYE !=''">
-           balance_QDYE =#{QDYE},
+           balance_QDYE =balance_QDYE + #{QDYE},
         </if>
          
          <if test="FJJL !=null and FJJL !=''">
-           balance_FJJL =#{FJJL},
+           balance_FJJL =balance_FJJL + #{FJJL},
         </if>
          
          <if test="SCJL !=null and SCJL !=''">
-           balance_SCJL =#{SCJL},
+           balance_SCJL =balance_SCJL + #{SCJL},
         </if>
         
         <if test="YEDR !=null and YEDR !=''">
-           balance_YEDR =#{YEDR},
+           balance_YEDR =balance_YEDR + #{YEDR},
         </if>
 		</set>
 		<where>
@@ -86,55 +86,55 @@
 		update ms_account_report
 		<set>
 		 <if test="JFZH !=null and JFZH !=''">
-           feeze_balance_JFZH =#{JFZH},
+           feeze_balance_JFZH =feeze_balance_JFZH + #{JFZH},
         </if>
         
          <if test="KFCZ1 !=null and KFCZ1 !=''">
-           freeze_balance_KFCZ1 =#{KFCZ1},
+           freeze_balance_KFCZ1 =freeze_balance_KFCZ1 + #{KFCZ1},
         </if>
          
          <if test="KFCZ2 !=null and KFCZ2 !=''">
-           freeze_balance_KFCZ2 =#{KFCZ2},
+           freeze_balance_KFCZ2 =freeze_balance_KFCZ2 + #{KFCZ2},
         </if>
         
          <if test="CWTZ1 !=null and CWTZ1 !=''">
-           freeze_balance_CWTZ1 =#{CWTZ1},
+           freeze_balance_CWTZ1 =freeze_balance_CWTZ1 + #{CWTZ1},
         </if>
         
          <if test="CWTZ2 !=null and CWTZ2 !=''">
-           freeze_balance_CWTZ2 =#{CWTZ2},
+           freeze_balance_CWTZ2 =freeze_balance_CWTZ2 + #{CWTZ2},
         </if>
          
          <if test="CWTZ3 !=null and CWTZ3 !=''">
-           freeze_balance_CWTZ3 =#{CWTZ3},
+           freeze_balance_CWTZ3 =freeze_balance_CWTZ3 + #{CWTZ3},
         </if>
         
          <if test="SJJL !=null and SJJL !=''">
-           freeze_balance_SJJL =#{SJJL},
+           freeze_balance_SJJL =freeze_balance_SJJL + #{SJJL},
         </if>
          
          <if test="SJYE !=null and SJYE !=''">
-           freeze_balance_SJYE =#{SJYE},
+           freeze_balance_SJYE =freeze_balance_SJYE + #{SJYE},
         </if>
          
          <if test="GDYE !=null and GDYE !=''">
-           freeze_balance_GDYE =#{GDYE},
+           freeze_balance_GDYE =freeze_balance_GDYE + #{GDYE},
         </if>
          
          <if test="QDYE !=null and QDYE !=''">
-           freeze_balance_QDYE =#{QDYE},
+           freeze_balance_QDYE =freeze_balance_QDYE + #{QDYE},
         </if>
          
          <if test="FJJL !=null and FJJL !=''">
-           freeze_balance_FJJL =#{FJJL},
+           freeze_balance_FJJL =freeze_balance_FJJL + #{FJJL},
         </if>
          
          <if test="SCJL !=null and SCJL !=''">
-           freeze_balance_SCJL =#{SCJL},
+           freeze_balance_SCJL =freeze_balance_SCJL + #{SCJL},
         </if>
         
         <if test="YEDR !=null and YEDR !=''">
-           freeze_balance_YEDR =#{YEDR},
+           freeze_balance_YEDR =freeze_balance_YEDR + #{YEDR},
         </if>
 		</set>
 		<where>
