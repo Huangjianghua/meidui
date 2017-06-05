@@ -25,7 +25,6 @@ import com.meiduimall.service.account.service.AccountService;
 import com.meiduimall.service.account.service.ValidateService;
 import com.meiduimall.service.account.util.DESC;
 import com.meiduimall.service.account.util.DoubleCalculate;
-import com.meiduimall.service.account.util.StringUtil;
 
 /**
  * 账户调整相关接口{@link=AccountAdjustService}实现类
@@ -309,9 +308,7 @@ public class AccountAdjustServiceImpl implements AccountAdjustService {
 		if(balance >= 0){
 			MSAccount account = accountService.getAccountMoney(memId);
 			//增加明细
-			accountFreezeDetailService.saveAccountFreezeDetail(memId, orderId,
-					account.getId(),"", tradeType, tradeAmount,
-					tradeDate, String.valueOf(balance), remark);
+			accountFreezeDetailService.insertAccoutFreezeDetail(null);
 			returnBool = true;
 		}else{
 			throw new RuntimeException("冻结余额变动失败");
@@ -327,9 +324,7 @@ public class AccountAdjustServiceImpl implements AccountAdjustService {
 		if(balance >= 0){
 			MSAccount account = accountService.getAccountMoney(memId);
 			//增加明细
-			accountFreezeDetailService.saveAccountUnFreezeDetail(memId, orderId,
-					account.getId(),"", tradeType, tradeAmount,
-					tradeDate, String.valueOf(balance), remark);
+			accountFreezeDetailService.insertAccoutFreezeDetail(null);
 			returnBool = true;
 		}else{
 			throw new MdBizException(ConstApiStatus.FROZEN_BALANCE_FAILED_ERROR);
