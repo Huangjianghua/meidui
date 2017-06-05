@@ -34,6 +34,8 @@ public class TemplateInfoServiceImpl implements TemplateInfoService {
 		Long ttl = RedisUtils.ttl(key);
 		if (ttl > 0) {
 			templateListJsonStr = RedisUtils.get(key);
+		} else {
+			RedisUtils.del(key);
 		}
 		if (StringUtils.isEmpty(templateListJsonStr)) {
 			try {

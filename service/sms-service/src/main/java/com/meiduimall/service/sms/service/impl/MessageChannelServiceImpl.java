@@ -33,6 +33,8 @@ public class MessageChannelServiceImpl implements MessageChannelService {
 		Long ttl = RedisUtils.ttl(key);
 		if (ttl > 0) {
 			channelListJsonStr = RedisUtils.get(key);
+		} else {
+			RedisUtils.del(key);
 		}
 		if (StringUtils.isEmpty(channelListJsonStr)) {
 			try {
@@ -46,7 +48,7 @@ public class MessageChannelServiceImpl implements MessageChannelService {
 				logger.error("获取第三方短信发送渠道列表异常： " + e);
 				throw new ServiceException(SmsApiCode.EXCEPTION_ACCESS_CHANNEL);
 			}
-		} 
+		}
 		return channelListJsonStr;
 	}
 }
