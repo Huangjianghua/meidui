@@ -48,8 +48,10 @@ import com.meiduimall.service.account.service.AccountDetailService;
 import com.meiduimall.service.account.service.AccountFreezeDetailService;
 import com.meiduimall.service.account.service.AccountReportService;
 import com.meiduimall.service.account.service.AccountService;
+import com.meiduimall.service.account.service.AccountTypeService;
 import com.meiduimall.service.account.service.BankAccountService;
 import com.meiduimall.service.account.service.MSAccountDetailService;
+import com.meiduimall.service.account.util.DESC;
 import com.meiduimall.service.account.util.DateUtil;
 import com.meiduimall.service.account.util.DoubleCalculate;
 import com.meiduimall.service.account.util.GenerateNumber;
@@ -77,6 +79,9 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 	
 	@Autowired
 	private AccountDetailService accountDetailService;
+	
+	@Autowired
+	private AccountTypeService accountTypeService;
 	
 	@Override
 	public List<MSAccountDetail> listMSAccountDetail(MSAccountDetailGet mSAccountDetail) throws Exception {
@@ -137,11 +142,27 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 	}
 
 	@Override
+	@Transactional
 	public void addMSAccountReviseDetail(AddOrUpdateAccountReviseDetail dto) throws MdBizException {
 		String reviseId = UUID.randomUUID().toString();
 		dto.setId(reviseId);
 		try {
 			 baseDao.insert(dto, "MSAccountReviseDetailMapper.insertAccountReviseDetail");
+			 
+			 MSAccount accountInfo = accountServices.getAccountInfo(dto.getMemId(), dto.getAccountNo());
+			 if(org.springframework.util.StringUtils.isEmpty(accountInfo)){
+				 MSAccount msAccount = new MSAccount();
+				 msAccount.setId(UUID.randomUUID().toString());
+				 msAccount.setMemId(dto.getMemId());
+				 Long sequenceByAccountTypeNo = accountTypeService.getSequenceByAccountTypeNo(dto.getAccountNo());
+				 msAccount.setAccountNo(dto.getAccountNo()+sequenceByAccountTypeNo);
+				 msAccount.setAccountTypeNo(dto.getAccountNo());
+				 msAccount.setAccountNoSequence(sequenceByAccountTypeNo);
+				 msAccount.setBalance(Double.valueOf(dto.getReviseBalance().toString()));
+//				 msAccount.setBalanceEncrypt(DESC.encryption(dto.getReviseBalance().toString(), dto.getMemId()));
+				 
+				 accountServices.insertAccountByType(msAccount);
+			 }
 		} catch (Exception e) {
 			logger.error("添加调整余额addMSAccountReviseDetail错误:{}", e.getMessage());
 			throw new MdBizException(ConstApiStatus.INSERT_MEMBER_REVISE_DETAIL_ERROR);
