@@ -1,6 +1,5 @@
 package com.meiduimall.service.account.service.impl;
 
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -104,7 +103,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 	public List<MSAccountDetail> listMSAccountCondition(MSAccountDetailCondition mSAccountDetailCondition) {
 		List<MSAccountDetail> selectList = null;
 		try {
-			selectList = baseDao.selectList(mSAccountDetailCondition, "listMSAccountCondition");
+			selectList = baseDao.selectList(mSAccountDetailCondition, "MSAccountDetailMapper.listMSAccountCondition");
 		} catch (Exception e) {
 			logger.error("查询余额流水出现错误，错误信息：{}", e.getMessage());
 			throw new MdBizException(ConstApiStatus.SERVER_DEAL_WITH_EXCEPTION);
@@ -407,7 +406,9 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			//查询账号 
 			List<MSAccount> accountList=queryAccountList(null,null,accountType.getAccount_no());
 			MSAccount account=accountList.get(0);
-			//记录解冻明细
+			//step3
+			updateAccountBalanceReport(account.getAccountTypeNo(),-accountType.getWithdrawAmount(),account.getMemId(),ConstSysParamsDefination.FREE_ALANCE_UPDATE_OPERATE);
+			//step4 记录解冻明细
 			insertAccoutFreezeDetail(account.getAccountNo(),withdrawDeposit.getBusinessNo(),ConstSysParamsDefination.THAW,ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK,accountType.getWithdrawAmount(),
 					ConstTradeType.TRADE_TYPE_TXSX.getCode(),accountType.getWithdrawBalance(),date);
 		}
@@ -469,7 +470,9 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			Double blance=DoubleCalculate.sub(account.getBalance(), accountType.getWithdrawAmount());
 			//更新账户余额
 			updateAccountBalance(null, blance, accountType.getAccount_no());
-			//记录账号余额明细   
+			//step3
+			updateAccountBalanceReport(account.getAccountTypeNo(),-accountType.getWithdrawAmount(),account.getMemId(),ConstSysParamsDefination.BALANCE_UPDATE_OPERATE);
+			//step4记录账号余额明细   
 			accountDetailService.saveCutAccountDetail(account.getMemId(),withdrawDeposit.getBusinessNo(),account.getAccountNo(),"",
 					ConstTradeType.TRADE_TYPE_YETX.getCode(),String.valueOf(accountType.getWithdrawAmount()),
 					 new Date(),String.valueOf(account.getBalance()),  ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
@@ -648,14 +651,18 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 				addWithDrawInfoByAccountType(id,account.getAccountNo(),addFreezeMoney,useBalance);
 				//更新用户冻结金额
 				updateAccountFreezeBalance(account.getId(), Math.abs(addFreezeMoney),null);
+				//更新ms_account_report 表总对应账号的字段值
+				updateAccountBalanceReport(account.getAccountTypeNo(),addFreezeMoney,account.getMemId(),ConstSysParamsDefination.FREE_ALANCE_UPDATE_OPERATE);
 				//增加明细
 				//accountFreezeDetailService.saveAccountFreezeDetail(account.getMemId(), businessNo,account.getAccountNo(),"", ConstTradeType.TRADE_TYPE_YETX.getCode(), String.valueOf(addFreezeMoney),applyDate, String.valueOf(freezeBalance),  ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
 				insertAccoutFreezeDetail(account.getAccountNo(),businessNo,ConstSysParamsDefination.FREEZE,ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK,addFreezeMoney,ConstTradeType.TRADE_TYPE_YETX.getCode(),freezeBalance,date);
 				//增加明细
-				Double free=DoubleCalculate.mul(deductionMoney, account.getWithdrawPoundageScale());  //单个账号的手续费比例
+				Double free=DoubleCalculate.mul(addFreezeMoney, account.getWithdrawPoundageScale());  //单个账号的手续费比例
 				freezeBalance=DoubleCalculate.add(freezeBalance, free); //加上冻结手续费
 				//accountFreezeDetailService.saveAccountFreezeDetail(account.getMemId(), businessNo,account.getAccountNo(),"", ConstTradeType.TRADE_TYPE_TXSX.getCode(),  String.valueOf(free),applyDate, String.valueOf(freezeBalance),  ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);
 				insertAccoutFreezeDetail(account.getAccountNo(),businessNo,ConstSysParamsDefination.FREEZE,ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK,free,ConstTradeType.TRADE_TYPE_TXSX.getCode(),freezeBalance,date);
+				
+				
 				break;
 			}
 			addFreezeMoney=deductionMoney;
@@ -665,6 +672,8 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			updateAccountFreezeBalance(account.getId(), useBalance,null);
 			//插入提现ms_withdraw_info_by_account_type  子表里
 			addWithDrawInfoByAccountType(id,account.getAccountNo(),useBalance,useBalance);
+			//更新ms_account_report 表总对应账号的字段值
+			updateAccountBalanceReport(account.getAccountTypeNo(),useBalance,account.getMemId(),ConstSysParamsDefination.FREE_ALANCE_UPDATE_OPERATE);
 			//增加明细
 			//accountFreezeDetailService.saveAccountFreezeDetail(account.getMemId(), businessNo,account.getAccountNo(),"", ConstTradeType.TRADE_TYPE_YETX.getCode(), String.valueOf(useBalance),applyDate, String.valueOf(freezeBalance),  ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
 			insertAccoutFreezeDetail(account.getAccountNo(),businessNo,ConstSysParamsDefination.FREEZE,ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK,useBalance,ConstTradeType.TRADE_TYPE_YETX.getCode(),freezeBalance,date);
@@ -684,7 +693,43 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			throw new MdBizException(ConstApiStatus.WITHDRAW_APPLY_ERROR);
 		}
 	}
+	/**
+	 * 更新account report 某一账号的金额
+	 * @param accountType
+	 * @param balance
+	 * @param memId
+	 * @throws MdBizException
+	 * @author: jianhua.huang  2017年6月5日 下午6:02:50
+	 */
+	private void updateAccountBalanceReport(String accountType,Double balance,String memId,String operate)throws MdBizException{
+		try {
+			Map<String, Object> map=new HashMap<>();
+			map.put(accountType, balance);
+			map.put("memId", memId);
+			if(operate.equals(ConstSysParamsDefination.FREE_ALANCE_UPDATE_OPERATE)){
+				baseDao.update(map, "MSAccountReportMapper.updateAccountFeezeBalanceReport");
+			}else{
+				baseDao.update(map, "MSAccountReportMapper.updateAccountBalanceReport");
+			}
+		} catch (Exception e) {
+			logger.error("更新会员账户表异常:{},memId:{},accountType:{},balance:{}",e,memId,accountType,balance);
+			throw new MdBizException(ConstApiStatus.QUERY_ACCOUNT_REPORT_ERROR);
+		}
+	}
 	
+	/**
+	 * 插入冻结明细
+	 * @param accountNo
+	 * @param businessNo
+	 * @param inOrOut
+	 * @param remark
+	 * @param tradeAmount
+	 * @param tradeType
+	 * @param FreezeBalance
+	 * @param date
+	 * @throws MdBizException
+	 * @author: jianhua.huang  2017年6月5日 下午6:02:36
+	 */
 	private void insertAccoutFreezeDetail(String accountNo,String businessNo,Integer inOrOut,String remark,Double
 			tradeAmount,String tradeType,Double FreezeBalance,Date date) throws MdBizException{
 		MSAccountFreezeDetail model=new MSAccountFreezeDetail();

@@ -97,20 +97,28 @@
 	  #{remark}
 	  )
 	  </insert>
-	  
-	  
-	  <!--更新当前会员账户信息-->
-	<update id="updateAccountByMemId" parameterType="com.meiduimall.service.account.model.MSAccount" >
-	    <!-- 代码还没写 -->
-	</update>
-	   
+
 	
-	<!-- 根据会员ID和账户类型修改余额账户冻结金额 -->
-	<update id="updateFreezeBalanceByMemIdAndType" parameterType="java.util.Map">
-		UPDATE ms_account
-		SET freeze_balance = #{freezeBalance},update_date = now()
-		WHERE id = #{id}
-		AND type = #{accountType}
+	<!-- 根据条件更新账户信息-->
+	<update id="updateAccountByCondition" parameterType="com.meiduimall.service.account.model.MSAccount">
+	  UPDATE ms_account 
+	  <set>
+	  <!-- 更新当前类型总金额明文-->
+      <if test="balance != null and balance != ''">balance=#{balance},</if>
+      <!-- 更新当前类型总金额密文-->
+      <if test="balanceEncrypt != null and balanceEncrypt != ''">balance_encrypt=#{balanceEncrypt},</if>
+      <!-- 更新当前类型冻结余额明文 -->
+      <if test="freezeBalance != null and freezeBalance != ''">freeze_balance=#{freezeBalance},</if>
+      <!-- 更新当前类型冻结余额密文 -->
+      <if test="freezeBalanceEncrypt != null and freezeBalanceEncrypt != ''">freeze_balance_encrypt=#{freezeBalanceEncrypt},</if>
+      <!-- 更新更新时间 -->
+      <if test="updateDate != null and updateDate != ''">update_date=now(),</if>
+      </set>
+      <where>
+	  <if test="accountNo !=null and accountNo !=''">
+		    and account_no = #{accountNo}
+	  </if>
+		</where>
 	</update>
 	
 	<!-- 根据会员ID修改当前积分 -->
@@ -122,33 +130,29 @@
 	
 	
 	<!-- 根据userid查询会员ID 2017-02-23 dengbibo  -->
-	<select id="getMemIdByUserId" parameterType="java.util.Map" resultType="java.lang.String">
-		SELECT ms.mem_id FROM ms_members ms 
-		 WHERE ms.mem_id = #{memId} OR ms.mem_login_name = #{userId} 
-		 	OR ms.mem_email = #{userId} OR ms.mem_phone = #{userId}
-	</select>
+
 	
 	<!--  根据memId与账户类型修改账户当前余额  2017-02-23 dengbibo  -->
-	<update id="updateAccountBalance" parameterType="java.util.Map">
+<!-- 	<update id="updateAccountBalance" parameterType="java.util.Map">
 		update ms_account
 		   set balance = #{balance},
 		       update_date = now()
 		 where id = #{id}
 		   and type = #{accountType}
-	</update>
+	</update> -->
 	
 	<!--  根据memId与账户类型修改账户余额，包含冻结与非冻结的  2017-02-23 dengbibo  -->
-	<update id="updateAccount" parameterType="java.util.Map">
+<!-- 	<update id="updateAccount" parameterType="java.util.Map">
 		update ms_account
 		   set balance = #{balance},
 		       freeze_balance = #{freezeBalance},
 		       update_date = now()
 		 where id = #{id}
 		   and type = #{accountType}
-	</update>
+	</update> -->
 	
 	<!--  根据订单编号查询订单记录  2017-02-28 dengbibo  -->
-	<select id="getConsumeHistoryByOrderId" parameterType="map" resultType="String">
+<!-- 	<select id="getConsumeHistoryByOrderId" parameterType="map" resultType="String">
 		select t1.mch_id as id,
 			   t1.mch_money as totalMoney,
 			   t1.mch_shopping_coupon_count as money,
@@ -156,11 +160,11 @@
 			   t1.mch_status as status
 		  from ms_member_consume_history t1 
 		 where t1.order_id = #{orderId}
-	</select>
+	</select> -->
 
 
 	<!-- 根据条件查询订单记录 -->
-	<select id="queryListMSAccount" parameterType="com.meiduimall.service.account.model.request.RequestMSAccountList" resultType="com.meiduimall.service.account.model.MSAccountList">
+<!-- 	<select id="queryListMSAccount" parameterType="com.meiduimall.service.account.model.request.RequestMSAccountList" resultType="com.meiduimall.service.account.model.MSAccountList">
 			SELECT
 				msm.mem_id AS memId,
 				msm.mem_login_name as memLoginName,/**会员账号*/
@@ -209,10 +213,10 @@
 				AND msm.mem_parent_id in (SELECT mem_id FROM ms_members WHERE mem_phone=#{memParentIdPhone}) 
 			</if>
 		 </where>
-	</select>
+	</select> -->
 	
 	<!-- 根据条件查询订单记录 -->
-	<select id="queryListMSAccountCount" parameterType="com.meiduimall.service.account.model.request.RequestMSAccountList" resultType="Integer">
+<!-- 	<select id="queryListMSAccountCount" parameterType="com.meiduimall.service.account.model.request.RequestMSAccountList" resultType="Integer">
 			SELECT
 				count(1)
 			FROM
@@ -250,6 +254,6 @@
 				AND msm.mem_parent_id in (SELECT mem_id FROM ms_members WHERE mem_phone=#{memParentIdPhone}) 
 			</if>
 		 </where>
-	</select>
+	</select> -->
 	
 </mapper>

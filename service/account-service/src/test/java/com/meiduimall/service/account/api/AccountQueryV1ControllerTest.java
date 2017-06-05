@@ -101,7 +101,7 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 	@Test
 	public void queryAccountListTest() throws Exception {
 		 String url = "/member/account_service/v1/list_account";
-		 String json = "{\"memParentIdPhone\":\"13418786965\",\"flg\":\"1\"}";
+		 String json = "{\"memId\":\"a0db1419-f44a-48e8-9394-a49620e47940\",\"flg\":\"1\"}";
 		 
 		 resultSystemOutPut(url,json);
 	}

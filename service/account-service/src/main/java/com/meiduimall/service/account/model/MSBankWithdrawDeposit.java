@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import com.meiduimall.service.account.constant.ConstWithdrawStatus;
+
 /**
  * 提现主表ms_bank_withdraw_deposit实体类
  */
@@ -257,7 +259,7 @@ public class MSBankWithdrawDeposit extends BaseModel implements Serializable{
 	}
 
 	public String getStatus() {
-		return status;
+		return ConstWithdrawStatus.getNameByCode(status);
 	}
 
 	public void setStatus(String status) {

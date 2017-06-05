@@ -21,7 +21,7 @@ public class MSAccountReport extends BaseModel implements Serializable {
 	private int balanceJFZH;
 	
 	/**美兑积分冻结金额*/
-	private int feezeBalanceJFZH;
+	private int freezeBalanceJFZH;
 	
 	/**总余额*/
 	private Double balance;
@@ -132,12 +132,12 @@ public class MSAccountReport extends BaseModel implements Serializable {
 		this.balanceJFZH = balanceJFZH;
 	}
 
-	public int getFeezeBalanceJFZH() {
-		return feezeBalanceJFZH;
+	public int getFreezeBalanceJFZH() {
+		return freezeBalanceJFZH;
 	}
 
-	public void setFeezeBalanceJFZH(int feezeBalanceJFZH) {
-		this.feezeBalanceJFZH = feezeBalanceJFZH;
+	public void setFreezeBalanceJFZH(int freezeBalanceJFZH) {
+		this.freezeBalanceJFZH = freezeBalanceJFZH;
 	}
 
 	public Double getBalance() {
