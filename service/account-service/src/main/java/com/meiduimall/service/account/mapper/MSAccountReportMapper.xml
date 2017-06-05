@@ -14,5 +14,136 @@
      FROM ms_account_report m 
      WHERE m.mem_id =#{memId}
 	</select>
+	<!--  修改ms_account_report 相关字段的总金额  -->
+	<update id="updateAccountBalanceReport" parameterType="java.util.Map">
+		update ms_account_report
+		<set>
+		 <if test="JFZH !=null and JFZH !=''">
+           balance_JFZH =#{JFZH},
+        </if>
+        
+         <if test="KFCZ1 !=null and KFCZ1 !=''">
+           balance_KFCZ1 =#{KFCZ1},
+        </if>
+         
+         <if test="KFCZ2 !=null and KFCZ2 !=''">
+           balance_KFCZ2 =#{KFCZ2},
+        </if>
+        
+         <if test="CWTZ1 !=null and CWTZ1 !=''">
+           balance_CWTZ1 =#{CWTZ1},
+        </if>
+        
+         <if test="CWTZ2 !=null and CWTZ2 !=''">
+           balance_CWTZ2 =#{CWTZ2},
+        </if>
+         
+         <if test="CWTZ3 !=null and CWTZ3 !=''">
+           balance_CWTZ3 =#{CWTZ3},
+        </if>
+        
+         <if test="SJJL !=null and SJJL !=''">
+           balance_SJJL =#{SJJL},
+        </if>
+         
+         <if test="SJYE !=null and SJYE !=''">
+           balance_SJYE =#{SJYE},
+        </if>
+         
+         <if test="GDYE !=null and GDYE !=''">
+           balance_GDYE =#{GDYE},
+        </if>
+         
+         <if test="QDYE !=null and QDYE !=''">
+           balance_QDYE =#{QDYE},
+        </if>
+         
+         <if test="FJJL !=null and FJJL !=''">
+           balance_FJJL =#{FJJL},
+        </if>
+         
+         <if test="SCJL !=null and SCJL !=''">
+           balance_SCJL =#{SCJL},
+        </if>
+        
+        <if test="YEDR !=null and YEDR !=''">
+           balance_YEDR =#{YEDR},
+        </if>
+		</set>
+		<where>
+		<if test="memId !=null and memId !=''">
+		      and mem_id = #{memId}
+	   	</if>
+	   	<if test="id !=null and id !=''">
+		      and id = #{id}
+	   	</if>
+		</where>
+	</update>
 	
+	<!--  修改ms_account_report 相关字段的冻结总金额  -->
+	<update id="updateAccountFeezeBalanceReport" parameterType="java.util.Map">
+		update ms_account_report
+		<set>
+		 <if test="JFZH !=null and JFZH !=''">
+           feeze_balance_JFZH =#{JFZH},
+        </if>
+        
+         <if test="KFCZ1 !=null and KFCZ1 !=''">
+           freeze_balance_KFCZ1 =#{KFCZ1},
+        </if>
+         
+         <if test="KFCZ2 !=null and KFCZ2 !=''">
+           freeze_balance_KFCZ2 =#{KFCZ2},
+        </if>
+        
+         <if test="CWTZ1 !=null and CWTZ1 !=''">
+           freeze_balance_CWTZ1 =#{CWTZ1},
+        </if>
+        
+         <if test="CWTZ2 !=null and CWTZ2 !=''">
+           freeze_balance_CWTZ2 =#{CWTZ2},
+        </if>
+         
+         <if test="CWTZ3 !=null and CWTZ3 !=''">
+           freeze_balance_CWTZ3 =#{CWTZ3},
+        </if>
+        
+         <if test="SJJL !=null and SJJL !=''">
+           freeze_balance_SJJL =#{SJJL},
+        </if>
+         
+         <if test="SJYE !=null and SJYE !=''">
+           freeze_balance_SJYE =#{SJYE},
+        </if>
+         
+         <if test="GDYE !=null and GDYE !=''">
+           freeze_balance_GDYE =#{GDYE},
+        </if>
+         
+         <if test="QDYE !=null and QDYE !=''">
+           freeze_balance_QDYE =#{QDYE},
+        </if>
+         
+         <if test="FJJL !=null and FJJL !=''">
+           freeze_balance_FJJL =#{FJJL},
+        </if>
+         
+         <if test="SCJL !=null and SCJL !=''">
+           freeze_balance_SCJL =#{SCJL},
+        </if>
+        
+        <if test="YEDR !=null and YEDR !=''">
+           freeze_balance_YEDR =#{YEDR},
+        </if>
+		</set>
+		<where>
+		<if test="memId !=null and memId !=''">
+		      and mem_id = #{memId}
+	   	</if>
+	   	<if test="id !=null and id !=''">
+		      and id = #{id}
+	   	</if>
+		</where>
+		
+	</update>
 </mapper>
