@@ -14,9 +14,10 @@
      FROM ms_account_report m 
      WHERE m.mem_id =#{memId}
 	</select>
+	
 	<!--  修改ms_account_report 相关字段的总金额  -->
 	<update id="updateAccountBalanceReport" parameterType="java.util.Map">
-		update ms_account_report
+		UPDATE ms_account_report
 		<set>
 		 <if test="JFZH !=null and JFZH !=''">
            balance_JFZH =#{JFZH},

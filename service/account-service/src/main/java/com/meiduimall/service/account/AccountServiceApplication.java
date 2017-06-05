@@ -33,7 +33,7 @@ public class AccountServiceApplication extends SpringBootServletInitializer {
     } 
 	
 	public static void main(String[] args) {
-		SpringApplication.run(AccountServiceApplication.class, args);
+		SpringApplication.run(AccountServiceApplication.class,args);
 	}
 	   
 }

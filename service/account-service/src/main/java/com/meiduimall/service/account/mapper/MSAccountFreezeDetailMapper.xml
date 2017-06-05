@@ -41,9 +41,9 @@
 			#{inOrOut},
 			#{freezeBalance},
 			#{businessNo},
-			#{createDate},
+			now(),
 			#{createUser},
-			#{updateDate},
+			now(),
 			#{updateUser},
 			#{remark}
 			)
