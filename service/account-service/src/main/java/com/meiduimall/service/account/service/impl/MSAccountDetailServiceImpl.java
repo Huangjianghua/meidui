@@ -706,9 +706,9 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			map.put(accountType, balance);
 			map.put("memId", memId);
 			if(operate.equals(ConstSysParamsDefination.FREE_ALANCE_UPDATE_OPERATE)){
-				baseDao.update(map, "MSAccountReportMapper.updateAccountFeezeBalanceReport");
+				baseDao.update(map, "MSAccountReportMapper.updateFreezeBalance");
 			}else{
-				baseDao.update(map, "MSAccountReportMapper.updateAccountBalanceReport");
+				baseDao.update(map, "MSAccountReportMapper.updateBalance");
 			}
 		} catch (Exception e) {
 			logger.error("更新会员账户表异常:{},memId:{},accountType:{},balance:{}",e,memId,accountType,balance);

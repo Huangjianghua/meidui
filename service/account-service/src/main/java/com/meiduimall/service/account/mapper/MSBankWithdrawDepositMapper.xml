@@ -258,12 +258,11 @@
 		UPDATE ms_account
 		<set>
 		  <if test="freezeBalance !=null and freezeBalance !=''">
-           freeze_balance =#{freezeBalance},
+           freeze_balance =#{freezeBalance},update_date = now(),
         </if>
          <if test="freezeBalanceEncrypt !=null and freezeBalanceEncrypt !=''">
            freeze_balance_encrypt =#{freezeBalanceEncrypt},
         </if>
-        update_date = now()
 		</set>
 		<where>
 		  <if test="id !=null and id !=''">
@@ -280,12 +279,11 @@
 		UPDATE ms_account
 		<set>
 		 <if test="balance !=null and balance !=''">
-           balance =#{balance},
+           balance =#{balance},update_date = now() ,
         </if>
         <if test="balanceEncrypt !=null and balanceEncrypt !=''">
            balance_encrypt =#{balanceEncrypt},
         </if>
-        update_date = now()
 		</set>
 		<where>
 		  <if test="id !=null and id !=''">
