@@ -174,26 +174,34 @@ public class AccountServiceImpl implements AccountService {
 			accountFreezeDetail.setUpdateUser("账户服务");
 			//如果该类型账户余额大于当前冻结金额，就全部冻结
 			if(account.getBalance()>=freezeBalance){
-				//写入冻结解冻流水
+				//写入冻结流水
 				accountFreezeDetailService.insertAccoutFreezeDetail(accountFreezeDetail);
 				//更新账户
 				account.setFreezeBalance(freezeBalance);
 				account.setFreezeBalanceEncrypt(DESC.encryption(String.valueOf(freezeBalance),memId));
 				baseDao.update(account,"MSAccountMapper.updateAccountByCondition");
 				//更新账户报表
+				Map<String,Object> mapCondition=new HashMap<>();
+				mapCondition.put(account.getAccountTypeNo(),freezeBalance);
+				mapCondition.put("freezeBalance",freezeBalance);
+				baseDao.update(mapCondition,"MSAccountReportMapper.updateFreezeBalance");
 				break;
 			}
 			//如果该类型不够，就冻结完，继续冻结下一个账户
 			else{
-				//写入冻结解冻流水
+				//写入冻结流水
 				accountFreezeDetail.setFreezeBalance(account.getBalance());
 				baseDao.insert(accountFreezeDetail,"MSAccountFreezeDetailMapper.insertAccountFreezeDetail");
 				//更新账户
 				account.setFreezeBalance(account.getBalance());
 				account.setFreezeBalanceEncrypt(DESC.encryption(String.valueOf(account.getBalance()),memId));
 				baseDao.update(account,"MSAccountMapper.updateAccountByCondition");
-				freezeBalance=freezeBalance-account.getBalance();
 				//更新账户报表
+				Map<String,Object> mapCondition=new HashMap<>();
+				mapCondition.put(account.getAccountTypeNo(),freezeBalance);
+				mapCondition.put("freezeBalance",freezeBalance);
+				baseDao.update(mapCondition,"MSAccountReportMapper.updateFreezeBalance");
+				freezeBalance=freezeBalance-account.getBalance();
 				continue;
 			}
 		}

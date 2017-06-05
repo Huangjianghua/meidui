@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import com.alibaba.fastjson.JSONObject;
+import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.MdSysException;
@@ -107,8 +108,10 @@ public class TradeServiceImpl implements TradeService {
 		
 		//校验交易金额合法性
 		validateService.checkConsumeAmountRelation(model.getConsumeAmount(),model.getConsumeMoney(),model.getConsumePoints());
+		
 		//将数据来源转换为字典值
 		model.setOrderSource(SerialStringUtil.getDictOrderSource(model.getOrderSource()));
+		
 		//将前端请求的订单状态转换为会员消费记录的订单状态
 		int recordsOrderStatus=0;
 		switch(model.getOrderStatus()){
@@ -116,6 +119,7 @@ public class TradeServiceImpl implements TradeService {
 		case 2:recordsOrderStatus=1;break;
 		default:;
 		}
+		
 		//查询该笔交易是否已写入消费记录表
 		MSMemberConsumeRecords consumeRecords=consumeRecordsService.getConsumeRecords(model.getOrderId(),model.getOrderSource(),recordsOrderStatus);
 		if(consumeRecords!=null){
@@ -141,6 +145,7 @@ public class TradeServiceImpl implements TradeService {
 					logger.warn("重复提交的冻结订单");
 					throw new ServiceException(ConstApiStatus.REPEAT_FREEZ_ORDER);
 				}
+				
 				//写入积分冻结解冻记录表
 				MSConsumePointsFreezeInfo freezeInfo=new MSConsumePointsFreezeInfo();
 				freezeInfo.setMcpfId(UUID.randomUUID().toString());
@@ -149,6 +154,16 @@ public class TradeServiceImpl implements TradeService {
 				freezeInfo.setMcpfConsumePoints(String.valueOf(model.getConsumePoints()));
 				freezeInfo.setMcpfRemark("冻结消费积分");
 				pointsFreezeInfoService.insertConsumePointsFreezeInfo(freezeInfo,ConstPointsChangeType.POINTS_FREEZE_TYPE_DJ.getCode());
+				
+				//按照消费优先级冻结余额
+				MSAccountFreezeDetail accountFreezeDetail=new MSAccountFreezeDetail();
+				accountFreezeDetail.setTradeAmount(model.getConsumeAmount());
+				accountFreezeDetail.setTradeType(ConstTradeType.TRADE_TYPE_YEXF.getCode());
+				accountFreezeDetail.setTradeDate(new Date());
+				accountFreezeDetail.setInOrOut(Constants.CONSTANT_INT_ONE);
+				accountFreezeDetail.setFreezeBalance(model.getConsumeMoney());
+				accountFreezeDetail.setBusinessNo(model.getOrderId());
+				accountServices.freezeAccountBySpendPriority(model.getMemId(),accountFreezeDetail);
 			}
 			//订单状态为2表示已支付，需要解冻并扣减积分和余额
 			else if (model.getOrderStatus()==2) {
