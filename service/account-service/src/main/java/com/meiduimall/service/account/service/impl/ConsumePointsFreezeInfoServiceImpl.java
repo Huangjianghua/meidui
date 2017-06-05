@@ -7,6 +7,7 @@ import com.meiduimall.exception.MdSysException;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.constant.ConstPointsChangeType;
+import com.meiduimall.service.account.constant.ConstSpecialSymbol;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSConsumePointsFreezeInfo;
 import com.meiduimall.service.account.service.AccountReportService;
@@ -38,7 +39,7 @@ public class ConsumePointsFreezeInfoServiceImpl implements ConsumePointsFreezeIn
 		if(ConstPointsChangeType.POINTS_FREEZE_TYPE_DJ.getCode().equals(freezeType)){
 			pointsBalance = String.valueOf(DoubleCalculate.sub(accountReportService.getAvailablePoints(model.getMemId()), 
 					Double.valueOf(model.getMcpfConsumePoints())));
-			model.setMcpfConsumePoints(""+model.getMcpfConsumePoints());
+			model.setMcpfConsumePoints(ConstSpecialSymbol.SUB+model.getMcpfConsumePoints());
 		}
 		else if (ConstPointsChangeType.POINTS_FREEZE_TYPE_JD.getCode().equals(freezeType)) {
 			pointsBalance = String.valueOf(DoubleCalculate.add(accountReportService.getAvailablePoints(model.getMemId()), 
