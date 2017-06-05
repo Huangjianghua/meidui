@@ -41,6 +41,7 @@ import com.meiduimall.service.account.service.BankAccountService;
 import com.meiduimall.service.account.service.BankWithdrawDepositService;
 import com.meiduimall.service.account.service.ConsumeRecordsService;
 import com.meiduimall.service.account.service.ConsumePointsDetailService;
+import com.meiduimall.service.account.service.ConsumePointsFreezeInfoService;
 import com.meiduimall.service.account.service.MSMemberConsumeRecordsService;
 import com.meiduimall.service.account.service.TradeService;
 import com.meiduimall.service.account.service.ValidateService;
@@ -96,6 +97,9 @@ public class TradeServiceImpl implements TradeService {
 	@Autowired
 	private ConsumeRecordsService consumeRecordsService;
 	
+	@Autowired
+	private ConsumePointsFreezeInfoService pointsFreezeInfoService;
+	
 	@Override
 	@Transactional
 	public ResBodyData saveOrder(RequestSaveOrder model) throws MdSysException{
@@ -132,11 +136,15 @@ public class TradeServiceImpl implements TradeService {
 			//订单状态为1表示下单未支付，需要冻结积分和余额
 			if(model.getOrderStatus()==1){
 				List<MSConsumePointsFreezeInfo> listPointsFreezeInfo=baseDao.selectList(model.getOrderId(),"MSConsumePointsFreezeInfoMapper.getRecordsByOrderId");
-				if(listPointsFreezeInfo.size()>0){
+				List<MSAccountFreezeDetail> listBalanceFreeze=baseDao.selectList(model.getOrderId(),"MSAccountFreezeDetailMapper.getRecordsByOrderId");
+				if(listPointsFreezeInfo.size()>0||listBalanceFreeze.size()>0){
 					logger.warn("重复提交的冻结订单");
 					throw new ServiceException(ConstApiStatus.REPEAT_FREEZ_ORDER);
 				}
-				
+				//写入积分冻结解冻记录表
+				MSConsumePointsFreezeInfo freezeInfo=new MSConsumePointsFreezeInfo();
+				freezeInfo.setMcpfId(UUID.randomUUID().toString());
+				/*pointsFreezeInfoService.insertConsumeFreezeInfo(model,ConstPointsChangeType.POINTS_FREEZE_TYPE_DJ.getCode());*/
 			}
 			//订单状态为2表示已支付，需要解冻并扣减积分和余额
 			else if (model.getOrderStatus()==2) {
@@ -814,8 +822,8 @@ public class TradeServiceImpl implements TradeService {
 							return new ResBodyData(ConstApiStatus.DJ_NOT_EQUALS_DJ, ConstApiStatus.getZhMsg(ConstApiStatus.DJ_NOT_EQUALS_DJ));
 						}
 						// 写入积分冻结表
-						accountFreezeDetailService.saveUnFreezePoints(mmt.getMemId(), mmt.getOrderId(), mmt.getConsumePoints(),
-								ConstPointsChangeType.POINTS_FREEZE_TYPE_JD.getCode(), ConstPointsChangeType.POINTS_FREEZE_TYPE_JD.getName());
+						/*accountFreezeDetailService.saveUnFreezePoints(mmt.getMemId(), mmt.getOrderId(), mmt.getConsumePoints(),
+								ConstPointsChangeType.POINTS_FREEZE_TYPE_JD.getCode(), ConstPointsChangeType.POINTS_FREEZE_TYPE_JD.getName());*/
 						
 						logger.info(mmt.getOrderId() + ";解冻" + mmt.getConsumePoints());
 					} else {

@@ -49,35 +49,6 @@ public interface AccountFreezeDetailService {
 			String accountId, String accountType, String tradeType,
 			String tradeAmount, Date tradeDate, String freezeBalance, String remark);
 	
-	/**
-	 * 方法名: saveFreezePoints<br>
-	 * 描述:  保存冻结积分 <br>
-	 * 编写者:  admin <br>
-	 * 创建时间: 2016-10-28
-	 * @param memId
-	 * @param orderId
-	 * @param freezePoints
-	 * @param operator
-	 * @param remark
-	 * @throws MdSysException 
-	 */
-	public void saveFreezePoints(String memId, String orderId,
-			String freezePoints, String operator, String remark) throws MdSysException;
-	
-	/**
-	 * 方法名: saveUnFreezePoints<br>
-	 * 描述:  保存解冻积分<br>
-	 * 编写者:  admin <br>
-	 * 创建时间: 2016-10-28
-	 * @param memId
-	 * @param orderId
-	 * @param unFreezePoints
-	 * @param operator
-	 * @param remark
-	 * @throws MdSysException 
-	 */
-	public void saveUnFreezePoints(String memId, String orderId,
-			String unFreezePoints, String operator, String remark) throws MdSysException;
 	
 	/**
 	 * 方法名: getAccountFreezeByOrderId<br>

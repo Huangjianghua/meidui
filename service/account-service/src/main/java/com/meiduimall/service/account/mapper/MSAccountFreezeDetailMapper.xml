@@ -12,7 +12,7 @@
 	</select>
 	
 	<!-- 根据订单号查询余额冻结解冻记录 -->
-	<select id="getgetRecordsByOrderId" parameterType="java.lang.String" resultType="com.meiduimall.service.account.model.MSAccountFreezeDetail">
+	<select id="getRecordsByOrderId" parameterType="java.lang.String" resultType="com.meiduimall.service.account.model.MSAccountFreezeDetail">
 		SELECT m.id,
 			m.account_no accountNo,
 			m.trade_type tradeType,

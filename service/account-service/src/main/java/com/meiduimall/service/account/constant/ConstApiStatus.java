@@ -110,7 +110,8 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	public final static Integer NO_DJ_MONEY=7119;
 	//订单状态不合法
 	public final static Integer ORDER_STATUS_UNNORMAL=7120;
-	
+	//冻结类型不合法
+	public final static Integer FREEZE_TYPE_UNNORMAL=7121;
 	
 	
 	/**账户相关*/
@@ -229,6 +230,8 @@ public abstract class ConstApiStatus extends BaseApiCode {
 		zhMsgMap.put(MONEY_DJ_NOT_EQUALS_DJ, "订单解冻余额不等于冻结余额");
 		zhMsgMap.put(NO_DJ_POINTS, "没有冻结的积分");
 		zhMsgMap.put(NO_DJ_MONEY, "没有冻结的余额");
+		zhMsgMap.put(ORDER_STATUS_UNNORMAL, "订单状态不合法");
+		zhMsgMap.put(FREEZE_TYPE_UNNORMAL, "冻结类型不合法");
 		zhMsgMap.put(ORDER_STATUS_ERROR, "订单状态错误");
 		zhMsgMap.put(MD_POINTS_ERROR, "退单返回美兑积分错误");
 		zhMsgMap.put(PAYMONEY_ERROR, "余额支付金额不能大于消费金额");

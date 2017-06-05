@@ -32,30 +32,18 @@
 	</select>
 	
 	<!-- 写入积分冻结解冻记录 -->
-	<insert id="insertConsumePointsFreezeInfo" parameterType="java.util.Map">
-		INSERT INTO ms_consume_points_freeze_info(
-		mcpf_id,
-		mem_id,
-		mcpf_order_id,
-		mcpf_freeze_type,
-		mcpf_consume_points,
-		mcpf_consume_points_balance,
-		mcpf_created_by,
-		mcpf_created_date,
-		mcpf_updated_by,
-		mcpf_updated_date,
-		mcpf_remark
-		)
+	<insert id="insertConsumePointsFreezeInfo" parameterType="com.meiduimall.service.account.model.MSConsumePointsFreezeInfo">
+		INSERT INTO ms_consume_points_freeze_info
 		VALUES(
-			#{id},
+			#{mcpfId},
 			#{memId},
-			#{orderId},
-			#{freezeType},
-			#{freezePoints},
-			#{balancePoints},
-			#{operator},
+			#{mcpfOrderId},
+			#{mcpfFreezeType},
+			#{mcpfConsumePoints},
+			#{mcpfConsumePointsBalance},
+			#{mcpfCreatedBy},
 			now(),
-			#{operator},
+			#{mcpfUpdatedBy},
 			now(),
 			#{remark}
 			)

@@ -4,9 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.meiduimall.exception.MdSysException;
+import com.meiduimall.exception.ServiceException;
+import com.meiduimall.service.account.constant.ConstApiStatus;
+import com.meiduimall.service.account.constant.ConstPointsChangeType;
 import com.meiduimall.service.account.dao.BaseDao;
-import com.meiduimall.service.account.service.AccountFreezeDetailService;
+import com.meiduimall.service.account.model.MSConsumePointsFreezeInfo;
+import com.meiduimall.service.account.service.AccountReportService;
 import com.meiduimall.service.account.service.ConsumePointsFreezeInfoService;
+import com.meiduimall.service.account.util.DoubleCalculate;
 
 /**
  * 积分冻结解冻明细业务逻辑接口{@link=ConsumePointsFreezeInfoService}实现类
@@ -20,27 +25,30 @@ public class ConsumePointsFreezeInfoServiceImpl implements ConsumePointsFreezeIn
 	private BaseDao  baseDao;
 	
 	@Autowired
-	private AccountFreezeDetailService  accountFreezeDetailService;
-	
+	private AccountReportService accountReportService;
 	
 	@Override
 	public Double getFreezeUnFreezePointsSumByMemId(String memId) {
 		return baseDao.selectOne(memId,"MSConsumePointsFreezeInfoMapper.getFreezeUnFreezePointsSumByMemId");
 	}
-	
-	@Override
-	public boolean addMDConsumePointsFreezeAndDetail(String memId, String consumePoints, String orderId,
-			String orderSource, String operatorType, String operator, String remark) throws MdSysException {
-		accountFreezeDetailService.saveFreezePoints(memId, orderId, consumePoints, operator, remark);
-		return true;
-	}
 
 	@Override
-	public boolean cutMDConsumePointsFreezeAndDetail(String memId, String consumePoints, String orderId,
-			String orderSource, String operatorType, String operator, String remark) throws MdSysException {
-		accountFreezeDetailService.saveUnFreezePoints(memId, orderId, consumePoints, operator, remark);
-		return true;
+	public void insertConsumePointsFreezeInfo(MSConsumePointsFreezeInfo model,String freezeType) throws MdSysException {
+		String pointsBalance=null;
+		if(ConstPointsChangeType.POINTS_FREEZE_TYPE_DJ.getCode().equals(freezeType)){
+			pointsBalance = String.valueOf(DoubleCalculate.sub(accountReportService.getAvailablePoints(model.getMemId()), 
+					Double.valueOf(model.getMcpfConsumePoints())));
+			model.setMcpfConsumePoints(""+model.getMcpfConsumePoints());
+		}
+		else if (ConstPointsChangeType.POINTS_FREEZE_TYPE_JD.getCode().equals(freezeType)) {
+			pointsBalance = String.valueOf(DoubleCalculate.add(accountReportService.getAvailablePoints(model.getMemId()), 
+					Double.valueOf(model.getMcpfConsumePoints())));
+		}
+		else {
+			throw new ServiceException(ConstApiStatus.FREEZE_TYPE_UNNORMAL);
+		}
+		model.setMcpfConsumePointsBalance(pointsBalance);
+		baseDao.insert(model,"MSAccountMapper.insertConsumePointsFreezeInfo");
 	}
-	
 
 }

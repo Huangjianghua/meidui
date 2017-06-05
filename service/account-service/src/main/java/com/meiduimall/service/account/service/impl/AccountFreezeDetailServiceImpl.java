@@ -12,16 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.meiduimall.exception.MdBizException;
-import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
-import com.meiduimall.service.account.constant.ConstPointsChangeType;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSAccountFreezeDetail;
 import com.meiduimall.service.account.service.AccountFreezeDetailService;
 import com.meiduimall.service.account.service.AccountReportService;
 import com.meiduimall.service.account.service.AccountService;
 import com.meiduimall.service.account.util.DateUtil;
-import com.meiduimall.service.account.util.DoubleCalculate;
 
 /**
  * 账户冻结解冻业务逻辑接口实现类{@link=AccountFreezeDetailService}
@@ -99,57 +96,9 @@ public class AccountFreezeDetailServiceImpl implements AccountFreezeDetailServic
 		}
 	}
 	
-	@Override
-	public void saveFreezePoints(String memId, String orderId,
-			String freezePoints, String operator, String remark) throws MdSysException {
-		/** 冻结后积分余额 */
-		String balancePoints = String.valueOf(DoubleCalculate.sub(accountReportService.getAvailablePoints(memId), 
-				Double.valueOf(freezePoints)));
-		
-		Map<String,String> paramsMap = new HashMap<String,String>();
-		paramsMap.put("id", UUID.randomUUID().toString());
-		paramsMap.put("memId", memId);
-		paramsMap.put("orderId", orderId);
-		paramsMap.put("freezeType",ConstPointsChangeType.POINTS_FREEZE_TYPE_DJ.getCode());
-		paramsMap.put("freezePoints", ("-"+freezePoints));
-		paramsMap.put("balancePoints", balancePoints);
-		paramsMap.put("operator", operator);
-		paramsMap.put("remark", remark);
-		
-		try {
-			baseDao.insert(paramsMap, "MSAccountMapper.insertConsumePointsFreezeInfo");
-		} catch (Exception e) {
-			logger.error("写入积分冻结明细出现错误-2001，会员编号：%s，订单编号：%s，错误信息：%s", memId, orderId, e.getMessage());
-		}
-	}
-
-	@Override
-	public void saveUnFreezePoints(String memId, String orderId,
-			String unFreezePoints, String operator, String remark) throws  MdSysException {
-		/** 解冻后积分余额 */
-		String balancePoints = String.valueOf(DoubleCalculate.add(accountReportService.getAvailablePoints(memId), 
-				Double.valueOf(unFreezePoints)));
-		
-		Map<String,String> paramsMap = new HashMap<String,String>();
-		paramsMap.put("id", UUID.randomUUID().toString());
-		paramsMap.put("memId", memId);
-		paramsMap.put("orderId", orderId);
-		paramsMap.put("freezeType",ConstPointsChangeType.POINTS_FREEZE_TYPE_DJ.getCode());
-		paramsMap.put("freezePoints", unFreezePoints);
-		paramsMap.put("balancePoints", balancePoints);
-		paramsMap.put("operator", operator);
-		paramsMap.put("remark", remark);
-		
-		try {
-			baseDao.insert(paramsMap, "MSAccountMapper.insertConsumePointsFreezeInfo");
-		} catch (Exception e) {
-			logger.error("写入积分冻结明细出现错误-2002，会员编号：%s，订单编号：%s，错误信息：%s", memId, orderId, e.getMessage());
-		}
-	}
 
 	@Override
 	public List<MSAccountFreezeDetail> getRecordsByOrderId(String orderId) {
-		
 		return baseDao.selectList(orderId, "MSAccountFreezeDetailMapper.getRecordsByOrderId");
 	}
 
