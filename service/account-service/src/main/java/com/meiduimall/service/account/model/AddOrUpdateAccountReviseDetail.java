@@ -30,6 +30,7 @@ public class AddOrUpdateAccountReviseDetail implements Serializable {
 	
 	/** 钱包类型  **/
 	private String accountTypeName;
+	private String accountTypeNo;
 	
 	private String accountNo;
 	
@@ -81,7 +82,15 @@ public class AddOrUpdateAccountReviseDetail implements Serializable {
 
 	private String remark;
 	
-	 
+	
+
+	public String getAccountTypeNo() {
+		return accountTypeNo;
+	}
+
+	public void setAccountTypeNo(String accountTypeNo) {
+		this.accountTypeNo = accountTypeNo;
+	}
 
 	public String getAccountTypeName() {
 		return accountTypeName;
