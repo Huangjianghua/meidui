@@ -1,6 +1,7 @@
 package com.meiduimall.service.account.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.meiduimall.service.account.model.MSAccountType;
 
@@ -31,4 +32,10 @@ public interface AccountTypeService {
 	 */
 	public Long updateSequenceByAccountTypeNo(String accountTypeNo);
 
+	/**
+	 * 查询财务调整相关的账户类型信息
+	 * @author wujun
+	 */
+	public MSAccountType getByAccountTypeCondition(Map<String, Object> map);
+	
 }
