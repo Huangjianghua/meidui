@@ -404,7 +404,8 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			//查询账号 
 			List<MSAccount> accountList=queryAccountList(null,null,accountType.getAccount_no());
 			MSAccount account=accountList.get(0);
-			updateAccountFreezeBalance(null,-accountType.getWithdrawAmount(),accountType.getAccount_no(),account.getMemId());
+			Double freeze=DoubleCalculate.sub(account.getFreezeBalance(), accountType.getWithdrawAmount());
+			updateAccountFreezeBalance(null,freeze,accountType.getAccount_no(),account.getMemId());
 			//记录解冻明细
 			//accountFreezeDetailService.saveAccountUnFreezeDetail(withdrawDeposit.getMemId(), withdrawDeposit.getBusinessNo(),"","", ConstTradeType.TRADE_TYPE_TXSX.getCode(),  String.valueOf(accountType.getWithdrawAmount()),new Date(), String.valueOf(accountType.getWithdrawBalance()),  ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
 			//step3
