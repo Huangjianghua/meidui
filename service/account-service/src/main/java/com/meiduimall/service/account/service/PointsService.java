@@ -47,20 +47,14 @@ public interface PointsService {
 	 * @throws MdSysException
 	 */
 	ResBodyData deductPointsAndAddRecord(String memId,Double consumePoints, String orderId, String orderSource,Map<String,Object> dataMap) throws MdSysException;
+
 	
 	/**
 	 * 根据交易订单号查询积分冻结解冻记录
 	 * @param orderId 交易订单号
 	 * @return 
 	 */
-	boolean getFreezeUnfreezeRecordByOrderId(String orderId);
-	
-	/**
-	 * 根据交易订单号查询积分冻结解冻记录
-	 * @param orderId 交易订单号
-	 * @return 
-	 */
-	List<MSConsumePointsFreezeInfo> queryRecordByOrderId(String orderId);
+	List<MSConsumePointsFreezeInfo> getRecordsByOrderId(String orderId);
 	
 	/**
 	 * 查询积分转账列表

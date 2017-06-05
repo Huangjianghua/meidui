@@ -5,7 +5,6 @@ import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -13,7 +12,6 @@ import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.constant.ConstSysParamsDefination;
 import com.meiduimall.service.account.constant.ConstTradeType;
-import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.service.ValidateService;
 import com.meiduimall.service.account.util.DoubleCalculate;
 
@@ -34,7 +32,6 @@ public class ValidateServiceImpl implements ValidateService {
 			logger.error("交易类型不合法");
 			throw new ServiceException(ConstApiStatus.TRADE_TYPE_UNNORMAL);
 		}
-		logger.info("交易类型合法");
 	}
 
 	@Override
@@ -43,7 +40,6 @@ public class ValidateServiceImpl implements ValidateService {
 			logger.error("调账类型不合法");
 			throw new ServiceException(ConstApiStatus.ACCOUNT_ADJUST_TYPE_UNNORMAL);
 		}
-		logger.info("调账类型合法");
 	}
 
 	@Override
@@ -65,7 +61,6 @@ public class ValidateServiceImpl implements ValidateService {
 			logger.error("交易金额不合法");
 			throw new ServiceException(ConstApiStatus.ACCOUNT_ADJUST_TYPE_UNNORMAL);
 		}
-		logger.info("交易金额合法");
 	}
 
 	@Override

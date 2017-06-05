@@ -34,7 +34,6 @@ import com.meiduimall.service.account.model.request.MSMemberConsumeRecordsReq;
 import com.meiduimall.service.account.model.request.RequestSaveOrder;
 import com.meiduimall.service.account.model.request.RequestCancelOrder;
 import com.meiduimall.service.account.service.AccountAdjustService;
-import com.meiduimall.service.account.service.AccountDetailService;
 import com.meiduimall.service.account.service.AccountFreezeDetailService;
 import com.meiduimall.service.account.service.AccountReportService;
 import com.meiduimall.service.account.service.AccountService;
@@ -91,9 +90,6 @@ public class TradeServiceImpl implements TradeService {
 	
 	@Autowired
 	private AccountFreezeDetailService accountFreezeDetailService;
-	
-	@Autowired
-	private AccountDetailService accountDetailService;
 
 	private ValidateService validateService;
 	
@@ -102,7 +98,7 @@ public class TradeServiceImpl implements TradeService {
 	
 	@Override
 	@Transactional
-	public ResBodyData saveOrder(RequestSaveOrder model){
+	public ResBodyData saveOrder(RequestSaveOrder model) throws MdSysException{
 		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,"保存订单成功");
 		
 		//校验交易金额合法性
@@ -121,6 +117,35 @@ public class TradeServiceImpl implements TradeService {
 		if(consumeRecords!=null){
 			logger.warn("重复提交的订单：{}",model.getOrderId());
 			throw new ServiceException(ConstApiStatus.REPEAT_ORDER);
+		}
+		else {
+			Double availablePoints=accountReportService.getAvailablePoints(model.getMemId());
+			Double availableBalance=accountReportService.getAvailableBalance(model.getMemId());
+			if(model.getConsumePoints()>availablePoints){
+				logger.warn("积分不足无法支付");
+				throw new ServiceException(ConstApiStatus.POINTS_CANNOT_AFFORD);
+			}
+			if(model.getConsumeMoney()>availableBalance){
+				logger.warn("余额不足无法支付");
+				throw new ServiceException(ConstApiStatus.BALANCE_CANNOT_AFFORD);
+			}
+			//订单状态为1表示下单未支付，需要冻结积分和余额
+			if(model.getOrderStatus()==1){
+				List<MSConsumePointsFreezeInfo> listPointsFreezeInfo=baseDao.selectList(model.getOrderId(),"MSConsumePointsFreezeInfoMapper.getRecordsByOrderId");
+				if(listPointsFreezeInfo.size()>0){
+					logger.warn("重复提交的冻结订单");
+					throw new ServiceException(ConstApiStatus.REPEAT_FREEZ_ORDER);
+				}
+				
+			}
+			//订单状态为2表示已支付，需要解冻并扣减积分和余额
+			else if (model.getOrderStatus()==2) {
+				
+			}
+			else {
+				logger.warn("订单状态不合法");
+				throw new ServiceException(ConstApiStatus.ORDER_STATUS_UNNORMAL);
+			}
 		}
 		return resBodyData;
 	}
@@ -761,14 +786,14 @@ public class TradeServiceImpl implements TradeService {
 		} else {
 
 			// 根据订单查询冻结积分
-			List<MSConsumePointsFreezeInfo> pointsList = pointsService.queryRecordByOrderId(mmt.getOrderId());
+			List<MSConsumePointsFreezeInfo> pointsList = pointsService.getRecordsByOrderId(mmt.getOrderId());
 			// 获取积分余额
 			Double consumePoints = pointsService.getAvailablePointsByMemId(mmt.getMemId());
 			// 获取可使用余额
 			Double useConsumeMoney = accountReportService.getAvailableBalance(mmt.getMemId());
 
 			// 根据订单查询冻结余额
-			List<MSAccountFreezeDetail> moneyFreezeList = accountFreezeDetailService.queryRecordByOrderId(mmt.getOrderId());
+			List<MSAccountFreezeDetail> moneyFreezeList = accountFreezeDetailService.getRecordsByOrderId(mmt.getOrderId());
 
 			logger.info("当前可使用积分：" + consumePoints + "，可使用余额：" + useConsumeMoney);
 

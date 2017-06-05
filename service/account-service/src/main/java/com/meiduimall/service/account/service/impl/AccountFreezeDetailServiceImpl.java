@@ -117,7 +117,7 @@ public class AccountFreezeDetailServiceImpl implements AccountFreezeDetailServic
 		paramsMap.put("remark", remark);
 		
 		try {
-			baseDao.insert(paramsMap, "MSAccountMapper.insertPointsFreezeUnFreezeRecord");
+			baseDao.insert(paramsMap, "MSAccountMapper.insertConsumePointsFreezeInfo");
 		} catch (Exception e) {
 			logger.error("写入积分冻结明细出现错误-2001，会员编号：%s，订单编号：%s，错误信息：%s", memId, orderId, e.getMessage());
 		}
@@ -141,16 +141,16 @@ public class AccountFreezeDetailServiceImpl implements AccountFreezeDetailServic
 		paramsMap.put("remark", remark);
 		
 		try {
-			baseDao.insert(paramsMap, "MSAccountMapper.insertPointsFreezeUnFreezeRecord");
+			baseDao.insert(paramsMap, "MSAccountMapper.insertConsumePointsFreezeInfo");
 		} catch (Exception e) {
 			logger.error("写入积分冻结明细出现错误-2002，会员编号：%s，订单编号：%s，错误信息：%s", memId, orderId, e.getMessage());
 		}
 	}
 
 	@Override
-	public List<MSAccountFreezeDetail> queryRecordByOrderId(String orderId) {
+	public List<MSAccountFreezeDetail> getRecordsByOrderId(String orderId) {
 		
-		return baseDao.selectList(orderId, "MSAccountFreezeDetailMapper.queryRecordByOrderId");
+		return baseDao.selectList(orderId, "MSAccountFreezeDetailMapper.getRecordsByOrderId");
 	}
 
 

@@ -18,8 +18,9 @@ public interface TradeService {
 	 * 保存订单
 	 * @param param 保存订单API请求映射实体
 	 * @return 统一数据返回格式
+	 * @throws MdSysException 
 	 */
-	ResBodyData saveOrder(RequestSaveOrder model);
+	ResBodyData saveOrder(RequestSaveOrder model) throws MdSysException;
 	
 	/**
 	 * 取消订单

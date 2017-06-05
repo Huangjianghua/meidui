@@ -11,8 +11,8 @@
 		WHERE business_no = #{orderId}
 	</select>
 	
-	<!-- 根据订单号查询是否存在余额冻结解冻记录 -->
-	<select id="queryRecordByOrderId" parameterType="java.lang.String" resultType="com.meiduimall.service.account.model.MSAccountFreezeDetail">
+	<!-- 根据订单号查询余额冻结解冻记录 -->
+	<select id="getgetRecordsByOrderId" parameterType="java.lang.String" resultType="com.meiduimall.service.account.model.MSAccountFreezeDetail">
 		SELECT m.id,
 			m.account_no accountNo,
 			m.trade_type tradeType,

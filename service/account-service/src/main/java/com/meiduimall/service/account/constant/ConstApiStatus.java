@@ -84,7 +84,7 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	public final static Integer REPEAT_ORDER=7106;
 	//积分余额不足
 	public final static Integer NOT_ENOUGH_POINTS=7107;
-	//重复提交的冻结或解冻订单
+	//重复提交的冻结
 	public final static Integer REPEAT_FREEZ_ORDER=7108;
 	//订单解冻积分不等于冻结积分
 	public final static Integer DJ_NOT_EQUALS_DJ=7109;
@@ -108,6 +108,8 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	public final static Integer MONEY_DJ_NOT_EQUALS_DJ=7118;
 	//没有冻结的余额
 	public final static Integer NO_DJ_MONEY=7119;
+	//订单状态不合法
+	public final static Integer ORDER_STATUS_UNNORMAL=7120;
 	
 	
 	
@@ -136,6 +138,10 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	public final static Integer QUERY_TRANSFER_POINTS_ERROR=7211;
 	//当前会员银行卡账户信息已存在
 	public final static  Integer BANK_INFO_ALREADY_EXIST = 7212;
+	//余额不足无法支付
+	public final static  Integer BALANCE_CANNOT_AFFORD = 7213;
+	//积分不足无法支付
+	public final static  Integer POINTS_CANNOT_AFFORD = 7214;
 	
 	
 	/**提现相关*/
@@ -218,7 +224,7 @@ public abstract class ConstApiStatus extends BaseApiCode {
 		zhMsgMap.put(PAYTYPE_ERROR, "支付类型错误");
 		zhMsgMap.put(REPEAT_ORDER, "重复提交的订单");
 		zhMsgMap.put(NOT_ENOUGH_POINTS, "积分余额不足");
-		zhMsgMap.put(REPEAT_FREEZ_ORDER, "重复提交的冻结或解冻订单");
+		zhMsgMap.put(REPEAT_FREEZ_ORDER, "重复提交的冻结订单");
 		zhMsgMap.put(DJ_NOT_EQUALS_DJ, "订单解冻积分不等于冻结积分");
 		zhMsgMap.put(MONEY_DJ_NOT_EQUALS_DJ, "订单解冻余额不等于冻结余额");
 		zhMsgMap.put(NO_DJ_POINTS, "没有冻结的积分");
@@ -238,6 +244,8 @@ public abstract class ConstApiStatus extends BaseApiCode {
 		
 		zhMsgMap.put(USER_NOT_EXIST, "当前用户在会员系统不存在");
 		zhMsgMap.put(BANK_INFO_ALREADY_EXIST, "当前会员银行卡账户信息已存在");
+		zhMsgMap.put(BALANCE_CANNOT_AFFORD, "余额不足无法支付");
+		zhMsgMap.put(POINTS_CANNOT_AFFORD, "积分不足无法支付");
 		zhMsgMap.put(GET_MEMBER_BASIC_INFO_FAILED, "获取会员基本信息失败");
 		
 		zhMsgMap.put(ACCOUNT_IS_NULL_ERROR, "查询会员账号错误");

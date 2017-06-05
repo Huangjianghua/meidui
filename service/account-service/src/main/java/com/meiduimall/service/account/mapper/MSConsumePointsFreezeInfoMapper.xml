@@ -12,25 +12,27 @@
 	</select>
 	
 	<!-- 根据订单号查询冻结解冻记录 --> 
-	<select id="getRecordByOrderId" parameterType="java.lang.String" resultType="java.lang.Integer">
-		SELECT COUNT(1) 
-		FROM ms_consume_points_freeze_info 
-		WHERE mcpf_order_id=#{orderid}
-	</select>
-	
-	<!-- 根据订单号查询冻结解冻记录 --> 
-	<select id="queryRecordByOrderId" parameterType="java.lang.String" resultType="com.meiduimall.service.account.model.MSConsumePointsFreezeInfo">
-		SELECT  m.mcpf_id mcpfId, m.mem_id memId, mcpf_order_id mcpfOrderId,
-        m.mcpf_freeze_type mcpfFreezeType, m.mcpf_consume_points mcpfConsumePoints,
-        m.mcpf_consume_points_balance mcpfConsumePointsBalance, m.mcpf_created_by mcpfCreatedBy,
-        m.mcpf_created_date mcpfCreatedDate, m.mcpf_updated_By mcpfUpdatedBy,
-        m.mcpf_updated_date mcpfUpdatedDate, m.mcpf_remark mcpfRemark
+	<select id="getRecordsByOrderId" parameterType="java.lang.String" resultType="com.meiduimall.service.account.model.MSConsumePointsFreezeInfo">
+		SELECT  
+		m.mcpf_id mcpfId,
+		m.mem_id memId, 
+		mcpf_order_id mcpfOrderId,
+        m.mcpf_freeze_type 
+        mcpfFreezeType,
+        m.mcpf_consume_points mcpfConsumePoints,
+        m.mcpf_consume_points_balance 
+        mcpfConsumePointsBalance, 
+        m.mcpf_created_by mcpfCreatedBy,
+        m.mcpf_created_date mcpfCreatedDate, 
+        m.mcpf_updated_By mcpfUpdatedBy,
+        m.mcpf_updated_date mcpfUpdatedDate, 
+        m.mcpf_remark mcpfRemark
 		FROM ms_consume_points_freeze_info m
 		WHERE m.mcpf_order_id = #{orderid}
 	</select>
 	
 	<!-- 写入积分冻结解冻记录 -->
-	<insert id="insertPointsFreezeUnFreezeRecord" parameterType="java.util.Map">
+	<insert id="insertConsumePointsFreezeInfo" parameterType="java.util.Map">
 		INSERT INTO ms_consume_points_freeze_info(
 		mcpf_id,
 		mem_id,

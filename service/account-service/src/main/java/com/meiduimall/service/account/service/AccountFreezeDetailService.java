@@ -86,6 +86,6 @@ public interface AccountFreezeDetailService {
 	 * @param orderId
 	 * @return
 	 */
-	public List<MSAccountFreezeDetail> queryRecordByOrderId(String orderId);
+	public List<MSAccountFreezeDetail> getRecordsByOrderId(String orderId);
 	
 }

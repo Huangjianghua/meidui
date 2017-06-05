@@ -10,22 +10,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.alibaba.fastjson.JSONObject;
  
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
-import com.meiduimall.service.account.constant.ConstDataAppSource;
 import com.meiduimall.service.account.model.request.MSMemberConsumeRecordsReq;
-import com.meiduimall.service.account.model.request.MemberConsumeMessage;
 
 import com.meiduimall.service.account.model.request.RequestSaveOrder;
 import com.meiduimall.service.account.model.request.RequestCancelOrder;
@@ -53,7 +47,12 @@ public class TradeV1Controller {
 	@PostMapping(value="/save_order")
 	ResBodyData  freezeUnfreeze(@Valid RequestSaveOrder model){
 		logger.info("收到保存订单API请求   ：{}",model.toString());
-		return tradeService.saveOrder(model);
+		try {
+			return tradeService.saveOrder(model);
+		} catch (MdSysException e) {
+			logger.error("保存订单API请求异常：{}",e.toString());
+			throw new ApiException(ConstApiStatus.SYSTEM_ERROR);
+		}
 	}
 	
 	/**
