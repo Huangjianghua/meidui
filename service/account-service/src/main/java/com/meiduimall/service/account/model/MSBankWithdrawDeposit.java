@@ -90,6 +90,12 @@ public class MSBankWithdrawDeposit extends BaseModel implements Serializable{
 	
 	private String operate;
 	
+	private String loginName;
+	
+	private String phone;
+	
+	private Double withdrawBalance;
+	
 	private List<MSBankWithDrawOperateDetail> listDetail;
 
 	public String getId() {
@@ -338,6 +344,48 @@ public class MSBankWithdrawDeposit extends BaseModel implements Serializable{
 	 */
 	public void setListDetail(List<MSBankWithDrawOperateDetail> listDetail) {
 		this.listDetail = listDetail;
+	}
+
+	/**
+	 * @return the loginName
+	 */
+	public String getLoginName() {
+		return loginName;
+	}
+
+	/**
+	 * @param loginName the loginName to set
+	 */
+	public void setLoginName(String loginName) {
+		this.loginName = loginName;
+	}
+
+	/**
+	 * @return the phone
+	 */
+	public String getPhone() {
+		return phone;
+	}
+
+	/**
+	 * @param phone the phone to set
+	 */
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	/**
+	 * @return the withdrawBalance
+	 */
+	public Double getWithdrawBalance() {
+		return withdrawBalance;
+	}
+
+	/**
+	 * @param withdrawBalance the withdrawBalance to set
+	 */
+	public void setWithdrawBalance(Double withdrawBalance) {
+		this.withdrawBalance = withdrawBalance;
 	}
 
 }
