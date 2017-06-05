@@ -28,9 +28,9 @@ public class AccountReviseDetail implements Serializable {
 	/** 手机号 */
 	private String memPhone;
 	
-	private String accountTypeNo;
 	private String accountTypeName;
 	
+	private String accountTypeNo;
 	private String accountNo;
 	
 	/**
@@ -75,6 +75,7 @@ public class AccountReviseDetail implements Serializable {
 	private String remark;
 	 
 	
+
 
 
 

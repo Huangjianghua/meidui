@@ -29,9 +29,7 @@ public class AddOrUpdateAccountReviseDetail implements Serializable {
 	private String memPhone;
 	
 	/** 钱包类型  **/
-	private String walletType;
- 
-	private String walletName;
+	private String accountTypeName;
 	
 	private String accountNo;
 	
@@ -83,20 +81,14 @@ public class AddOrUpdateAccountReviseDetail implements Serializable {
 
 	private String remark;
 	
-	public String getWalletName() {
-		return walletName;
+	 
+
+	public String getAccountTypeName() {
+		return accountTypeName;
 	}
 
-	public void setWalletName(String walletName) {
-		this.walletName = walletName;
-	}
-
-	public String getWalletType() {
-		return walletType;
-	}
-
-	public void setWalletType(String walletType) {
-		this.walletType = walletType;
+	public void setAccountTypeName(String accountTypeName) {
+		this.accountTypeName = accountTypeName;
 	}
 
 	public String getId() {
