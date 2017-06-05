@@ -5,55 +5,46 @@
 
 	<!-- 根据会员ID查询当前冻结解冻积分的总和 -->
 	<select id="getFreezeUnFreezePointsSumByMemId" parameterType="java.lang.String" resultType="java.lang.Double">
-		SELECT SUM(mcpf_consume_points) 
+		SELECT 
+		SUM(mcpf_consume_points)
 		FROM ms_consume_points_freeze_info 
 		WHERE mem_id = #{memId} 
 		GROUP BY mem_id
 	</select>
 	
 	<!-- 根据订单号查询冻结解冻记录 --> 
-	<select id="getRecordByOrderId" parameterType="java.lang.String" resultType="java.lang.Integer">
-		SELECT COUNT(1) 
-		FROM ms_consume_points_freeze_info 
-		WHERE mcpf_order_id=#{orderid}
-	</select>
-	
-	<!-- 根据订单号查询冻结解冻记录 --> 
-	<select id="queryRecordByOrderId" parameterType="java.lang.String" resultType="com.meiduimall.service.account.model.MSConsumePointsFreezeInfo">
-		SELECT  m.mcpf_id mcpfId, m.mem_id memId, mcpf_order_id mcpfOrderId,
-        m.mcpf_freeze_type mcpfFreezeType, m.mcpf_consume_points mcpfConsumePoints,
-        m.mcpf_consume_points_balance mcpfConsumePointsBalance, m.mcpf_created_by mcpfCreatedBy,
-        m.mcpf_created_date mcpfCreatedDate, m.mcpf_updated_By mcpfUpdatedBy,
-        m.mcpf_updated_date mcpfUpdatedDate, m.mcpf_remark mcpfRemark
+	<select id="getRecordsByOrderId" parameterType="java.lang.String" resultType="com.meiduimall.service.account.model.MSConsumePointsFreezeInfo">
+		SELECT  
+		m.mcpf_id mcpfId,
+		m.mem_id memId, 
+		mcpf_order_id mcpfOrderId,
+        m.mcpf_freeze_type 
+        mcpfFreezeType,
+        m.mcpf_consume_points mcpfConsumePoints,
+        m.mcpf_consume_points_balance 
+        mcpfConsumePointsBalance, 
+        m.mcpf_created_by mcpfCreatedBy,
+        m.mcpf_created_date mcpfCreatedDate, 
+        m.mcpf_updated_By mcpfUpdatedBy,
+        m.mcpf_updated_date mcpfUpdatedDate, 
+        m.mcpf_remark mcpfRemark
 		FROM ms_consume_points_freeze_info m
 		WHERE m.mcpf_order_id = #{orderid}
 	</select>
 	
 	<!-- 写入积分冻结解冻记录 -->
-	<insert id="insertPointsFreezeUnFreezeRecord" parameterType="java.util.Map">
-		INSERT INTO ms_consume_points_freeze_info(
-		mcpf_id,
-		mem_id,
-		mcpf_order_id,
-		mcpf_freeze_type,
-		mcpf_consume_points,
-		mcpf_consume_points_balance,
-		mcpf_created_by,
-		mcpf_created_date,
-		mcpf_updated_by,
-		mcpf_updated_date,
-		mcpf_remark
-		)
+	<insert id="insertConsumePointsFreezeInfo" parameterType="com.meiduimall.service.account.model.MSConsumePointsFreezeInfo">
+		INSERT INTO ms_consume_points_freeze_info
 		VALUES(
-			#{id},
+			#{mcpfId},
 			#{memId},
-			#{orderId},
-			#{freezeType},
-			#{freezePoints},
-			#{balancePoints},
-			#{operator},
+			#{mcpfOrderId},
+			#{mcpfFreezeType},
+			#{mcpfConsumePoints},
+			#{mcpfConsumePointsBalance},
+			#{mcpfCreatedBy},
 			now(),
-			#{operator},
+			#{mcpfUpdatedBy},
 			now(),
 			#{remark}
 			)

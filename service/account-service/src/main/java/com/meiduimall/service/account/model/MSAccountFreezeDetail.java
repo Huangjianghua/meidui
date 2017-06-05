@@ -153,5 +153,17 @@ public class MSAccountFreezeDetail implements Serializable {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
+
+	/**
+	 * @return
+	 */
+	@Override
+	public String toString() {
+		return "MSAccountFreezeDetail [id=" + id + ", accountNo=" + accountNo + ", tradeType=" + tradeType
+				+ ", tradeAmount=" + tradeAmount + ", tradeDate=" + tradeDate + ", inOrOut=" + inOrOut
+				+ ", freezeBalance=" + freezeBalance + ", businessNo=" + businessNo + ", createDate=" + createDate
+				+ ", createUser=" + createUser + ", updateDate=" + updateDate + ", updateUser=" + updateUser
+				+ ", remark=" + remark + "]";
+	}
    
 }

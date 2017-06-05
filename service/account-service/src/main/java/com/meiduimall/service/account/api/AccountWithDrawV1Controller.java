@@ -26,7 +26,6 @@ import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
 import com.meiduimall.service.account.model.request.RequestBankWithdrawDepositsList;
 import com.meiduimall.service.account.model.request.RequestMSBankWithDrawDepostie;
 import com.meiduimall.service.account.model.request.RequestSaveBankWithdrawDeposit;
-import com.meiduimall.service.account.model.response.ResponseBankWithdrawDeposits;
 import com.meiduimall.service.account.service.BankWithdrawDepositService;
 import com.meiduimall.service.account.service.MSAccountDetailService;
 import com.meiduimall.service.account.service.WithDrawService;
@@ -217,26 +216,10 @@ public class AccountWithDrawV1Controller {
 	 */
 	@RequestMapping(value = "/getBankWithdrawDepositsForApp")
 	public ResBodyData getBankWithdrawDepositsForApp(@Validated RequestBankWithdrawDepositsList model) {
-		int pageNo = 1;
-		if(model.getPageNo() > 0){
-			pageNo = model.getPageNo();
-		}
-		int pageSize = 10;
-		if(model.getPageSize() > 0){
-			pageSize = model.getPageSize();
-		}
-		
-		PageHelper.startPage(pageNo, pageSize);
-		List<MSBankWithdrawDeposit> list = withDrawService.getBankWithdrawDepositsList(model.getMemId());
-		PageInfo<MSBankWithdrawDeposit> pageInfo = new PageInfo<MSBankWithdrawDeposit>(list);
-		ResponseBankWithdrawDeposits data = new ResponseBankWithdrawDeposits();
-		data.setTotalPage(pageInfo.getPages());
-		data.setResults(list);
-
 		ResBodyData result = new ResBodyData();
+		result.setData(withDrawService.getBankWithdrawDepositsList(model));
 		result.setStatus(ConstApiStatus.SUCCESS);
 		result.setMsg(ConstApiStatus.SUCCESS_C);
-		result.setData(data);
 		return result;
 	}
 

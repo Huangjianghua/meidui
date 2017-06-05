@@ -84,7 +84,7 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	public final static Integer REPEAT_ORDER=7106;
 	//积分余额不足
 	public final static Integer NOT_ENOUGH_POINTS=7107;
-	//重复提交的冻结或解冻订单
+	//重复提交的冻结
 	public final static Integer REPEAT_FREEZ_ORDER=7108;
 	//订单解冻积分不等于冻结积分
 	public final static Integer DJ_NOT_EQUALS_DJ=7109;
@@ -108,7 +108,10 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	public final static Integer MONEY_DJ_NOT_EQUALS_DJ=7118;
 	//没有冻结的余额
 	public final static Integer NO_DJ_MONEY=7119;
-	
+	//订单状态不合法
+	public final static Integer ORDER_STATUS_UNNORMAL=7120;
+	//冻结类型不合法
+	public final static Integer FREEZE_TYPE_UNNORMAL=7121;
 	
 	
 	/**账户相关*/
@@ -136,6 +139,10 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	public final static Integer QUERY_TRANSFER_POINTS_ERROR=7211;
 	//当前会员银行卡账户信息已存在
 	public final static  Integer BANK_INFO_ALREADY_EXIST = 7212;
+	//余额不足无法支付
+	public final static  Integer BALANCE_CANNOT_AFFORD = 7213;
+	//积分不足无法支付
+	public final static  Integer POINTS_CANNOT_AFFORD = 7214;
 	
 	
 	/**提现相关*/
@@ -167,6 +174,8 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	public final static Integer WITHDRAW_APPLY_ERROR=7313;
 	//查询提现账号相关类型表异常
 	public final static Integer QUERY_WITHDRAW_BY_ACCOUNT_TYPE_ERROR=7314;
+	/**	查询ms_account_report 表数据异常  */
+	public final static Integer QUERY_ACCOUNT_REPORT_ERROR=7315;
 	
 	
 	/**会员信息相关*/
@@ -218,11 +227,13 @@ public abstract class ConstApiStatus extends BaseApiCode {
 		zhMsgMap.put(PAYTYPE_ERROR, "支付类型错误");
 		zhMsgMap.put(REPEAT_ORDER, "重复提交的订单");
 		zhMsgMap.put(NOT_ENOUGH_POINTS, "积分余额不足");
-		zhMsgMap.put(REPEAT_FREEZ_ORDER, "重复提交的冻结或解冻订单");
+		zhMsgMap.put(REPEAT_FREEZ_ORDER, "重复提交的冻结订单");
 		zhMsgMap.put(DJ_NOT_EQUALS_DJ, "订单解冻积分不等于冻结积分");
 		zhMsgMap.put(MONEY_DJ_NOT_EQUALS_DJ, "订单解冻余额不等于冻结余额");
 		zhMsgMap.put(NO_DJ_POINTS, "没有冻结的积分");
 		zhMsgMap.put(NO_DJ_MONEY, "没有冻结的余额");
+		zhMsgMap.put(ORDER_STATUS_UNNORMAL, "订单状态不合法");
+		zhMsgMap.put(FREEZE_TYPE_UNNORMAL, "冻结类型不合法");
 		zhMsgMap.put(ORDER_STATUS_ERROR, "订单状态错误");
 		zhMsgMap.put(MD_POINTS_ERROR, "退单返回美兑积分错误");
 		zhMsgMap.put(PAYMONEY_ERROR, "余额支付金额不能大于消费金额");
@@ -238,6 +249,8 @@ public abstract class ConstApiStatus extends BaseApiCode {
 		
 		zhMsgMap.put(USER_NOT_EXIST, "当前用户在会员系统不存在");
 		zhMsgMap.put(BANK_INFO_ALREADY_EXIST, "当前会员银行卡账户信息已存在");
+		zhMsgMap.put(BALANCE_CANNOT_AFFORD, "余额不足无法支付");
+		zhMsgMap.put(POINTS_CANNOT_AFFORD, "积分不足无法支付");
 		zhMsgMap.put(GET_MEMBER_BASIC_INFO_FAILED, "获取会员基本信息失败");
 		
 		zhMsgMap.put(ACCOUNT_IS_NULL_ERROR, "查询会员账号错误");
@@ -264,6 +277,6 @@ public abstract class ConstApiStatus extends BaseApiCode {
 		zhMsgMap.put(VALIDATE_CODE_NOT_PASS, "短信验证码校验不通过");
 		zhMsgMap.put(WITHDRAW_APPLY_ERROR, "提现申请错误");
 		zhMsgMap.put(QUERY_WITHDRAW_BY_ACCOUNT_TYPE_ERROR, "提现子表查询异常");
-		
+		zhMsgMap.put(QUERY_ACCOUNT_REPORT_ERROR, "查询会员账号总表异常");
 	}
 }

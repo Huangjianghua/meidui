@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONArray;
@@ -23,7 +22,6 @@ import com.meiduimall.service.account.service.AccountDetailService;
 import com.meiduimall.service.account.service.AccountReportService;
 import com.meiduimall.service.account.service.AccountService;
 import com.meiduimall.service.account.service.ConsumePointsDetailService;
-import com.meiduimall.service.account.service.ConsumePointsFreezeInfoService;
 import com.meiduimall.service.account.util.DESC;
 import com.meiduimall.service.account.util.DateUtil;
 import com.meiduimall.service.account.util.DoubleCalculate;
@@ -35,7 +33,7 @@ import com.meiduimall.service.account.util.StringUtil;
  *
  */
 @Service
-public class MSConsumePointsDetailServiceImpl implements ConsumePointsDetailService {
+public class ConsumePointsDetailServiceImpl implements ConsumePointsDetailService {
 
 	@Autowired
 	private BaseDao baseDao;
@@ -45,9 +43,6 @@ public class MSConsumePointsDetailServiceImpl implements ConsumePointsDetailServ
 	
 	@Autowired
 	private AccountDetailService   accountDetailService;
-	
-	@Autowired
-	private AccountService   accountService;
 	
 	@Autowired
 	private AccountReportService   accountReportService;

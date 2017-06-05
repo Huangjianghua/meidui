@@ -78,5 +78,16 @@ public class ConstSysParamsDefination {
 	
 	/**手续费比例 0.01 */
 	public final static Double FEESCALE=0.01;
+	/**冻结类型InOrOut  	1表示冻结*/
+	public final static Integer FREEZE=1;
+	/**冻结类型InOrOut  	-1表示解冻*/
+	public final static Integer THAW=-1;
+	/**	表示系统用户			*/
+	public final static String SYSTEM_USER="system";
+	
+	/** 余额修改操作  */
+	public final static String BALANCE_UPDATE_OPERATE="balance";
+	/** 冻结余额修改操作  */
+	public final static String FREE_ALANCE_UPDATE_OPERATE="freeze";
 
 }

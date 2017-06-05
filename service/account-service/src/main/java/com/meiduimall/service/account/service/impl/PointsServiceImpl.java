@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.print.attribute.standard.RequestingUserName;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +47,7 @@ public class PointsServiceImpl implements PointsService {
 		paramsMap.put("balancePoints", balancePoints);
 		
 		try {
-			baseDao.insert(paramsMap, "MSConsumePointsFreezeInfoMapper.insertPointsFreezeUnFreezeRecord");
+			baseDao.insert(paramsMap, "MSConsumePointsFreezeInfoMapper.insertConsumePointsFreezeInfo");
 		} catch (Exception e) {
 			logger.info("exec PointsServiceImpl freezePointsAndAddRecord() error:{}",e.toString());
 			resBodyData.setStatus(ConstApiStatus.OPERATION_DB_EX);
@@ -114,23 +112,10 @@ public class PointsServiceImpl implements PointsService {
 		return realPoints;
 	}
 	
-	@Override
-	public boolean getFreezeUnfreezeRecordByOrderId(String orderId) {
-		try {
-			int check=baseDao.selectOne(orderId, "MSConsumePointsFreezeInfoMapper.getRecordByOrderId");
-			if(check > 0){
-				return true;
-			}else{
-				return false;
-			}
-		} catch (Exception e) {
-			return false;
-		}
-	}
 	
 	@Override
-	public List<MSConsumePointsFreezeInfo> queryRecordByOrderId(String orderId) {
-			return baseDao.selectList(orderId, "MSConsumePointsFreezeInfoMapper.queryRecordByOrderId");
+	public List<MSConsumePointsFreezeInfo> getRecordsByOrderId(String orderId) {
+			return baseDao.selectList(orderId, "MSConsumePointsFreezeInfoMapper.getRecordsByOrderId");
 	}
 	
 
@@ -149,7 +134,7 @@ public class PointsServiceImpl implements PointsService {
 		paramsMap.put("freezePoints",consumePoints);
 		paramsMap.put("balancePoints", balancePoints);
 		try {
-			baseDao.insert(paramsMap, "MSConsumePointsFreezeInfoMapper.insertPointsFreezeUnFreezeRecord");
+			baseDao.insert(paramsMap, "MSConsumePointsFreezeInfoMapper.insertConsumePointsFreezeInfo");
 			dataMap.put("before_total_points",getAvailablePointsByMemId(memId));
 		} catch (Exception e) {
 			logger.error("写入积分冻结明细出现错误-2002，会员编号：{}，订单编号：{}，错误信息：{}", memId, orderId, e.getMessage());

@@ -28,9 +28,9 @@ public class AccountReviseDetail implements Serializable {
 	/** 手机号 */
 	private String memPhone;
 	
-	private String accountTypeNo;
 	private String accountTypeName;
 	
+	private String accountTypeNo;
 	private String accountNo;
 	
 	/**
@@ -60,21 +60,22 @@ public class AccountReviseDetail implements Serializable {
 	/**
 	 * 
 	 */
-	private String createdBy;
+	private String createUser;
 	/**
 	 * 
 	 */
-	private String createdDate;
+	private String createDate;
 	/**
 	 * 
 	 */
-	private String updatedBy;
+	private String updateUser;
 
-	private String updatedDate;
+	private String updateDate;
 	
 	private String remark;
 	 
 	
+
 
 
 
@@ -149,28 +150,40 @@ public class AccountReviseDetail implements Serializable {
 		this.reviseBalance = reviseBalance;
 	}
 
-	public String getCreatedBy() {
-		return createdBy;
+	
+
+	
+
+	public String getCreateUser() {
+		return createUser;
 	}
 
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy == null ? null : createdBy.trim();
+	public void setCreateUser(String createUser) {
+		this.createUser = createUser;
 	}
 
-	public String getCreatedDate() {
-		return createdDate;
+	public String getCreateDate() {
+		return createDate;
 	}
 
-	public void setCreatedDate(String createdDate) {
-		this.createdDate = createdDate;
+	public void setCreateDate(String createDate) {
+		this.createDate = createDate;
 	}
 
-	public String getUpdatedBy() {
-		return updatedBy;
+	public String getUpdateUser() {
+		return updateUser;
 	}
 
-	public void setUpdatedBy(String updatedBy) {
-		this.updatedBy = updatedBy == null ? null : updatedBy.trim();
+	public void setUpdateUser(String updateUser) {
+		this.updateUser = updateUser;
+	}
+
+	public String getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(String updateDate) {
+		this.updateDate = updateDate;
 	}
 
 	public String getStatus() {
@@ -181,13 +194,7 @@ public class AccountReviseDetail implements Serializable {
 		this.status = status == null ? null : status.trim();
 	}
 
-	public String getUpdatedDate() {
-		return updatedDate;
-	}
-
-	public void setUpdatedDate(String updatedDate) {
-		this.updatedDate = updatedDate;
-	}
+	
 
 	public String getReviseRemark() {
 		return reviseRemark;

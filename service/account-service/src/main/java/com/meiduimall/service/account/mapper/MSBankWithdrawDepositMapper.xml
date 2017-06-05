@@ -74,16 +74,16 @@
 				mem_id as memId,
 				bank_account_id as bankAccountId,
 				account_idcard as accountIdcard,
-				bank_card_no as accountNo,
+				bank_card_no as bankCardNo,
 				account_name as accountName,
 				account_bank as accountBank,
 				account_province as accountProvince,
 				account_city as accountCity,
 				account_area as accountArea,
 				account_sub_bank as accountSubBank,
-				apply_withdraw_amount as applyCarryCash,
-				poundage_amount as counterFee,
-				actual_withdraw_amount as actualCarryCash,
+				apply_withdraw_amount as applyWithdrawAmount,
+				poundage_amount as poundageAmount,
+				actual_withdraw_amount as actualWithdrawAmount,
 				apply_date as applyDate,
 				audit_by as auditBy,
 				audit_date as auditDate,
@@ -106,16 +106,16 @@
 				a.mem_id as memId,
 				a.bank_account_id as bankAccountId,
 				a.account_idcard as accountIdcard,
-				a.account_no as accountNo,
+				a.bank_card_no as bankCardNo,
 				a.account_name as accountName,
 				a.account_bank as accountBank,
 				a.account_province as accountProvince,
 				a.account_city as accountCity,
 				a.account_area as accountArea,
 				a.account_sub_bank as accountSubBank,
-				a.apply_carry_cash as applyCarryCash,
-				a.counter_fee as counterFee,
-				a.actual_carry_cash as actualCarryCash,
+				apply_withdraw_amount as applyWithdrawAmount,
+				poundage_amount as poundageAmount,
+				actual_withdraw_amount as actualWithdrawAmount,
 				a.apply_date as applyDate,
 				a.audit_by as auditBy,
 				a.audit_date as auditDate,
@@ -125,7 +125,7 @@
 				a.create_date as createDate,
 				b.mem_phone as phone,
 				b.mem_login_name as loginName, 
-				a.actual_transfer_cash as actualTransferCash,
+				a.actual_transfer_amount as actualTransferAmount,
 				a.withdraw_balance as withdrawBalance /**提现时余额	*/
 				from ms_bank_withdraw_deposit a 
 				LEFT JOIN ms_members b on b.mem_id=a.mem_id
@@ -164,7 +164,7 @@
 	        status = #{status},
 	      </if>
 	      <if test="actualTransferCash != null and actualTransferCash !=''" >
-	        actual_transfer_cash = #{actualTransferCash},
+	        actual_transfer_amount = #{actualTransferCash},
 	      </if>
 	      <if test="auditBy != null and auditBy !=''" >
 	        audit_by = #{auditBy},
@@ -203,7 +203,7 @@
 	    bwd.apply_withdraw_amount as applyWithdrawAmount,
 	    bwd.poundage_amount as poundageAmount,
 	    bwd.actual_withdraw_amount as actualWithdrawAmount,
-	    bwd.actual_transfer_cash as actualTransferCash,
+	    bwd.actual_transfer_amount as actualTransferAmount,
 	    bwd.apply_date as applyDate,
 	    bwd.audit_by as auditBy,
 	    bwd.audit_date as auditDate,
@@ -256,7 +256,14 @@
   <!-- 根据会员ID和账户类型修改余额账户冻结金额 -->
 	<update id="updateFreezeBalanceByMemId" parameterType="java.util.Map">
 		UPDATE ms_account
-		SET freeze_balance =freeze_balance + #{freezeBalance},update_date = now()
+		<set>
+		  <if test="freezeBalance !=null and freezeBalance !=''">
+           freeze_balance =#{freezeBalance},update_date = now(),
+        </if>
+         <if test="freezeBalanceEncrypt !=null and freezeBalanceEncrypt !=''">
+           freeze_balance_encrypt =#{freezeBalanceEncrypt},
+        </if>
+		</set>
 		<where>
 		  <if test="id !=null and id !=''">
 		        and id = #{id}
@@ -270,7 +277,14 @@
 	 <!-- 根据会员ID和账户类型修改余额账户金额 -->
 	<update id="updateAccountBalance" parameterType="java.util.Map">
 		UPDATE ms_account
-		SET balance =#{balance},update_date = now()
+		<set>
+		 <if test="balance !=null and balance !=''">
+           balance =#{balance},update_date = now() ,
+        </if>
+        <if test="balanceEncrypt !=null and balanceEncrypt !=''">
+           balance_encrypt =#{balanceEncrypt},
+        </if>
+		</set>
 		<where>
 		  <if test="id !=null and id !=''">
 		        and id = #{id}

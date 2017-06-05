@@ -1,9 +1,8 @@
 package com.meiduimall.service.account.service;
 
-import java.util.List;
-
-import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
+import com.meiduimall.service.account.model.request.RequestBankWithdrawDepositsList;
 import com.meiduimall.service.account.model.request.RequestSaveBankWithdrawDeposit;
+import com.meiduimall.service.account.model.response.ResponseBankWithdrawDepositList;
 
 /**
  * 提现相关
@@ -14,10 +13,10 @@ public interface WithDrawService {
 
 	/**
 	 * 提现申请查询接口
-	 * @param memId 会员Id
+	 * @param model 包含会员Id,pageNo,pageSize
 	 * @return 提现声请历史集合
 	 */
-	List<MSBankWithdrawDeposit> getBankWithdrawDepositsList(String memId);
+	ResponseBankWithdrawDepositList getBankWithdrawDepositsList(RequestBankWithdrawDepositsList model);
 
 	/**
 	 * 账户余额提现申请接口

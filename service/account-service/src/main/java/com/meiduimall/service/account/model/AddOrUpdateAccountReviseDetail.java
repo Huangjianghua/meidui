@@ -2,6 +2,7 @@ package com.meiduimall.service.account.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -29,9 +30,8 @@ public class AddOrUpdateAccountReviseDetail implements Serializable {
 	private String memPhone;
 	
 	/** 钱包类型  **/
-	private String walletType;
- 
-	private String walletName;
+	private String accountTypeName;
+	private String accountTypeNo;
 	
 	private String accountNo;
 	
@@ -62,17 +62,17 @@ public class AddOrUpdateAccountReviseDetail implements Serializable {
 	/**
 	 * 
 	 */
-	private String createdBy;
+	private String createUser;
 	/**
 	 * 
 	 */
-	private String createdDate;
+	private Date createDate;
 	/**
 	 * 
 	 */
-	private String updatedBy;
+	private String updateUser;
 
-	private String updatedDate;
+	private Date updateDate;
 
 	private String isDelete;
 
@@ -83,20 +83,22 @@ public class AddOrUpdateAccountReviseDetail implements Serializable {
 
 	private String remark;
 	
-	public String getWalletName() {
-		return walletName;
+	
+
+	public String getAccountTypeNo() {
+		return accountTypeNo;
 	}
 
-	public void setWalletName(String walletName) {
-		this.walletName = walletName;
+	public void setAccountTypeNo(String accountTypeNo) {
+		this.accountTypeNo = accountTypeNo;
 	}
 
-	public String getWalletType() {
-		return walletType;
+	public String getAccountTypeName() {
+		return accountTypeName;
 	}
 
-	public void setWalletType(String walletType) {
-		this.walletType = walletType;
+	public void setAccountTypeName(String accountTypeName) {
+		this.accountTypeName = accountTypeName;
 	}
 
 	public String getId() {
@@ -139,28 +141,38 @@ public class AddOrUpdateAccountReviseDetail implements Serializable {
 		this.reviseBalance = reviseBalance;
 	}
 
-	public String getCreatedBy() {
-		return createdBy;
+	 
+
+	public String getCreateUser() {
+		return createUser;
 	}
 
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy == null ? null : createdBy.trim();
+	public void setCreateUser(String createUser) {
+		this.createUser = createUser;
 	}
 
-	public String getCreatedDate() {
-		return createdDate;
+	public Date getCreateDate() {
+		return createDate;
 	}
 
-	public void setCreatedDate(String createdDate) {
-		this.createdDate = createdDate;
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 
-	public String getUpdatedBy() {
-		return updatedBy;
+	public String getUpdateUser() {
+		return updateUser;
 	}
 
-	public void setUpdatedBy(String updatedBy) {
-		this.updatedBy = updatedBy == null ? null : updatedBy.trim();
+	public void setUpdateUser(String updateUser) {
+		this.updateUser = updateUser;
+	}
+
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
 	}
 
 	public String getStatus() {
@@ -171,13 +183,7 @@ public class AddOrUpdateAccountReviseDetail implements Serializable {
 		this.status = status == null ? null : status.trim();
 	}
 
-	public String getUpdatedDate() {
-		return updatedDate;
-	}
-
-	public void setUpdatedDate(String updatedDate) {
-		this.updatedDate = updatedDate;
-	}
+	 
 
 	public String getReviseRemark() {
 		return reviseRemark;

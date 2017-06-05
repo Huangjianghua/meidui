@@ -3,6 +3,11 @@ package com.meiduimall.service.account.model;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * 积分冻结解冻明细表ms_consume_points_freeze_info实体类
+ * @author chencong
+ *
+ */
 public class MSConsumePointsFreezeInfo implements Serializable{
      
 	private static final long serialVersionUID = 6676261434640382390L;
@@ -116,15 +121,5 @@ public class MSConsumePointsFreezeInfo implements Serializable{
     public void setMcpfRemark(String mcpfRemark) {
         this.mcpfRemark = mcpfRemark == null ? null : mcpfRemark.trim();
     }
-
-	@Override
-	public String toString() {
-		return "MSConsumePointsFreezeInfo [mcpfId=" + mcpfId + ", memId=" + memId + ", mcpfOrderId=" + mcpfOrderId
-				+ ", mcpfFreezeType=" + mcpfFreezeType + ", mcpfConsumePoints=" + mcpfConsumePoints
-				+ ", mcpfConsumePointsBalance=" + mcpfConsumePointsBalance + ", mcpfCreatedBy=" + mcpfCreatedBy
-				+ ", mcpfCreatedDate=" + mcpfCreatedDate + ", mcpfUpdatedBy=" + mcpfUpdatedBy + ", mcpfUpdatedDate="
-				+ mcpfUpdatedDate + ", mcpfRemark=" + mcpfRemark + "]";
-	}
-    
     
 }

@@ -149,4 +149,89 @@ public class TradeV1ControllerTest extends BaseControllerTest {
 		});
 
     }
+    
+    
+    
+    
+    
+    
+    /**
+	 * 当前商家退会员订单信息接口  
+	 * @author wujun
+	 */
+    @Test
+    public void businessRecedeOrder() throws Exception{
+    	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/v1/business_recede_order")
+    			.param("memId", "72063681-7408-435c-88fd-cd837c95c66e")
+    			.param("orderId", "1")
+				.param("consumeAmount", "2.00")
+				.param("consumeMoney", "1.00")
+				.param("consumePoints", "1")
+				.param("productName", "单元测试")
+				.param("orderSource", "1gw")
+				.param("payType", "2")
+				.param("orderStatus", "2"))
+    			.andExpect(status().isOk());
+    	
+    	postResultAction.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				logger.info("单元测试>>当前商家退会员订单信息API>>执行结果:{}",result.getResponse().getContentAsString());
+			}
+		});
+    }
+    
+    
+	/**
+	 * 保存当前会员订单信息接口(免token校验) 
+	 * @author wujun
+	 */
+    @Test
+    public void saveOrderNotoken() throws Exception{
+    	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/v1/save_order_notoken")
+    			.param("memId", "72063681-7408-435c-88fd-cd837c95c66e")
+    			.param("orderId", "1")
+				.param("consumeAmount", "2.00")
+				.param("consumeMoney", "1.00")
+				.param("consumePoints", "1")
+				.param("productName", "单元测试")
+				.param("orderSource", "1gw")
+				.param("payType", "2")
+				.param("orderStatus", "1"))
+    			.andExpect(status().isOk());
+    	
+    	postResultAction.andDo(new ResultHandler() {
+    		@Override
+    		public void handle(MvcResult result) throws Exception {
+    			logger.info("单元测试>>保存当前会员订单信息接口(免token校验) API>>执行结果:{}",result.getResponse().getContentAsString());
+    		}
+    	});
+    }
+    
+    
+	/**
+	 * 当前会员退单信息接口  
+	 * @author wuun
+	 */
+    @Test
+    public void recedeOrder() throws Exception{
+    	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/v1/recede_order")
+    			.param("memId", "72063681-7408-435c-88fd-cd837c95c66e")
+    			.param("orderId", "1")
+				.param("consumeAmount", "2.00")
+				.param("consumeMoney", "1.00")
+				.param("consumePoints", "1")
+				.param("productName", "单元测试")
+				.param("orderSource", "1gw")
+				.param("payType", "2")
+				.param("orderStatus", "2"))
+    			.andExpect(status().isOk());
+    	
+    	postResultAction.andDo(new ResultHandler() {
+    		@Override
+    		public void handle(MvcResult result) throws Exception {
+    			logger.info("单元测试>>当前会员退单信息API>>执行结果:{}",result.getResponse().getContentAsString());
+    		}
+    	});
+    }
 }

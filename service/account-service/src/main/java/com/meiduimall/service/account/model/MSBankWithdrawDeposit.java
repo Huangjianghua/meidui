@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import com.meiduimall.service.account.constant.ConstWithdrawStatus;
+
 /**
  * 提现主表ms_bank_withdraw_deposit实体类
  */
@@ -89,6 +91,12 @@ public class MSBankWithdrawDeposit extends BaseModel implements Serializable{
 	private String isDelete;
 	
 	private String operate;
+	
+	private String loginName;
+	
+	private String phone;
+	
+	private Double withdrawBalance;
 	
 	private List<MSBankWithDrawOperateDetail> listDetail;
 
@@ -251,7 +259,7 @@ public class MSBankWithdrawDeposit extends BaseModel implements Serializable{
 	}
 
 	public String getStatus() {
-		return status;
+		return ConstWithdrawStatus.getNameByCode(status);
 	}
 
 	public void setStatus(String status) {
@@ -338,6 +346,48 @@ public class MSBankWithdrawDeposit extends BaseModel implements Serializable{
 	 */
 	public void setListDetail(List<MSBankWithDrawOperateDetail> listDetail) {
 		this.listDetail = listDetail;
+	}
+
+	/**
+	 * @return the loginName
+	 */
+	public String getLoginName() {
+		return loginName;
+	}
+
+	/**
+	 * @param loginName the loginName to set
+	 */
+	public void setLoginName(String loginName) {
+		this.loginName = loginName;
+	}
+
+	/**
+	 * @return the phone
+	 */
+	public String getPhone() {
+		return phone;
+	}
+
+	/**
+	 * @param phone the phone to set
+	 */
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	/**
+	 * @return the withdrawBalance
+	 */
+	public Double getWithdrawBalance() {
+		return withdrawBalance;
+	}
+
+	/**
+	 * @param withdrawBalance the withdrawBalance to set
+	 */
+	public void setWithdrawBalance(Double withdrawBalance) {
+		this.withdrawBalance = withdrawBalance;
 	}
 
 }

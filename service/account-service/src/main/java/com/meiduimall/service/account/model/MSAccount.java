@@ -5,7 +5,7 @@ import java.util.Date;
 
 
 /**
- * 会员按账户类型账户表实体类
+ * 会员按账户类型账户表ms_account实体类
  * @author chencong
  *
  */
@@ -29,7 +29,7 @@ public class MSAccount extends BaseModel implements Serializable {
 	private Double balance;
 	
 	/** 当前类型总金额密文 */
-	private Double balanceEncrypt;
+	private String balanceEncrypt;
 	
 	/** 当前类型冻结余额明文 */
 	private Double freezeBalance;
@@ -125,11 +125,11 @@ public class MSAccount extends BaseModel implements Serializable {
 		this.balance = balance;
 	}
 
-	public Double getBalanceEncrypt() {
+	public String getBalanceEncrypt() {
 		return balanceEncrypt;
 	}
 
-	public void setBalanceEncrypt(Double balanceEncrypt) {
+	public void setBalanceEncrypt(String balanceEncrypt) {
 		this.balanceEncrypt = balanceEncrypt;
 	}
 

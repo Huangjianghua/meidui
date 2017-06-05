@@ -98,7 +98,7 @@ public class AccountWithDrawV1ControllerTest extends BaseControllerTest {
 		ResultActions results = mockMvc.perform(
 				MockMvcRequestBuilders.post("/member/account_service/v1/saveBankWithdrawDeposit")
 				.param("accountNo", "123456")
-				.param("applyCarryCash", "0.99")
+				.param("applyCarryCash", "2.99")
 				.param("memId", "a0db1419-f44a-48e8-9394-a49620e47940"))
 				.andExpect(status().isOk());
 

@@ -11,8 +11,8 @@
 		WHERE business_no = #{orderId}
 	</select>
 	
-	<!-- 根据订单号查询是否存在余额冻结解冻记录 -->
-	<select id="queryRecordByOrderId" parameterType="java.lang.String" resultType="com.meiduimall.service.account.model.MSAccountFreezeDetail">
+	<!-- 根据订单号查询余额冻结解冻记录 -->
+	<select id="getRecordsByOrderId" parameterType="java.lang.String" resultType="com.meiduimall.service.account.model.MSAccountFreezeDetail">
 		SELECT m.id,
 			m.account_no accountNo,
 			m.trade_type tradeType,
@@ -30,7 +30,7 @@
 		WHERE m.business_no = #{orderId}
 	</select>
 	
-	<insert id="insertAccountFreezeDetail" parameterType="java.util.Map">
+	<insert id="insertAccountFreezeDetail" parameterType="com.meiduimall.service.account.model.MSAccountFreezeDetail">
 		INSERT INTO ms_account_freeze_detail 
 		VALUES(
 			#{id},
@@ -41,9 +41,9 @@
 			#{inOrOut},
 			#{freezeBalance},
 			#{businessNo},
-			#{createDate},
+			now(),
 			#{createUser},
-			#{updateDate},
+			now(),
 			#{updateUser},
 			#{remark}
 			)

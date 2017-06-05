@@ -11,10 +11,10 @@
    	<result column="status" property="status" jdbcType="VARCHAR" />
    	<result column="revise_remark" property="reviseRemark" jdbcType="VARCHAR" />
     <result column="review_remark" property="reviewRemark" jdbcType="VARCHAR" />
-    <result column="create_user" property="createdBy" jdbcType="VARCHAR" />
-    <result column="create_date" property="createdDate" jdbcType="TIMESTAMP" />
-    <result column="update_user" property="updatedBy" jdbcType="VARCHAR" />
-    <result column="update_date" property="updatedDate" jdbcType="TIMESTAMP" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="account_type_no" property="accountTypeNo" jdbcType="VARCHAR" />
     <result column="account_type_name" property="accountTypeName" jdbcType="VARCHAR" />
@@ -91,7 +91,7 @@
   
   
   <!-- 添加调整金额明细 -->
-  <insert id="insertAccountReviseDetail" parameterType="com.meiduimall.service.account.model.AccountReviseDetail" >
+  <insert id="insertAccountReviseDetail" parameterType="com.meiduimall.service.account.model.AddOrUpdateAccountReviseDetail" >
     insert into ms_account_revise_detail
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -118,16 +118,16 @@
        <if test="status != null" >
         status,
       </if>
-      <if test="createdBy != null" >
+      <if test="createUser != null" >
         create_user,
       </if>
-      <if test="createdDate != null" >
+      <if test="createDate != null" >
         create_date,
       </if>
-      <if test="updatedBy != null" >
+      <if test="updateUser != null" >
         update_user,
       </if>
-      <if test="updatedDate != null" >
+      <if test="updateDate != null" >
         update_date,
       </if>
       <if test="remark != null" >
@@ -139,7 +139,7 @@
         #{id,jdbcType=CHAR},
       </if>
       <if test="accountNo != null" >
-        #{account_no,jdbcType=VARCHAR},
+        #{accountNo,jdbcType=VARCHAR},
       </if>
       <if test="reviseType != null" >
         #{reviseType,jdbcType=VARCHAR},
@@ -159,22 +159,22 @@
       <if test="status != null" >
         #{status,jdbcType=VARCHAR},
       </if>
-      <if test="createdBy != null" >
-        #{createdBy,jdbcType=VARCHAR},
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
       </if>
-      <if test="createdDate != null" >
-        #{createdDate,jdbcType=TIMESTAMP},
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="updatedBy != null" >
-        #{updatedBy,jdbcType=VARCHAR},
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
       </if>
-      <if test="updatedDate != null" >
-        #{updatedDate,jdbcType=TIMESTAMP},
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
   <!-- 更新调整金额    调增  调减 -->
-  <update id="updateAccountReviseDetail"  parameterType="com.meiduimall.service.account.model.AccountReviseDetail" >
+  <update id="updateAccountReviseDetail"  parameterType="com.meiduimall.service.account.model.AddOrUpdateAccountReviseDetail" >
     update ms_account_revise_detail
     <set >
       <if test="accountNo != null and accountNo !=''" >
@@ -198,17 +198,17 @@
        <if test="status != null  and status !=''" >
         status = #{status,jdbcType=VARCHAR},
       </if>
-      <if test="createdBy != null and createdBy !=''" >
-        create_user = #{createdBy,jdbcType=VARCHAR},
+      <if test="createUser != null and createUser !=''" >
+        create_user = #{createUser,jdbcType=VARCHAR},
       </if>
-      <if test="createdDate != null and createdDate !=''" >
-        create_date = #{createdDate,jdbcType=TIMESTAMP},
+      <if test="createDate != null and createDate !=''" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="updatedBy != null and updatedBy !=''" >
-        update_user = #{updatedBy,jdbcType=VARCHAR},
+      <if test="updateUser != null and updateUser !=''" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
       </if>
-      <if test="updatedDate != null and updatedDate !=''" >
-        update_date = #{updatedDate,jdbcType=TIMESTAMP},
+      <if test="updateDate != null and updateDate !=''" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
       </if>
       <if test="remark != null and remark !=''" >
         remark = #{remark,jdbcType=VARCHAR},
