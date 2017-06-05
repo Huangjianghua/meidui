@@ -271,7 +271,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			balance = DoubleCalculate.add(Double.valueOf(account.getBalance()),detail.getReviseBalance().doubleValue());
 		}
 		//step3 修改会员账户余额
-		this.updateAccountBalance(null, balance,detail.getAccountNo());
+		this.updateAccountBalance(null, balance,detail.getAccountNo(),account.getMemId());
 		//step4 记录调整金额流水记录
 		this.saveAccountDetail(detail,account,type,balance);
 		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M);
@@ -282,13 +282,14 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月20日 下午4:55:03
 	 */
-	private Integer updateAccountBalance(String id, Double balance,String accountNo) throws MdBizException{
+	private Integer updateAccountBalance(String id, Double balance,String accountNo,String memId) throws MdBizException{
 		Map<String,String> paramsMap = new HashMap<String,String>();
-		paramsMap.put("id", id);
-		paramsMap.put("accountNo", accountNo);
-		paramsMap.put("balance", String.valueOf(balance));
 		Integer updateFlag=0;
 		try {
+			paramsMap.put("id", id);
+			paramsMap.put("accountNo", accountNo);
+			paramsMap.put("balance", String.valueOf(balance));
+			paramsMap.put("balanceEncrypt", DESC.encryption(String.valueOf(balance), memId));
 			updateFlag = baseDao.update(paramsMap, "MSBankWithdrawDepositMapper.updateAccountBalance");
 		} catch (Exception e) {
 			logger.error("修改会员账户余额updateAccountBalance接口,ID:{},balance:{},异常:{}", id,balance,e.getMessage());
@@ -398,12 +399,12 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		//step2 遍历数据  更新相关账号的金额
 		Date date=new Date();
 		for(MSWithdrawInfoByAccountType accountType:list){
-			updateAccountFreezeBalance(null,-accountType.getWithdrawAmount(),accountType.getAccount_no());
-			//记录解冻明细
-			//accountFreezeDetailService.saveAccountUnFreezeDetail(withdrawDeposit.getMemId(), withdrawDeposit.getBusinessNo(),"","", ConstTradeType.TRADE_TYPE_TXSX.getCode(),  String.valueOf(accountType.getWithdrawAmount()),new Date(), String.valueOf(accountType.getWithdrawBalance()),  ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
 			//查询账号 
 			List<MSAccount> accountList=queryAccountList(null,null,accountType.getAccount_no());
 			MSAccount account=accountList.get(0);
+			updateAccountFreezeBalance(null,-accountType.getWithdrawAmount(),accountType.getAccount_no(),account.getMemId());
+			//记录解冻明细
+			//accountFreezeDetailService.saveAccountUnFreezeDetail(withdrawDeposit.getMemId(), withdrawDeposit.getBusinessNo(),"","", ConstTradeType.TRADE_TYPE_TXSX.getCode(),  String.valueOf(accountType.getWithdrawAmount()),new Date(), String.valueOf(accountType.getWithdrawBalance()),  ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
 			//step3
 			updateAccountBalanceReport(account.getAccountTypeNo(),-accountType.getWithdrawAmount(),account.getMemId(),ConstSysParamsDefination.FREE_ALANCE_UPDATE_OPERATE);
 			//step4 记录解冻明细
@@ -467,7 +468,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			MSAccount account=accountList.get(0);
 			Double blance=DoubleCalculate.sub(account.getBalance(), accountType.getWithdrawAmount());
 			//更新账户余额
-			updateAccountBalance(null, blance, accountType.getAccount_no());
+			updateAccountBalance(null, blance, accountType.getAccount_no(),account.getMemId());
 			//step3
 			updateAccountBalanceReport(account.getAccountTypeNo(),-accountType.getWithdrawAmount(),account.getMemId(),ConstSysParamsDefination.BALANCE_UPDATE_OPERATE);
 			//step4记录账号余额明细   
@@ -648,7 +649,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 				//插入提现ms_withdraw_info_by_account_type  子表里
 				addWithDrawInfoByAccountType(id,account.getAccountNo(),addFreezeMoney,useBalance);
 				//更新用户冻结金额
-				updateAccountFreezeBalance(account.getId(), Math.abs(addFreezeMoney),null);
+				updateAccountFreezeBalance(account.getId(), Math.abs(freezeBalance),null,account.getMemId());
 				//更新ms_account_report 表总对应账号的字段值
 				updateAccountBalanceReport(account.getAccountTypeNo(),addFreezeMoney,account.getMemId(),ConstSysParamsDefination.FREE_ALANCE_UPDATE_OPERATE);
 				//增加明细
@@ -659,15 +660,13 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 				freezeBalance=DoubleCalculate.add(freezeBalance, free); //加上冻结手续费
 				//accountFreezeDetailService.saveAccountFreezeDetail(account.getMemId(), businessNo,account.getAccountNo(),"", ConstTradeType.TRADE_TYPE_TXSX.getCode(),  String.valueOf(free),applyDate, String.valueOf(freezeBalance),  ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);
 				insertAccoutFreezeDetail(account.getAccountNo(),businessNo,ConstSysParamsDefination.FREEZE,ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK,free,ConstTradeType.TRADE_TYPE_TXSX.getCode(),freezeBalance,date);
-				
-				
 				break;
 			}
 			addFreezeMoney=deductionMoney;
 			//根据优先级 修改账号的冻结金额  =以前的冻结金额+可用的余额
 			freezeBalance = DoubleCalculate.add(Double.valueOf(account.getFreezeBalance()),Double.valueOf(useBalance));
 			//更新用户冻结金额
-			updateAccountFreezeBalance(account.getId(), useBalance,null);
+			updateAccountFreezeBalance(account.getId(), freezeBalance,null,account.getMemId());
 			//插入提现ms_withdraw_info_by_account_type  子表里
 			addWithDrawInfoByAccountType(id,account.getAccountNo(),useBalance,useBalance);
 			//更新ms_account_report 表总对应账号的字段值
@@ -827,12 +826,13 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 	 * @param freezeBalance
 	 * @return
 	 */
-	private void updateAccountFreezeBalance(String id, Double freezeBalance,String accountNo) throws MdBizException{
+	private void updateAccountFreezeBalance(String id, Double freezeBalance,String accountNo,String memId) throws MdBizException{
 		Map<String,String> paramsMap = new HashMap<String,String>();
-		paramsMap.put("id", id);
-		paramsMap.put("accountNo", accountNo);
-		paramsMap.put("freezeBalance", String.valueOf(freezeBalance));
 		try {
+			paramsMap.put("id", id);
+			paramsMap.put("accountNo", accountNo);
+			paramsMap.put("freezeBalance", String.valueOf(freezeBalance));
+			paramsMap.put("freezeBalanceEncrypt", DESC.encryption(String.valueOf(freezeBalance), memId));
 			baseDao.update(paramsMap, "MSBankWithdrawDepositMapper.updateFreezeBalanceByMemId");
 		} catch (Exception e) {
 			logger.error("修改会员账户冻结余额出现错误，会员账户ID:{},错误信息:{}", id, e.getMessage());

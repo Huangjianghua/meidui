@@ -256,7 +256,15 @@
   <!-- 根据会员ID和账户类型修改余额账户冻结金额 -->
 	<update id="updateFreezeBalanceByMemId" parameterType="java.util.Map">
 		UPDATE ms_account
-		SET freeze_balance =freeze_balance + #{freezeBalance},update_date = now()
+		<set>
+		  <if test="freezeBalance !=null and freezeBalance !=''">
+           freeze_balance =#{freezeBalance},
+        </if>
+         <if test="freezeBalanceEncrypt !=null and freezeBalanceEncrypt !=''">
+           freeze_balance_encrypt =#{freezeBalanceEncrypt},
+        </if>
+        update_date = now()
+		</set>
 		<where>
 		  <if test="id !=null and id !=''">
 		        and id = #{id}
@@ -270,7 +278,15 @@
 	 <!-- 根据会员ID和账户类型修改余额账户金额 -->
 	<update id="updateAccountBalance" parameterType="java.util.Map">
 		UPDATE ms_account
-		SET balance =#{balance},update_date = now()
+		<set>
+		 <if test="balance !=null and balance !=''">
+           balance =#{balance},
+        </if>
+        <if test="balanceEncrypt !=null and balanceEncrypt !=''">
+           balance_encrypt =#{balanceEncrypt},
+        </if>
+        update_date = now()
+		</set>
 		<where>
 		  <if test="id !=null and id !=''">
 		        and id = #{id}
