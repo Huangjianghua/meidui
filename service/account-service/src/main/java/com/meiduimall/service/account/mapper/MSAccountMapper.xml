@@ -130,7 +130,7 @@
 	
 	
 	<!-- 根据userid查询会员ID 2017-02-23 dengbibo  -->
-?
+
 	
 	<!--  根据memId与账户类型修改账户当前余额  2017-02-23 dengbibo  -->
 <!-- 	<update id="updateAccountBalance" parameterType="java.util.Map">

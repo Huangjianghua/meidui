@@ -14,10 +14,10 @@ public class MSAccountType implements Serializable{
 	private String id;
 	
 	/**账户类型名称*/
-    private String AccountTypeName;
+    private String accountTypeName;
 
     /**账户类型编号*/
-    private String AccountTypeNo;
+    private String accountTypeNo;
 
     /** 对应ms_account_type表的account_no_sequence */
 	private Long accountNoSequence;
@@ -75,20 +75,22 @@ public class MSAccountType implements Serializable{
 		this.id = id;
 	}
 
+	 
+
 	public String getAccountTypeName() {
-		return AccountTypeName;
+		return accountTypeName;
 	}
 
 	public void setAccountTypeName(String accountTypeName) {
-		AccountTypeName = accountTypeName;
+		this.accountTypeName = accountTypeName;
 	}
 
 	public String getAccountTypeNo() {
-		return AccountTypeNo;
+		return accountTypeNo;
 	}
 
 	public void setAccountTypeNo(String accountTypeNo) {
-		AccountTypeNo = accountTypeNo;
+		this.accountTypeNo = accountTypeNo;
 	}
 
 	public Long getAccountNoSequence() {

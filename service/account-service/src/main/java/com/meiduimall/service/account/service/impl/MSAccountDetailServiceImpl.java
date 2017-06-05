@@ -103,7 +103,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 	public List<MSAccountDetail> listMSAccountCondition(MSAccountDetailCondition mSAccountDetailCondition) {
 		List<MSAccountDetail> selectList = null;
 		try {
-			selectList = baseDao.selectList(mSAccountDetailCondition, "listMSAccountCondition");
+			selectList = baseDao.selectList(mSAccountDetailCondition, "MSAccountDetailMapper.listMSAccountCondition");
 		} catch (Exception e) {
 			logger.error("查询余额流水出现错误，错误信息：{}", e.getMessage());
 			throw new MdBizException(ConstApiStatus.SERVER_DEAL_WITH_EXCEPTION);
@@ -144,10 +144,11 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 	}
 
 	@Override
-	@Transactional
 	public void addMSAccountReviseDetail(AddOrUpdateAccountReviseDetail dto) throws MdBizException {
 		String reviseId = UUID.randomUUID().toString();
 		dto.setId(reviseId);
+		dto.setCreateDate(new Date());
+		dto.setUpdateDate(new Date());
 		try {
 			 baseDao.insert(dto, "MSAccountReviseDetailMapper.insertAccountReviseDetail");
 			 MSAccount accountInfo = accountServices.getAccountInfo(dto.getMemId(), dto.getAccountNo());
@@ -193,6 +194,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 	@Override
 	public Integer updateMSAccountReviseDetail(AddOrUpdateAccountReviseDetail dto) throws MdBizException {
 		Integer result=0;
+		dto.setUpdateDate(new Date());
 		try {
 			result=baseDao.update(dto, "MSAccountReviseDetailMapper.updateAccountReviseDetail");
 		} catch (Exception e) {
