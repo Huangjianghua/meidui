@@ -70,11 +70,11 @@ public class MSMembersServiceImpl implements MSMembersService {
 		
 		MSAccountReport report = accountReportService.getTotalAndFreezeBalanceByMemId(memId);
 		// 全部余额，含冻结余额
-		Double totalConsumeMoney = report.getBalance();
+		Double totalConsumeMoney = DoubleCalculate.getFormalValueTwo(report.getBalance());
 		// 冻结余额
-		Double freezeConsumeMoney = report.getFreezeBalance();
+		Double freezeConsumeMoney = DoubleCalculate.getFormalValueTwo(report.getFreezeBalance());
 		// 可使用账户余额，不含冻结余额（注意：这里是相减）
-		Double useConsumeMoney = totalConsumeMoney - freezeConsumeMoney;
+		Double useConsumeMoney = DoubleCalculate.getFormalValueTwo(totalConsumeMoney - freezeConsumeMoney);
 
 		ResponseAccountBalance data = new ResponseAccountBalance();
 		data.setAllPoints(String.valueOf(totalConsumePoints));
@@ -121,7 +121,7 @@ public class MSMembersServiceImpl implements MSMembersService {
 
 		// 个人消费金额
 		MsPersonalConsumption consumption = baseDao.selectOne(memId, "MsPersonalConsumptionMapper.getEntityByMemId");
-		Double consumMoney = 0.0;
+		Double consumMoney = 0.00;
 		if (consumption != null) {
 			try {
 				consumMoney = DoubleCalculate.getFormalValueTwo(Double.parseDouble(consumption.getPersonalMoney()));
