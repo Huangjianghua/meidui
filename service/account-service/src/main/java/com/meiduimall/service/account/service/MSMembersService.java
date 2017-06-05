@@ -21,7 +21,7 @@ public interface MSMembersService {
 	 * @return
 	 * @throws MdSysException 
 	 */
-	public ResponseAccountBalance getAccountBalance(String memId) throws MdSysException;
+	public ResponseAccountBalance getAccountBalance(String memId);
 	
 	public boolean checkUserIsExistByMemId(String memId);
 

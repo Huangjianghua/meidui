@@ -95,6 +95,7 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 
 	
 	/**
+	 * 用户列表
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月18日 下午3:46:31
 	 */

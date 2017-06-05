@@ -5,7 +5,8 @@
 
 	<!-- 根据会员ID查询当前冻结解冻积分的总和 -->
 	<select id="getFreezeUnFreezePointsSumByMemId" parameterType="java.lang.String" resultType="java.lang.Double">
-		SELECT SUM(mcpf_consume_points) 
+		SELECT 
+		SUM(mcpf_consume_points)
 		FROM ms_consume_points_freeze_info 
 		WHERE mem_id = #{memId} 
 		GROUP BY mem_id

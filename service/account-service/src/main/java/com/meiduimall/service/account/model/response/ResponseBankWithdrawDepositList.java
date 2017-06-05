@@ -2,15 +2,13 @@ package com.meiduimall.service.account.model.response;
 
 import java.util.List;
 
-import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
-
-public class ResponseBankWithdrawDeposits {
+public class ResponseBankWithdrawDepositList {
 
 	// 总页数
 	private int totalPage;
 
 	// 数据列表
-	private List<MSBankWithdrawDeposit> results;
+	private List<ResponseBankWithdrawDeposit> results;
 
 	public int getTotalPage() {
 		return totalPage;
@@ -20,11 +18,11 @@ public class ResponseBankWithdrawDeposits {
 		this.totalPage = totalPage;
 	}
 
-	public List<MSBankWithdrawDeposit> getResults() {
+	public List<ResponseBankWithdrawDeposit> getResults() {
 		return results;
 	}
 
-	public void setResults(List<MSBankWithdrawDeposit> results) {
+	public void setResults(List<ResponseBankWithdrawDeposit> results) {
 		this.results = results;
 	}
 }

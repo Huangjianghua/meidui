@@ -250,7 +250,7 @@ public class AccountQueryV1Controller {
 	 * @throws MdSysException 
 	 */
 	@RequestMapping(value = "/getAccountBalanceForApp")
-	public ResBodyData getAccountBalanceForApp(String memId) throws MdSysException {
+	public ResBodyData getAccountBalanceForApp(String memId) {
 		if (Strings.isNullOrEmpty(memId)) {
 			throw new ApiException(ConstApiStatus.REQUIRED_PARAM_EMPTY);
 		}
