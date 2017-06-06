@@ -14,6 +14,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
 
+import com.meiduimall.exception.MdSysException;
+
 
 @EnableHystrix
 @SpringBootApplication
@@ -32,7 +34,7 @@ public class AccountServiceApplication extends SpringBootServletInitializer {
         return builder.build();
     } 
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws MdSysException {
 		SpringApplication.run(AccountServiceApplication.class,args);
 	}
 	   

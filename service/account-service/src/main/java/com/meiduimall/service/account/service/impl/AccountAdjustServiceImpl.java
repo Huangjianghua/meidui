@@ -3,25 +3,32 @@ package com.meiduimall.service.account.service.impl;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdBizException;
 import com.meiduimall.exception.MdSysException;
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.constant.ConstSysParamsDefination;
+import com.meiduimall.service.account.constant.ConstTradetTypeToAccountTypeNo;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSAccount;
+import com.meiduimall.service.account.model.MSAccountType;
 import com.meiduimall.service.account.model.request.RequestAccountAdjustAmount;
 import com.meiduimall.service.account.service.AccountAdjustService;
 import com.meiduimall.service.account.service.AccountDetailService;
 import com.meiduimall.service.account.service.AccountFreezeDetailService;
 import com.meiduimall.service.account.service.AccountReportService;
 import com.meiduimall.service.account.service.AccountService;
+import com.meiduimall.service.account.service.AccountTypeService;
 import com.meiduimall.service.account.service.ValidateService;
 import com.meiduimall.service.account.util.DESC;
 import com.meiduimall.service.account.util.DoubleCalculate;
@@ -46,6 +53,9 @@ public class AccountAdjustServiceImpl implements AccountAdjustService {
 	private AccountService accountService;
 	
 	@Autowired
+	private AccountTypeService accountTypeService;
+	
+	@Autowired
 	private AccountDetailService accountDetailService;
 	
 	@Autowired
@@ -54,9 +64,11 @@ public class AccountAdjustServiceImpl implements AccountAdjustService {
 	@Autowired
 	private AccountReportService accountReportService;
 
+	@Transactional
 	@Override
-	public ResBodyData accountAdjustAmount(RequestAccountAdjustAmount model) {
-		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.SUCCESS_C);
+	public ResBodyData accountAdjustAmount(RequestAccountAdjustAmount model) throws MdSysException {
+		ResBodyData resBodyData=new ResBodyData(Constants.CONSTANT_INT_ZERO,"调账成功");
+		
 		//校验调账类型是否合法
 		validateService.checkAdjustType(model.getDirection());
 		//校验交易类型是否合法
@@ -64,6 +76,59 @@ public class AccountAdjustServiceImpl implements AccountAdjustService {
 		//校验交易金额是否合法
 		validateService.checkTradeAmount(model.getTrade_amount(),"0+");
 		
+		//根据交易类型取出对应的账户类型
+		String accountTypeNo=ConstTradetTypeToAccountTypeNo.getNameByCode(model.getTrade_type());
+		
+		//根据会员ID和交易类型查询对应的账户
+		MSAccount msAccount=accountService.getAccountInfo(model.getMemId(),accountTypeNo);
+		
+		//若该类型的账户不存在，就创建一个
+		if(msAccount==null){
+			logger.warn("会员：{}类型为{}的账户不存在，开始生成",model.getMemId(),accountTypeNo);
+			msAccount=new MSAccount();
+			msAccount.setId(UUID.randomUUID().toString());
+			msAccount.setMemId(model.getMemId());
+			msAccount.setAccountTypeNo(accountTypeNo);
+			msAccount.setAccountNoSequence(accountTypeService.updateSequenceByAccountTypeNo(accountTypeNo));
+			msAccount.setAccountNo(msAccount.getAccountTypeNo()+msAccount.getAccountNoSequence());
+			msAccount.setBalance(0.00);
+			msAccount.setBalanceEncrypt(DESC.encryption(String.valueOf(msAccount.getBalance()),model.getMemId()));
+			msAccount.setFreezeBalance(0.00);
+			msAccount.setFreezeBalanceEncrypt(DESC.encryption(String.valueOf(msAccount.getFreezeBalance()),model.getMemId()));
+			
+			//根据账户类型编号查询账户类型信息
+			Map<String,Object> mapCondition=new HashMap<>();
+			mapCondition.put("accountTypeNo", accountTypeNo);
+			MSAccountType msAccountType=accountTypeService.getAccountTypeByCondition(mapCondition);
+			if(msAccountType==null){
+				logger.warn("不存在账户类型：{}的信息",accountTypeNo);
+				throw new ServiceException(ConstApiStatus.ACCOUNT_TYPE_NOT_EXIST);
+			}
+			
+			//继续为账户生成账户类型信息
+			msAccount.setAllowWithdraw(msAccountType.getAllowWithdraw());
+			msAccount.setWithdrawPoundageScale(msAccountType.getWithdrawPoundageScale());
+			msAccount.setWithdrawPoundageMin(msAccountType.getRefundPoundageMin());
+			msAccount.setWithdrawPoundageMax(msAccountType.getRefundPoundageMax());
+			msAccount.setWithdrawPriority(msAccountType.getWithdrawPriority());
+			msAccount.setAllowRefund(msAccountType.getAllowRefund());
+			msAccount.setRefundPoundageScale(msAccountType.getRefundPoundageScale());
+			msAccount.setRefundPoundageMin(msAccountType.getRefundPoundageMin());
+			msAccount.setRefundPoundageMax(msAccountType.getRefundPoundageMax());
+			msAccount.setSpendPriority(msAccountType.getSpendPriority());
+			msAccount.setAccountStatus(Constants.CONSTANT_INT_ZERO);
+			msAccount.setCreateUser("账户服务");
+			msAccount.setUpdateUser("账户服务");
+			msAccount.setRemark("账户服务-账户余额调增调减-生成不存在的账户");
+			//开始生成账户，若失败，则直接返回
+			if(!accountService.insertAccountByType(msAccount)){
+				logger.warn("账户创建失败");
+				throw new ServiceException(ConstApiStatus.CREATE_ACCOUNT_FAILED);
+			}
+		}
+		//更新账户表
+		
+		//更新账户报表
 		
 		return resBodyData;
 	}

@@ -90,9 +90,9 @@
 	  #{refundPoundageMax},
 	  #{withdrawPriority},
 	  #{accountStatus},
-	  #{createDate},
+	  now(),
 	  #{createUser},
-	  #{updateDate},
+	  now(),
 	  #{updateUser},
 	  #{remark}
 	  )

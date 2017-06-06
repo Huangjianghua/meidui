@@ -59,7 +59,7 @@ public class ValidateServiceImpl implements ValidateService {
 		Matcher m = p.matcher(String.valueOf(tradeAmount));
 		if(!m.matches()){
 			logger.error("交易金额不合法");
-			throw new ServiceException(ConstApiStatus.ACCOUNT_ADJUST_TYPE_UNNORMAL);
+			throw new ServiceException(ConstApiStatus.TRADE_AMOUNT_UNNORMAL);
 		}
 	}
 

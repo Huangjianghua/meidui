@@ -158,7 +158,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 				 msAccount.setMemId(dto.getMemId());
 				 Map<String, Object> map = new HashMap<>();
 				 map.put("accountTypeNo",dto.getAccountTypeNo());
-				 MSAccountType accountType = accountTypeService.getByAccountTypeCondition(map);
+				 MSAccountType accountType = accountTypeService.getAccountTypeByCondition(map);
 				 Long updateSequenceByAccountTypeNo = accountTypeService.updateSequenceByAccountTypeNo(dto.getAccountTypeNo());
 				 msAccount.setAccountNo(dto.getAccountNo()+updateSequenceByAccountTypeNo);
 				 msAccount.setAccountTypeNo(accountType.getAccountTypeNo());
@@ -404,14 +404,15 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			//查询账号 
 			List<MSAccount> accountList=queryAccountList(null,null,accountType.getAccount_no());
 			MSAccount account=accountList.get(0);
-			updateAccountFreezeBalance(null,-accountType.getWithdrawAmount(),accountType.getAccount_no(),account.getMemId());
+			Double freeze=DoubleCalculate.sub(account.getFreezeBalance(), accountType.getWithdrawAmount());
+			updateAccountFreezeBalance(null,freeze,accountType.getAccount_no(),account.getMemId());
 			//记录解冻明细
 			//accountFreezeDetailService.saveAccountUnFreezeDetail(withdrawDeposit.getMemId(), withdrawDeposit.getBusinessNo(),"","", ConstTradeType.TRADE_TYPE_TXSX.getCode(),  String.valueOf(accountType.getWithdrawAmount()),new Date(), String.valueOf(accountType.getWithdrawBalance()),  ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
 			//step3
 			updateAccountBalanceReport(account.getAccountTypeNo(),-accountType.getWithdrawAmount(),account.getMemId(),ConstSysParamsDefination.FREE_ALANCE_UPDATE_OPERATE);
 			//step4 记录解冻明细
 			insertAccoutFreezeDetail(account.getAccountNo(),withdrawDeposit.getBusinessNo(),ConstSysParamsDefination.THAW,ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK,accountType.getWithdrawAmount(),
-					ConstTradeType.TRADE_TYPE_TXSX.getCode(),accountType.getWithdrawBalance(),date);
+					ConstTradeType.TRADE_TYPE_TXSX.getCode(),account.getFreezeBalance(),date);
 		}
 		//step5 修改总的冻结金额
 		Map<String, Object> mapParam=new HashMap<>();

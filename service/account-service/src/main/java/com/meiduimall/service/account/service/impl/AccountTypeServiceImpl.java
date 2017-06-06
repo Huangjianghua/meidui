@@ -25,8 +25,8 @@ public class AccountTypeServiceImpl implements AccountTypeService {
 	private BaseDao baseDao;
 
 	@Override
-	public List<MSAccountType> getAccountTypeList(){
-		return baseDao.selectList(null,"MSAccountTypeMapper.getAccountTypeList");
+	public List<MSAccountType> getCwtzAccountTypeList(){
+		return baseDao.selectList(null,"MSAccountTypeMapper.getCwtzAccountTypeList");
 	}
 
 	@Override
@@ -45,8 +45,8 @@ public class AccountTypeServiceImpl implements AccountTypeService {
 	}
 
 	@Override
-	public MSAccountType getByAccountTypeCondition(Map<String, Object> map) {
-		return baseDao.selectOne(map, "MSAccountTypeMapper.getByAccountTypeCondition");
+	public MSAccountType getAccountTypeByCondition(Map<String, Object> map) {
+		return baseDao.selectOne(map, "MSAccountTypeMapper.getAccountTypeByCondition");
 	}
 
 }
