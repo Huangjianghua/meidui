@@ -412,7 +412,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			updateAccountBalanceReport(account.getAccountTypeNo(),-accountType.getWithdrawAmount(),account.getMemId(),ConstSysParamsDefination.FREE_ALANCE_UPDATE_OPERATE);
 			//step4 记录解冻明细
 			insertAccoutFreezeDetail(account.getAccountNo(),withdrawDeposit.getBusinessNo(),ConstSysParamsDefination.THAW,ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK,accountType.getWithdrawAmount(),
-					ConstTradeType.TRADE_TYPE_TXSX.getCode(),accountType.getWithdrawBalance(),date);
+					ConstTradeType.TRADE_TYPE_TXSX.getCode(),account.getFreezeBalance(),date);
 		}
 		//step5 修改总的冻结金额
 		Map<String, Object> mapParam=new HashMap<>();
