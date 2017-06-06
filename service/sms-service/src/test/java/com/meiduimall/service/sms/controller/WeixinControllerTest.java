@@ -1,4 +1,4 @@
-package com.meiduimall.service.sms.controller.test;
+package com.meiduimall.service.sms.controller;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -13,8 +13,6 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.meiduimall.service.sms.test.BaseTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest

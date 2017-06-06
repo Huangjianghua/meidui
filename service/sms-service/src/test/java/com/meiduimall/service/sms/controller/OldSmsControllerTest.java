@@ -1,7 +1,9 @@
-package com.meiduimall.service.sms.controller.test;
+package com.meiduimall.service.sms.controller;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.Before;
@@ -82,19 +84,20 @@ public class OldSmsControllerTest {
 
 	// 阿里大于模板未注册，通过漫道发送短信
 	@Test
-	public void sendSmsMessage_test_01() throws Exception {
+	public void testSendSmsMessage_01() throws Exception {
 		ResultActions results = mockMvc.perform(
 				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/send_common_sms_message")
 				.param("phones", phone)
 				.param("templateId", "1GW_1001")
 				.param("sysKey", "junit")
-				.param("params", "188000000,DW123456789"))
-				.andExpect(status().isOk());
+				.param("params", "188000000,DW123456732"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.status_code",is("0")));
 
 		results.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				System.out.println("sendSmsMessage_test_01*********" + result.getResponse().getContentAsString());
+				System.out.println("testSendSmsMessage_01*********" + result.getResponse().getContentAsString());
 			}
 		});
 	}
