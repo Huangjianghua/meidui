@@ -67,23 +67,14 @@ config :
 
 #自定义的属性和值  
 myProps :
-  routeServiceUrl : http://192.168.4.240:9050    #路由
-  userCenterUrl : http://192.168.4.240:8097      #会员中心
+  routeServiceUrl : http://192.168.4.240:9050    #网关路由
+  userCenterUrl : http://192.168.4.240:8097      #会员中心接入层
   sendSmsUrl : http://192.168.4.240:20000        #发送短信
   payUrl : http://payd.meiduimall.com            #支付接入开发环境
   meiduimallUrl : http://shopdev.meiduimall.com  #商城开发环境
   finishUrl : http://www.meiduimall.com/wap/finish.html #完成url
-
-# 配置clientID和key
-sign : 
-  clientID : mall_java
-  key : Test123 
-# 商品模块微服务地址
-catalog-service : 
-  host : http://192.168.4.240:9050
-# 会员系统接入层地址
-member-access : 
-  host : http://192.168.4.240:8097
+  signClientID : mall_java
+  signKey: Test123
 
 ---
 spring :
@@ -138,22 +129,14 @@ config :
     
 #自定义的属性和值  
 myProps :
-  routeServiceUrl : http://192.168.4.240:9050 #路由
-  userCenterUrl : http://192.168.4.240:8097   #会员中心
-  sendSmsUrl : http://192.168.4.240:20000     #发送短信
+  routeServiceUrl : http://10.45.178.235:9050 #网关路由
+  userCenterUrl : http://vip.api.meiduimall.com   #会员中心接入层
+  sendSmsUrl : http://10.45.178.235:20000     #发送短信
   payUrl : http://pay.meiduimall.com          #支付接入生产环境
   meiduimallUrl : www.meiduimall.com          #商城生产环境
   finishUrl : http://www.meiduimall.com/wap/finish.html #完成url
-# 配置clientID和key
-sign : 
-  clientID : mall_java
-  key :  
-# 商品模块微服务地址
-catalog-service : 
-  host : http://10.45.178.235:9050
-# 会员系统接入层地址
-member-access : 
-  host : vip.api.meiduimall.com
+  signClientID : mall_java
+  signKey: 20822875
 
 ---
 spring :
@@ -176,12 +159,12 @@ spring :
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://192.168.4.240:9001/eureka/
+      defaultZone: http://10.116.21.93:9001/eureka/
     registry-fetch-interval-seconds: 10  
     healthcheck:
       enabled: true   
   instance:
-    hostname: 192.168.4.240
+    hostname: 10.116.21.93
     lease-renewal-interval-in-seconds: 15      # 心跳时间，即服务续约间隔时间（缺省为30s）
     lease-expiration-duration-in-seconds: 30  # 发呆时间，即服务续约到期时间（缺省为90s）   
 
@@ -197,7 +180,7 @@ hystrix:
 config :
   jedis :  
     jedisShardInfo :  
-      host : 192.168.4.236
+      host : 10.116.21.93
       port : 6379  
       password: meiduiredis2016 
     maxTotal: 1024  
@@ -208,22 +191,15 @@ config :
     
 #自定义的属性和值  
 myProps :
-  routeServiceUrl : http://192.168.4.240:9050 #路由
-  userCenterUrl : http://192.168.4.240:8097   #会员中心
-  sendSmsUrl : http://192.168.4.240:20000     #发送短信
+  routeServiceUrl : http://10.116.21.93:9050  #网关路由
+  userCenterUrl : http://vip.api.meiduimall.com   #会员中心接入层
+  sendSmsUrl : http://10.116.21.93:20000     #发送短信
   payUrl : http://pay.meiduimall.com          #支付接入生产环境
   meiduimallUrl : www.meiduimall.com          #商城生产环境
   finishUrl : http://www.meiduimall.com/wap/finish.html #完成url
-# 配置clientID和key
-sign : 
-  clientID : mall_java
-  key :  
-# 商品模块微服务地址
-catalog-service : 
-  host : http://10.116.21.93:9050
-# 会员系统接入层地址
-member-access : 
-  host : vip.api.meiduimall.com
+  signClientID : mall_java
+  signKey: 20822875
+
 
 ---
 spring :
@@ -246,12 +222,12 @@ spring :
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://192.168.4.240:9001/eureka/
+      defaultZone: http://192.168.4.111:9001/eureka/
     registry-fetch-interval-seconds: 10  
     healthcheck:
       enabled: true   
   instance:
-    hostname: 192.168.4.240
+    hostname: 192.168.4.111
     lease-renewal-interval-in-seconds: 15      # 心跳时间，即服务续约间隔时间（缺省为30s）
     lease-expiration-duration-in-seconds: 30  # 发呆时间，即服务续约到期时间（缺省为90s）   
 
@@ -264,33 +240,26 @@ hystrix:
             timeoutInMilliseconds: 3000 #熔断时间为3000
 
 # redis
-config :
-  jedis :  
-    jedisShardInfo :  
-      host : 192.168.4.236
-      port : 6379  
-      password: meiduiredis2016 
-    maxTotal: 1024  
-    maxIdle: 250  
-    maxWaitMillis : 2000 
+config:
+  jedis:
+    jedisShardInfo:
+      host: 192.168.4.110
+      port: 6379
+      password: meiduiredis2017
+    maxTotal: 1024
+    maxIdle: 250
+    maxWaitMillis: 2000
     testOnBorrow: true
     testOnReturn: true
-    
+
 #自定义的属性和值  
 myProps :
-  routeServiceUrl : http://192.168.4.240:9050    #路由
-  userCenterUrl : http://192.168.4.240:8097      #会员中心
-  sendSmsUrl : http://192.168.4.240:20000        #发送短信
+  routeServiceUrl : http://192.168.4.111:9050    #网关路由
+  userCenterUrl : http://vipt.api.meiduimall.com      #会员中心接入层
+  sendSmsUrl : http://192.168.4.111:20000        #发送短信
   payUrl : http://payt.meiduimall.com            #支付计入测试环境
-  meiduimallUrl : http://shopdev.meiduimall.com  #商城开发环境
+  meiduimallUrl : http://md.meiduimall.com  #商城测试环境
   finishUrl : http://www.meiduimall.com/wap/finish.html #完成url
-# 配置clientID和key
-sign : 
-  clientID : mall_java
-  key : Test123 
-# 商品模块微服务地址
-catalog-service : 
-  host : http://192.168.4.111:9050
-# 会员系统接入层地址
-member-access : 
-  host : vipt.api.meiduimall.com
+  signClientID : mall_java
+  signKey: Test123
+

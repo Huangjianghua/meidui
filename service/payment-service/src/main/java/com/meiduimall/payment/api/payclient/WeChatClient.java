@@ -11,8 +11,6 @@ import java.util.Random;
 
 import javax.xml.bind.JAXBException;
 
-import com.meiduimall.exception.ApiException;
-import com.meiduimall.exception.DaoException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +18,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.meiduimall.core.util.HttpUtils;
+import com.meiduimall.exception.ApiException;
+import com.meiduimall.exception.DaoException;
 import com.meiduimall.password.SecurityBaseApiCode;
 import com.meiduimall.password.exception.Md5Exception;
 import com.meiduimall.password.util.MD5;

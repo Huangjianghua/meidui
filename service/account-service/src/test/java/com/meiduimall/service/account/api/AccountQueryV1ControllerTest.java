@@ -1,4 +1,4 @@
-package com.meiduimall.service.account.api;
+/*package com.meiduimall.service.account.api;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -32,20 +32,20 @@ import com.meiduimall.service.account.util.DateUtil;
 
 import net.sf.json.JSONObject;
 
-/**
+*//**
  * 账户信息查询API{@link=AccountQueryV1Controller}单元测试
  * @author chencong
  *
- */
+ *//*
 public class AccountQueryV1ControllerTest extends BaseControllerTest {
 	
 	private final static Logger logger=LoggerFactory.getLogger(AccountQueryV1ControllerTest.class);
 	
-	/**
+	*//**
 	 * 查询当前会员可用余额
 	 * @author chencong
 	 * @throws Exception
-	 */
+	 *//*
     @Test
     public void getAvailableBalance() throws Exception{
     	//当前会员账户存在
@@ -73,7 +73,7 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 		});
     }
 	
-	/**余额流水*/
+	*//**余额流水*//*
     @Test
     public void listMSAccountDetail() throws Exception{
     	MSAccountDetailGet model=new MSAccountDetailGet();
@@ -94,10 +94,10 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
     }
 
 	
-	/**
+	*//**
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月18日 下午3:46:31
-	 */
+	 *//*
 	@Test
 	public void queryAccountListTest() throws Exception {
 		 String url = "/member/account_service/v1/list_account";
@@ -106,11 +106,11 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 		 resultSystemOutPut(url,json);
 	}
 	
-	/**
+	*//**
 	 * @Description: 添加测试
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月20日 下午2:18:31
-	 */
+	 *//*
 	@Test
 	public void addMSAccountRevisionDetailTest() throws Exception {
 		 String url = "/member/account_service/v1/add_account_revision_detail";
@@ -132,11 +132,11 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 		 resultSystemOutPut(url,json);
 	}
 	
-	/**
+	*//**
 	 * @Description: 修改测试
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月20日 下午2:48:31
-	 */
+	 *//*
 	@Test
 	public void updateMSAccountRevisionDetailTest() throws Exception {
 		 String url = "/member/account_service/v1/update_account_revision_detail";
@@ -159,11 +159,11 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 		 resultSystemOutPut(url,json);
 	}
 	
-	/**
+	*//**
 	 * @Description: 查看会员余额明细
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月20日 下午3:02:44
-	 */
+	 *//*
 	@Test
 	public void getMSAccountRevisionDetailTest() throws Exception {
 		 String url = "/member/account_service/v1/get_account_revision_detail";
@@ -172,11 +172,11 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 		 resultSystemOutPut(url,json);
 	}
 	
-	/**
+	*//**
 	 * @Description: 查看会员余额明细集合
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月20日 下午3:22:44
-	 */
+	 *//*
 	@Test
 	public void queryMSAccountRevisionDetailListTest() throws Exception {
 		 String url = "/member/account_service/v1/query_account_revision_detail_list";
@@ -187,12 +187,12 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 		 resultSystemOutPut(url,json);
 	}
 	
-	/**
+	*//**
 	 * 审核同意
 	 * @Description: 
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月21日 上午10:17:38
-	 */
+	 *//*
 	@Test
 	@Rollback
 	public void agreeExamineMSAccountReviseDetailTest() throws Exception {
@@ -207,19 +207,19 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 	}
 	
 
-	/**
+	*//**
 	 * @Description: 修改提现记录 测试
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月25日 下午3:01:55
-	 */
+	 *//*
 	@Test
 	public void updateWidthDrawDepositTest()throws Exception{
 		 String url = "/member/account_service/v1/update_withdraw";
 		 MSBankWithdrawDeposit deposit=new MSBankWithdrawDeposit();
 		 deposit.setId("d52e04eb-815c-443c-832d-5b4380b833d8");
 		 deposit.setStatus("3");
-		/* deposit.setActualTransferCash("101");
-		 deposit.setOperate("客服审核");*/
+		 deposit.setActualTransferCash("101");
+		 deposit.setOperate("客服审核");
 		 deposit.setRemark("查明无误");
 		 deposit.setAuditBy("huang");
 		 String object=JsonUtils.beanToJson(deposit);
@@ -228,11 +228,11 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 		 resultSystemOutPut(url,json);
 	}
 	
-	/**
+	*//**
 	 * @Description: 测试 查看提现记录详情
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月25日 下午3:50:39
-	 */
+	 *//*
 	@Test
 	public void queryWidthDrawDeposiDetailTest()throws Exception{
 		 String url = "/member/account_service/v1/query_withdraw_detail";
@@ -244,11 +244,11 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 		 resultSystemOutPut(url,json);
 	}
 	
-	/**
+	*//**
 	 * 客服提现驳回
 	 * @throws Exception
 	 * @author: jianhua.huang  2017年4月27日 下午12:05:58
-	 */
+	 *//*
 	@Test
 	public void rejectWithDrawTest()throws Exception{
 		 String url = "/member/account_service/v1/reject_withdraw";
@@ -261,17 +261,17 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 		 
 		 resultSystemOutPut(url,json);
 	}
-	/**
+	*//**
 	 * 提现结算（财务点击结算）
 	 * @throws Exception
 	 * @author: jianhua.huang  2017年4月27日 下午12:06:58
-	 */
+	 *//*
 	@Test
 	public void settlementWithDrawTest()throws Exception{
 		 String url = "/member/account_service/v1/settlement_withdraw";
 		 MSBankWithdrawDeposit deposit=new MSBankWithdrawDeposit();
 		 deposit.setId("0bbe582b-6454-471f-839e-021f15df15cb");
-		 /*deposit.setOperate("财务结算");*/
+		 deposit.setOperate("财务结算");
 		 deposit.setRemark("财务已经打款完成");
 		 String object=JsonUtils.beanToJson(deposit);
 		 String json=object.toString();
@@ -279,11 +279,11 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 		 resultSystemOutPut(url,json);
 	}
 	
-	/**
+	*//**
 	 * 新增提现记录
 	 * @throws Exception
 	 * @author: jianhua.huang  2017年4月28日 下午6:18:19
-	 */
+	 *//*
 	@Test
 	public void saveBankWithDraw()throws Exception{
 		 String url = "/member/account_service/v1/save_withdraw";
@@ -323,10 +323,10 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 		System.out.println(DESC.encryption(s, "b9d78165-1483-42f7-a48c-fbfcc3b06431"));
 	}
 
-	/**
+	*//**
      * 查询个人消费管理信息接口
      * @throws Exception
-     */
+     *//*
     @Test
 	public void personalConsumptionPoints_test_01() throws Exception {
 		ResultActions results = mockMvc.perform(
@@ -342,10 +342,10 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 		});
 	}
     
-    /**
+    *//**
      * 查询个人消费管理信息接口---memId不存在
      * @throws Exception
-     */
+     *//*
     @Test
 	public void personalConsumptionPoints_test_02() throws Exception {
 		ResultActions results = mockMvc.perform(
@@ -361,10 +361,10 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 		});
 	}
     
-    /**
+    *//**
      * 根据会员memId，获取会员账户余额和积分余额---按新接口规范
      * @throws Exception
-     */
+     *//*
     @Test
 	public void getAccountBalanceForApp_test_01() throws Exception {
 		ResultActions results = mockMvc.perform(
@@ -380,10 +380,10 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 		});
 	}
     
-    /**
+    *//**
      * 根据会员memId，获取会员账户余额和积分余额---兼容旧版
      * @throws Exception
-     */
+     *//*
     @Test
 	public void getAccountBalanceForApp_old_test_01() throws Exception {
 		ResultActions results = mockMvc.perform(
@@ -399,3 +399,4 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 		});
 	}
 }
+*/

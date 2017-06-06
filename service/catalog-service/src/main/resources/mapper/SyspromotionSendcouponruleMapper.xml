@@ -21,7 +21,7 @@
   </sql>
   
   <select id="selectAll" resultMap="BaseResultMap">
-  	SELECT * FROM syspromotion_sendcouponrule WHERE status=1 ORDER BY maxprice ASC
+  	SELECT * FROM syspromotion_sendcouponrule WHERE status=1 ORDER BY minprice ASC
   </select>
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >

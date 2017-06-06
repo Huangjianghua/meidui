@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.exception.ApiException;
-import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.MdSysException;
-import com.meiduimall.service.member.constant.ConstApiStatus;
 import com.meiduimall.service.member.model.MSMemberMobileArea;
 import com.meiduimall.service.member.model.request.RequestGetMemberBasicInfo;
 import com.meiduimall.service.member.service.UserInfoService;
@@ -36,14 +33,12 @@ public class UserInfoV1Controller{
 	
 	/**根据memId获取会员基本信息*/
 	@GetMapping(value = "/get_member_basic_info")
-	ResBodyData getmemberbasicinfo(@Valid RequestGetMemberBasicInfo requestGetMemberBasicInfo) {
-		logger.info("收到会员：{}获取基本信息API请求",requestGetMemberBasicInfo.getMemId());
-		try {
-			return userInfoService.getBasicInfoByMemId(requestGetMemberBasicInfo.getMemId());
-		} catch (DaoException | MdSysException e) {
-			logger.error("获取会员基本信息API请求异常：{}",e.toString());
-			throw new ApiException(ConstApiStatus.GET_USERINFO_EXCEPTION,ConstApiStatus.getZhMsg(ConstApiStatus.GET_USERINFO_EXCEPTION));
-		}
+	ResBodyData getmemberbasicinfo(@Valid RequestGetMemberBasicInfo requestGetMemberBasicInfo) throws MdSysException{
+		String memId=requestGetMemberBasicInfo.getMemId();
+		logger.info("收到会员：{}获取基本信息API请求",memId);
+		ResBodyData resBodyData = userInfoService.getBasicInfoByMemId(memId);
+		logger.info("获取会员：{}基本信息API请求结果  ：{}",memId,resBodyData.toString());
+		return resBodyData;
 	}
 	
 	

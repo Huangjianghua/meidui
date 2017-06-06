@@ -32,7 +32,7 @@ public class AccountWithDrawV1ControllerTest extends BaseControllerTest {
 	 */
     @Test
     public void queryWithdrawDetail() throws Exception{
-    	MSAccountDetailCondition msAccount = new MSAccountDetailCondition();
+    /*	MSAccountDetailCondition msAccount = new MSAccountDetailCondition();
     	msAccount.setId("00623cf9-a2c8-4995-b914-ff37d52822ea");
     	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/query_withdraw_detail")
     			.contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -46,7 +46,7 @@ public class AccountWithDrawV1ControllerTest extends BaseControllerTest {
 				logger.info("单元测试>>提现明细API>>执行结果:{}",result.getResponse().getContentAsString());
 
 			}
-		});
+		});*/
     }
 
     /**
@@ -137,19 +137,19 @@ public class AccountWithDrawV1ControllerTest extends BaseControllerTest {
      */
     @Test
 	public void saveBankWithdrawDeposit_test_03() throws Exception {
-		ResultActions results = mockMvc.perform(
-				MockMvcRequestBuilders.post("/member/account_service/v1/saveBankWithdrawDeposit")
-				.param("accountNo", "88888888999999")
-				.param("applyCarryCash", "0.99")
-				.param("memId", "a0db1419"))
-				.andExpect(status().isOk());
-
-		results.andDo(new ResultHandler() {
-			@Override
-			public void handle(MvcResult result) throws Exception {
-				System.out.println("saveBankWithdrawDeposit_test_03*********" + result.getResponse().getContentAsString());
-			}
-		});
+//		ResultActions results = mockMvc.perform(
+//				MockMvcRequestBuilders.post("/member/account_service/v1/saveBankWithdrawDeposit")
+//				.param("accountNo", "88888888999999")
+//				.param("applyCarryCash", "0.99")
+//				.param("memId", "a0db1419"))
+//				.andExpect(status().isOk());
+//
+//		results.andDo(new ResultHandler() {
+//			@Override
+//			public void handle(MvcResult result) throws Exception {
+//				System.out.println("saveBankWithdrawDeposit_test_03*********" + result.getResponse().getContentAsString());
+//			}
+//		});
 	}
 }
 

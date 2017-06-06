@@ -31,6 +31,9 @@ import com.meiduimall.service.settlement.util.DateUtil;
 import com.meiduimall.service.settlement.vo.EcmMzfBillWaterVO;
 import com.meiduimall.service.settlement.vo.ShareProfitVO;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 
 /**
  * Copyright (C), 2002-2017, 美兑壹购
@@ -76,6 +79,7 @@ public class ShareProfitUtil {
 
 	public static final String TEMPLATE_ID_O2O_1009 = "O2O_1009";
 	public static final String TEMPLATE_ID_O2O_1008 = "O2O_1008";
+	public static final String SYS_KEY = "settlement-service";
 	
 	//请求方式_get
 	public static final String REQUEST_METHOD_GET = "GET";
@@ -202,14 +206,24 @@ public class ShareProfitUtil {
 	 * @param list 推荐人信息
 	 * @return retMap
 	 */
-	public static Map<String, String> getlvlAndPhone(List<Map<String, String>> list) {
-		Map<String, String> retMap = new HashMap<>();
-		if(list!=null && !list.isEmpty()){
-			for(Map<String,String> referrerMap:list){
-				retMap.put(referrerMap.get("level"), referrerMap.get("phone"));
-			}
+//	public static Map<String, String> getlvlAndPhone(List<Map<String, String>> list) {
+//		Map<String, String> retMap = new HashMap<>();
+//		if(list!=null && !list.isEmpty()){
+//			for(Map<String,String> referrerMap:list){
+//				retMap.put(referrerMap.get("level"), referrerMap.get("phone"));
+//			}
+//		}
+//		return retMap;
+//	}
+	
+	public static Map<String, String> getlvlAndPhone(String arrStr) {
+		Map<String, String> map = new HashMap<String, String>();
+		JSONArray array = JSONArray.fromObject(arrStr);
+		for (int i = 0; i < array.size(); i++) {
+			JSONObject object = array.getJSONObject(i);
+			map.put(object.getString("level"), object.getString("phone"));
 		}
-		return retMap;
+		return map;
 	}
 		
 		

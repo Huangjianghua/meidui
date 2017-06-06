@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.meiduimall.application.mall.catalog.constant.ApplMallApiCode;
+import com.meiduimall.application.mall.catalog.constant.MallApiCode;
 import com.meiduimall.application.mall.catalog.service.GoodsRecommendService;
 import com.meiduimall.core.ResBodyData;
 
@@ -51,8 +51,8 @@ public class GoodsRecommendController {
 			intSourceId = Integer.parseInt(sourceId);
 		} catch (NumberFormatException e) {
 			logger.error("根据推荐类型，获取推荐商品，服务器异常：" + e);
-			throw new ApiException(ApplMallApiCode.REQUEST_PARAMS_ERROR,
-					ApplMallApiCode.getZhMsg(ApplMallApiCode.REQUEST_PARAMS_ERROR));
+			throw new ApiException(MallApiCode.REQUEST_PARAMS_ERROR,
+					MallApiCode.getZhMsg(MallApiCode.REQUEST_PARAMS_ERROR));
 		}
 
 		ResBodyData result = goodsRecommendService.getFirstRecommendGoodsHttp(intType, intSourceId);

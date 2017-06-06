@@ -27,6 +27,7 @@ import com.meiduimall.service.settlement.model.EcmMzfDrawWater;
 import com.meiduimall.service.settlement.model.EcmMzfWater;
 import com.meiduimall.service.settlement.service.AgentService;
 import com.meiduimall.service.settlement.service.DrawService;
+import com.meiduimall.service.settlement.service.MemberService;
 import com.meiduimall.service.settlement.util.DateUtil;
 
 @Service
@@ -47,9 +48,18 @@ public class DrawServiceImpl implements DrawService {
 	@Autowired
 	private AgentService agentService;
 
+	@Autowired
+	private MemberService memberService;
+	
 	@Override
 	public Map<String, Object> queryAccoutBalance(String code) {
 		return baseMapper.selectOne(code, "EcmMzfAccountMapper.queryaccoutbalance");
+	}
+	
+	
+	@Override
+	public Map<String, Object> getDrawMoney(String code) {
+		return baseMapper.selectOne(code, "EcmMzfDrawMapper.getDrawMoney");
 	}
 
 	
@@ -332,6 +342,57 @@ public class DrawServiceImpl implements DrawService {
 			log.error("提现申请异常：提现编号{}", ecmMzfDraw.getDrawCode());
 			throw new ServiceException(SettlementApiCode.DRAWCASH_FAILURE);
 		}
+	}
+	
+	
+	@Override
+	public boolean transferToMall(String memId, String sellerName, String money) throws Exception {
+		//根据商家编号获取账户信息
+		EcmMzfAccount ecmMzfAccount = agentService.findAccountByCode(sellerName);
+		String waterId = "";
+		//判断服务费相关信息和账户信息是否存在
+		if(ecmMzfAccount == null){
+			log.error("商家编号为："+sellerName+"的账户不存在");
+			return false;
+		}
+			
+		if(ecmMzfAccount.getBalance().compareTo(new BigDecimal(money)) < 0){//balance>money时返回1,-1是小于,0是等于
+			log.error("转入金额不能大于账户总金额");
+			return false;
+		}
+		
+		waterId = CodeRuleUtil.getBillId("SH", ecmMzfAccount.getCode());
+		//调用会员系统 商家余额转移至会员系统接口
+		boolean result = memberService.accountAdjustAmount(memId, waterId, money, "商家充值");
+		if(!result){
+			log.error("提现到商城余额失败");
+			return false;
+		}
+		
+		EcmMzfAccount account = new EcmMzfAccount();
+		account.setCode(ecmMzfAccount.getCode());
+		account.setBalance(new BigDecimal(money).multiply(new BigDecimal(-1)));
+		
+		//插入发放服务费流水记录
+		EcmMzfWater water = new EcmMzfWater();
+		water.setWaterId(waterId);
+		water.setRemark("提现到商城余额");
+		water.setCode(ecmMzfAccount.getCode());
+		water.setMoney(new BigDecimal(money).multiply(new BigDecimal(-1)));
+		water.setWaterType("8");
+		water.setOpTime(new Timestamp(System.currentTimeMillis()));
+		water.setBalance(ecmMzfAccount.getBalance());
+		
+		//更新账户余额
+	    int accountResult = agentService.updateAccount(account);
+	    //插入流水
+		int waterResult = agentService.insertWater(water);
+		
+		if(accountResult > 0 && waterResult > 0){
+			log.info("提现到商城余额成功");
+			return true;
+		}
+		return false;
 	}
 	
 	

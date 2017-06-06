@@ -29,7 +29,7 @@ public class PayPwdV1ControllerTest extends BaseControllerTest {
 	/**
 	 * 验证支付密码
 	 * @throws Exception
-	 */
+	 *//*
     @Test
     public void validePaypwd() throws Exception{
     	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/valide_pay_pwd")
@@ -46,10 +46,10 @@ public class PayPwdV1ControllerTest extends BaseControllerTest {
 		});
     }
     
-	/**
+	*//**
 	 * 设置支付密码
 	 * @throws Exception
-	 */
+	 *//*
     @Test
     public void setPaypwd() throws Exception{
     	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/set_pay_pwd")
@@ -67,10 +67,10 @@ public class PayPwdV1ControllerTest extends BaseControllerTest {
 		});
     }
     
-    /**
+    *//**
      * 修改支付密码
      * @throws Exception
-     */
+     *//*
     @Test
     public void updatePaypwd() throws Exception{
     	RequestUpdatePaypwd requestUpdatePaypwd=new RequestUpdatePaypwd();
@@ -106,6 +106,6 @@ public class PayPwdV1ControllerTest extends BaseControllerTest {
 			}
 		});
     }
-    
+    */
 	      
 }

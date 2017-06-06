@@ -4,37 +4,43 @@
 	 <parent>
         <groupId>com.meiduimall</groupId>
         <artifactId>service</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.meiduimall.service</groupId>
     <artifactId>member-service</artifactId>
 	<name>service::member-service</name>
+	<version>1.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<dependencies>
-	
+		<dependency>  
+		    <groupId>org.springframework.boot</groupId>  
+		    <artifactId>spring-boot-starter-actuator</artifactId>  
+		</dependency>   
+		<dependency>
+		    <groupId>io.springfox</groupId>
+		    <artifactId>springfox-swagger2</artifactId>
+		    <version>2.2.2</version>
+		</dependency>
+		<dependency>
+		    <groupId>io.springfox</groupId>
+		    <artifactId>springfox-swagger-ui</artifactId>
+		    <version>2.2.2</version>
+		</dependency>
 	    <dependency>
                 <groupId>com.meiduimall</groupId>
                 <artifactId>meiduimall-support-redis</artifactId>
-                <version>${meiduimall-support-redis.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.meiduimall</groupId>
                 <artifactId>meiduimall-support-security</artifactId>
-                <version>${meiduimall-support-security.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.meiduimall</groupId>
                 <artifactId>meiduimall-support-core</artifactId>
-                <version>${meiduimall-support-core.version}</version>
             </dependency>
-            
-           <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-starter-ribbon</artifactId>
-    </dependency>
             
             <!-- 热部署，修改了代码不需要重新启动spring boot -->
 		 <dependency>
@@ -145,8 +151,5 @@
             </resource> 
         </resources> 
 	</build>
-	
-	
-
-
 </project>
+

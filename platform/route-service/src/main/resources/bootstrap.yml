@@ -2,4 +2,4 @@ server:
   port: ${PORT:9050}
 spring:
   application:
-    name: service-router
+    name: route-service

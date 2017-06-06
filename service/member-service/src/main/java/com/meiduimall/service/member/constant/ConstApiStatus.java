@@ -58,6 +58,8 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	public final static Integer USERID_IS_NOT_EXIST=8012;
 	//该账号已存在
 	public final static Integer USERID_IS_EXIST=8013;
+	//注册来源不合法
+	public final static Integer REGISTER_SOURCE_WRONG=8014;
 	
 	/**会员账号权限相关*/
 	//token不存在
@@ -79,6 +81,7 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	//重置账号密码异常
 	public final static Integer RESET_ACCOUNT_PWD_EXCEPTION=8209;
 	
+	
 	/**API请求异常相关*/
 	//获取会员基本信息异常
 	public final static Integer GET_USERINFO_EXCEPTION=8301;
@@ -91,7 +94,6 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	//退出异常
 	public final static Integer EXIT_ERROR=8306;
 
-	
 	/**短信相关*/
 	//校验短信验证码不通过
 	public final static Integer CHECK_VALIDATE_CODE_NOT_PASS=8801;
@@ -113,6 +115,7 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	public static final Integer QUERY_MOBILE_EXCEPTION= 8842;
 	//批量插入会员手机归属地表异常
 	public static final Integer INSERT_SELECTIVE_EXCEPTION= 8843;
+
 
 	static {
 		zhMsgMap.put(REQUIRED_PARAM_EMPTY, "必填参数为空");
@@ -159,11 +162,14 @@ public abstract class ConstApiStatus extends BaseApiCode {
 		zhMsgMap.put(NOT_BINGDING_WEIXIN_OPENID, "未绑定微信openID");
 		zhMsgMap.put(USERID_IS_NOT_EXIST, "该账号不存在");
 		zhMsgMap.put(USERID_IS_EXIST, "该账号已存在");
-		
+	
 		zhMsgMap.put(NOT_BINGDING_WEIXIN_OPENID, "未绑定微信openID");
 		zhMsgMap.put(FIND_MEMBER_EXCEPTION, "查询不在会员手机归属地表异常");
 		zhMsgMap.put(QUERY_MOBILE_EXCEPTION, "查询手机前7位确定归属地异常");
 		zhMsgMap.put(INSERT_SELECTIVE_EXCEPTION, "批量插入会员手机归属地表异常");
+		
+		zhMsgMap.put(REGISTER_SOURCE_WRONG, "注册来源不合法");
+		zhMsgMap.put(TOKEN_NOT_EXISTS, "token不存在");
 	}
 
 }

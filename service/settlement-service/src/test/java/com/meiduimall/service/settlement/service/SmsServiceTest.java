@@ -20,7 +20,7 @@ public class SmsServiceTest extends BaseTest {
 	@Test
 	public void testSendMessage() {
 		SmsReqDTO smsReqDTO = new SmsReqDTO("13798431927",
-				ShareProfitUtil.TEMPLATE_ID_O2O_1008,  "15111612373,6500", "");
+				ShareProfitUtil.TEMPLATE_ID_O2O_1008,  "15111612373,6500");
 //		smsService.sendMessage(smsReqDTO);
 	}
 	

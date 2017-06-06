@@ -5,8 +5,6 @@ import com.github.pagehelper.StringUtil;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import com.meiduimall.core.ResBodyData;
-import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.SettlementApiCode;
@@ -24,6 +22,9 @@ import com.meiduimall.service.settlement.util.ConnectionUrlUtil;
 import com.meiduimall.service.settlement.util.DateUtil;
 import com.meiduimall.service.settlement.vo.EcmMzfBillWaterVO;
 import com.meiduimall.service.settlement.vo.ShareProfitVO;
+
+import net.sf.json.JSONObject;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -219,11 +220,12 @@ public class OrderServiceImpl implements OrderService {
    *
    * @param buyerName 消费用户手机号
    * @return Map
+   * @throws Exception 
    */
   private Map<String, String> getRecommenderInfo(String buyerName) {
     // 获取推荐人信息
     String resultStr = ConnectionUrlUtil.httpRequest(getBelongInfoUrl(buyerName), ShareProfitUtil.REQUEST_METHOD_POST, null);
-    ResBodyData resultJson = JsonUtils.jsonToBean(resultStr, ResBodyData.class);
+    JSONObject resultJson = JSONObject.fromObject(resultStr);
 
     Map<String, String> belongMap = null;
 
@@ -232,13 +234,11 @@ public class OrderServiceImpl implements OrderService {
       throw new ServiceException(SettlementApiCode.GET_RECOMMENDER_INFO_FAILURE);
     } else {
       // 判断返回是否成功,如果不成功则不理会
-      if (resultJson.getStatus() == 0) {
-//				List<Map<String, String>> map = resultJson.getRESULT();
-//				belongMap = ShareProfitUtil.getlvlAndPhone(map);
-
-        log.info("推荐人信息:{}", resultJson.getData());
+      if ("0".equals(resultJson.get("status_code"))) {
+    	  belongMap = ShareProfitUtil.getlvlAndPhone(resultJson.getString("RESULTS"));
+    	  log.info("推荐人信息:{}", resultJson.getString("RESULTS"));
       } else {
-        log.error("errcode:{};errmsg:{}", resultJson.getStatus(), resultJson.getMsg());
+        log.error("errcode:{};errmsg:{}", resultJson.get("status_code"), resultJson.get("result_msg"));
       }
     }
     return belongMap;

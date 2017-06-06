@@ -1,4 +1,4 @@
-package com.meiduimall.application.usercenter.api;
+/*package com.meiduimall.application.usercenter.api;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -21,20 +21,20 @@ import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.redis.util.RedisTemplate;
 
 
-/**
+*//**
  * 会员基本操作
  * @author chencong
  *
- */
+ *//*
 public class BaseOpV1ControllerTest extends BaseControllerTest {
 	
 	private final static Logger logger=LoggerFactory.getLogger(BaseOpV1ControllerTest.class);
 	 
-	/**登录
-	 * @throws Exception */
+	*//**登录
+	 * @throws Exception *//*
     @Test
     public void test001login() throws Exception{
-    	/**正确的账号和密码*/
+    	*//**正确的账号和密码*//*
     	JSONObject json=new JSONObject();
     	json.put("user_name",phone);
     	json.put("pasword","e10adc3949ba59abbe56e057f20f883e");
@@ -51,7 +51,7 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {
 			}
 		});
     	
-    	/**错误的账号和密码*/
+    	*//**错误的账号和密码*//*
     	json.put("user_name",phone);
     	json.put("pasword","e10adc3949ba59abbe56e057f20f8831");
     	resultActions=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/base/login")
@@ -70,8 +70,8 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {
     }
 
     
-    /**会员登出 
-	 * @throws Exception */
+    *//**会员登出 
+	 * @throws Exception *//*
     @Test
     public void test002Exit() throws Exception{
     	Map<String, Object> mapCondition=new HashMap<>();
@@ -91,11 +91,11 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {
     }
     
     
-    /**注册
-	 * @throws Exception */
+    *//**注册
+	 * @throws Exception *//*
     @Test
     public void test003Register() throws Exception{
-    	/**正确的账号和密码*/
+    	*//**正确的账号和密码*//*
     	JSONObject json=new JSONObject();
     	json.put("user_name",phone);
     	json.put("pasword","e10adc3949ba59abbe56e057f20f883e");
@@ -112,7 +112,7 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {
 			}
 		});
     	
-    	/**错误的账号和密码*/
+    	*//**错误的账号和密码*//*
     	json.put("user_name",phone);
     	json.put("pasword","e10adc3949ba59abbe56e057f20f8831");
     	resultActions=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/base/login")
@@ -130,4 +130,4 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {
     	
     }
 	      
-}
+}*/

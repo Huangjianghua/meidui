@@ -1,4 +1,4 @@
-package com.meiduimall.application.usercenter.api;
+/*package com.meiduimall.application.usercenter.api;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -21,17 +21,17 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.meiduimall.application.usercenter.constant.ConstApiStatus;
 import com.meiduimall.core.util.JsonUtils;
 
-/**
+*//**
  * 余额相关接口{@link=MoneyV1Controller}
  * @author chencong
  *
- */
+ *//*
 public class MoneyV1ControllerTest extends BaseControllerTest {
 	
 	private final static Logger logger=LoggerFactory.getLogger(MoneyV1ControllerTest.class);
 	 
-	/**余额流水（分页）
-	 * @throws Exception */
+	*//**余额流水（分页）
+	 * @throws Exception *//*
     @Test
     public void test001ListAccountDetail() throws Exception{
     	JSONObject json=new JSONObject();
@@ -52,11 +52,11 @@ public class MoneyV1ControllerTest extends BaseControllerTest {
 		});
     }
     
-    /**
+    *//**
      * 提现申请
      * @throws Exception
      * @author: jianhua.huang  2017年5月4日 下午12:33:22
-     */
+     *//*
     @Test
     public void saveBankWithDraw () throws Exception{
     	Map<String, Object> mapCondition=new HashMap<>();
@@ -76,10 +76,10 @@ public class MoneyV1ControllerTest extends BaseControllerTest {
 		});
     }
 	
-    /**
+    *//**
      * 获取会员账户余额和积分余额
      * @throws Exception
-     */
+     *//*
     @Test
     public void getAccountBalanceForApp_test01() throws Exception {
     	ResultActions results = mockMvc.perform(
@@ -95,3 +95,5 @@ public class MoneyV1ControllerTest extends BaseControllerTest {
 		});
     }
 }
+
+*/

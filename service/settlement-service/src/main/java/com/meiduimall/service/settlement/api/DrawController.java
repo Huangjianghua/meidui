@@ -64,9 +64,16 @@ public class DrawController {
 	public ResBodyData queryAccoutBalance(String code) {
 		try {
 		Map<String, Object> accountResult = drawService.queryAccoutBalance(code);
+		//获取提现中金额
+		Map<String, Object> drawMoney = drawService.getDrawMoney(code);
+		if(drawMoney != null && !drawMoney.isEmpty()){
+			accountResult.put("money", drawMoney.get("money"));
+		}else{
+			accountResult.put("money", 0);
+		}
 		return SettlementUtil.success(accountResult);
 		} catch (DaoException e) {
-			throw new ServiceException(e);
+			throw new ServiceException(e.getCode());
 		}
 	}
 	

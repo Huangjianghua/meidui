@@ -47,7 +47,8 @@ public class ValidateServiceImpl implements ValidateService {
 		
 		if(listMemId.size()==0){
 			logger.info("会员：{}在库中不存在",userId);
-			throw new ServiceException(ConstApiStatus.USERID_IS_NOT_EXIST);
+			resBodyData.setMsg(ConstApiStatus.getZhMsg(ConstApiStatus.USERID_IS_NOT_EXIST));
+			resBodyData.setStatus(ConstApiStatus.USERID_IS_NOT_EXIST);
 		}
 		else if(listMemId.size()==1){
 			logger.info("会员：{}在库中存在一条记录",userId);
@@ -55,13 +56,12 @@ public class ValidateServiceImpl implements ValidateService {
 			rootNode.set("memId",new TextNode(listMemId.get(Constants.CONSTANT_INT_ZERO)));
 			resBodyData.setMsg("该账号已存在");
 			resBodyData.setData(rootNode);
-			return resBodyData;
 		}
 		else {
 			logger.info("会员：{}在库中存在多条记录，账号异常",userId);
 			throw new ServiceException(ConstApiStatus.ACCOUNT_EXCEPTION);
 		}
-		
+		return resBodyData;
 	}
 	
 	@Override

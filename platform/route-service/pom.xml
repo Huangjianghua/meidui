@@ -3,14 +3,14 @@
     <parent>
         <artifactId>platform</artifactId>
         <groupId>com.meiduimall</groupId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.meiduimall.platform</groupId>
     <artifactId>route-service</artifactId>
     <name>platform::route-service</name>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -19,6 +19,10 @@
             <artifactId>spring-cloud-starter-zuul</artifactId>
         </dependency>
         <dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-eureka</artifactId>
+		</dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
@@ -26,17 +30,14 @@
         <dependency>
 			<groupId>com.meiduimall</groupId>
 			<artifactId>meiduimall-support-core</artifactId>
-			<version>${meiduimall-support-core.version}</version>
 		</dependency>
 		 <dependency>
             <groupId>com.meiduimall</groupId>
             <artifactId>meiduimall-support-redis</artifactId>
-            <version>${meiduimall-support-redis.version}</version>
         </dependency>
         <dependency>
             <groupId>com.meiduimall</groupId>
             <artifactId>meiduimall-support-security</artifactId>
-            <version>${meiduimall-support-security.version}</version>
         </dependency>
     </dependencies>
 

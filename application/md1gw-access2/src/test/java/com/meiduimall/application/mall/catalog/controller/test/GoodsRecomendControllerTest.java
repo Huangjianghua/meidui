@@ -1,4 +1,4 @@
-package com.meiduimall.application.mall.catalog.controller.test;
+/*package com.meiduimall.application.mall.catalog.controller.test;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -11,18 +11,18 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.meiduimall.application.mall.catalog.test.BaseTest;
 
 
-/**
+*//**
  * Copyright (C), 2002-2017, 美兑壹购物
  * FileName: GoodsDetailControllerTest.java
  * Author:   yangchangfu
  * Description: 商品推荐测试类单元测试
- */
+ *//*
 public class GoodsRecomendControllerTest extends BaseTest {
 	
-	/**
+	*//**
 	 * getFirstRecommendGoods方法---正常测试
 	 * @throws Exception
-	 */
+	 *//*
 	@Test
 	public void getRecommend_test_01() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -38,10 +38,10 @@ public class GoodsRecomendControllerTest extends BaseTest {
 		});
 	}
 	
-	/**
+	*//**
 	 * getFirstRecommendGoods方法---没有参数测试
 	 * @throws Exception
-	 */
+	 *//*
 	@Test
 	public void getRecommend_test_02() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -57,3 +57,4 @@ public class GoodsRecomendControllerTest extends BaseTest {
 		});
 	}
 }
+*/

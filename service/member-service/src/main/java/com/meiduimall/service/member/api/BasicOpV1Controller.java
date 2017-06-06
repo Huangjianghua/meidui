@@ -34,6 +34,10 @@ import com.meiduimall.service.member.service.BasicOpService;
 import com.meiduimall.service.member.service.UserInfoService;
 import com.meiduimall.service.member.util.HttpResolveUtils;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 /**
  * 会员基本行为相关API
  * @author chencong
@@ -61,6 +65,7 @@ public class BasicOpV1Controller {
 	@GetMapping(value = "/getput")
 	String getput() { 
 		String result=null;
+		logger.info("收到旧会员系统getput请求...");
 		try {
 			//从本地变量获取已解析过的json
 			JSONObject j=HttpResolveUtils.readGetStringToJsonObject(request);
@@ -95,7 +100,16 @@ public class BasicOpV1Controller {
 		return result;
 	    }
 	
-	/**会员登录*/
+	/**
+	 * 会员登录
+	 * @param requestLogin 登录API请求映射实体
+	 * @return 统一数据返回格式
+	 * @throws MdSysException 系统异常
+	 */
+	@ApiOperation(value="会员登录", notes="会员登录")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "requestLogin", value = "登录实体", required = true, dataType = "RequestLogin"),
+	})
 	@PostMapping(value = "/login")
 	ResBodyData login(@RequestBody @Valid RequestLogin requestLogin){
 		requestLogin.setIp(request.getRemoteAddr());
@@ -198,21 +212,23 @@ public class BasicOpV1Controller {
 	/**我是谁（token转memId）*/
 	@GetMapping(value = "/get_memid_by_token")
 	ResBodyData getMemIdByToken(@RequestParam String token){
-		logger.info("收到我是谁API请求：{}",token);
+
 		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,"");
+		logger.info("收到我是谁API请求：{}",token);
 		if(RedisTemplate.getJedisInstance().execExistsFromCache(token)){
 			String memId=RedisTemplate.getJedisInstance().execGetFromCache(token);
 			Map<String, Object> data=new HashMap<>();
 			data.put(ConstSysParamsDefination.MEM_ID,memId);
+
 			resBodyData.setData(data);
 			return resBodyData;
 		}
 		else{
-			logger.info("token：{}在redis中不存在",token);
+
 			throw new ApiException(ConstApiStatus.TOKEN_NOT_EXISTS);
 		}
 	}
-	
+
 	
 	/**token校验*/
 	@PostMapping(value = "/checktoken")

@@ -1,4 +1,4 @@
-package com.meiduimall.service.catalog.controller.test;
+/*package com.meiduimall.service.catalog.controller.test;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -10,18 +10,18 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.meiduimall.service.catalog.test.BaseTest;
 
-/**
+*//**
  * Copyright (C), 2002-2017, 美兑壹购物
  * FileName: GoodsRecommendControllerTest.java
  * Author:   yangchangfu
  * Description: 推荐商品测试类单元测试
- */
+ *//*
 public class GoodsRecommendControllerTest extends BaseTest {
 
-	/**
+	*//**
 	 * insertBatchItems---正常测试
 	 * @throws Exception
-	 */
+	 *//*
 	@Test
 	public void insertBatchItems_test_01() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -40,10 +40,10 @@ public class GoodsRecommendControllerTest extends BaseTest {
 		});
 	}
 	
-	/**
+	*//**
 	 * insertBatchItems---请求参数错误测试
 	 * @throws Exception
-	 */
+	 *//*
 	@Test
 	public void insertBatchItems_test_02() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -62,10 +62,10 @@ public class GoodsRecommendControllerTest extends BaseTest {
 		});
 	}
 	
-	/**
+	*//**
 	 * insertBatchItems---请求参数错误测试
 	 * @throws Exception
-	 */
+	 *//*
 	@Test
 	public void insertBatchItems_test_03() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -84,10 +84,10 @@ public class GoodsRecommendControllerTest extends BaseTest {
 		});
 	}
 	
-	/**
+	*//**
 	 * insertBatchItems---商品不存在
 	 * @throws Exception
-	 */
+	 *//*
 	@Test
 	public void insertBatchItems_test_04() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -106,10 +106,10 @@ public class GoodsRecommendControllerTest extends BaseTest {
 		});
 	}
 	
-	/**
+	*//**
 	 * getFirstRecommendItems---正常测试
 	 * @throws Exception
-	 */
+	 *//*
 	@Test
 	public void getFirstRecommendItems_test_01() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -126,10 +126,10 @@ public class GoodsRecommendControllerTest extends BaseTest {
 		});
 	}
 	
-	/**
+	*//**
 	 * getFirstRecommendItems---请求参数错误测试
 	 * @throws Exception
-	 */
+	 *//*
 	@Test
 	public void getFirstRecommendItems_test_02() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -145,10 +145,10 @@ public class GoodsRecommendControllerTest extends BaseTest {
 		});
 	}
 	
-	/**
+	*//**
 	 * getFirstRecommendItems---推荐类型不存在
 	 * @throws Exception
-	 */
+	 *//*
 	@Test
 	public void getFirstRecommendItems_test_03() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -165,10 +165,10 @@ public class GoodsRecommendControllerTest extends BaseTest {
 		});
 	}
 	
-	/**
+	*//**
 	 * getFirstRecommendItemsAllType---正常测试--没有参数
 	 * @throws Exception
-	 */
+	 *//*
 	@Test
 	public void getFirstRecommendItemsAllType_test_01() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -183,3 +183,4 @@ public class GoodsRecommendControllerTest extends BaseTest {
 		});
 	}
 }
+*/

@@ -1,4 +1,4 @@
-package com.meiduimall.application.usercenter.api;
+/*package com.meiduimall.application.usercenter.api;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -12,18 +12,18 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-/**
+*//**
  * 会员信息相关API{@link=UserInfoV1Controller}}单元测试
  * @author chencong
  *
- */
+ *//*
 public class UserInfoV1ControllerTest extends BaseOpV1ControllerTest{
 
 	private final static Logger logger=LoggerFactory.getLogger(UserInfoV1ControllerTest.class);
 	
-	/**获取会员基本信息
-	 * @throws Exception */
-   /* @Test
+	*//**获取会员基本信息
+	 * @throws Exception *//*
+    @Test
     public void test001GetMemberBasciInfo() throws Exception{
     	*//**正确的token*//*
     	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/get_member_basic_info?token="+token))
@@ -49,5 +49,6 @@ public class UserInfoV1ControllerTest extends BaseOpV1ControllerTest{
 			}
 		});
     	
-    }*/
+    }
 }
+*/

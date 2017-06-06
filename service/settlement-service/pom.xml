@@ -3,36 +3,37 @@
     <parent>
         <groupId>com.meiduimall</groupId>
         <artifactId>service</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.meiduimall.service</groupId>
     <artifactId>settlement-service</artifactId>
 	<name>service::settlement-service</name>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
+
 	<packaging>jar</packaging>
 
-	<dependencies>  
+	<dependencies>
    		<dependency>
-               <groupId>com.github.pagehelper</groupId>
-               <artifactId>pagehelper</artifactId>
-           </dependency>
+   			<groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+        </dependency>
            
-           <dependency>
+        <dependency>
 			<groupId>org.mybatis.spring.boot</groupId>
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 		</dependency>
 		
-		 <dependency>
-               <groupId>mysql</groupId>
-               <artifactId>mysql-connector-java</artifactId>
-           </dependency>
+	    <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
            
-            <dependency>
-               <groupId>com.zaxxer</groupId>
-               <artifactId>HikariCP</artifactId>
-            </dependency>
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+        </dependency>
 	
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
@@ -44,11 +45,13 @@
 			<artifactId>spring-boot-configuration-processor</artifactId>
 			<optional>true</optional>
 		</dependency>
+		
 	    <dependency>
             <groupId>org.springframework.cloud</groupId>
        		<artifactId>spring-cloud-starter-sleuth</artifactId>
         </dependency>
-         <dependency>
+        
+        <dependency>
 		    <groupId>commons-beanutils</groupId>
 		    <artifactId>commons-beanutils</artifactId>
 		</dependency>
@@ -57,8 +60,15 @@
 		    <groupId>joda-time</groupId>
 		    <artifactId>joda-time</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<version>2.4</version>
+			<classifier>jdk15</classifier>
+		</dependency>
 	
-</dependencies>  
+	</dependencies>  
 
 	<build>
 		<plugins>

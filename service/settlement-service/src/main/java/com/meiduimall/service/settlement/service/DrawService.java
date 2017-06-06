@@ -24,6 +24,15 @@ public interface DrawService {
 	 * @return Map
 	 */
 	public Map<String, Object> queryAccoutBalance(String code);
+	
+	
+	/**
+	 * 获取提现中金额
+	 * @param code
+	 * @return Map
+	 * @throws Exception
+	 */
+	public Map<String, Object> getDrawMoney(String code);
 
 	
 	/**
@@ -134,6 +143,17 @@ public interface DrawService {
 	 * @return int  
 	 */
 	public int getCountByCode(Map<String,Object> params);
+	
+	
+	 /**
+     * 商家余额转移至会员系统
+     * @param memId
+     * @param sellerName
+     * @param money
+     * @return
+     * @throws Exception
+     */
+    public boolean transferToMall(String memId, String sellerName, String money) throws Exception;
 	
 	
 }

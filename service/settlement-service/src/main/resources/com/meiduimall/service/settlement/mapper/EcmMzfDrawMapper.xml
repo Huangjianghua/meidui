@@ -70,10 +70,10 @@
       and user_type = #{userType,jdbcType=VARCHAR}	
     </if>
     <if test="addTimeStart != null" >
-      and add_time &lt;= #{addTimeStart,jdbcType=INTEGER}
+      and add_time &gt;= #{addTimeStart,jdbcType=INTEGER}
     </if>
     <if test="addTimeEnd != null" >
-      and add_time &gt;= #{addTimeEnd,jdbcType=INTEGER}
+      and add_time &lt;= #{addTimeEnd,jdbcType=INTEGER}
     </if>
     <if test="status != null" >
       and status = #{status,jdbcType=BIT}
@@ -102,10 +102,10 @@
       and user_type = #{userType,jdbcType=VARCHAR}	
     </if>
     <if test="addTimeStart != null" >
-      and add_time &lt;= #{addTimeStart,jdbcType=INTEGER}
+      and add_time &gt;= #{addTimeStart,jdbcType=INTEGER}
     </if>
     <if test="addTimeEnd != null" >
-      and add_time &gt;= #{addTimeEnd,jdbcType=INTEGER}
+      and add_time &lt;= #{addTimeEnd,jdbcType=INTEGER}
     </if>
     <if test="status != null" >
       and status = #{status,jdbcType=BIT}
@@ -528,6 +528,15 @@
 	    and a.draw_type = #{drawType}
 	  ) 
 	LIMIT 10 
+  </select>
+  
+  <select id="getDrawMoney" parameterType="java.lang.String" resultType="java.util.Map">
+	  	SELECT 
+	  SUM(money) money
+	FROM
+	  ecm_mzf_draw 
+	WHERE status = '1' 
+	  AND code = #{code}
   </select>
   
 </mapper>

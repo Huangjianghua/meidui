@@ -11,8 +11,12 @@ import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.github.pagehelper.StringUtil;
 import com.google.common.base.Joiner;
@@ -21,6 +25,7 @@ import com.google.common.collect.Maps;
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
+import com.meiduimall.service.settlement.common.OauthConst;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 import com.meiduimall.service.settlement.common.ShareProfitUtil;
 import com.meiduimall.service.settlement.config.MyProps;
@@ -36,6 +41,9 @@ import com.meiduimall.service.settlement.service.ShareProfitLogService;
 import com.meiduimall.service.settlement.service.SmsService;
 import com.meiduimall.service.settlement.util.ConnectionUrlUtil;
 import com.meiduimall.service.settlement.util.DateUtil;
+import com.meiduimall.service.settlement.util.GatewaySignUtil;
+
+import net.sf.json.JSONObject;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -65,6 +73,9 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Autowired
 	private MyProps myProps;
+	
+	@Autowired
+	private RestTemplate restTemplate;
 
 	
 	@Override
@@ -184,7 +195,7 @@ public class MemberServiceImpl implements MemberService {
 				
 			if(!isCashStatusUpdated){
 				String params="一级推荐人1%现金成功送出,但送现金成功状态更新到表 ecm_mzf_order_status表失败,需要手动更新,订单数:"+orderSnList.size();
-				SmsReqDTO smsReqDTO = new SmsReqDTO(myProps.getSmsPhones(), ShareProfitUtil.TEMPLATE_ID_O2O_1009,params,"");
+				SmsReqDTO smsReqDTO = new SmsReqDTO(myProps.getSmsPhones(), ShareProfitUtil.TEMPLATE_ID_O2O_1009, params);
 
 				boolean flag = smsService.sendMessage(smsReqDTO);
 				if(flag){
@@ -227,14 +238,27 @@ public class MemberServiceImpl implements MemberService {
 		hashMap.put(URL,"Authorized/addConsumePoints");
 		hashMap.put(ORDER_ID,orderId);
 		String resultJsonStr = ConnectionUrlUtil.httpRequest(belongInfoUrl(hashMap), ShareProfitUtil.REQUEST_METHOD_POST, null);
-		ResBodyData resultJson = JsonUtils.jsonToBean(resultJsonStr, ResBodyData.class);
-		// 判断返回是否成功,如果不成功则不理会
-		if (resultJson.getStatus()==0) {
-			 return true;
-		} else {
-			log.error("errcode:{};errmsg:{};userId:{}", resultJson.getStatus(), resultJson.getMsg(), phone);
+		JSONObject resultJson = JSONObject.fromObject(resultJsonStr);
+		if(resultJson==null){
+			log.error("更新积分到会员系统 失败,userId:"+phone+" as resultJson in addConsumePoints() is null.");
 			return false;
+		}else{
+			// 判断返回是否成功,如果不成功则不理会
+			if ("0".equals(resultJson.get("status_code"))) {
+				 return true;
+			} else {
+				log.error("errcode:" + resultJson.get("status_code") + ";errmsg:" + resultJson.get("result_msg")+ ";userId:"+phone);
+				return false;
+			}
 		}
+//		ResBodyData resultJson = JsonUtils.jsonToBean(resultJsonStr, ResBodyData.class);
+//		// 判断返回是否成功,如果不成功则不理会
+//		if (resultJson.getStatus()==0) {
+//			 return true;
+//		} else {
+//			log.error("errcode:{};errmsg:{};userId:{}", resultJson.getStatus(), resultJson.getMsg(), phone);
+//			return false;
+//		}
 		
 	}
 	
@@ -345,7 +369,45 @@ public class MemberServiceImpl implements MemberService {
 		return belongInfoUrl+"?"+belongInfo+oauthSignature+belongInfoend;
 	}
 	
-
+	@Override
+	public boolean accountAdjustAmount(String memId, String orderId, String amount, String remark) {
+		String reqResult = "";
+		
+		StringBuilder url = new StringBuilder();
+		url.append("http://192.168.4.150:8091/server/index.php?g=Web&c=Mock&o=success&mockCode=XCRU7DLIjTNc6ctF5ubx5ZPSGVdQ4KlV");
+		
+		HttpHeaders headers = new HttpHeaders();
+		MediaType type = MediaType.parseMediaType("application/json; charset=utf-8");
+		headers.setContentType(type);
+		
+		JSONObject json = new JSONObject();
+		String timestamp = String.valueOf(System.currentTimeMillis());
+		json.put("memId", memId);
+		json.put("order_id", orderId);
+		json.put("trade_amount", amount);
+		json.put("remark", remark);
+		json.put("direction", "IN");
+		json.put("trade_time", timestamp);
+		json.put("trade_type", "YETX");
+		json.put("source", "O2O");
+		json.put(OauthConst.CLIENT_ID, OauthConst.CLIENT_ID_VALUE);
+		json.put(OauthConst.TIMESATAMP, timestamp);
+		json.put(OauthConst.SIGN, GatewaySignUtil.buildsign(OauthConst.SECRETKEY_VALUE, json));
+		HttpEntity<JSONObject> formEntity = new HttpEntity<JSONObject>(json, headers);
+		reqResult = restTemplate.postForObject(url.toString(), formEntity, String.class);
+		JSONObject resultJson = JSONObject.fromObject(reqResult.toString());
+		if (resultJson == null) {
+			return false;
+		} else {
+			// 判断返回是否成功,如果不成功则不理会
+			if (Integer.valueOf((int) resultJson.get("status")) == 0) {
+				return true;
+			} else {
+				log.error("errcode:" + resultJson.get("status") + ";errmsg:" + resultJson.get("msg"));
+				return false;
+			}
+		}
+	}
  
 	
 }

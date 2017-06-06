@@ -28,7 +28,7 @@ public class SmsV1ControllerTest extends BaseControllerTest {
 	   /**获取短信验证码*/
 	    @Test
 	    public void getValidateCode() throws Exception{
-	    	RequestSetPaypwdStatus requestSetPaypwdStatus=new RequestSetPaypwdStatus();
+	    /*	RequestSetPaypwdStatus requestSetPaypwdStatus=new RequestSetPaypwdStatus();
 	    	requestSetPaypwdStatus.setMemId(memId);
 	    	requestSetPaypwdStatus.setEnable("1");
 	    	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/set_paypwd_status")
@@ -42,7 +42,7 @@ public class SmsV1ControllerTest extends BaseControllerTest {
 				public void handle(MvcResult result) throws Exception {
 					logger.info("单元测试>>设置支付密码开关API>>执行结果:{}",result.getResponse().getContentAsString());;
 				}
-			});
+			});*/
 	    }
 	    
 	      
