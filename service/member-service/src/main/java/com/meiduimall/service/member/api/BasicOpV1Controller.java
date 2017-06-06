@@ -106,10 +106,10 @@ public class BasicOpV1Controller {
 	 * @return 统一数据返回格式
 	 * @throws MdSysException 系统异常
 	 */
-	@ApiOperation(value="会员登录", notes="会员登录")
+	/*@ApiOperation(value="会员登录", notes="会员登录")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "requestLogin", value = "登录实体", required = true, dataType = "RequestLogin"),
-	})
+	})*/
 	@PostMapping(value = "/login")
 	ResBodyData login(@RequestBody @Valid RequestLogin requestLogin){
 		requestLogin.setIp(request.getRemoteAddr());
