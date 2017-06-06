@@ -106,6 +106,5 @@ public class PayPwdV1ControllerTest extends BaseControllerTest {
 			}
 		});
     }
-    
 	      
 }

@@ -16,10 +16,11 @@ public interface AccountAdjustService {
 	
 	/**
 	 * 账户余额调整
-	 * @param model
-	 * @return
+	 * @param model 账户余额调整API请求映射实体
+	 * @return 统一数据返回格式
+	 * @throws MdSysException 系统异常
 	 */
-	ResBodyData accountAdjustAmount(RequestAccountAdjustAmount model);
+	ResBodyData accountAdjustAmount(RequestAccountAdjustAmount model) throws MdSysException;
 	
 	/**
 	 * 增加美兑积分

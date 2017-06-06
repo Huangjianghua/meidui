@@ -143,6 +143,10 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	public final static  Integer BALANCE_CANNOT_AFFORD = 7213;
 	//积分不足无法支付
 	public final static  Integer POINTS_CANNOT_AFFORD = 7214;
+	//账户创建失败
+	public final static  Integer CREATE_ACCOUNT_FAILED = 7215;
+	//账户类型不存在
+	public final static  Integer ACCOUNT_TYPE_NOT_EXIST = 7216;
 	
 	
 	/**提现相关*/
@@ -251,6 +255,8 @@ public abstract class ConstApiStatus extends BaseApiCode {
 		zhMsgMap.put(BANK_INFO_ALREADY_EXIST, "当前会员银行卡账户信息已存在");
 		zhMsgMap.put(BALANCE_CANNOT_AFFORD, "余额不足无法支付");
 		zhMsgMap.put(POINTS_CANNOT_AFFORD, "积分不足无法支付");
+		zhMsgMap.put(CREATE_ACCOUNT_FAILED, "创建账户失败");
+		zhMsgMap.put(ACCOUNT_TYPE_NOT_EXIST, "账户类型不存在");
 		zhMsgMap.put(GET_MEMBER_BASIC_INFO_FAILED, "获取会员基本信息失败");
 		
 		zhMsgMap.put(ACCOUNT_IS_NULL_ERROR, "查询会员账号错误");

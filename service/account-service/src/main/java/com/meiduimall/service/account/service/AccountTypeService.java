@@ -16,7 +16,7 @@ public interface AccountTypeService {
 	 * 查询财务调整相关的账户类型信息
 	 * @author wujun
 	 */
-	public List<MSAccountType> getAccountTypeList();
+	public List<MSAccountType> getCwtzAccountTypeList();
 	
 	/**
 	 * 根据账户类型编号查询当前序列号
@@ -33,9 +33,11 @@ public interface AccountTypeService {
 	public Long updateSequenceByAccountTypeNo(String accountTypeNo);
 
 	/**
-	 * 查询财务调整相关的账户类型信息
+	 * 根据条件查询账户类型信息
 	 * @author wujun
+	 * @param map 查询条件
+	 * @return 账户类型表实体
 	 */
-	public MSAccountType getByAccountTypeCondition(Map<String, Object> map);
+	public MSAccountType getAccountTypeByCondition(Map<String, Object> map);
 	
 }
