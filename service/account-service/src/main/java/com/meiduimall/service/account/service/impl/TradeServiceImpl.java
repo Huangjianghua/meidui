@@ -643,9 +643,9 @@ public class TradeServiceImpl implements TradeService {
 
 			// 查询数据库是否已存在该订单，如果不存在则直接保存，如果存在则修改
 			MSMemberConsumeRecords history = memberConsumeHistoryService
-					.queryByOrderIdInfo(new MSMemberConsumeRecordsReq());
+					.queryByOrderIdInfo(ms);
 			List<MSMemberConsumeRecords> listhistory = memberConsumeHistoryService
-					.listByOrderIdInfo(new MSMemberConsumeRecordsReq());
+					.listByOrderIdInfo(ms);
 
 			/** 订单状态1表示已经完，2表示已退单 */
 			if ("1".equals(ms.getOrderStatus())) {
