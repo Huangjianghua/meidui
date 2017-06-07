@@ -54,5 +54,13 @@
 				#{remark}
 				)
 	</insert>
+	
+	<!--  将订单状态为1(已支付)的订单更新为订单状态为2(已退单)  -->
+	<update id="updateOrderStatus" parameterType="com.meiduimall.service.account.model.request.MSMemberConsumeRecordsReq">
+	   update ms_member_consume_records set order_status = 2
+	   where order_id = #{orderId} 
+	     and order_source = #{orderSource}
+	     and order_status = #{orderStatus}
+	</update>
 
 </mapper>

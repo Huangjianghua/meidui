@@ -68,18 +68,18 @@ public interface TradeService {
 	public JSONObject getBankWithdrawDeposits(JSONObject param) throws Exception;
 
 	/**
-	 * 更新退单
-	 * @param mmt
-	 * @return
-	 */
-	ResBodyData updateMemberOrder(MSMemberConsumeRecordsReq mmt);
-	
-	/**
 	 * 提交订单请求
 	 * @param mmt
 	 * @return
 	 * @throws MdSysException 
 	 */
 	ResBodyData saveMemberOrder(MSMemberConsumeRecordsReq mmt) throws MdSysException;
+
+	/**
+	 * 退单
+	 * @param ms
+	 * @return
+	 */
+	ResBodyData recedeOrder(MSMemberConsumeRecordsReq ms);
 
 }

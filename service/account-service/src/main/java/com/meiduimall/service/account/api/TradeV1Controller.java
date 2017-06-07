@@ -212,11 +212,11 @@ public class TradeV1Controller {
 	
 	
 	/**
-	 * 当前商家退会员订单信息接口  http://IP:PORT/Authorized/BusinessRecedeOrder
+	 * 退会员订单接口 
 	 * @author wujun
 	 */
-	@PostMapping(value = "/business_recede_order")
-	ResBodyData businessRecedeOrder(MSMemberConsumeRecordsReq ms)   {
+	@PostMapping(value = "/recede_order")
+	ResBodyData RecedeOrder(MSMemberConsumeRecordsReq ms)   {
 		
 		logger.info("BusinessRecedeOrder接口请求输入参数："+ ms.toString());
 		
@@ -227,8 +227,8 @@ public class TradeV1Controller {
 				return new ResBodyData(ConstApiStatus.USER_NOT_EXIST, ConstApiStatus.getZhMsg(ConstApiStatus.USER_NOT_EXIST));
 			}
 			 
-			if (!"2".equals(ms.getOrderStatus())) {
-				logger.info("订单状态输入错误");
+			if (!"1".equals(ms.getOrderStatus())) {
+				logger.info("订单状态错误");
 				return new ResBodyData(ConstApiStatus.ORDER_STATUS_ERROR, ConstApiStatus.getZhMsg(ConstApiStatus.ORDER_STATUS_ERROR));
 			}
 			
@@ -249,9 +249,9 @@ public class TradeV1Controller {
 			ms.setOrderSource(SerialStringUtil.getDictOrderSource(ms.getOrderSource()));
 			
 			 
-			ResBodyData updateMemberOrder = tradeService.updateMemberOrder(ms);
+			ResBodyData updateMemberOrder = tradeService.recedeOrder(ms);
 			 
-			logger.info("BusinessRecedeOrder接口请求输出参数：{}", updateMemberOrder);
+			logger.info("退会员订单接口=>请求输出参数：{}", updateMemberOrder);
 			
 			return updateMemberOrder;
 		} catch (ServiceException e) {
@@ -305,12 +305,6 @@ public class TradeV1Controller {
 				return new ResBodyData(ConstApiStatus.PAY_POINTS_MONEY_ERROR, ConstApiStatus.getZhMsg(ConstApiStatus.PAY_POINTS_MONEY_ERROR));
 		   }
 			   
-			//增加美兑积分逻辑  2016-10-31
-		  	if ("1".equals(ms.getPayType())) {
-		  		logger.info("支付类型输入错误");
-		  		return new ResBodyData(ConstApiStatus.PAYTYPE_ERROR, ConstApiStatus.getZhMsg(ConstApiStatus.PAYTYPE_ERROR));
-			}
-		  
 		  //增加美兑积分逻辑  2016-10-31
 			if("2".equals(ms.getPayType())){
 				if(Double.valueOf(ms.getConsumePoints()) <= 0 && Double.valueOf(ms.getConsumeMoney()) <= 0){
@@ -340,7 +334,7 @@ public class TradeV1Controller {
 	 * @return ResBodyData
 	 * @author wuun
 	 */
-	@PostMapping(value = "/recede_order")
+	/*@PostMapping(value = "/recede_order")
 	ResBodyData recedeOrder(MSMemberConsumeRecordsReq ms) {
 	 
 		logger.info("当前会员退单信息接口请求输入参数："+ ms.toString());
@@ -352,8 +346,8 @@ public class TradeV1Controller {
 				return new ResBodyData(ConstApiStatus.ACCOUNT_NOT_EXIST, ConstApiStatus.getZhMsg(ConstApiStatus.ACCOUNT_NOT_EXIST));
 			}
 			
-			if (!"2".equals(ms.getOrderStatus())) {
-				logger.info("外部请求订单状态输入错误");
+			if (!"1".equals(ms.getOrderStatus())) {
+				logger.info("订单状态错误");
 				return new ResBodyData(ConstApiStatus.ORDER_STATUS_ERROR, ConstApiStatus.getZhMsg(ConstApiStatus.ORDER_STATUS_ERROR));
 			}
 
@@ -363,7 +357,7 @@ public class TradeV1Controller {
 			ms.setOrderSource(SerialStringUtil.getDictOrderSource(ms.getOrderSource()));
 			
 			logger.info("提交退单请求");
-			ResBodyData updateMemberOrder = tradeService.updateMemberOrder(ms);
+			ResBodyData updateMemberOrder = tradeService.recedeOrder(ms);
 			 
 			
 			logger.info("当前会员退单信息接口输出参数：{}", updateMemberOrder.toString());
@@ -375,6 +369,6 @@ public class TradeV1Controller {
 		}		
 		
 		 
-	}
+	}*/
 	
 }

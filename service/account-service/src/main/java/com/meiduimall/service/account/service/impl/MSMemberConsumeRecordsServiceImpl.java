@@ -1,6 +1,5 @@
 package com.meiduimall.service.account.service.impl;
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,17 +22,19 @@ public class MSMemberConsumeRecordsServiceImpl implements MSMemberConsumeRecords
 		return baseDao.selectOne(MemberConsum, "MSMemberConsumeRecordsMapper.getConsumeRecordsByContidion");
 	}
 
-	@Override
-	public List<MSMemberConsumeRecords> listByOrderIdInfo(MSMemberConsumeRecordsReq MemberConsum) {
 
-		return baseDao.selectList(MemberConsum, "MSMemberConsumeRecordsMapper.getConsumeRecordsByContidion");
+	@Override
+	public void save(MSMemberConsumeRecordsReq mmt) {
+		 
+		baseDao.insert(mmt, "MSMemberConsumeRecordsMapper.insertConsumeRecords");
+		
 	}
 
+
 	@Override
-	public void save(MSMemberConsumeRecords mConHis) {
-		 
-		baseDao.insert(mConHis, "MSMemberConsumeRecordsMapper.insertConsumeRecords");
-		
+	public void updateOrderStatus(MSMemberConsumeRecordsReq mmt) {
+
+		baseDao.update(mmt, "MSMemberConsumeRecordsMapper.updateOrderStatus");
 	}
 
 }
