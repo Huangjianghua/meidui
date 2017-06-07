@@ -74,7 +74,7 @@ public class AccountDetailServiceImpl implements AccountDetailService{
 		paramsMap.put("memId", memId);
 		paramsMap.put("accountNo", accountId);
 		paramsMap.put("tradeType", tradeType);
-		paramsMap.put("tradeAmount", tradeAmount);
+		paramsMap.put("tradeAmount", Double.valueOf(tradeAmount));
 		paramsMap.put("inOrOut", "-1");
 		paramsMap.put("remark", remark);
 		paramsMap.put("createUser", "system");
