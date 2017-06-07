@@ -18,11 +18,8 @@ import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
 import com.meiduimall.service.account.model.request.RequestBankWithdrawDepositsList;
-import com.meiduimall.service.account.model.request.RequestMSBankWithDrawDepostie;
-import com.meiduimall.service.account.model.request.RequestSaveBankWithdrawDeposit;
 import com.meiduimall.service.account.model.response.ResponseBankWithdrawDeposit;
 import com.meiduimall.service.account.model.response.ResponseBankWithdrawDepositList;
-import com.meiduimall.service.account.service.MSAccountDetailService;
 import com.meiduimall.service.account.service.MSMembersService;
 import com.meiduimall.service.account.service.WithDrawService;
 
@@ -43,8 +40,8 @@ public class WithDrawServiceImpl implements WithDrawService {
 	@Autowired
 	private MSMembersService mSMembersService;
 
-	@Autowired
-	private MSAccountDetailService mSAccountDetailService;
+	// @Autowired
+	// private MSAccountDetailService mSAccountDetailService;
 
 	@Override
 	public ResponseBankWithdrawDepositList getBankWithdrawDepositsList(RequestBankWithdrawDepositsList model) {
@@ -104,6 +101,22 @@ public class WithDrawServiceImpl implements WithDrawService {
 					deposit.setCounterFee(bean.getPoundageAmount() == null ? 0.00 : bean.getPoundageAmount());
 					deposit.setRemark(bean.getRemark() == null ? "" : bean.getRemark());
 					deposit.setStatus(bean.getStatus() == null ? "" : bean.getStatus());
+					deposit.setMemId(model.getMemId());
+					deposit.setId(bean.getId());
+					if (bean.getCreateDate() != null) {// 创建时间
+						deposit.setCreateDate(DateFormatUtils.format(bean.getCreateDate(), "yyyy-MM-dd HH:mm:ss"));
+					} else {
+						deposit.setCreateDate("");
+					}
+					deposit.setBankAccountId(bean.getAccountIdcard());
+					deposit.setAuditBy(bean.getAuditBy() == null ? "" : bean.getAuditBy());
+					deposit.setAccountSubBank(bean.getAccountSubBank() == null ? "" : bean.getAccountSubBank());
+					deposit.setAccountProvince(bean.getAccountProvince() == null ? "" : bean.getAccountProvince());
+					deposit.setAccountNo(bean.getBankCardNo() == null ? "" : bean.getBankCardNo());
+					deposit.setAccountIdcard(bean.getAccountIdcard() == null ? "" : bean.getAccountIdcard());
+					deposit.setAccountCity(bean.getAccountCity() == null ? "" : bean.getAccountCity());
+					deposit.setAccountArea(bean.getAccountArea() == null ? "" : bean.getAccountArea());
+
 					results.add(deposit);
 				}
 			}
@@ -117,12 +130,14 @@ public class WithDrawServiceImpl implements WithDrawService {
 		return data;
 	}
 
-	@Override
-	public String saveBankWithdrawDeposit(RequestSaveBankWithdrawDeposit model) {
-		RequestMSBankWithDrawDepostie deposit = new RequestMSBankWithDrawDepostie();
-		deposit.setMemId(model.getMemId());
-		deposit.setAccountNo(model.getAccountNo());
-		deposit.setApplyCarryCash(model.getApplyCarryCash());
-		return mSAccountDetailService.saveBankWithdrawDeposit(deposit);
-	}
+	// @Override
+	// public String saveBankWithdrawDeposit(RequestSaveBankWithdrawDeposit
+	// model) {
+	// RequestMSBankWithDrawDepostie deposit = new
+	// RequestMSBankWithDrawDepostie();
+	// deposit.setMemId(model.getMemId());
+	// deposit.setAccountNo(model.getAccountNo());
+	// deposit.setApplyCarryCash(model.getApplyCarryCash());
+	// return mSAccountDetailService.saveBankWithdrawDeposit(deposit);
+	// }
 }

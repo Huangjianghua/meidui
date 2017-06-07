@@ -12,12 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.MdBizException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
@@ -25,7 +23,6 @@ import com.meiduimall.service.account.model.MSAccountDetailCondition;
 import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
 import com.meiduimall.service.account.model.request.RequestBankWithdrawDepositsList;
 import com.meiduimall.service.account.model.request.RequestMSBankWithDrawDepostie;
-import com.meiduimall.service.account.model.request.RequestSaveBankWithdrawDeposit;
 import com.meiduimall.service.account.service.BankWithdrawDepositService;
 import com.meiduimall.service.account.service.MSAccountDetailService;
 import com.meiduimall.service.account.service.WithDrawService;
@@ -223,21 +220,21 @@ public class AccountWithDrawV1Controller {
 		return result;
 	}
 
-	/**
-	 * 账户余额提现申请接口
-	 * 
-	 * @param model 提现相关信息(这里只需要银行卡号、会员memId、提现金额)
-	 * @return 结果数据
-	 * @author yangchangfu
-	 */
-	@RequestMapping(value = "/saveBankWithdrawDeposit")
-	public ResBodyData saveBankWithdrawDeposit(@Validated RequestSaveBankWithdrawDeposit model) {
-		String businessNo = withDrawService.saveBankWithdrawDeposit(model);
-		ResBodyData result = new ResBodyData();
-		result.setStatus(ConstApiStatus.SUCCESS);
-		result.setMsg(ConstApiStatus.SUCCESS_C);
-		ObjectNode objectNode = JsonUtils.getInstance().createObjectNode().put("businessNo", businessNo);
-		result.setData(objectNode);
-		return result;
-	}
+//	/**
+//	 * 账户余额提现申请接口--该接口给旧会员系统使用(但是旧会员系统的接口没人用？)
+//	 * 
+//	 * @param model 提现相关信息(这里只需要银行卡号、会员memId、提现金额)
+//	 * @return 结果数据
+//	 * @author yangchangfu
+//	 */
+//	@RequestMapping(value = "/saveBankWithdrawDeposit")
+//	public ResBodyData saveBankWithdrawDeposit(@Validated RequestSaveBankWithdrawDeposit model) {
+//		String businessNo = withDrawService.saveBankWithdrawDeposit(model);
+//		ResBodyData result = new ResBodyData();
+//		result.setStatus(ConstApiStatus.SUCCESS);
+//		result.setMsg(ConstApiStatus.SUCCESS_C);
+//		ObjectNode objectNode = JsonUtils.getInstance().createObjectNode().put("businessNo", businessNo);
+//		result.setData(objectNode);
+//		return result;
+//	}
 }

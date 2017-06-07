@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
@@ -15,6 +16,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.service.account.model.MSAccountDetailCondition;
+import com.meiduimall.service.account.service.MSMembersService;
 
 /**
  * 账户提现相关API{@link=AccountWithDrawV1Controller}单元测试
@@ -24,6 +26,9 @@ import com.meiduimall.service.account.model.MSAccountDetailCondition;
 public class AccountWithDrawV1ControllerTest extends BaseControllerTest {
 	
 	private final static Logger logger=LoggerFactory.getLogger(AccountWithDrawV1ControllerTest.class);
+	
+	@Autowired
+	private MSMembersService mSMembersService;
 	 
 	/**
 	 * 查询提现列表(主表)
@@ -54,17 +59,28 @@ public class AccountWithDrawV1ControllerTest extends BaseControllerTest {
      * @throws Exception
      */
     @Test
-	public void getBankWithdrawDepositsForApp_test_01() throws Exception {
+	public void testGetBankWithdrawDepositsForApp_01() throws Exception {
+    	
+    	String memId = "a0db1419-f44a-48e8-9394-a49620e47940";
+    	boolean isExist = mSMembersService.checkUserIsExistByMemId(memId);
+    	
 		ResultActions results = mockMvc.perform(
 				MockMvcRequestBuilders.post("/member/account_service/v1/getBankWithdrawDepositsForApp")
+				.param("pageNo", "1")
 				.param("pageSize", "3")
-				.param("memId", "a0db1419-f44a-48e8-9394-a49620e47940"))
+				.param("memId", memId))
 				.andExpect(status().isOk());
-
+		
+		if(isExist){
+			results.andExpect(jsonPath("$.status",is(0)));
+		} else {
+			results.andExpect(jsonPath("$.status",is(7922)));
+		}
+		
 		results.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				System.out.println("getBankWithdrawDepositsForApp_test_01*********" + result.getResponse().getContentAsString());
+				System.out.println("testGetBankWithdrawDepositsForApp_01*********" + result.getResponse().getContentAsString());
 			}
 		});
 	}
@@ -75,81 +91,20 @@ public class AccountWithDrawV1ControllerTest extends BaseControllerTest {
      * @throws Exception
      */
     @Test
-	public void getBankWithdrawDepositsForApp_test_02() throws Exception {
+	public void testGetBankWithdrawDepositsForApp_02() throws Exception {
 		ResultActions results = mockMvc.perform(
 				MockMvcRequestBuilders.post("/member/account_service/v1/getBankWithdrawDepositsForApp")
-				.param("memId", "a0db1419"))
+				.param("memId", "0000-0000"))
 				.andExpect(status().isOk());
+		
+		results.andExpect(jsonPath("$.status",is(7922)));
 
 		results.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				System.out.println("getBankWithdrawDepositsForApp_test_02*********" + result.getResponse().getContentAsString());
+				System.out.println("testGetBankWithdrawDepositsForApp_02*********" + result.getResponse().getContentAsString());
 			}
 		});
-	}
-    
-    /**
-     * 账户余额提现申请接口
-     * @throws Exception
-     */
-    @Test
-	public void saveBankWithdrawDeposit_test_01() throws Exception {
-		ResultActions results = mockMvc.perform(
-				MockMvcRequestBuilders.post("/member/account_service/v1/saveBankWithdrawDeposit")
-				.param("accountNo", "123456")
-				.param("applyCarryCash", "2.99")
-				.param("memId", "a0db1419-f44a-48e8-9394-a49620e47940"))
-				.andExpect(status().isOk());
-
-		results.andDo(new ResultHandler() {
-			@Override
-			public void handle(MvcResult result) throws Exception {
-				System.out.println("saveBankWithdrawDeposit_test_01*********" + result.getResponse().getContentAsString());
-			}
-		});
-	}
-    
-    /**
-     * 账户余额提现申请接口---银行卡不存在
-     * @throws Exception
-     */
-    @Test
-	public void saveBankWithdrawDeposit_test_02() throws Exception {
-		ResultActions results = mockMvc.perform(
-				MockMvcRequestBuilders.post("/member/account_service/v1/saveBankWithdrawDeposit")
-				.param("accountNo", "88888888999999")
-				.param("applyCarryCash", "0.99")
-				.param("memId", "a0db1419-f44a-48e8-9394-a49620e47940"))
-				.andExpect(status().isOk());
-
-		results.andDo(new ResultHandler() {
-			@Override
-			public void handle(MvcResult result) throws Exception {
-				System.out.println("saveBankWithdrawDeposit_test_02*********" + result.getResponse().getContentAsString());
-			}
-		});
-	}
-    
-    /**
-     * 账户余额提现申请接口---memId不存在
-     * @throws Exception
-     */
-    @Test
-	public void saveBankWithdrawDeposit_test_03() throws Exception {
-//		ResultActions results = mockMvc.perform(
-//				MockMvcRequestBuilders.post("/member/account_service/v1/saveBankWithdrawDeposit")
-//				.param("accountNo", "88888888999999")
-//				.param("applyCarryCash", "0.99")
-//				.param("memId", "a0db1419"))
-//				.andExpect(status().isOk());
-//
-//		results.andDo(new ResultHandler() {
-//			@Override
-//			public void handle(MvcResult result) throws Exception {
-//				System.out.println("saveBankWithdrawDeposit_test_03*********" + result.getResponse().getContentAsString());
-//			}
-//		});
 	}
 }
 
