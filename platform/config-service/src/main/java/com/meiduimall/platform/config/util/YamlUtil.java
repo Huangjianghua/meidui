@@ -250,6 +250,7 @@ public class YamlUtil {
 			@Override
 			public void run() {
 				 //step2 提交到config service git服务器
+				 logger.info("configProjectURL:{}",projectURL);
 				 String configProjectURL=projectURL.substring(0,projectURL.indexOf(Constant.PROJECT_NAME));
 				 commintFilesToGitService(fileName,configProjectURL);
 				 //step3 提交到service-config-repo
