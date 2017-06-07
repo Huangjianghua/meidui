@@ -252,7 +252,7 @@ public class YamlUtil {
 				 //step2 提交到config service git服务器
 				 logger.info("configProjectURL:{}",projectURL);
 				 String configProjectURL=projectURL.substring(0,projectURL.indexOf(Constant.PROJECT_NAME));
-				 commintFilesToGitService(fileName,configProjectURL);
+				 //commintFilesToGitService(fileName,configProjectURL);
 				 //step3 提交到service-config-repo
 				 String fileSourceUrl=projectURL+findSrcResourceUrl+fileName; //生成的文件 绝对路径
 				 try {
