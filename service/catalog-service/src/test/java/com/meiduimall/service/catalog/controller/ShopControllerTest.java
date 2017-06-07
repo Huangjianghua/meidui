@@ -1,4 +1,4 @@
-/*package com.meiduimall.service.catalog.controller.test;
+package com.meiduimall.service.catalog.controller;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -8,14 +8,14 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import com.meiduimall.service.catalog.test.BaseTest;
+import com.meiduimall.service.catalog.BaseTest;
 
 public class ShopControllerTest extends BaseTest {
 	
-	*//**
+	/**
 	 * 测试getShopDetail---正常测试
 	 * @throws Exception
-	 *//*
+	 */
 	@Test
 	public void getShopDetail_test_01() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -32,10 +32,10 @@ public class ShopControllerTest extends BaseTest {
 		});
 	}
 	
-	*//**
+	/**
 	 * 测试getShopDetail---没有mem_id测试
 	 * @throws Exception
-	 *//*
+	 */
 	@Test
 	public void getShopDetail_test_02() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -51,10 +51,10 @@ public class ShopControllerTest extends BaseTest {
 		});
 	}
 	
-	*//**
+	/**
 	 * 测试getShopDetail---没有shop_id测试
 	 * @throws Exception
-	 *//*
+	 */
 	@Test
 	public void getShopDetail_test_03() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -70,10 +70,10 @@ public class ShopControllerTest extends BaseTest {
 		});
 	}
 	
-	*//**
+	/**
 	 * 测试collectOrCancelShop---店铺不存在测试
 	 * @throws Exception
-	 *//*
+	 */
 	@Test
 	public void collectOrCancelShop_test_01() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -91,10 +91,10 @@ public class ShopControllerTest extends BaseTest {
 		});
 	}
 	
-	*//**
+	/**
 	 * 测试collectOrCancelShop---收藏测试
 	 * @throws Exception
-	 *//*
+	 */
 	@Test
 	public void collectOrCancelShop_test_02() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -112,10 +112,10 @@ public class ShopControllerTest extends BaseTest {
 		});
 	}
 	
-	*//**
+	/**
 	 * 测试collectOrCancelShop---取消收藏
 	 * @throws Exception
-	 *//*
+	 */
 	@Test
 	public void collectOrCancelShop_test_03() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -133,10 +133,10 @@ public class ShopControllerTest extends BaseTest {
 		});
 	}
 	
-	*//**
+	/**
 	 * 测试collectOrCancelShop---没有mem_id测试
 	 * @throws Exception
-	 *//*
+	 */
 	@Test
 	public void collectOrCancelShop_test_04() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -154,10 +154,10 @@ public class ShopControllerTest extends BaseTest {
 		});
 	}
 	
-	*//**
+	/**
 	 * 测试getShopProductCatalog---正常测试
 	 * @throws Exception
-	 *//*
+	 */
 	@Test
 	public void getShopProductCatalog_test_01() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -173,10 +173,10 @@ public class ShopControllerTest extends BaseTest {
 		});
 	}
 	
-	*//**
+	/**
 	 * 测试getShopProductCatalog---店铺不存在
 	 * @throws Exception
-	 *//*
+	 */
 	@Test
 	public void getShopProductCatalog_test_02() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -192,10 +192,10 @@ public class ShopControllerTest extends BaseTest {
 		});
 	}
 	
-	*//**
+	/**
 	 * 测试getShopProductCatalog---没有shop_id测试
 	 * @throws Exception
-	 *//*
+	 */
 	@Test
 	public void getShopProductCatalog_test_03() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -211,10 +211,10 @@ public class ShopControllerTest extends BaseTest {
 		});
 	}
 	
-	*//**
+	/**
 	 * 测试getShopProductCatalog---正常测试
 	 * @throws Exception
-	 *//*
+	 */
 	@Test
 	public void getShopProductCatalog_test_04() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -230,10 +230,10 @@ public class ShopControllerTest extends BaseTest {
 		});
 	}
 	
-	*//**
+	/**
 	 * 测试getShopProductList---没有shop_id测试
 	 * @throws Exception
-	 *//*
+	 */
 	@Test
 	public void getShopProductList_test_01() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -249,10 +249,10 @@ public class ShopControllerTest extends BaseTest {
 		});
 	}
 	
-	*//**
+	/**
 	 * 测试getShopProductList---正常测试
 	 * @throws Exception
-	 *//*
+	 */
 	@Test
 	public void getShopProductList_test_02() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -268,10 +268,10 @@ public class ShopControllerTest extends BaseTest {
 		});
 	}
 	
-	*//**
+	/**
 	 * 测试getShopProductList---增加shop_cat_id
 	 * @throws Exception
-	 *//*
+	 */
 	@Test
 	public void getShopProductList_test_03() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -289,10 +289,10 @@ public class ShopControllerTest extends BaseTest {
 		});
 	}
 	
-	*//**
+	/**
 	 * 测试getShopProductList---增加shop_cat_id，增加排序方式
 	 * @throws Exception
-	 *//*
+	 */
 	@Test
 	public void getShopProductList_test_04() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -311,10 +311,10 @@ public class ShopControllerTest extends BaseTest {
 		});
 	}
 	
-	*//**
+	/**
 	 * 测试getShopProductList---shop_id错误测试
 	 * @throws Exception
-	 *//*
+	 */
 	@Test
 	public void getShopProductList_test_05() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
@@ -330,4 +330,3 @@ public class ShopControllerTest extends BaseTest {
 		});
 	}
 }
-*/
