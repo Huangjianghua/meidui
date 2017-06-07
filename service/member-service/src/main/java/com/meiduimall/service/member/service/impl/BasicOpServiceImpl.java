@@ -381,15 +381,14 @@ public class BasicOpServiceImpl implements BasicOpService {
 		memberAddressesSet.setMemaStatus(String.valueOf(Constants.CONSTANT_INT_ZERO));
 		baseDao.insert(memberAddressesSet,"MSMemberAddressesMapper.addMemberAddressInfo");
 		
-		MSAccount msAccount = new MSAccount();//生成会员余额账户信息
-		msAccount.setId(UUID.randomUUID().toString());
-		msAccount.setMemId(memid);
-		msAccount.setType(ConstSysParamsDefination.ACCOUNT_TYPE_MONEY);
-		msAccount.setBalance(String.valueOf(Constants.CONSTANT_INT_ZERO));
-		msAccount.setFreezeBalance(String.valueOf(Constants.CONSTANT_INT_ZERO));
-		msAccount.setCreateDate(new Date());
-		msAccount.setUpdateDate(new Date());
-		baseDao.insert(msAccount,"MSMembersMapper.insertMsAccount");
+		//生成会员账户报表信息
+		Map<String,Object> mapCondition=new HashMap<>();
+		mapCondition.put("id",UUID.randomUUID().toString());
+		mapCondition.put("memId",memid);
+		mapCondition.put("createUser","账户服务");
+		mapCondition.put("updateUser","账户服务");
+		mapCondition.put("remark","账号服务注册生成");
+		baseDao.insert(mapCondition,"MSMembersMapper.insertAccountReport");
 		
 		/*MSMemberCertificate mc = new MSMemberCertificate();//生成会员证件信息
 		mc.setMcerId(UUID.randomUUID().toString());
@@ -477,15 +476,14 @@ public class BasicOpServiceImpl implements BasicOpService {
 		memberAddressesSet.setMemaStatus(String.valueOf(Constants.CONSTANT_INT_ZERO));
 		baseDao.insert(memberAddressesSet,"MSMemberAddressesMapper.addMemberAddressInfo");
 		
-		MSAccount msAccount = new MSAccount();//生成会员余额账户信息
-		msAccount.setId(UUID.randomUUID().toString());
-		msAccount.setMemId(memid);
-		msAccount.setType(ConstSysParamsDefination.ACCOUNT_TYPE_MONEY);
-		msAccount.setBalance(String.valueOf(Constants.CONSTANT_INT_ZERO));
-		msAccount.setFreezeBalance(String.valueOf(Constants.CONSTANT_INT_ZERO));
-		msAccount.setCreateDate(new Date());
-		msAccount.setUpdateDate(new Date());
-		baseDao.insert(msAccount,"MSMembersMapper.insertMsAccount");
+		//生成会员账户报表信息
+		Map<String,Object> mapCondition=new HashMap<>();
+		mapCondition.put("id",UUID.randomUUID().toString());
+		mapCondition.put("memId",memid);
+		mapCondition.put("createUser","账户服务");
+		mapCondition.put("updateUser","账户服务");
+		mapCondition.put("remark","账号服务注册生成");
+		baseDao.insert(mapCondition,"MSMembersMapper.insertAccountReport");
 		
 		/*MSMemberCertificate mc = new MSMemberCertificate();//生成会员证件信息
 		mc.setMcerId(UUID.randomUUID().toString());
@@ -571,15 +569,14 @@ public class BasicOpServiceImpl implements BasicOpService {
 		memberAddressesSet.setMemaStatus(String.valueOf(Constants.CONSTANT_INT_ZERO));
 		baseDao.insert(memberAddressesSet,"MSMemberAddressesMapper.addMemberAddressInfo");
 		
-		MSAccount msAccount = new MSAccount();//生成会员余额账户信息
-		msAccount.setId(UUID.randomUUID().toString());
-		msAccount.setMemId(memid);
-		msAccount.setType(ConstSysParamsDefination.ACCOUNT_TYPE_MONEY);
-		msAccount.setBalance(String.valueOf(Constants.CONSTANT_INT_ZERO));
-		msAccount.setFreezeBalance(String.valueOf(Constants.CONSTANT_INT_ZERO));
-		msAccount.setCreateDate(new Date());
-		msAccount.setUpdateDate(new Date());
-		baseDao.insert(msAccount,"MSMembersMapper.insertMsAccount");
+		//生成会员账户报表信息
+		Map<String,Object> mapCondition=new HashMap<>();
+		mapCondition.put("id",UUID.randomUUID().toString());
+		mapCondition.put("memId",memid);
+		mapCondition.put("createUser","账户服务");
+		mapCondition.put("updateUser","账户服务");
+		mapCondition.put("remark","账号服务注册生成");
+		baseDao.insert(mapCondition,"MSMembersMapper.insertAccountReport");
 		
 		/*MSMemberCertificate mc = new MSMemberCertificate();//生成会员证件信息
 		mc.setMcerId(UUID.randomUUID().toString());

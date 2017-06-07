@@ -29,4 +29,8 @@ public class ProfileConfig {
 	public String getHost() {
 		return env.getProperty(MallConstant.KEY_CATALOG_SERVICE_HOST);
 	}
+	
+	public String getMemberAccessHost(){
+		return env.getProperty("member-access.host");
+	}
 }

@@ -1,4 +1,4 @@
-package com.meiduimall.application.mall.catalog.test;
+package com.meiduimall.application.mall.catalog;
 
 import org.junit.Before;
 import org.junit.Test;

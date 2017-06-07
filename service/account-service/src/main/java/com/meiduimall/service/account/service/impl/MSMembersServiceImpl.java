@@ -48,7 +48,6 @@ public class MSMembersServiceImpl implements MSMembersService {
 			throw new ServiceException(ConstApiStatus.USER_NOT_EXIST);
 		}
 
-		// 目前暂时使用accountService提供的方法，不过这些方法还不确定是否正常，待确定后再调整
 		// 全部积分，含冻结积分--目前积分没有小数点，需要转为int
 		int totalConsumePoints = 0;
 		try {

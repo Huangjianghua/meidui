@@ -5,7 +5,7 @@ import java.util.Date;
 
 
 /**
- * 会员账户按账户类型统计表
+ * 会员账户报表ms_account_report实体类
  * @author chencong
  *
  */

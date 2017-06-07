@@ -36,7 +36,7 @@
   </sql>
   
   <!-- 插入账户变动明细 -->
-  <insert id="insertAccountDetail" parameterType="java.util.Map">
+  <insert id="insertAccountDetail" parameterType="com.meiduimall.service.account.model.MSAccountDetail">
 		INSERT INTO ms_account_detail
 		VALUES(
 			#{id},
@@ -48,9 +48,9 @@
 			#{balance},
 			#{businessNo},
 			#{createUser},
-			#{createDate},
+			now(),
 			#{updateUser},
-			#{updateDate},
+			now(),
 			#{remark}
 			)
 	</insert>
@@ -86,7 +86,7 @@
     mm.mem_login_name memLoginName, mm.mem_phone memPhone, md.dict_value bizType
     from ms_account_detail mad
     left join ms_account ma on ma.account_no = mad.account_no
-    left join ms_members mm on mm.mem_id = mm.mem_id
+    left join ms_members mm on mm.mem_id = ma.mem_id
     left join ms_dict md on  md.dict_id = mad.trade_type
     where 1 = 1
     <if test="memLoginName !=null and memLoginName !=''">

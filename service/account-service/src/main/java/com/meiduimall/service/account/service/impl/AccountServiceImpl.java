@@ -2,7 +2,6 @@ package com.meiduimall.service.account.service.impl;
 
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,10 +43,10 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public MSAccount getAccountInfo(String memId) {
+	public List<MSAccount> getAccountInfo(String memId) {
 		Map<String, Object> mapCondition=new HashMap<>();
 		mapCondition.put("memId",memId);
-		return baseDao.selectOne(mapCondition,"MSAccountMapper.getAccountByCondition");
+		return baseDao.selectList(mapCondition,"MSAccountMapper.getAccountByCondition");
 	}
 	
 	@Override
@@ -191,7 +190,7 @@ public class AccountServiceImpl implements AccountService {
 			else{
 				//写入冻结流水
 				accountFreezeDetail.setFreezeBalance(account.getBalance());
-				baseDao.insert(accountFreezeDetail,"MSAccountFreezeDetailMapper.insertAccountFreezeDetail");
+				accountFreezeDetailService.insertAccoutFreezeDetail(accountFreezeDetail);
 				//更新账户
 				account.setFreezeBalance(account.getBalance());
 				account.setFreezeBalanceEncrypt(DESC.encryption(String.valueOf(account.getBalance()),memId));

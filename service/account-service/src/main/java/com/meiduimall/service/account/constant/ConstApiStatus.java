@@ -38,6 +38,8 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	public final static Integer OPERATION_DB_EX= 1013;
 	//请求参数为空
 	public final static Integer REQUIRED_PARAM_EMPTY= 1014;
+	//日期解析异常
+	public final static Integer DATE_PARSE_EXCEPTION= 1015;
 	
 	
 	/**支付密码相关*/
@@ -84,10 +86,10 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	public final static Integer REPEAT_ORDER=7106;
 	//积分余额不足
 	public final static Integer NOT_ENOUGH_POINTS=7107;
-	//重复提交的冻结
+	//重复提交的冻结订单
 	public final static Integer REPEAT_FREEZ_ORDER=7108;
-	//订单解冻积分不等于冻结积分
-	public final static Integer DJ_NOT_EQUALS_DJ=7109;
+	//重复提交的解冻订单
+	public final static Integer REPEAT_UNFREEZ_ORDER=7109;
 	//没有冻结的积分
 	public final static Integer NO_DJ_POINTS=7110;
 	//订单状态错误
@@ -108,10 +110,14 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	public final static Integer MONEY_DJ_NOT_EQUALS_DJ=7118;
 	//没有冻结的余额
 	public final static Integer NO_DJ_MONEY=7119;
-	//订单状态不合法
-	public final static Integer ORDER_STATUS_UNNORMAL=7120;
 	//冻结类型不合法
-	public final static Integer FREEZE_TYPE_UNNORMAL=7121;
+	public final static Integer FREEZE_TYPE_UNNORMAL=7120;
+	//订单解冻积分不等于冻结积分
+	public final static Integer DJ_NOT_EQUALS_DJ=7121;
+	//该订单不存在冻结记录
+	public final static Integer ORDER_FREEZE_RECORD_NOT_EXIST=7122;
+	//解冻的积分或余额不等于冻结的积分或余额
+	public final static Integer FREEZE_POINTS_AND_MONEY_NOT_EQUALS_UNFREEZE=7123;
 	
 	
 	/**账户相关*/
@@ -143,6 +149,10 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	public final static  Integer BALANCE_CANNOT_AFFORD = 7213;
 	//积分不足无法支付
 	public final static  Integer POINTS_CANNOT_AFFORD = 7214;
+	//账户创建失败
+	public final static  Integer CREATE_ACCOUNT_FAILED = 7215;
+	//账户类型不存在
+	public final static  Integer ACCOUNT_TYPE_NOT_EXIST = 7216;
 	
 	
 	/**提现相关*/
@@ -195,6 +205,7 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	static {
 		zhMsgMap.put(OPERATION_DB_EX, "操作数据库程序异常");
 		zhMsgMap.put(REQUIRED_PARAM_EMPTY, "必填参数为空");
+		zhMsgMap.put(DATE_PARSE_EXCEPTION, "日期解析异常");
 		zhMsgMap.put(MD5_EXCEPTION, "生成MD5程序异常");
 		zhMsgMap.put(DECRYPTION_EXCEPTION, "解密程序异常");
 		zhMsgMap.put(ENCRYPTION_EXCEPTION, "加密程序异常");
@@ -228,11 +239,13 @@ public abstract class ConstApiStatus extends BaseApiCode {
 		zhMsgMap.put(REPEAT_ORDER, "重复提交的订单");
 		zhMsgMap.put(NOT_ENOUGH_POINTS, "积分余额不足");
 		zhMsgMap.put(REPEAT_FREEZ_ORDER, "重复提交的冻结订单");
+		zhMsgMap.put(REPEAT_UNFREEZ_ORDER, "重复提交的解冻订单");
+		zhMsgMap.put(ORDER_FREEZE_RECORD_NOT_EXIST, "订单不存在积分或余额冻结记录");
+		zhMsgMap.put(FREEZE_POINTS_AND_MONEY_NOT_EQUALS_UNFREEZE, "解冻的积分或余额不等于冻结的积分或余额");
 		zhMsgMap.put(DJ_NOT_EQUALS_DJ, "订单解冻积分不等于冻结积分");
 		zhMsgMap.put(MONEY_DJ_NOT_EQUALS_DJ, "订单解冻余额不等于冻结余额");
 		zhMsgMap.put(NO_DJ_POINTS, "没有冻结的积分");
 		zhMsgMap.put(NO_DJ_MONEY, "没有冻结的余额");
-		zhMsgMap.put(ORDER_STATUS_UNNORMAL, "订单状态不合法");
 		zhMsgMap.put(FREEZE_TYPE_UNNORMAL, "冻结类型不合法");
 		zhMsgMap.put(ORDER_STATUS_ERROR, "订单状态错误");
 		zhMsgMap.put(MD_POINTS_ERROR, "退单返回美兑积分错误");
@@ -251,6 +264,8 @@ public abstract class ConstApiStatus extends BaseApiCode {
 		zhMsgMap.put(BANK_INFO_ALREADY_EXIST, "当前会员银行卡账户信息已存在");
 		zhMsgMap.put(BALANCE_CANNOT_AFFORD, "余额不足无法支付");
 		zhMsgMap.put(POINTS_CANNOT_AFFORD, "积分不足无法支付");
+		zhMsgMap.put(CREATE_ACCOUNT_FAILED, "创建账户失败");
+		zhMsgMap.put(ACCOUNT_TYPE_NOT_EXIST, "账户类型不存在");
 		zhMsgMap.put(GET_MEMBER_BASIC_INFO_FAILED, "获取会员基本信息失败");
 		
 		zhMsgMap.put(ACCOUNT_IS_NULL_ERROR, "查询会员账号错误");

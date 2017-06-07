@@ -22,6 +22,7 @@
     <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
 	
+	 
 	<!-- 根据条件查询会员消费记录信息 -->
 	<select id="getConsumeRecordsByContidion" parameterType="com.meiduimall.service.account.model.request.MSMemberConsumeRecordsReq" resultMap="MsConcumeRecordsResultMap">
 		SELECT m.* 

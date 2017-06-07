@@ -16,7 +16,6 @@ import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.constant.ConstPointsChangeType;
 import com.meiduimall.service.account.dao.BaseDao;
-import com.meiduimall.service.account.model.MSConsumePointsFreezeInfo;
 import com.meiduimall.service.account.model.MemberTransferHistory;
 import com.meiduimall.service.account.model.request.RequestPointTransfer;
 import com.meiduimall.service.account.service.PointsService;
@@ -111,13 +110,6 @@ public class PointsServiceImpl implements PointsService {
 		logger.info("会员：{}当前积分为：{}",memId,realPoints);
 		return realPoints;
 	}
-	
-	
-	@Override
-	public List<MSConsumePointsFreezeInfo> getRecordsByOrderId(String orderId) {
-			return baseDao.selectList(orderId, "MSConsumePointsFreezeInfoMapper.getRecordsByOrderId");
-	}
-	
 
 	@Override
 	public ResBodyData unFreezePointsAndAddRecord(String memId, Double consumePoints, String orderId, String orderSource,Map<String,Object>  dataMap) {

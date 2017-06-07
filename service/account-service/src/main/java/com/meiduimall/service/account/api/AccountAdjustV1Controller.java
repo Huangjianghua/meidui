@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.MdBizException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.model.AddOrUpdateAccountReviseDetail;
 import com.meiduimall.service.account.model.request.RequestAccountAdjustAmount;
@@ -20,7 +21,7 @@ import com.meiduimall.service.account.service.AccountAdjustService;
 import com.meiduimall.service.account.service.MSAccountDetailService;
 
 /**
- * 账户调整相关接口
+ * 账户调整相关API
  * @author chencong
  *
  */
@@ -38,9 +39,13 @@ public class AccountAdjustV1Controller {
 	
 	/**账户余额调增调减*/
 	@PostMapping(value = "/account_adjust_amount")
-	public ResBodyData accountAdjustAmount(@RequestBody @Valid RequestAccountAdjustAmount model) {
+	public ResBodyData accountAdjustAmount(@Valid RequestAccountAdjustAmount model) {
 		logger.info("收到账户余额调增调减API请求  ：{}",model.toString());
-		return accountAdjustService.accountAdjustAmount(model);
+		try {
+			return accountAdjustService.accountAdjustAmount(model);
+		} catch (MdSysException e) {
+			throw new ApiException(ConstApiStatus.SYSTEM_ERROR);
+		}
 	}
 	
 	/**

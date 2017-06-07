@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.usercenter.constant.ConstApiStatus;
 import com.meiduimall.application.usercenter.constant.ConstSysParamsDefination;
-import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdSysException;
 
 /**

@@ -1,5 +1,7 @@
 package com.meiduimall.service.account.service;
 
+import java.util.List;
+
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.model.MSConsumePointsFreezeInfo;
 
@@ -25,6 +27,13 @@ public interface ConsumePointsFreezeInfoService {
 	 * @throws MdSysException 系统异常
 	 */
 	void insertConsumePointsFreezeInfo(MSConsumePointsFreezeInfo model, String feezeType) throws MdSysException;
+	
+	/**
+	 * 根据订单号查询积分冻结解冻列表
+	 * @param orderId 订单号
+	 * @return 积分冻结解冻列表
+	 */
+	public List<MSConsumePointsFreezeInfo> getRecordsByOrderId(String orderId);
 	
 	
 }

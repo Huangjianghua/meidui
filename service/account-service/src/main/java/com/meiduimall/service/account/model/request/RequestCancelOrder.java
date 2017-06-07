@@ -2,6 +2,9 @@ package com.meiduimall.service.account.model.request;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -23,6 +26,8 @@ public class RequestCancelOrder extends RequestBaseModel implements Serializable
 	/**订单状态 1未支付 2已支付*/
 	@JsonProperty("order_status")
 	@NotEmpty(message="订单状态不能为空")
+	@Min(1)
+	@Max(2)
 	private Integer orderStatus;
 
 	public String getOrderId() {

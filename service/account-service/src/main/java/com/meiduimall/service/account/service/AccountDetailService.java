@@ -3,6 +3,7 @@ package com.meiduimall.service.account.service;
 import java.util.Date;
 
 import com.meiduimall.exception.MdSysException;
+import com.meiduimall.service.account.model.MSAccountDetail;
 
 /**
  * 账户明细操作接口
@@ -121,5 +122,11 @@ public interface AccountDetailService {
 			String orderSource, String inConsumePoints,
 			String outConsumePoints, String balancePoints, String operatorType,
 			String operator, String remark);
+
+	/**
+	 * 插入账户明细信息
+	 * @param model 账户明细表ms_account_detail实体类
+	 */
+	void insertAccountDetail(MSAccountDetail model);
 	
 }

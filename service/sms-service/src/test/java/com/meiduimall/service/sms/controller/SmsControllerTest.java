@@ -555,6 +555,24 @@ public class SmsControllerTest {
 				System.out.println("testCheckSmsVerificationCode_01****results2*****" + result.getResponse().getContentAsString());
 			}
 		});
+		
+		// 4、第二次校验校验验证码--验证码已过期
+		ResultActions results3 = mockMvc.perform(
+				MockMvcRequestBuilders.post("/notify/short_msg_service/v1/new/check_sms_verification_code")
+				.param("phones", phone)
+				.param("templateId", templateId)
+				.param("sysKey", sysKey)
+				.param("type", type)
+				.param("verificationCode", verificationCode))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.status",is(7005)));
+
+		results3.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("testCheckSmsVerificationCode_01****results3*****" + result.getResponse().getContentAsString());
+			}
+		});
 	}
 	
 	// 校验验证码--验证码错误
@@ -599,7 +617,7 @@ public class SmsControllerTest {
 		});
 	}
 
-	// 校验验证码--验证码已过期
+	// 校验验证码--验证码已过期(未发送该验证码)
 	@Test
 	public void testCheckSmsVerificationCode_03() throws Exception {
 		ResultActions results = mockMvc.perform(

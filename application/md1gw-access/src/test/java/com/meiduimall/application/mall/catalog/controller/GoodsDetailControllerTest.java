@@ -1,4 +1,4 @@
-package com.meiduimall.application.mall.catalog.controller.test;
+package com.meiduimall.application.mall.catalog.controller;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -8,7 +8,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import com.meiduimall.application.mall.catalog.test.BaseTest;
+import com.meiduimall.application.mall.catalog.BaseTest;
 
 
 /**

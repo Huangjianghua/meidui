@@ -1,5 +1,7 @@
 package com.meiduimall.service.account.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,13 +37,17 @@ public class ConsumePointsFreezeInfoServiceImpl implements ConsumePointsFreezeIn
 
 	@Override
 	public void insertConsumePointsFreezeInfo(MSConsumePointsFreezeInfo model,String freezeType) throws MdSysException {
+		//积分余额
 		String pointsBalance=null;
 		if(ConstPointsChangeType.POINTS_FREEZE_TYPE_DJ.getCode().equals(freezeType)){
+			//计算出冻结后的积分余额，如果是冻结就相减
 			pointsBalance = String.valueOf(DoubleCalculate.sub(accountReportService.getAvailablePoints(model.getMemId()), 
 					Double.valueOf(model.getMcpfConsumePoints())));
+			//如果是冻结，则冻结积分存负数
 			model.setMcpfConsumePoints(ConstSpecialSymbol.SUB+model.getMcpfConsumePoints());
 		}
 		else if (ConstPointsChangeType.POINTS_FREEZE_TYPE_JD.getCode().equals(freezeType)) {
+			//计算出解冻后的积分余额，如果是解冻就相加
 			pointsBalance = String.valueOf(DoubleCalculate.add(accountReportService.getAvailablePoints(model.getMemId()), 
 					Double.valueOf(model.getMcpfConsumePoints())));
 		}
@@ -50,6 +56,11 @@ public class ConsumePointsFreezeInfoServiceImpl implements ConsumePointsFreezeIn
 		}
 		model.setMcpfConsumePointsBalance(pointsBalance);
 		baseDao.insert(model,"MSAccountMapper.insertConsumePointsFreezeInfo");
+	}
+
+	@Override
+	public List<MSConsumePointsFreezeInfo> getRecordsByOrderId(String orderId) {
+		return baseDao.selectList(orderId,"getRecordsByOrderId.MSConsumePointsFreezeInfoMapper");
 	}
 
 }

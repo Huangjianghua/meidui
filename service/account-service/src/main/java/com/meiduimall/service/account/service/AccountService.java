@@ -34,7 +34,7 @@ public interface AccountService {
 	 * @param memId 会员ID
 	 * @return 账户信息实体
 	 */
-	MSAccount getAccountInfo(String memId);
+	List<MSAccount> getAccountInfo(String memId);
 	
 	/**
 	 * 插入当前会员对应类型的账户信息

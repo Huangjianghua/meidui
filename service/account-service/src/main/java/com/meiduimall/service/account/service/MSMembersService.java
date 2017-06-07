@@ -23,7 +23,17 @@ public interface MSMembersService {
 	 */
 	public ResponseAccountBalance getAccountBalance(String memId);
 	
+	/**
+	 * 根据memId检查用户是否存在
+	 * @param memId 会员ID
+	 * @return 存在返回true,不存在返回false
+	 */
 	public boolean checkUserIsExistByMemId(String memId);
 
+	/**
+	 * 查询个人消费管理信息接口
+	 * @param memId 会员ID
+	 * @return ResBodyData结果对象
+	 */
 	public ResBodyData personalConsumptionPoints(String memId);
 }

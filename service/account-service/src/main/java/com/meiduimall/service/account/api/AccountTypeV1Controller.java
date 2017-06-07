@@ -40,10 +40,10 @@ public class AccountTypeV1Controller {
 	
 	/**查询财务调整相关的账户类型信息*/
 	@RequestMapping("/list_account_type")
-	public ResBodyData getAccountTypeList() {
+	public ResBodyData getCwtzAccountTypeList() {
 		List<MSAccountType> mSAccountType = null;
 		try {
-			mSAccountType = accountTypeService.getAccountTypeList();
+			mSAccountType = accountTypeService.getCwtzAccountTypeList();
 		} catch (DaoException e) {
 			logger.info("查询所有账户类型异常：{}", e);
 			throw new ApiException(ConstApiStatus.QUERY_WALLETTYPE_EXCEPTION);

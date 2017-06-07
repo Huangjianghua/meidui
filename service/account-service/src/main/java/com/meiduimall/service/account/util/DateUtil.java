@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import com.meiduimall.exception.MdSysException;
+import com.meiduimall.service.account.constant.ConstApiStatus;
+
 public final class DateUtil {
 
 	public static final String YYYY = "yyyy";
@@ -1113,6 +1116,24 @@ public final class DateUtil {
 	 */
 	public static final int subSecond(Date a, Date b) {
 		return (int) (a.getTime() / (1000) - b.getTime() / (1000));
+	}
+	
+	/**
+	 * 时间戳转Date
+	 * @param timestamp 时间戳
+	 * @return 解析后的date对象
+	 * @throws MdSysException 系统异常
+	 */
+	public static final Date timestampToDate(Long timestamp) throws MdSysException {
+	    SimpleDateFormat format =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	    String dStr = format.format(timestamp);  
+	    Date date = null;
+		try {
+			date = format.parse(dStr);
+			return date;
+		} catch (ParseException e) {
+			throw new MdSysException(ConstApiStatus.DATE_PARSE_EXCEPTION);
+		}	    
 	}
 	
 }

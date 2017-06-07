@@ -1,4 +1,4 @@
-package com.meiduimall.service.catalog.controller.test;
+package com.meiduimall.service.catalog.controller;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -8,7 +8,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import com.meiduimall.service.catalog.test.BaseTest;
+import com.meiduimall.service.catalog.BaseTest;
 
 public class CouponControllerTest extends BaseTest {
 	

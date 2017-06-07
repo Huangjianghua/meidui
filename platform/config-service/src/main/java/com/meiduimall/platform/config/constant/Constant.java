@@ -14,7 +14,7 @@ public class Constant {
 	 * git 提交用户
 	 */
 	public static final String GIT_COMMINT_USER="jianhua.huang@meiduimall.com";
-	/**
+	/** 
 	 * git 提交用户密码
 	 */
 	public static final String GIT_COMMINT_USER_PASSWORD="huang.123";

@@ -10,12 +10,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.meiduimall.application.mall.catalog.annotation.HasToken;
+import com.meiduimall.application.mall.catalog.config.ProfileConfig;
 import com.meiduimall.application.mall.catalog.constant.MallApiCode;
 import com.meiduimall.application.mall.catalog.constant.MallConstant;
 import com.meiduimall.application.mall.catalog.entity.MemIdResult;
@@ -30,7 +30,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 	private static Logger logger = LoggerFactory.getLogger(TokenInterceptor.class);
 
 	@Autowired
-	private Environment env;
+	private ProfileConfig profileConfig;
 
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
@@ -102,12 +102,13 @@ public class TokenInterceptor implements HandlerInterceptor {
 	 */
 	private boolean checkToken(HttpServletRequest request, String token) {
 
-		String host = env.getProperty("member-access.host");
+		String host = profileConfig.getMemberAccessHost();
 		String uri = MallConstant.ACCESS_MEMBER_BASE_URL + "/get_memid_by_token";
 		String url = host + uri + "?token=" + token;
 
 		String result = "";
 		try {
+			logger.info("根据token获取memId：" + url);
 			result = HttpUtils.get(url);
 		} catch (IOException e) {
 			logger.info("根据token获取memId，请求会员系统异常：" + e);

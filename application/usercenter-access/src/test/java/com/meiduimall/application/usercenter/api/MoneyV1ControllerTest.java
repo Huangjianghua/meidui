@@ -1,4 +1,4 @@
-/*package com.meiduimall.application.usercenter.api;
+package com.meiduimall.application.usercenter.api;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -21,16 +21,16 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.meiduimall.application.usercenter.constant.ConstApiStatus;
 import com.meiduimall.core.util.JsonUtils;
 
-*//**
+/**
  * 余额相关接口{@link=MoneyV1Controller}
  * @author chencong
  *
- *//*
+ */
 public class MoneyV1ControllerTest extends BaseControllerTest {
 	
 	private final static Logger logger=LoggerFactory.getLogger(MoneyV1ControllerTest.class);
 	 
-	*//**余额流水（分页）
+	/**余额流水（分页）
 	 * @throws Exception *//*
     @Test
     public void test001ListAccountDetail() throws Exception{
@@ -76,24 +76,28 @@ public class MoneyV1ControllerTest extends BaseControllerTest {
 		});
     }
 	
-    *//**
+    */
+	
+	/**
      * 获取会员账户余额和积分余额
      * @throws Exception
-     *//*
+     */
     @Test
-    public void getAccountBalanceForApp_test01() throws Exception {
+    public void testGetAccountBalanceForApp_01() throws Exception {
+    	
     	ResultActions results = mockMvc.perform(
 				MockMvcRequestBuilders.post(baseUrl + "/getAccountBalanceForApp")
-				.param("token", "a0db1419"))
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+				.param("token", "c668adee62e84cb6cee687b00bed7dc3"))
 				.andExpect(status().isOk());
+    	
+//    	results.andExpect(jsonPath("$.status",is(0)));
 
 		results.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				System.out.println("getAccountBalanceForApp_test01*********" + result.getResponse().getContentAsString());
+				System.out.println("testGetAccountBalanceForApp_01*********" + result.getResponse().getContentAsString());
 			}
 		});
     }
 }
-
-*/

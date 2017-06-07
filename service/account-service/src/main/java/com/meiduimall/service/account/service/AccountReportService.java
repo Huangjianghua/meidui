@@ -13,30 +13,30 @@ public interface AccountReportService {
 	/**
 	 * 根据memId获取当前会员的MSAccountReport对象，该对象包含总余额和冻结余额
 	 * @param memId 会员ID
-	 * @return
+	 * @return 会员账户报表实体类
 	 */
 	MSAccountReport getTotalAndFreezeBalanceByMemId(String memId);
 	
 	/**
 	 * 根据memId获取当前会员可用总余额
 	 * @param memId 会员ID
-	 * @return
+	 * @return 当前会员可用总余额
 	 */
 	Double getAvailableBalance(String memId);
 
 	/**
 	 * 根据memId获取当前会员可用总积分
 	 * @param memId 会员ID
-	 * @return
-	 * @throws MdSysException 
+	 * @return 当前会员可用总积分
+	 * @throws MdSysException 系统异常
 	 */
 	Double getAvailablePoints(String memId) throws MdSysException;
 
 	/**
 	 * 根据memId获取当前会员非冻结解冻的积分
 	 * @param memId 会员ID
-	 * @return
-	 * @throws MdSysException
+	 * @return 当前会员非冻结解冻的积分
+	 * @throws MdSysException 系统异常
 	 */
 	Double getCurrentPointsByMemId(String memId) throws MdSysException;
 }

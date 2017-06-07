@@ -27,7 +27,7 @@ public class AccountFreezeDetailServiceImpl implements AccountFreezeDetailServic
 
 	@Override
 	public List<MSAccountFreezeDetail> getRecordsByOrderId(String orderId) {
-		return baseDao.selectList(orderId,"MSAccountFreezeDetailMapper.getRecordsByOrderId");
+		return baseDao.selectList(orderId,"MSAccountFreezeDetailMapper.getRecordsByCondition");
 	}
 
 

@@ -134,7 +134,8 @@ public class WeixinServiceImpl implements WeixinService {
 	 * @param model
 	 *            封装参数
 	 */
-	private void getMemberInfo(WXMsgOnPaySuccessRequest model) {
+	@Override
+	public void getMemberInfo(WXMsgOnPaySuccessRequest model) {
 		String memSerUrl = profileConfig.getMemberServiceHost() + "/member/member_service/v1/getOpenIDByPhone?phone="
 				+ model.getPhone();
 		String result = null;

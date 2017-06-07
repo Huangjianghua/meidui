@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
 
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.dao.BaseDao;
+import com.meiduimall.service.account.model.MSAccountDetail;
 import com.meiduimall.service.account.service.AccountDetailService;
 import com.meiduimall.service.account.service.AccountReportService;
-import com.meiduimall.service.account.service.AccountService;
 import com.meiduimall.service.account.util.DateUtil;
 import com.meiduimall.service.account.util.DoubleCalculate;
 
@@ -33,10 +33,12 @@ public class AccountDetailServiceImpl implements AccountDetailService{
 	private BaseDao baseDao;
 	
 	@Autowired
-	private AccountService accountServices;
-	
-	@Autowired
 	private AccountReportService accountReportService;
+	
+	@Override
+	public void insertAccountDetail(MSAccountDetail model) {
+		baseDao.insert(model,"MSAccountDetailMapper.insertAccountDetail");
+	}
 	
 	@Override
 	public void saveAddAccountDetail(String memId, String orderId,

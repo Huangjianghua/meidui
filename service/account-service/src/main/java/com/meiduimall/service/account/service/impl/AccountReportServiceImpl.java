@@ -58,5 +58,4 @@ public class AccountReportServiceImpl implements AccountReportService {
 		return Double.valueOf(DESC.deyption(currentPoints,memId));
 	}
 
-
 }
