@@ -3,6 +3,7 @@ package com.meiduimall.service.member.model.response;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.member.util.DESC;
 import com.meiduimall.service.member.util.DoubleCalculate;
@@ -20,14 +21,15 @@ public class ResponseMemberBasicInfo implements Serializable{
 	/**会员id*/
 	private String memId;
 	
+	/**会员总积分（包括冻结解冻的积分）*/
+	private String totalPoints;
+
 	/**会员当前积分总额（不包括冻结解冻的积分）*/
-	private String currentpoints;
+	@JsonProperty("available_points")
+	private String availablePoints;
 	
 	/**会员余额总额*/
 	private String totalmoney;
-	
-	/**会员积分总额（包括冻结解冻的积分）*/
-	private String totalpoints;
 
 	/**登录名*/
 	private String login_name;
@@ -115,12 +117,12 @@ public class ResponseMemberBasicInfo implements Serializable{
 		this.email =DESC.deyption(email);
 	}
 
-	public String getCurrentpoints() {
-		return currentpoints;
+	public String getAvailablePoints() {
+		return availablePoints;
 	}
 
-	public void setCurrentpoints(String currentpoints)throws MdSysException {
-		this.currentpoints = DoubleCalculate.getFormalValueTwo(DESC.deyption(currentpoints,memId));
+	public void setAvailablePoints(String availablePoints)throws MdSysException {
+		this.availablePoints = availablePoints;
 	}
 	
 	public String getTotalmoney() {
@@ -132,11 +134,11 @@ public class ResponseMemberBasicInfo implements Serializable{
 	}
 	
 	public String getTotalpoints() {
-		return totalpoints;
+		return totalPoints;
 	}
 
-	public void setTotalpoints(String totalpoints) {
-		this.totalpoints = totalpoints;
+	public void setTotalpoints(String totalpoints) throws MdSysException {
+		this.totalPoints = DoubleCalculate.getFormalValueTwo(DESC.deyption(totalPoints,memId));
 	}
 
 	public String getNick_name() {
@@ -245,10 +247,11 @@ public class ResponseMemberBasicInfo implements Serializable{
 		this.login_name =DESC.deyption(login_name);
 	}
 
+
 	@Override
 	public String toString() {
-		return "MemberBasicInfoDTO [memId=" + memId + ", currentpoints=" + currentpoints + ", totalmoney=" + totalmoney
-				+ ", totalpoints=" + totalpoints + ", login_name=" + login_name + ", nick_name=" + nick_name
+		return "MemberBasicInfoDTO [memId=" + memId + ", totalPoints=" + totalPoints + ", totalmoney=" + totalmoney
+				+ ", login_name=" + login_name + ", nick_name=" + nick_name
 				+ ", phone=" + phone + ", pic_url=" + pic_url + ", email=" + email + ", birthday=" + birthday + ", sex="
 				+ sex + ", name=" + name + ", registertime=" + registertime + ", memRegYear=" + memRegYear
 				+ ", memRegMonth=" + memRegMonth + ", memRegDay=" + memRegDay + ", memAddressShengShiQu="

@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.MdSysException;
-import com.meiduimall.service.member.constant.ApiStatusConst;
 import com.meiduimall.service.member.model.MSMemberMobileArea;
 import com.meiduimall.service.member.model.request.RequestGetMemberBasicInfo;
 import com.meiduimall.service.member.service.UserInfoService;
@@ -33,9 +31,10 @@ public class UserInfoV1Controller{
 	@Autowired
 	private UserInfoService userInfoService;
 	
-	/**根据memId获取会员基本信息*/
+	/**根据memId获取会员基本信息
+	 * @throws MdSysException */
 	@GetMapping(value = "/get_member_basic_info")
-	ResBodyData getmemberbasicinfo(@Valid RequestGetMemberBasicInfo requestGetMemberBasicInfo) {
+	ResBodyData getmemberbasicinfo(@Valid RequestGetMemberBasicInfo requestGetMemberBasicInfo) throws MdSysException {
 		String memId=requestGetMemberBasicInfo.getMemId();
 		logger.info("收到会员：{}获取基本信息API请求",memId);
 		ResBodyData resBodyData = userInfoService.getBasicInfoByMemId(memId);

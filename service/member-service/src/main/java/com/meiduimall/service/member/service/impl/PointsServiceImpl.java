@@ -17,7 +17,7 @@ public class PointsServiceImpl implements PointsService {
 	@Autowired
 	private BaseDao baseDao;
 	
-	public String getTotalPoints(String memId,String currentPoints) {
+	public String getAvailablePoints(String memId,String currentPoints) {
 		Double avaliablePoints = Double.valueOf("0");
 		try{
 			/**冻结解冻的积分总额*/

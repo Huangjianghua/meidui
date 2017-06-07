@@ -66,7 +66,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 	ServiceUrlProfileConfig serviceUrlProfileConfig;
 
 	@Override
-	public ResBodyData getBasicInfoByMemId(String memId) {
+	public ResBodyData getBasicInfoByMemId(String memId) throws MdSysException {
 		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
 		ResponseMemberBasicInfo memberBasicInfo=baseDao.selectOne(memId,"MSMembersMapper.getRespMemberBasicInfoByMemId");//根据memId查询会员基本信息
 		if(memberBasicInfo==null){//如果不存在这个会员
@@ -103,7 +103,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 		
 		/**会员基本信息添加积分总额（包含冻结解冻的积分）和余额总额*/
 		memberBasicInfo.setTotalmoney(moneyService.getTotalMoney(memId));
-		memberBasicInfo.setTotalpoints(pointsService.getTotalPoints(memId,memberBasicInfo.getCurrentpoints()));
+		memberBasicInfo.setAvailablePoints(pointsService.getAvailablePoints(memId,memberBasicInfo.getTotalpoints()));
 		
 		resBodyData.setData(memberBasicInfo);
 		return resBodyData;

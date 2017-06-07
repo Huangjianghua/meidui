@@ -32,7 +32,7 @@
 		m.mem_phone AS phone,
 		m.mem_nick_name AS nick_name,
 		m.mem_created_date AS registertime,
-	    m.mem_basic_account_total_quantity AS currentpoints,
+	    m.mem_basic_account_total_quantity AS totalPoints,
 	    m.mem_pic AS pic_url,
 		m.mem_email AS email,
 		m.mem_birthday AS birthday,
