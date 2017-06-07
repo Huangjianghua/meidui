@@ -475,12 +475,12 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			//step3
 			updateAccountBalanceReport(account.getAccountTypeNo(),-accountType.getWithdrawAmount(),account.getMemId(),ConstSysParamsDefination.BALANCE_UPDATE_OPERATE);
 			//step4记录账号余额明细   
-			accountDetailService.saveCutAccountDetail(account.getMemId(),withdrawDeposit.getBusinessNo(),account.getAccountNo(),"",
+			accountDetailService.saveCutAccountDetail(null,withdrawDeposit.getBusinessNo(),account.getAccountNo(),"",
 					ConstTradeType.TRADE_TYPE_YETX.getCode(),String.valueOf(accountType.getWithdrawAmount()),
 					 new Date(),String.valueOf(account.getBalance()),  ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
 			//手续费
 			Double free=DoubleCalculate.mul(accountType.getWithdrawAmount(), account.getWithdrawPoundageScale());
-			accountDetailService.saveCutAccountDetail(account.getMemId(),withdrawDeposit.getBusinessNo(),account.getAccountNo(),"",
+			accountDetailService.saveCutAccountDetail(null,withdrawDeposit.getBusinessNo(),account.getAccountNo(),"",
 					ConstTradeType.TRADE_TYPE_TXSX.getCode(),String.valueOf(free),
 					 new Date(), String.valueOf(account.getBalance()), ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);
 		}

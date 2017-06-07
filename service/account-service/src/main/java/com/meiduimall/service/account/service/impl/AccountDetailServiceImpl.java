@@ -75,15 +75,15 @@ public class AccountDetailServiceImpl implements AccountDetailService{
 		paramsMap.put("accountNo", accountId);
 		paramsMap.put("tradeType", tradeType);
 		paramsMap.put("tradeAmount", Double.valueOf(tradeAmount));
-		paramsMap.put("inOrOut", "-1");
+		paramsMap.put("inOrOut", -1);
 		paramsMap.put("remark", remark);
 		paramsMap.put("createUser", "system");
-		paramsMap.put("createDate", new Date());
+		paramsMap.put("createDate", DateUtil.format(tradeDate,DateUtil.YYYY_MM_DD_HH_MM_SS));
 		paramsMap.put("updateUser", "system");
-		paramsMap.put("updateDate", new Date());
-		paramsMap.put("balance", balance);
+		paramsMap.put("updateDate", DateUtil.format(tradeDate,DateUtil.YYYY_MM_DD_HH_MM_SS));
+		paramsMap.put("balance", Double.valueOf(balance));
 		paramsMap.put("businessNo", orderId);
-		paramsMap.put("tradeDate", DateUtil.format(tradeDate,DateUtil.YYYY_MM_DD_HH_MM_SS));
+		paramsMap.put("tradeDate", tradeDate);
 		try {
 			baseDao.insert(paramsMap, "MSAccountDetailMapper.insertAccountDetail");
 		} catch (Exception e) {
