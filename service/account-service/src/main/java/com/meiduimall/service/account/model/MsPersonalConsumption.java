@@ -3,6 +3,8 @@ package com.meiduimall.service.account.model;
 import java.util.Date;
 
 public class MsPersonalConsumption {
+	
+	
     private String id;
 
     private String memId;

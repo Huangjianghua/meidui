@@ -48,6 +48,12 @@ public class SmsServiceImpl implements SmsService {
 	private SmsSendHistoryMapper smsSendHistoryMapper;
 
 	@Override
+	public long getSmsMessageTTL(SendMessageRequest model) {
+		String redisKey = model.getPhones() + model.getTemplateId() + model.getParams();
+		return RedisUtils.ttl(redisKey);
+	}
+
+	@Override
 	public ResBodyData sendSmsMessage(SendMessageRequest model) {
 
 		// redis存取数据时，使用的key
@@ -163,6 +169,13 @@ public class SmsServiceImpl implements SmsService {
 			throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER);
 		}
 		return res;
+	}
+
+	@Override
+	public long getSmsVerificationCodeTTL(SendCodeRequest model) {
+		String redisKey = model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId() + model.getType()
+				+ model.getSysKey();
+		return RedisUtils.ttl(redisKey);
 	}
 
 	@Override
@@ -313,13 +326,13 @@ public class SmsServiceImpl implements SmsService {
 			logger.info(model.getPhones() + "验证码已过期: " + model.getVerificationCode());
 			throw new ServiceException(SmsApiCode.SMS_VALID_CODE_EXPIRED);
 		}
-		
+
 		// 切割字符串，取出验证码 916817##1494323395427
 		String[] split = tempVerificationCode.split(SysConstant.CODE_SPLIT_KEY);
 		if (split != null && split.length > 0) {
 			tempVerificationCode = split[0];
 		}
-		
+
 		if (!StringUtils.equalsIgnoreCase(model.getVerificationCode().trim(), tempVerificationCode)) {
 			logger.info(model.getPhones() + "验证码不匹配: " + model.getVerificationCode());
 			throw new ServiceException(SmsApiCode.SMS_VALID_CODE_UNMATCHED);

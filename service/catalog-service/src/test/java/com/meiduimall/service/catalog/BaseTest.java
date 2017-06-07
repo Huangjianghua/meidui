@@ -1,4 +1,4 @@
-package com.meiduimall.service.sms.test;
+package com.meiduimall.service.catalog;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +18,7 @@ import org.springframework.web.context.WebApplicationContext;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @WebAppConfiguration
-@ActiveProfiles(value="junit")
+@ActiveProfiles(value="dev")
 @Transactional
 public class BaseTest {
 	

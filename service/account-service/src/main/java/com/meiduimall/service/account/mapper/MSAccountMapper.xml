@@ -131,15 +131,95 @@
 		WHERE mem_id=#{memId}
 	</update>
 
+	<!-- 根据条件查询订单记录 -->
+	<select id="queryListMSAccount" parameterType="com.meiduimall.service.account.model.request.RequestMSAccountList" resultType="com.meiduimall.service.account.model.MSAccountList">
+			SELECT
+				msm.mem_id AS memId,
+				msm.mem_login_name as memLoginName,/**会员账号*/
+				msm.mem_phone AS memPhone,/**会员手机*/
+				msm.dict_mem_status as status,/**会员状态*/
+				(select mem_phone from ms_members where mem_id=msm.mem_parent_id) memParentIdPhone,/**推荐人手机号 */
+				msm.mem_sign_source AS memSignSource, /**注册来源 */
+				DATE_FORMAT(msm.mem_created_date,'%Y-%m-%d %H:%i:%s') as memRegTime,/**会员注册时间  */
+				DATE_FORMAT(msm.mem_last_login_time,'%Y-%m-%d %H:%i:%s') as pfLastLoginTime,/**会员最近一次登陆时间  */
+				(SELECT ROUND(IFNULL(msar.balance,0.0)-IFNULL(msar.freeze_balance,0.0),2) FROM  ms_account_report msar where msar.mem_id=msm.mem_id) as mchBalanceCount, /**可用余额  */
+			    (SELECT IFNULL(msar.freeze_balance,0.0) as freeze_balance  FROM  ms_account_report msar where msar.mem_id=msm.mem_id) as mchFreezeBalanceCount,  /**冻结余额  */
+	  			IFNULL(msm.mem_basic_account_total_quantity,0.0) as mchPointsBalanceCount,/**可用积分=总积分-冻结积分  */
+	  			(select SUM(mcpf_consume_points) from ms_consume_points_freeze_info where mem_id=msm.mem_id) as mchFreezePointsCount /**冻结积分  */
+			FROM
+				ms_members msm
+		<where>
+		    <if test="memId !=null and memId !=''">
+				AND msm.mem_id=#{memId}
+			</if>
+			<if test="memLoginName !=null and memLoginName !=''">
+				AND msm.mem_login_name=#{memLoginName}
+			</if>
+			<if test="memPhone !=null and memPhone !=''">
+				AND msm.mem_phone=#{memPhone}
+			</if>
+			<if test="status !=null and status !=''">
+				AND msm.dict_mem_status=#{status}
+			</if>
+			<if test="memSignSource !=null and memSignSource !=''">
+				AND mem_sign_source=#{memSignSource}
+			</if>
+			<if test="memRegTimeBegin !=null and memRegTimeBegin !=''">
+				AND msm.mem_created_date &gt;= #{memRegTimeBegin}
+			</if>
+			<if test="memRegTimeEnd !=null and memRegTimeEnd !=''">
+				AND msm.mem_created_date &lt;= #{memRegTimeEnd}
+			</if>
+			<if test="lastLoginTimeBegin !=null and lastLoginTimeBegin !=''">
+				AND msm.mem_last_login_time &gt;= #{lastLoginTimeBegin}
+			</if>
+			<if test="lastLoginTimeEnd !=null and lastLoginTimeEnd !=''">
+				AND msm.mem_last_login_time &lt;= #{lastLoginTimeEnd}
+			</if>
+			 <if test="memParentIdPhone !=null and memParentIdPhone !=''">
+				AND msm.mem_parent_id in (SELECT mem_id FROM ms_members WHERE mem_phone=#{memParentIdPhone}) 
+			</if>
+		 </where>
+	</select>
 	
-	<!--  根据memId与账户类型修改账户余额，包含冻结与非冻结的  2017-02-23 dengbibo  -->
-<!-- 	<update id="updateAccount" parameterType="java.util.Map">
-		update ms_account
-		   set balance = #{balance},
-		       freeze_balance = #{freezeBalance},
-		       update_date = now()
-		 where id = #{id}
-		   and type = #{accountType}
-	</update> -->
+	<!-- 根据条件查询订单记录 -->
+	<select id="queryListMSAccountCount" parameterType="com.meiduimall.service.account.model.request.RequestMSAccountList" resultType="Integer">
+			SELECT
+				count(1)
+			FROM
+				ms_members msm
+		<where>
+		    <if test="memId !=null and memId !=''">
+				AND msm.mem_id=#{memId}
+			</if>
+			<if test="memLoginName !=null and memLoginName !=''">
+				AND msm.mem_login_name=#{memLoginName}
+			</if>
+			<if test="memPhone !=null and memPhone !=''">
+				AND msm.mem_phone=#{memPhone}
+			</if>
+			<if test="status !=null and status !=''">
+				AND msm.dict_mem_status=#{status}
+			</if>
+			<if test="memSignSource !=null and memSignSource !=''">
+				AND mem_sign_source=#{memSignSource}
+			</if>
+			<if test="memRegTimeBegin !=null and memRegTimeBegin !=''">
+				AND msm.mem_created_date &gt;= #{memRegTimeBegin}
+			</if>
+			<if test="memRegTimeEnd !=null and memRegTimeEnd !=''">
+				AND msm.mem_created_date &lt;= #{memRegTimeEnd}
+			</if>
+			<if test="lastLoginTimeBegin !=null and lastLoginTimeBegin !=''">
+				AND msm.mem_last_login_time &gt;= #{lastLoginTimeBegin}
+			</if>
+			<if test="lastLoginTimeEnd !=null and lastLoginTimeEnd !=''">
+				AND msm.mem_last_login_time &lt;= #{lastLoginTimeEnd}
+			</if>
+			 <if test="memParentIdPhone !=null and memParentIdPhone !=''">
+				AND msm.mem_parent_id in (SELECT mem_id FROM ms_members WHERE mem_phone=#{memParentIdPhone}) 
+			</if>
+		 </where>
+	</select>
 	
 </mapper>

@@ -1,4 +1,4 @@
-/*package com.meiduimall.service.catalog.controller.test;
+package com.meiduimall.service.catalog.controller;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -8,21 +8,21 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import com.meiduimall.service.catalog.test.BaseTest;
+import com.meiduimall.service.catalog.BaseTest;
 
-*//**
+/**
  * Copyright (C), 2002-2017, 美兑壹购物 
  * FileName: GoodsDetailControllerTest.java
  * Author: yangchangfu 
  * Description: 商品信息查询测试类单元测试
- *//*
+ */
 public class GoodsDetailControllerTest extends BaseTest {
 
-	*//**
+	/**
 	 * 测试checkItemIsExist---正常测试
 	 * 
 	 * @throws Exception
-	 *//*
+	 */
 	@Test
 	public void checkItemIsExist_test_01() throws Exception {
 		ResultActions results = mockMvc.perform(
@@ -37,11 +37,11 @@ public class GoodsDetailControllerTest extends BaseTest {
 		});
 	}
 
-	*//**
+	/**
 	 * 测试checkItemIsExist---参数错误测试
 	 * 
 	 * @throws Exception
-	 *//*
+	 */
 	@Test
 	public void checkItemIsExist_test_02() throws Exception {
 		ResultActions results = mockMvc.perform(
@@ -56,11 +56,11 @@ public class GoodsDetailControllerTest extends BaseTest {
 		});
 	}
 
-	*//**
+	/**
 	 * 测试checkItemIsExist---商品不存在
 	 * 
 	 * @throws Exception
-	 *//*
+	 */
 	@Test
 	public void checkItemIsExist_test_03() throws Exception {
 		ResultActions results = mockMvc.perform(
@@ -75,11 +75,11 @@ public class GoodsDetailControllerTest extends BaseTest {
 		});
 	}
 
-	*//**
+	/**
 	 * getItemDetail----正常测试
 	 * 
 	 * @throws Exception
-	 *//*
+	 */
 	@Test
 	public void getItemDetail_test_01() throws Exception {
 		ResultActions results = mockMvc
@@ -95,11 +95,11 @@ public class GoodsDetailControllerTest extends BaseTest {
 		});
 	}
 
-	*//**
+	/**
 	 * getItemDetail----参数错误测试
 	 * 
 	 * @throws Exception
-	 *//*
+	 */
 	@Test
 	public void getItemDetail_test_02() throws Exception {
 		ResultActions results = mockMvc
@@ -115,11 +115,11 @@ public class GoodsDetailControllerTest extends BaseTest {
 		});
 	}
 
-	*//**
+	/**
 	 * getItemDetail----商品不存在
 	 * 
 	 * @throws Exception
-	 *//*
+	 */
 	@Test
 	public void getItemDetail_test_03() throws Exception {
 		ResultActions results = mockMvc
@@ -135,4 +135,3 @@ public class GoodsDetailControllerTest extends BaseTest {
 		});
 	}
 }
-*/

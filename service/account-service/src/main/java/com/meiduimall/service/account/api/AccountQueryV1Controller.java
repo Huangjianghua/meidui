@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,15 +24,12 @@ import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.MdBizException;
 import com.meiduimall.exception.MdSysException;
-import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.model.MSAccountDetail;
 import com.meiduimall.service.account.model.MSAccountDetailCondition;
 import com.meiduimall.service.account.model.MSAccountDetailGet;
 import com.meiduimall.service.account.model.MSAccountList;
 import com.meiduimall.service.account.model.request.RequestMSAccountList;
-import com.meiduimall.service.account.model.response.ResponseAccountBalance;
-import com.meiduimall.service.account.model.response.ResponseOldAccountBalance;
 import com.meiduimall.service.account.service.AccountReportService;
 import com.meiduimall.service.account.service.MSAccountDetailService;
 import com.meiduimall.service.account.service.MSMembersService;
@@ -147,6 +143,7 @@ public class AccountQueryV1Controller {
 	 */
 	@RequestMapping(value = "/list_account")
 	public ResBodyData listMSAccount(@RequestBody RequestMSAccountList msAccountListRequest) {
+		logger.info("收到根据条件查询会员列表API请求  ：{}",msAccountListRequest.toString());
 		Page<MSAccountList> pageInfo=null;
 		try{
 			pageInfo=mSAccountDetailService.listMSAccount(msAccountListRequest);
@@ -212,38 +209,9 @@ public class AccountQueryV1Controller {
 	}
 
 	*/
-	/**
-	 * 根据会员memId，获取会员账户余额和积分余额---兼容旧版
-	 * 
-	 * @param memId 会员Id
-	 * @return json串
-	 * @author yangchangfu
-	 * @throws MdSysException 
-	 */
-	@RequestMapping(value = "/getAccountBalanceForApp_old")
-	public String getAccountBalanceForApp_old(String memId) throws MdSysException {
-		ResponseOldAccountBalance result = new ResponseOldAccountBalance();
-		if (Strings.isNullOrEmpty(memId)) {
-			result.setStatusCode(String.valueOf(ConstApiStatus.REQUIRED_PARAM_EMPTY));
-			result.setResultMsg(ConstApiStatus.getZhMsg(ConstApiStatus.REQUIRED_PARAM_EMPTY));
-			return JsonUtils.beanToJson(result);
-		}
-		ResponseAccountBalance data = null;
-		try {
-			data = mSMembersService.getAccountBalance(memId);
-		} catch (ServiceException e) {
-			result.setStatusCode(String.valueOf(ConstApiStatus.USER_NOT_EXIST));
-			result.setResultMsg(ConstApiStatus.getZhMsg(ConstApiStatus.USER_NOT_EXIST));
-			return JsonUtils.beanToJson(result);
-		}
-		BeanUtils.copyProperties(data, result);
-		result.setStatusCode(String.valueOf(ConstApiStatus.SUCCESS));
-		result.setResultMsg(ConstApiStatus.SUCCESS_C);
-		return JsonUtils.beanToJson(result);
-	}
 
 	/**
-	 * 根据会员memId，获取会员账户余额和积分余额---按新接口规范
+	 * 根据会员memId，获取会员账户余额和积分余额(旧会员系统调用时，会对返回参数进行转换)
 	 * @param memId 会员Id
 	 * @return 结果数据
 	 * @author yangchangfu
@@ -262,7 +230,7 @@ public class AccountQueryV1Controller {
 	}
 	
 	/**
-	 * 查询个人消费管理信息接口--该接口不需要做旧版兼容
+	 * 查询个人消费管理信息接口--该接口不需要做旧版兼容(旧的调用还是走旧会员系统业务逻辑)
 	 * @param memId 会员Id
 	 * @return 结果数据
 	 * @author yangchangfu

@@ -130,7 +130,7 @@ public class YamlUtil {
 			 String fileName=typeConfig+configName; //文件名称
 			 logger.info("operateYml开始操作配置文件信息,文件名称:{}",fileName);
 			 //step1 创建文件
-			 yaml.dump(object, new FileWriter(srcResourceUrl+fileName));
+			 yaml.dump(object, new FileWriter(projectURL+findSrcResourceUrl+fileName));
 			 //step2 Git相关操作
 			 asyncCommintGit(fileName);
 		} catch (Exception e) {
@@ -250,10 +250,11 @@ public class YamlUtil {
 			@Override
 			public void run() {
 				 //step2 提交到config service git服务器
-				 String configProjectURL=projectURL.substring(0,projectURL.indexOf(Constant.PROJECT_NAME));
-				 commintFilesToGitService(fileName,configProjectURL);
+				 //String configProjectURL=projectURL.substring(0,projectURL.indexOf(Constant.PROJECT_NAME));
+				 //commintFilesToGitService(fileName,configProjectURL);
 				 //step3 提交到service-config-repo
 				 String fileSourceUrl=projectURL+findSrcResourceUrl+fileName; //生成的文件 绝对路径
+				 logger.info("fileSourceUrl:{}",projectURL);
 				 try {
 					commintServiceConfigRepo(fileName,fileSourceUrl);
 				} catch (MdBizException | IOException e) {

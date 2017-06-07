@@ -43,10 +43,10 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public MSAccount getAccountInfo(String memId) {
+	public List<MSAccount> getAccountInfo(String memId) {
 		Map<String, Object> mapCondition=new HashMap<>();
 		mapCondition.put("memId",memId);
-		return baseDao.selectOne(mapCondition,"MSAccountMapper.getAccountByCondition");
+		return baseDao.selectList(mapCondition,"MSAccountMapper.getAccountByCondition");
 	}
 	
 	@Override
