@@ -1,11 +1,16 @@
 package com.meiduimall.service.account.model.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ResponsePersonalConsumptionPoints {
 
+	@JsonProperty("account_integral")
 	private String accountIntegral;// 个人账户积分
 
+	@JsonProperty("consum_money")
 	private String consumMoney;// 个人消费金额
 
+	@JsonProperty("child_persons")
 	private int childPersons;// 粉丝团人数
 
 	public String getAccountIntegral() {

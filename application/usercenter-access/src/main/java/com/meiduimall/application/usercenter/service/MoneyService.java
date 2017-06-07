@@ -31,9 +31,8 @@ public interface MoneyService {
 
 	/**
 	 * 获取会员账户余额和积分余额
-	 * @param reqJson
-	 * @return
-	 * @throws MdSysException 
+	 * @param reqJson 请求参数封装对象
+	 * @return 结果对象
 	 */
-	String getAccountBalanceForApp(JSONObject reqJson) throws MdSysException;
+	ResBodyData getAccountBalanceForApp(JSONObject reqJson);
 }

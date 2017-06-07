@@ -1,47 +1,33 @@
-/*package com.meiduimall.service.account.api;
+package com.meiduimall.service.account.api;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.MediaType;
-import org.springframework.test.annotation.Rollback;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import com.meiduimall.core.Constants;
-import com.meiduimall.core.util.JsonUtils;
-import com.meiduimall.exception.MdSysException;
-import com.meiduimall.service.account.constant.ConstApiStatus;
-import com.meiduimall.service.account.model.AddOrUpdateAccountReviseDetail;
-import com.meiduimall.service.account.model.MSAccountDetailCondition;
-import com.meiduimall.service.account.model.MSAccountDetailGet;
-import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
-import com.meiduimall.service.account.model.request.RequestAccountReviseDetail;
-import com.meiduimall.service.account.model.request.RequestMSBankWithDrawDepostie;
-import com.meiduimall.service.account.util.DESC;
-import com.meiduimall.service.account.util.DateUtil;
+import com.meiduimall.service.account.service.MSMembersService;
 
-import net.sf.json.JSONObject;
-
-*//**
+/**
  * 账户信息查询API{@link=AccountQueryV1Controller}单元测试
  * @author chencong
  *
- *//*
+ */
 public class AccountQueryV1ControllerTest extends BaseControllerTest {
 	
 	private final static Logger logger=LoggerFactory.getLogger(AccountQueryV1ControllerTest.class);
 	
-	*//**
+	@Autowired
+	private MSMembersService mSMembersService;
+	
+	/**
 	 * 查询当前会员可用余额
 	 * @author chencong
 	 * @throws Exception
@@ -323,80 +309,65 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 		System.out.println(DESC.encryption(s, "b9d78165-1483-42f7-a48c-fbfcc3b06431"));
 	}
 
-	*//**
+	*/
+	
+	/**
      * 查询个人消费管理信息接口
      * @throws Exception
-     *//*
+     */
     @Test
-	public void personalConsumptionPoints_test_01() throws Exception {
+	public void testPersonalConsumptionPoints_01() throws Exception {
+    	
+    	String memId = "68d1d796-ffa8-4a49-8f95-ec554eabe3d8";
+    	
+    	boolean isExist = mSMembersService.checkUserIsExistByMemId(memId);
+    	
 		ResultActions results = mockMvc.perform(
 				MockMvcRequestBuilders.post("/member/account_service/v1/personalConsumptionPoints")
-				.param("memId", "a0db1419-f44a-48e8-9394-a49620e47940"))
+				.param("memId", memId))
 				.andExpect(status().isOk());
+		
+		if(isExist){
+			results.andExpect(jsonPath("$.status",is(0)));
+		} else {
+			results.andExpect(jsonPath("$.status",is(7922)));
+		}
 
 		results.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				System.out.println("personalConsumptionPoints_test_01*********" + result.getResponse().getContentAsString());
+				System.out.println("testPersonalConsumptionPoints_01*********" + result.getResponse().getContentAsString());
 			}
 		});
 	}
     
-    *//**
-     * 查询个人消费管理信息接口---memId不存在
+    /**
+     * 根据会员memId，获取会员账户余额和积分余额
      * @throws Exception
-     *//*
+     */
     @Test
-	public void personalConsumptionPoints_test_02() throws Exception {
-		ResultActions results = mockMvc.perform(
-				MockMvcRequestBuilders.post("/member/account_service/v1/personalConsumptionPoints")
-				.param("memId", "a0db1419"))
-				.andExpect(status().isOk());
-
-		results.andDo(new ResultHandler() {
-			@Override
-			public void handle(MvcResult result) throws Exception {
-				System.out.println("personalConsumptionPoints_test_02*********" + result.getResponse().getContentAsString());
-			}
-		});
-	}
-    
-    *//**
-     * 根据会员memId，获取会员账户余额和积分余额---按新接口规范
-     * @throws Exception
-     *//*
-    @Test
-	public void getAccountBalanceForApp_test_01() throws Exception {
+	public void testGetAccountBalanceForApp_01() throws Exception {
+    	
+    	String memId = "68d1d796-ffa8-4a49-8f95-ec554eabe3d8";
+    	
+    	boolean isExist = mSMembersService.checkUserIsExistByMemId(memId);
+    	
 		ResultActions results = mockMvc.perform(
 				MockMvcRequestBuilders.post("/member/account_service/v1/getAccountBalanceForApp")
-				.param("memId", "a0db1419-f44a-48e8-9394-a49620e47940"))
+				.param("memId", memId))
 				.andExpect(status().isOk());
+				
+		if(isExist){
+			results.andExpect(jsonPath("$.status",is(0)));
+		} else {
+			results.andExpect(jsonPath("$.status",is(7922)));
+		}
 
 		results.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				System.out.println("getAccountBalanceForApp_test_01*********" + result.getResponse().getContentAsString());
-			}
-		});
-	}
-    
-    *//**
-     * 根据会员memId，获取会员账户余额和积分余额---兼容旧版
-     * @throws Exception
-     *//*
-    @Test
-	public void getAccountBalanceForApp_old_test_01() throws Exception {
-		ResultActions results = mockMvc.perform(
-				MockMvcRequestBuilders.post("/member/account_service/v1/getAccountBalanceForApp_old")
-				.param("memId", "a0db1419-f44a-48e8-9394-a49620e47940"))
-				.andExpect(status().isOk());
-
-		results.andDo(new ResultHandler() {
-			@Override
-			public void handle(MvcResult result) throws Exception {
-				System.out.println("getAccountBalanceForApp_old_test_01*********" + result.getResponse().getContentAsString());
+				System.out.println("testGetAccountBalanceForApp_01*********" + result.getResponse().getContentAsString());
 			}
 		});
 	}
 }
-*/
