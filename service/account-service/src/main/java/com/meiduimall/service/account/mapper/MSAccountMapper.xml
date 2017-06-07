@@ -174,13 +174,12 @@
 				msm.mem_sign_source AS memSignSource, /**注册来源 */
 				DATE_FORMAT(msm.mem_created_date,'%Y-%m-%d %H:%i:%s') as memRegTime,/**会员注册时间  */
 				DATE_FORMAT(msm.mem_last_login_time,'%Y-%m-%d %H:%i:%s') as pfLastLoginTime,/**会员最近一次登陆时间  */
-				ROUND(IFNULL(msar.balance,0.0)-IFNULL(msar.freeze_balance,0.0),2) as mchBalanceCount, /**可用余额  */
-	  			IFNULL(msar.freeze_balance,0.0)  as mchFreezeBalanceCount,   /**冻结余额  */
+				(SELECT ROUND(IFNULL(msar.balance,0.0)-IFNULL(msar.freeze_balance,0.0),2) FROM  ms_account_report msar where msar.mem_id=msm.mem_id) as mchBalanceCount, /**可用余额  */
+			    (SELECT IFNULL(msar.freeze_balance,0.0) as freeze_balance  FROM  ms_account_report msar where msar.mem_id=msm.mem_id) as mchFreezeBalanceCount,  /**冻结余额  */
 	  			IFNULL(msm.mem_basic_account_total_quantity,0.0) as mchPointsBalanceCount,/**可用积分=总积分-冻结积分  */
 	  			(select SUM(mcpf_consume_points) from ms_consume_points_freeze_info where mem_id=msm.mem_id) as mchFreezePointsCount /**冻结积分  */
 			FROM
 				ms_members msm
-			LEFT JOIN ms_account_report msar on (msar.mem_id=msm.mem_id)/**取类型为现金账号的数据  */
 		<where>
 		    <if test="memId !=null and memId !=''">
 				AND msm.mem_id=#{memId}
@@ -221,7 +220,6 @@
 				count(1)
 			FROM
 				ms_members msm
-			LEFT JOIN ms_account_report msar on (msar.mem_id=msm.mem_id)/**取类型为现金账号的数据  */
 		<where>
 		    <if test="memId !=null and memId !=''">
 				AND msm.mem_id=#{memId}
