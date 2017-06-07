@@ -164,7 +164,7 @@
 
 
 	<!-- 根据条件查询订单记录 -->
-<!-- 	<select id="queryListMSAccount" parameterType="com.meiduimall.service.account.model.request.RequestMSAccountList" resultType="com.meiduimall.service.account.model.MSAccountList">
+	<select id="queryListMSAccount" parameterType="com.meiduimall.service.account.model.request.RequestMSAccountList" resultType="com.meiduimall.service.account.model.MSAccountList">
 			SELECT
 				msm.mem_id AS memId,
 				msm.mem_login_name as memLoginName,/**会员账号*/
@@ -213,10 +213,10 @@
 				AND msm.mem_parent_id in (SELECT mem_id FROM ms_members WHERE mem_phone=#{memParentIdPhone}) 
 			</if>
 		 </where>
-	</select> -->
+	</select>
 	
 	<!-- 根据条件查询订单记录 -->
-<!-- 	<select id="queryListMSAccountCount" parameterType="com.meiduimall.service.account.model.request.RequestMSAccountList" resultType="Integer">
+	<select id="queryListMSAccountCount" parameterType="com.meiduimall.service.account.model.request.RequestMSAccountList" resultType="Integer">
 			SELECT
 				count(1)
 			FROM
@@ -254,6 +254,6 @@
 				AND msm.mem_parent_id in (SELECT mem_id FROM ms_members WHERE mem_phone=#{memParentIdPhone}) 
 			</if>
 		 </where>
-	</select> -->
+	</select>
 	
 </mapper>
