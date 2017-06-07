@@ -1,7 +1,6 @@
 package com.meiduimall.service.account.api;
 
 
-
 import java.math.BigDecimal;
 
 import javax.validation.Valid;
@@ -57,159 +56,14 @@ public class TradeV1Controller {
 	
 	/**
 	 * 会员取消订单
-	 * @param model
-	 * @return
-	 * @throws MdSysException
+	 * @author chencong
 	 */
 	@PostMapping(value="/cancel_order")
 	ResBodyData unfreezeDeduct(@Valid RequestCancelOrder model) throws MdSysException {
 		logger.info("收到会员取消订单API请求 ：{}",model.toString());
 		return tradeService.cancelOrder(model);
 	}
-	
 
-/*	@RequestMapping(value="/accountTradeCancel",method=RequestMethod.POST)
-	public void accountTradeCancel(){
-		final String title = "交易取消[accountTradeCancel] ";
-		final JSONObject resultJson = new JSONObject();
-		PrintWriter writer = null;
-		try {
-			response.setCharacterEncoding("UTF-8");
-			writer = response.getWriter();
-			
-			JSONObject requestJson = HttpClientUtil.readStreamToJsonObject(request);
-			Logger.info(inputMsgStr, title ,requestJson.toJSONString());
-			
-			resultJson.putAll(orderService.accountTradeCancel(requestJson));
-			
-			Logger.info(outputMsgStr, title ,resultJson.toJSONString());
-			
-			appendReturnJSON(resultJson);
-			
-			writer.print(resultJson.toJSONString());
-		} catch (Exception e) {
-			Logger.error(errMsgStr, title , e.getMessage());
-			writer.println(RuntimeExceptionProcess(e).toJSONString());
-		}
-	}
-	
-	*//**
-	 * 会员发起退款交易申请 <br/>
-	 * 当前业务系统库表未支持此类业务申请
-	 *//*
-	@RequestMapping(value="/accountTradeRefundApply",method=RequestMethod.POST)
-	public void accountTradeRefundApply(){
-		final String title = "会员发起退款交易申请[accountTradeRefundApply] ";
-		final JSONObject resultJson = new JSONObject();
-		PrintWriter writer = null;
-		try {
-			response.setCharacterEncoding("UTF-8");
-			writer = response.getWriter();
-			
-			JSONObject requestJson = HttpClientUtil.readStreamToJsonObject(request);
-			Logger.info(inputMsgStr, title ,requestJson.toJSONString());
-			
-			resultJson.putAll(orderService.accountTradeRefundAffirm(requestJson));
-			
-			Logger.info(outputMsgStr, title ,resultJson.toJSONString());
-			
-			appendReturnJSON(resultJson);
-			
-			writer.print(resultJson.toJSONString());
-		} catch (Exception e) {
-			Logger.error(errMsgStr, title , e.getMessage());
-			writer.println(RuntimeExceptionProcess(e).toJSONString());
-		}
-	}
-	
-	*//**
-	 * 会员发起退款交易确认，退款成功后增加相应退款的积分与余额
-	 *//*
-	@RequestMapping(value="/accountTradeRefundAffirm",method=RequestMethod.POST)
-	public void accountTradeRefundAffirm(){
-		final String title = "退款交易确认[accountTradeRefundAffirm] ";
-		final JSONObject resultJson = new JSONObject();
-		PrintWriter writer = null;
-		try {
-			response.setCharacterEncoding("UTF-8");
-			writer = response.getWriter();
-			
-			JSONObject requestJson = HttpClientUtil.readStreamToJsonObject(request);
-			Logger.info(inputMsgStr, title ,requestJson.toJSONString());
-			
-			resultJson.putAll(orderService.accountTradeRefundAffirm(requestJson));
-			
-			Logger.info(outputMsgStr, title ,resultJson.toJSONString());
-			
-			appendReturnJSON(resultJson);
-			
-			writer.print(resultJson.toJSONString());
-		} catch (Exception e) {
-			Logger.error(errMsgStr, title , e.getMessage());
-			writer.println(RuntimeExceptionProcess(e).toJSONString());
-		}
-	}
-	
-	*//**
-	 * 会员现金余额提现申请
-	 * <li>冻结提现的现金余额
-	 * <li>记录冻结明细
-	 *//*
-	@RequestMapping(value="/bankWithdrawDepositApply",method=RequestMethod.POST)
-	public void bankWithdrawDepositApply(){
-		final String title = "现金余额提现申请[bankWithdrawDepositApply] ";
-		final JSONObject resultJson = new JSONObject();
-		PrintWriter writer = null;
-		try {
-			response.setCharacterEncoding("UTF-8");
-			writer = response.getWriter();
-			
-			JSONObject requestJson = HttpClientUtil.readStreamToJsonObject(request);
-			Logger.info(inputMsgStr, title ,requestJson.toJSONString());
-			
-			resultJson.putAll(orderService.bankWithdrawDepositApply(requestJson));
-			
-			Logger.info(outputMsgStr, title ,resultJson.toJSONString());
-			
-			appendReturnJSON(resultJson);
-			
-			writer.print(resultJson.toJSONString());
-		} catch (Exception e) {
-			Logger.error(errMsgStr, title , e.getMessage());
-			writer.println(RuntimeExceptionProcess(e).toJSONString());
-		}
-	}
-	
-	*//**
-	 * 会员提现申请查询
-	 *//*
-	@RequestMapping(value="/getBankWithdrawDeposits",method=RequestMethod.POST)
-	public void getBankWithdrawDeposits(){
-		final String title = "现金余额提现申请查询[getBankWithdrawDeposits] ";
-		final JSONObject resultJson = new JSONObject();
-		PrintWriter writer = null;
-		try {
-			response.setCharacterEncoding("UTF-8");
-			writer = response.getWriter();
-			
-			JSONObject requestJson = HttpClientUtil.readStreamToJsonObject(request);
-			Logger.info(inputMsgStr, title ,requestJson.toJSONString());
-			
-			resultJson.putAll(orderService.getBankWithdrawDeposits(requestJson));
-			
-			Logger.info(outputMsgStr, title ,resultJson.toJSONString());
-			
-			appendReturnJSON(resultJson);
-			
-			writer.print(resultJson.toJSONString());
-		} catch (Exception e) {
-			Logger.error(errMsgStr, title , e.getMessage());
-			writer.println(RuntimeExceptionProcess(e).toJSONString());
-		}
-	}*/
-	
-	
-	
 	
 	/**
 	 * 当前商家退会员订单信息接口  http://IP:PORT/Authorized/BusinessRecedeOrder

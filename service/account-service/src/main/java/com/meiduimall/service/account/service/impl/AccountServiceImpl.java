@@ -190,7 +190,7 @@ public class AccountServiceImpl implements AccountService {
 			else{
 				//写入冻结流水
 				accountFreezeDetail.setFreezeBalance(account.getBalance());
-				baseDao.insert(accountFreezeDetail,"MSAccountFreezeDetailMapper.insertAccountFreezeDetail");
+				accountFreezeDetailService.insertAccoutFreezeDetail(accountFreezeDetail);
 				//更新账户
 				account.setFreezeBalance(account.getBalance());
 				account.setFreezeBalanceEncrypt(DESC.encryption(String.valueOf(account.getBalance()),memId));

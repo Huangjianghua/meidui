@@ -1,6 +1,5 @@
 package com.meiduimall.service.account.service.impl;
 
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -101,8 +100,8 @@ public class TradeServiceImpl implements TradeService {
 	@Autowired
 	private ConsumePointsFreezeInfoService pointsFreezeInfoService;
 	
-	@Override
 	@Transactional
+	@Override
 	public ResBodyData saveOrder(RequestSaveOrder model) throws MdSysException{
 		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,"保存订单成功");
 		
@@ -120,15 +119,18 @@ public class TradeServiceImpl implements TradeService {
 		default:;
 		}
 		
-		//查询该笔交易是否已写入消费记录表
+		//根据订单ID，订单来源，订单类型查询该笔交易是否已写入消费记录表
 		MSMemberConsumeRecords consumeRecords=consumeRecordsService.getConsumeRecords(model.getOrderId(),model.getOrderSource(),recordsOrderStatus);
 		if(consumeRecords!=null){
 			logger.warn("重复提交的订单：{}",model.getOrderId());
 			throw new ServiceException(ConstApiStatus.REPEAT_ORDER);
 		}
 		else {
+			//获取当前会员可用积分
 			Double availablePoints=accountReportService.getAvailablePoints(model.getMemId());
+			//获取当前会员可用余额
 			Double availableBalance=accountReportService.getAvailableBalance(model.getMemId());
+			
 			if(model.getConsumePoints()>availablePoints){
 				logger.warn("积分不足无法支付");
 				throw new ServiceException(ConstApiStatus.POINTS_CANNOT_AFFORD);
@@ -137,10 +139,14 @@ public class TradeServiceImpl implements TradeService {
 				logger.warn("余额不足无法支付");
 				throw new ServiceException(ConstApiStatus.BALANCE_CANNOT_AFFORD);
 			}
+			
+			//根据订单号查询积分冻结解冻的记录
+			List<MSConsumePointsFreezeInfo> listPointsFreezeInfo=pointsFreezeInfoService.getRecordsByOrderId(model.getOrderId());
+			//根据订单号查询余额冻结解冻的记录
+			List<MSAccountFreezeDetail> listBalanceFreeze=accountFreezeDetailService.getRecordsByOrderId(model.getOrderId());
+			
 			//订单状态为1表示下单未支付，需要冻结积分和余额
 			if(model.getOrderStatus()==1){
-				List<MSConsumePointsFreezeInfo> listPointsFreezeInfo=baseDao.selectList(model.getOrderId(),"MSConsumePointsFreezeInfoMapper.getRecordsByOrderId");
-				List<MSAccountFreezeDetail> listBalanceFreeze=baseDao.selectList(model.getOrderId(),"MSAccountFreezeDetailMapper.getRecordsByOrderId");
 				if(listPointsFreezeInfo.size()>0||listBalanceFreeze.size()>0){
 					logger.warn("重复提交的冻结订单");
 					throw new ServiceException(ConstApiStatus.REPEAT_FREEZ_ORDER);
@@ -155,7 +161,7 @@ public class TradeServiceImpl implements TradeService {
 				freezeInfo.setMcpfRemark("冻结消费积分");
 				pointsFreezeInfoService.insertConsumePointsFreezeInfo(freezeInfo,ConstPointsChangeType.POINTS_FREEZE_TYPE_DJ.getCode());
 				
-				//按照消费优先级冻结余额
+				//按照消费优先级冻结账户
 				MSAccountFreezeDetail accountFreezeDetail=new MSAccountFreezeDetail();
 				accountFreezeDetail.setTradeAmount(model.getConsumeAmount());
 				accountFreezeDetail.setTradeType(ConstTradeType.TRADE_TYPE_YEXF.getCode());
@@ -164,56 +170,59 @@ public class TradeServiceImpl implements TradeService {
 				accountFreezeDetail.setFreezeBalance(model.getConsumeMoney());
 				accountFreezeDetail.setBusinessNo(model.getOrderId());
 				accountServices.freezeAccountBySpendPriority(model.getMemId(),accountFreezeDetail);
+				
+				//写入消费记录表
 			}
 			//订单状态为2表示已支付，需要解冻并扣减积分和余额
-			else if (model.getOrderStatus()==2) {
-				
+			if (model.getOrderStatus()==2) {
+				//更新消费记录表订单状态
 			}
-			else {
-				logger.warn("订单状态不合法");
-				throw new ServiceException(ConstApiStatus.ORDER_STATUS_UNNORMAL);
-			}
+
 		}
 		return resBodyData;
 	}
 	
 
+	@Transactional
 	@Override
-	public ResBodyData cancelOrder(RequestCancelOrder model)  {
-		ResBodyData resBodyData=new ResBodyData(null,null);
-		String memId=model.getMemId();
-		/**解冻并扣减积分*/
-		Map<String,Object> dataMap=new HashMap<>();
-		/*if(pointsService.getFreezeUnfreezeRecordByOrderId(orderId)){
-			pointsService.unFreezePointsAndAddRecord(memId,consumePoints,orderId,orderSource,dataMap);
-			pointsService.deductPointsAndAddRecord(memId,consumePoints,orderId,orderSource,dataMap);
-			}
-		*//**解冻并扣减余额*//*
-		if(moneyService.getFreezeUnfreezeRecordByOrderId(orderId)){
-			moneyService.unFreezeMoneyAndAddRecord(memId,consumeMoney,orderId,orderSource,dataMap);
-			moneyService.deductMoneyAndAddRecord(memId,consumeMoney,orderId,orderSource,dataMap);
-		}*/
-		resBodyData.setData(dataMap);
-		/**写入会员消费记录*/
-		/*MSMemberConsumeHistory history = new MSMemberConsumeHistory();*/
-		/*history.setMchId(UUID.randomUUID().toString());
-		history.setMemId(memId);
-		history.setOrderId(orderId);
-		history.setMchProductName(productName);
-		history.setMchOrginType(orderSource);
-		history.setMchOrginMemId("");
-		history.setMchPayType(payType);
-		history.setMchStatus("1");
-		history.setMchConsumePointsCount(consumePoints);
-		history.setMchShoppingCouponCount(consumeMoney);
-		history.setMchSettingStatus(1);*/
-		/*history.setMchIssueStatus(1);
-		try {
-			this.saveMemberTradeHistory(history);
-		} catch (Exception e) {
- 
+	public ResBodyData cancelOrder(RequestCancelOrder model) throws MdSysException  {
+		ResBodyData resBodyData=new ResBodyData(Constants.CONSTANT_INT_ZERO,"取消订单成功");
 		
-		}*/
+		//查询积分订单
+		Map<String,Object> mapCondition=new HashMap<>();
+		mapCondition.put("orderId",model.getOrderId());
+		List<MSConsumePointsFreezeInfo> listPointsFreezeInfo=baseDao.selectList(mapCondition,"MSConsumePointsFreezeInfoMapper.getRecordsByCondition");
+		//查询余额订单
+		mapCondition.put("orderId",model.getOrderId());
+		List<MSAccountFreezeDetail> listBalanceFreeze=baseDao.selectList(mapCondition,"MSAccountFreezeDetailMapper.getRecordsByCondition");
+		
+		//未支付取消订单
+		if(model.getOrderStatus()==1){
+			if(listPointsFreezeInfo.size()==0||listBalanceFreeze.size()==0){
+				logger.warn("该订单不存在积分或余额记录");
+				throw new ServiceException(ConstApiStatus.ORDER_FREEZE_RECORD_NOT_EXIST);
+			}
+			else{
+				//解冻积分，写入积分冻结解冻记录表
+				MSConsumePointsFreezeInfo freezeInfo=new MSConsumePointsFreezeInfo();
+				freezeInfo.setMcpfId(UUID.randomUUID().toString());
+				freezeInfo.setMemId(model.getMemId());
+				freezeInfo.setMcpfOrderId(model.getOrderId());
+				freezeInfo.setMcpfConsumePoints(listPointsFreezeInfo.get(0).getMcpfConsumePoints());
+				freezeInfo.setMcpfRemark("未支付-取消订单");
+				pointsFreezeInfoService.insertConsumePointsFreezeInfo(freezeInfo,ConstPointsChangeType.POINTS_FREEZE_TYPE_JD.getCode());
+				
+				//解冻按照消费优先级冻结的账户
+				for(MSAccountFreezeDetail accountFreezeDetail:listBalanceFreeze){
+					
+				}
+			}
+		}
+		//已支付退单
+		if(model.getOrderStatus()==2){
+			//此处暂时走吴军做的退单接口，该接口废弃后走这里
+		}
+		
 		return resBodyData;
 	}
 
@@ -813,7 +822,7 @@ public class TradeServiceImpl implements TradeService {
 		} else {
 
 			// 根据订单查询冻结积分
-			List<MSConsumePointsFreezeInfo> pointsList = pointsService.getRecordsByOrderId(mmt.getOrderId());
+			List<MSConsumePointsFreezeInfo> pointsList = pointsFreezeInfoService.getRecordsByOrderId(mmt.getOrderId());
 			// 获取积分余额
 			Double consumePoints = pointsService.getAvailablePointsByMemId(mmt.getMemId());
 			// 获取可使用余额

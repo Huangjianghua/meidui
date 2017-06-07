@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.ibatis.transaction.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import com.meiduimall.service.account.constant.ConstSysParamsDefination;
 import com.meiduimall.service.account.constant.ConstTradetTypeToAccountTypeNo;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSAccount;
+import com.meiduimall.service.account.model.MSAccountDetail;
 import com.meiduimall.service.account.model.MSAccountType;
 import com.meiduimall.service.account.model.request.RequestAccountAdjustAmount;
 import com.meiduimall.service.account.service.AccountAdjustService;
@@ -31,6 +33,7 @@ import com.meiduimall.service.account.service.AccountService;
 import com.meiduimall.service.account.service.AccountTypeService;
 import com.meiduimall.service.account.service.ValidateService;
 import com.meiduimall.service.account.util.DESC;
+import com.meiduimall.service.account.util.DateUtil;
 import com.meiduimall.service.account.util.DoubleCalculate;
 
 /**
@@ -95,6 +98,10 @@ public class AccountAdjustServiceImpl implements AccountAdjustService {
 			msAccount.setBalanceEncrypt(DESC.encryption(String.valueOf(msAccount.getBalance()),model.getMemId()));
 			msAccount.setFreezeBalance(0.00);
 			msAccount.setFreezeBalanceEncrypt(DESC.encryption(String.valueOf(msAccount.getFreezeBalance()),model.getMemId()));
+			msAccount.setAccountStatus(Constants.CONSTANT_INT_ZERO);
+			msAccount.setCreateUser("账户服务");
+			msAccount.setUpdateUser("账户服务");
+			msAccount.setRemark("账户服务-账户余额调增调减-生成不存在的账户");
 			
 			//根据账户类型编号查询账户类型信息
 			Map<String,Object> mapCondition=new HashMap<>();
@@ -116,19 +123,53 @@ public class AccountAdjustServiceImpl implements AccountAdjustService {
 			msAccount.setRefundPoundageMin(msAccountType.getRefundPoundageMin());
 			msAccount.setRefundPoundageMax(msAccountType.getRefundPoundageMax());
 			msAccount.setSpendPriority(msAccountType.getSpendPriority());
-			msAccount.setAccountStatus(Constants.CONSTANT_INT_ZERO);
-			msAccount.setCreateUser("账户服务");
-			msAccount.setUpdateUser("账户服务");
-			msAccount.setRemark("账户服务-账户余额调增调减-生成不存在的账户");
 			//开始生成账户，若失败，则直接返回
 			if(!accountService.insertAccountByType(msAccount)){
 				logger.warn("账户创建失败");
 				throw new ServiceException(ConstApiStatus.CREATE_ACCOUNT_FAILED);
 			}
 		}
-		//更新账户表
+		
+		//变化金额，若调减则为负数
+		Double changeBalance=null;
+		//调增调减转化为收入支出 1：收入；-1：支出
+		int inOrOut=0;
+		
+		//如果调增
+		if(ConstSysParamsDefination.CAPITAL_IN.equals(model.getDirection())){	
+			changeBalance=model.getTrade_amount();
+			inOrOut=1;
+		}
+		//如果调减
+		if(ConstSysParamsDefination.CAPITAL_OUT.equals(model.getDirection())){
+			changeBalance=-model.getTrade_amount();
+			inOrOut=-1;
+		}
+		
+		//设置新的总金额，更新账户表
+		msAccount.setBalance(msAccount.getBalance()+changeBalance);
+		msAccount.setBalanceEncrypt(DESC.encryption(String.valueOf(msAccount.getBalance()),model.getMemId()));
+		baseDao.update(msAccount,"MSAccountMapper.updateAccountByCondition");
 		
 		//更新账户报表
+		Map<String,Object> mapCondition=new HashMap<>();
+		mapCondition.put(accountTypeNo,changeBalance);
+		mapCondition.put("balance",changeBalance);
+		baseDao.update(mapCondition,"MSAccountReportMapper.updateBalance");
+		
+		//写入流水明细
+		MSAccountDetail msAccountDetail=new MSAccountDetail();
+		msAccountDetail.setId(UUID.randomUUID().toString());
+		msAccountDetail.setAccountNo(msAccount.getAccountNo());
+		msAccountDetail.setTradeType(model.getTrade_type());
+		msAccountDetail.setTradeAmount(model.getTrade_amount());
+		msAccountDetail.setTradeDate(DateUtil.timestampToDate(Long.valueOf(model.getTrade_time())));
+		msAccountDetail.setInOrOut(inOrOut);
+		msAccountDetail.setBalance(accountReportService.getTotalAndFreezeBalanceByMemId(model.getMemId()).getBalance());
+		msAccountDetail.setBusinessNo(model.getOrder_id());
+		msAccountDetail.setCreateUser("账户服务");
+		msAccountDetail.setUpdateUser("账户服务");
+		accountDetailService.insertAccountDetail(msAccountDetail);
 		
 		return resBodyData;
 	}

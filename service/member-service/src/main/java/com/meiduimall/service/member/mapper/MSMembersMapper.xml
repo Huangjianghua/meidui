@@ -233,21 +233,6 @@
 		 WHERE mem_id = #{memId}
 	</update>
 	
-	
-		<!--添加账户信息，临时使用-->
-	<insert id="insertMsAccount" parameterType="com.meiduimall.service.member.model.MSAccount">
-	   INSERT INTO  ms_account
-		VALUES
-		(#{id},
-		#{memId},
-		#{type},
-		#{balance},
-		#{freezeBalance},
-		#{createDate},
-		#{updateDate}
-		)
-	</insert>
-	
 		<!-- 根据条件查询会员锁定列表信息-->
 	<select id="queryMemberLockList" parameterType="com.meiduimall.service.member.model.request.RequestLoginUnlock" resultType="com.meiduimall.service.member.model.response.ResponseMemberLock">
 		SELECT 
@@ -287,5 +272,19 @@
    		SELECT  m.mem_id  FROM ms_members m  INNER JOIN
    		ms_member_mobile_area ma  ON m.`mem_id` = ma.mem_id)
 	</select>
+
+	<!--添加账户报表信息，临时使用，4.0.3版本废弃，改为调用账户服务来生成-->
+	<insert id="insertAccountReport" parameterType="java.util.Map">
+	   INSERT INTO  ms_account_report
+		VALUES
+		(#{id},
+		#{memId},
+		now(),
+		#{createUser},
+		now(),
+		#{updateUser},
+		#{remark}
+		)
+	</insert>
 
 </mapper>

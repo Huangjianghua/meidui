@@ -18,7 +18,7 @@ public interface TradeService {
 	 * 保存订单
 	 * @param param 保存订单API请求映射实体
 	 * @return 统一数据返回格式
-	 * @throws MdSysException 
+	 * @throws MdSysException 系统异常
 	 */
 	ResBodyData saveOrder(RequestSaveOrder model) throws MdSysException;
 	
@@ -26,8 +26,9 @@ public interface TradeService {
 	 * 取消订单
 	 * @param param 取消订单API请求映射实体
 	 * @return 统一数据返回格式
+	 * @throws MdSysException 系统异常
 	 */
-	ResBodyData cancelOrder(RequestCancelOrder model);
+	ResBodyData cancelOrder(RequestCancelOrder model) throws MdSysException;
 	
 	/**
 	 * 交易取消，解冻积分与余额

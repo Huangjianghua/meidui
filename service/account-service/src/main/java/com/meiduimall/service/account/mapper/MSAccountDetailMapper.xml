@@ -36,7 +36,7 @@
   </sql>
   
   <!-- 插入账户变动明细 -->
-  <insert id="insertAccountDetail" parameterType="java.util.Map">
+  <insert id="insertAccountDetail" parameterType="com.meiduimall.service.account.model.MSAccountDetail">
 		INSERT INTO ms_account_detail
 		VALUES(
 			#{id},
@@ -48,9 +48,9 @@
 			#{balance},
 			#{businessNo},
 			#{createUser},
-			#{createDate},
+			now(),
 			#{updateUser},
-			#{updateDate},
+			now(),
 			#{remark}
 			)
 	</insert>
