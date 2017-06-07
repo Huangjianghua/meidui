@@ -130,7 +130,7 @@ public class YamlUtil {
 			 String fileName=typeConfig+configName; //文件名称
 			 logger.info("operateYml开始操作配置文件信息,文件名称:{}",fileName);
 			 //step1 创建文件
-			 yaml.dump(object, new FileWriter(srcResourceUrl+fileName));
+			 yaml.dump(object, new FileWriter(projectURL+findSrcResourceUrl+fileName));
 			 //step2 Git相关操作
 			 asyncCommintGit(fileName);
 		} catch (Exception e) {
