@@ -44,9 +44,9 @@ public class WeixinServiceImpl implements WeixinService {
 	public String getAccessToken() {
 		// 先从redis缓存取
 		String cache = RedisUtils.get(SysConstant.WEIXIN_ACCESS_TOKEN_KEY);
-		Long ttl = RedisUtils.ttl(SysConstant.WEIXIN_ACCESS_TOKEN_KEY);
 
 		if (!Strings.isNullOrEmpty(cache)) {
+			Long ttl = RedisUtils.ttl(SysConstant.WEIXIN_ACCESS_TOKEN_KEY);
 			if (ttl > 120) {
 				return cache;
 			} else {
@@ -69,7 +69,7 @@ public class WeixinServiceImpl implements WeixinService {
 				throw new ServiceException(SmsApiCode.REQUEST_ACCESS_TOKEN_EXCEPTION);
 			}
 
-			String accessToken = bean.getAccess_token();
+			String accessToken = bean.getAccessToken();
 			if (!Strings.isNullOrEmpty(accessToken)) {
 				RedisUtils.setex(SysConstant.WEIXIN_ACCESS_TOKEN_KEY, 7000, accessToken);
 				return accessToken;
@@ -153,7 +153,10 @@ public class WeixinServiceImpl implements WeixinService {
 			logger.error("根据手机号请求member-service会员信息，json解析失败: " + e);
 			throw new ServiceException(SmsApiCode.MEMBER_INFO_EXCEPTION);
 		}
-		if (bean == null || bean.getStatus() != 0 || bean.getData() == null) {
+		if(bean == null){
+			throw new ServiceException(SmsApiCode.MEMBER_INFO_EXCEPTION);
+		}
+		if (bean.getStatus() != 0 || bean.getData() == null) {
 			throw new ServiceException(SmsApiCode.MEMBER_INFO_EXCEPTION, bean.getMsg());
 		}
 		model.setOpenID(bean.getData().getWxOpenId());

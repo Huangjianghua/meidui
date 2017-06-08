@@ -64,7 +64,7 @@ public class WeixinControllerTest extends BaseTest {
 	public void testSendTemplateMessageOnPaySuccess_02() throws Exception {
 		
 		WXMsgOnPaySuccessRequest model = new WXMsgOnPaySuccessRequest();
-		model.setPhone("188000000");
+		model.setPhone("13418786965");
 		model.setOrderTime(1486532542l);
 		model.setCoupon("66.66");
 		model.setSysKey("o2o_php");
@@ -76,7 +76,7 @@ public class WeixinControllerTest extends BaseTest {
 			e.printStackTrace();
 		}
 		if(!Strings.isNullOrEmpty(model.getOpenID())){
-			// 已绑定OpenID
+			// 已绑定OpenID，但是openID不匹配
 			ResultActions results = mockMvc.perform(
 					MockMvcRequestBuilders.post("/notify/short_msg_service/v1/send_weixin_msg_on_pay")
 					.param("phone", model.getPhone())
@@ -86,7 +86,7 @@ public class WeixinControllerTest extends BaseTest {
 					.param("storeName", model.getStoreName())
 					.param("addPoint", model.getAddPoint()))
 					.andExpect(status().isOk())
-					.andExpect(jsonPath("$.status",is(0)));
+					.andExpect(jsonPath("$.status",is(7018)));
 			
 			results.andDo(new ResultHandler() {
 				@Override

@@ -4,16 +4,23 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.math.BigDecimal;
 
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import com.meiduimall.core.util.JsonUtils;
+import com.meiduimall.exception.MdSysException;
+import com.meiduimall.service.account.model.AddOrUpdateAccountReviseDetail;
 import com.meiduimall.service.account.service.MSMembersService;
+import com.meiduimall.service.account.util.DESC;
 
 /**
  * 账户信息查询API{@link=AccountQueryV1Controller}单元测试
@@ -96,13 +103,13 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 	 * @Description: 添加测试
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月20日 下午2:18:31
-	 *//*
+	 */
 	@Test
 	public void addMSAccountRevisionDetailTest() throws Exception {
 		 String url = "/member/account_service/v1/add_account_revision_detail";
 		 AddOrUpdateAccountReviseDetail dto=new AddOrUpdateAccountReviseDetail();
 		 dto.setMemId("72063681-7408-435c-88fd-cd837c95c66e");
-		 dto.setAccountNo("CWTZ300001000008");
+		 dto.setAccountTypeNo("CWTZ1");
 		 dto.setReviseType("1");
 		 dto.setStatus("WR");
 		 dto.setIsDelete("N");
@@ -118,7 +125,7 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 		 resultSystemOutPut(url,json);
 	}
 	
-	*//**
+	/**
 	 * @Description: 修改测试
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月20日 下午2:48:31
@@ -285,7 +292,7 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 		 String json=object.toString();
 		 
 		 resultSystemOutPut(url,json);
-	}
+	}*/
 	
 	private void resultSystemOutPut(String url,String json){
 		try{
@@ -309,7 +316,7 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 		System.out.println(DESC.encryption(s, "b9d78165-1483-42f7-a48c-fbfcc3b06431"));
 	}
 
-	*/
+	
 	
 	/**
      * 查询个人消费管理信息接口

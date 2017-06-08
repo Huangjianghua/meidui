@@ -150,8 +150,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		dto.setCreateDate(new Date());
 		dto.setUpdateDate(new Date());
 		try {
-			 baseDao.insert(dto, "MSAccountReviseDetailMapper.insertAccountReviseDetail");
-			 MSAccount accountInfo = accountServices.getAccountInfo(dto.getMemId(), dto.getAccountNo());
+			 MSAccount accountInfo = accountServices.getAccountInfo(dto.getMemId(), dto.getAccountTypeNo());
 			 if(org.springframework.util.StringUtils.isEmpty(accountInfo)){
 				 MSAccount msAccount = new MSAccount();
 				 msAccount.setId(UUID.randomUUID().toString());
@@ -160,7 +159,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 				 map.put("accountTypeNo",dto.getAccountTypeNo());
 				 MSAccountType accountType = accountTypeService.getAccountTypeByCondition(map);
 				 Long updateSequenceByAccountTypeNo = accountTypeService.updateSequenceByAccountTypeNo(dto.getAccountTypeNo());
-				 msAccount.setAccountNo(dto.getAccountNo()+updateSequenceByAccountTypeNo);
+				 msAccount.setAccountNo(dto.getAccountTypeNo()+updateSequenceByAccountTypeNo);
 				 msAccount.setAccountTypeNo(accountType.getAccountTypeNo());
 				 msAccount.setAccountNoSequence(accountType.getAccountNoSequence());
 				 msAccount.setBalance(Double.valueOf(dto.getReviseBalance().toString()));
@@ -184,7 +183,11 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 				 msAccount.setUpdateUser("账户服务");
 				 msAccount.setRemark(accountType.getAccountTypeName());
 				 accountServices.insertAccountByType(msAccount);
+				 dto.setAccountNo(msAccount.getAccountNo());
+			 }else{
+				 dto.setAccountNo(accountInfo.getAccountNo());
 			 }
+			 baseDao.insert(dto, "MSAccountReviseDetailMapper.insertAccountReviseDetail");
 		} catch (Exception e) {
 			logger.error("添加调整余额addMSAccountReviseDetail错误:{}", e.getMessage());
 			throw new MdBizException(ConstApiStatus.INSERT_MEMBER_REVISE_DETAIL_ERROR);
