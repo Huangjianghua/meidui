@@ -24,7 +24,7 @@
 	
 	<!-- 根据条件查询会员消费记录信息 -->
 	<select id="getConsumeRecordsByContidion" parameterType="com.meiduimall.service.account.model.request.MSMemberConsumeRecordsReq" resultMap="MsConcumeRecordsResultMap">
-		SELECT m.* 
+		SELECT m.*
 		FROM ms_member_consume_records m 
 		WHERE 1=1
 		AND m.order_id=#{orderId}
@@ -33,7 +33,7 @@
 	</select>
 
 	<!-- 插入会员消费记录 -->
-	<insert id="insertConsumeRecords" parameterType="com.meiduimall.service.account.model.MSMemberConsumeRecords">
+	<insert id="insertConsumeRecord" parameterType="com.meiduimall.service.account.model.MSMemberConsumeRecords">
 		INSERT INTO ms_member_consume_records
 			VALUES(
 				#{id},
@@ -47,9 +47,9 @@
 				#{productName},
 				#{payType},
 				#{orderStatus},
-				#{createDate},
+				now(),
 				#{createUser},
-				#{updateDate},
+				now(),
 				#{updateUser},
 				#{remark}
 				)

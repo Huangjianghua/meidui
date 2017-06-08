@@ -5,12 +5,17 @@ import java.util.List;
 import com.meiduimall.service.account.model.MSMemberConsumeRecords;
 import com.meiduimall.service.account.model.request.MSMemberConsumeRecordsReq;
 
-public interface MSMemberConsumeRecordsService {
+/**
+ * 会员消费记录业务逻辑接口
+ * @author chencong
+ *
+ */
+public interface MemberConsumeRecordsService {
 
 	
 	MSMemberConsumeRecords queryByOrderIdInfo(MSMemberConsumeRecordsReq MemberConsum);
 	
 	List<MSMemberConsumeRecords> listByOrderIdInfo(MSMemberConsumeRecordsReq MemberConsum);
 
-	void save(MSMemberConsumeRecords mConHis);
+	void insertConsumeRecord(MSMemberConsumeRecords model);
 }
