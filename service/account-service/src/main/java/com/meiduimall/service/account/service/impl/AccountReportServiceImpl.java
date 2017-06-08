@@ -16,7 +16,7 @@ import com.meiduimall.service.account.util.DESC;
 import com.meiduimall.service.account.util.DoubleCalculate;
 
 /**
- * 会员账户汇总信息业务逻辑接口{@link=AccountReportService}实现类
+ * 会员账户报表业务逻辑接口{@link=AccountReportService}实现类
  * @author chencong
  *
  */

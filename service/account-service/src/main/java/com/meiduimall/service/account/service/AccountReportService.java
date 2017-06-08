@@ -4,7 +4,7 @@ import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.model.MSAccountReport;
 
 /**
- * 会员账户汇总信息业务逻辑接口
+ * 会员账户报表业务逻辑接口
  * @author chencong
  *
  */
