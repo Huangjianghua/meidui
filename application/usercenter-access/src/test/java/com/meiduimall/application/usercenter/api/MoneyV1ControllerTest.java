@@ -79,7 +79,7 @@ public class MoneyV1ControllerTest extends BaseControllerTest {
     */
 	
 	/**
-     * 获取会员账户余额和积分余额
+     * 获取会员账户余额和积分余额 
      * @throws Exception
      */
     @Test
