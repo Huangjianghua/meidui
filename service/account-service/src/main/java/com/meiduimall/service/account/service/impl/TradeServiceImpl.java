@@ -106,33 +106,26 @@ public class TradeServiceImpl implements TradeService {
 	@Override
 	@Transactional
 	public ResBodyData saveOrder(RequestSaveOrder model) throws MdSysException {
-		ResBodyData resBodyData = new ResBodyData(ConstApiStatus.SUCCESS, "保存订单成功");
-
-		// 校验交易金额合法性
-		validateService.checkConsumeAmountRelation(model.getConsumeAmount(), model.getConsumeMoney(),
-				model.getConsumePoints());
-
-		// 将数据来源转换为字典值
+	ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,"保存订单成功");
+		
+		//校验交易金额合法性
+		validateService.checkConsumeAmountRelation(model.getConsumeAmount(),model.getConsumeMoney(),model.getConsumePoints());
+		
+		//将数据来源转换为字典值
 		model.setOrderSource(SerialStringUtil.getDictOrderSource(model.getOrderSource()));
-
-		// 将前端请求的订单状态转换为会员消费记录的订单状态
-		int recordsOrderStatus = 0;
-		switch (model.getOrderStatus()) {
-		case 1:
-			recordsOrderStatus = 0;
-			break;
-		case 2:
-			recordsOrderStatus = 1;
-			break;
-		default:
-			;
+		
+		//将前端请求的订单状态转换为会员消费记录的订单状态
+		int recordsOrderStatus=0;
+		switch(model.getOrderStatus()){
+		case 1:recordsOrderStatus=0;break;
+		case 2:recordsOrderStatus=1;break;
+		default:;
 		}
-
-		// 查询该笔交易是否已写入消费记录表
-		MSMemberConsumeRecords consumeRecords = consumeRecordsService.getConsumeRecords(model.getOrderId(),
-				model.getOrderSource(), recordsOrderStatus);
-		if (consumeRecords != null) {
-			logger.warn("重复提交的订单：{}", model.getOrderId());
+		
+		//根据订单ID，订单来源，订单类型查询该笔交易是否已写入消费记录表
+		MSMemberConsumeRecords consumeRecords=consumeRecordsService.getConsumeRecords(model.getOrderId(),model.getOrderSource(),recordsOrderStatus);
+		if(consumeRecords!=null){
+			logger.warn("重复提交的订单：{}",model.getOrderId());
 			throw new ServiceException(ConstApiStatus.REPEAT_ORDER);
 		}
 		
@@ -158,42 +151,40 @@ public class TradeServiceImpl implements TradeService {
 				logger.warn("积分不足无法支付");
 				throw new ServiceException(ConstApiStatus.POINTS_CANNOT_AFFORD);
 			}
-			if (model.getConsumeMoney() > availableBalance) {
+			if(model.getConsumeMoney()>availableBalance){
 				logger.warn("余额不足无法支付");
 				throw new ServiceException(ConstApiStatus.BALANCE_CANNOT_AFFORD);
 			}
-			// 订单状态为1表示下单未支付，需要冻结积分和余额
-			if (model.getOrderStatus() == 1) {
-				if (listPointsFreezeInfo.size() > 0 || listBalanceFreeze.size() > 0) {
-					logger.warn("重复提交的冻结订单");
-					throw new ServiceException(ConstApiStatus.REPEAT_FREEZ_ORDER);
-				}
-
-				// 写入积分冻结解冻记录表
-				MSConsumePointsFreezeInfo freezeInfo = new MSConsumePointsFreezeInfo();
-				freezeInfo.setMcpfId(UUID.randomUUID().toString());
-				freezeInfo.setMemId(model.getMemId());
-				freezeInfo.setMcpfOrderId(model.getOrderId());
-				freezeInfo.setMcpfConsumePoints(String.valueOf(model.getConsumePoints()));
-				freezeInfo.setMcpfRemark("冻结消费积分");
-				pointsFreezeInfoService.insertConsumePointsFreezeInfo(freezeInfo,
-						ConstPointsChangeType.POINTS_FREEZE_TYPE_DJ.getCode());
-
-				// 按照消费优先级冻结余额
-				MSAccountFreezeDetail accountFreezeDetail = new MSAccountFreezeDetail();
-				accountFreezeDetail.setTradeAmount(model.getConsumeAmount());
-				accountFreezeDetail.setTradeType(ConstTradeType.TRADE_TYPE_YEXF.getCode());
-				accountFreezeDetail.setTradeDate(new Date());
-				accountFreezeDetail.setInOrOut(Constants.CONSTANT_INT_ONE);
-				accountFreezeDetail.setFreezeBalance(model.getConsumeMoney());
-				accountFreezeDetail.setBusinessNo(model.getOrderId());
-				accountServices.freezeAccountBySpendPriority(model.getMemId(), accountFreezeDetail);
-			}
-			// 订单状态为2表示已支付，需要解冻并扣减积分和余额
-			else if (model.getOrderStatus() == 2) {
-
-			} 
-
+			
+			//写入积分冻结解冻记录表
+			MSConsumePointsFreezeInfo freezeInfo=new MSConsumePointsFreezeInfo();
+			freezeInfo.setMcpfId(UUID.randomUUID().toString());
+			freezeInfo.setMemId(model.getMemId());
+			freezeInfo.setMcpfOrderId(model.getOrderId());
+			freezeInfo.setMcpfConsumePoints(String.valueOf(model.getConsumePoints()));
+			freezeInfo.setMcpfRemark("冻结消费积分");
+			pointsFreezeInfoService.insertConsumePointsFreezeInfo(freezeInfo,ConstPointsChangeType.POINTS_FREEZE_TYPE_DJ.getCode());
+			
+			//按照消费优先级冻结账户
+			MSAccountFreezeDetail accountFreezeDetail=new MSAccountFreezeDetail();
+			accountFreezeDetail.setTradeAmount(model.getConsumeAmount());
+			accountFreezeDetail.setTradeType(ConstTradeType.TRADE_TYPE_YEXF.getCode());
+			accountFreezeDetail.setTradeDate(new Date());
+			accountFreezeDetail.setInOrOut(Constants.CONSTANT_INT_ONE);
+			accountFreezeDetail.setFreezeBalance(model.getConsumeMoney());
+			accountFreezeDetail.setBusinessNo(model.getOrderId());
+			accountServices.freezeAccountBySpendPriority(model.getMemId(),accountFreezeDetail);
+			
+			//写入消费记录表，订单状态是未支付
+			consumeRecords=new MSMemberConsumeRecords();
+			consumeRecords.setId(UUID.randomUUID().toString());
+			consumeRecords.setMemId(model.getMemId());
+			consumeRecords.setOrderId(model.getOrderId());
+			
+		}
+		//订单状态为2表示已支付，需要解冻并扣减积分和余额
+		if (model.getOrderStatus()==2) {
+			//更新消费记录表订单状态
 		}
 		return resBodyData;
 	}
@@ -715,8 +706,12 @@ public class TradeServiceImpl implements TradeService {
 
 				logger.info("退费订单号：" + ms.getOrderId() + "，当月退费美积分金额是：" + ms.getConsumePoints());
 			}
-
-			memberConsumeRecordsService.updateOrderStatus(ms);
+			Map<String,Object> mapCondition=new HashMap<>();
+			mapCondition.put("newOrderStatus",2);
+			mapCondition.put("orderId",ms.getOrderId());
+			mapCondition.put("orderSource",ms.getOrderSource());
+			mapCondition.put("orderStatus",ms.getOrderStatus());
+			memberConsumeRecordsService.updateOrderStatus(mapCondition);
 
 			logger.info("当前退余额: " + ms.getConsumeMoney() + "当前退积分：" + ms.getConsumePoints());
 			 
@@ -824,8 +819,12 @@ public class TradeServiceImpl implements TradeService {
 							ConstApiStatus.getZhMsg(ConstApiStatus.NO_DJ_MONEY));
 				}
 			}
-
-			memberConsumeRecordsService.updateOrderStatus(mmt);
+			Map<String,Object> mapCondition=new HashMap<>();
+			mapCondition.put("newOrderStatus",2);
+			mapCondition.put("orderId",mmt.getOrderId());
+			mapCondition.put("orderSource",mmt.getOrderSource());
+			mapCondition.put("orderStatus",mmt.getOrderStatus());
+			memberConsumeRecordsService.updateOrderStatus(mapCondition);
 
 			Double beforeCouponsBalance = Double.parseDouble("0");
 			Double endCouponsBalance = Double.parseDouble("0");

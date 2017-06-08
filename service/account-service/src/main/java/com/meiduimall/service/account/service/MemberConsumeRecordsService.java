@@ -1,6 +1,7 @@
 package com.meiduimall.service.account.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.meiduimall.service.account.model.MSMemberConsumeRecords;
 import com.meiduimall.service.account.model.request.MSMemberConsumeRecordsReq;
@@ -16,6 +17,10 @@ public interface MemberConsumeRecordsService {
 	
 	List<MSMemberConsumeRecords> listByOrderIdInfo(MSMemberConsumeRecordsReq MemberConsum);
 
+	/**
+	 * 插入消费记录
+	 * @param model 会员消费记录表实体
+	 */
 	void insertConsumeRecord(MSMemberConsumeRecords model);
 	
 	/**
@@ -25,11 +30,9 @@ public interface MemberConsumeRecordsService {
 	 */
 	MSMemberConsumeRecords queryByOrderIdInfo(MSMemberConsumeRecordsReq MemberConsum);
 	
-	void save(MSMemberConsumeRecordsReq mmt);
-	
 	/**
-	 * 将订单状态为1(已支付)的订单更新为订单状态为2(已退单)
-	 * @param mmt 消费信息
+	 * 更新消费记录的订单状态
+	 * @param mapContion 更新条件
 	 */
-	void updateOrderStatus(MSMemberConsumeRecordsReq mmt);
+	void updateOrderStatus(Map<String,Object> mapContion);
 }

@@ -1,6 +1,7 @@
 package com.meiduimall.service.account.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,15 +37,11 @@ public class MemberConsumeRecordsServiceImpl implements MemberConsumeRecordsServ
 	public void insertConsumeRecord(MSMemberConsumeRecords model) {
 		baseDao.insert(model,"MSMemberConsumeRecordsMapper.insertConsumeRecord");
 	}
-	
-	@Override
-	public void save(MSMemberConsumeRecordsReq mmt) {
-		baseDao.insert(mmt, "MSMemberConsumeRecordsMapper.insertConsumeRecords");
-	}
+
 
 	@Override
-	public void updateOrderStatus(MSMemberConsumeRecordsReq mmt) {
-		baseDao.update(mmt, "MSMemberConsumeRecordsMapper.updateOrderStatus");
+	public void updateOrderStatus(Map<String,Object> mapContion) {
+		baseDao.update(mapContion, "MSMemberConsumeRecordsMapper.updateOrderStatus");
 	}
 
 }

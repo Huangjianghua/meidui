@@ -16,9 +16,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
 
-import com.meiduimall.exception.MdSysException;
-import com.meiduimall.service.member.util.DESC;
-
 
 @EnableHystrix
 @SpringBootApplication
@@ -37,8 +34,7 @@ public class MemberServiceApplication extends SpringBootServletInitializer{
         return builder.build();
     }
 	
-	public static void main(String[] args) throws MdSysException{
-		System.out.println(DESC.encryption("378","a713d6ef-c73a-400d-82e8-66a9ea97a78f"));
+	public static void main(String[] args) {
 		SpringApplication.run(MemberServiceApplication.class, args);
 	}
 }
