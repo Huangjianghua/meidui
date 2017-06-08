@@ -55,6 +55,7 @@ public class AccountAdjustV1Controller {
 	@PostMapping(value="/add_account_revision_detail")
 	public ResBodyData  addMSAccountRevisionDetail(@RequestBody AddOrUpdateAccountReviseDetail detail){
 		try{
+			logger.info("添加会员余额调整明细 API请求 :{}", detail);
 			mSAccountDetailService.addMSAccountReviseDetail(detail);
 		}catch(MdBizException e){
 			throw new ApiException(e.getCode(),e.getMessage());
@@ -71,6 +72,7 @@ public class AccountAdjustV1Controller {
 	 */
 	@PostMapping(value="/update_account_revision_detail")
 	public ResBodyData  updateMSAccountRevisionDetail(@RequestBody AddOrUpdateAccountReviseDetail detail){
+		logger.info("修改会员余额调整明细 API请求 :{}", detail);
 		try{
 		  mSAccountDetailService.updateMSAccountReviseDetail(detail);
 		}catch(MdBizException e){
@@ -88,6 +90,7 @@ public class AccountAdjustV1Controller {
 	 */
 	@PostMapping(value="/examine_account_revision_detail")
 	public ResBodyData  examineMSAccountRevisionDetail(@RequestBody AddOrUpdateAccountReviseDetail detail){
+		logger.info("会员余额审核 API请求 :{}", detail);
 		ResBodyData resBodyData=null;
 		try {
 			resBodyData=mSAccountDetailService.examineMSAccountReviseDetail(detail);
