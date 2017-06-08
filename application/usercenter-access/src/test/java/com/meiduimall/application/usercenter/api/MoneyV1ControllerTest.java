@@ -79,25 +79,25 @@ public class MoneyV1ControllerTest extends BaseControllerTest {
     */
 	
 	/**
-     * 获取会员账户余额和积分余额 
+     * 获取会员账户余额和积分余额
      * @throws Exception
      */
-    @Test
-    public void testGetAccountBalanceForApp_01() throws Exception {
-    	
-    	ResultActions results = mockMvc.perform(
-				MockMvcRequestBuilders.post(baseUrl + "/getAccountBalanceForApp")
-				.contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-				.param("token", "c668adee62e84cb6cee687b00bed7dc3"))
-				.andExpect(status().isOk());
-    	
-//    	results.andExpect(jsonPath("$.status",is(0)));
-
-		results.andDo(new ResultHandler() {
-			@Override
-			public void handle(MvcResult result) throws Exception {
-				System.out.println("testGetAccountBalanceForApp_01*********" + result.getResponse().getContentAsString());
-			}
-		});
-    }
+//    @Test
+//    public void testGetAccountBalanceForApp_01() throws Exception {
+//    	
+//    	ResultActions results = mockMvc.perform(
+//				MockMvcRequestBuilders.post(baseUrl + "/getAccountBalanceForApp")
+//				.contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+//				.param("token", "c668adee62e84cb6cee687b00bed7dc3"))
+//				.andExpect(status().isOk());
+//    	
+////    	results.andExpect(jsonPath("$.status",is(0)));
+//
+//		results.andDo(new ResultHandler() {
+//			@Override
+//			public void handle(MvcResult result) throws Exception {
+//				System.out.println("testGetAccountBalanceForApp_01*********" + result.getResponse().getContentAsString());
+//			}
+//		});
+//    }
 }
