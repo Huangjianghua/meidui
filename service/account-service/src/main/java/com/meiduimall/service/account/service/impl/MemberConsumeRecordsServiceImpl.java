@@ -36,5 +36,15 @@ public class MemberConsumeRecordsServiceImpl implements MemberConsumeRecordsServ
 	public void insertConsumeRecord(MSMemberConsumeRecords model) {
 		baseDao.insert(model,"MSMemberConsumeRecordsMapper.insertConsumeRecord");
 	}
+	
+	@Override
+	public void save(MSMemberConsumeRecordsReq mmt) {
+		baseDao.insert(mmt, "MSMemberConsumeRecordsMapper.insertConsumeRecords");
+	}
+
+	@Override
+	public void updateOrderStatus(MSMemberConsumeRecordsReq mmt) {
+		baseDao.update(mmt, "MSMemberConsumeRecordsMapper.updateOrderStatus");
+	}
 
 }
