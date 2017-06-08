@@ -34,28 +34,28 @@ public class AccountAdjustV1ControllerTest extends BaseControllerTest {
 	 * @author chencong
 	 * @throws Exception
 	 */
-	 @Test
-	 public void updatePaypwd() throws Exception{
-		 RequestAccountAdjustAmount model =new RequestAccountAdjustAmount();
-		 model.setMemId(memId);
-		 model.setSource("O2O");
-		 model.setTrade_type(ConstTradeType.TRADE_TYPE_QDYE.getCode());
-		 model.setOrder_id(UUID.randomUUID().toString());
-		 model.setDirection(ConstSysParamsDefination.CAPITAL_IN);
-		 model.setTrade_amount(99.99);
-		 model.setTrade_time(String.valueOf(System.currentTimeMillis()));
-		 model.setRemark("单元测试>>账户调增调减");
-	    	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/account_adjust_amount")
-	    			.contentType(MediaType.APPLICATION_JSON_UTF8)
-	    			.content(JsonUtils.beanToJson(model)))
-	    			.andExpect(status().isOk())
-	    			.andExpect(jsonPath("$.status",is(0)));
-	    	
-	    	postResultAction.andDo(new ResultHandler() {
-				@Override
-				public void handle(MvcResult result) throws Exception {
-					logger.info("单元测试>>账户调增调减API>>执行结果:{}",result.getResponse().getContentAsString());
-				}
-			});
-	    }
+//	 @Test
+//	 public void updatePaypwd() throws Exception{
+//		 RequestAccountAdjustAmount model =new RequestAccountAdjustAmount();
+//		 model.setMemId(memId);
+//		 model.setSource("O2O");
+//		 model.setTrade_type(ConstTradeType.TRADE_TYPE_QDYE.getCode());
+//		 model.setOrder_id(UUID.randomUUID().toString());
+//		 model.setDirection(ConstSysParamsDefination.CAPITAL_IN);
+//		 model.setTrade_amount(99.99);
+//		 model.setTrade_time(String.valueOf(System.currentTimeMillis()));
+//		 model.setRemark("单元测试>>账户调增调减");
+//	    	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/account_adjust_amount")
+//	    			.contentType(MediaType.APPLICATION_JSON_UTF8)
+//	    			.content(JsonUtils.beanToJson(model)))
+//	    			.andExpect(status().isOk())
+//	    			.andExpect(jsonPath("$.status",is(0)));
+//	    	
+//	    	postResultAction.andDo(new ResultHandler() {
+//				@Override
+//				public void handle(MvcResult result) throws Exception {
+//					logger.info("单元测试>>账户调增调减API>>执行结果:{}",result.getResponse().getContentAsString());
+//				}
+//			});
+//	    }
 }
