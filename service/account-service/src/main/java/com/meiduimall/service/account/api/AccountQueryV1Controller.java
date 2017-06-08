@@ -25,10 +25,12 @@ import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.MdBizException;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
+import com.meiduimall.service.account.model.AccountReviseDetail;
 import com.meiduimall.service.account.model.MSAccountDetail;
 import com.meiduimall.service.account.model.MSAccountDetailCondition;
 import com.meiduimall.service.account.model.MSAccountDetailGet;
 import com.meiduimall.service.account.model.MSAccountList;
+import com.meiduimall.service.account.model.request.RequestAccountReviseDetail;
 import com.meiduimall.service.account.model.request.RequestMSAccountList;
 import com.meiduimall.service.account.service.AccountReportService;
 import com.meiduimall.service.account.service.MSAccountDetailService;
@@ -162,7 +164,7 @@ public class AccountQueryV1Controller {
 	 * @param id
 	 * @return
 	 * @author: jianhua.huang 2017年5月5日 下午5:32:18
-	 *//*
+	 */
 	@PostMapping(value = "/get_account_revision_detail")
 	public ResBodyData getMSAccountRevisionDetail(@RequestBody String id) {
 		AccountReviseDetail detail = null;
@@ -177,13 +179,13 @@ public class AccountQueryV1Controller {
 		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M, detail);
 	}
 
-	*//**
+	/**
 	 * 查看会员余额调整明细集合 flg区别 分页
 	 * 
 	 * @param detailRequest
 	 * @return
 	 * @author: jianhua.huang 2017年5月5日 下午5:32:28
-	 *//*
+	 */
 	@PostMapping(value = "/query_account_revision_detail_list")
 	public ResBodyData queryMSAccountRevisionDetailList(@RequestBody RequestAccountReviseDetail detailRequest) {
 		List<AccountReviseDetail> list = null;
@@ -192,11 +194,11 @@ public class AccountQueryV1Controller {
 			if (detailRequest.getFlg().equals(Constants.CONSTANT_STR_ONE)) {
 				// 分页
 				PageHelper.startPage(detailRequest.getPageNum(), detailRequest.getPageSize());
-				PageHelper.orderBy("msard.created_date DESC");
+				PageHelper.orderBy("msard.create_date DESC");
 			} else {
 				// 不分页
 				PageHelper.startPage(detailRequest.getPageNum(), 0, false, false, true);
-				PageHelper.orderBy("msard.created_date DESC");
+				PageHelper.orderBy("msard.create_date DESC");
 			}
 			list = mSAccountDetailService.queryMSAccountReviseDetailList(detailRequest);
 		} catch (MdBizException e) {
@@ -208,7 +210,7 @@ public class AccountQueryV1Controller {
 		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M, new PageInfo<>(list));
 	}
 
-	*/
+	
 
 	/**
 	 * 根据会员memId，获取会员账户余额和积分余额(旧会员系统调用时，会对返回参数进行转换)
