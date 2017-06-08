@@ -1,6 +1,5 @@
 package com.meiduimall.service.account.service.impl;
 
-import static org.mockito.Matchers.endsWith;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -31,7 +30,6 @@ import com.meiduimall.service.account.model.MSBankAccount;
 import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
 import com.meiduimall.service.account.model.MSConsumePointsFreezeInfo;
 import com.meiduimall.service.account.model.MSMemberConsumeRecords;
-import com.meiduimall.service.account.model.MSMemberIntegral;
 import com.meiduimall.service.account.model.request.MSMemberConsumeRecordsReq;
 import com.meiduimall.service.account.model.request.RequestSaveOrder;
 import com.meiduimall.service.account.model.request.RequestCancelOrder;
@@ -102,6 +100,8 @@ public class TradeServiceImpl implements TradeService {
 
 	@Autowired
 	private ConsumePointsFreezeInfoService pointsFreezeInfoService;
+	
+	 
 
 	@Override
 	@Transactional
@@ -716,7 +716,7 @@ public class TradeServiceImpl implements TradeService {
 				logger.info("退费订单号：" + ms.getOrderId() + "，当月退费美积分金额是：" + ms.getConsumePoints());
 			}
 
-			memberConsumeRecordsService.insertConsumeRecord(ms);
+			memberConsumeRecordsService.updateOrderStatus(ms);
 
 			logger.info("当前退余额: " + ms.getConsumeMoney() + "当前退积分：" + ms.getConsumePoints());
 			 
@@ -825,7 +825,7 @@ public class TradeServiceImpl implements TradeService {
 				}
 			}
 
-			memberConsumeRecordsService.insertConsumeRecord(mmt);
+			memberConsumeRecordsService.save(mmt);
 
 			Double beforeCouponsBalance = Double.parseDouble("0");
 			Double endCouponsBalance = Double.parseDouble("0");
