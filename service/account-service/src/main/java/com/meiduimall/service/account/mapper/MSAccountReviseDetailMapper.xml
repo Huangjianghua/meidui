@@ -198,21 +198,13 @@
        <if test="status != null  and status !=''" >
         status = #{status,jdbcType=VARCHAR},
       </if>
-      <if test="createUser != null and createUser !=''" >
-        create_user = #{createUser,jdbcType=VARCHAR},
-      </if>
-      <if test="createDate != null and createDate !=''" >
-        create_date = #{createDate,jdbcType=TIMESTAMP},
-      </if>
       <if test="updateUser != null and updateUser !=''" >
         update_user = #{updateUser,jdbcType=VARCHAR},
-      </if>
-      <if test="updateDate != null and updateDate !=''" >
-        update_date = #{updateDate,jdbcType=TIMESTAMP},
       </if>
       <if test="remark != null and remark !=''" >
         remark = #{remark,jdbcType=VARCHAR},
       </if>
+       update_date = now()
     </set>
     <where>
       <if test="id !=null and id !=''">

@@ -267,11 +267,11 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		List<MSAccount> accountList=this.queryAccountList(null,null,detail.getAccountNo());
 		MSAccount account=accountList.get(0);
 		//step2  判断调整类型   1-调增金额   2-调减金额  
-		String type=String.valueOf(Constants.CONSTANT_INT_ONE); //表示余额明细 支出类型  1表示收入  -1表示支出
+		Integer type=Constants.CONSTANT_INT_ONE; //表示余额明细 支出类型  1表示收入  -1表示支出
 		if(detail.getReviseType().equals(ConstAccountAdjustType.CUTDOWN.getName())){
 			balance = DoubleCalculate.sub(Double.valueOf(account.getBalance()),detail.getReviseBalance().doubleValue());
 			if(balance<Constants.CONSTANT_INT_ZERO) throw new MdBizException(ConstApiStatus.ACCOUNT_REVISE_BALANCE_ERROR);
-			type=String.valueOf(Constants.CONSTANT_INT_INVALID);
+			type=Constants.CONSTANT_INT_INVALID;
 		}else{
 			balance = DoubleCalculate.add(Double.valueOf(account.getBalance()),detail.getReviseBalance().doubleValue());
 		}
@@ -308,7 +308,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月20日 下午4:49:13
 	 */
-	private void saveAccountDetail(AccountReviseDetail detail,MSAccount account,String type,Double balance) throws MdBizException{
+	private void saveAccountDetail(AccountReviseDetail detail,MSAccount account,Integer type,Double balance) throws MdBizException{
 		//业务流水号  CWTZ+年月日时+6位随机数
 		StringBuffer businesNo=new StringBuffer(ConstSysParamsDefination.TRADETYPE);
 		businesNo.append(DateUtil.format(new Date(), DateUtil.YYYYMMDDHH));
@@ -321,11 +321,11 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		paramsMap.put("updateUser", "system");
 		paramsMap.put("businessNo", businesNo.toString());
 		paramsMap.put("tradeType", ConstSysParamsDefination.TRADETYPE);
-		paramsMap.put("tradeAmount", detail.getReviseBalance().toString());
-		paramsMap.put("balance", balance.toString());
+		paramsMap.put("tradeAmount", detail.getReviseBalance().doubleValue());
+		paramsMap.put("balance", balance);
 		paramsMap.put("remark", detail.getAccountTypeName());
 		paramsMap.put("inOrOut", type);
-		paramsMap.put("tradeDate", DateUtil.format(new Date(),DateUtil.YYYY_MM_DD_HH_MM_SS));
+		paramsMap.put("tradeDate", new Date());
 		paramsMap.put("createDate", DateUtil.format(new Date(),DateUtil.YYYY_MM_DD_HH_MM_SS));
 		paramsMap.put("updateDate", DateUtil.format(new Date(),DateUtil.YYYY_MM_DD_HH_MM_SS));
 		try {
