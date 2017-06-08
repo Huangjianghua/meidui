@@ -22,7 +22,7 @@ public class AgentControllerTest extends BaseTest {
 	 * 功能描述:  保证金分润
 	 * Author: guidl
 	 */
-	@Test
+	/*@Test
 	public void testShareDeposit() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/settlementservice/agentservice/v1/sharedeposit")
@@ -40,7 +40,7 @@ public class AgentControllerTest extends BaseTest {
 				System.out.println("*********" + result.getResponse().getContentAsString());
 			}
 		});
-	}
+	}*/
 	
 	/**
 	 * 功能描述:  新商家送积分
