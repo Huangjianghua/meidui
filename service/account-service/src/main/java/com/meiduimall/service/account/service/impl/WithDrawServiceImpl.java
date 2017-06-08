@@ -100,7 +100,7 @@ public class WithDrawServiceImpl implements WithDrawService {
 					deposit.setBusinessNo(bean.getBusinessNo() == null ? "" : bean.getBusinessNo());
 					deposit.setCounterFee(bean.getPoundageAmount() == null ? 0.00 : bean.getPoundageAmount());
 					deposit.setRemark(bean.getRemark() == null ? "" : bean.getRemark());
-					deposit.setStatus(bean.getStatus() == null ? "" : bean.getStatus());
+					deposit.setStatus(bean.getStatusCode() == null ? "" : bean.getStatusCode());
 					deposit.setMemId(model.getMemId());
 					deposit.setId(bean.getId());
 					if (bean.getCreateDate() != null) {// 创建时间

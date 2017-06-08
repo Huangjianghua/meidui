@@ -261,6 +261,10 @@ public class MSBankWithdrawDeposit extends BaseModel implements Serializable{
 	public String getStatus() {
 		return ConstWithdrawStatus.getNameByCode(status);
 	}
+	
+	public String getStatusCode() {
+		return this.status;
+	}
 
 	public void setStatus(String status) {
 		this.status = status;
