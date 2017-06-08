@@ -700,8 +700,7 @@ public class TradeServiceImpl implements TradeService {
 			memberConsumeRecordsService.updateOrderStatus(ms);
 
 			logger.info("当前退余额: " + ms.getConsumeMoney() + "当前退积分：" + ms.getConsumePoints());
-			// 更新退单消费表示
-			this.cancelOrder(new MSMemberIntegral(ms.getMemId(), history.getCreateDate()));
+			 
 		} catch (DaoException e) {
 			logger.error(ConstApiStatus.getZhMsg(ConstApiStatus.SERVER_DEAL_WITH_EXCEPTION) + ":{}", e);
 			throw new ServiceException(ConstApiStatus.SERVER_DEAL_WITH_EXCEPTION,
@@ -711,10 +710,6 @@ public class TradeServiceImpl implements TradeService {
 		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M, json);
 	}
 
-	/** 更新退单消费表示 **/
-	private void cancelOrder(MSMemberIntegral mSMemberIntegral) {
-		baseDao.update(mSMemberIntegral, "MsMemberIntegralMapper.cancelOrder");
-	}
 
 	@Override
 	@Transactional
@@ -737,8 +732,8 @@ public class TradeServiceImpl implements TradeService {
 		} else {
 
 			// 根据订单查询冻结积分
-//			List<MSConsumePointsFreezeInfo> pointsList = pointsService.getRecordsByOrderId(mmt.getOrderId());
-			// 获取积分余额
+			List<MSConsumePointsFreezeInfo> pointsList = pointsFreezeInfoService.getRecordsByOrderId(mmt.getOrderId());
+			// 获取可使用积分
 			Double consumePoints = pointsService.getAvailablePointsByMemId(mmt.getMemId());
 			// 获取可使用余额
 			Double useConsumeMoney = accountReportService.getAvailableBalance(mmt.getMemId());
@@ -752,7 +747,7 @@ public class TradeServiceImpl implements TradeService {
 			// 增加美兑积分逻辑 2016-10-31 美兑积分解冻
 			if (isZero(mmt.getConsumePoints())) {
 				logger.info("订单编号：" + mmt.getOrderId() + ",进入积分冻结方法.");
-				/*if (pointsList.size() > 0) {
+				if (pointsList.size() > 0) {
 					// 检查重复解冻
 					if (pointsList.size() > 1) {
 						logger.info("重复提交的冻结订单" + mmt.getOrderId() + ";冻结" + mmt.getConsumePoints());
@@ -760,12 +755,12 @@ public class TradeServiceImpl implements TradeService {
 								ConstApiStatus.getZhMsg(ConstApiStatus.REPEAT_FREEZ_ORDER));
 					}
 					// 解冻金额和冻结金额是否一样
-					/*if (DoubleCalculate.add(Double.valueOf(mmt.getConsumePoints()),
+					if (DoubleCalculate.add(Double.valueOf(mmt.getConsumePoints()),
 							Double.valueOf(pointsList.get(0).getMcpfConsumePoints())) != 0.0) {
 						logger.info("订单解冻积分不等于冻结积分");
 						return new ResBodyData(ConstApiStatus.DJ_NOT_EQUALS_DJ,
 								ConstApiStatus.getZhMsg(ConstApiStatus.DJ_NOT_EQUALS_DJ));
-					}*/
+					}
 					// 写入积分冻结表
 					/*
 					 * accountFreezeDetailService.saveUnFreezePoints(mmt.
@@ -774,12 +769,12 @@ public class TradeServiceImpl implements TradeService {
 					 * ConstPointsChangeType.POINTS_FREEZE_TYPE_JD.getName());
 					 */
 
-				/*	logger.info(mmt.getOrderId() + ";冻结" + mmt.getConsumePoints());
+					logger.info(mmt.getOrderId() + ";冻结" + mmt.getConsumePoints());
 				} else {
 					logger.info("没有冻结的积分记录");
 					return new ResBodyData(ConstApiStatus.NO_DJ_POINTS,
 							ConstApiStatus.getZhMsg(ConstApiStatus.NO_DJ_POINTS));
-				}*/
+				}
 			}
 			// 增加账户余额支付逻辑 2017-03-02
 			if (isZero(mmt.getConsumeMoney())) {

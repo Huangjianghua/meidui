@@ -66,7 +66,7 @@ public class TradeV1Controller {
 
 	
 	/**
-	 * 退会员订单接口 
+	 * 会员退订单接口 
 	 * @author wujun
 	 */
 	@PostMapping(value = "/recede_order")

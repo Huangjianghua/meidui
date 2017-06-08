@@ -89,6 +89,7 @@
 	  #{refundPoundageMin},
 	  #{refundPoundageMax},
 	  #{withdrawPriority},
+	  #{spendPriority},
 	  #{accountStatus},
 	  now(),
 	  #{createUser},
