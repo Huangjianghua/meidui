@@ -55,7 +55,7 @@ public class AliyunServiceImpl implements AliyunService {
 			logger.error("短信发送，阿里云平台返回: " + resultBody);
 			if (!StringUtils.isEmpty(resultBody) && resultBody.indexOf("\"success\":true") != -1) {
 				return true;
-			} else if (resultBody.indexOf("isv.BUSINESS_LIMIT_CONTROL") != -1) {
+			} else if (!StringUtils.isEmpty(resultBody) && resultBody.indexOf("isv.BUSINESS_LIMIT_CONTROL") != -1) {
 				// 短信验证码，使用同一个签名，对同一个手机号码发送短信验证码，允许每分钟1条，累计每小时7条。
 				// 短信通知，使用同一签名、同一模板，对同一手机号发送短信通知，允许每天50条（自然日）。
 				logger.error("短信发送，阿里云平台返回错误码: isv.BUSINESS_LIMIT_CONTROL");

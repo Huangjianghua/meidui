@@ -180,13 +180,13 @@ public class OldSmsController {
 	 * @return 过滤后的手机号
 	 */
 	private String formartPhone(String phone) {
-		phone = phone.trim();
-		if (phone.startsWith("+")) {
-			phone = phone.substring(1);
+		String tempPhone = phone.trim();
+		if (tempPhone.startsWith("+")) {
+			tempPhone = tempPhone.substring(1);
 		}
-		if (phone.startsWith("86")) {
-			phone = phone.substring(2);
+		if (tempPhone.startsWith("86")) {
+			tempPhone = tempPhone.substring(2);
 		}
-		return phone;
+		return tempPhone;
 	}
 }
