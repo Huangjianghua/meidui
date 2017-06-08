@@ -19,7 +19,7 @@ import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.service.member.model.MSMemberMobileArea;
 
 /**
- * 会员信息
+ * 会员信息 
  * @author chencong
  *
  */
