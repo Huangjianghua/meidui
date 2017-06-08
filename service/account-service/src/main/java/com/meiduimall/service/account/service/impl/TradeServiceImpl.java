@@ -716,7 +716,7 @@ public class TradeServiceImpl implements TradeService {
 				logger.info("退费订单号：" + ms.getOrderId() + "，当月退费美积分金额是：" + ms.getConsumePoints());
 			}
 
-			memberConsumeRecordsService.insertConsumeRecord(ms);
+			/*memberConsumeRecordsService.insertConsumeRecord(ms);*/
 
 			logger.info("当前退余额: " + ms.getConsumeMoney() + "当前退积分：" + ms.getConsumePoints());
 			 
@@ -825,7 +825,7 @@ public class TradeServiceImpl implements TradeService {
 				}
 			}
 
-			memberConsumeRecordsService.insertConsumeRecord(mmt);
+			/*memberConsumeRecordsService.insertConsumeRecord(mmt);*/
 
 			Double beforeCouponsBalance = Double.parseDouble("0");
 			Double endCouponsBalance = Double.parseDouble("0");
