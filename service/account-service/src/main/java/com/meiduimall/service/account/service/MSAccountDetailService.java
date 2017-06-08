@@ -2,6 +2,7 @@ package com.meiduimall.service.account.service;
 
 import java.util.List;
 
+import com.github.pagehelper.Page;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdBizException;
 import com.meiduimall.service.account.model.AccountReviseDetail;
@@ -44,7 +45,7 @@ public interface MSAccountDetailService {
 	 * @throws MdBizException
 	 * @author: jianhua.huang  2017年5月5日 下午5:44:05
 	 */
-	public List<MSAccountList> listMSAccount(RequestMSAccountList msAccountListRequest)throws MdBizException;
+	public Page<MSAccountList> listMSAccount(RequestMSAccountList msAccountListRequest)throws MdBizException;
 	
 	/**
 	 * 添加调整会员余额明细
@@ -128,5 +129,5 @@ public interface MSAccountDetailService {
 	 * @throws MdBizException
 	 * @author: jianhua.huang  2017年4月28日 上午10:48:37
 	 */
-	public void saveBankWithdrawDeposit(RequestMSBankWithDrawDepostie deposit)throws MdBizException;
+	public String saveBankWithdrawDeposit(RequestMSBankWithDrawDepostie deposit)throws MdBizException;
 }

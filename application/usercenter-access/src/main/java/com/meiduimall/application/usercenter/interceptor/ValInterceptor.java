@@ -31,8 +31,7 @@ public class ValInterceptor implements HandlerInterceptor {
 	}
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object object) throws Exception {
 		logger.info("拦截器收到API请求");
-		boolean hasToken=ValToken.valApiTokenFlag((HandlerMethod)object);
-		ValRequest.validate(request,hasToken);
+		ValRequest.validate(request,ValToken.valApiTokenFlag((HandlerMethod)object));
         return true;
 	}
 

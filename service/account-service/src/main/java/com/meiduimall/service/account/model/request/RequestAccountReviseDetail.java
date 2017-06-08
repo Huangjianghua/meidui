@@ -28,7 +28,11 @@ public class RequestAccountReviseDetail extends PageHelp implements Serializable
 	/**
 	 * 钱包类型
 	 */
-	private String walletType;
+	private String accountNo;
+	private String accountTypeName;
+	
+	private String accountTypeNo;
+	
 	/**
 	 * 调整类型(1-调增,2-调减)
 	 */
@@ -55,12 +59,22 @@ public class RequestAccountReviseDetail extends PageHelp implements Serializable
 
 	
 	
-	public String getWalletType() {
-		return walletType;
+ 
+
+	public String getAccountNo() {
+		return accountNo;
 	}
 
-	public void setWalletType(String walletType) {
-		this.walletType = walletType;
+	public void setAccountNo(String accountNo) {
+		this.accountNo = accountNo;
+	}
+
+	public String getAccountTypeName() {
+		return accountTypeName;
+	}
+
+	public void setAccountTypeName(String accountTypeName) {
+		this.accountTypeName = accountTypeName;
 	}
 
 	public String getId() {
@@ -157,6 +171,20 @@ public class RequestAccountReviseDetail extends PageHelp implements Serializable
 
 	public void setFlg(String flg) {
 		this.flg = flg;
+	}
+
+	/**
+	 * @return the accountTypeNo
+	 */
+	public String getAccountTypeNo() {
+		return accountTypeNo;
+	}
+
+	/**
+	 * @param accountTypeNo the accountTypeNo to set
+	 */
+	public void setAccountTypeNo(String accountTypeNo) {
+		this.accountTypeNo = accountTypeNo;
 	}
 
 }

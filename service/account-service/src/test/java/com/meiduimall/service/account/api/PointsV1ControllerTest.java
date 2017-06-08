@@ -32,7 +32,7 @@ public class PointsV1ControllerTest extends BaseControllerTest {
 	/**积分流水分页*/
     @Test
     public void listConsumePointsDetail() throws Exception{
-    	MSConsumePointsDetailGet model=new MSConsumePointsDetailGet();
+    	/*MSConsumePointsDetailGet model=new MSConsumePointsDetailGet();
     	model.setMemId(memId);
     	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/list_consume_points_detail")
     			.contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -43,9 +43,9 @@ public class PointsV1ControllerTest extends BaseControllerTest {
     	postResultAction.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				logger.info("单元测试>>积分流水分页API>>执行结果:{}",result.getResponse().getContentAsString());;
+				logger.info("单元测试>>积分流水分页API>>执行结果:{}",result.getResponse().getContentAsString());
 			}
-		});
+		});*/
     }
 	    
     /**
@@ -55,7 +55,7 @@ public class PointsV1ControllerTest extends BaseControllerTest {
      */
     @Test
     public void queryTransferPointsList() throws Exception{
-    	RequestPointTransfer model=new RequestPointTransfer();
+    	/*RequestPointTransfer model=new RequestPointTransfer();
     	model.setMthNo("4000000207675002");
     	model.setFlag("1");
     	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/queryPointsTransferList")
@@ -66,8 +66,8 @@ public class PointsV1ControllerTest extends BaseControllerTest {
     	postResultAction.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				logger.info("单元测试>>积分转账列表API>>执行结果:{}",result.getResponse().getContentAsString());;
+				logger.info("单元测试>>积分转账列表API>>执行结果:{}",result.getResponse().getContentAsString());
 			}
-		});
+		});*/
     }
 }

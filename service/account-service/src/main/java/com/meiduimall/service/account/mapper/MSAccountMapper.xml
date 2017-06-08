@@ -1,36 +1,128 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!--会员账户表ms_account相关操作 -->
+<!--会员按账户类型账户表ms_account相关操作 -->
 <mapper namespace="MSAccountMapper">
+
+  <resultMap id="MsAccountResultMap" type="com.meiduimall.service.account.model.MSAccount" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="account_no" property="accountNo" jdbcType="VARCHAR" />
+    <result column="mem_id" property="memId" jdbcType="VARCHAR" />
+    <result column="account_type_no" property="accountTypeNo" jdbcType="VARCHAR" />
+    <result column="account_no_sequence" property="accountNoSequence" jdbcType="BIGINT" />
+    <result column="balance" property="balance" jdbcType="DECIMAL" />
+    <result column="balance_encrypt" property="balanceEncrypt" jdbcType="VARCHAR" />
+    <result column="freeze_balance" property="freezeBalance" jdbcType="DECIMAL" />
+    <result column="freeze_balance_encrypt" property="freezeBalanceEncrypt" jdbcType="VARCHAR" />
+    <result column="allow_withdraw" property="allowWithdraw" jdbcType="INTEGER" />
+    <result column="withdraw_poundage_scale" property="withdrawPoundageScale" jdbcType="DECIMAL" />
+    <result column="withdraw_poundage_min" property="withdrawPoundageMin" jdbcType="DECIMAL" />
+    <result column="withdraw_poundage_max" property="withdrawPoundageMax" jdbcType="DECIMAL" />
+    <result column="allow_refund" property="allowRefund" jdbcType="INTEGER" />
+    <result column="refund_poundage_scale" property="refundPoundageScale" jdbcType="DECIMAL" />
+    <result column="refund_poundage_min" property="refundPoundageMin" jdbcType="DECIMAL" />
+    <result column="refund_poundage_max" property="refundPoundageMax" jdbcType="DECIMAL" />
+    <result column="withdraw_priority" property="withdrawPriority" jdbcType="DECIMAL" />
+    <result column="spend_priority" property="spendPriority" jdbcType="INTEGER" />
+    <result column="account_status" property="accountStatus" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="DATE" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="DATE" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
 	
 	<!--  根据会员ID查询当前积分 -->
+	<!-- 该代码不推荐使用，4.0.3版本会废弃 -->
 	<select id="getCurrentPointsByMemId" parameterType="java.lang.String" resultType="java.lang.String">
 		SELECT m.mem_basic_account_total_quantity 
 		FROM ms_members m 
 		WHERE m.mem_id=#{memId}
 	</select>
 	
-	<!-- 根据会员ID查询账户信息 -->
-	<select id="getAccountByMemId" parameterType="java.util.Map" resultType="com.meiduimall.service.account.model.MSAccount">
-		SELECT id AS id,
-		mem_id AS memId,
-		type AS type,
-		balance AS balance,
-		freeze_balance AS freezeBalance,
-		create_date AS createDate,
-		update_date AS updateDate
-		FROM ms_account 
-		WHERE mem_id = #{memId} 
-		AND type = #{accountType}
+	<!-- 根据条件查询账户信息 -->
+	<select id="getAccountByCondition" resultMap="MsAccountResultMap" parameterType="java.util.Map">
+		SELECT m.*
+		FROM ms_account m
+		WHERE 1=1
+		<if test="memId != null and memId != ''">
+		AND m.mem_id=#{memId}
+		</if>
+		<if test="accountTypeNo != null and accountTypeNo != ''">
+		AND m.account_type_no=#{accountTypeNo}
+		</if>
 	</select>
 	
-	<!-- 根据会员ID和账户类型修改余额账户冻结金额 -->
-	<update id="updateFreezeBalanceByMemIdAndType" parameterType="java.util.Map">
-		UPDATE ms_account
-		SET freeze_balance = #{freezeBalance},update_date = now()
-		WHERE id = #{id}
-		AND type = #{accountType}
+	<!-- 根据条件查询余额相关的账户信息 -->
+	<select id="getBalanceAccountByCondition" resultMap="MsAccountResultMap" parameterType="java.util.Map">
+		SELECT m.*
+		FROM ms_account m
+		WHERE 1=1
+		<if test="memId != null and memId != ''">
+		AND m.mem_id=#{memId}
+		</if>
+		<if test="accountTypeNo != null and accountTypeNo != ''">
+		AND m.account_type_no=#{accountTypeNo}
+		</if>
+		AND m.account_type_no IN ('CWTZ1','CWTZ2','CWTZ3','FJJL','GDYE','KFCZ1','KFCZ2','QDYE','SCJL','SJJL','SJYE','YEDR')
+	</select>
+	
+	<!-- 插入会员账户信息 -->
+	  <insert id="insertAccount" parameterType="com.meiduimall.service.account.model.MSAccount" >
+	  INSERT INTO ms_account
+	  VALUES (
+	  #{id},
+	  #{accountNo},
+	  #{memId},
+	  #{accountTypeNo},
+	  #{accountNoSequence},
+	  #{balance},
+	  #{balanceEncrypt},
+	  #{freezeBalance},
+	  #{freezeBalanceEncrypt},
+	  #{allowWithdraw},
+	  #{withdrawPoundageScale},
+	  #{withdrawPoundageMin},
+	  #{withdrawPoundageMax},
+	  #{allowRefund},
+	  #{refundPoundageScale},
+	  #{refundPoundageMin},
+	  #{refundPoundageMax},
+	  #{withdrawPriority},
+	  #{spendPriority},
+	  #{accountStatus},
+	  now(),
+	  #{createUser},
+	  now(),
+	  #{updateUser},
+	  #{remark}
+	  )
+	  </insert>
+
+	
+	<!-- 根据条件更新账户信息-->
+	<update id="updateAccountByCondition" parameterType="com.meiduimall.service.account.model.MSAccount">
+	  UPDATE ms_account 
+	  <set>
+	  <!-- 更新当前类型总金额明文-->
+      <if test="balance != null and balance != ''">balance=#{balance},</if>
+      <!-- 更新当前类型总金额密文-->
+      <if test="balanceEncrypt != null and balanceEncrypt != ''">balance_encrypt=#{balanceEncrypt},</if>
+      <!-- 更新当前类型冻结余额明文 -->
+      <if test="freezeBalance != null and freezeBalance != ''">freeze_balance=#{freezeBalance},</if>
+      <!-- 更新当前类型冻结余额密文 -->
+      <if test="freezeBalanceEncrypt != null and freezeBalanceEncrypt != ''">freeze_balance_encrypt=#{freezeBalanceEncrypt},</if>
+      <!-- 更新更新时间 -->
+      <if test="updateDate != null and updateDate != ''">update_date=now(),</if>
+      </set>
+      <where>
+	  <if test="accountNo !=null and accountNo !=''">
+		    and account_no = #{accountNo}
+	  </if>
+	  <if test="memId !=null and memId !=''">
+		    and mem_id = #{memId}
+	  </if>
+		</where>
 	</update>
 	
 	<!-- 根据会员ID修改当前积分 -->
@@ -39,45 +131,6 @@
 		SET mem_basic_account_total_quantity=#{newCurrentPoints}
 		WHERE mem_id=#{memId}
 	</update>
-	
-	
-	<!-- 根据userid查询会员ID 2017-02-23 dengbibo  -->
-	<select id="getMemIdByUserId" parameterType="java.util.Map" resultType="java.lang.String">
-		SELECT ms.mem_id FROM ms_members ms 
-		 WHERE ms.mem_id = #{memId} OR ms.mem_login_name = #{userId} 
-		 	OR ms.mem_email = #{userId} OR ms.mem_phone = #{userId}
-	</select>
-	
-	<!--  根据memId与账户类型修改账户当前余额  2017-02-23 dengbibo  -->
-	<update id="updateAccountBalance" parameterType="java.util.Map">
-		update ms_account
-		   set balance = #{balance},
-		       update_date = now()
-		 where id = #{id}
-		   and type = #{accountType}
-	</update>
-	
-	<!--  根据memId与账户类型修改账户余额，包含冻结与非冻结的  2017-02-23 dengbibo  -->
-	<update id="updateAccount" parameterType="java.util.Map">
-		update ms_account
-		   set balance = #{balance},
-		       freeze_balance = #{freezeBalance},
-		       update_date = now()
-		 where id = #{id}
-		   and type = #{accountType}
-	</update>
-	
-	<!--  根据订单编号查询订单记录  2017-02-28 dengbibo  -->
-	<select id="getConsumeHistoryByOrderId" parameterType="map" resultType="String">
-		select t1.mch_id as id,
-			   t1.mch_money as totalMoney,
-			   t1.mch_shopping_coupon_count as money,
-			   t1.mch_consume_points_count as point,
-			   t1.mch_status as status
-		  from ms_member_consume_history t1 
-		 where t1.order_id = #{orderId}
-	</select>
-
 
 	<!-- 根据条件查询订单记录 -->
 	<select id="queryListMSAccount" parameterType="com.meiduimall.service.account.model.request.RequestMSAccountList" resultType="com.meiduimall.service.account.model.MSAccountList">
@@ -90,13 +143,12 @@
 				msm.mem_sign_source AS memSignSource, /**注册来源 */
 				DATE_FORMAT(msm.mem_created_date,'%Y-%m-%d %H:%i:%s') as memRegTime,/**会员注册时间  */
 				DATE_FORMAT(msm.mem_last_login_time,'%Y-%m-%d %H:%i:%s') as pfLastLoginTime,/**会员最近一次登陆时间  */
-				ROUND(IFNULL(msa.balance,0.0)-IFNULL(msa.freeze_balance,0.0),2) as mchBalanceCount, /**可用余额  */
-	  			IFNULL(msa.freeze_balance,0.0)  as mchFreezeBalanceCount,   /**冻结余额  */
+				(SELECT ROUND(IFNULL(msar.balance,0.0)-IFNULL(msar.freeze_balance,0.0),2) FROM  ms_account_report msar where msar.mem_id=msm.mem_id) as mchBalanceCount, /**可用余额  */
+			    (SELECT IFNULL(msar.freeze_balance,0.0) as freeze_balance  FROM  ms_account_report msar where msar.mem_id=msm.mem_id) as mchFreezeBalanceCount,  /**冻结余额  */
 	  			IFNULL(msm.mem_basic_account_total_quantity,0.0) as mchPointsBalanceCount,/**可用积分=总积分-冻结积分  */
 	  			(select SUM(mcpf_consume_points) from ms_consume_points_freeze_info where mem_id=msm.mem_id) as mchFreezePointsCount /**冻结积分  */
 			FROM
 				ms_members msm
-			LEFT JOIN ms_account msa on (msa.mem_id=msm.mem_id and msa.type='AT02')/**取类型为现金账号的数据  */
 		<where>
 		    <if test="memId !=null and memId !=''">
 				AND msm.mem_id=#{memId}
@@ -130,17 +182,45 @@
 			</if>
 		 </where>
 	</select>
-		<!--添加账户信息，临时使用-->
-	<insert id="insertMsAccount" parameterType="com.meiduimall.service.account.model.MSAccount">
-	   INSERT INTO  ms_account
-		VALUES
-		(#{id},
-		#{memId},
-		#{type},
-		#{balance},
-		#{freezeBalance},
-		#{createDate},
-		#{updateDate}
-		)
-	</insert>
+	
+	<!-- 根据条件查询订单记录 -->
+	<select id="queryListMSAccountCount" parameterType="com.meiduimall.service.account.model.request.RequestMSAccountList" resultType="Integer">
+			SELECT
+				count(1)
+			FROM
+				ms_members msm
+		<where>
+		    <if test="memId !=null and memId !=''">
+				AND msm.mem_id=#{memId}
+			</if>
+			<if test="memLoginName !=null and memLoginName !=''">
+				AND msm.mem_login_name=#{memLoginName}
+			</if>
+			<if test="memPhone !=null and memPhone !=''">
+				AND msm.mem_phone=#{memPhone}
+			</if>
+			<if test="status !=null and status !=''">
+				AND msm.dict_mem_status=#{status}
+			</if>
+			<if test="memSignSource !=null and memSignSource !=''">
+				AND mem_sign_source=#{memSignSource}
+			</if>
+			<if test="memRegTimeBegin !=null and memRegTimeBegin !=''">
+				AND msm.mem_created_date &gt;= #{memRegTimeBegin}
+			</if>
+			<if test="memRegTimeEnd !=null and memRegTimeEnd !=''">
+				AND msm.mem_created_date &lt;= #{memRegTimeEnd}
+			</if>
+			<if test="lastLoginTimeBegin !=null and lastLoginTimeBegin !=''">
+				AND msm.mem_last_login_time &gt;= #{lastLoginTimeBegin}
+			</if>
+			<if test="lastLoginTimeEnd !=null and lastLoginTimeEnd !=''">
+				AND msm.mem_last_login_time &lt;= #{lastLoginTimeEnd}
+			</if>
+			 <if test="memParentIdPhone !=null and memParentIdPhone !=''">
+				AND msm.mem_parent_id in (SELECT mem_id FROM ms_members WHERE mem_phone=#{memParentIdPhone}) 
+			</if>
+		 </where>
+	</select>
+	
 </mapper>

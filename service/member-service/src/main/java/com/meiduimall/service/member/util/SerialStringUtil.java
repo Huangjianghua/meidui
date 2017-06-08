@@ -1,6 +1,6 @@
 package com.meiduimall.service.member.util;
 
-import com.meiduimall.service.member.constant.SysEncrypParamsConst;
+import com.meiduimall.service.member.constant.ConstSysEncrypParams;
 
 /**
  * 字符串序列转化为指定值
@@ -16,25 +16,25 @@ public class SerialStringUtil {
 	 */
 	public static String getDictOrderSource(String orderSource){
 		String dictOrderSource = "";
-		String upperOrderSource = orderSource.toUpperCase();
+		String upperOrderSource = orderSource.toLowerCase();
 		switch (upperOrderSource) {
 		case "1gw":
-			dictOrderSource = SysEncrypParamsConst.ORDER_SOURCE_1GW;
+			dictOrderSource = ConstSysEncrypParams.ORDER_SOURCE_1GW;
 			break;
 		case "o2o":
-			dictOrderSource = SysEncrypParamsConst.ORDER_SOURCE_O2O;
+			dictOrderSource = ConstSysEncrypParams.ORDER_SOURCE_O2O;
 			break;
 		case "app":
-			dictOrderSource = SysEncrypParamsConst.ORDER_SOURCE_APP;
+			dictOrderSource = ConstSysEncrypParams.ORDER_SOURCE_APP;
 			break;
 		case "md":
-			dictOrderSource = SysEncrypParamsConst.ORDER_SOURCE_MD;
+			dictOrderSource = ConstSysEncrypParams.ORDER_SOURCE_MD;
 			break;
 		case "md1gw":
-			dictOrderSource = SysEncrypParamsConst.ORDER_SOURCE_MD1GW;
+			dictOrderSource = ConstSysEncrypParams.ORDER_SOURCE_MD1GW;
 			 break;
 		default:
-			dictOrderSource = SysEncrypParamsConst.ORDER_SOURCE_1GW;
+			dictOrderSource = ConstSysEncrypParams.ORDER_SOURCE_1GW;
 		}
 		return dictOrderSource;
 	}
@@ -50,46 +50,46 @@ public class SerialStringUtil {
 		String code = oprType.toUpperCase();
 		switch (code) {
 		case "0":
-			dictId = SysEncrypParamsConst.POINTS_OPERATOR_TYPE_QT;
+			dictId = ConstSysEncrypParams.POINTS_OPERATOR_TYPE_QT;
 			break;
 		case "1":
-			dictId = SysEncrypParamsConst.POINTS_OPERATOR_TYPE_CZ;
+			dictId = ConstSysEncrypParams.POINTS_OPERATOR_TYPE_CZ;
 			break;
 		case "3":
-			dictId = SysEncrypParamsConst.POINTS_OPERATOR_TYPE_CW;
+			dictId = ConstSysEncrypParams.POINTS_OPERATOR_TYPE_CW;
 			break;
 		case "4":
-			dictId = SysEncrypParamsConst.POINTS_OPERATOR_TYPE_TK;
+			dictId = ConstSysEncrypParams.POINTS_OPERATOR_TYPE_TK;
 			break;
 		case "5":
-			dictId = SysEncrypParamsConst.POINTS_OPERATOR_TYPE_QX;
+			dictId = ConstSysEncrypParams.POINTS_OPERATOR_TYPE_QX;
 			break;
 		case "6":
-			dictId = SysEncrypParamsConst.POINTS_OPERATOR_TYPE_FJXF;
+			dictId = ConstSysEncrypParams.POINTS_OPERATOR_TYPE_FJXF;
 			 break;
 		case "7":
-			dictId = SysEncrypParamsConst.POINTS_OPERATOR_TYPE_QMTG;
+			dictId = ConstSysEncrypParams.POINTS_OPERATOR_TYPE_QMTG;
 			 break;
 		case "8":
-			dictId = SysEncrypParamsConst.POINTS_OPERATOR_TYPE_XF;
+			dictId = ConstSysEncrypParams.POINTS_OPERATOR_TYPE_XF;
 			 break;
 		case "9":
-			dictId = SysEncrypParamsConst.POINTS_OPERATOR_TYPE_ZCZS;
+			dictId = ConstSysEncrypParams.POINTS_OPERATOR_TYPE_ZCZS;
 			 break;
 		case "10":
-			dictId = SysEncrypParamsConst.POINTS_OPERATOR_TYPE_YQZCZS;
+			dictId = ConstSysEncrypParams.POINTS_OPERATOR_TYPE_YQZCZS;
 			 break;
 		case "11":
-			dictId = SysEncrypParamsConst.POINTS_OPERATOR_TYPE_XJCZ;
+			dictId = ConstSysEncrypParams.POINTS_OPERATOR_TYPE_XJCZ;
 			 break;
 		case "12":
-			dictId = SysEncrypParamsConst.POINTS_OPERATOR_TYPE_JFZR;
+			dictId = ConstSysEncrypParams.POINTS_OPERATOR_TYPE_JFZR;
 			 break;
 		case "13":
-			dictId = SysEncrypParamsConst.POINTS_OPERATOR_TYPE_JFZC;
+			dictId = ConstSysEncrypParams.POINTS_OPERATOR_TYPE_JFZC;
 			 break;
 		default:
-			dictId = SysEncrypParamsConst.POINTS_OPERATOR_TYPE_QT;
+			dictId = ConstSysEncrypParams.POINTS_OPERATOR_TYPE_QT;
 		}
 		return dictId;
 	}
@@ -131,46 +131,46 @@ public class SerialStringUtil {
 		String appendStr = StringUtil.isEmptyByString(userid) ? "" : ("-"+userid);
 		
 		switch (code) {
-		case SysEncrypParamsConst.POINTS_OPERATOR_TYPE_QT:
+		case ConstSysEncrypParams.POINTS_OPERATOR_TYPE_QT:
 			returnStr = "外部[其他交易" + appendStr + "]";
 			break;
-		case SysEncrypParamsConst.POINTS_OPERATOR_TYPE_CZ:
+		case ConstSysEncrypParams.POINTS_OPERATOR_TYPE_CZ:
 			returnStr = "充值[积分充值" + appendStr + "]";
 			break;
-		case SysEncrypParamsConst.POINTS_OPERATOR_TYPE_CW:
+		case ConstSysEncrypParams.POINTS_OPERATOR_TYPE_CW:
 			returnStr = "系统[后台调整" + appendStr + "]";
 			break;
-		case SysEncrypParamsConst.POINTS_OPERATOR_TYPE_TK:
+		case ConstSysEncrypParams.POINTS_OPERATOR_TYPE_TK:
 			returnStr = "退款[售后退款" + appendStr + "]";
 			break;
-		case SysEncrypParamsConst.POINTS_OPERATOR_TYPE_QX:
+		case ConstSysEncrypParams.POINTS_OPERATOR_TYPE_QX:
 			returnStr = "退款[取消订单" + appendStr + "]";
 			break;
-		case SysEncrypParamsConst.POINTS_OPERATOR_TYPE_FJXF:
+		case ConstSysEncrypParams.POINTS_OPERATOR_TYPE_FJXF:
 			returnStr = "赠送[附近消费" + appendStr + "]";
 			 break;
-		case SysEncrypParamsConst.POINTS_OPERATOR_TYPE_QMTG:
+		case ConstSysEncrypParams.POINTS_OPERATOR_TYPE_QMTG:
 			returnStr = "提成[全民推广" + appendStr + "]";
 			 break;
-		case SysEncrypParamsConst.POINTS_OPERATOR_TYPE_XF:
+		case ConstSysEncrypParams.POINTS_OPERATOR_TYPE_XF:
 			returnStr = "消费[积分支付" + appendStr + "]";
 			 break;
-		case SysEncrypParamsConst.POINTS_OPERATOR_TYPE_ZCZS:
+		case ConstSysEncrypParams.POINTS_OPERATOR_TYPE_ZCZS:
 			returnStr = "赠送[新注册送积分" + appendStr + "]";
 			 break;
-		case SysEncrypParamsConst.POINTS_OPERATOR_TYPE_YQZCZS:
+		case ConstSysEncrypParams.POINTS_OPERATOR_TYPE_YQZCZS:
 			returnStr = "赠送[推荐注册送积分" + appendStr + "]";
 			 break;
-		case SysEncrypParamsConst.POINTS_OPERATOR_TYPE_XJCZ:
+		case ConstSysEncrypParams.POINTS_OPERATOR_TYPE_XJCZ:
 			returnStr = "充值[现金充值" + appendStr + "]";
 			 break;
-		case SysEncrypParamsConst.POINTS_OPERATOR_TYPE_JFZC:
+		case ConstSysEncrypParams.POINTS_OPERATOR_TYPE_JFZC:
 			returnStr = "转帐[转出到" + userid + "]";
 			if(StringUtil.isEmptyByString(userid)){
 				returnStr = "转帐[积分转出]";
 			}
 			 break;
-		case SysEncrypParamsConst.POINTS_OPERATOR_TYPE_JFZR:
+		case ConstSysEncrypParams.POINTS_OPERATOR_TYPE_JFZR:
 			returnStr = "转帐[从" + userid + "转入]";
 			if(StringUtil.isEmptyByString(userid)){
 				returnStr = "转帐[积分转入]";

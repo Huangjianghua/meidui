@@ -19,6 +19,10 @@
             <artifactId>spring-cloud-starter-zuul</artifactId>
         </dependency>
         <dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-eureka</artifactId>
+		</dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
@@ -26,17 +30,14 @@
         <dependency>
 			<groupId>com.meiduimall</groupId>
 			<artifactId>meiduimall-support-core</artifactId>
-			<version>${meiduimall-support-core.version}</version>
 		</dependency>
 		 <dependency>
             <groupId>com.meiduimall</groupId>
             <artifactId>meiduimall-support-redis</artifactId>
-            <version>${meiduimall-support-redis.version}</version>
         </dependency>
         <dependency>
             <groupId>com.meiduimall</groupId>
             <artifactId>meiduimall-support-security</artifactId>
-            <version>${meiduimall-support-security.version}</version>
         </dependency>
     </dependencies>
 

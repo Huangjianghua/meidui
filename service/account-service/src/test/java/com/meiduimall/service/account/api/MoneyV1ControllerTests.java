@@ -87,8 +87,8 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 		 dto.setReviseType("1");
 		 dto.setStatus("WR");
 		 dto.setIsDelete("N");
-		 dto.setCreatedBy("huang");
-		 dto.setUpdatedBy("huang2");
+		 dto.setCreateUser("huang");
+		 dto.setUpdateUser("huang2");
 		 dto.setReviewRemark("是肯定会罚款决定付款后会计师的疯狂的11");
 		 dto.setReviseRemark("但是离开泛海建设啦看见哈佛I未来那块地方22");
 		 String object=JsonUtils.beanToJson(dto);
@@ -114,10 +114,10 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 		 dto.setIsDelete("N");
 		 dto.setBeforeBalance(BigDecimal.TEN);
 		 dto.setReviseBalance(BigDecimal.ONE);
-		 dto.setCreatedBy("huangTestUpdate1");
-		 dto.setCreatedDate(DateUtil.formatDateTime(new Date()));
-		 dto.setUpdatedDate(DateUtil.formatDateTime(new Date()));
-		 dto.setUpdatedBy("huangTestUpdate2");
+		 dto.setCreateUser("huangTestUpdate1");
+		 dto.setCreateDate(new Date());
+		 dto.setUpdateDate(new Date());
+		 dto.setUpdateUser("huangTestUpdate2");
 		 dto.setReviewRemark("财务处理");
 		 dto.setReviseRemark("通过");
 		 String json=JsonUtils.beanToJson(dto);
@@ -184,7 +184,7 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 		 MSBankWithdrawDeposit deposit=new MSBankWithdrawDeposit();
 		 deposit.setId("d52e04eb-815c-443c-832d-5b4380b833d8");
 		 deposit.setStatus("3");
-		 deposit.setActualTransferCash("101");
+		 deposit.setActualTransferAmount(101.00);
 		 deposit.setOperate("客服审核");
 		 deposit.setRemark("查明无误");
 		 deposit.setAuditBy("huang");
@@ -255,9 +255,9 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 		 String url = "/member/account_service/v1/save_withdraw";
 		 MSBankWithdrawDeposit deposit=new MSBankWithdrawDeposit();
 		 
-		 deposit.setAccountNo("65555555555556666");
+		 deposit.setBankCardNo("65555555555556666");
 		 deposit.setMemId("ffc391ae-4e97-4830-8547-a2d537dc6d5d");
-		 deposit.setApplyCarryCash("10.5");
+		 deposit.setApplyWithdrawAmount(10.5);
 		 deposit.setAuditBy("huangTest");
 		 deposit.setRemark("huangjianhuaTestDate");
 		 

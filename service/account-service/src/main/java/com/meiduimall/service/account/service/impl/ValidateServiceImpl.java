@@ -1,11 +1,11 @@
 package com.meiduimall.service.account.service.impl;
 
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -13,8 +13,8 @@ import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.constant.ConstSysParamsDefination;
 import com.meiduimall.service.account.constant.ConstTradeType;
-import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.service.ValidateService;
+import com.meiduimall.service.account.util.DoubleCalculate;
 
 
 /**
@@ -27,16 +27,12 @@ public class ValidateServiceImpl implements ValidateService {
 	
 	private final static Logger logger=LoggerFactory.getLogger(ValidateServiceImpl.class);
 	
-	@Autowired
-	private BaseDao baseDao;
-
 	@Override
 	public void checkTradeType(String tradeType) {
 		if(StringUtils.isEmpty(ConstTradeType.getNameByCode(tradeType))){
 			logger.error("交易类型不合法");
 			throw new ServiceException(ConstApiStatus.TRADE_TYPE_UNNORMAL);
 		}
-		logger.info("交易类型合法");
 	}
 
 	@Override
@@ -45,7 +41,6 @@ public class ValidateServiceImpl implements ValidateService {
 			logger.error("调账类型不合法");
 			throw new ServiceException(ConstApiStatus.ACCOUNT_ADJUST_TYPE_UNNORMAL);
 		}
-		logger.info("调账类型合法");
 	}
 
 	@Override
@@ -65,17 +60,28 @@ public class ValidateServiceImpl implements ValidateService {
 		Matcher m = p.matcher(String.valueOf(tradeAmount));
 		if(!m.matches()){
 			logger.error("交易金额不合法");
-			throw new ServiceException(ConstApiStatus.ACCOUNT_ADJUST_TYPE_UNNORMAL);
+			throw new ServiceException(ConstApiStatus.TRADE_AMOUNT_UNNORMAL);
 		}
-		logger.info("交易金额合法");
 	}
 
 	@Override
-	public void checkAccountByWalletTypeExist(String walletNo,String memId) {
-		
+	public void checkConsumeAmountRelation(Double consumeAmount, Double consumeMoney, Double consumePoints) {
+		//如果消费余额大于消费总金额
+		if(consumeMoney>consumeAmount){
+			throw new ServiceException(ConstApiStatus.MONEY_BIGGER_THAN_COMSUME_AMOUNT);
+		}
+		//如果消费积分大于消费总金额
+		if(consumePoints>consumeAmount){
+			throw new ServiceException(ConstApiStatus.POINTS_BIGGER_THAN_COMSUME_AMOUNT);
+		}
+		//如果消费积分大于消费余额
+		if(consumePoints>consumeMoney){
+			throw new ServiceException(ConstApiStatus.POINTS_BIGGER_THAN_MONEY);
+		}
+		//如果消费积分+消费余额大于消费总金额（可以小于，因为消费总金额可能还包括第三方支付金额）
+		if(DoubleCalculate.add(consumeMoney,consumePoints)>consumeAmount){
+			throw new ServiceException(ConstApiStatus.MONEY_ADD_POINTS_BIGGER_THAN_COMSUME_AMOUNT);
+		}
 	}
-
-
-	
 
 }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.usercenter.config.ProfileParamsConfig;
-import com.meiduimall.application.usercenter.constant.ApiStatusConst;
+import com.meiduimall.application.usercenter.constant.ConstApiStatus;
 import com.meiduimall.application.usercenter.service.UserInfoService;
 import com.meiduimall.application.usercenter.util.HttpUtils;
 import com.meiduimall.application.usercenter.util.MD5Utils;
@@ -35,7 +35,7 @@ public class UserInfoServiceImpl implements UserInfoService  {
 			resBodyData=JSON.parseObject(result,ResBodyData.class);
 		} catch (Exception e) {
 			logger.error("调用账号服务>>获取会员基本信息API>>异常:{}",e.toString());
-			throw new MdSysException(ApiStatusConst.REQUEST_GATEWAY_EX);
+			throw new MdSysException(ConstApiStatus.REQUEST_GATEWAY_EX);
 		} 
 		return resBodyData;
 	}

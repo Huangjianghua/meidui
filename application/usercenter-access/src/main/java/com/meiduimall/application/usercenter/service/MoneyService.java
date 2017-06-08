@@ -28,4 +28,11 @@ public interface MoneyService {
 	 * @throws MdSysException 系统异常
 	 */
 	ResBodyData saveWithDrawApply(JSONObject reqJson) throws MdSysException;
+
+	/**
+	 * 获取会员账户余额和积分余额
+	 * @param reqJson 请求参数封装对象
+	 * @return 结果对象
+	 */
+	ResBodyData getAccountBalanceForApp(JSONObject reqJson);
 }

@@ -4,6 +4,22 @@
 <!--会员账户冻结解冻记录表ms_account_freeze_detail相关操作 -->
 <mapper namespace="MSAccountFreezeDetailMapper">
 
+  <resultMap id="MsAccountFreezeDetailResultMap" type="com.meiduimall.service.account.model.MSAccountFreezeDetail" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="account_no" property="accountNo" jdbcType="VARCHAR" />
+    <result column="trade_type" property="tradeType" jdbcType="VARCHAR" />
+    <result column="trade_amount" property="tradeAmount" jdbcType="DECIMAL" />
+    <result column="trade_date" property="tradeDate" jdbcType="DATE" />
+    <result column="in_or_out" property="inOrOut" jdbcType="INTEGER" />
+    <result column="freeze_balance" property="freezeBalance" jdbcType="DECIMAL" />
+    <result column="business_no" property="businessNo" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="DATE" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="DATE" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+
 	<!-- 根据订单号查询是否存在余额冻结解冻记录 -->
 	<select id="getRecordByOrderId" parameterType="java.lang.String" resultType="java.lang.Integer">
 		SELECT count(1) 
@@ -11,22 +27,42 @@
 		WHERE business_no = #{orderId}
 	</select>
 	
-	<insert id="insertAccountFreezeDetail" parameterType="java.util.Map">
-		insert into ms_account_freeze_detail 
-		values(
+	<!-- 根据条件余额冻结解冻记录 -->
+	<select id="getRecordsByOrderId" parameterType="java.lang.String" resultMap="MsAccountFreezeDetailResultMap">
+		SELECT m.*
+		FROM ms_account_freeze_detail m
+		WHERE m.business_no=#{orderId}
+	</select>
+	
+	<!-- 根据条件余额冻结解冻记录 -->
+	<select id="getRecordsByCondition" parameterType="java.util.Map" resultMap="MsAccountFreezeDetailResultMap">
+		SELECT m.*
+		FROM ms_account_freeze_detail m
+		WHERE 1=1
+		<if test="orderId != null and orderId != ''">
+		AND m.business_no = #{orderId}
+		</if>
+		<if test="inOrOut != null and inOrOut != ''">
+		AND m.in_or_out=#{inOrOut}
+		</if>
+	</select>
+	
+	<insert id="insertAccountFreezeDetail" parameterType="com.meiduimall.service.account.model.MSAccountFreezeDetail">
+		INSERT INTO ms_account_freeze_detail 
+		VALUES(
 			#{id},
-			#{accountId},
-			#{accountType},
-			#{memId},
+			#{accountNo},
 			#{tradeType},
 			#{tradeAmount},
-			now(),
+			#{tradeDate},
 			#{inOrOut},
 			#{freezeBalance},
-			#{orderId},
-			#{remark},
+			#{businessNo},
 			now(),
-			unix_timestamp()
+			#{createUser},
+			now(),
+			#{updateUser},
+			#{remark}
 			)
 	</insert>
 	

@@ -12,13 +12,15 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.usercenter.config.ProfileParamsConfig;
-import com.meiduimall.application.usercenter.constant.ApiStatusConst;
-import com.meiduimall.application.usercenter.constant.SysParamsConst;
+import com.meiduimall.application.usercenter.constant.ConstApiStatus;
+import com.meiduimall.application.usercenter.constant.ConstSysParamsDefination;
 import com.meiduimall.application.usercenter.service.MoneyService;
+import com.meiduimall.application.usercenter.util.HttpGatewayUtils;
 import com.meiduimall.application.usercenter.util.HttpUtils;
 import com.meiduimall.application.usercenter.util.MD5Utils;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdSysException;
+import com.meiduimall.exception.ServiceException;
 
 @Service
 public class MoneyServiceImpl implements MoneyService  {
@@ -36,13 +38,13 @@ public class MoneyServiceImpl implements MoneyService  {
 		logger.info("调用账户服务>>余额流水（分页）API>>URL:{}  Data:{}",url,reqJson.toString());
 		try {
 			Map<String, String> headers=new HashMap<>();
-			headers.put(SysParamsConst.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
+			headers.put(ConstSysParamsDefination.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
 			String result=HttpUtils.post(url,reqJson.toString(),headers);
 			logger.info("调用账户服务>>余额流水（分页）API>>结果：{}",result);
 			resBodyData=JSON.parseObject(result,ResBodyData.class);
 		} catch (Exception e) {
 			logger.error("调用账户服务>>余额流水（分页）API>>异常:{}",e.toString());
-			throw new MdSysException(ApiStatusConst.REQUEST_GATEWAY_EX);
+			throw new MdSysException(ConstApiStatus.REQUEST_GATEWAY_EX);
 		}
 		return resBodyData;
 	}
@@ -55,15 +57,33 @@ public class MoneyServiceImpl implements MoneyService  {
 		logger.info("调用账户服务>>提现申请API>>URL:{}  Data:{}",url,reqJson.toString());
 		try {
 			Map<String, String> headers=new HashMap<>();
-			headers.put(SysParamsConst.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
+			headers.put(ConstSysParamsDefination.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
 			String result=HttpUtils.post(url,reqJson.toString(),headers);
 			logger.info("调用账户服务>>提现申请API>>结果：{}",result);
 			resBodyData=JSON.parseObject(result,ResBodyData.class);
 		} catch (Exception e) {
 			logger.error("调用账户服务>>提现申请API>>异常:{}",e.toString());
-			throw new MdSysException(ApiStatusConst.REQUEST_GATEWAY_EX);
+			throw new MdSysException(ConstApiStatus.REQUEST_GATEWAY_EX);
 		}
 		return resBodyData;
+	}
+
+	@Override
+	public ResBodyData getAccountBalanceForApp(JSONObject reqJson) {
+		try {
+			String url = profile.getServiceAccountUrl() + "v1/getAccountBalanceForApp";
+
+			Map<String, String> headers = new HashMap<String, String>();
+			headers.put(ConstSysParamsDefination.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE);
+
+			Map<String, String> params = new HashMap<>();
+			params.put("memId", reqJson.getString("memId"));
+
+			return HttpGatewayUtils.sendPost(url, profile.getRouteClientID(), profile.getRouteKey(), params, headers);
+		} catch (Exception e) {
+			logger.error("调用账户服务>>提现申请API>>异常:{}", e.toString());
+			throw new ServiceException(ConstApiStatus.REQUEST_GATEWAY_EX);
+		}
 	}
 
 }

@@ -1,11 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 会员表ms_members相关操作 -->
+<!-- 下版积分迁移到新的账户表后，此Mapper.xml将会废弃，需要的会员信息将通过调用账号服务实现 -->
 <mapper namespace="MSMembersMapper">
 	
 	<!-- 根据会员id获取会员信息 -->
 	<select id="getMemberInfo" parameterType="java.lang.String" resultType="com.meiduimall.service.account.model.MSMembers">
 		SELECT * FROM v_ms_members WHERE memId = #{memId}
+	</select>
+
+	<select id="selectCountByMemId" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM ms_members WHERE mem_id=#{memId}
+	</select>
+	
+	<select id="selectMemIdByPhone" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT mem_id FROM ms_members WHERE mem_phone=#{phone}
+	</select>
+	
+	<select id="getCurrentPointsByMemId" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT m.mem_basic_account_total_quantity FROM ms_members m WHERE m.mem_id=#{memId}
+	</select>
+	
+	<select id="getChildValueByMemId" parameterType="java.lang.String" resultType="com.meiduimall.service.account.model.MSMembers">
+		SELECT 
+		mem_parent_value2 AS memParentValue2
+		FROM ms_members WHERE mem_id = #{memId}
 	</select>
 
 </mapper>

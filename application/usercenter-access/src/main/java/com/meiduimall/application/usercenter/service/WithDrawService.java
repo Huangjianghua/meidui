@@ -12,7 +12,5 @@ public interface WithDrawService {
 	 * @return ResBodyData
 	 */
 	ResBodyData queryWithDrawDetail(JSONObject reqJson)throws MdSysException ;
-
-	
 	
 }

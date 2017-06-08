@@ -14,16 +14,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.redis.util.RedisTemplate;
 import com.meiduimall.service.member.config.ServiceUrlProfileConfig;
-import com.meiduimall.service.member.constant.ApiStatusConst;
-import com.meiduimall.service.member.constant.SysParamsConst;
+import com.meiduimall.service.member.constant.ConstApiStatus;
+import com.meiduimall.service.member.constant.ConstSysParamsDefination;
 import com.meiduimall.service.member.dao.BaseDao;
 import com.meiduimall.service.member.model.MSMemberAddresses;
 import com.meiduimall.service.member.model.MSMemberMobileArea;
@@ -32,15 +34,16 @@ import com.meiduimall.service.member.model.MSMembersSet;
 import com.meiduimall.service.member.model.MemberAddressesSet;
 import com.meiduimall.service.member.model.MobileNumberInfo;
 import com.meiduimall.service.member.model.request.RequestMobile;
-import com.meiduimall.service.member.model.response.MemberMobileAreaDTO;
+import com.meiduimall.service.member.model.response.ResponseMemberMobileArea;
 import com.meiduimall.service.member.model.response.ResponseMemberBasicInfo;
-import com.meiduimall.service.member.service.MoneyService;
+import com.meiduimall.service.member.service.AccountInfoService;
 import com.meiduimall.service.member.service.PointsService;
 import com.meiduimall.service.member.service.UserInfoService;
 import com.meiduimall.service.member.util.DESC;
 import com.meiduimall.service.member.util.DateUtil;
 import com.meiduimall.service.member.util.DoubleCalculate;
 import com.meiduimall.service.member.util.HttpUtils;
+import com.meiduimall.service.member.util.JackSonUtil;
 import com.meiduimall.service.member.util.StringUtil;
 
 /**
@@ -60,22 +63,28 @@ public class UserInfoServiceImpl implements UserInfoService {
 	PointsService pointsService;
 	
 	@Autowired
-	MoneyService moneyService;
+	AccountInfoService moneyService;
 	
 	@Autowired
 	ServiceUrlProfileConfig serviceUrlProfileConfig;
+	
+	@Autowired
+	RestTemplate restTemplate;
 
 	@Override
-	public ResBodyData getBasicInfoByMemId(String memId) {
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
-		ResponseMemberBasicInfo memberBasicInfo=baseDao.selectOne(memId,"MSMembersMapper.getRespMemberBasicInfoByMemId");//根据memId查询会员基本信息
-		if(memberBasicInfo==null){//如果不存在这个会员
-			throw new ServiceException(ApiStatusConst.MEMBER_NOT_EXIST);
+	public ResBodyData getBasicInfoByMemId(String memId) throws MdSysException {
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
+		//根据memId查询会员基本信息
+		ResponseMemberBasicInfo memberBasicInfo=baseDao.selectOne(memId,"MSMembersMapper.getRespMemberBasicInfoByMemId");
+		if(memberBasicInfo==null){
+			throw new ServiceException(ConstApiStatus.MEMBER_NOT_EXIST);
 		}
-
-		MSMemberAddresses addresses=baseDao.selectOne(memId,"MSMemberAddressesMapper.getMemberAddressByMemId");//根据memId查询会员详细地址
+		memberBasicInfo.setPaypwd_isopen("Y".equals(memberBasicInfo.getPaypwd_isopen())?"1":"0");
+		//根据memId查询会员详细地址
+		MSMemberAddresses addresses=baseDao.selectOne(memId,"MSMemberAddressesMapper.getMemberAddressByMemId");
 		if(addresses!=null){
-			if(null!=addresses.getDictIdProvince()&&null!=addresses.getDictIdCity()&&null!=addresses.getDictIdArea()){//添加省市区地址信息，分号隔开
+			//添加省市区地址信息，分号隔开
+			if(null!=addresses.getDictIdProvince()&&null!=addresses.getDictIdCity()&&null!=addresses.getDictIdArea()){
 				StringBuffer addressShengShiQu = new StringBuffer();
 				addressShengShiQu.append(baseDao.selectOne(addresses.getDictIdProvince().toString(),"MSCityMapper.getNameByNo").toString());
 				addressShengShiQu.append(";");
@@ -85,24 +94,16 @@ public class UserInfoServiceImpl implements UserInfoService {
 				memberBasicInfo.setMemAddressShengShiQu(addressShengShiQu.toString());
 			}
 		}
-		/**调用账户服务>根据memId查询是否存在支付密码*/
-		String result=null;
-		try {
-			result=HttpUtils.get(serviceUrlProfileConfig.getAccountServiceUrl()+"/v1/is_exist_paypwd?memId="+memId);
-		} catch (Exception e) {
-			logger.error("调用账户服务http请求异常：{}",e.toString());
-		}
-		JSONObject j=JSONObject.parseObject(result);
+		//调用账户服务>查询当前会员是否存在支付密码
+		ResBodyData resIsExistPayPwd=restTemplate.getForEntity("http://ACCOUNT-SERVICE/v1/is_exist_paypwd?memId="+memId,ResBodyData.class).getBody();
+		//调用账户服务>查询当前会员可用余额
+		ResBodyData resAvailableBalance=restTemplate.getForEntity("http://ACCOUNT-SERVICE/v1/get_available_balance?memId="+memId,ResBodyData.class).getBody();
 		
-		/**会员基本信息添加是否设置支付密码和支付密码开关状态*/
-		memberBasicInfo.setPaypwd_isopen("Y".equals(memberBasicInfo.getPaypwd_isopen())?"1":"0");
 		memberBasicInfo.setPaypwd_isset("1");
-		if(!"0".equals(j.getString(SysParamsConst.STATUS))){
+		if(!"0".equals(resIsExistPayPwd.getStatus())){
 			memberBasicInfo.setPaypwd_isset("0");
-		}			
-		
-		/**会员基本信息添加积分总额（包含冻结解冻的积分）和余额总额*/
-		memberBasicInfo.setTotalmoney(moneyService.getTotalMoney(memId));
+		}
+		memberBasicInfo.setTotalmoney(String.valueOf(JackSonUtil.getJsonMap(resAvailableBalance.getData()).get("available_balance")));
 		memberBasicInfo.setTotalpoints(pointsService.getTotalPoints(memId,memberBasicInfo.getCurrentpoints()));
 		
 		resBodyData.setData(memberBasicInfo);
@@ -134,21 +135,21 @@ public class UserInfoServiceImpl implements UserInfoService {
 					resultMap.put("phone", StringUtil.checkStr(member.getMemPhone()) == true ? member.getMemPhone() : "");
 					resultMap.put("login_name", StringUtil.checkStr(member.getMemLoginName()) == true ? member.getMemLoginName() : "");
 					resultMap.put("pic_url", StringUtil.checkStr(member.getMemPic()) == true ? member.getMemPic() : "");
-					json.put(SysParamsConst.STATUS, "0");
-					json.put(SysParamsConst.MSG, "Success");
+					json.put(ConstSysParamsDefination.STATUS, "0");
+					json.put(ConstSysParamsDefination.MSG, "Success");
 					result.add(resultMap);
-					json.put(SysParamsConst.DATA, result);
+					json.put(ConstSysParamsDefination.DATA, result);
 				} else {
-					json.put(SysParamsConst.STATUS, "1020");
-					json.put(SysParamsConst.MSG, "当前会员不存在!");
+					json.put(ConstSysParamsDefination.STATUS, "1020");
+					json.put(ConstSysParamsDefination.MSG, "当前会员不存在!");
 					logger.info("当前会员ID:{}不存在!", memId);
 				}
 			} else {
-				json.put(SysParamsConst.STATUS,"999");
+				json.put(ConstSysParamsDefination.STATUS,"999");
 				logger.info("手机号码:{}错误!", phone);
 			}
 		} else {
-			json.put(SysParamsConst.STATUS,"999");
+			json.put(ConstSysParamsDefination.STATUS,"999");
 			logger.info("手机号码:{}错误!", phone);
 		}
 		return json;
@@ -175,8 +176,8 @@ public class UserInfoServiceImpl implements UserInfoService {
 			if (StringUtil.checkStr(mem_address_area) || StringUtil.checkStr(mem_address)) {
 				String[] memAddress = mem_address_area.split("[;]");
 				if (memAddress.length != 3) {
-					json.put(SysParamsConst.STATUS, "9998");
-					json.put(SysParamsConst.MSG, "省市区参数有误!");
+					json.put(ConstSysParamsDefination.STATUS, "9998");
+					json.put(ConstSysParamsDefination.MSG, "省市区参数有误!");
 					/*Logger.info("修改会员信息省市区参数有误:%s!", mem_address_area);*/
 					return json;
 				} else {
@@ -203,11 +204,11 @@ public class UserInfoServiceImpl implements UserInfoService {
 				}*/
 			}
 			baseDao.update(member, "MSMembersMapper.updateMemberInfoByMemId");
-			json.put(SysParamsConst.STATUS, "0");
-			json.put(SysParamsConst.MSG, "Success");
+			json.put(ConstSysParamsDefination.STATUS, "0");
+			json.put(ConstSysParamsDefination.MSG, "Success");
 		} else {
-			json.put(SysParamsConst.STATUS, "1020");
-			json.put(SysParamsConst.MSG, "当前会员不存在!");
+			json.put(ConstSysParamsDefination.STATUS, "1020");
+			json.put(ConstSysParamsDefination.MSG, "当前会员不存在!");
 			logger.info("当前会员ID:{}不存在!", memId);
 		}
 		return json;
@@ -226,7 +227,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 		}
 		else{
 			logger.info("memId：{}对应的手机号和登录名都为空",memId);
-			throw new ServiceException(ApiStatusConst.ACCOUNT_EXCEPTION);
+			throw new ServiceException(ConstApiStatus.ACCOUNT_EXCEPTION);
 		}
 	}
 
@@ -235,13 +236,13 @@ public class UserInfoServiceImpl implements UserInfoService {
 	public ResBodyData recordArea(String memId, String phone) throws MdSysException{
 		if(StringUtils.isEmpty(memId) || StringUtils.isEmpty(phone)){
 			logger.info("必要参数不能为空!");
-			return new ResBodyData(ApiStatusConst.REQUIRED_PARAM_EMPTY,ApiStatusConst.getZhMsg(ApiStatusConst.REQUIRED_PARAM_EMPTY));
+			return new ResBodyData(ConstApiStatus.REQUIRED_PARAM_EMPTY,ConstApiStatus.getZhMsg(ConstApiStatus.REQUIRED_PARAM_EMPTY));
 		}
 		
 		MobileNumberInfo queryMobile = queryMobile(phone.substring(0, 7));
 		if(StringUtils.isEmpty(queryMobile)){
 			logger.info("手机前7位查询归属地为空!");
-			return new ResBodyData(ApiStatusConst.QUERY_MOBILE_EXCEPTION,ApiStatusConst.getZhMsg(ApiStatusConst.QUERY_MOBILE_EXCEPTION));
+			return new ResBodyData(ConstApiStatus.QUERY_MOBILE_EXCEPTION,ConstApiStatus.getZhMsg(ConstApiStatus.QUERY_MOBILE_EXCEPTION));
 		}
 		MSMemberMobileArea msMemberMobileArea = new MSMemberMobileArea();
 		msMemberMobileArea.setMemId(memId);
@@ -250,29 +251,32 @@ public class UserInfoServiceImpl implements UserInfoService {
 		msMemberMobileArea.setCityName(queryMobile.getCityName());
 		msMemberMobileArea.setSp(queryMobile.getTo());
 		msMemberMobileArea.setCreateDate(new Date());
-		MSMemberMobileArea mSMemberMobi = baseDao.selectOne("msMemberMobileArea", "MSMemberMobileAreaMapper");
+		MSMemberMobileArea mSMemberMobi = baseDao.selectOne(msMemberMobileArea, "MSMemberMobileAreaMapper.findMSMemberMobileArea");
 		if(!StringUtils.isEmpty(mSMemberMobi)){
 			logger.info("已经新增过: phone={},memId={} ", phone, memId);
-			return new ResBodyData(ApiStatusConst.SUCCESS, "已经新增过phone="+phone+", memId="+memId);
+			return new ResBodyData(ConstApiStatus.SUCCESS, "已经新增过phone="+phone+", memId="+memId);
 		}else{
 			baseDao.insert(msMemberMobileArea, "MSMemberMobileAreaMapper.insert");
 		}
-		return new ResBodyData(ApiStatusConst.SUCCESS, "成功");
+		return new ResBodyData(ConstApiStatus.SUCCESS, "成功");
 	}
 
 
 	
 	@Override
 	public ResBodyData updateMemberArea() {
-		List<MemberMobileAreaDTO> memberMobileAreaDTO = null;
+		List<ResponseMemberMobileArea> memberMobileAreaDTO = null;
 		List<MSMemberMobileArea> areas = new ArrayList<>(); 
 		try {
 		   memberMobileAreaDTO = baseDao.selectList(null, "MSMembersMapper.findNotInMemberMobileArea");
+		   if(StringUtils.isEmpty(memberMobileAreaDTO)){
+			   return new ResBodyData(ConstApiStatus.SUCCESS,"没有需要更新的会员");
+		   }
 		} catch (DaoException e) {
 			 logger.error("查询不在会员手机归属地表异常: {}",e);
-			 throw new ServiceException(ApiStatusConst.FIND_MEMBER_EXCEPTION);
+			 throw new ServiceException(ConstApiStatus.FIND_MEMBER_EXCEPTION);
 		}	 
-		    for (MemberMobileAreaDTO mmaDTO : memberMobileAreaDTO) {
+		    for (ResponseMemberMobileArea mmaDTO : memberMobileAreaDTO) {
 		    	try {
 					if(StringUtil.isPhoneToRegex(mmaDTO.getMemPhone())){
 						String substr = mmaDTO.getMemPhone().substring(0,7);
@@ -292,7 +296,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 					}
 				} catch (MdSysException e) {
 					logger.error("查询手机前7位确定归属地异常: {}",e);
-					throw new ServiceException(ApiStatusConst.QUERY_MOBILE_EXCEPTION);
+					throw new ServiceException(ConstApiStatus.QUERY_MOBILE_EXCEPTION);
 				}
 			}
 			try {
@@ -300,9 +304,9 @@ public class UserInfoServiceImpl implements UserInfoService {
 				baseDao.insertBatch(areas, "MSMemberMobileAreaMapper.insertSelective");
 			} catch (DaoException e) {
 				logger.error("批量插入会员手机归属地表异常: {}",e);
-				throw new ServiceException(ApiStatusConst.INSERT_SELECTIVE_EXCEPTION);
+				throw new ServiceException(ConstApiStatus.INSERT_SELECTIVE_EXCEPTION);
 			}
-		return new ResBodyData(ApiStatusConst.SUCCESS, "执行完成");
+		return new ResBodyData(ConstApiStatus.SUCCESS, "执行完成");
 	}
 
 	

@@ -23,7 +23,7 @@ public interface ConfigManageService {
 	
 	/**
 	 * 修改配置信息
-	 * @param configerMsg
+	 * @param configerMsg 
 	 * @throws MdBizException
 	 * @author: jianhua.huang  2017年5月23日 下午3:07:37
 	 */

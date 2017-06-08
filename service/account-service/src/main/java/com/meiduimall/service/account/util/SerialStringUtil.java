@@ -1,7 +1,9 @@
 package com.meiduimall.service.account.util;
 
+
 import com.meiduimall.service.account.constant.ConstDataAppSource;
 import com.meiduimall.service.account.constant.ConstPointsChangeType;
+import com.meiduimall.service.account.constant.ConstSpecialSymbol;
 
 /**
  * 字符串序列转化为指定值
@@ -17,7 +19,7 @@ public class SerialStringUtil {
 	 */
 	public static String getDictOrderSource(String orderSource){
 		String dictOrderSource = "";
-		String upperOrderSource = orderSource.toUpperCase();
+		String upperOrderSource = orderSource.toLowerCase();
 		switch (upperOrderSource) {
 		case "1gw":
 			dictOrderSource = ConstDataAppSource.ORDER_SOURCE_1GW;
@@ -126,60 +128,59 @@ public class SerialStringUtil {
 	 * @param userid
 	 * @return
 	 */
-	/*public static String getPointsRemark(String oprDictId,String userid){
+	public static String getPointsRemark(String oprDictId,String userid){
 		String returnStr = "";
 		String code = oprDictId.toUpperCase();
-		String appendStr = StringUtil.isEmptyByString(userid) ? "" : ("-"+userid);
-		switch (code) {
-		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_QT.getCode():
+		String appendStr = StringUtil.isEmptyByString(userid) ? "" : (ConstSpecialSymbol.SUB+userid);
+		if(ConstPointsChangeType.POINTS_OPERATOR_TYPE_QT.equals(code)){
 			returnStr = "外部[其他交易" + appendStr + "]";
-			break;
-		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_CZ.getCode():
+		}
+		else if (ConstPointsChangeType.POINTS_OPERATOR_TYPE_CZ.getCode().equals(code)) {
 			returnStr = "充值[积分充值" + appendStr + "]";
-			break;
-		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_CW.getCode():
+		}
+		else if (ConstPointsChangeType.POINTS_OPERATOR_TYPE_CW.getCode().equals(code)) {
 			returnStr = "系统[后台调整" + appendStr + "]";
-			break;
-		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_TK.getCode():
+		}
+		else if (ConstPointsChangeType.POINTS_OPERATOR_TYPE_TK.getCode().equals(code)) {
 			returnStr = "退款[售后退款" + appendStr + "]";
-			break;
-		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_QX.getCode():
+		}
+		else if (ConstPointsChangeType.POINTS_OPERATOR_TYPE_QX.getCode().equals(code)) {
 			returnStr = "退款[取消订单" + appendStr + "]";
-			break;
-		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_FJXF.getCode():
+		}
+		else if (ConstPointsChangeType.POINTS_OPERATOR_TYPE_FJXF.getCode().equals(code)) {
 			returnStr = "赠送[附近消费" + appendStr + "]";
-			 break;
-		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_QMTG.getCode():
+		}
+		else if (ConstPointsChangeType.POINTS_OPERATOR_TYPE_QMTG.getCode().equals(code)) {
 			returnStr = "提成[全民推广" + appendStr + "]";
-			 break;
-		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_XF.getCode():
+		}
+		else if (ConstPointsChangeType.POINTS_OPERATOR_TYPE_XF.getCode().equals(code)) {
 			returnStr = "消费[积分支付" + appendStr + "]";
-			 break;
-		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_ZCZS.getCode():
+		}
+		else if (ConstPointsChangeType.POINTS_OPERATOR_TYPE_ZCZS.getCode().equals(code)) {
 			returnStr = "赠送[新注册送积分" + appendStr + "]";
-			 break;
-		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_YQZCZS.getCode():
+		}
+		else if (ConstPointsChangeType.POINTS_OPERATOR_TYPE_YQZCZS.getCode().equals(code)) {
 			returnStr = "赠送[推荐注册送积分" + appendStr + "]";
-			 break;
-		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_XJCZ.getCode():
+		}
+		else if (ConstPointsChangeType.POINTS_OPERATOR_TYPE_XJCZ.getCode().equals(code)) {
 			returnStr = "充值[现金充值" + appendStr + "]";
-			 break;
-		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_JFZC.getCode():
+		}
+		else if (ConstPointsChangeType.POINTS_OPERATOR_TYPE_JFZC.getCode().equals(code)) {
 			returnStr = "转帐[转出到" + userid + "]";
 			if(StringUtil.isEmptyByString(userid)){
 				returnStr = "转帐[积分转出]";
 			}
-			 break;
-		case ConstPointsChangeType.POINTS_OPERATOR_TYPE_JFZR:
+		}
+		else if (ConstPointsChangeType.POINTS_OPERATOR_TYPE_JFZR.getCode().equals(code)) {
 			returnStr = "转帐[从" + userid + "转入]";
 			if(StringUtil.isEmptyByString(userid)){
 				returnStr = "转帐[积分转入]";
 			}
-			 break;
-		default:
+		}
+		else {
 			returnStr = "外部[其他交易" + appendStr + "]";
 		}
 		return returnStr;
-	}*/
+	}
 
 }

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 会员账户类型管理表ms_account_type相关操作  -->
+<mapper namespace="MSAccountTypeMapper">
+
+<!--   查询财务调账相关的账户类型信息  -->
+  <select id="getCwtzAccountTypeList" resultType="com.meiduimall.service.account.model.MSAccountType">
+   SELECT id, 
+   account_type_name accountTypeName, 
+   account_type_no accountTypeNo
+   FROM ms_account_type 
+   WHERE account_type_no IN ('CWTZ1','CWTZ2','CWTZ3')
+  </select>
+  
+<!--   根据条件查询账户类型信息  -->
+  <select id="getAccountTypeByCondition" parameterType="java.util.Map" resultType="com.meiduimall.service.account.model.MSAccountType">
+   SELECT m.id, 
+   m.account_type_name accountTypeName, 
+   m.account_type_no accountTypeNo, 
+   m.account_no_sequence accountNoSequence, 
+   m.allow_withdraw allowWithdraw, 
+   m.withdraw_poundage_scale withdrawPoundageScale, 
+   m.withdraw_poundage_min withdrawPoundageMin, 
+   m.withdraw_poundage_max withdrawPoundageMax, 
+   m.allow_refund allowRefund, 
+   m.refund_poundage_scale refundPoundageScale, 
+   m.refund_poundage_min refundPoundageMin,
+   m.refund_poundage_max refundPoundageMax, 
+   m.withdraw_priority withdrawPriority,
+   m.spend_priority spendPriority, 
+   m.create_date createDate,
+   m.create_user createUser,
+   m.update_date updateDate,
+   m.update_user updateUser,
+   m.remark 
+   FROM ms_account_type m 
+   WHERE 1=1
+   <if test="accountTypeNo != null and accountTypeNo != ''">
+   AND m.account_type_no = #{accountTypeNo}
+   </if>
+  </select>
+  
+  <!--   根据账户类型编号查询当前序列号  -->
+  <select id="getSequenceByAccountTypeNo" parameterType="java.lang.String" resultType="java.lang.Long">
+  SELECT m.account_no_sequence 
+  FROM ms_account_type m 
+  WHERE m.account_type_no=#{accountTypeNo}
+  </select>
+  
+    <!--   根据账户类型编号更新当前序列号 乐观锁 -->
+  <update id="updateSequenceByAccountTypeNo" parameterType="java.util.Map">
+  UPDATE  ms_account_type m
+  SET  m.account_no_sequence=#{sequence}+1
+  WHERE 1=1
+  AND  m.account_type_no=#{accountTypeNo} 
+  AND  m.account_no_sequence=#{sequence}
+  </update>
+
+  </mapper>

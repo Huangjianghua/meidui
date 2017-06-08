@@ -1,61 +1,73 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<!-- 余额变动明细表ms_account_detail相关操作 -->
+<!-- 账户变动明细表ms_account_detail相关操作 -->
 <mapper namespace="MSAccountDetailMapper" >
 
  <resultMap id="BaseResultMap" type="com.meiduimall.service.account.model.MSAccountDetail" >
-    <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="account_id" property="accountId" jdbcType="VARCHAR" />
-    <result column="account_type" property="accountType" jdbcType="VARCHAR" />
-    <result column="mem_id" property="memId" jdbcType="VARCHAR" />
-    <result column="trade_type" property="tradeType" jdbcType="VARCHAR" />
-    <result column="trade_amount" property="tradeAmount" jdbcType="VARCHAR" />
-    <result column="trade_date" property="tradeDate" jdbcType="TIMESTAMP" />
-    <result column="in_or_out" property="inOrOut" jdbcType="INTEGER" />
-    <result column="balance" property="balance" jdbcType="VARCHAR" />
-    <result column="business_no" property="businessNo" jdbcType="VARCHAR" />
-    <result column="remark" property="remark" jdbcType="VARCHAR" />
-    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
-    <result column="curr_time" property="currTime" jdbcType="DECIMAL" />
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="account_no" jdbcType="VARCHAR" property="accountNo" />
+    <result column="trade_type" jdbcType="VARCHAR" property="tradeType" />
+    <result column="trade_amount" jdbcType="DECIMAL" property="tradeAmount" />
+    <result column="trade_date" jdbcType="TIMESTAMP" property="tradeDate" />
+    <result column="in_or_out" jdbcType="INTEGER" property="inOrOut" />
+    <result column="balance" jdbcType="DECIMAL" property="balance" />
+    <result column="business_no" jdbcType="VARCHAR" property="businessNo" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   
-  	<!-- 插入余额变动明细记录 -->
-	<insert id="insertAccountDetail" parameterType="java.util.Map">
+  <sql id="Base_Column_List" >
+    id, 
+    account_no, 
+    trade_type,
+    trade_amount, 
+    trade_date, 
+    in_or_out, 
+    balance, 
+    business_no,
+    create_user,
+    create_date,
+    update_user,
+    update_date,
+    remark, 
+  </sql>
+  
+  <!-- 插入账户变动明细 -->
+  <insert id="insertAccountDetail" parameterType="com.meiduimall.service.account.model.MSAccountDetail">
 		INSERT INTO ms_account_detail
 		VALUES(
 			#{id},
-			#{accountId},
-			#{accountType},
-			#{memId},
+			#{accountNo},
 			#{tradeType},
 			#{tradeAmount},
 			#{tradeDate},
 			#{inOrOut},
 			#{balance},
-			#{orderId},
-			#{remark},
-			#{createDate},
-			unix_timestamp()
+			#{businessNo},
+			#{createUser},
+			now(),
+			#{updateUser},
+			now(),
+			#{remark}
 			)
 	</insert>
 	
-	  <sql id="Base_Column_List" >
-    id, account_id, account_type, mem_id, trade_type, trade_amount, trade_date, in_or_out, 
-    balance, business_no, remark, create_date, curr_time
-  </sql>
+ 
+  
   <select id="listMSAccountDetail" resultMap="BaseResultMap" parameterType="com.meiduimall.service.account.model.MSAccountDetailGet" >
     select 
-    <include refid="Base_Column_List" />
-    from ms_account_detail m
+    m.id, m.account_no accountNo, m.trade_type tradeType, m.trade_amount tradeAmount,
+    DATE_FORMAT(m.trade_date,'%Y-%m-%d %H:%i:%s') tradeDate, m.in_or_out inOrOut, m.balance, m.business_no businessNo, 
+    m.create_user create_user, DATE_FORMAT(m.create_date,'%Y-%m-%d %H:%i:%s') create_date, m.update_user updateUser, 
+    DATE_FORMAT(m.update_date,'%Y-%m-%d %H:%i:%s') updateDate, m.remark, ma.mem_id memId
+    from ms_account_detail m 
+    left join ms_account ma on m.account_no = ma.account_no
     where 1 = 1
-     <if test="accountId !=null and accountId !=''">
-         	and m.account_id = #{accountId}
-     </if> 
-     <if test="accountType !=null and accountType !=''">
-         	and m.account_type = #{accountType}
-     </if> 
      <if test="memId !=null and memId !=''">
-         	and m.mem_id = #{memId}
+         	and ma.mem_id = #{memId}
      </if> 
      <if test="tradeType !=null and tradeType !=''">
 	        and m.trade_type in
@@ -65,25 +77,32 @@
      </if>
   </select>
 	
-	<select id="listMSAccountCondition" resultMap="BaseResultMap" parameterType="com.meiduimall.service.account.model.MSAccountDetailCondition" >
+	<select id="listMSAccountCondition" resultType="com.meiduimall.service.account.model.MSAccountDetail" parameterType="com.meiduimall.service.account.model.MSAccountDetailCondition" >
     select 
-    a.*,m.mem_login_name as loginName,m.mem_phone as phone,md.dict_value as bizType
-    from ms_account_detail a, ms_members m ,ms_dict md where a.mem_id=m.mem_id and md.dict_id=a.trade_type
-    
+    mad.id, mad.account_no accountNo, mad.trade_type tradeType, mad.trade_amount tradeAmount,
+    DATE_FORMAT(mad.trade_date,'%Y-%m-%d %H:%i:%s') tradeDate, mad.in_or_out inOrOut, mad.balance, mad.business_no businessNo, 
+    mad.create_user create_user, DATE_FORMAT(mad.create_date,'%Y-%m-%d %H:%i:%s') create_date, mad.update_user updateUser, 
+    DATE_FORMAT(mad.update_date,'%Y-%m-%d %H:%i:%s') updateDate, mad.remark,
+    mm.mem_login_name memLoginName, mm.mem_phone memPhone, md.dict_value bizType
+    from ms_account_detail mad
+    left join ms_account ma on ma.account_no = mad.account_no
+    left join ms_members mm on mm.mem_id = ma.mem_id
+    left join ms_dict md on  md.dict_id = mad.trade_type
+    where 1 = 1
     <if test="memLoginName !=null and memLoginName !=''">
-         	and m.mem_login_name = #{memLoginName}
+         	and mm.mem_login_name = #{memLoginName}
      </if> 
      <if test="memPhone !=null and memPhone !=''">
-         	and m.mem_phone = #{memPhone}
+         	and mm.mem_phone = #{memPhone}
      </if> 
     <if test="tradeType !=null and tradeType !=''">
-         	and a.trade_type = #{tradeType}
+         	and mad.trade_type = #{tradeType}
      </if> 
      <if test="beginDate !=null and beginDate !=''">
-         	and a.create_date >= #{beginDate} 
+         	and mad.create_date >= #{beginDate} 
      </if> 
       <if test="endDate !=null and endDate !=''">
-         	and a.create_date >= #{beginDate} and #{endDate} >=a.create_date 
+         	and mad.create_date >= #{beginDate} and #{endDate} >= mad.create_date 
      </if>
   </select>
   

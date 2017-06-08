@@ -46,7 +46,7 @@ public class PointsServiceImpl implements PointsService {
 		paramsMap.put("balancePoints", balancePoints);
 		
 		try {
-			baseDao.insert(paramsMap, "MSConsumePointsFreezeInfoMapper.insertPointsFreezeUnFreezeRecord");
+			baseDao.insert(paramsMap, "MSConsumePointsFreezeInfoMapper.insertConsumePointsFreezeInfo");
 		} catch (Exception e) {
 			logger.info("exec PointsServiceImpl freezePointsAndAddRecord() error:{}",e.toString());
 			resBodyData.setStatus(ConstApiStatus.OPERATION_DB_EX);
@@ -61,7 +61,7 @@ public class PointsServiceImpl implements PointsService {
 	 * @param memId 会员ID
 	 * @return 会员当前可用积分
 	 */
-	private Double getAvailablePointsByMemId(String memId) {
+	public Double getAvailablePointsByMemId(String memId) {
 		Double realPoints = Double.valueOf("0");
 		try{
 			realPoints = DoubleCalculate.add(getFreezeUnFreezePointsSumByMemId(memId), 
@@ -110,20 +110,6 @@ public class PointsServiceImpl implements PointsService {
 		logger.info("会员：{}当前积分为：{}",memId,realPoints);
 		return realPoints;
 	}
-	
-	@Override
-	public boolean getFreezeUnfreezeRecordByOrderId(String orderId) {
-		try {
-			int check=baseDao.selectOne(orderId, "MSConsumePointsFreezeInfoMapper.getRecordByOrderId");
-			if(check > 0){
-				return true;
-			}else{
-				return false;
-			}
-		} catch (Exception e) {
-			return false;
-		}
-	}
 
 	@Override
 	public ResBodyData unFreezePointsAndAddRecord(String memId, Double consumePoints, String orderId, String orderSource,Map<String,Object>  dataMap) {
@@ -140,7 +126,7 @@ public class PointsServiceImpl implements PointsService {
 		paramsMap.put("freezePoints",consumePoints);
 		paramsMap.put("balancePoints", balancePoints);
 		try {
-			baseDao.insert(paramsMap, "MSConsumePointsFreezeInfoMapper.insertPointsFreezeUnFreezeRecord");
+			baseDao.insert(paramsMap, "MSConsumePointsFreezeInfoMapper.insertConsumePointsFreezeInfo");
 			dataMap.put("before_total_points",getAvailablePointsByMemId(memId));
 		} catch (Exception e) {
 			logger.error("写入积分冻结明细出现错误-2002，会员编号：{}，订单编号：{}，错误信息：{}", memId, orderId, e.getMessage());

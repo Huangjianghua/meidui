@@ -1,6 +1,7 @@
 package com.meiduimall.service.account.util;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -543,5 +544,16 @@ public class StringUtil {
 			count++;
 		}
 		return count;
+	}
+	
+	
+	/**
+	 * 指定截取小数点后位数
+	 * @param m
+	 * @return
+	 */
+	public static String interceptionCharacter(int scala ,double m){
+		BigDecimal bigDecimal = new BigDecimal(m);
+		return bigDecimal.setScale(scala, BigDecimal.ROUND_DOWN).toString();
 	}
 }

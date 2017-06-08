@@ -26,9 +26,13 @@ public interface ValidateService {
 	 * @param type 校验类型   "0+"：非负浮点数  "+"：正浮点数  "-0"：非正浮点数  "-"：负浮点数
 	 */
 	void checkTradeAmount(Double tradeAmount,String type);
-
+	
 	/**
-	 * 校验当前会员某种类型的账户信息是否存在
+	 * 校验消费总金额和消费积分以及消费余额的关系是否合法
+	 * @param consumeAmount 消费总金额
+	 * @param consumeMoney 消费余额
+	 * @param consumePoints 消费积分
 	 */
-	void checkAccountByWalletTypeExist(String walletNo,String memId);
+	void checkConsumeAmountRelation(Double consumeAmount,Double consumeMoney,Double consumePoints);
+	
 }

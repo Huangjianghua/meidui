@@ -1,4 +1,4 @@
-package com.meiduimall.application.usercenter.api;
+/*package com.meiduimall.application.usercenter.api;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import java.util.HashMap;
@@ -13,19 +13,19 @@ import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.meiduimall.core.util.JsonUtils;
 
-/**
+*//**
  * 提现相关
  * @author jun.wu@meiduimall.com
  *
- */
+ *//*
 public class WithDrawV1ControllerTest extends BaseControllerTest {
 	
 	private final static Logger logger=LoggerFactory.getLogger(WithDrawV1ControllerTest.class);
 	 
-    /**
+    *//**
      * 提现明细
      * @throws Exception
-     */
+     *//*
     @Test
     public void queryWithDrawDetail () throws Exception{
     	Map<String, Object> mapCondition=new HashMap<>();
@@ -44,4 +44,4 @@ public class WithDrawV1ControllerTest extends BaseControllerTest {
 		});
     }
 	      
-}
+}*/

@@ -16,8 +16,9 @@ public interface UserInfoService {
 	 * 根据memId获取会员基本信息
 	 * @param memId 会员ID
 	 * @return 统一数据返回格式
+	 * @throws MdSysException 
 	 */
-	 ResBodyData getBasicInfoByMemId(String memId);
+	 ResBodyData getBasicInfoByMemId(String memId) throws MdSysException;
 	 
 	 /**
 	  * 根据memId获取user_id（手机号或登录名）

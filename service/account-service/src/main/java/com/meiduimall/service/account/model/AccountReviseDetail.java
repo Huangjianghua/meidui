@@ -28,9 +28,11 @@ public class AccountReviseDetail implements Serializable {
 	/** 手机号 */
 	private String memPhone;
 	
-	/** 钱包类型  **/
-	private String walletType;
-	private String walletName;
+	private String accountTypeName;
+	
+	private String accountTypeNo;
+	
+	private String accountNo;
 	
 	/**
 	 * 调整类型(1-调增,2-调减)
@@ -59,19 +61,35 @@ public class AccountReviseDetail implements Serializable {
 	/**
 	 * 
 	 */
-	private String createdBy;
+	private String createUser;
 	/**
 	 * 
 	 */
-	private String createdDate;
+	private String createDate;
 	/**
 	 * 
 	 */
-	private String updatedBy;
+	private String updateUser;
 
-	private String updatedDate;
-
+	private String updateDate;
+	
+	private String remark;
 	 
+	public String getAccountTypeName() {
+		return accountTypeName;
+	}
+
+	public void setAccountTypeName(String accountTypeName) {
+		this.accountTypeName = accountTypeName;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
 
 	/**
 	 * agree -同意 reject-拒绝
@@ -80,22 +98,6 @@ public class AccountReviseDetail implements Serializable {
 
 	
 	
-	public String getWalletName() {
-		return walletName;
-	}
-
-	public void setWalletName(String walletName) {
-		this.walletName = walletName;
-	}
-
-	public String getWalletType() {
-		return walletType;
-	}
-
-	public void setWalletType(String walletType) {
-		this.walletType = walletType;
-	}
-
 	public String getId() {
 		return id;
 	}
@@ -136,28 +138,40 @@ public class AccountReviseDetail implements Serializable {
 		this.reviseBalance = reviseBalance;
 	}
 
-	public String getCreatedBy() {
-		return createdBy;
+	
+
+	
+
+	public String getCreateUser() {
+		return createUser;
 	}
 
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy == null ? null : createdBy.trim();
+	public void setCreateUser(String createUser) {
+		this.createUser = createUser;
 	}
 
-	public String getCreatedDate() {
-		return createdDate;
+	public String getCreateDate() {
+		return createDate;
 	}
 
-	public void setCreatedDate(String createdDate) {
-		this.createdDate = createdDate;
+	public void setCreateDate(String createDate) {
+		this.createDate = createDate;
 	}
 
-	public String getUpdatedBy() {
-		return updatedBy;
+	public String getUpdateUser() {
+		return updateUser;
 	}
 
-	public void setUpdatedBy(String updatedBy) {
-		this.updatedBy = updatedBy == null ? null : updatedBy.trim();
+	public void setUpdateUser(String updateUser) {
+		this.updateUser = updateUser;
+	}
+
+	public String getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(String updateDate) {
+		this.updateDate = updateDate;
 	}
 
 	public String getStatus() {
@@ -168,13 +182,7 @@ public class AccountReviseDetail implements Serializable {
 		this.status = status == null ? null : status.trim();
 	}
 
-	public String getUpdatedDate() {
-		return updatedDate;
-	}
-
-	public void setUpdatedDate(String updatedDate) {
-		this.updatedDate = updatedDate;
-	}
+	
 
 	public String getReviseRemark() {
 		return reviseRemark;
@@ -215,6 +223,34 @@ public class AccountReviseDetail implements Serializable {
 
 	public void setOperate(String operate) {
 		this.operate = operate;
+	}
+
+	/**
+	 * @return the accountNo
+	 */
+	public String getAccountNo() {
+		return accountNo;
+	}
+
+	/**
+	 * @param accountNo the accountNo to set
+	 */
+	public void setAccountNo(String accountNo) {
+		this.accountNo = accountNo;
+	}
+
+	/**
+	 * @return the accountTypeNo
+	 */
+	public String getAccountTypeNo() {
+		return accountTypeNo;
+	}
+
+	/**
+	 * @param accountTypeNo the accountTypeNo to set
+	 */
+	public void setAccountTypeNo(String accountTypeNo) {
+		this.accountTypeNo = accountTypeNo;
 	}
 
 }
