@@ -138,7 +138,7 @@ public class ResponseMemberBasicInfo implements Serializable{
 	}
 
 	public void setTotalpoints(String totalpoints) throws MdSysException {
-		this.totalPoints = DoubleCalculate.getFormalValueTwo(DESC.deyption(totalPoints,memId));
+		this.totalPoints = DoubleCalculate.getFormalValueTwo(DESC.deyption(totalpoints,memId));
 	}
 
 	public String getNick_name() {
