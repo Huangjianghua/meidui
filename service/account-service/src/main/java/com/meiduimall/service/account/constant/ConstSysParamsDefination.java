@@ -89,5 +89,7 @@ public class ConstSysParamsDefination {
 	public final static String BALANCE_UPDATE_OPERATE="balance";
 	/** 冻结余额修改操作  */
 	public final static String FREE_ALANCE_UPDATE_OPERATE="freeze";
+	/** 创建人 **/
+	public final static String CREATE_USER_NAME="账户服务";
 
 }

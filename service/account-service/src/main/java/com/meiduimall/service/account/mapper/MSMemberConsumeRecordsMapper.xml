@@ -22,6 +22,7 @@
     <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
 	
+	 
 	<!-- 根据条件查询会员消费记录信息 -->
 	<select id="getConsumeRecordsByContidion" parameterType="com.meiduimall.service.account.model.request.MSMemberConsumeRecordsReq" resultMap="MsConcumeRecordsResultMap">
 		SELECT m.* 
@@ -55,4 +56,12 @@
 				)
 	</insert>
 	
+	<!--  将订单状态为1(已支付)的订单更新为订单状态为2(已退单)  -->
+	<update id="updateOrderStatus" parameterType="com.meiduimall.service.account.model.request.MSMemberConsumeRecordsReq">
+	   update ms_member_consume_records set order_status = 2
+	   where order_id = #{orderId} 
+	     and order_source = #{orderSource}
+	     and order_status = #{orderStatus}
+	</update>
+
 </mapper>
