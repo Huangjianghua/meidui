@@ -33,24 +33,24 @@
     where mard.id = #{id,jdbcType=CHAR}
   </select>
    <!-- 查询调整金额明细集合 -->
-  <select id="queryAccountReviseDetailList" resultMap="BaseResultMap" parameterType="com.meiduimall.service.account.model.AccountReviseDetail" >
+  <select id="queryAccountReviseDetailList" resultType="com.meiduimall.service.account.model.AccountReviseDetail" parameterType="com.meiduimall.service.account.model.request.RequestAccountReviseDetail" >
 	SELECT
-		msard.id,
+		msard.id as id,
 		msard.revise_type AS reviseType,
 		msm.mem_phone AS memPhone,
 		msm.mem_login_name AS memLoginName,
-		msard.before_balance,
-		msard.revise_balance,
-		msard.create_user,
-		DATE_FORMAT(msard.create_date,'%Y-%m-%d %H:%i:%s') create_date,
-		msard.update_user,
-		msard.status,
+		msard.before_balance as beforeBalance,
+		msard.revise_balance as reviseBalance,
+		msard.create_user as createUser,
+		DATE_FORMAT(msard.create_date,'%Y-%m-%d %H:%i:%s') as createDate,
+		msard.update_user as updateUser,
+		msard.status as status,
 		msard.revise_remark AS reviseRemark,
 		msard.review_remark AS reviewRemark,
-		DATE_FORMAT(msard.update_date,'%Y-%m-%d %H:%i:%s') update_date,
-		msard.remark,
-		mat.`account_type_no`,
-		mat.`account_type_name`
+		DATE_FORMAT(msard.update_date,'%Y-%m-%d %H:%i:%s') as updateDate,
+		msard.remark as remark,
+		mat.`account_type_no` as accountNo,
+		mat.`account_type_name` as accountTypeName
 	FROM ms_account_revise_detail msard
 	LEFT JOIN ms_account ma ON ma.`account_no` = msard.`account_no`
 	LEFT JOIN ms_members msm ON msm.mem_id = ma.`mem_id`

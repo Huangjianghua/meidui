@@ -31,6 +31,7 @@ public class AccountReviseDetail implements Serializable {
 	private String accountTypeName;
 	
 	private String accountTypeNo;
+	
 	private String accountNo;
 	
 	/**
@@ -74,19 +75,6 @@ public class AccountReviseDetail implements Serializable {
 	
 	private String remark;
 	 
-	
-
-
-
-
-	public String getAccountTypeNo() {
-		return accountTypeNo;
-	}
-
-	public void setAccountTypeNo(String accountTypeNo) {
-		this.accountTypeNo = accountTypeNo;
-	}
-
 	public String getAccountTypeName() {
 		return accountTypeName;
 	}
@@ -249,6 +237,20 @@ public class AccountReviseDetail implements Serializable {
 	 */
 	public void setAccountNo(String accountNo) {
 		this.accountNo = accountNo;
+	}
+
+	/**
+	 * @return the accountTypeNo
+	 */
+	public String getAccountTypeNo() {
+		return accountTypeNo;
+	}
+
+	/**
+	 * @param accountTypeNo the accountTypeNo to set
+	 */
+	public void setAccountTypeNo(String accountTypeNo) {
+		this.accountTypeNo = accountTypeNo;
 	}
 
 }
