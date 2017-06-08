@@ -166,7 +166,7 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 	}
 	
 	*//**
-	 * @Description: 查看会员余额明细集合
+	 * @Description: 查看会员余额明细集合   
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月20日 下午3:22:44
 	 *//*

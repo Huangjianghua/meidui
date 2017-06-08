@@ -825,7 +825,7 @@ public class TradeServiceImpl implements TradeService {
 				}
 			}
 
-			memberConsumeRecordsService.save(mmt);
+			memberConsumeRecordsService.updateOrderStatus(mmt);
 
 			Double beforeCouponsBalance = Double.parseDouble("0");
 			Double endCouponsBalance = Double.parseDouble("0");
