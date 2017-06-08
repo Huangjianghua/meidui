@@ -10,9 +10,6 @@ import com.meiduimall.core.Constants;
  */
 public class SysConstant extends Constants {
 	
-	private SysConstant() {
-	}
-
 	/** 短信渠道key */
 	public static final String MESSAGE_CHANNEL_KEY = "message_channel_key";
 
@@ -35,5 +32,6 @@ public class SysConstant extends Constants {
 	
 	public static final String SYSTEM_EXCEPTION_MSG="，系统异常，请联系客服。";
 	
-
+	private SysConstant() {
+	}
 }

@@ -47,14 +47,18 @@ public class JedisDBShardInfo extends JedisShardInfo {
 
 	@Override
 	public Jedis createResource() {
+		Jedis jedis = null;
 		try {
-			Jedis jedis = new Jedis(this);
+			jedis = new Jedis(this);
 			if (this.database != 0 && "PONG".equals(jedis.ping())) {
 				jedis.select(this.database);
 				return jedis;
 			}
 		} catch (Exception e) {
 			logger.error("连接异常=>" + getHost() + ":" + getPort() + ":" + getDatabase() + ";error msg: " + e);
+		}
+		if(jedis != null){
+			jedis.close();
 		}
 		return null;
 	}
