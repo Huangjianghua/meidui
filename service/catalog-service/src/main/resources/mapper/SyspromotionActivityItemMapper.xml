@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="SyspromotionActivityItemMapper" >
+
+  <resultMap id="BaseResultMap" type="com.meiduimall.service.catalog.entity.SyspromotionActivityItem" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="activity_id" property="activityId" jdbcType="INTEGER" />
+    <result column="shop_id" property="shopId" jdbcType="INTEGER" />
+    <result column="item_id" property="itemId" jdbcType="INTEGER" />
+    <result column="cat_id" property="catId" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="item_default_image" property="itemDefaultImage" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="activity_price" property="activityPrice" jdbcType="DECIMAL" />
+    <result column="sales_count" property="salesCount" jdbcType="INTEGER" />
+    <result column="verify_status" property="verifyStatus" jdbcType="VARCHAR" />
+    <result column="start_time" property="startTime" jdbcType="INTEGER" />
+    <result column="end_time" property="endTime" jdbcType="INTEGER" />
+    <result column="activity_tag" property="activityTag" jdbcType="VARCHAR" />
+    <result column="cost_price" property="costPrice" jdbcType="DECIMAL" />
+    <result column="activity_cost_price" property="activityCostPrice" jdbcType="DECIMAL" />
+    <result column="activity_point" property="activityPoint" jdbcType="INTEGER" />
+    <result column="virtual_sales_count" property="virtualSalesCount" jdbcType="INTEGER" />
+    <result column="spare_item_id" property="spareItemId" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <resultMap id="ResultMapWithBLOBs" type="com.meiduimall.service.catalog.entity.SyspromotionActivityItem" extends="BaseResultMap" >
+    <result column="activity_sku" property="activitySku" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  
+  <select id="selectByItemIdAndTime" resultMap="BaseResultMap" parameterType="java.util.Map" >
+  	select 
+  	activity_price,activity_point,start_time,end_time 
+  	from syspromotion_activity_item 
+  	where item_id = #{item_id}
+  	and start_time &lt;= #{current_time}
+  	and end_time &gt;= #{current_time}
+  	limit 1
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    *
+    from syspromotion_activity_item
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from syspromotion_activity_item
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.meiduimall.service.catalog.entity.SyspromotionActivityItem" >
+    insert into syspromotion_activity_item (id, activity_id, shop_id, 
+      item_id, cat_id, title, 
+      item_default_image, price, activity_price, 
+      sales_count, verify_status, start_time, 
+      end_time, activity_tag, cost_price, 
+      activity_cost_price, activity_point, virtual_sales_count, 
+      spare_item_id, activity_sku)
+    values (#{id,jdbcType=INTEGER}, #{activityId,jdbcType=INTEGER}, #{shopId,jdbcType=INTEGER}, 
+      #{itemId,jdbcType=INTEGER}, #{catId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
+      #{itemDefaultImage,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{activityPrice,jdbcType=DECIMAL}, 
+      #{salesCount,jdbcType=INTEGER}, #{verifyStatus,jdbcType=VARCHAR}, #{startTime,jdbcType=INTEGER}, 
+      #{endTime,jdbcType=INTEGER}, #{activityTag,jdbcType=VARCHAR}, #{costPrice,jdbcType=DECIMAL}, 
+      #{activityCostPrice,jdbcType=DECIMAL}, #{activityPoint,jdbcType=INTEGER}, #{virtualSalesCount,jdbcType=INTEGER}, 
+      #{spareItemId,jdbcType=INTEGER}, #{activitySku,jdbcType=LONGVARCHAR})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.meiduimall.service.catalog.entity.SyspromotionActivityItem" >
+    insert into syspromotion_activity_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="activityId != null" >
+        activity_id,
+      </if>
+      <if test="shopId != null" >
+        shop_id,
+      </if>
+      <if test="itemId != null" >
+        item_id,
+      </if>
+      <if test="catId != null" >
+        cat_id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="itemDefaultImage != null" >
+        item_default_image,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="activityPrice != null" >
+        activity_price,
+      </if>
+      <if test="salesCount != null" >
+        sales_count,
+      </if>
+      <if test="verifyStatus != null" >
+        verify_status,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="activityTag != null" >
+        activity_tag,
+      </if>
+      <if test="costPrice != null" >
+        cost_price,
+      </if>
+      <if test="activityCostPrice != null" >
+        activity_cost_price,
+      </if>
+      <if test="activityPoint != null" >
+        activity_point,
+      </if>
+      <if test="virtualSalesCount != null" >
+        virtual_sales_count,
+      </if>
+      <if test="spareItemId != null" >
+        spare_item_id,
+      </if>
+      <if test="activitySku != null" >
+        activity_sku,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="activityId != null" >
+        #{activityId,jdbcType=INTEGER},
+      </if>
+      <if test="shopId != null" >
+        #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="itemId != null" >
+        #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="catId != null" >
+        #{catId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="itemDefaultImage != null" >
+        #{itemDefaultImage,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="activityPrice != null" >
+        #{activityPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="salesCount != null" >
+        #{salesCount,jdbcType=INTEGER},
+      </if>
+      <if test="verifyStatus != null" >
+        #{verifyStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=INTEGER},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=INTEGER},
+      </if>
+      <if test="activityTag != null" >
+        #{activityTag,jdbcType=VARCHAR},
+      </if>
+      <if test="costPrice != null" >
+        #{costPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="activityCostPrice != null" >
+        #{activityCostPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="activityPoint != null" >
+        #{activityPoint,jdbcType=INTEGER},
+      </if>
+      <if test="virtualSalesCount != null" >
+        #{virtualSalesCount,jdbcType=INTEGER},
+      </if>
+      <if test="spareItemId != null" >
+        #{spareItemId,jdbcType=INTEGER},
+      </if>
+      <if test="activitySku != null" >
+        #{activitySku,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.service.catalog.entity.SyspromotionActivityItem" >
+    update syspromotion_activity_item
+    <set >
+      <if test="activityId != null" >
+        activity_id = #{activityId,jdbcType=INTEGER},
+      </if>
+      <if test="shopId != null" >
+        shop_id = #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="itemId != null" >
+        item_id = #{itemId,jdbcType=INTEGER},
+      </if>
+      <if test="catId != null" >
+        cat_id = #{catId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="itemDefaultImage != null" >
+        item_default_image = #{itemDefaultImage,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="activityPrice != null" >
+        activity_price = #{activityPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="salesCount != null" >
+        sales_count = #{salesCount,jdbcType=INTEGER},
+      </if>
+      <if test="verifyStatus != null" >
+        verify_status = #{verifyStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=INTEGER},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=INTEGER},
+      </if>
+      <if test="activityTag != null" >
+        activity_tag = #{activityTag,jdbcType=VARCHAR},
+      </if>
+      <if test="costPrice != null" >
+        cost_price = #{costPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="activityCostPrice != null" >
+        activity_cost_price = #{activityCostPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="activityPoint != null" >
+        activity_point = #{activityPoint,jdbcType=INTEGER},
+      </if>
+      <if test="virtualSalesCount != null" >
+        virtual_sales_count = #{virtualSalesCount,jdbcType=INTEGER},
+      </if>
+      <if test="spareItemId != null" >
+        spare_item_id = #{spareItemId,jdbcType=INTEGER},
+      </if>
+      <if test="activitySku != null" >
+        activity_sku = #{activitySku,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.meiduimall.service.catalog.entity.SyspromotionActivityItem" >
+    update syspromotion_activity_item
+    set activity_id = #{activityId,jdbcType=INTEGER},
+      shop_id = #{shopId,jdbcType=INTEGER},
+      item_id = #{itemId,jdbcType=INTEGER},
+      cat_id = #{catId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      item_default_image = #{itemDefaultImage,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      activity_price = #{activityPrice,jdbcType=DECIMAL},
+      sales_count = #{salesCount,jdbcType=INTEGER},
+      verify_status = #{verifyStatus,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=INTEGER},
+      end_time = #{endTime,jdbcType=INTEGER},
+      activity_tag = #{activityTag,jdbcType=VARCHAR},
+      cost_price = #{costPrice,jdbcType=DECIMAL},
+      activity_cost_price = #{activityCostPrice,jdbcType=DECIMAL},
+      activity_point = #{activityPoint,jdbcType=INTEGER},
+      virtual_sales_count = #{virtualSalesCount,jdbcType=INTEGER},
+      spare_item_id = #{spareItemId,jdbcType=INTEGER},
+      activity_sku = #{activitySku,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.meiduimall.service.catalog.entity.SyspromotionActivityItem" >
+    update syspromotion_activity_item
+    set activity_id = #{activityId,jdbcType=INTEGER},
+      shop_id = #{shopId,jdbcType=INTEGER},
+      item_id = #{itemId,jdbcType=INTEGER},
+      cat_id = #{catId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      item_default_image = #{itemDefaultImage,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      activity_price = #{activityPrice,jdbcType=DECIMAL},
+      sales_count = #{salesCount,jdbcType=INTEGER},
+      verify_status = #{verifyStatus,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=INTEGER},
+      end_time = #{endTime,jdbcType=INTEGER},
+      activity_tag = #{activityTag,jdbcType=VARCHAR},
+      cost_price = #{costPrice,jdbcType=DECIMAL},
+      activity_cost_price = #{activityCostPrice,jdbcType=DECIMAL},
+      activity_point = #{activityPoint,jdbcType=INTEGER},
+      virtual_sales_count = #{virtualSalesCount,jdbcType=INTEGER},
+      spare_item_id = #{spareItemId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
