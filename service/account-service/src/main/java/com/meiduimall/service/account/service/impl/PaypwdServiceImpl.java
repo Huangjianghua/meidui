@@ -59,7 +59,7 @@ public class PaypwdServiceImpl implements PaypwdService {
 				boolean blowPwd = BCrypt.checkpw(paypwd,existPaypwd.getPay_pwd());
 				if(blowPwd){
 					msMembersPaypwd.setMd5Pwd(MD5Util.MD5EncryptBy32(paypwd));
-					baseDao.selectOne(msMembersPaypwd, "MSMembersPaypwdMapper.updatePaypwdByMemId");
+					baseDao.update(msMembersPaypwd, "MSMembersPaypwdMapper.updatePaypwdByMemId");
 				}
 				else{
 					resBodyData.setStatus(ApiStatusConst.PAYPWD_NOT_RIGHT);
