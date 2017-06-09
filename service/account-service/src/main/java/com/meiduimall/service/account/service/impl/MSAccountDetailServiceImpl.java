@@ -268,16 +268,25 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		MSAccount account=accountList.get(0);
 		//step2  判断调整类型   1-调增金额   2-调减金额  
 		Integer type=Constants.CONSTANT_INT_ONE; //表示余额明细 支出类型  1表示收入  -1表示支出
+		Double balanceReport=detail.getReviseBalance().doubleValue();
 		if(detail.getReviseType().equals(ConstAccountAdjustType.CUTDOWN.getName())){
 			balance = DoubleCalculate.sub(Double.valueOf(account.getBalance()),detail.getReviseBalance().doubleValue());
 			if(balance<Constants.CONSTANT_INT_ZERO) throw new MdBizException(ConstApiStatus.ACCOUNT_REVISE_BALANCE_ERROR);
 			type=Constants.CONSTANT_INT_INVALID;
+			balanceReport=-balanceReport;
 		}else{
 			balance = DoubleCalculate.add(Double.valueOf(account.getBalance()),detail.getReviseBalance().doubleValue());
 		}
 		//step3 修改会员账户余额
 		this.updateAccountBalance(null, balance,detail.getAccountNo(),account.getMemId());
-		//step4 记录调整金额流水记录
+		//step4 修改总的冻结金额    
+		Map<String, Object> mapParam=new HashMap<>();
+		mapParam.put("memId", account.getMemId());
+		mapParam.put("balance", balanceReport);
+		baseDao.update(mapParam, "MSBankWithdrawDepositMapper.updateAccountReportBalanceByMemId");
+		//step5 修改ms_account_report 对应的金额
+		updateAccountBalanceReport(account.getAccountTypeNo(),-balance,account.getMemId(),ConstSysParamsDefination.BALANCE_UPDATE_OPERATE);
+		//step5 记录调整金额流水记录
 		this.saveAccountDetail(detail,account,type,balance);
 		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M);
 	}
