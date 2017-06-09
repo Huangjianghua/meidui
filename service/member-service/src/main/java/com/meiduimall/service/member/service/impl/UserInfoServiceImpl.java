@@ -314,5 +314,12 @@ public class UserInfoServiceImpl implements UserInfoService {
 	    return baseDao.selectOne(new RequestMobile(substr), "MobileNumberInfoMapper.queryMobile");
 	}
 
+
+	@Override
+	public ResBodyData getSimpleInfoByMemId(String memId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 }

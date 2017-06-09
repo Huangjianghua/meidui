@@ -41,6 +41,16 @@ public class UserInfoV1Controller{
 		return resBodyData;
 	}
 	
+	/**
+	 * 根据会员memId获取会员简单的信息
+	 * @param memId 会员ID
+	 * @return 数据对象
+	 */
+	@RequestMapping(value = "/get_member_simple_info")
+	public ResBodyData getMemberSimpleInfo(String memId){
+		return userInfoService.getSimpleInfoByMemId(memId);
+	}
+	
 	
 	/**
 	 * 保存当前会员基本信息 http://IP:PORT/Authorized/SaveMemberInfo
