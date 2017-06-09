@@ -132,6 +132,7 @@ public class PaypwdServiceImpl implements PaypwdService {
 			logger.warn("旧支付密码校验不通过");
 			resBodyData.setStatus(ApiStatusConst.OLD_PAYPWD_NOT_RIGHT);
 			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.OLD_PAYPWD_NOT_RIGHT));
+			return resBodyData;
 		}
 		logger.info("旧支付密码校验通过");
 		/**设置支付密码*/
