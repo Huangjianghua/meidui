@@ -7,8 +7,8 @@ import org.aspectj.lang.annotation.Pointcut;
 public class MethodLogPointcut {
 	
 	@Pointcut("execution(* com.meiduimall.service.catalog.controller.*.*(..))")
-	public void pointcutLog() {
+	public void pointcutLog() { 
 		// Do nothing because of X and Y.
 	}
 }
- 
+   
