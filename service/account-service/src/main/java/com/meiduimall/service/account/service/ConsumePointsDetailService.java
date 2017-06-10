@@ -39,6 +39,12 @@ public interface ConsumePointsDetailService {
 	public boolean addMDConsumePointsAndDetail(String memId,
 			String consumePoints, String orderId, String orderSource,
 			String operatorType, String operator, String remark) throws MdSysException;
+	
+	/**
+	 * 新增积分明细记录 
+	 * @author wujun
+	 */
+	void insertConsumePointsDetail(MSConsumePointsDetail points);
 
 
 	void getConsumePointsDetail(ServiceToServiceDTO dto) throws Exception;

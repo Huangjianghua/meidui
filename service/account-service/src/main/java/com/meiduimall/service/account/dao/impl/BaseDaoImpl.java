@@ -64,7 +64,7 @@ public class BaseDaoImpl extends SqlSessionDaoSupport implements BaseDao {
 	public <T> Integer insertBatch(List<T> ts, String sqlTag)  {
 		int result=0;
 		try {
-			result=getSqlSession().insert(sqlTag + "." + sqlTag, ts);
+			result=getSqlSession().insert(sqlTag, ts);
 		} catch (Exception e) {
 			logger.error("执行insertBatch()方法异常：{}",e.toString());
 			throw new DaoException(ConstApiStatus.DB_SELECT_EXCEPTION,ConstApiStatus.getZhMsg(ConstApiStatus.DB_SELECT_EXCEPTION));

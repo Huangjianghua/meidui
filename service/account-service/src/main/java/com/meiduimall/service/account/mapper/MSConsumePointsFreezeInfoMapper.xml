@@ -44,7 +44,7 @@
 			now(),
 			#{mcpfUpdatedBy},
 			now(),
-			#{remark}
+			#{mcpfRemark}
 			)
 	</insert> 
 	

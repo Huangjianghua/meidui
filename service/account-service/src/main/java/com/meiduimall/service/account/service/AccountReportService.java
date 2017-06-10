@@ -1,5 +1,7 @@
 package com.meiduimall.service.account.service;
 
+import java.util.Map;
+
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.model.MSAccountReport;
 
@@ -38,5 +40,12 @@ public interface AccountReportService {
 	 * @return 当前会员非冻结解冻的积分
 	 * @throws MdSysException 系统异常
 	 */
+	Double getCurrentPointsByMemId(String memId) throws MdSysException;
+
+	/**
+	 * 退单 根新余额
+	 * @param map
+	 */
+	void updateBalanceAndfreezeBalance(Map<String, Object> map);
 	Double getTotalPointsByMemId(String memId) throws MdSysException;
 }

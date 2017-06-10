@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.ibatis.javassist.expr.NewArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSAccountDetail;
+import com.meiduimall.service.account.model.MSAccountDetailGet;
 import com.meiduimall.service.account.service.AccountDetailService;
 import com.meiduimall.service.account.service.AccountReportService;
 import com.meiduimall.service.account.util.DateUtil;
@@ -191,6 +193,15 @@ public class AccountDetailServiceImpl implements AccountDetailService{
 	@Override
 	public List<MSAccountDetail> getAccountDetailListByOrderId(String orderId) {
 		return baseDao.selectList(orderId,"MSAccountDetailMapper.getAccountDetailListByOrderId");
+	}
+		
+	public List<MSAccountDetail> listAccountDetail(MSAccountDetailGet msAccountDetailGet) {
+		return baseDao.selectList(msAccountDetailGet, "MSAccountDetailMapper.listMSAccountDetail");
+	}
+
+	@Override
+	public void batchInsertAccoutDetail(List<MSAccountDetail> MSAccountDetail) {
+		baseDao.insertBatch(MSAccountDetail, "MSAccountDetailMapper.batchInsertAccountDetail");
 	}
 	
 }

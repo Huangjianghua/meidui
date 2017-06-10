@@ -230,6 +230,7 @@ public class AccountServiceImpl implements AccountService {
 		Collections.sort(listMsAccount,Comparator.comparing(MSAccount::getWithdrawPriority));
 		return listMsAccount;
 	}
+	 
 
 	@Override
 	public void updateAccountTotalPoints(String memId, Double changePoints) throws MdSysException {

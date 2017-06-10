@@ -60,6 +60,31 @@
     FROM ms_account_detail m
     WHERE m.business_no=#{orderId}
   </select>
+
+  <!-- 插入账户变动明细 -->
+  <insert id="batchInsertAccountDetail" parameterType="java.util.List">
+  		insert into ms_account_detail (
+  		id, account_no, trade_type, trade_amount, trade_date, in_or_out, balance, 
+    	business_no, create_user, create_date, update_user, update_date, remark) 
+    	values
+          <foreach collection="list" item="item" index="index"  separator=",">  
+             (
+			#{item.id},
+			#{item.accountNo},
+			#{item.tradeType},
+			#{item.tradeAmount},
+			#{item.tradeDate},
+			#{item.inOrOut},
+			#{item.balance},
+			#{item.businessNo},
+			#{item.createUser},
+			now(),
+			#{item.updateUser},
+			now(),
+			#{item.remark}
+			)
+         </foreach>  
+  </insert>
   
   <select id="listMSAccountDetail" resultMap="BaseResultMap" parameterType="com.meiduimall.service.account.model.MSAccountDetailGet" >
     select 
@@ -78,6 +103,9 @@
 	          <foreach item="id" index="index" collection="tradeTypeList" open="(" separator="," close=")">  
 				  #{id}  
 		  	  </foreach>
+     </if>
+     <if test="businessNo !=null and businessNo !=''">
+          and m.business_no = #{businessNo}
      </if>
   </select>
 	

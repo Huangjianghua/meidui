@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.model.MSAccountDetail;
+import com.meiduimall.service.account.model.MSAccountDetailGet;
 
 /**
  * 账户明细操作接口
@@ -136,5 +137,17 @@ public interface AccountDetailService {
 	 * @return 账户变动明细列表
 	 */
 	List<MSAccountDetail> getAccountDetailListByOrderId(String orderId);
+	
+	/**
+	 * 根据订单号查询账户明细表
+	 * @param msAccountDetailGet msAccountDetailGet
+	 * @author wujun
+	 */
+	public List<MSAccountDetail> listAccountDetail(MSAccountDetailGet msAccountDetailGet);
+
+	/**
+	 * 批量插入账户明细
+	 */
+	public void batchInsertAccoutDetail(List<MSAccountDetail> MSAccountDetail);
 	
 }

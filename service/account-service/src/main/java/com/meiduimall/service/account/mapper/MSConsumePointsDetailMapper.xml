@@ -23,6 +23,28 @@
 			)
 	</insert>
 	
+	
+		<!-- 插入积分变动明细 -->
+	<insert id="insertConsumePointsDetail" parameterType="com.meiduimall.service.account.model.MSConsumePointsDetail">
+		insert into ms_consume_points_detail
+		values(
+			#{mcpId},
+			#{memId},
+			#{mcpOrderId},
+			#{mcpOrderSource},
+			#{mcpOperatorType},
+			#{mcpIncome},
+			#{mcpExpenditure},
+			#{mcpBalance},
+			#{mcpCreatedBy},
+			now(),
+			#{mcpUpdatedBy},
+			now(),
+			#{mcpRemark}
+			)
+	</insert>
+	
+	
 		<select id="listMSConsumePointsDetail" parameterType="com.meiduimall.service.account.model.MSConsumePointsDetailGet" resultType="com.meiduimall.service.account.model.MSConsumePointsDetail">			
       SELECT 
       c.mcp_id AS mcpId,

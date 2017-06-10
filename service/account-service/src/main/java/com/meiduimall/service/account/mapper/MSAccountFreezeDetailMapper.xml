@@ -66,4 +66,28 @@
 			)
 	</insert>
 	
+	
+	<insert id="batchInsertAccoutFreezeDetail" parameterType="java.util.List">
+		INSERT INTO ms_account_freeze_detail (
+  		id, account_no, trade_type, trade_amount, trade_date, in_or_out, freeze_balance, 
+    	business_no, create_date, create_user, update_date, update_user,  remark)
+		values 
+		 <foreach collection="list" item="item" index="index" separator="," >  
+			(#{item.id},
+			#{item.accountNo},
+			#{item.tradeType},
+			#{item.tradeAmount},
+			#{item.tradeDate},
+			#{item.inOrOut},
+			#{item.freezeBalance},
+			#{item.businessNo},
+			now(),
+			#{item.createUser},
+			now(),
+			#{item.updateUser},
+			#{item.remark}
+			)
+		</foreach>
+	</insert>
+	
 </mapper>

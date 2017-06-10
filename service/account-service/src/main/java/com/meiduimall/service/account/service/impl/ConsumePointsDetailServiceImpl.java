@@ -180,5 +180,10 @@ public class ConsumePointsDetailServiceImpl implements ConsumePointsDetailServic
 		}
 		return flag;
 	}
+	@Override
+	public void insertConsumePointsDetail(MSConsumePointsDetail points) {
+		baseDao.insert(points, "MSConsumePointsDetailMapper.insertConsumePointsDetail");
+		
+	}
 
 }

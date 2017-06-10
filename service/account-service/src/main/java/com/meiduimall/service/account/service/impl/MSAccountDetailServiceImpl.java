@@ -276,11 +276,11 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			type=Constants.CONSTANT_INT_INVALID;
 			balanceReport=-balanceReport;
 			//step3 修改ms_account_report 对应的金额
-			updateAccountBalanceReport(account.getAccountTypeNo(),-balance,account.getMemId(),ConstSysParamsDefination.BALANCE_UPDATE_OPERATE);
+			updateAccountBalanceReport(account.getAccountTypeNo(),-detail.getReviseBalance().doubleValue(),account.getMemId(),ConstSysParamsDefination.BALANCE_UPDATE_OPERATE);
 		}else{
 			balance = DoubleCalculate.add(Double.valueOf(account.getBalance()),detail.getReviseBalance().doubleValue());
 			//step3 修改ms_account_report 对应的金额
-			updateAccountBalanceReport(account.getAccountTypeNo(),balance,account.getMemId(),ConstSysParamsDefination.BALANCE_UPDATE_OPERATE);
+			updateAccountBalanceReport(account.getAccountTypeNo(),detail.getReviseBalance().doubleValue(),account.getMemId(),ConstSysParamsDefination.BALANCE_UPDATE_OPERATE);
 		}
 		//step4 修改会员账户余额
 		this.updateAccountBalance(null, balance,detail.getAccountNo(),account.getMemId());

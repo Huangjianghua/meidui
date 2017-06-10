@@ -55,12 +55,17 @@ public class ConsumePointsFreezeInfoServiceImpl implements ConsumePointsFreezeIn
 			throw new ServiceException(ConstApiStatus.FREEZE_TYPE_UNNORMAL);
 		}
 		model.setMcpfConsumePointsBalance(pointsBalance);
-		baseDao.insert(model,"MSAccountMapper.insertConsumePointsFreezeInfo");
+		baseDao.insert(model,"MSConsumePointsFreezeInfoMapper.insertConsumePointsFreezeInfo");
 	}
 
 	@Override
 	public List<MSConsumePointsFreezeInfo> getRecordsByOrderId(String orderId) {
-		return baseDao.selectList(orderId,"getRecordsByOrderId.MSConsumePointsFreezeInfoMapper");
+		return baseDao.selectList(orderId,"MSConsumePointsFreezeInfoMapper.getRecordsByOrderId");
+	}
+
+	@Override
+	public MSConsumePointsFreezeInfo getPointsFreezeByOrderId(String orderId) {
+		return baseDao.selectOne(orderId,"MSConsumePointsFreezeInfoMapper.getRecordsByOrderId");
 	}
 
 }

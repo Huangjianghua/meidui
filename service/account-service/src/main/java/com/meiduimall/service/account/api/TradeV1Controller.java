@@ -72,7 +72,7 @@ public class TradeV1Controller {
 	@PostMapping(value = "/recede_order")
 	ResBodyData RecedeOrder(MSMemberConsumeRecordsReq ms)   {
 		
-		logger.info("BusinessRecedeOrder接口请求输入参数："+ ms.toString());
+		logger.info("退订单接口请求输入参数："+ ms.toString());
 		
 		try {
 			 
@@ -103,12 +103,13 @@ public class TradeV1Controller {
 			ms.setOrderSource(SerialStringUtil.getDictOrderSource(ms.getOrderSource()));
 			
 			 
-			ResBodyData updateMemberOrder = tradeService.recedeOrder(ms);
+			ResBodyData	updateMemberOrder = tradeService.recedeOrder(ms);
+			 
 			 
 			logger.info("退会员订单接口=>请求输出参数：{}", updateMemberOrder);
 			
 			return updateMemberOrder;
-		} catch (ServiceException e) {
+		} catch (MdSysException e) {
 			logger.error("服务异常: {}", e);
 			throw new ApiException(ConstApiStatus.SERVER_DEAL_WITH_EXCEPTION);
 		 
@@ -135,7 +136,7 @@ public class TradeV1Controller {
 				return new ResBodyData(ConstApiStatus.ACCOUNT_NOT_EXIST, ConstApiStatus.getZhMsg(ConstApiStatus.ACCOUNT_NOT_EXIST));
 			}
 			
-			if (!"1".equals(ms.getOrderStatus())) {
+			if (!"0".equals(ms.getOrderStatus())) {
 				logger.info("订单状态输入错误");
 				return new ResBodyData(ConstApiStatus.ORDER_STATUS_ERROR, ConstApiStatus.getZhMsg(ConstApiStatus.ORDER_STATUS_ERROR));
 			}

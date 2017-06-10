@@ -35,5 +35,12 @@ public interface ConsumePointsFreezeInfoService {
 	 */
 	public List<MSConsumePointsFreezeInfo> getRecordsByOrderId(String orderId);
 	
+	/**
+	 * 根据订单号查询积分冻结解冻
+	 * @param orderId 订单号
+	 * @return 积分冻结解冻
+	 */
+	public MSConsumePointsFreezeInfo getPointsFreezeByOrderId(String orderId);
+	
 	
 }

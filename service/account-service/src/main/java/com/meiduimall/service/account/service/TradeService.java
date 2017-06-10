@@ -81,6 +81,6 @@ public interface TradeService {
 	 * @param ms
 	 * @return
 	 */
-	ResBodyData recedeOrder(MSMemberConsumeRecordsReq ms);
+	ResBodyData recedeOrder(MSMemberConsumeRecordsReq ms)throws MdSysException;
 
 }
