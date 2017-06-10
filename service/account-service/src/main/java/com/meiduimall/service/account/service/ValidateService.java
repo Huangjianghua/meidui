@@ -35,4 +35,10 @@ public interface ValidateService {
 	 */
 	void checkConsumeAmountRelation(Double consumeAmount,Double consumeMoney,Double consumePoints);
 	
+	/**
+	 * 根据订单号校验是否存在重复的账户变动明细
+	 * @param orderId 订单号
+	 */
+	void checkRepeatAccoutDetailByOrderId(String orderId);
+	
 }

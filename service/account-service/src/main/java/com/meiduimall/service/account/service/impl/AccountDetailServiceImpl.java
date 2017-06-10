@@ -2,6 +2,7 @@ package com.meiduimall.service.account.service.impl;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -185,6 +186,11 @@ public class AccountDetailServiceImpl implements AccountDetailService{
 			logger.error("写入积分变动明细出现错误-%s，会员编号：%s，订单编号：%s，错误信息：%s", 
 					calcFlag, memId, orderId, e.getMessage());
 		}
+	}
+
+	@Override
+	public List<MSAccountDetail> getAccountDetailListByOrderId(String orderId) {
+		return baseDao.selectList(orderId,"MSAccountDetailMapper.getAccountDetailListByOrderId");
 	}
 	
 }

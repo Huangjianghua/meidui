@@ -55,7 +55,11 @@
 			)
 	</insert>
 	
- 
+ <select id="getAccountDetailListByOrderId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    SELECT m.*
+    FROM ms_account_detail m
+    WHERE m.business_no=#{orderId}
+  </select>
   
   <select id="listMSAccountDetail" resultMap="BaseResultMap" parameterType="com.meiduimall.service.account.model.MSAccountDetailGet" >
     select 

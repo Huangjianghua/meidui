@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -13,6 +14,7 @@ import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.constant.ConstSysParamsDefination;
 import com.meiduimall.service.account.constant.ConstTradeType;
+import com.meiduimall.service.account.service.AccountDetailService;
 import com.meiduimall.service.account.service.ValidateService;
 import com.meiduimall.service.account.util.DoubleCalculate;
 
@@ -26,6 +28,9 @@ import com.meiduimall.service.account.util.DoubleCalculate;
 public class ValidateServiceImpl implements ValidateService {
 	
 	private final static Logger logger=LoggerFactory.getLogger(ValidateServiceImpl.class);
+	
+	@Autowired
+	private AccountDetailService accountDetailService;
 	
 	@Override
 	public void checkTradeType(String tradeType) {
@@ -81,6 +86,13 @@ public class ValidateServiceImpl implements ValidateService {
 		//如果消费积分+消费余额大于消费总金额（可以小于，因为消费总金额可能还包括第三方支付金额）
 		if(DoubleCalculate.add(consumeMoney,consumePoints)>consumeAmount){
 			throw new ServiceException(ConstApiStatus.MONEY_ADD_POINTS_BIGGER_THAN_COMSUME_AMOUNT);
+		}
+	}
+
+	@Override
+	public void checkRepeatAccoutDetailByOrderId(String orderId) {
+		if(accountDetailService.getAccountDetailListByOrderId(orderId).size()>0){
+			throw new ServiceException(ConstApiStatus.REPEAT_ORDER);
 		}
 	}
 

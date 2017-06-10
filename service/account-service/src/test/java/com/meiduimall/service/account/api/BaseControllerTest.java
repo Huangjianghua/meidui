@@ -12,7 +12,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.meiduimall.exception.DaoException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.dao.BaseDao;
+import com.meiduimall.service.account.util.DESC;
  
 
 
@@ -26,7 +29,7 @@ public class BaseControllerTest {
 	
 	protected final String baseUrl="/member/account_service";
 	protected String memId=null;
-	protected final String phone="13049847742";
+	protected final String phone="18898447755";
 	
 	@Autowired
 	private WebApplicationContext webApplicationContext;
@@ -35,9 +38,9 @@ public class BaseControllerTest {
 	private BaseDao baseDao;
 	
 	@Before
-	public void setUp(){
+	public void setUp() throws DaoException, MdSysException{
 		 mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-		 memId=baseDao.selectOne(phone,"MSMembersMapper.selectMemIdByPhone");
+		 memId=baseDao.selectOne(DESC.encryption(phone),"MSMembersMapper.selectMemIdByPhone");
 	   }
 	
 	@Test

@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
@@ -77,11 +78,13 @@ public class AccountAdjustServiceImpl implements AccountAdjustService {
 		validateService.checkTradeType(model.getTradeType());
 		//校验交易金额是否合法
 		validateService.checkTradeAmount(model.getTrade_amount(),"0+");
+		//校验是否是重复的订单
+		validateService.checkRepeatAccoutDetailByOrderId(model.getOrderId());
 		
 		//根据交易类型取出对应的账户类型
 		String accountTypeNo=ConstTradetTypeToAccountTypeNo.getNameByCode(model.getTradeType());
 		
-		//根据会员ID和交易类型查询对应的账户
+		//根据会员ID和账户类型查询对应的账户
 		MSAccount msAccount=accountService.getAccountInfo(model.getMemId(),accountTypeNo);
 		
 		//若该类型的账户不存在，就创建一个
@@ -141,6 +144,11 @@ public class AccountAdjustServiceImpl implements AccountAdjustService {
 		}
 		//如果调减
 		if(ConstSysParamsDefination.CAPITAL_OUT.equals(model.getDirection())){
+			//判断当前类型的账户是否够调减
+			if(Double.valueOf(DESC.deyption(msAccount.getBalanceEncrypt(),model.getMemId()))<model.getTrade_amount()){
+				logger.warn("当前账户余额不足，调减失败");
+				throw new ServiceException(ConstApiStatus.BALANCE_CANNOT_AFFORD);
+			}
 			changeBalance=-model.getTrade_amount();
 			inOrOut=-1;
 		}
@@ -169,6 +177,7 @@ public class AccountAdjustServiceImpl implements AccountAdjustService {
 		msAccountDetail.setBusinessNo(model.getOrderId());
 		msAccountDetail.setCreateUser("账户服务");
 		msAccountDetail.setUpdateUser("账户服务");
+		msAccountDetail.setRemark(StringUtils.isEmpty(model.getRemark())?"账户服务-余额调增调减-生成明细":model.getRemark());
 		accountDetailService.insertAccountDetail(msAccountDetail);
 		
 		return resBodyData;

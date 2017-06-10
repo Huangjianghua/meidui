@@ -113,7 +113,7 @@
       <!-- 更新当前类型冻结余额密文 -->
       <if test="freezeBalanceEncrypt != null and freezeBalanceEncrypt != ''">freeze_balance_encrypt=#{freezeBalanceEncrypt},</if>
       <!-- 更新更新时间 -->
-      <if test="updateDate != null and updateDate != ''">update_date=now(),</if>
+      update_date=now(),
       </set>
       <where>
 	  <if test="accountNo !=null and accountNo !=''">
