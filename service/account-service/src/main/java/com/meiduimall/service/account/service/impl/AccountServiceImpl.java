@@ -16,6 +16,7 @@ import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSAccount;
 import com.meiduimall.service.account.model.MSAccountFreezeDetail;
 import com.meiduimall.service.account.service.AccountFreezeDetailService;
+import com.meiduimall.service.account.service.AccountReportService;
 import com.meiduimall.service.account.service.AccountService;
 import com.meiduimall.service.account.util.DESC;
 import com.meiduimall.service.account.util.DoubleCalculate;
@@ -33,6 +34,9 @@ public class AccountServiceImpl implements AccountService {
 	
 	@Autowired
 	private AccountFreezeDetailService  accountFreezeDetailService;
+	
+	@Autowired
+	private AccountReportService  accountReportService;
 	
 	@Override
 	public MSAccount getAccountInfo(String memId, String accountTypeNo) {
@@ -227,5 +231,15 @@ public class AccountServiceImpl implements AccountService {
 		return listMsAccount;
 	}
 	 
+
+	@Override
+	public void updateAccountTotalPoints(String memId, Double changePoints) throws MdSysException {
+		Double totalPoints=accountReportService.getTotalPointsByMemId(memId);
+		String newTotalPoints=DESC.encryption(String.valueOf(totalPoints+changePoints),memId);
+		Map<String,Object> mapCondition=new HashMap<>();
+		mapCondition.put("memId",memId);
+		mapCondition.put("newTotalPoints",newTotalPoints);
+		baseDao.update(mapCondition,"MSAccountMapper.updateAccountTotalPoints");
+	}
 
 }

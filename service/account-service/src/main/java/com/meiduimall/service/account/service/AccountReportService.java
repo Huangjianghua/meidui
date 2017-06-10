@@ -35,7 +35,7 @@ public interface AccountReportService {
 	Double getAvailablePoints(String memId) throws MdSysException;
 
 	/**
-	 * 根据memId获取当前会员非冻结解冻的积分
+	 * 根据memId获取会员当前总积分
 	 * @param memId 会员ID
 	 * @return 当前会员非冻结解冻的积分
 	 * @throws MdSysException 系统异常
@@ -47,4 +47,5 @@ public interface AccountReportService {
 	 * @param map
 	 */
 	void updateBalanceAndfreezeBalance(Map<String, Object> map);
+	Double getTotalPointsByMemId(String memId) throws MdSysException;
 }

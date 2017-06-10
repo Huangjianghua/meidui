@@ -51,12 +51,12 @@ public class AccountReportServiceImpl implements AccountReportService {
 	
 	@Override
 	public Double getAvailablePoints(String memId) throws MdSysException {
-		return  DoubleCalculate.add(this.getCurrentPointsByMemId(memId),consumePointsFreezeInfoService.getFreezeUnFreezePointsSumByMemId(memId));
+		return  DoubleCalculate.add(this.getTotalPointsByMemId(memId),consumePointsFreezeInfoService.getFreezeUnFreezePointsSumByMemId(memId));
 	}
 	
 	@Override
-	public Double getCurrentPointsByMemId(String memId) throws MdSysException {
-		String currentPoints=baseDao.selectOne(memId,"MSMembersMapper.getCurrentPointsByMemId");
+	public Double getTotalPointsByMemId(String memId) throws MdSysException {
+		String currentPoints=baseDao.selectOne(memId,"MSMembersMapper.getTotalPointsByMemId");
 		return Double.valueOf(DESC.deyption(currentPoints,memId));
 	}
 
@@ -64,6 +64,12 @@ public class AccountReportServiceImpl implements AccountReportService {
 	public void updateBalanceAndfreezeBalance(Map<String, Object> map) {
 		 baseDao.update(map, "MSAccountReportMapper.updateBalanceAndfreezeBalance");
 		
+	}
+
+	@Override
+	public Double getCurrentPointsByMemId(String memId) throws MdSysException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

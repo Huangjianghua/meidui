@@ -4,7 +4,7 @@
 <mapper namespace="MSConsumePointsDetailMapper">
 
 	<!-- 插入积分变动明细 -->
-	<insert id="insertAccountPointDetail" parameterType="java.util.Map">
+	<insert id="insertAccountPointDetail" parameterType="com.meiduimall.service.account.model.MSConsumePointsDetail">
 		insert into ms_consume_points_detail
 		values(
 			#{id},

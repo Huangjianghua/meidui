@@ -51,7 +51,7 @@ public class MSMembersServiceImpl implements MSMembersService {
 		// 全部积分，含冻结积分--目前积分没有小数点，需要转为int
 		int totalConsumePoints = 0;
 		try {
-			Double currentPoints = accountReportService.getCurrentPointsByMemId(memId);
+			Double currentPoints = accountReportService.getTotalPointsByMemId(memId);
 			if(currentPoints != null){
 				totalConsumePoints = currentPoints.intValue();
 			}
@@ -109,7 +109,7 @@ public class MSMembersServiceImpl implements MSMembersService {
 		// 获取个人账户积分
 		int totalConsumePoints = 0;
 		try {
-			Double currentPoints = accountReportService.getCurrentPointsByMemId(memId);
+			Double currentPoints = accountReportService.getTotalPointsByMemId(memId);
 			if(currentPoints != null){
 				totalConsumePoints = currentPoints.intValue();
 			}

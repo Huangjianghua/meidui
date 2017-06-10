@@ -60,7 +60,7 @@ public class AccountWithDrawV1Controller {
 		List<MSBankWithdrawDeposit> listMSBankWithdrawDeposit = null;
 		try {
 			// 分页查询
-			if (mSAccountDetailCondition.getFlg().equals(Constants.CONSTANT_INT_ONE)) {
+			if (mSAccountDetailCondition.getFlg().equals(Constants.CONSTANT_STR_ONE)) {
 				// 分页
 				PageHelper.startPage(mSAccountDetailCondition.getPageNum(), mSAccountDetailCondition.getPageSize());
 				PageHelper.orderBy("apply_date DESC");

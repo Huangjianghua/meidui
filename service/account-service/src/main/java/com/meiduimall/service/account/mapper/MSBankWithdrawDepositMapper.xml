@@ -158,13 +158,13 @@
 	<!--修改提现记录  -->
 	 <update id="updateWidthDrawDeposit"  parameterType="com.meiduimall.service.account.model.MSBankWithdrawDeposit" >
 	 	 update ms_bank_withdraw_deposit 
-	 	<set >
+	 	<set>
 	 	  audit_date = now(),
 	      <if test="status != null and status !=''" >
 	        status = #{status},
 	      </if>
-	      <if test="actualTransferCash != null and actualTransferCash !=''" >
-	        actual_transfer_amount = #{actualTransferCash},
+	      <if test="actualTransferAmount != null and actualTransferAmount !=''" >
+	        actual_transfer_amount = #{actualTransferAmount},
 	      </if>
 	      <if test="auditBy != null and auditBy !=''" >
 	        audit_by = #{auditBy},
@@ -172,6 +172,40 @@
 	       <if test="remark != null and remark !=''" >
 	        remark = #{remark},
 	      </if>
+	       <if test="poundageAmount != null and poundageAmount !=''" >
+	        poundage_amount = #{poundageAmount},
+	      </if>
+	      <if test="actualWithdrawAmount != null and actualWithdrawAmount !=''" >
+	        actual_withdraw_amount = #{actualWithdrawAmount},
+	      </if>
+      </set>
+       <where>
+	      <if test="id !=null and id !=''">
+			AND id=#{id}
+		  </if>
+		  <if test="memId !=null and memId !=''">
+			AND mem_id=#{memId}
+		  </if>
+   		 </where>
+	</update>
+	
+	<!--修改提现记录  -->
+	 <update id="updateWidthDrawDepositNew"  parameterType="com.meiduimall.service.account.model.request.RequestMSBankWithDrawDepostie" >
+	 	 update ms_bank_withdraw_deposit 
+	 	<set>
+	 	  audit_date = now(),
+	      <if test="status != null and status !=''" >
+	        status = #{status},
+	      </if>
+	      <if test="actualTransferAmount != null and actualTransferAmount !=''" >
+	        actual_transfer_amount = #{actualTransferAmount},
+	      </if>
+	      <if test="auditBy != null and auditBy !=''" >
+	        audit_by = #{auditBy},
+	      </if>
+	       <if test="remark != null and remark !=''" >
+	        remark = #{remark},
+	      </if> 
       </set>
        <where>
 	      <if test="id !=null and id !=''">

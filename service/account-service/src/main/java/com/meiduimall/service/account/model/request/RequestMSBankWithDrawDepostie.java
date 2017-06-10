@@ -35,7 +35,7 @@ public class RequestMSBankWithDrawDepostie implements Serializable{
 	/** 实际提现金额 */
 	private String actualCarryCash;
 	/** 实际转账金额 */
-	private String actualTransferCash;
+	private String actualTransferAmount;
 	/** 申请时间 */
 	private Date applyDate;
 	/** 审核人 */
@@ -182,17 +182,17 @@ public class RequestMSBankWithDrawDepostie implements Serializable{
 	}
 
 	/**
-	 * @return the actualTransferCash
+	 * @return the actualTransferAmount
 	 */
-	public String getActualTransferCash() {
-		return actualTransferCash;
+	public String getActualTransferAmount() {
+		return actualTransferAmount;
 	}
 
 	/**
-	 * @param actualTransferCash the actualTransferCash to set
+	 * @param actualTransferAmount the actualTransferAmount to set
 	 */
-	public void setActualTransferCash(String actualTransferCash) {
-		this.actualTransferCash = actualTransferCash;
+	public void setActualTransferAmount(String actualTransferAmount) {
+		this.actualTransferAmount = actualTransferAmount;
 	}
 
 	/**

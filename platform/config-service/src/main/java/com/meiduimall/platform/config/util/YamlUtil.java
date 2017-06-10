@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.eclipse.jgit.api.AddCommand;
 import org.eclipse.jgit.api.CloneCommand;
@@ -38,13 +40,15 @@ public class YamlUtil {
 	 */
 	private static final String configName="-service-config.yml";
 	
-	private static final String srcResourceUrl="src/main/resources/config/";
+	//private static final String srcResourceUrl="src/main/resources/config/";
 	
 	private static final String findSrcResourceUrl="\\src\\main\\resources\\config\\";
 	
 	private static final String projectURL = System.getProperty(Constant.PROJECT_DIR);   //项目路径 
 	
 	private static  Yaml yaml = new Yaml();
+	
+	private static Lock lock=new ReentrantLock(); 
 	
 	/**
 	 * 查询配置信息
@@ -124,8 +128,9 @@ public class YamlUtil {
 	 * @param list
 	 * @author: jianhua.huang  2017年5月23日 下午10:09:43
 	 */
-	private static void operateYml(List<ConfigerMsg> list,String typeConfig) throws MdBizException{
-		 try {
+	private static  void operateYml(List<ConfigerMsg> list,String typeConfig) throws MdBizException{
+		lock.lock();
+		try {
 			 String object=JsonUtils.beanToJson(list);
 			 String fileName=typeConfig+configName; //文件名称
 			 logger.info("operateYml开始操作配置文件信息,文件名称:{}",fileName);
@@ -136,6 +141,8 @@ public class YamlUtil {
 		} catch (Exception e) {
 			logger.error("写入资源文件数据异常:{}", e);
 			throw new MdBizException(ApiStatusConst.WRITE_RESOURCES_FILE_ERROR);
+		}finally {
+			lock.unlock();
 		}
 	}
 	

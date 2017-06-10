@@ -129,5 +129,12 @@ public interface AccountService {
 	 */
 	List<MSAccount> getBalanceAccountListOrderByWithDrawPriority(String memId);
 	
+	/**
+	 * 更新会员账户积分
+	 * @param memId 会员ID
+	 * @param changePoints 变化的积分
+	 * @throws MdSysException 系统异常
+	 */
+	void updateAccountTotalPoints(String memId,Double changePoints) throws MdSysException;
 	
 }
