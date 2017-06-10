@@ -34,6 +34,7 @@ public class AccountTypeServiceImpl implements AccountTypeService {
 		return baseDao.selectOne(accountTypeNo,"MSAccountTypeMapper.getSequenceByAccountTypeNo");
 	}
 
+	@Transactional
 	@Override
 	public Long updateSequenceByAccountTypeNo(String accountTypeNo) {
 		Long sequence=this.getSequenceByAccountTypeNo(accountTypeNo);

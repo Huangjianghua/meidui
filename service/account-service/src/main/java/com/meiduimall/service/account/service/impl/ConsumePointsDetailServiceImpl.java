@@ -20,7 +20,6 @@ import com.meiduimall.service.account.model.MSConsumePointsDetailGet;
 import com.meiduimall.service.account.service.AccountAdjustService;
 import com.meiduimall.service.account.service.AccountDetailService;
 import com.meiduimall.service.account.service.AccountReportService;
-import com.meiduimall.service.account.service.AccountService;
 import com.meiduimall.service.account.service.ConsumePointsDetailService;
 import com.meiduimall.service.account.util.DESC;
 import com.meiduimall.service.account.util.DateUtil;
@@ -47,25 +46,11 @@ public class ConsumePointsDetailServiceImpl implements ConsumePointsDetailServic
 	@Autowired
 	private AccountReportService   accountReportService;
 	
-	/**
-	 * 方法名: insertConsumePointsDetail<br>
-	 * 描述:  写入会员积分消费明细<br>
-	 * 创建时间: 2016-11-18
-	 * @param memId
-	 * @param orderId
-	 * @param orderSource
-	 * @param inConsumePoints
-	 * @param outConsumePoints
-	 * @param balancePoints
-	 * @param operatorType
-	 * @param operator
-	 * @param remark
-	 * @throws Exception 
-	 */
-	private void insertConsumePointsDetail(String memId, String orderId,
+	@Override
+	public void insertConsumePointsDetail(String memId, String orderId,
 			String orderSource, String inConsumePoints,
 			String outConsumePoints, String balancePoints, String operatorType,
-			String operator, String remark) throws Exception {
+			String operator, String remark) throws MdSysException{
 		
 		MSConsumePointsDetail entity = new MSConsumePointsDetail();
 		Date nowDate = new Date(System.currentTimeMillis());
@@ -81,20 +66,9 @@ public class ConsumePointsDetailServiceImpl implements ConsumePointsDetailServic
 		entity.setMcpCreatedDate(nowDate);
 		entity.setMcpUpdatedDate(nowDate);
 		entity.setMcpRemark(remark);
-		baseDao.insert(entity,"MSConsumePointsDetailMapper.saveConsumePointsDetails");
+		baseDao.insert(entity,"MSConsumePointsDetailMapper.insertAccountPointDetail");
 	}
-	@Override
-	public void saveConsumePoints(String memId, String orderId, String orderSource, String inConsumePoints,
-			String outConsumePoints, String balancePoints, String operatorType, String operator, String remark) {
-		// TODO Auto-generated method stub
-		try {
-			insertConsumePointsDetail(memId, orderId, orderSource,
-					inConsumePoints, outConsumePoints, balancePoints, operatorType, operator, remark);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+
 	@Override
 	public void getConsumePointsDetail(ServiceToServiceDTO dto) throws Exception {
 		// TODO Auto-generated method stub
@@ -194,7 +168,7 @@ public class ConsumePointsDetailServiceImpl implements ConsumePointsDetailServic
 			String consumePoints, String orderId, String orderSource,
 			String operatorType, String operator, String remark) throws MdSysException {
 		//增加基本账户总额
-		double addAtq = DoubleCalculate.add(accountReportService.getCurrentPointsByMemId(memId),
+		double addAtq = DoubleCalculate.add(accountReportService.getTotalPointsByMemId(memId),
 				Double.valueOf(consumePoints));
 		//调用增加积分方法
 		boolean flag = accountAdjustService.addMDConsumePoints(memId, consumePoints, false);

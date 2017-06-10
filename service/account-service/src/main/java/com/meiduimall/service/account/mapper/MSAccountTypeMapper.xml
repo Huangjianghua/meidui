@@ -48,7 +48,7 @@
   </select>
   
     <!--   根据账户类型编号更新当前序列号 乐观锁 -->
-  <update id="updateSequenceByAccountTypeNo" parameterType="java.util.Map">
+  <update id="updateSequenceByAccountTypeNo" parameterType="com.meiduimall.service.account.model.MSAccountType">
   UPDATE  ms_account_type m
   SET  m.account_no_sequence=#{sequence}+1
   WHERE 1=1

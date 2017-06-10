@@ -18,7 +18,7 @@
 		SELECT mem_id FROM ms_members WHERE mem_phone=#{phone}
 	</select>
 	
-	<select id="getCurrentPointsByMemId" parameterType="java.lang.String" resultType="java.lang.String">
+	<select id="getTotalPointsByMemId" parameterType="java.lang.String" resultType="java.lang.String">
 		SELECT m.mem_basic_account_total_quantity FROM ms_members m WHERE m.mem_id=#{memId}
 	</select>
 	

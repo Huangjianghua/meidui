@@ -66,9 +66,6 @@
 		<if test="memId !=null and memId !=''">
 		      AND mem_id = #{memId}
 	   	</if>
-	   	<if test="id !=null and id !=''">
-		      AND id = #{id}
-	   	</if>
 		</where>
 	</update>
 	
@@ -123,9 +120,6 @@
 		<if test="memId !=null and memId !=''">
 		      AND mem_id = #{memId}
 	   	</if>
-	   	<if test="id !=null and id !=''">
-		      AND id = #{id}
-	   	</if>
 		</where>
 		</update>
 		
@@ -178,52 +172,49 @@
         <if test="freezeBalance !=null and freezeBalance !=''">
            freeze_balance =freeze_balance + #{freezeBalance},
         </if>
-		 <if test="JFZH !=null and JFZH !=''">
-           freeze_balance_JFZH =freeze_balance_JFZH + #{JFZH},
+		 <if test="freezeBalanceJFZH !=null and freezeBalanceJFZH !=''">
+           freeze_balance_JFZH =freeze_balance_JFZH + #{freezeBalanceJFZH},
         </if>
-         <if test="KFCZ1 !=null and KFCZ1 !=''">
-           freeze_balance_KFCZ1 =freeze_balance_KFCZ1 + #{KFCZ1},
+         <if test="freezeBalanceKFCZ1 !=null and freezeBalanceKFCZ1 !=''">
+           freeze_balance_KFCZ1 =freeze_balance_KFCZ1 + #{freezeBalanceKFCZ1},
         </if>
-         <if test="KFCZ2 !=null and KFCZ2 !=''">
-           freeze_balance_KFCZ2 =freeze_balance_KFCZ2 + #{KFCZ2},
+         <if test="freezeBalanceKFCZ2 !=null and freezeBalanceKFCZ2 !=''">
+           freeze_balance_KFCZ2 =freeze_balance_KFCZ2 + #{freezeBalanceKFCZ2},
         </if>
-         <if test="CWTZ1 !=null and CWTZ1 !=''">
-           freeze_balance_CWTZ1 =freeze_balance_CWTZ1 + #{CWTZ1},
+         <if test="freezeBalanceCWTZ1 !=null and freezeBalanceCWTZ1 !=''">
+           freeze_balance_CWTZ1 =freeze_balance_CWTZ1 + #{freezeBalanceCWTZ1},
         </if>
-         <if test="CWTZ2 !=null and CWTZ2 !=''">
-           freeze_balance_CWTZ2 =freeze_balance_CWTZ2 + #{CWTZ2},
+         <if test="freezeBalanceCWTZ2 !=null and freezeBalanceCWTZ2 !=''">
+           freeze_balance_CWTZ2 =freeze_balance_CWTZ2 + #{freezeBalanceCWTZ2},
         </if>
-         <if test="CWTZ3 !=null and CWTZ3 !=''">
-           freeze_balance_CWTZ3 =freeze_balance_CWTZ3 + #{CWTZ3},
+         <if test="freezeBalanceCWTZ3 !=null and freezeBalanceCWTZ3 !=''">
+           freeze_balance_CWTZ3 =freeze_balance_CWTZ3 + #{freezeBalanceCWTZ3},
         </if>
-         <if test="SJJL !=null and SJJL !=''">
-           freeze_balance_SJJL =freeze_balance_SJJL + #{SJJL},
+         <if test="freezeBalanceSJJL !=null and freezeBalanceSJJL !=''">
+           freeze_balance_SJJL =freeze_balance_SJJL + #{freezeBalanceSJJL},
         </if>
-         <if test="SJYE !=null and SJYE !=''">
-           freeze_balance_SJYE =freeze_balance_SJYE + #{SJYE},
+         <if test="freezeBalanceSJYE !=null and freezeBalanceSJYE !=''">
+           freeze_balance_SJYE =freeze_balance_SJYE + #{freezeBalanceSJYE},
         </if>
-         <if test="GDYE !=null and GDYE !=''">
-           freeze_balance_GDYE =freeze_balance_GDYE + #{GDYE},
+         <if test="freezeBalanceGDYE !=null and freezeBalanceGDYE !=''">
+           freeze_balance_GDYE =freeze_balance_GDYE + #{freezeBalanceGDYE},
         </if>
-         <if test="QDYE !=null and QDYE !=''">
-           freeze_balance_QDYE =freeze_balance_QDYE + #{QDYE},
+         <if test="freezeBalanceQDYE !=null and freezeBalanceQDYE !=''">
+           freeze_balance_QDYE =freeze_balance_QDYE + #{freezeBalanceQDYE},
         </if>
-         <if test="FJJL !=null and FJJL !=''">
-           freeze_balance_FJJL =freeze_balance_FJJL + #{FJJL},
+         <if test="freezeBalanceFJJL !=null and freezeBalanceFJJL !=''">
+           freeze_balance_FJJL =freeze_balance_FJJL + #{freezeBalanceFJJL},
         </if>
-         <if test="SCJL !=null and SCJL !=''">
-           freeze_balance_SCJL =freeze_balance_SCJL + #{SCJL},
+         <if test="freezeBalanceSCJL !=null and freezeBalanceSCJL !=''">
+           freeze_balance_SCJL =freeze_balance_SCJL + #{freezeBalanceSCJL},
         </if>
-        <if test="YEDR !=null and YEDR !=''">
-           freeze_balance_YEDR =freeze_balance_YEDR + #{YEDR},
+        <if test="freezeBalanceYEDR !=null and freezeBalanceYEDR !=''">
+           freeze_balance_YEDR =freeze_balance_YEDR + #{freezeBalanceYEDR},
         </if>
 		</set>
 		<where>
 		<if test="memId !=null and memId !=''">
 		      AND mem_id = #{memId}
-	   	</if>
-	   	<if test="id !=null and id !=''">
-		      AND id = #{id}
 	   	</if>
 		</where>
 	</update>

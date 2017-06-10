@@ -6,6 +6,8 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * 账户余额调整API请求映射实体
  * @author chencong
@@ -16,22 +18,26 @@ public class RequestAccountAdjustAmount extends RequestBaseModel implements Seri
 	private static final long serialVersionUID = -4128146492405140400L;
 	
 	@NotEmpty(message="来源不能为空")
-	private String source ;
+	private String source;
 	
 	@NotEmpty(message="交易类型不能为空")
-	private String trade_type;
+	@JsonProperty("trade_type")
+	private String tradeType;
 	
 	@NotEmpty(message="订单号不能为空")
-	private String order_id;
+	@JsonProperty("order_id")
+	private String orderId;
 	
 	@NotEmpty(message="调账方向不能为空")
 	private String direction;
 	
 	@NotNull(message="交易金额不能为空")
+	@JsonProperty("trade_amount")
 	private Double trade_amount;
 	
 	@NotEmpty(message="交易时间不能为空")
-	private String trade_time;
+	@JsonProperty("trade_time")
+	private String tradeTime;
 	
 	private String remark;
 
@@ -43,20 +49,20 @@ public class RequestAccountAdjustAmount extends RequestBaseModel implements Seri
 		this.source = source;
 	}
 
-	public String getTrade_type() {
-		return trade_type;
+	public String getTradeType() {
+		return tradeType;
 	}
 
-	public void setTrade_type(String trade_type) {
-		this.trade_type = trade_type;
+	public void setTradeType(String tradeType) {
+		this.tradeType = tradeType;
 	}
 
-	public String getOrder_id() {
-		return order_id;
+	public String getOrderId() {
+		return orderId;
 	}
 
-	public void setOrder_id(String order_id) {
-		this.order_id = order_id;
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
 	}
 
 	public String getDirection() {
@@ -75,12 +81,12 @@ public class RequestAccountAdjustAmount extends RequestBaseModel implements Seri
 		this.trade_amount = trade_amount;
 	}
 
-	public String getTrade_time() {
-		return trade_time;
+	public String getTradeTime() {
+		return tradeTime;
 	}
 
-	public void setTrade_time(String trade_time) {
-		this.trade_time = trade_time;
+	public void setTradeTime(String tradeTime) {
+		this.tradeTime = tradeTime;
 	}
 
 	public String getRemark() {
@@ -93,9 +99,10 @@ public class RequestAccountAdjustAmount extends RequestBaseModel implements Seri
 
 	@Override
 	public String toString() {
-		return "RequestAccountAdjustAmount [source=" + source + ", trade_type=" + trade_type + ", order_id=" + order_id
-				+ ", direction=" + direction + ", trade_amount=" + trade_amount + ", trade_time=" + trade_time
-				+ ", remark=" + remark + "]";
+		return "RequestAccountAdjustAmount [source=" + source + ", tradeType=" + tradeType + ", orderId=" + orderId
+				+ ", direction=" + direction + ", trade_amount=" + trade_amount + ", tradeTime=" + tradeTime
+				+ ", remark=" + remark +" memId="+getMemId() +"]";
 	}
+
 
 }

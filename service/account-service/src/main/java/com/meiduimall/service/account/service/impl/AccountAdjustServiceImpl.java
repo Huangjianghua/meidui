@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import org.apache.ibatis.transaction.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,12 +74,12 @@ public class AccountAdjustServiceImpl implements AccountAdjustService {
 		//校验调账类型是否合法
 		validateService.checkAdjustType(model.getDirection());
 		//校验交易类型是否合法
-		validateService.checkTradeType(model.getTrade_type());
+		validateService.checkTradeType(model.getTradeType());
 		//校验交易金额是否合法
 		validateService.checkTradeAmount(model.getTrade_amount(),"0+");
 		
 		//根据交易类型取出对应的账户类型
-		String accountTypeNo=ConstTradetTypeToAccountTypeNo.getNameByCode(model.getTrade_type());
+		String accountTypeNo=ConstTradetTypeToAccountTypeNo.getNameByCode(model.getTradeType());
 		
 		//根据会员ID和交易类型查询对应的账户
 		MSAccount msAccount=accountService.getAccountInfo(model.getMemId(),accountTypeNo);
@@ -155,18 +154,19 @@ public class AccountAdjustServiceImpl implements AccountAdjustService {
 		Map<String,Object> mapCondition=new HashMap<>();
 		mapCondition.put(accountTypeNo,changeBalance);
 		mapCondition.put("balance",changeBalance);
+		mapCondition.put("memId",model.getMemId());
 		baseDao.update(mapCondition,"MSAccountReportMapper.updateBalance");
 		
 		//写入流水明细
 		MSAccountDetail msAccountDetail=new MSAccountDetail();
 		msAccountDetail.setId(UUID.randomUUID().toString());
 		msAccountDetail.setAccountNo(msAccount.getAccountNo());
-		msAccountDetail.setTradeType(model.getTrade_type());
+		msAccountDetail.setTradeType(model.getTradeType());
 		msAccountDetail.setTradeAmount(model.getTrade_amount());
-		msAccountDetail.setTradeDate(DateUtil.timestampToDate(Long.valueOf(model.getTrade_time())));
+		msAccountDetail.setTradeDate(DateUtil.timestampToDate(Long.valueOf(model.getTradeTime())));
 		msAccountDetail.setInOrOut(inOrOut);
 		msAccountDetail.setBalance(accountReportService.getTotalAndFreezeBalanceByMemId(model.getMemId()).getBalance());
-		msAccountDetail.setBusinessNo(model.getOrder_id());
+		msAccountDetail.setBusinessNo(model.getOrderId());
 		msAccountDetail.setCreateUser("账户服务");
 		msAccountDetail.setUpdateUser("账户服务");
 		accountDetailService.insertAccountDetail(msAccountDetail);
@@ -178,7 +178,7 @@ public class AccountAdjustServiceImpl implements AccountAdjustService {
 	public boolean addMDConsumePoints(String memId, String consumePoints, boolean isLock) throws MdSysException {
 		boolean returnBool = false;
 		//增加基本账户总额
-		double addAtq = DoubleCalculate.add(accountReportService.getCurrentPointsByMemId(memId),
+		double addAtq = DoubleCalculate.add(accountReportService.getTotalPointsByMemId(memId),
 				Double.valueOf(consumePoints));
 		//修改会员基本账户总额
 		if(updateAccountPoint(memId,addAtq)){
@@ -191,7 +191,7 @@ public class AccountAdjustServiceImpl implements AccountAdjustService {
 	public boolean cutMDConsumePoints(String memId, String consumePoints, boolean isLock) throws MdSysException {
 		boolean returnBool = false;
 		//扣除基本账户总额
-		double cutAtq = DoubleCalculate.sub(accountReportService.getCurrentPointsByMemId(memId),
+		double cutAtq = DoubleCalculate.sub(accountReportService.getTotalPointsByMemId(memId),
 				Double.valueOf(consumePoints));
 		//修改会员基本账户总额
 		if(updateAccountPoint(memId,cutAtq)){
@@ -259,7 +259,7 @@ public class AccountAdjustServiceImpl implements AccountAdjustService {
 			String consumePoints, String orderId, String orderSource,
 			String operatorType, String operator, String remark) throws MdSysException {
 		//计算扣除后基本账户总额
-		double cutAtq = DoubleCalculate.sub(accountReportService.getCurrentPointsByMemId(memId),
+		double cutAtq = DoubleCalculate.sub(accountReportService.getTotalPointsByMemId(memId),
 				Double.valueOf(consumePoints));
 		//调用扣除方法
 		boolean flag = cutMDConsumePoints(memId, consumePoints, false);

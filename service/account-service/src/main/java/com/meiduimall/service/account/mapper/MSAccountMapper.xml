@@ -125,10 +125,10 @@
 		</where>
 	</update>
 	
-	<!-- 根据会员ID修改当前积分 -->
-	<update id="updateCurrentPointsByMemId" parameterType="java.util.Map">
+	<!-- 更新会员总积分-->
+	<update id="updateAccountTotalPoints" parameterType="java.util.Map">
 		UPDATE ms_members
-		SET mem_basic_account_total_quantity=#{newCurrentPoints}
+		SET mem_basic_account_total_quantity=#{newTotalPoints}
 		WHERE mem_id=#{memId}
 	</update>
 
