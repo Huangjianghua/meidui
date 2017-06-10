@@ -2,6 +2,8 @@ package com.meiduimall.service.account.service;
 
 
 import java.util.List;
+import java.util.Map;
+
 import com.meiduimall.service.account.model.MSAccountFreezeDetail;
 
 /**
@@ -16,12 +18,18 @@ public interface AccountFreezeDetailService {
 	 * @param orderId 订单号
 	 * @return 冻结解冻记录列表
 	 */
-	public List<MSAccountFreezeDetail> getRecordsByOrderId(String orderId);
+	public List<MSAccountFreezeDetail> getRecordsByOrderId(Map<String, Object> hashMap);
 
 	/**
 	 * 插入余额冻结解冻记录
 	 * @param model 余额冻结解冻记录表实体
 	 */
 	void insertAccoutFreezeDetail(MSAccountFreezeDetail model);
+	
+	/**
+	 * 批处理插入余额冻结解冻记录
+	 * @param model 余额冻结解冻记录表实体
+	 */
+	void batchInsertAccoutFreezeDetail(List<MSAccountFreezeDetail> model);
 	
 }

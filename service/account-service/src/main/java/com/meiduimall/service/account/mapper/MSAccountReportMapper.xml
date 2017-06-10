@@ -16,6 +16,28 @@
 	</select>
 	
 	<!--  修改ms_account_report 相关字段的总金额  -->
+	<update id="updateBalanceAndfreezeBalance" parameterType="java.util.Map">
+		UPDATE ms_account_report
+		<set>
+		 <if test="balance !=null and balance !=''">
+           balance = balance - #{balance},
+        </if>
+		 <if test="freezeBalance !=null and freezeBalance !=''">
+           freeze_balance = #{freezeBalance},
+        </if>
+		</set>
+		<where>
+		<if test="memId !=null and memId !=''">
+		      AND mem_id = #{memId}
+	   	</if>
+	   	<if test="id !=null and id !=''">
+		      AND id = #{id}
+	   	</if>
+		</where>
+	</update>
+	
+	
+	<!--  修改ms_account_report 相关字段的总金额  -->
 	<update id="updateBalance" parameterType="java.util.Map">
 		UPDATE ms_account_report
 		<set>

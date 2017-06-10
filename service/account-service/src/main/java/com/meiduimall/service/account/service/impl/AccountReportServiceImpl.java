@@ -1,5 +1,7 @@
 package com.meiduimall.service.account.service.impl;
 
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +58,12 @@ public class AccountReportServiceImpl implements AccountReportService {
 	public Double getCurrentPointsByMemId(String memId) throws MdSysException {
 		String currentPoints=baseDao.selectOne(memId,"MSMembersMapper.getCurrentPointsByMemId");
 		return Double.valueOf(DESC.deyption(currentPoints,memId));
+	}
+
+	@Override
+	public void updateBalanceAndfreezeBalance(Map<String, Object> map) {
+		 baseDao.update(map, "MSAccountReportMapper.updateBalanceAndfreezeBalance");
+		
 	}
 
 }

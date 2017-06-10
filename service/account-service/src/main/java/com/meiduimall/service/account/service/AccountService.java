@@ -129,4 +129,5 @@ public interface AccountService {
 	 */
 	List<MSAccount> getBalanceAccountListOrderByWithDrawPriority(String memId);
 	
+	
 }

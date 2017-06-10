@@ -1,10 +1,13 @@
 package com.meiduimall.service.account.service;
 
 import java.util.Date;
+import java.util.List;
 
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdBizException;
 import com.meiduimall.exception.MdSysException;
+import com.meiduimall.service.account.model.MSAccount;
+import com.meiduimall.service.account.model.MSAccountDetailGet;
 import com.meiduimall.service.account.model.request.RequestAccountAdjustAmount;
 
 /**
@@ -182,4 +185,11 @@ public interface AccountAdjustService {
 	 */
 	public boolean cutConsumeFreezeMoneyAndDetail(String memId, String orderId,
 			String tradeType, Date tradeDate, String tradeAmount, String remark) throws MdBizException;
+	
+	/**
+	 * 会员退单更新余额
+	 * @param msAccount 账户表
+	 * @author wujun
+	 */
+	public void batchUpdateBalance(List<MSAccount> msAccount);
 }

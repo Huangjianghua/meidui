@@ -25,7 +25,6 @@ import com.meiduimall.service.account.model.MSAccountDetailGet;
 import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
 import com.meiduimall.service.account.model.request.RequestAccountReviseDetail;
 import com.meiduimall.service.account.util.DESC;
-import com.meiduimall.service.account.util.DateUtil;
 
 import net.sf.json.JSONObject;
 

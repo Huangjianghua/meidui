@@ -2,9 +2,11 @@ package com.meiduimall.service.account.service.impl;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.ibatis.javassist.expr.NewArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSAccountDetail;
+import com.meiduimall.service.account.model.MSAccountDetailGet;
 import com.meiduimall.service.account.service.AccountDetailService;
 import com.meiduimall.service.account.service.AccountReportService;
 import com.meiduimall.service.account.util.DateUtil;
@@ -185,6 +188,17 @@ public class AccountDetailServiceImpl implements AccountDetailService{
 			logger.error("写入积分变动明细出现错误-%s，会员编号：%s，订单编号：%s，错误信息：%s", 
 					calcFlag, memId, orderId, e.getMessage());
 		}
+	}
+
+	@Override
+	public List<MSAccountDetail> listAccountDetail(MSAccountDetailGet msAccountDetailGet) {
+		return baseDao.selectList(msAccountDetailGet, "MSAccountDetailMapper.listMSAccountDetail");
+	}
+
+	@Override
+	public void batchInsertAccoutDetail(List<MSAccountDetail> MSAccountDetail) {
+		baseDao.insertBatch(MSAccountDetail, "MSAccountDetailMapper.batchInsertAccountDetail");
+		
 	}
 	
 }

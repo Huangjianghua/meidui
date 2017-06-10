@@ -131,6 +131,13 @@
 		SET mem_basic_account_total_quantity=#{newCurrentPoints}
 		WHERE mem_id=#{memId}
 	</update>
+	
+	<!-- 根据会员ID修改当前积分密文 -->
+	<update id="updateAccountPoint" parameterType="java.util.Map">
+		UPDATE ms_members
+		SET mem_basic_account_total_quantity=#{accountPoint}
+		WHERE mem_id=#{memId}
+	</update>
 
 	<!-- 根据条件查询订单记录 -->
 	<select id="queryListMSAccount" parameterType="com.meiduimall.service.account.model.request.RequestMSAccountList" resultType="com.meiduimall.service.account.model.MSAccountList">
@@ -223,4 +230,16 @@
 		 </where>
 	</select>
 	
+	<!-- 批量更新账户余额  -->
+	<update id="batchUpdateBalance"  parameterType="java.util.List">  
+          <foreach collection="list" item="item" index="index" open="" close="" separator=";">  
+                update ms_account   
+                <set>  
+                  balance = ${item.balance},
+                  balance_encrypt = '${item.balanceEncrypt}'
+                </set>  
+                where account_no = ${item.accountNo}  
+         </foreach>  
+    </update>  
+    
 </mapper>

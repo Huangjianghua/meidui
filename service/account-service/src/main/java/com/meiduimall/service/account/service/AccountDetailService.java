@@ -1,9 +1,11 @@
 package com.meiduimall.service.account.service;
 
 import java.util.Date;
+import java.util.List;
 
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.model.MSAccountDetail;
+import com.meiduimall.service.account.model.MSAccountDetailGet;
 
 /**
  * 账户明细操作接口
@@ -128,5 +130,18 @@ public interface AccountDetailService {
 	 * @param model 账户明细表ms_account_detail实体类
 	 */
 	void insertAccountDetail(MSAccountDetail model);
+	
+	
+	/**
+	 * 根据订单号查询账户明细表
+	 * @param msAccountDetailGet msAccountDetailGet
+	 * @author wujun
+	 */
+	public List<MSAccountDetail> listAccountDetail(MSAccountDetailGet msAccountDetailGet);
+
+	/**
+	 * 批量插入账户明细
+	 */
+	public void batchInsertAccoutDetail(List<MSAccountDetail> MSAccountDetail);
 	
 }

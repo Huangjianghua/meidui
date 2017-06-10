@@ -2,6 +2,7 @@ package com.meiduimall.service.account.service.impl;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -530,6 +531,18 @@ public class AccountAdjustServiceImpl implements AccountAdjustService {
 			logger.error("修改会员账户冻结余额出现错误，会员账户ID：%s，错误信息：%s", id, e.getMessage());
 			return false;
 		}
+	}
+
+	/**
+	 * 会员退单更新余额
+	 * @param msAccount 账户表
+	 * @author wujun
+	 */
+	@Override
+	public void batchUpdateBalance(List<MSAccount> msAccount) {
+		
+		baseDao.update(msAccount, "MSAccountMapper.batchUpdateBalance");
+		
 	}
 
 
