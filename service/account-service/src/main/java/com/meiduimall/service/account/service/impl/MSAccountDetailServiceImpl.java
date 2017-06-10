@@ -275,19 +275,21 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			if(balance<Constants.CONSTANT_INT_ZERO) throw new MdBizException(ConstApiStatus.ACCOUNT_REVISE_BALANCE_ERROR);
 			type=Constants.CONSTANT_INT_INVALID;
 			balanceReport=-balanceReport;
+			//step3 修改ms_account_report 对应的金额
+			updateAccountBalanceReport(account.getAccountTypeNo(),-balance,account.getMemId(),ConstSysParamsDefination.BALANCE_UPDATE_OPERATE);
 		}else{
 			balance = DoubleCalculate.add(Double.valueOf(account.getBalance()),detail.getReviseBalance().doubleValue());
+			//step3 修改ms_account_report 对应的金额
+			updateAccountBalanceReport(account.getAccountTypeNo(),balance,account.getMemId(),ConstSysParamsDefination.BALANCE_UPDATE_OPERATE);
 		}
-		//step3 修改会员账户余额
+		//step4 修改会员账户余额
 		this.updateAccountBalance(null, balance,detail.getAccountNo(),account.getMemId());
-		//step4 修改总的冻结金额    
+		//step5 修改总的金额    
 		Map<String, Object> mapParam=new HashMap<>();
 		mapParam.put("memId", account.getMemId());
 		mapParam.put("balance", balanceReport);
 		baseDao.update(mapParam, "MSBankWithdrawDepositMapper.updateAccountReportBalanceByMemId");
-		//step5 修改ms_account_report 对应的金额
-		updateAccountBalanceReport(account.getAccountTypeNo(),-balance,account.getMemId(),ConstSysParamsDefination.BALANCE_UPDATE_OPERATE);
-		//step5 记录调整金额流水记录
+		//step6 记录调整金额流水记录
 		this.saveAccountDetail(detail,account,type,balance);
 		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M);
 	}
