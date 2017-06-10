@@ -351,7 +351,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		Integer result=0;
 		try {
 			//step1 修改提现记录
-			result=baseDao.update(deposit, "MSBankWithdrawDepositMapper.updateWidthDrawDeposit");
+			result=baseDao.update(deposit, "MSBankWithdrawDepositMapper.updateWidthDrawDepositNew");
 			//stpe2 新增修改操作记录
 			MSBankWithDrawOperateDetail detail=new MSBankWithDrawOperateDetail();
 			detail.setId(UUID.randomUUID().toString()); 
@@ -487,7 +487,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 					ConstTradeType.TRADE_TYPE_TXSX.getCode(),String.valueOf(free),
 					 new Date(), String.valueOf(account.getBalance()), ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);
 		}
-		//step5 修改总的冻结金额    
+		//step5 修改总的金额    
 		Map<String, Object> mapParam=new HashMap<>();
 		mapParam.put("memId", withdrawDeposit.getMemId());
 		mapParam.put("balance", -withdrawDeposit.getApplyWithdrawAmount());
@@ -650,7 +650,6 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 				//增加余额冻结明细
 				insertAccoutFreezeDetail(account.getAccountNo(),businessNo,ConstSysParamsDefination.FREEZE,ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK,DoubleCalculate.sub(addFreezeMoney, free),ConstTradeType.TRADE_TYPE_YETX.getCode(),DoubleCalculate.sub(freezeBalance, free),date);
 				//插入手续费冻结明细
-				freezeBalance=DoubleCalculate.add(freezeBalance, free); //加上冻结手续费
 				insertAccoutFreezeDetail(account.getAccountNo(),businessNo,ConstSysParamsDefination.FREEZE,ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK,free,ConstTradeType.TRADE_TYPE_TXSX.getCode(),freezeBalance,date);
 				freeTotal=DoubleCalculate.add(freeTotal, free); //累加手续费
 				break;
@@ -669,7 +668,6 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			insertAccoutFreezeDetail(account.getAccountNo(),businessNo,ConstSysParamsDefination.FREEZE,ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK,DoubleCalculate.sub(useBalance, free),ConstTradeType.TRADE_TYPE_YETX.getCode(),DoubleCalculate.sub(freezeBalance, free),date);
 			//增加明细
 			freeTotal=DoubleCalculate.add(freeTotal, free); //累加手续费
-			freezeBalance=DoubleCalculate.add(freezeBalance, free); //加上冻结手续费
 			insertAccoutFreezeDetail(account.getAccountNo(),businessNo,ConstSysParamsDefination.FREEZE,ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK,free,ConstTradeType.TRADE_TYPE_TXSX.getCode(),freezeBalance,date);
 			}
 			//step3更新提现 实际金额和手续费
