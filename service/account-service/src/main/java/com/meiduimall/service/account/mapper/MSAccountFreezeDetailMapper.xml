@@ -27,14 +27,14 @@
 		WHERE business_no = #{orderId}
 	</select>
 	
-	<!-- 根据条件余额冻结解冻记录 -->
+	<!-- 根据订单号查询账户冻结解冻记录 -->
 	<select id="getRecordsByOrderId" parameterType="java.lang.String" resultMap="MsAccountFreezeDetailResultMap">
 		SELECT m.*
 		FROM ms_account_freeze_detail m
 		WHERE m.business_no=#{orderId}
 	</select>
 	
-	<!-- 根据条件余额冻结解冻记录 -->
+	<!-- 根据条件查询账户冻结解冻记录 -->
 	<select id="getRecordsByCondition" parameterType="java.util.Map" resultMap="MsAccountFreezeDetailResultMap">
 		SELECT m.*
 		FROM ms_account_freeze_detail m
@@ -47,6 +47,7 @@
 		</if>
 	</select>
 	
+	<!-- 插入账户冻结解冻记录 -->
 	<insert id="insertAccountFreezeDetail" parameterType="com.meiduimall.service.account.model.MSAccountFreezeDetail">
 		INSERT INTO ms_account_freeze_detail 
 		VALUES(
@@ -66,12 +67,12 @@
 			)
 	</insert>
 	
-	
+	<!-- 批量插入账户冻结解冻记录 -->
 	<insert id="batchInsertAccoutFreezeDetail" parameterType="java.util.List">
 		INSERT INTO ms_account_freeze_detail (
   		id, account_no, trade_type, trade_amount, trade_date, in_or_out, freeze_balance, 
     	business_no, create_date, create_user, update_date, update_user,  remark)
-		values 
+		VALUES 
 		 <foreach collection="list" item="item" index="index" separator="," >  
 			(#{item.id},
 			#{item.accountNo},

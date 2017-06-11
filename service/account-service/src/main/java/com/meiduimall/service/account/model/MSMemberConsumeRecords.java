@@ -19,13 +19,13 @@ public class MSMemberConsumeRecords extends BaseModel  implements Serializable{
 	private String orderId;
 	
 	/** 消费总额 **/
-	private String consumeAmount;
+	private Double consumeAmount;
 	
 	/** 消费余额**/
-	private String consumeMoney;
+	private Double consumeMoney;
 	
 	/** 消费积分 **/
-	private String consumePoints;
+	private Double consumePoints;
 
 	/** 消费时间 **/
 	private Date tradeTime;
@@ -37,7 +37,7 @@ public class MSMemberConsumeRecords extends BaseModel  implements Serializable{
 	private String productName;
 	
 	/**消费类型1：表示单独使用积分支付2：混合支付3: 其他第三方支付 **/
-	private String payType;
+	private Integer payType;
 	
 	/**订单状态1表示已完成2表示其他已退单 **/
 	private Integer orderStatus;
@@ -73,27 +73,27 @@ public class MSMemberConsumeRecords extends BaseModel  implements Serializable{
 		this.orderId = orderId;
 	}
 
-	public String getConsumeAmount() {
+	public Double getConsumeAmount() {
 		return consumeAmount;
 	}
 
-	public void setConsumeAmount(String consumeAmount) {
+	public void setConsumeAmount(Double consumeAmount) {
 		this.consumeAmount = consumeAmount;
 	}
 
-	public String getConsumeMoney() {
+	public Double getConsumeMoney() {
 		return consumeMoney;
 	}
 
-	public void setConsumeMoney(String consumeMoney) {
+	public void setConsumeMoney(Double consumeMoney) {
 		this.consumeMoney = consumeMoney;
 	}
 
-	public String getConsumePoints() {
+	public Double getConsumePoints() {
 		return consumePoints;
 	}
 
-	public void setConsumePoints(String consumePoints) {
+	public void setConsumePoints(Double consumePoints) {
 		this.consumePoints = consumePoints;
 	}
 
@@ -121,11 +121,11 @@ public class MSMemberConsumeRecords extends BaseModel  implements Serializable{
 		this.productName = productName;
 	}
 
-	public String getPayType() {
+	public Integer getPayType() {
 		return payType;
 	}
 
-	public void setPayType(String payType) {
+	public void setPayType(Integer payType) {
 		this.payType = payType;
 	}
 

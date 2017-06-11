@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,6 +55,7 @@ public class ConsumePointsDetailServiceImpl implements ConsumePointsDetailServic
 		
 		MSConsumePointsDetail entity = new MSConsumePointsDetail();
 		Date nowDate = new Date(System.currentTimeMillis());
+		entity.setMcpId(UUID.randomUUID().toString());
 		entity.setMemId(memId);
 		entity.setMcpOrderId(orderId);
 		entity.setMcpOperatorType(operatorType);
@@ -66,7 +68,7 @@ public class ConsumePointsDetailServiceImpl implements ConsumePointsDetailServic
 		entity.setMcpCreatedDate(nowDate);
 		entity.setMcpUpdatedDate(nowDate);
 		entity.setMcpRemark(remark);
-		baseDao.insert(entity,"MSConsumePointsDetailMapper.insertAccountPointDetail");
+		baseDao.insert(entity,"MSConsumePointsDetailMapper.insertConsumePointsDetail");
 	}
 
 	@Override

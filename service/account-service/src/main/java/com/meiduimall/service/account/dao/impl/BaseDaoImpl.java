@@ -34,7 +34,7 @@ public class BaseDaoImpl extends SqlSessionDaoSupport implements BaseDao {
 			result=getSqlSession().selectOne(sqlTag, params);
 		} catch (Exception e) {
 			logger.error("执行selectOne()方法异常：{}",e.toString());
-			throw new DaoException(ConstApiStatus.DB_SELECT_EXCEPTION,ConstApiStatus.getZhMsg(ConstApiStatus.DB_SELECT_EXCEPTION));
+			throw new DaoException(ConstApiStatus.DB_SELECT_EXCEPTION);
 		}
 		return result;
 	}
@@ -45,7 +45,7 @@ public class BaseDaoImpl extends SqlSessionDaoSupport implements BaseDao {
 			result=getSqlSession().selectList(sqlTag, params);
 		} catch (Exception e) {
 			logger.error("执行selectList()方法异常：{}",e.toString());
-			throw new DaoException(ConstApiStatus.DB_SELECT_EXCEPTION,ConstApiStatus.getZhMsg(ConstApiStatus.DB_SELECT_EXCEPTION));
+			throw new DaoException(ConstApiStatus.DB_SELECT_EXCEPTION);
 		}
 		return result;
 	}
@@ -56,7 +56,7 @@ public class BaseDaoImpl extends SqlSessionDaoSupport implements BaseDao {
 			result=getSqlSession().insert(sqlTag, t);	
 		} catch (Exception e) {
 			logger.error("执行insert()方法异常：{}",e.toString());
-			throw new DaoException(ConstApiStatus.DB_SELECT_EXCEPTION,ConstApiStatus.getZhMsg(ConstApiStatus.DB_SELECT_EXCEPTION));
+			throw new DaoException(ConstApiStatus.DB_INSERT_EXCEPTION);
 		} 
 		return result;
 	}
@@ -67,7 +67,7 @@ public class BaseDaoImpl extends SqlSessionDaoSupport implements BaseDao {
 			result=getSqlSession().insert(sqlTag, ts);
 		} catch (Exception e) {
 			logger.error("执行insertBatch()方法异常：{}",e.toString());
-			throw new DaoException(ConstApiStatus.DB_SELECT_EXCEPTION,ConstApiStatus.getZhMsg(ConstApiStatus.DB_SELECT_EXCEPTION));
+			throw new DaoException(ConstApiStatus.DB_INSERT_EXCEPTION);
 		} 
 		return result;
 	}
@@ -78,7 +78,7 @@ public class BaseDaoImpl extends SqlSessionDaoSupport implements BaseDao {
 			result=getSqlSession().update(sqlTag, params);
 		} catch (Exception e) {
 			logger.error("执行update()方法异常：{}",e.toString());
-			throw new DaoException(ConstApiStatus.DB_SELECT_EXCEPTION,ConstApiStatus.getZhMsg(ConstApiStatus.DB_SELECT_EXCEPTION));
+			throw new DaoException(ConstApiStatus.DB_UPDATE_EXCEPTION);
 		} 
 		return result;  
 	}
@@ -89,7 +89,7 @@ public class BaseDaoImpl extends SqlSessionDaoSupport implements BaseDao {
 			result=getSqlSession().delete(sqlTag, params);
 		} catch (Exception e) {
 			logger.error("执行delete()方法异常：{}",e.toString());
-			throw new DaoException(ConstApiStatus.DB_SELECT_EXCEPTION,ConstApiStatus.getZhMsg(ConstApiStatus.DB_SELECT_EXCEPTION));
+			throw new DaoException(ConstApiStatus.DB_DELETE_EXCEPTION);
 		} 
 		return result;   
 	}
@@ -100,7 +100,7 @@ public class BaseDaoImpl extends SqlSessionDaoSupport implements BaseDao {
 			result=getSqlSession().delete(sqlTag, params);
 		} catch (Exception e) {
 			logger.error("执行deleteBatch()方法异常：{}",e.toString());
-			throw new DaoException(ConstApiStatus.DB_SELECT_EXCEPTION,ConstApiStatus.getZhMsg(ConstApiStatus.DB_SELECT_EXCEPTION));
+			throw new DaoException(ConstApiStatus.DB_DELETE_EXCEPTION);
 		} 
 		return result; 
 	}

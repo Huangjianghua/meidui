@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 积分变动明细表ms_consume_points_detail相关操作 -->
-<mapper namespace="MSConsumePointsDetailMapper">
+<mapper namespace="MSConsumePointsDetailMapper.insertAccountPointDetail">
 
 	<!-- 插入积分变动明细 -->
-	<insert id="insertAccountPointDetail" parameterType="com.meiduimall.service.account.model.MSConsumePointsDetail">
+	<insert id="insertAccountPointDetail" parameterType="java.util.Map">
 		insert into ms_consume_points_detail
 		values(
 			#{id},
@@ -24,10 +24,10 @@
 	</insert>
 	
 	
-		<!-- 插入积分变动明细 -->
+	<!-- 插入积分变动明细 -->
 	<insert id="insertConsumePointsDetail" parameterType="com.meiduimall.service.account.model.MSConsumePointsDetail">
-		insert into ms_consume_points_detail
-		values(
+		INSERT INTO ms_consume_points_detail
+		VALUES (
 			#{mcpId},
 			#{memId},
 			#{mcpOrderId},

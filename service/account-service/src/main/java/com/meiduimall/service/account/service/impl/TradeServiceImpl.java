@@ -113,7 +113,7 @@ public class TradeServiceImpl implements TradeService {
 	@Override
 	@Transactional
 	public ResBodyData saveOrder(RequestSaveOrder model) throws MdSysException {
-	    ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,"保存订单成功");
+	    ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,"账户冻结成功");
 		
 		//校验交易金额合法性
 		validateService.checkConsumeAmountRelation(model.getConsumeAmount(),model.getConsumeMoney(),model.getConsumePoints());
@@ -139,9 +139,7 @@ public class TradeServiceImpl implements TradeService {
 		//根据订单号查询积分冻结解冻的记录
 		List<MSConsumePointsFreezeInfo> listPointsFreezeInfo=pointsFreezeInfoService.getRecordsByOrderId(model.getOrderId());
 		//根据订单号查询余额冻结解冻的记录
-		HashMap<String, Object> hashMap = new HashMap<>();
-		hashMap.put("orderId", model.getOrderId());
-		List<MSAccountFreezeDetail> listBalanceFreeze=accountFreezeDetailService.getRecordsByOrderId(hashMap);
+		List<MSAccountFreezeDetail> listBalanceFreeze=accountFreezeDetailService.getRecordsByOrderId(model.getOrderId());
 		
 		//获取当前会员可用积分
 		Double availablePoints=accountReportService.getAvailablePoints(model.getMemId());
@@ -182,6 +180,7 @@ public class TradeServiceImpl implements TradeService {
 			accountFreezeDetail.setInOrOut(Constants.CONSTANT_INT_ONE);
 			accountFreezeDetail.setFreezeBalance(model.getConsumeMoney());
 			accountFreezeDetail.setBusinessNo(model.getOrderId());
+			accountFreezeDetail.setRemark("按照消费优先级冻结账户");
 			accountServices.freezeAccountBySpendPriority(model.getMemId(),accountFreezeDetail);
 			
 			//写入消费记录表，订单状态是未支付
@@ -190,21 +189,22 @@ public class TradeServiceImpl implements TradeService {
 			consumeRecords.setId(UUID.randomUUID().toString());
 			consumeRecords.setTradeTime(accountFreezeDetail.getTradeDate());
 			consumeRecords.setOrderStatus(recordsOrderStatus);
-			consumeRecordsService.insertConsumeRecords(consumeRecords);
-			
+			consumeRecords.setCreateUser("账户服务");
+			consumeRecords.setUpdateUser("账户服务");
+			consumeRecordsService.insertConsumeRecords(consumeRecords);			
 		}
 		//订单状态为2表示已支付，需要解冻并扣减积分和余额
 		if (model.getOrderStatus()==2) {
 			//校验冻结积分或余额和解冻的积分或余额是否相等
-			Double freezeMoney=0.00;
-			for (MSConsumePointsFreezeInfo item : listPointsFreezeInfo) {
-				freezeMoney+=Double.valueOf(item.getMcpfConsumePoints());
-			}
 			Double freezePoints=0.00;
-			for (MSAccountFreezeDetail item : listBalanceFreeze) {
-				freezePoints+=item.getFreezeBalance();
+			for (MSConsumePointsFreezeInfo item : listPointsFreezeInfo) {
+				freezePoints+=Double.valueOf(item.getMcpfConsumePoints());
 			}
-			if(freezeMoney!=model.getConsumeMoney()||freezePoints!=model.getConsumePoints()){
+			Double freezeMoney=0.00;
+			for (MSAccountFreezeDetail item : listBalanceFreeze) {
+				freezeMoney+=item.getFreezeBalance();
+			}
+			if(freezeMoney.doubleValue()!=model.getConsumeMoney().doubleValue()||(-freezePoints.doubleValue())!=model.getConsumePoints().doubleValue()){
 				logger.warn("解冻的积分或余额不等于冻结的积分或余额");
 				throw new ServiceException(ConstApiStatus.FREEZE_POINTS_AND_MONEY_NOT_EQUALS_UNFREEZE);
 			}
@@ -278,6 +278,7 @@ public class TradeServiceImpl implements TradeService {
 			mapResult.put("now_available_points",availablePoints-model.getConsumePoints());
 			mapResult.put("before_available_money",availableBalance);
 			mapResult.put("now_available_money",availableBalance-model.getConsumeMoney());
+			resBodyData.setMsg("账户扣减成功");
 			resBodyData.setData(mapResult);
 		}
 		return resBodyData;
@@ -861,10 +862,7 @@ public class TradeServiceImpl implements TradeService {
 			Double useConsumeMoney = accountReportService.getAvailableBalance(mmt.getMemId());
 
 			// 根据订单查询冻结余额
-			Map<String, Object> hashMap = new HashMap<>();
-			hashMap.put("orderId", mmt.getOrderId());
-			List<MSAccountFreezeDetail> moneyFreezeList = accountFreezeDetailService
-					.getRecordsByOrderId(hashMap);
+			List<MSAccountFreezeDetail> moneyFreezeList =accountFreezeDetailService.getRecordsByOrderId(mmt.getOrderId());
 			
 
 			logger.info("当前可使用积分：" + consumePoints + "，可使用余额：" + useConsumeMoney);

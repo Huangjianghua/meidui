@@ -1,7 +1,6 @@
 package com.meiduimall.service.account.service.impl;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,8 +26,8 @@ public class AccountFreezeDetailServiceImpl implements AccountFreezeDetailServic
 	}
 
 	@Override
-	public List<MSAccountFreezeDetail> getRecordsByOrderId(Map<String, Object> hashMap) {
-		return baseDao.selectList(hashMap,"MSAccountFreezeDetailMapper.getRecordsByCondition");
+	public List<MSAccountFreezeDetail> getRecordsByOrderId(String orderId) {
+		return baseDao.selectList(orderId,"MSAccountFreezeDetailMapper.getRecordsByOrderId");
 	}
 
 	@Override

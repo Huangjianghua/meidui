@@ -32,7 +32,8 @@ public class ConsumePointsFreezeInfoServiceImpl implements ConsumePointsFreezeIn
 	
 	@Override
 	public Double getFreezeUnFreezePointsSumByMemId(String memId) {
-		return baseDao.selectOne(memId,"MSConsumePointsFreezeInfoMapper.getFreezeUnFreezePointsSumByMemId");
+		Double sum=baseDao.selectOne(memId,"MSConsumePointsFreezeInfoMapper.getFreezeUnFreezePointsSumByMemId");
+		return sum==null?0.00:sum;
 	}
 
 	@Override
@@ -55,6 +56,7 @@ public class ConsumePointsFreezeInfoServiceImpl implements ConsumePointsFreezeIn
 			throw new ServiceException(ConstApiStatus.FREEZE_TYPE_UNNORMAL);
 		}
 		model.setMcpfConsumePointsBalance(pointsBalance);
+		model.setMcpfFreezeType(freezeType);
 		baseDao.insert(model,"MSConsumePointsFreezeInfoMapper.insertConsumePointsFreezeInfo");
 	}
 
