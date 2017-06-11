@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -28,7 +29,7 @@ public class RequestSaveOrder extends RequestBaseModel implements Serializable {
 	
 	/**消费总金额*/
 	@JsonProperty("consume_amount")
-	@NotEmpty(message="消费总金额不能为空")
+	@NotNull(message="消费总金额不能为空")
 	@Min(0)
 	private Double consumeAmount;
 	
@@ -45,26 +46,28 @@ public class RequestSaveOrder extends RequestBaseModel implements Serializable {
 	
 	/**支付方式（积分、其他支付方式（比如支付宝，网银支付等等）） 1：表示单独使用积分支付 2：混合支付 3:其他第三方支付*/
 	@JsonProperty("pay_type")
-	@NotEmpty(message="支付方式不能为空")
+	@NotNull(message="支付方式不能为空")
 	@Min(1)
 	@Max(3)
 	private Integer payType;
 	
 	/**订单状态 1未支付 2已支付*/
 	@JsonProperty("order_status")
-	@NotEmpty(message="订单状态不能为空")
+	@NotNull(message="订单状态不能为空")
 	@Min(1)
 	@Max(2)
 	private Integer orderStatus;
 	
 	/**余额支付金额*/
 	@JsonProperty("consume_money")
-	@NotEmpty(message="余额支付金额不能为空")
+	@NotNull(message="余额支付金额不能为空")
+	@Min(0)
 	private Double consumeMoney;
 	
 	/**积分支付金额*/
 	@JsonProperty("consume_points")
-	@NotEmpty(message="积分支付金额不能为空")
+	@NotNull(message="积分支付金额不能为空")
+	@Min(0)
 	private Double consumePoints;
 
 	public String getOrderId() {

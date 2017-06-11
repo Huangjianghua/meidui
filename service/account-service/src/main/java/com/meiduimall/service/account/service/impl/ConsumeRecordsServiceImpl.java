@@ -1,5 +1,7 @@
 package com.meiduimall.service.account.service.impl;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,9 +26,16 @@ public class ConsumeRecordsServiceImpl implements ConsumeRecordsService {
 		consumeRecords.setOrderId(orderId);
 		consumeRecords.setOrderStatus(orderStatus);
 		consumeRecords.setOrderSource(orderSource);
-		consumeRecords=baseDao.selectOne(consumeRecords,"MSMemberConsumeRecordsMapper.getConsumeRecordsByContidion");
-		return consumeRecords;
+		return baseDao.selectOne(consumeRecords,"MSMemberConsumeRecordsMapper.getConsumeRecordsByContidion");
 	}
 
-	
+	@Override
+	public void insertConsumeRecords(MSMemberConsumeRecords model) {
+		baseDao.insert(model,"MSMemberConsumeRecordsMapper.insertConsumeRecords");
+	}
+
+	@Override
+	public void updateOrderStatus(Map<String,Object> mapCondition) {
+		baseDao.update(mapCondition,"MSMemberConsumeRecordsMapper.updateOrderStatus");
+	}
 }

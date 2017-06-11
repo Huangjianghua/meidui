@@ -253,6 +253,7 @@ public abstract class ConstApiStatus extends BaseApiCode {
 		zhMsgMap.put(PAY_POINTS_MONEY_ERROR, "支付积分加余额不能大于消费金额");
 		zhMsgMap.put(POINTS_BIGGER_THAN_COMSUME_AMOUNT, "消费积分不能大于消费总金额");
 		zhMsgMap.put(MONEY_BIGGER_THAN_COMSUME_AMOUNT, "消费余额不能大于消费总金额");
+		zhMsgMap.put(MONEY_ADD_POINTS_BIGGER_THAN_COMSUME_AMOUNT, "消费积分+消费余额不能大于消费总金额");
 		
 		zhMsgMap.put(ACCOUNT_NOT_EXIST, "账户不存在");
 		zhMsgMap.put(ACCOUNT_REVISE_IS_NULL_ERROR, "查询会员调整余额明细错误");

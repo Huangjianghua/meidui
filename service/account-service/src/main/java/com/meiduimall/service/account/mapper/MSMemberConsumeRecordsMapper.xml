@@ -23,13 +23,19 @@
   </resultMap>
 	 
 	<!-- 根据条件查询会员消费记录信息 -->
-	<select id="getConsumeRecordsByContidion" parameterType="com.meiduimall.service.account.model.request.MSMemberConsumeRecordsReq" resultMap="MsConcumeRecordsResultMap">
+	<select id="getConsumeRecordsByContidion" parameterType="com.meiduimall.service.account.model.MSMemberConsumeRecords" resultMap="MsConcumeRecordsResultMap">
 		SELECT m.* 
 		FROM ms_member_consume_records m 
 		WHERE 1=1
-		AND m.order_id=#{orderId}
-		AND m.order_source=#{orderSource}
-		AND m.order_status=#{orderStatus}
+		<if test="orderId != null and orderId != ''">
+		AND m.order_id=#{orderId} 
+		</if>
+		<if test="orderSource != null and orderSource != ''">
+		AND m.order_source=#{orderSource} 
+		</if>
+		<if test="orderStatus != null and orderStatus != ''">
+		AND m.order_status=#{orderStatus} 
+		</if>		
 	</select>
 
 	<!-- 插入会员消费记录 -->

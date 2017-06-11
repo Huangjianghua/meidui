@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
  
@@ -44,7 +45,7 @@ public class TradeV1Controller {
 	 * @author chencong
 	 */
 	@PostMapping(value="/save_order")
-	ResBodyData  freezeUnfreeze(@Valid RequestSaveOrder model){
+	ResBodyData  freezeUnfreeze(@RequestBody @Valid RequestSaveOrder model){
 		logger.info("收到保存订单API请求   ：{}",model.toString());
 		try {
 			return tradeService.saveOrder(model);
@@ -59,7 +60,7 @@ public class TradeV1Controller {
 	 * @author chencong
 	 */
 	@PostMapping(value="/cancel_order")
-	ResBodyData unfreezeDeduct(@Valid RequestCancelOrder model) throws MdSysException {
+	ResBodyData unfreezeDeduct(@RequestBody @Valid RequestCancelOrder model) throws MdSysException {
 		logger.info("收到会员取消订单API请求 ：{}",model.toString());
 		return tradeService.cancelOrder(model);
 	}

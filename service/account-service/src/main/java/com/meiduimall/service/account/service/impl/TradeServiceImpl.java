@@ -1,7 +1,5 @@
 package com.meiduimall.service.account.service.impl;
 
-
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -50,7 +48,6 @@ import com.meiduimall.service.account.service.BankWithdrawDepositService;
 import com.meiduimall.service.account.service.ConsumeRecordsService;
 import com.meiduimall.service.account.service.ConsumePointsDetailService;
 import com.meiduimall.service.account.service.ConsumePointsFreezeInfoService;
-import com.meiduimall.service.account.service.MemberConsumeRecordsService;
 import com.meiduimall.service.account.service.TradeService;
 import com.meiduimall.service.account.service.ValidateService;
 import com.meiduimall.service.account.service.PointsService;
@@ -94,14 +91,12 @@ public class TradeServiceImpl implements TradeService {
 	private ConsumePointsDetailService pointsDetailService;
 
 	@Autowired
-	private MemberConsumeRecordsService memberConsumeRecordsService;
-
-	@Autowired
 	private AccountReportService accountReportService;
 
 	@Autowired
 	private AccountFreezeDetailService accountFreezeDetailService;
 
+	@Autowired
 	private ValidateService validateService;
 
 	@Autowired
@@ -118,7 +113,7 @@ public class TradeServiceImpl implements TradeService {
 	@Override
 	@Transactional
 	public ResBodyData saveOrder(RequestSaveOrder model) throws MdSysException {
-	ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,"保存订单成功");
+	    ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,"保存订单成功");
 		
 		//校验交易金额合法性
 		validateService.checkConsumeAmountRelation(model.getConsumeAmount(),model.getConsumeMoney(),model.getConsumePoints());
@@ -195,7 +190,7 @@ public class TradeServiceImpl implements TradeService {
 			consumeRecords.setId(UUID.randomUUID().toString());
 			consumeRecords.setTradeTime(accountFreezeDetail.getTradeDate());
 			consumeRecords.setOrderStatus(recordsOrderStatus);
-			memberConsumeRecordsService.insertConsumeRecord(consumeRecords);
+			consumeRecordsService.insertConsumeRecords(consumeRecords);
 			
 		}
 		//订单状态为2表示已支付，需要解冻并扣减积分和余额
@@ -728,10 +723,8 @@ public class TradeServiceImpl implements TradeService {
 
 		JSONObject json;
 		try {
-
-			
 			// 查询数据库是否已存在该订单
-			MSMemberConsumeRecords history = memberConsumeRecordsService.queryByOrderIdInfo(ms);
+			MSMemberConsumeRecords history = consumeRecordsService.getConsumeRecords(ms.getOrderId(), ms.getOrderSource(), Integer.valueOf(ms.getOrderStatus()));
 			
 			if (null == history) {
 				logger.info("当前退单的订单号与已提交的订单号不匹配");
@@ -826,7 +819,7 @@ public class TradeServiceImpl implements TradeService {
 			mapCondition.put("orderId",ms.getOrderId());
 			mapCondition.put("orderSource",ms.getOrderSource());
 			mapCondition.put("orderStatus",ms.getOrderStatus());
-			memberConsumeRecordsService.updateOrderStatus(mapCondition);
+			consumeRecordsService.updateOrderStatus(mapCondition);
 
 			logger.info("当前退余额: " + ms.getConsumeMoney() + "当前退积分：" + ms.getConsumePoints());
 			 
@@ -853,7 +846,7 @@ public class TradeServiceImpl implements TradeService {
 		mmt.setUpdateUser(ConstSysParamsDefination.CREATE_USER_NAME);
 
 		// 查询数据库是否已存在该订单，如果不存在则直接保存，如果存在则修改
-		MSMemberConsumeRecords queryByOrderIdInfo = memberConsumeRecordsService.queryByOrderIdInfo(mmt);
+		MSMemberConsumeRecords queryByOrderIdInfo=consumeRecordsService.getConsumeRecords(mmt.getOrderId(),mmt.getOrderSource(),Integer.valueOf(mmt.getOrderStatus()));
 
 		if (StringUtils.isEmpty(queryByOrderIdInfo)) {
 			logger.info("重复提交的订单");
@@ -1000,7 +993,7 @@ public class TradeServiceImpl implements TradeService {
 			mapCondition.put("orderId",mmt.getOrderId());
 			mapCondition.put("orderSource",mmt.getOrderSource());
 			mapCondition.put("orderStatus",mmt.getOrderStatus());
-			memberConsumeRecordsService.updateOrderStatus(mapCondition);
+			consumeRecordsService.updateOrderStatus(mapCondition);
 
 			Double beforeCouponsBalance = Double.parseDouble("0");
 			Double endCouponsBalance = Double.parseDouble("0");
