@@ -14,6 +14,8 @@ public class MallConstant {
 
 	/** 商品模块微服务根地址 */
 	public static final String SERVICE_CATALOG_BASE_URL = "/mall/catalog-service/v1";
+	
+	public static final String MEMBER_SERVCIE = "/member/member_service/v1";
 
 	public static final String CONTENT_TYPE = "Content-Type";
 
