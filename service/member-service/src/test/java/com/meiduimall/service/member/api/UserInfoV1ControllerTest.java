@@ -27,22 +27,21 @@ public class UserInfoV1ControllerTest extends BaseControllerTest {
 	
 	private final static Logger logger=LoggerFactory.getLogger(UserInfoV1ControllerTest.class);
 	   
-//	   /**获取当前会员基本信息*/
-//	    @Test
-//	    public void getMemberBaicInfo() throws Exception{
-//	    	/*ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/get_member_basic_info?memId="+memId))
-//	    	.andExpect(status().isOk())
-//	    	.andExpect(jsonPath("$.status",is(0)));
-//	    	
-//	    	resultActions.andDo(new ResultHandler() {
-//				@Override
-//				public void handle(MvcResult result) throws Exception {
-//					logger.info("单元测试>>获取会员基本信息API>>执行结果:{}",result.getResponse().getContentAsString());
-//				}
-//			});
-//*/
-//	    } 
-//	    
+	   /**获取当前会员基本信息*/
+	    @Test
+	    public void getMemberBaicInfo() throws Exception{
+	    	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/get_member_basic_info?memId="+memId))
+	    	.andExpect(status().isOk())
+	    	.andExpect(jsonPath("$.status",is(0)));
+	    	
+	    	resultActions.andDo(new ResultHandler() {
+				@Override
+				public void handle(MvcResult result) throws Exception {
+					logger.info("单元测试>>获取会员基本信息API>>执行结果:{}",result.getResponse().getContentAsString());
+				}
+			});
+	    } 
+	    
 	    /**注册时记录会员手机对应的区域**/
 	    @Test
 	    public void recordArea() throws Exception{
@@ -80,4 +79,18 @@ public class UserInfoV1ControllerTest extends BaseControllerTest {
 			});*/
 
 	    } 
+	    
+	    @Test
+	    public void testGetMemberBaicInfo_01() throws Exception{
+	    	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/get_member_simple_info?memId=" + memId))
+	    	.andExpect(status().isOk())
+	    	.andExpect(jsonPath("$.status",is(0)));
+	    	
+	    	resultActions.andDo(new ResultHandler() {
+				@Override
+				public void handle(MvcResult result) throws Exception {
+					logger.info("单元测试>>获取会员基本信息API>>执行结果:{}",result.getResponse().getContentAsString());
+				}
+			});
+	    }
 }
