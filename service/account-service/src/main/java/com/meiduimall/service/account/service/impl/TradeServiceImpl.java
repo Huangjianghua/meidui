@@ -222,14 +222,21 @@ public class TradeServiceImpl implements TradeService {
 			accountServices.updateAccountTotalPoints(model.getMemId(),-model.getConsumePoints());
 			
 			//写入积分变动明细
-			pointsDetailService.insertConsumePointsDetail(model.getMemId(),model.getOrderId(),model.getOrderSource(),"0.00",
-					String.valueOf(model.getConsumePoints()),String.valueOf(accountReportService.getTotalPointsByMemId(model.getMemId())-model.getConsumePoints()),
-					null,null,SerialStringUtil.getPointsRemark(ConstPointsChangeType.POINTS_OPERATOR_TYPE_XF.getCode(),model.getMemId()));
+			pointsDetailService.insertConsumePointsDetail(model.getMemId(),
+					model.getOrderId(),
+					model.getOrderSource(),
+					"0.00",
+					String.valueOf(model.getConsumePoints()),
+					String.valueOf(accountReportService.getTotalPointsByMemId(model.getMemId())-model.getConsumePoints()),
+					ConstPointsChangeType.POINTS_OPERATOR_TYPE_XF.getCode(),
+					model.getMemId(),
+					SerialStringUtil.getPointsRemark(ConstPointsChangeType.POINTS_OPERATOR_TYPE_XF.getCode(),model.getMemId()));
 			
 			//写入账户解冻信息到冻结解冻流水，并更新会员账户和会员账户报表
 			Map<String,Double> mapCondition=new HashMap<>();
 			mapCondition.put("balance",0.00);
 			mapCondition.put("freezeBalance",0.00);
+			double beforeTotalMoney=0.00;
 			for (MSAccountFreezeDetail item : listBalanceFreeze) {
 				item.setId(UUID.randomUUID().toString());
 				item.setTradeDate(new Date());
@@ -237,17 +244,20 @@ public class TradeServiceImpl implements TradeService {
 				item.setRemark("余额解冻");
 				accountFreezeDetailService.insertAccoutFreezeDetail(item);
 				
-				MSAccount msAccount=accountServices.getAccountInfo(model.getMemId()	,item.getAccountNo());
+				MSAccount msAccount=accountServices.getAccountInfoByMemIdAndAccountNo(model.getMemId()	,item.getAccountNo());
 				msAccount.setBalance(msAccount.getBalance()-item.getFreezeBalance());
 				msAccount.setBalanceEncrypt(DESC.encryption(String.valueOf(msAccount.getBalance()),model.getMemId()));
 				msAccount.setFreezeBalance(msAccount.getFreezeBalance()-item.getFreezeBalance());
 				msAccount.setFreezeBalanceEncrypt(DESC.encryption(String.valueOf(msAccount.getFreezeBalanceEncrypt()),model.getMemId()));
 				baseDao.update(msAccount,"MSAccountMapper.updateAccountByCondition");
 				
+				beforeTotalMoney+=msAccount.getBalance().doubleValue();
+				
 				mapCondition.put(msAccount.getAccountTypeNo(),-msAccount.getBalance());
 				mapCondition.put("balance",mapCondition.get("balance")-msAccount.getBalance());
 				mapCondition.put("freezeBalance"+msAccount.getAccountTypeNo(),-msAccount.getBalance());
 				mapCondition.put("freezeBalance",mapCondition.get("freezeBalance")-msAccount.getBalance());
+				baseDao.update(mapCondition,"MSAccountReportMapper.updateBalanceAndFreezeBalance");
 				
 				//写入账户变动明细
 				MSAccountDetail msAccountDetail=new MSAccountDetail();
@@ -262,8 +272,7 @@ public class TradeServiceImpl implements TradeService {
 				msAccountDetail.setCreateUser("账户服务");
 				msAccountDetail.setUpdateUser("账户服务");
 				accountDetailService.insertAccountDetail(msAccountDetail);
-			}
-			baseDao.update(mapCondition,"MSAccountReportMapper.updateBalanceAndFreezeBalance");
+			}			
 			
 			//更新消费记录表订单状态
 			Map<String,Object> mapMcr=new HashMap<>();
@@ -274,10 +283,10 @@ public class TradeServiceImpl implements TradeService {
 			baseDao.update(mapMcr,"MSMemberConsumeRecordsMapper.updateOrderStatus");
 			
 			Map<String,Object> mapResult=new HashMap<>();
-			mapResult.put("before_available_points",availablePoints);
-			mapResult.put("now_available_points",availablePoints-model.getConsumePoints());
-			mapResult.put("before_available_money",availableBalance);
-			mapResult.put("now_available_money",availableBalance-model.getConsumeMoney());
+			mapResult.put("before_total_points",String.valueOf(Double.valueOf(listPointsFreezeInfo.get(0).getMcpfConsumePointsBalance())+model.getConsumePoints()));
+			mapResult.put("now_total_points",listPointsFreezeInfo.get(0).getMcpfConsumePointsBalance());
+			mapResult.put("before_total_money",beforeTotalMoney);
+			mapResult.put("now_total_money",beforeTotalMoney-model.getConsumeMoney());
 			resBodyData.setMsg("账户扣减成功");
 			resBodyData.setData(mapResult);
 		}

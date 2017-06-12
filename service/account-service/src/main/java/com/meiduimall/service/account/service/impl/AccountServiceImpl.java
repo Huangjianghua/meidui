@@ -40,23 +40,31 @@ public class AccountServiceImpl implements AccountService {
 	private AccountReportService  accountReportService;
 	
 	@Override
-	public MSAccount getAccountInfo(String memId, String accountTypeNo) {
+	public MSAccount getAccountInfoByMemIdAndAccountTypeNo(String memId, String accountTypeNo) {
 		Map<String, Object> mapCondition=new HashMap<>();
 		mapCondition.put("memId",memId);
 		mapCondition.put("accountTypeNo",accountTypeNo);
 		return baseDao.selectOne(mapCondition,"MSAccountMapper.getAccountByCondition");
 	}
+	
+	@Override
+	public MSAccount getAccountInfoByMemIdAndAccountNo(String memId, String accountNo) {
+		Map<String, Object> mapCondition=new HashMap<>();
+		mapCondition.put("memId",memId);
+		mapCondition.put("accountNo",accountNo);
+		return baseDao.selectOne(mapCondition,"MSAccountMapper.getAccountByCondition");
+	}
 
 	@Override
-	public List<MSAccount> getAccountInfo(String memId) {
+	public List<MSAccount> getAccountInfoByMemId(String memId) {
 		Map<String, Object> mapCondition=new HashMap<>();
 		mapCondition.put("memId",memId);
 		return baseDao.selectList(mapCondition,"MSAccountMapper.getAccountByCondition");
 	}
 	
 	@Override
-	public Boolean checkAccountExistByType(String memId, String accountTypeNo) {
-		return getAccountInfo(memId,accountTypeNo)!=null?true:false;
+	public Boolean checkAccountExistByTypeAndMemId(String memId, String accountTypeNo) {
+		return this.getAccountInfoByMemIdAndAccountTypeNo(memId,accountTypeNo)!=null?true:false;
 	}
 
 	@Override

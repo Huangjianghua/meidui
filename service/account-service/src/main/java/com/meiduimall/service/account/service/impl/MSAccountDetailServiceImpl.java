@@ -151,7 +151,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		dto.setCreateDate(new Date());
 		dto.setUpdateDate(new Date());
 		try {
-			 MSAccount accountInfo = accountServices.getAccountInfo(dto.getMemId(), dto.getAccountTypeNo());
+			 MSAccount accountInfo = accountServices.getAccountInfoByMemIdAndAccountTypeNo(dto.getMemId(), dto.getAccountTypeNo());
 			 if(org.springframework.util.StringUtils.isEmpty(accountInfo)){
 				 MSAccount msAccount = new MSAccount();
 				 msAccount.setId(UUID.randomUUID().toString());

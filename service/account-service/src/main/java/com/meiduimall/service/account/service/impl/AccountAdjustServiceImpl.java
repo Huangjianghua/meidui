@@ -86,7 +86,7 @@ public class AccountAdjustServiceImpl implements AccountAdjustService {
 		String accountTypeNo=ConstTradetTypeToAccountTypeNo.getNameByCode(model.getTradeType());
 		
 		//根据会员ID和账户类型查询对应的账户
-		MSAccount msAccount=accountService.getAccountInfo(model.getMemId(),accountTypeNo);
+		MSAccount msAccount=accountService.getAccountInfoByMemIdAndAccountTypeNo(model.getMemId(),accountTypeNo);
 		
 		//若该类型的账户不存在，就创建一个
 		if(msAccount==null){

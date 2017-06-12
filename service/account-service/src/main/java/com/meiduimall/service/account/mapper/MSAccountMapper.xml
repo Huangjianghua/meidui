@@ -51,6 +51,9 @@
 		<if test="accountTypeNo != null and accountTypeNo != ''">
 		AND m.account_type_no=#{accountTypeNo}
 		</if>
+		<if test="accountNo != null and accountNo != ''">
+		AND m.account_no=#{accountNo}
+		</if>
 	</select>
 	
 	<!-- 根据条件查询余额相关的账户信息 -->
@@ -109,7 +112,7 @@
       <!-- 更新当前类型总金额密文-->
       <if test="balanceEncrypt != null and balanceEncrypt != ''">balance_encrypt=#{balanceEncrypt},</if>
       <!-- 更新当前类型冻结余额明文 -->
-      <if test="freezeBalance != null and freezeBalance != ''">freeze_balance=#{freezeBalance},</if>
+      <if test="freezeBalance != null and freezeBalance != '' or freezeBalance=0.0">freeze_balance=#{freezeBalance},</if>
       <!-- 更新当前类型冻结余额密文 -->
       <if test="freezeBalanceEncrypt != null and freezeBalanceEncrypt != ''">freeze_balance_encrypt=#{freezeBalanceEncrypt},</if>
       <!-- 更新更新时间 -->

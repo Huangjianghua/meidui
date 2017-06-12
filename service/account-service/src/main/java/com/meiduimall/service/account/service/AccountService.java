@@ -19,7 +19,7 @@ public interface AccountService {
 	 * @param accountTypeNo 账户类型编号
 	 * @return true：存在   false：不存在
 	 */
-	Boolean checkAccountExistByType(String memId,String accountTypeNo);
+	Boolean checkAccountExistByTypeAndMemId(String memId,String accountTypeNo);
 	
 	/**
 	 * 根据会员ID和账户类型编号查询账户信息
@@ -27,14 +27,22 @@ public interface AccountService {
 	 * @param accountTypeNo 账户类型编号
 	 * @return 账户信息实体
 	 */
-	MSAccount getAccountInfo(String memId,String accountTypeNo);
+	MSAccount getAccountInfoByMemIdAndAccountTypeNo(String memId,String accountTypeNo);
 	
 	/**
 	 * 根据会员ID查询账户信息
 	 * @param memId 会员ID
 	 * @return 账户信息实体
 	 */
-	List<MSAccount> getAccountInfo(String memId);
+	List<MSAccount> getAccountInfoByMemId(String memId);
+	
+	/**
+	 * 根据会员ID和账户编号查询账户信息
+	 * @param memId 会员ID
+	 * @param accountNo 账户编号
+	 * @return 账户信息实体
+	 */
+	MSAccount getAccountInfoByMemIdAndAccountNo(String memId, String accountNo);
 	
 	/**
 	 * 插入当前会员对应类型的账户信息
