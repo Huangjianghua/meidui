@@ -253,11 +253,10 @@ public class TradeServiceImpl implements TradeService {
 				
 				beforeTotalMoney+=msAccount.getBalance().doubleValue();
 				
-				mapCondition.put(msAccount.getAccountTypeNo(),-msAccount.getBalance());
-				mapCondition.put("balance",mapCondition.get("balance")-msAccount.getBalance());
-				mapCondition.put("freezeBalance"+msAccount.getAccountTypeNo(),-msAccount.getBalance());
-				mapCondition.put("freezeBalance",mapCondition.get("freezeBalance")-msAccount.getBalance());
-				baseDao.update(mapCondition,"MSAccountReportMapper.updateBalanceAndFreezeBalance");
+				mapCondition.put("balance",mapCondition.get("balance")-item.getFreezeBalance());
+				mapCondition.put("freezeBalance",mapCondition.get("freezeBalance")-item.getFreezeBalance());
+				mapCondition.put(msAccount.getAccountTypeNo(), -item.getFreezeBalance());
+				mapCondition.put("freezeBalance"+msAccount.getAccountTypeNo(),-item.getFreezeBalance());
 				
 				//写入账户变动明细
 				MSAccountDetail msAccountDetail=new MSAccountDetail();
@@ -273,7 +272,7 @@ public class TradeServiceImpl implements TradeService {
 				msAccountDetail.setUpdateUser("账户服务");
 				accountDetailService.insertAccountDetail(msAccountDetail);
 			}			
-			
+			baseDao.update(mapCondition,"MSAccountReportMapper.updateBalanceAndFreezeBalance");
 			//更新消费记录表订单状态
 			Map<String,Object> mapMcr=new HashMap<>();
 			mapMcr.put("orderId",model.getOrderId());
