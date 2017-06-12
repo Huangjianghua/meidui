@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +41,22 @@ public class TradeV1Controller {
 	@Autowired
 	private TradeService tradeService;
 	
+	
+	/**
+	 * 会员保存订单（适配旧会员系统）
+	 * @author chencong
+	 */
+	@GetMapping(value="/save_order_old")
+	ResBodyData  freezeUnfreezeOld( @Valid RequestSaveOrder model){
+		logger.info("收到保存订单API请求   ：{}",model.toString());
+		try {
+			return tradeService.saveOrder(model);
+		} catch (MdSysException e) {
+			logger.error("保存订单API请求异常：{}",e.toString());
+			throw new ApiException(ConstApiStatus.SYSTEM_ERROR);
+		}
+	}
+	
 	/**
 	 * 会员保存订单
 	 * @author chencong
@@ -56,11 +73,21 @@ public class TradeV1Controller {
 	}
 	
 	/**
+	 * 会员取消订单（适配旧会员系统）
+	 * @author chencong
+	 */
+	@PostMapping(value="/cancel_order_old")
+	ResBodyData cancelOrderOld(@Valid RequestCancelOrder model) throws MdSysException {
+		logger.info("收到会员取消订单API请求 ：{}",model.toString());
+		return tradeService.cancelOrder(model);
+	}
+	
+	/**
 	 * 会员取消订单
 	 * @author chencong
 	 */
 	@PostMapping(value="/cancel_order")
-	ResBodyData unfreezeDeduct(@RequestBody @Valid RequestCancelOrder model) throws MdSysException {
+	ResBodyData cancelOrder(@RequestBody @Valid RequestCancelOrder model) throws MdSysException {
 		logger.info("收到会员取消订单API请求 ：{}",model.toString());
 		return tradeService.cancelOrder(model);
 	}
