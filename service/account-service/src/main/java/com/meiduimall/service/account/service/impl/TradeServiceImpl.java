@@ -195,7 +195,7 @@ public class TradeServiceImpl implements TradeService {
 		}
 		//订单状态为2表示已支付，需要解冻并扣减积分和余额
 		if (model.getOrderStatus()==2) {
-			//校验冻结积分或余额和解冻的积分或余额是否相等
+			//校验冻结的积分或余额和解冻的积分或余额是否相等
 			Double freezePoints=0.00;
 			for (MSConsumePointsFreezeInfo item : listPointsFreezeInfo) {
 				freezePoints+=Double.valueOf(item.getMcpfConsumePoints());
@@ -208,6 +208,12 @@ public class TradeServiceImpl implements TradeService {
 				logger.warn("解冻的积分或余额不等于冻结的积分或余额");
 				throw new ServiceException(ConstApiStatus.FREEZE_POINTS_AND_MONEY_NOT_EQUALS_UNFREEZE);
 			}
+			
+			//查询当前会员的总金额
+			MSAccountReport accountReport=accountReportService.getTotalAndFreezeBalanceByMemId(model.getMemId());
+			double beforeTotalMoney=accountReport.getBalance();
+			//扣减后的总金额
+			double nowTotalMoney=beforeTotalMoney-model.getConsumeMoney();
 			
 			//写入积分解冻信息到冻结解冻流水
 			MSConsumePointsFreezeInfo freezeUnfreezeInfo=new MSConsumePointsFreezeInfo();
@@ -236,7 +242,6 @@ public class TradeServiceImpl implements TradeService {
 			Map<String,Double> mapCondition=new HashMap<>();
 			mapCondition.put("balance",0.00);
 			mapCondition.put("freezeBalance",0.00);
-			double beforeTotalMoney=0.00;
 			for (MSAccountFreezeDetail item : listBalanceFreeze) {
 				item.setId(UUID.randomUUID().toString());
 				item.setTradeDate(new Date());
@@ -250,8 +255,6 @@ public class TradeServiceImpl implements TradeService {
 				msAccount.setFreezeBalance(msAccount.getFreezeBalance()-item.getFreezeBalance());
 				msAccount.setFreezeBalanceEncrypt(DESC.encryption(String.valueOf(msAccount.getFreezeBalanceEncrypt()),model.getMemId()));
 				baseDao.update(msAccount,"MSAccountMapper.updateAccountByCondition");
-				
-				beforeTotalMoney+=msAccount.getBalance().doubleValue();
 				
 				mapCondition.put("balance",mapCondition.get("balance")-item.getFreezeBalance());
 				mapCondition.put("freezeBalance",mapCondition.get("freezeBalance")-item.getFreezeBalance());
@@ -285,7 +288,7 @@ public class TradeServiceImpl implements TradeService {
 			mapResult.put("before_total_points",String.valueOf(Double.valueOf(listPointsFreezeInfo.get(0).getMcpfConsumePointsBalance())+model.getConsumePoints()));
 			mapResult.put("now_total_points",listPointsFreezeInfo.get(0).getMcpfConsumePointsBalance());
 			mapResult.put("before_total_money",beforeTotalMoney);
-			mapResult.put("now_total_money",beforeTotalMoney-model.getConsumeMoney());
+			mapResult.put("now_total_money",nowTotalMoney);
 			resBodyData.setMsg("账户扣减成功");
 			resBodyData.setData(mapResult);
 		}
