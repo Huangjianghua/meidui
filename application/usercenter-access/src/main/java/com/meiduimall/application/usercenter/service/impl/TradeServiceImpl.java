@@ -32,7 +32,7 @@ public class TradeServiceImpl implements TradeService{
 	@Override
 	public ResBodyData businessRecedeOrder(JSONObject reqJson) throws MdSysException {
 		ResBodyData resBodyData=new ResBodyData(null,null);
-		String url=profile.getServiceAccountUrl()+"v1/business_recede_order";
+		String url=profile.getServiceAccountUrl()+"v1/recede_order";
 		MD5Utils.updateSign(reqJson,profile.getRouteClientID(),profile.getRouteKey());
 		logger.info("当前商家退会员订单信息接口 API>>URL:{}  Data:{}",url,reqJson.toString());
 		try {
