@@ -30,6 +30,7 @@ import com.meiduimall.service.account.model.MSAccountDetail;
 import com.meiduimall.service.account.model.MSAccountDetailCondition;
 import com.meiduimall.service.account.model.MSAccountDetailGet;
 import com.meiduimall.service.account.model.MSAccountList;
+import com.meiduimall.service.account.model.MSAccountReport;
 import com.meiduimall.service.account.model.request.RequestAccountReviseDetail;
 import com.meiduimall.service.account.model.request.RequestMSAccountList;
 import com.meiduimall.service.account.service.AccountReportService;
@@ -63,9 +64,10 @@ public class AccountQueryV1Controller {
 	@GetMapping(value = "/get_available_balance")
 	public ResBodyData getAvailableBalance(@RequestParam String memId ) {
 		ResBodyData resBodyData=new ResBodyData(Constants.CONSTANT_INT_ZERO,null);
-		Double availableBalance=accountReportService.getAvailableBalance(memId);
+		MSAccountReport accountReport=accountReportService.getTotalAndFreezeBalanceByMemId(memId);
 		ObjectNode rootNode = JsonUtils.getInstance().createObjectNode();
-		rootNode.set("available_balance",new DoubleNode(availableBalance));
+		rootNode.set("available_money",new DoubleNode(accountReport.getBalance()-accountReport.getFreezeBalance()));
+		rootNode.set("total_money",new DoubleNode(accountReport.getBalance()));
 		resBodyData.setData(rootNode);
 		return resBodyData;
 	}
