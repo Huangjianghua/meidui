@@ -47,7 +47,7 @@ public class TradeV1Controller {
 	 * @author chencong
 	 */
 	@GetMapping(value="/save_order_old")
-	ResBodyData  freezeUnfreezeOld( @Valid RequestSaveOrder model){
+	ResBodyData  saveOrderOld( @Valid RequestSaveOrder model){
 		logger.info("收到保存订单API请求   ：{}",model.toString());
 		try {
 			return tradeService.saveOrder(model);
@@ -62,7 +62,7 @@ public class TradeV1Controller {
 	 * @author chencong
 	 */
 	@PostMapping(value="/save_order")
-	ResBodyData  freezeUnfreeze(@RequestBody @Valid RequestSaveOrder model){
+	ResBodyData  saveOrder(@RequestBody @Valid RequestSaveOrder model){
 		logger.info("收到保存订单API请求   ：{}",model.toString());
 		try {
 			return tradeService.saveOrder(model);
