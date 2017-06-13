@@ -297,44 +297,17 @@ public class TradeServiceImpl implements TradeService {
 
 	@Override
 	public ResBodyData cancelOrder(RequestCancelOrder model) {
-		ResBodyData resBodyData = new ResBodyData(null, null);
-		String memId = model.getMemId();
-		/** 解冻并扣减积分 */
-		Map<String, Object> dataMap = new HashMap<>();
-		/*
-		 * if(pointsService.getFreezeUnfreezeRecordByOrderId(orderId)){
-		 * pointsService.unFreezePointsAndAddRecord(memId,consumePoints,orderId,
-		 * orderSource,dataMap);
-		 * pointsService.deductPointsAndAddRecord(memId,consumePoints,orderId,
-		 * orderSource,dataMap); }
-		 *//** 解冻并扣减余额 *//*
-						 * if(moneyService.getFreezeUnfreezeRecordByOrderId(
-						 * orderId)){
-						 * moneyService.unFreezeMoneyAndAddRecord(memId,
-						 * consumeMoney,orderId,orderSource,dataMap);
-						 * moneyService.deductMoneyAndAddRecord(memId,
-						 * consumeMoney,orderId,orderSource,dataMap); }
-						 */
-		resBodyData.setData(dataMap);
-		/** 写入会员消费记录 */
-		/* MSMemberConsumeHistory history = new MSMemberConsumeHistory(); */
-		/*
-		 * history.setMchId(UUID.randomUUID().toString());
-		 * history.setMemId(memId); history.setOrderId(orderId);
-		 * history.setMchProductName(productName);
-		 * history.setMchOrginType(orderSource); history.setMchOrginMemId("");
-		 * history.setMchPayType(payType); history.setMchStatus("1");
-		 * history.setMchConsumePointsCount(consumePoints);
-		 * history.setMchShoppingCouponCount(consumeMoney);
-		 * history.setMchSettingStatus(1);
-		 */
-		/*
-		 * history.setMchIssueStatus(1); try {
-		 * this.saveMemberTradeHistory(history); } catch (Exception e) {
-		 * 
-		 * 
-		 * }
-		 */
+		ResBodyData resBodyData = new ResBodyData(Constants.CONSTANT_INT_ZERO,"订单取消成功");
+		
+		int orderStatus=model.getOrderStatus();
+		String memId=model.getMemId();
+		String orderId=model.getOrderId();
+		
+		//根据订单号查询积分冻结解冻的记录
+		List<MSConsumePointsFreezeInfo> listPointsFreezeInfo=pointsFreezeInfoService.getRecordsByOrderId(orderId);
+		//根据订单号查询余额冻结解冻的记录
+		List<MSAccountFreezeDetail> listBalanceFreeze=accountFreezeDetailService.getRecordsByOrderId(orderId);
+		
 		return resBodyData;
 	}
 
