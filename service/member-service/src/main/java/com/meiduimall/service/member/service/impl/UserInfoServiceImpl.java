@@ -10,6 +10,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -67,6 +68,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 	ServiceUrlProfileConfig serviceUrlProfileConfig;
 
 	@Autowired
+	@LoadBalanced
 	RestTemplate restTemplate;
 
 	@Override
@@ -100,10 +102,10 @@ public class UserInfoServiceImpl implements UserInfoService {
 		}
 		// 调用账户服务>查询当前会员是否存在支付密码
 		ResBodyData resIsExistPayPwd = restTemplate
-				.getForEntity("http://ACCOUNT-SERVICE/v1/is_exist_paypwd?memId=" + memId, ResBodyData.class).getBody();
+				.getForEntity("http://ACCOUNT-SERVICE/member/account_service/v1/is_exist_paypwd?memId=" + memId, ResBodyData.class).getBody();
 		// 调用账户服务>查询当前会员可用余额
 		ResBodyData resAvailableBalance = restTemplate
-				.getForEntity("http://ACCOUNT-SERVICE/v1/get_available_balance?memId=" + memId, ResBodyData.class)
+				.getForEntity("http://ACCOUNT-SERVICE/member/account_service/v1/get_available_balance?memId=" + memId, ResBodyData.class)
 				.getBody();
 
 		memberBasicInfo.setPaypwd_isset("1");
