@@ -108,7 +108,7 @@
 	  UPDATE ms_account 
 	  <set>
 	  <!-- 更新当前类型总金额明文-->
-      <if test="balance != null and balance != ''">balance=#{balance},</if>
+      <if test="balance != null and balance != '' or balance=0.0">balance=#{balance},</if>
       <!-- 更新当前类型总金额密文-->
       <if test="balanceEncrypt != null and balanceEncrypt != ''">balance_encrypt=#{balanceEncrypt},</if>
       <!-- 更新当前类型冻结余额明文 -->
