@@ -16,7 +16,6 @@ import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.meiduimall.core.util.JsonUtils;
-import com.meiduimall.service.account.model.request.RequestCancelOrder;
 import com.meiduimall.service.account.model.request.RequestSaveOrder;
 
 /**
@@ -37,15 +36,15 @@ public class TradeV1ControllerTest extends BaseControllerTest {
      */
     @Test
     public void saveOrder() throws Exception{
-    	/*RequestSaveOrder requestSaveOrder=new RequestSaveOrder();
+    	RequestSaveOrder requestSaveOrder=new RequestSaveOrder();
     	requestSaveOrder.setMemId(memId);
     	requestSaveOrder.setOrderId(orderId);
-    	requestSaveOrder.setConsumeAmount(50.00);
+    	requestSaveOrder.setConsumeAmount(1200.00);
     	requestSaveOrder.setProductName("苹果7");
     	requestSaveOrder.setOrderSource("1gw");
     	requestSaveOrder.setPayType(2);
-    	requestSaveOrder.setConsumeMoney(30.00);
-    	requestSaveOrder.setConsumePoints(20.00);
+    	requestSaveOrder.setConsumeMoney(1100.00);
+    	requestSaveOrder.setConsumePoints(100.00);
     	
     	//下单未支付
     	requestSaveOrder.setOrderStatus(1);
@@ -75,7 +74,7 @@ public class TradeV1ControllerTest extends BaseControllerTest {
 			public void handle(MvcResult result) throws Exception {
 				logger.info("单元测试>>保存订单API>>订单已支付>>执行结果:{}",result.getResponse().getContentAsString());
 			}
-		});*/
+		});
     }
     
     /**
