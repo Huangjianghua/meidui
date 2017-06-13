@@ -4,13 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.meiduimall.application.mall.catalog.service.UserInfoService;
 import com.meiduimall.application.mall.config.MyProps;
 import com.meiduimall.application.mall.constant.MallConstant;
 import com.meiduimall.application.mall.util.HttpGatewayUtils;
 import com.meiduimall.core.ResBodyData;
-
+@Service
 public class UserInfoServiceImpl implements UserInfoService {
 	
 	@Autowired
