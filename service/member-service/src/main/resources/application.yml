@@ -5,7 +5,7 @@ spring :
   datasource: 
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: net.sf.log4jdbc.DriverSpy
-    url : jdbc:log4jdbc:mysql://192.168.4.236:3306/meiduivip?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
+    url : jdbc:log4jdbc:mysql://192.168.4.236:3306/meiduivip_temp?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
     username : root
     password : meidui@2016.?!
     connectionTimeout : 30000
