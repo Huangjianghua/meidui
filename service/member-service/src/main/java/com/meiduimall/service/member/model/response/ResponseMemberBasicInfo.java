@@ -3,6 +3,7 @@ package com.meiduimall.service.member.model.response;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.member.util.DESC;
 import com.meiduimall.service.member.util.DoubleCalculate;
@@ -20,14 +21,21 @@ public class ResponseMemberBasicInfo implements Serializable{
 	/**会员id*/
 	private String memId;
 	
-	/**会员当前积分总额（不包括冻结解冻的积分）*/
-	private String currentpoints;
+	/**会员当前积分总额*/
+	@JsonProperty("total_points")
+	private String totalPoints;
+	
+	/**会员当前可用积分总额*/
+	@JsonProperty("available_points")
+	private String availablePoints;
+
+	/**会员余额总额*/
+	@JsonProperty("total_money")
+	private String totalMoney;
 	
 	/**会员余额总额*/
-	private String totalmoney;
-	
-	/**会员积分总额（包括冻结解冻的积分）*/
-	private String totalpoints;
+	@JsonProperty("available_money ")
+	private String availableMoney ;
 
 	/**登录名*/
 	private String login_name;
@@ -115,28 +123,28 @@ public class ResponseMemberBasicInfo implements Serializable{
 		this.email =DESC.deyption(email);
 	}
 
-	public String getCurrentpoints() {
-		return currentpoints;
+	public String getTotalPoints() {
+		return totalPoints;
 	}
 
-	public void setCurrentpoints(String currentpoints)throws MdSysException {
-		this.currentpoints = DoubleCalculate.getFormalValueTwo(DESC.deyption(currentpoints,memId));
+	public void setTotalPoints(String totalPoints)throws MdSysException {
+		this.totalPoints = DoubleCalculate.getFormalValueTwo(DESC.deyption(totalPoints,memId));
 	}
 	
-	public String getTotalmoney() {
-		return totalmoney;
+	public String getTotalMoney() {
+		return totalMoney;
 	}
 
-	public void setTotalmoney(String totalmoney) {
-		this.totalmoney = totalmoney;
+	public void setTotalMoney(String totalMoney) {
+		this.totalMoney = totalMoney;
 	}
 	
-	public String getTotalpoints() {
-		return totalpoints;
+	public String getAvailableMoney() {
+		return availableMoney;
 	}
 
-	public void setTotalpoints(String totalpoints) {
-		this.totalpoints = totalpoints;
+	public void setAvailableMoney(String availableMoney) {
+		this.availableMoney = availableMoney;
 	}
 
 	public String getNick_name() {
@@ -244,17 +252,24 @@ public class ResponseMemberBasicInfo implements Serializable{
 	public void setLogin_name(String login_name)throws MdSysException {
 		this.login_name =DESC.deyption(login_name);
 	}
+	
+	public String getAvailablePoints() {
+		return availablePoints;
+	}
+
+	public void setAvailablePoints(String availablePoints) {
+		this.availablePoints = availablePoints;
+	}
 
 	@Override
 	public String toString() {
-		return "MemberBasicInfoDTO [memId=" + memId + ", currentpoints=" + currentpoints + ", totalmoney=" + totalmoney
-				+ ", totalpoints=" + totalpoints + ", login_name=" + login_name + ", nick_name=" + nick_name
-				+ ", phone=" + phone + ", pic_url=" + pic_url + ", email=" + email + ", birthday=" + birthday + ", sex="
-				+ sex + ", name=" + name + ", registertime=" + registertime + ", memRegYear=" + memRegYear
-				+ ", memRegMonth=" + memRegMonth + ", memRegDay=" + memRegDay + ", memAddressShengShiQu="
-				+ memAddressShengShiQu + ", memAddressDetail=" + memAddressDetail + ", paypwd_isopen=" + paypwd_isopen
-				+ ", paypwd_isset=" + paypwd_isset + "]";
+		return "ResponseMemberBasicInfo [memId=" + memId + ", totalPoints=" + totalPoints + ", availablePoints="
+				+ availablePoints + ", totalmoney=" + totalMoney + ", totalpoints=" + totalPoints + ", login_name="
+				+ login_name + ", nick_name=" + nick_name + ", phone=" + phone + ", pic_url=" + pic_url + ", email="
+				+ email + ", birthday=" + birthday + ", sex=" + sex + ", name=" + name + ", registertime="
+				+ registertime + ", memRegYear=" + memRegYear + ", memRegMonth=" + memRegMonth + ", memRegDay="
+				+ memRegDay + ", memAddressShengShiQu=" + memAddressShengShiQu + ", memAddressDetail="
+				+ memAddressDetail + ", paypwd_isopen=" + paypwd_isopen + ", paypwd_isset=" + paypwd_isset + "]";
 	}
-	
 	
 }

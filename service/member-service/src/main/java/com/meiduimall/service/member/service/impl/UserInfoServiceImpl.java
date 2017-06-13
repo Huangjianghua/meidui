@@ -112,9 +112,10 @@ public class UserInfoServiceImpl implements UserInfoService {
 		if (!"0".equals(resIsExistPayPwd.getStatus())) {
 			memberBasicInfo.setPaypwd_isset("0");
 		}
-		memberBasicInfo.setTotalmoney(
-				String.valueOf(JackSonUtil.getJsonMap(resAvailableBalance.getData()).get("available_balance")));
-		memberBasicInfo.setTotalpoints(pointsService.getTotalPoints(memId, memberBasicInfo.getCurrentpoints()));
+		memberBasicInfo.setTotalMoney(
+				String.valueOf(JackSonUtil.getJsonMap(resAvailableBalance.getData()).get("total_money")));
+		memberBasicInfo.setAvailableMoney(String.valueOf(JackSonUtil.getJsonMap(resAvailableBalance.getData()).get("available_money")));
+		memberBasicInfo.setAvailablePoints(pointsService.getAvailabelePoints(memId,memberBasicInfo.getTotalPoints()));
 
 		resBodyData.setData(memberBasicInfo);
 		return resBodyData;

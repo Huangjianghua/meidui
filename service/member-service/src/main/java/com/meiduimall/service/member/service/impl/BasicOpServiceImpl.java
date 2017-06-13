@@ -25,7 +25,6 @@ import com.meiduimall.service.member.constant.ConstSmsTemplateID;
 import com.meiduimall.service.member.constant.ConstSysEncrypParams;
 import com.meiduimall.service.member.constant.ConstSysParamsDefination;
 import com.meiduimall.service.member.dao.BaseDao;
-import com.meiduimall.service.member.model.MSAccount;
 import com.meiduimall.service.member.model.MSConsumePointsDetail;
 import com.meiduimall.service.member.model.MSMembersGet;
 import com.meiduimall.service.member.model.MSMembersSet;
