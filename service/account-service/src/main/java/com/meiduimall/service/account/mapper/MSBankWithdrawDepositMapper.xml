@@ -280,7 +280,7 @@
 		     </if> 
      	</where>
      	 <if test="orderByName !=null and orderByName ==1">
-		        ORDER BY msa.withdraw_priority DESC  	/**优先级排序  1表示提现扣款  2表示驳回倒序退		*/  
+		        ORDER BY msa.withdraw_priority   	/**优先级排序  1表示提现扣款  2表示驳回倒序退		*/  
 		 </if> 
 		 <if test="orderByName !=null and orderByName ==2">
 		        ORDER BY msa.withdraw_priority ASC  	
