@@ -95,11 +95,11 @@ public class TradeV1Controller {
 
 	
 	/**
-	 * 会员退订单接口 
+	 * 会员退订单接口(适配旧会员系统)
 	 * @author wujun
 	 */
-	@PostMapping(value = "/recede_order")
-	ResBodyData RecedeOrder(MSMemberConsumeRecordsReq ms)   {
+	@GetMapping(value = "/recede_order_old")
+	ResBodyData recedeOrderOld(@RequestBody MSMemberConsumeRecordsReq ms)   {
 		
 		logger.info("退订单接口请求输入参数："+ ms.toString());
 		
@@ -110,7 +110,61 @@ public class TradeV1Controller {
 				return new ResBodyData(ConstApiStatus.USER_NOT_EXIST, ConstApiStatus.getZhMsg(ConstApiStatus.USER_NOT_EXIST));
 			}
 			 
-			if (!"1".equals(ms.getOrderStatus())) {
+			if (!"2".equals(ms.getOrderStatus())) {
+				logger.info("订单状态错误");
+				return new ResBodyData(ConstApiStatus.ORDER_STATUS_ERROR, ConstApiStatus.getZhMsg(ConstApiStatus.ORDER_STATUS_ERROR));
+			}
+			
+			if (ms.getConsumeMoney() != null && 
+					Double.valueOf(ms.getConsumeMoney()) > Double.valueOf(ms.getConsumeAmount())) {
+				logger.info("消费的余额不能大于消费总金额");
+				return new ResBodyData(ConstApiStatus.MONEY_BIGGER_THAN_COMSUME_AMOUNT, 
+						ConstApiStatus.getZhMsg(ConstApiStatus.MONEY_BIGGER_THAN_COMSUME_AMOUNT));
+			}
+			
+			if (ms.getConsumePoints() != null && Double.valueOf(ms.getConsumePoints()) > Double.valueOf(ms.getConsumeAmount())) {
+				logger.info("消费的积分不能大于消费总金额");
+				return new ResBodyData(ConstApiStatus.POINTS_BIGGER_THAN_COMSUME_AMOUNT, 
+						ConstApiStatus.getZhMsg(ConstApiStatus.POINTS_BIGGER_THAN_COMSUME_AMOUNT));
+			}
+			
+			// 转换来源
+			ms.setOrderSource(SerialStringUtil.getDictOrderSource(ms.getOrderSource()));
+			
+			 
+			ResBodyData	updateMemberOrder = tradeService.recedeOrder(ms);
+			 
+			 
+			logger.info("退会员订单接口=>请求输出参数：{}", updateMemberOrder);
+			
+			return updateMemberOrder;
+		} catch (MdSysException e) {
+			logger.error("服务异常: {}", e);
+			throw new ApiException(ConstApiStatus.SERVER_DEAL_WITH_EXCEPTION);
+		 
+		}
+		
+		
+	} 
+	
+	
+	/**
+	 * 会员退订单接口 
+	 * @author wujun
+	 */
+	@PostMapping(value = "/recede_order")
+	ResBodyData RecedeOrder(@RequestBody MSMemberConsumeRecordsReq ms)   {
+		
+		logger.info("退订单接口请求输入参数："+ ms.toString());
+		
+		try {
+			 
+			if (StringUtils.isEmpty(ms.getMemId())) {
+				logger.info("当前用户不存在");
+				return new ResBodyData(ConstApiStatus.USER_NOT_EXIST, ConstApiStatus.getZhMsg(ConstApiStatus.USER_NOT_EXIST));
+			}
+			 
+			if (!"2".equals(ms.getOrderStatus())) {
 				logger.info("订单状态错误");
 				return new ResBodyData(ConstApiStatus.ORDER_STATUS_ERROR, ConstApiStatus.getZhMsg(ConstApiStatus.ORDER_STATUS_ERROR));
 			}
@@ -154,7 +208,7 @@ public class TradeV1Controller {
 	 * @author wujun
 	 */
 	@PostMapping(value = "/save_order_notoken")
-	ResBodyData saveOrderNotoken(MSMemberConsumeRecordsReq ms) throws MdSysException{
+	ResBodyData saveOrderNotoken(@RequestBody MSMemberConsumeRecordsReq ms) throws MdSysException{
 	 
 		logger.info("保存当前会员订单信息接口(免token校验)请求输入参数："+ms.toString());
 		 

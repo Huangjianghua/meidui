@@ -305,6 +305,19 @@ public class TradeServiceImpl implements TradeService {
 		
 		//根据订单号查询积分冻结解冻的记录
 		List<MSConsumePointsFreezeInfo> listPointsFreezeInfo=pointsFreezeInfoService.getRecordsByOrderId(orderId);
+		
+		//解冻该订单号对应的积分
+		for(MSConsumePointsFreezeInfo item:listPointsFreezeInfo){
+			item.setMcpfId(UUID.randomUUID().toString());
+		}
+		MSConsumePointsFreezeInfo freezeUnfreezeInfo=new MSConsumePointsFreezeInfo();
+		freezeUnfreezeInfo.setMcpfId(UUID.randomUUID().toString());
+		freezeUnfreezeInfo.setMemId(memId);
+		freezeUnfreezeInfo.setMcpfOrderId(model.getOrderId());
+		/*freezeUnfreezeInfo.setMcpfConsumePoints(String.valueOf(model.getConsumePoints()));*/
+		freezeUnfreezeInfo.setMcpfRemark("解冻消费积分");
+		/*pointsFreezeInfoService.insertConsumePointsFreezeInfo(freezeUnfreezeInfo,ConstPointsChangeType.POINTS_FREEZE_TYPE_JD.getCode());*/
+		
 		//根据订单号查询余额冻结解冻的记录
 		List<MSAccountFreezeDetail> listBalanceFreeze=accountFreezeDetailService.getRecordsByOrderId(orderId);
 		
@@ -709,7 +722,7 @@ public class TradeServiceImpl implements TradeService {
 		JSONObject json;
 		try {
 			// 查询数据库是否已存在该订单
-			MSMemberConsumeRecords history = consumeRecordsService.getConsumeRecords(ms.getOrderId(), ms.getOrderSource(), Integer.valueOf(ms.getOrderStatus()));
+			MSMemberConsumeRecords history = consumeRecordsService.getConsumeRecords(ms.getOrderId(), ms.getOrderSource(), 1);
 			
 			if (null == history) {
 				logger.info("当前退单的订单号与已提交的订单号不匹配");
@@ -800,10 +813,10 @@ public class TradeServiceImpl implements TradeService {
 			}
 			
 			Map<String,Object> mapCondition=new HashMap<>();
-			mapCondition.put("newOrderStatus",2);
+			mapCondition.put("newOrderStatus","2");
 			mapCondition.put("orderId",ms.getOrderId());
 			mapCondition.put("orderSource",ms.getOrderSource());
-			mapCondition.put("orderStatus",ms.getOrderStatus());
+			mapCondition.put("orderStatus","1");
 			consumeRecordsService.updateOrderStatus(mapCondition);
 
 			logger.info("当前退余额: " + ms.getConsumeMoney() + "当前退积分：" + ms.getConsumePoints());
