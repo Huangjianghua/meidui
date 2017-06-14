@@ -6,9 +6,10 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import com.alibaba.fastjson.JSONObject;
-import com.meiduimall.service.account.constant.SysParamsConst;
+import com.meiduimall.service.account.constant.ConstPointsChangeType;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSConsumePointsDetailGet;
 import com.meiduimall.service.account.service.MembersPointsOpService;
@@ -28,7 +29,7 @@ public class MembersPointsOpServiceImpl implements MembersPointsOpService {
 		int income = 0;
 		int expenditure = 0;
 		if (StringUtil.checkStr(memId)) {
-			if (SysParamsConst.scoreOpType.containsKey(type)) {
+			if (StringUtils.isEmpty(ConstPointsChangeType.getNameByCode(type))) {
 				/*Logger.info("查询会员ID:" + memId + "的%s积分相关统计!", SysParamsConst.scoreOpType.get(type));*/
 				param.put("memId", memId);
 				param.put("type", type);
@@ -39,40 +40,40 @@ public class MembersPointsOpServiceImpl implements MembersPointsOpService {
 						expenditure += Integer.parseInt(point.getMcpExpenditure());
 					}
 					if (income <= 0 && expenditure > 0) {
-						json.put(SysParamsConst.STATUS_CODE, "0");
-						json.put(SysParamsConst.RESULT_MSG, "获取成功!");
+						json.put("status_code", "0");
+						json.put("result_msg", "获取成功!");
 						Map<String, String> resultMap = new HashMap<String, String>();
 						resultMap.put("credit", "" + expenditure);
-						json.put(SysParamsConst.RESULT, resultMap);
+						json.put("result_msg", resultMap);
 						/*Logger.info("会员ID:" + memId + "查询%s类型下的积分成功!", SysParamsConst.scoreOpType.get(type));*/
 					} else if (income > 0 && expenditure <= 0) {
-						json.put(SysParamsConst.STATUS_CODE, "0");
-						json.put(SysParamsConst.RESULT_MSG, "获取成功!");
+						json.put("status_code", "0");
+						json.put("result_msg", "获取成功!");
 						Map<String, String> resultMap = new HashMap<String, String>();
 						resultMap.put("credit", "" + income);
-						json.put(SysParamsConst.RESULT, resultMap);
+						json.put("result_msg", resultMap);
 						/*Logger.info("会员ID:" + memId + "查询%s类型下的积分成功!", SysParamsConst.scoreOpType.get(type));*/
 					} else {
-						json.put(SysParamsConst.STATUS_CODE, "9999");
-						json.put(SysParamsConst.RESULT_MSG, "服务器错误!");
+						json.put("status_code", "9999");
+						json.put("result_msg", "服务器错误!");
 						/*Logger.info("会员ID:" + memId + "查询%s类型下的数据收入及支出都存在大于0的值!", SysParamsConst.scoreOpType.get(type));*/
 					}
 				} else {
-					json.put(SysParamsConst.STATUS_CODE, "0");
-					json.put(SysParamsConst.RESULT_MSG, "获取成功!");
+					json.put("status_code", "0");
+					json.put("result_msg", "获取成功!");
 					Map<String, String> resultMap = new HashMap<String, String>();
 					resultMap.put("credit", "0");
-					json.put(SysParamsConst.RESULT, resultMap);
+					json.put("result_msg", resultMap);
 					/*Logger.info("会员ID:" + memId + "查询%s类型无数据,积分为0!", SysParamsConst.scoreOpType.get(type));*/
 				}
 			} else {
-				json.put(SysParamsConst.STATUS_CODE, "9998");
-				json.put(SysParamsConst.RESULT_MSG, "未知的积分操作类型!");
+				json.put("status_code", "9998");
+				json.put("result_msg", "未知的积分操作类型!");
 				/*Logger.info("未知的积分操作类型:%s", type);*/
 			}
 		} else {
-			json.put(SysParamsConst.STATUS_CODE, "1020");
-			json.put(SysParamsConst.RESULT_MSG, "当前会员ID:" + memId + "不存在!");
+			json.put("status_code", "1020");
+			json.put("result_msg", "当前会员ID:" + memId + "不存在!");
 			/*Logger.info("当前会员ID:%s不存在!", memId);*/
 		}
 		return json;

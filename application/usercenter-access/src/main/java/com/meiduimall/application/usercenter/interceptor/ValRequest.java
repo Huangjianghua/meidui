@@ -7,14 +7,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.util.StringUtils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.usercenter.constant.ApiStatusConst;
 import com.meiduimall.application.usercenter.constant.SysParamsConst;
 import com.meiduimall.application.usercenter.util.HttpResolveUtils;
 import com.meiduimall.application.usercenter.util.MD5Utils;
-import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.redis.util.RedisTemplate;
 
 /**
@@ -34,134 +34,113 @@ public class ValRequest {
 	 * @param request HttpServletRequest对象
 	 * @param hasToken API接口方法是否有token注解
 	 * @return 统一数据返回格式
+	 * @throws MdSysException 系统异常
 	 */
-	public static ResBodyData validate(HttpServletRequest request, boolean hasToken){
-		logger.info("拦截器开始校验request数据和token");
+	public static void validate(HttpServletRequest request, boolean hasToken) throws MdSysException{
 		String contentType=request.getContentType();
 		String method=request.getMethod();
 		logger.info("API请求数据类型：{},请求方式：{},是否标识token注解：{}",contentType,method,hasToken);
 		JSONObject reqJson=null;
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,null);
-		/**解析请求参数，三种：get,post json,post表单*/
 		try {
-			if("GET".equals(method)){
+			if(SysParamsConst.HTTP_GET.equals(method)){
 				reqJson=HttpResolveUtils.readGetStringToJsonObject(request);
 			}				
-			if("POST".equals(method)&&contentType.contains(MediaType.APPLICATION_JSON_VALUE)){
+			if(SysParamsConst.HTTP_POST.equals(method)&&contentType.contains(MediaType.APPLICATION_JSON_VALUE)){
 				reqJson=HttpResolveUtils.readStreamToJsonObject(request);
 			}				
-			if("POST".equals(method)&&MediaType.APPLICATION_FORM_URLENCODED_VALUE.equals(contentType)){
+			if(SysParamsConst.HTTP_POST.equals(method)&&MediaType.APPLICATION_FORM_URLENCODED_VALUE.equals(contentType)){
 				reqJson=HttpResolveUtils.readPostFormToJsonObject(request);
 			}
 		} catch (Exception e) {
-			resBodyData.setStatus(ApiStatusConst.RESOLVE_REQUEST_EX);
-			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.RESOLVE_REQUEST_EX));
-			return resBodyData;
+			logger.error("解析request对象异常：{}",e.toString());
+			throw new MdSysException(ApiStatusConst.SYSTEM_ERROR);
 		}
 		logger.info("拦截器解析请求后的json：{}",reqJson.toString());
 		/**校验必填参数，时间戳，签名*/
-/*		resBodyData=validateParamters(reqJson);
-		if(resBodyData.getStatus()!=0)
-			return resBodyData;
-		resBodyData=validateTimesatamp(reqJson.getLong(ApiValConst.TIMESATAMP));
-		if(resBodyData.getStatus()!=0)
-			return resBodyData;
-		resBodyData=validateSign(reqJson);
-		if(resBodyData.getStatus()!=0)
-			return resBodyData;*/
+		/*validateParamters(reqJson);
+		validateTimesatamp(reqJson.getLong(SysParamsConst.TIMESATAMP));
+		validateSign(reqJson);*/
 		/**校验token，将token转换为memId*/
 		if (hasToken) {
-			if (reqJson.containsKey(SysParamsConst.TOKEN)){
-				resBodyData = ValToken.valToken(reqJson.getString(SysParamsConst.TOKEN));
-				if(resBodyData.getStatus()!=0){
-					return resBodyData;
+			if (reqJson.containsKey(SysParamsConst.TOKEN)){ 
+				if(StringUtils.isEmpty(reqJson.getString(SysParamsConst.TOKEN))){
+					logger.warn("token参数为空");
+					throw new MdSysException(ApiStatusConst.TOKEN_EMPTY);
 				}
-				String memId=resBodyData.getData().toString();
+				String memId=ValToken.valToken(reqJson.getString(SysParamsConst.TOKEN));
 				reqJson.remove(SysParamsConst.TOKEN);
 				reqJson.put(SysParamsConst.MEMID,memId);
 			}
 			else{
-				resBodyData.setStatus(ApiStatusConst.TOKEN_NOT_EXIST);
-				resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.TOKEN_NOT_EXIST));
-				return resBodyData;
+				logger.warn("请求缺少token参数");
+				throw new MdSysException(ApiStatusConst.TOKEN_EMPTY);
 			}				
 		}
 		apiReqData.set(reqJson);
-		return resBodyData;
 	}
 	
 	/**
 	 * 校验必填参数
 	 * @param reqJson 请求的json格式数据
 	 * @return 统一数据返回格式
+	 * @throws MdSysException 系统异常
 	 */
-	private static ResBodyData validateParamters(JSONObject reqJson){
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+	private static void validateParamters(JSONObject reqJson) throws MdSysException{
 		if(!reqJson.containsKey(SysParamsConst.CLIENTID)){
-			resBodyData.setStatus(ApiStatusConst.CLIENTID_EMPTY);
-			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.CLIENTID_EMPTY));
+			logger.warn("校验必填参数>>clientID为空");
+			throw new MdSysException(ApiStatusConst.CLIENTID_EMPTY);
 		}
 		if(!reqJson.containsKey(SysParamsConst.TIMESATAMP)){
-			resBodyData.setStatus(ApiStatusConst.TIMESTAMP_EMPTY);
-			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.TIMESTAMP_EMPTY));
+			logger.warn("校验必填参数>>时间戳为空");
+			throw new MdSysException(ApiStatusConst.TIMESTAMP_EMPTY);
 		}
 		if(!reqJson.containsKey(SysParamsConst.SIGN)){
-			resBodyData.setStatus(ApiStatusConst.SIGN_EMPTY);
-			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.SIGN_EMPTY));
+			logger.warn("校验必填参数>>签名为空");
+			throw new MdSysException(ApiStatusConst.SIGN_EMPTY);
 		}
-		logger.info("拦截器校验必填参数戳结果：{}",resBodyData.toString());
-		return resBodyData;
+		logger.info("拦截器校验必填参数通过");
 	}
 	
 	/**
 	 * 校验时间戳
 	 * @param timesatamp 13位时间戳
 	 * @return 统一数据返回格式
+	 * @throws MdSysException 系统异常
 	 */
-	private static ResBodyData validateTimesatamp(Long timesatamp){
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+	private static void validateTimesatamp(Long timesatamp) throws MdSysException{
 		Long currentTime = System.currentTimeMillis();
 		Long beforeTime = currentTime - SysParamsConst.REQUEST_EFFECTIVE_TIME;
 		if(timesatamp.toString().length()!=13){
-			resBodyData.setStatus(ApiStatusConst.TIMESTAMP_FORMAT_ERROR);
-			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.TIMESTAMP_FORMAT_ERROR));
-			return resBodyData;
+			logger.warn("校验时间戳>>时间戳格式错误，非13位");
+			throw new MdSysException(ApiStatusConst.TIMESTAMP_FORMAT_ERROR);
 		}
 		if (timesatamp<beforeTime){
-			resBodyData.setStatus(ApiStatusConst.REQUEST_TIMEOUT);
-			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.REQUEST_TIMEOUT));
+			logger.warn("校验时间戳>>请求超时，超过五分钟");
+			throw new MdSysException(ApiStatusConst.REQUEST_TIMEOUT);
 		}
-		logger.info("拦截器校验时间戳结果：{}",resBodyData.toString());
-		return resBodyData;
+		logger.info("拦截器校验时间戳通过");
 	}
 	
 	/**
 	 * 校验签名
 	 * @param reqJson 请求的json格式数据
 	 * @return 统一数据返回格式
+	 * @throws MdSysException 系统异常
 	 */
-	private static ResBodyData validateSign(JSONObject reqJson){
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+	private static void validateSign(JSONObject reqJson) throws MdSysException{
 		if(reqJson.getString(SysParamsConst.SIGN).length()!=32){
-			resBodyData.setStatus(ApiStatusConst.SIGN_FORMAT_ERROR);
-			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.SIGN_FORMAT_ERROR));
-			return resBodyData;
+			logger.warn("校验签名>>签名格式错误，非32位");
+			throw new MdSysException(ApiStatusConst.SIGN_FORMAT_ERROR);
 		}
-		String clientSign=reqJson.getString(SysParamsConst.SIGN);
-		String serverSign=null;
+		String clientSign=reqJson.getString(SysParamsConst.SIGN);		
 		String memberSecretJson=RedisTemplate.getJedisInstance().execGetFromCache(SysParamsConst.memberSecretJson);
 		String clientID=reqJson.getString(SysParamsConst.CLIENTID);
 		String secretkey=JSONObject.parseObject(memberSecretJson).getString(clientID);
-		resBodyData = MD5Utils.getSign(reqJson,secretkey);
-		if(resBodyData.getStatus()!=0)
-			return resBodyData;
-		if (clientSign.equals(serverSign)){
-			resBodyData.setStatus(ApiStatusConst.SUCCESS);
-		} else{
-			resBodyData.setStatus(ApiStatusConst.SIGN_ERROR);
-			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.SIGN_ERROR));
+		String serverSign = MD5Utils.getSign(reqJson,secretkey);
+		if (!clientSign.equals(serverSign)){
+			logger.info("校验签名>>签名校验不通过");
+			throw new MdSysException(ApiStatusConst.SIGN_ERROR);
 		}
-		logger.info("拦截器校验签名结果：{}",resBodyData.toString());
-		return resBodyData;
+		logger.info("签名校验通过");
 	}
 }

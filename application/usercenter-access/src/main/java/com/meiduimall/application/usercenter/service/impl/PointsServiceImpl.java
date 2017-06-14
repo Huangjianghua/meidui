@@ -18,6 +18,7 @@ import com.meiduimall.application.usercenter.service.PointsService;
 import com.meiduimall.application.usercenter.util.HttpUtils;
 import com.meiduimall.application.usercenter.util.MD5Utils;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.MdSysException;
 
 @Service
 public class PointsServiceImpl implements PointsService  {
@@ -29,23 +30,20 @@ public class PointsServiceImpl implements PointsService  {
 	
 
 	@Override
-	public ResBodyData listConsumePointsDetail(JSONObject reqJson) {
+	public ResBodyData listConsumePointsDetail(JSONObject reqJson) throws MdSysException {
 		ResBodyData resBodyData=new ResBodyData(null,null);
 		String url=profile.getServiceAccountUrl()+"v1/list_consume_points_detail";
-		resBodyData=MD5Utils.updateSign(reqJson,profile.getRouteClientID(),profile.getRouteKey());
-		if(resBodyData.getStatus()!=0)
-			return resBodyData;
-		logger.info("请求账户服务，URL:{}  Data:{}",url,reqJson.toString());
+		MD5Utils.updateSign(reqJson,profile.getRouteClientID(),profile.getRouteKey());
+		logger.info("调用账户服务>>积分流水（分页）API>>URL:{}  Data:{}",url,reqJson.toString());
 		try {
 			Map<String, String> headers=new HashMap<>();
 			headers.put(SysParamsConst.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
 			String result=HttpUtils.post(url,reqJson.toString(),headers);
-			logger.info("请求账户服务，结果：{}",result);
+			logger.info("调用账户服务>>积分流水（分页）API>>结果：{}",result);
 			resBodyData=JSON.parseObject(result,ResBodyData.class);
 		} catch (Exception e) {
-			logger.error("请求账户服务异常:{}",e.toString());
-			resBodyData.setStatus(ApiStatusConst.REQUEST_GATEWAY_EX);
-			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.REQUEST_GATEWAY_EX));
+			logger.error("调用账户服务>>积分流水（分页）API>>异常：{}",e.toString());
+			throw new MdSysException(ApiStatusConst.REQUEST_GATEWAY_EX);
 		}
 		return resBodyData;
 	}

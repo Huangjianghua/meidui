@@ -10,14 +10,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.meiduimall.application.mall.catalog.annotation.HasToken;
-import com.meiduimall.application.mall.catalog.constant.ApplMallApiCode;
-import com.meiduimall.application.mall.catalog.constant.ApplMallConstant;
+import com.meiduimall.application.mall.catalog.config.ProfileConfig;
+import com.meiduimall.application.mall.catalog.constant.MallApiCode;
+import com.meiduimall.application.mall.catalog.constant.MallConstant;
 import com.meiduimall.application.mall.catalog.entity.MemIdResult;
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
@@ -30,7 +30,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 	private static Logger logger = LoggerFactory.getLogger(TokenInterceptor.class);
 
 	@Autowired
-	private Environment env;
+	private ProfileConfig profileConfig;
 
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
@@ -63,7 +63,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 
 				if (StringUtils.isBlank(token)) {
 					// token为空，不通过
-					outPut(response, ApplMallApiCode.NO_LOGIN);
+					outPut(response, MallApiCode.NO_LOGIN);
 					return false;
 				}
 
@@ -73,7 +73,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 					return true;
 				} else {
 					// 验证不通过，不放行
-					outPut(response, ApplMallApiCode.NO_LOGIN);
+					outPut(response, MallApiCode.NO_LOGIN);
 					return false;
 				}
 
@@ -87,7 +87,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 			}
 		} catch (Exception e) {
 			logger.info("验证token，拦截器出现异常：" + e);
-			outPut(response, ApplMallApiCode.TOKEN_VALIDATE_ERROR);
+			outPut(response, MallApiCode.TOKEN_VALIDATE_ERROR);
 			return false;
 		}
 	}
@@ -102,12 +102,13 @@ public class TokenInterceptor implements HandlerInterceptor {
 	 */
 	private boolean checkToken(HttpServletRequest request, String token) {
 
-		String host = env.getProperty("member-access.host");
-		String uri = ApplMallConstant.ACCESS_MEMBER_BASE_URL + "/get_memid_by_token";
+		String host = profileConfig.getMemberAccessHost();
+		String uri = MallConstant.ACCESS_MEMBER_BASE_URL + "/get_memid_by_token";
 		String url = host + uri + "?token=" + token;
 
 		String result = "";
 		try {
+			logger.info("根据token获取memId：" + url);
 			result = HttpUtils.get(url);
 		} catch (IOException e) {
 			logger.info("根据token获取memId，请求会员系统异常：" + e);
@@ -138,14 +139,14 @@ public class TokenInterceptor implements HandlerInterceptor {
 	 * @throws IOException
 	 */
 	private void outPut(HttpServletResponse response, Integer status) throws IOException {
-		ResBodyData result = new ResBodyData(status, ApplMallApiCode.getZhMsg(status),
+		ResBodyData result = new ResBodyData(status, MallApiCode.getZhMsg(status),
 				JsonUtils.getInstance().createObjectNode());
 		try {
 			response.getWriter().write(JsonUtils.beanToJson(result));
 		} catch (IOException e) {
 			logger.error("拦截器输出异常: " + e);
-			throw new ServiceException(ApplMallApiCode.OUT_PUT_EXCEPTION,
-					ApplMallApiCode.getZhMsg(ApplMallApiCode.OUT_PUT_EXCEPTION));
+			throw new ServiceException(MallApiCode.OUT_PUT_EXCEPTION,
+					MallApiCode.getZhMsg(MallApiCode.OUT_PUT_EXCEPTION));
 		}
 	}
 }

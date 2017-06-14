@@ -250,4 +250,15 @@ public class CodeRuleUtil {
 		return newtype;
 	}
 	
+	public static String getBillId(String prefix, String sellerName){
+		SimpleDateFormat fmt = new SimpleDateFormat(DAY_PATTERN);
+		
+		StringBuilder billId = new StringBuilder();
+		billId.append(prefix);
+		billId.append(sellerName);
+		billId.append(fmt.format(new Date()));
+		billId.append(getRandomNumber(2));
+		return billId.toString();
+	}
+	
 }

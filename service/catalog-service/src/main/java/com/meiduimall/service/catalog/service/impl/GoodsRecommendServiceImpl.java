@@ -117,19 +117,19 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 				// 分别给每一个商品详情查询结果添加访问地址
 				for (GoodsDetailResult detail : results) {
 					// 查询活动商品价格
- 					Map<String, Integer> map = new HashMap<>();
- 					map.put("item_id", Integer.parseInt(detail.getItemId()));
- 					Long currentTime = System.currentTimeMillis() / 1000;
- 					map.put("current_time", currentTime.intValue());
- 					SyspromotionActivityItem activityItem = baseDao.selectOne(map, "SyspromotionActivityItemMapper.selectByItemIdAndTime");
- 					if(activityItem != null){
- 						// 不为空则说明该商品正在参与活动
- 						detail.setActivityStartTime(DateFormatUtils.format(activityItem.getStartTime().intValue() * 1000l, "yyyy-MM-dd HH:mm:ss"));
- 						detail.setActivityEndTime(DateFormatUtils.format(activityItem.getEndTime().intValue() * 1000l, "yyyy-MM-dd HH:mm:ss"));
- 						detail.setActivityPoint(activityItem.getActivityPoint());
- 						detail.setActivityPrice(String.valueOf(activityItem.getActivityPrice()));
- 						detail.setIsJoinActivity(1);
- 					}
+					Map<String, Integer> map = new HashMap<>();
+					map.put("item_id", Integer.parseInt(detail.getItemId()));
+					Long currentTime = System.currentTimeMillis() / 1000;
+					map.put("current_time", currentTime.intValue());
+					SyspromotionActivityItem activityItem = baseDao.selectOne(map, "SyspromotionActivityItemMapper.selectByItemIdAndTime");
+					if(activityItem != null){
+						// 不为空则说明该商品正在参与活动
+						detail.setActivityStartTime(DateFormatUtils.format(activityItem.getStartTime().intValue() * 1000l, "yyyy-MM-dd HH:mm:ss"));
+						detail.setActivityEndTime(DateFormatUtils.format(activityItem.getEndTime().intValue() * 1000l, "yyyy-MM-dd HH:mm:ss"));
+						detail.setActivityPoint(activityItem.getActivityPoint());
+						detail.setActivityPrice(String.valueOf(activityItem.getActivityPrice()));
+						detail.setIsJoinActivity(1);
+					}
 					if (sourceId == 2) {
 						detail.setUrl(baseUrl + "/item.html?item_id=" + detail.getItemId());
 					} else {

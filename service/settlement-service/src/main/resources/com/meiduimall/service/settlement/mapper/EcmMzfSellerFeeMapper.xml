@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="EcmMzfSellerFeeMapper">
+
+	<!-- 根据时间查询商家服务费是否已存在 -->
+	<select id="getSellerFeeByTime" parameterType="java.util.Map" resultType="EcmMzfSellerFee">
+		SELECT 
+		  f.id,
+		  f.bill_id billId,
+		  f.seller_name sellerName,
+		  f.money,
+		  f.state,
+		  f.bill_period billPeriod,
+		  f.create_time createTime,
+		  f.update_time updateTime,
+		  f.issue_time issueTime,
+		  f.remark 
+		FROM
+		  ecm_mzf_seller_fee f 
+		  LEFT JOIN ecm_mzf_seller_bonus b 
+		    ON f.id = b.ext_id 
+		WHERE 1 = 1 
+		<if test="time != null and time != ''">
+			AND f.bill_period = #{time}
+		</if>
+		ORDER BY f.create_time DESC 
+		LIMIT 0, 1 
+	</select>
+	
+	<!-- 通过订单计算商家服务费 -->
+	<select id="getPlatformFee" parameterType="java.util.Map" resultType="EcmMzfSellerFee">
+		SELECT 
+		  d.seller_name sellerName,
+		  d.seller_phone sellerPhone,
+		  SUM(money) money 
+		FROM
+		  (SELECT 
+		    c.seller_name,
+		    c.seller_phone,
+		    (c.order_fee - c.seller_profit) money 
+		  FROM
+		    (SELECT 
+		      a.seller_profit,
+		      a.order_fee,
+		      a.seller_name,
+		      a.seller_phone 
+		    FROM
+		      ecm_mzf_shareprofit a 
+		      INNER JOIN ecm_mzf_order_status b 
+		        ON a.order_sn = b.order_sn 
+		    WHERE b.bill_status = 3 
+		      AND DATE_FORMAT(b.updated_date, '%Y-%m') = #{time} 
+		      AND a.seller_name = #{sellerName}) c) d 
+		GROUP BY d.seller_name
+	</select>
+	
+	<!-- 根据账单编号获取服务费信息 -->
+	<select id="getSellerFeeByBillId" parameterType="java.util.Map" resultType="EcmMzfSellerFee">
+		SELECT 
+		  f.seller_name sellerName,
+		  f.money,
+		  f.state 
+		FROM
+		  ecm_mzf_seller_fee f 
+		WHERE bill_id = #{billId} 
+	</select>
+	
+	<!-- 根据账单编号获取奖励金信息 -->
+	<select id="getSellerBonusByBillId" parameterType="java.util.Map" resultType="EcmMzfSellerBonus">
+		SELECT 
+		  f.seller_name sellerName,
+		  f.money,
+		  f.state 
+		FROM
+		  ecm_mzf_seller_bonus f 
+		WHERE bill_id = #{billId} 
+	</select>
+	
+	<!-- 根据账单编号更新商家服务费表中的商家账号 -->
+	<update id="updateSellerFeePhone" parameterType="java.util.Map">
+		UPDATE 
+		  ecm_mzf_seller_fee 
+		SET
+		  state = #{state},
+		  issue_time = #{issueTime},
+		  seller_phone = #{sellerPhone}
+		  <if test="remark != null and remark != ''">
+		  	,remark = #{remark}
+		  </if> 
+		WHERE bill_id = #{billId}
+	</update>
+	
+	<!-- 根据账单编号更新商家服务费表中的商家账号 -->
+	<update id="updateSellerBonusPhone" parameterType="java.util.Map">
+		UPDATE 
+		  ecm_mzf_seller_bonus 
+		SET
+		  state = #{state},
+		  issue_time = #{issueTime},
+		  seller_phone = #{sellerPhone}
+		  <if test="remark != null and remark != ''">
+		  	,remark = #{remark}
+		  </if> 
+		WHERE bill_id = #{billId}
+	</update>
+	
+	<!-- 插入服务费活动账单 -->
+	<insert id="insertSellerFee" useGeneratedKeys="true" keyProperty="id" parameterType="EcmMzfSellerFee">
+		INSERT INTO ecm_mzf_seller_fee (
+		  bill_id,
+		  seller_name,
+		  money,
+		  bill_period,
+		  create_time,
+		  update_time,
+		  money_type,
+		  remark
+		) 
+		VALUES
+		  (
+		    #{billId},
+		    #{sellerName},
+		    #{money},
+		    #{billPeriod},
+		    #{createTime},
+		    #{updateTime},
+		    #{moneyType},
+		    #{remark}
+		  )
+	</insert>
+	
+	<!-- 插入奖励金活动账单 -->
+	<insert id="insertSellerBonus" parameterType="EcmMzfSellerBonus">
+		INSERT INTO ecm_mzf_seller_bonus (
+		  bill_id,
+		  seller_name,
+		  money,
+		  bill_period,
+		  create_time,
+		  update_time,
+		  money_type,
+		  remark,
+		  ext_id
+		) 
+		VALUES
+		  (
+		    #{billId},
+		    #{sellerName},
+		    #{money},
+		    #{billPeriod},
+		    #{createTime},
+		    #{updateTime},
+		    #{moneyType},
+		    #{remark},
+		    #{extId}
+		  )
+	</insert>
+	
+	<!-- 获取服务费列表 -->
+	<select id="getSellerFeeList" parameterType="java.util.Map" resultType="EcmMzfSellerFee">
+		SELECT 
+		  id,
+		  bill_id billId,
+		  seller_name sellerName,
+		  seller_phone sellerPhone,
+		  money,
+		  state,
+		  bill_period billPeriod,
+		  create_time createTime,
+		  update_time updateTime,
+		  issue_time issueTime,
+		  money_type moneyType,
+		  remark 
+		FROM
+		  ecm_mzf_seller_fee
+		WHERE 1 = 1
+		
+		<if test="_parameter.containsKey('sellerName')">
+			AND seller_name in 
+			<foreach collection="sellerName" index="index" item="item" open="(" separator="," close=")">
+                #{item}       
+        	</foreach>
+		</if>
+		
+		<if test="time != null and time != ''">
+			AND bill_period = #{time}
+		</if>
+		
+		<if test="status != 0">
+			AND state = #{status}
+		</if>
+		ORDER BY id DESC   
+	</select>
+	
+	<!-- 获取服务费数量 -->
+	<select id="getSellerFeeCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT 
+		  COUNT(*) 
+		FROM
+		  ecm_mzf_seller_fee
+		WHERE 1 = 1
+		
+		<if test="_parameter.containsKey('sellerName')">
+			AND seller_name in 
+			<foreach collection="sellerName" index="index" item="item" open="(" separator="," close=")">
+                #{item}       
+        	</foreach>
+		</if>
+		
+		<if test="time != null and time != ''">
+			AND bill_period = #{time}
+		</if>
+		
+		<if test="status != 0">
+			AND state = #{status}
+		</if>
+		   
+	</select>
+	
+	<!-- 获取奖励金列表 -->
+	<select id="getSellerBonusList" parameterType="java.util.Map" resultType="EcmMzfSellerBonus">
+		SELECT 
+		  id,
+		  bill_id billId,
+		  seller_name sellerName,
+		  seller_phone sellerPhone,
+		  money,
+		  state,
+		  bill_period billPeriod,
+		  create_time createTime,
+		  update_time updateTime,
+		  issue_time issueTime,
+		  money_type moneyType,
+		  remark,
+		  ext_id extId
+		FROM
+		  ecm_mzf_seller_bonus
+		WHERE 1 = 1
+		
+		<if test="_parameter.containsKey('sellerName')">
+			AND seller_name in 
+			<foreach collection="sellerName" index="index" item="item" open="(" separator="," close=")">
+                #{item}       
+        	</foreach>
+		</if>
+		
+		<if test="time != null and time != ''">
+			AND bill_period = #{time}
+		</if>
+		
+		<if test="status != 0">
+			AND state = #{status}
+		</if>
+		ORDER BY id DESC   
+	</select>
+	
+	<!-- 获取奖励金数量 -->
+	<select id="getSellerBonusCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT 
+		  COUNT(*) 
+		FROM
+		  ecm_mzf_seller_bonus
+		WHERE 1 = 1
+		
+		<if test="_parameter.containsKey('sellerName')">
+			AND seller_name in 
+			<foreach collection="sellerName" index="index" item="item" open="(" separator="," close=")">
+                #{item}       
+        	</foreach>
+		</if>
+		
+		<if test="time != null and time != ''">
+			AND bill_period = #{time}
+		</if>
+		
+		<if test="status != 0">
+			AND state = #{status}
+		</if>
+		   
+	</select>
+	
+	<!-- 获取商家的奖励金和服务费 -->
+	<select id="getSellersFeeBonus" parameterType="java.util.Map" resultType="SellerFeeBonus">
+		SELECT 
+		  a.bill_id billId,
+		  a.bill_period billPeriod,
+		  a.money fwMoney,
+		  b.money jlMoney,
+		  b.seller_phone sellerPhone,
+		  a.create_time createTime 
+		FROM
+		  ecm_mzf_seller_fee a 
+		  LEFT JOIN ecm_mzf_seller_bonus b 
+		    ON a.id = b.ext_id 
+		WHERE a.state = '1' 
+		  AND b.state = '1' 
+		  AND a.seller_name = #{sellerName}
+		  <if test="year != null and year != ''"> 
+		  	AND SUBSTRING(a.bill_period, 1, 4) = #{year}
+		  </if>
+		  
+		  <if test="years != null and years != ''"> 
+		  	AND a.bill_period = #{years}
+		  </if>
+		ORDER BY a.id DESC
+	</select>
+	
+	<!-- 获取商家的奖励金和服务费数量 -->
+	<select id="getSellersFeeBonusCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT 
+		  COUNT(*) 
+		FROM
+		  ecm_mzf_seller_fee a 
+		  LEFT JOIN ecm_mzf_seller_bonus b 
+		    ON a.id = b.ext_id 
+		WHERE a.state = '1' 
+		  AND b.state = '1' 
+		  AND a.seller_name = #{sellerName}
+		  <if test="year != null and year != ''"> 
+		  	AND SUBSTRING(a.bill_period, 1, 4) = #{year}
+		  </if>
+		  
+		  <if test="years != null and years != ''"> 
+		  	AND a.bill_period = #{years}
+		  </if>
+	</select>
+	
+</mapper>

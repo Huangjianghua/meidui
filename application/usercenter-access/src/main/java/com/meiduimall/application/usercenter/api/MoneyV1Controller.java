@@ -8,10 +8,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.usercenter.annotation.HasToken;
-import com.meiduimall.application.usercenter.interceptor.ValInterceptor;
+import com.meiduimall.application.usercenter.constant.ApiStatusConst;
 import com.meiduimall.application.usercenter.interceptor.ValRequest;
 import com.meiduimall.application.usercenter.service.MoneyService;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.ApiException;
+import com.meiduimall.exception.MdSysException;
 
 
 /**
@@ -34,11 +36,13 @@ public class MoneyV1Controller {
 	ResBodyData listAccountDetail(){
 		ResBodyData resBodyData=null;
 		JSONObject reqJson=ValRequest.apiReqData.get();
-		resBodyData=ValInterceptor.apiValResult.get();
-		if(resBodyData.getStatus()!=0)
-			return resBodyData;
 		logger.info("收到余额流水分页API请求：{}",reqJson.toString());
-		resBodyData=moneyService.listAccountDetail(reqJson);
+		try {
+			resBodyData=moneyService.listAccountDetail(reqJson);
+		} catch (MdSysException e) {
+			logger.info("余额流水分页API请求异常：{}",e.toString());
+			throw new ApiException(ApiStatusConst.SYSTEM_ERROR);
+		}
 		logger.info("余额流水分页API请求结果：{}",resBodyData.toString());
 		return resBodyData;
 	}
@@ -49,12 +53,14 @@ public class MoneyV1Controller {
 	ResBodyData saveWithDrawApply(){
 		ResBodyData resBodyData=null;
 		JSONObject reqJson=ValRequest.apiReqData.get();
-		resBodyData=ValInterceptor.apiValResult.get();
-		if(resBodyData.getStatus()!=0)
-			return resBodyData;
 		logger.info("收到提现申请API请求：{}",reqJson.toString());
-		resBodyData=moneyService.saveWithDrawApply(reqJson);
-		logger.info("提现申请返回结果：{}",resBodyData.toString());
+		try {
+			resBodyData=moneyService.saveWithDrawApply(reqJson);
+		} catch (Exception e) {
+			logger.info("提现申请API请求异常：{}",e.toString());
+			throw new ApiException(ApiStatusConst.SYSTEM_ERROR);
+		}
+		logger.info("提现申请API请求结果：{}",resBodyData.toString());
 		return resBodyData;
 	}
 }

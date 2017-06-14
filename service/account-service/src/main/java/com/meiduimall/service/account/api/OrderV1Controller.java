@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdSysException;
-import com.meiduimall.service.account.constant.ApiStatusConst;
+import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.model.request.RequestFreezeUnFreeze;
 import com.meiduimall.service.account.model.request.RequestUnfreezeDecut;
 import com.meiduimall.service.account.service.OrderService;
@@ -48,7 +48,7 @@ public class OrderV1Controller {
 	 * @throws MdSysException */
 	@RequestMapping(value="/unfreeze_deduct",method=RequestMethod.POST)
 	ResBodyData unfreezeDeduct(@RequestBody RequestUnfreezeDecut param) throws MdSysException {
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
 		logger.info("收到解冻并扣减积分和余额API请求  URL: {}  DATA: {}",request.getRequestURL(),param.toString());
 		orderService.unfreezeDeduct(param);
 		logger.info("解冻并扣减积分和余额API请求结果：{}",resBodyData.toString());

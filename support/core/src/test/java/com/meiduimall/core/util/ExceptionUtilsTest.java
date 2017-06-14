@@ -25,6 +25,6 @@ public class ExceptionUtilsTest {
     List<List> list=JsonUtils.jsonToList(msg,List.class);
     List e=list.get(0);
     Assert.assertEquals("testGetFullStackTrace",e.get(3));
-  } 
+  }
 
 }

@@ -18,7 +18,6 @@
         <meiduimall-support-core.version>1.0.1</meiduimall-support-core.version>
         <meiduimall-support-redis.version>1.0.0</meiduimall-support-redis.version>
         <meiduimall-support-security.version>1.0.0</meiduimall-support-security.version>
-
         <redis.version>2.8.1</redis.version>
         <guava.version>21.0</guava.version>
         <httpclient.version>4.5.2</httpclient.version>

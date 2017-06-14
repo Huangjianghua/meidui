@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.usercenter.annotation.HasToken;
-import com.meiduimall.application.usercenter.interceptor.ValInterceptor;
+import com.meiduimall.application.usercenter.constant.ApiStatusConst;
 import com.meiduimall.application.usercenter.interceptor.ValRequest;
 import com.meiduimall.application.usercenter.service.UserInfoService;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.ApiException;
+import com.meiduimall.exception.MdSysException;
 
 
 /**
@@ -35,11 +37,13 @@ public class UserInfoV1Controller {
 	ResBodyData getMemberBasicInfo(){	
 		ResBodyData resBodyData=null;
 		JSONObject reqJson=ValRequest.apiReqData.get();
-		resBodyData=ValInterceptor.apiValResult.get();
-		if(resBodyData.getStatus()!=0)
-			return resBodyData;
 		logger.info("收到获取当前会员基本信息API请求：{}",reqJson.toString());
-		resBodyData=userInfoService.getmemberbasicinfo(reqJson);
+		try {
+			resBodyData=userInfoService.getmemberbasicinfo(reqJson);
+		} catch (MdSysException e) {
+			logger.error("获取会员基本信息API异常：{}",e.toString());
+			throw new ApiException(ApiStatusConst.SYSTEM_ERROR);
+		}
 		logger.info("获取当前会员基本信息API请求结果：{}",resBodyData.toString());
 		return resBodyData;
 	}

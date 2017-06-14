@@ -8,20 +8,20 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.service.AccountDetailService;
-import com.meiduimall.service.account.service.AccountServices;
+import com.meiduimall.service.account.service.AccountService;
 import com.meiduimall.service.account.util.DateUtil;
 import com.meiduimall.service.account.util.DoubleCalculate;
 
 /**
- * 类名:  AccountDetailService<br>
- * 描述: 账户变更明细业务服务层，与账户变更明细相关的都定义在此  <br>
- * 创建时间: 2017-02-23
+ * 账户明细操作接口{@link=AccountDetailService}实现类
+ * @author chencong
+ *
  */
-@Component
+@Service
 public class AccountDetailServiceImpl implements AccountDetailService{
 	
 	private final static Logger logger=LoggerFactory.getLogger(AccountDetailServiceImpl.class);
@@ -30,7 +30,7 @@ public class AccountDetailServiceImpl implements AccountDetailService{
 	private BaseDao baseDao;
 	
 	@Autowired
-	private AccountServices accountServices;
+	private AccountService accountServices;
 	
 	@Override
 	public void saveAddAccountDetail(String memId, String orderId,

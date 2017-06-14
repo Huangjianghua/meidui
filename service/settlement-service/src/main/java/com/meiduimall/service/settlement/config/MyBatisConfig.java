@@ -6,7 +6,6 @@ import java.util.Properties;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
-import com.meiduimall.exception.ServiceException;
 import org.apache.ibatis.io.VFS;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -22,8 +21,10 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
+import org.springframework.web.client.RestTemplate;
 
 import com.github.pagehelper.PageHelper;
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.SettlementApiCode;
 
 
@@ -110,4 +111,10 @@ public class MyBatisConfig implements TransactionManagementConfigurer{
     public PlatformTransactionManager annotationDrivenTransactionManager() {
         return new DataSourceTransactionManager(dataSource);
     }
+    
+    @Bean
+	RestTemplate restTemplate() {
+		return new RestTemplate();
+	}
+    
 }

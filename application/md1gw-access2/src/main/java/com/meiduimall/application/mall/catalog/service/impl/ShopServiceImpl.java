@@ -4,20 +4,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
-import com.meiduimall.application.mall.catalog.constant.ApplMallConstant;
+import com.meiduimall.application.mall.catalog.config.ProfileConfig;
+import com.meiduimall.application.mall.catalog.constant.MallConstant;
 import com.meiduimall.application.mall.catalog.request.ShopProductRequest;
 import com.meiduimall.application.mall.catalog.service.ShopService;
 import com.meiduimall.application.mall.catalog.util.HttpGatewayUtils;
 import com.meiduimall.core.ResBodyData;
 
 /**
- * MDShopController 网络请求工具类
+ * 店铺相关服务
  * 
  * @author yangchang
  *
@@ -25,21 +23,18 @@ import com.meiduimall.core.ResBodyData;
 @Service
 public class ShopServiceImpl implements ShopService {
 
-	@SuppressWarnings("unused")
-	private static Logger logger = LoggerFactory.getLogger(ShopServiceImpl.class);
-
 	private static final String SHOP_ID = "shopId";
 
 	@Autowired
-	private Environment env;
+	private ProfileConfig profileConfig;
 
 	@Override
 	public ResBodyData getShopDetailHttp(int shopId, String memId) {
 
-		String clientID = env.getProperty(ApplMallConstant.KEY_SIGN_CLIENT_ID);
-		String signKey = env.getProperty(ApplMallConstant.KEY_SIGN_KEY);
-		String host = env.getProperty(ApplMallConstant.KEY_CATALOG_SERVICE_HOST);
-		String uri = ApplMallConstant.SERVICE_CATALOG_BASE_URL + "/shopInfo/getShopDetail";
+		String clientID = profileConfig.getClientId();
+		String signKey = profileConfig.getSingKey();
+		String host = profileConfig.getHost();
+		String uri = MallConstant.SERVICE_CATALOG_BASE_URL + "/shopInfo/getShopDetail";
 		String url = host + uri;
 
 		Map<String, String> params = new HashMap<String, String>();
@@ -53,10 +48,10 @@ public class ShopServiceImpl implements ShopService {
 	@Override
 	public ResBodyData collectOrCancelShopHttp(int shopId, int isCollect, String memId) {
 
-		String clientID = env.getProperty(ApplMallConstant.KEY_SIGN_CLIENT_ID);
-		String signKey = env.getProperty(ApplMallConstant.KEY_SIGN_KEY);
-		String host = env.getProperty(ApplMallConstant.KEY_CATALOG_SERVICE_HOST);
-		String uri = ApplMallConstant.SERVICE_CATALOG_BASE_URL + "/shopInfo/collectShop";
+		String clientID = profileConfig.getClientId();
+		String signKey = profileConfig.getSingKey();
+		String host = profileConfig.getHost();
+		String uri = MallConstant.SERVICE_CATALOG_BASE_URL + "/shopInfo/collectShop";
 		String url = host + uri;
 
 		Map<String, String> params = new HashMap<String, String>();
@@ -71,10 +66,10 @@ public class ShopServiceImpl implements ShopService {
 	@Override
 	public ResBodyData getShopProductCatalogHttp(int shopId) {
 
-		String clientID = env.getProperty(ApplMallConstant.KEY_SIGN_CLIENT_ID);
-		String signKey = env.getProperty(ApplMallConstant.KEY_SIGN_KEY);
-		String host = env.getProperty(ApplMallConstant.KEY_CATALOG_SERVICE_HOST);
-		String uri = ApplMallConstant.SERVICE_CATALOG_BASE_URL + "/shopInfo/getShopCatalog";
+		String clientID = profileConfig.getClientId();
+		String signKey = profileConfig.getSingKey();
+		String host = profileConfig.getHost();
+		String uri = MallConstant.SERVICE_CATALOG_BASE_URL + "/shopInfo/getShopCatalog";
 		String url = host + uri;
 
 		Map<String, String> params = new HashMap<String, String>();
@@ -85,10 +80,10 @@ public class ShopServiceImpl implements ShopService {
 	@Override
 	public ResBodyData getShopProductList(ShopProductRequest param) {
 
-		String clientID = env.getProperty(ApplMallConstant.KEY_SIGN_CLIENT_ID);
-		String signKey = env.getProperty(ApplMallConstant.KEY_SIGN_KEY);
-		String host = env.getProperty(ApplMallConstant.KEY_CATALOG_SERVICE_HOST);
-		String uri = ApplMallConstant.SERVICE_CATALOG_BASE_URL + "/shopInfo/getProductList";
+		String clientID = profileConfig.getClientId();
+		String signKey = profileConfig.getSingKey();
+		String host = profileConfig.getHost();
+		String uri = MallConstant.SERVICE_CATALOG_BASE_URL + "/shopInfo/getProductList";
 		String url = host + uri;
 
 		Map<String, String> params = new HashMap<String, String>();

@@ -2,20 +2,21 @@ package com.meiduimall.service.account.model.request;
 
 import java.io.Serializable;
 
-import org.hibernate.validator.constraints.Length;
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
- * 修改支付密码请求映射实体
+ * 账户余额调整API请求映射实体
  * @author chencong
  *
  */
 public class RequestAccountAdjustAmount extends RequestBaseModel implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -4128146492405140400L;
 	
-	@NotEmpty(message="请求来源不能为空")
-	private String source;
+	@NotEmpty(message="来源不能为空")
+	private String source ;
 	
 	@NotEmpty(message="交易类型不能为空")
 	private String trade_type;
@@ -26,11 +27,10 @@ public class RequestAccountAdjustAmount extends RequestBaseModel implements Seri
 	@NotEmpty(message="调账方向不能为空")
 	private String direction;
 	
-	@NotEmpty(message="交易数量不能为空")
-	private String trade_amount;
+	@NotNull(message="交易金额不能为空")
+	private Double trade_amount;
 	
 	@NotEmpty(message="交易时间不能为空")
-	@Length(max=13,min=13,message="时间戳格式不正确")
 	private String trade_time;
 	
 	private String remark;
@@ -67,11 +67,11 @@ public class RequestAccountAdjustAmount extends RequestBaseModel implements Seri
 		this.direction = direction;
 	}
 
-	public String getTrade_amount() {
+	public Double getTrade_amount() {
 		return trade_amount;
 	}
 
-	public void setTrade_amount(String trade_amount) {
+	public void setTrade_amount(Double trade_amount) {
 		this.trade_amount = trade_amount;
 	}
 
@@ -97,6 +97,5 @@ public class RequestAccountAdjustAmount extends RequestBaseModel implements Seri
 				+ ", direction=" + direction + ", trade_amount=" + trade_amount + ", trade_time=" + trade_time
 				+ ", remark=" + remark + "]";
 	}
-	
-	
+
 }

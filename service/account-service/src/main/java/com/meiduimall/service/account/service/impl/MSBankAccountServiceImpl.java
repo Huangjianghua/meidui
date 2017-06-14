@@ -28,4 +28,16 @@ public class MSBankAccountServiceImpl implements MSBankAccountService {
 		return baseDao.insert(bankAccount, "MSBankAccountMapper.insertBankAccount");
 	}
 
+	@Override
+	public int deleteBankAccount(String memId, String accountNo) {
+		Map<String, Object> params = Maps.newHashMap();
+		return baseDao.delete(params, "MSBankAccountMapper.deleteBankAccount");
+	}
+
+	@Override
+	public int updateBankAccount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

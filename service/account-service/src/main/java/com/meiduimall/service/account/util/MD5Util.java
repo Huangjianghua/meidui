@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.meiduimall.exception.MdSysException;
-import com.meiduimall.service.account.constant.ApiStatusConst;
+import com.meiduimall.service.account.constant.ConstApiStatus;
 
 /**
  * MD5工具类
@@ -31,7 +31,7 @@ public class MD5Util {
 			md = MessageDigest.getInstance("MD5");	
 		} catch (NoSuchAlgorithmException e) {
 			logger.error("执行MD5EncryptBy32()方法异常：{}",e.toString());
-			throw new MdSysException(ApiStatusConst.MD5_EXCEPTION,ApiStatusConst.getZhMsg(ApiStatusConst.MD5_EXCEPTION));
+			throw new MdSysException(ConstApiStatus.MD5_EXCEPTION,ConstApiStatus.getZhMsg(ConstApiStatus.MD5_EXCEPTION));
 		}
 		md.update(values.getBytes());
 		byte b[] = md.digest();
@@ -76,7 +76,7 @@ public class MD5Util {
 			encrypeString = new String(neededEncrypedByte);
 		} catch (NoSuchAlgorithmException ex) {
 			logger.error("执行encrypeString()方法异常：{}",ex.toString());
-			throw new MdSysException(ApiStatusConst.MD5_EXCEPTION,ApiStatusConst.getZhMsg(ApiStatusConst.MD5_EXCEPTION));
+			throw new MdSysException(ConstApiStatus.MD5_EXCEPTION,ConstApiStatus.getZhMsg(ConstApiStatus.MD5_EXCEPTION));
 		}
 
 		// 返回加密之后的字符串

@@ -12,13 +12,13 @@ import org.springframework.stereotype.Component;
 
 import com.meiduimall.exception.MdBizException;
 import com.meiduimall.exception.MdSysException;
-import com.meiduimall.service.account.constant.ApiStatusConst;
-import com.meiduimall.service.account.constant.ApplicationConstant;
+import com.meiduimall.service.account.constant.ConstApiStatus;
+import com.meiduimall.service.account.constant.ConstSysParamsDefination;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSAccount;
 import com.meiduimall.service.account.service.AccountDetailService;
 import com.meiduimall.service.account.service.AccountFreezeDetailService;
-import com.meiduimall.service.account.service.AccountServices;
+import com.meiduimall.service.account.service.AccountService;
 import com.meiduimall.service.account.util.DESC;
 import com.meiduimall.service.account.util.DoubleCalculate;
 import com.meiduimall.service.account.util.StringUtil;
@@ -29,7 +29,7 @@ import com.meiduimall.service.account.util.StringUtil;
  * 创建时间: 2017-02-23
  */
 @Component
-public class AccountServicesImpl implements AccountServices {
+public class AccountServicesImpl implements AccountService {
 	
 	private final static Logger logger=LoggerFactory.getLogger(AccountServicesImpl.class);
 
@@ -104,7 +104,7 @@ public class AccountServicesImpl implements AccountServices {
 	private boolean updateAccount(String id, Double balance, Double freezeBalance){
 		Map<String,String> paramsMap = new HashMap<String,String>();
 		paramsMap.put("id", id);
-		paramsMap.put("accountType", ApplicationConstant.ACCOUNT_TYPE_MONEY);
+		paramsMap.put("accountType", ConstSysParamsDefination.ACCOUNT_TYPE_MONEY);
 		paramsMap.put("balance", String.valueOf(balance));
 		paramsMap.put("freezeBalance", String.valueOf(freezeBalance));
 		try {
@@ -128,7 +128,7 @@ public class AccountServicesImpl implements AccountServices {
 	private boolean updateAccountBalance(String id, Double balance){
 		Map<String,String> paramsMap = new HashMap<String,String>();
 		paramsMap.put("id", id);
-		paramsMap.put("accountType", ApplicationConstant.ACCOUNT_TYPE_MONEY);
+		paramsMap.put("accountType", ConstSysParamsDefination.ACCOUNT_TYPE_MONEY);
 		paramsMap.put("balance", String.valueOf(balance));
 		try {
 			Integer updateFlag = baseDao.update(paramsMap, "MSAccountMapper.updateAccountBalance");
@@ -151,7 +151,7 @@ public class AccountServicesImpl implements AccountServices {
 	private boolean updateAccountFreezeBalance(String id, Double freezeBalance){
 		Map<String,String> paramsMap = new HashMap<String,String>();
 		paramsMap.put("id", id);
-		paramsMap.put("accountType", ApplicationConstant.ACCOUNT_TYPE_MONEY);
+		paramsMap.put("accountType", ConstSysParamsDefination.ACCOUNT_TYPE_MONEY);
 		paramsMap.put("freezeBalance", String.valueOf(freezeBalance));
 		try {
 			Integer updateFlag = baseDao.update(paramsMap, "MSAccountMapper.updateFreezeBalanceByMemIdAndType");
@@ -284,7 +284,7 @@ public class AccountServicesImpl implements AccountServices {
 	public MSAccount getAccountMoney(String memId) {
 		Map<String,String> paramsMap = new HashMap<String,String>();
 		paramsMap.put("memId", memId);
-		paramsMap.put("accountType", ApplicationConstant.ACCOUNT_TYPE_MONEY);
+		paramsMap.put("accountType", ConstSysParamsDefination.ACCOUNT_TYPE_MONEY);
 		try {
 			Object resultObj = baseDao.selectOne(paramsMap, "MSAccountMapper.getAccountByMemId");
 			if(resultObj == null){
@@ -316,7 +316,7 @@ public class AccountServicesImpl implements AccountServices {
 		try{
 			MSAccount account = getAccountMoney(memId);
 			if(account != null){
-				freezeBalance = Double.valueOf(account.getFreezeBalance());
+				freezeBalance = Double.valueOf(account.getFreeze_balance());
 			}
 		}catch(Exception e){
 			freezeBalance = Double.valueOf("0");
@@ -331,7 +331,7 @@ public class AccountServicesImpl implements AccountServices {
 			MSAccount account = getAccountMoney(memId);
 			if(account != null){
 				Double balance = Double.valueOf(account.getBalance());
-				Double freezeBalance = Double.valueOf(account.getFreezeBalance());
+				Double freezeBalance = Double.valueOf(account.getFreeze_balance());
 				useBalance = DoubleCalculate.sub(balance, freezeBalance);
 			}
 		}catch(Exception e){
@@ -359,7 +359,7 @@ public class AccountServicesImpl implements AccountServices {
 			}
 		}else{
 			//无账户信息，新增会员账户
-			String id = insertAccount(memId, ApplicationConstant.ACCOUNT_TYPE_MONEY, 
+			String id = insertAccount(memId, ConstSysParamsDefination.ACCOUNT_TYPE_MONEY, 
 					tradeAmount, "0");
 			if(!StringUtil.isEmptyByString(id)){
 				returnBalance = Double.valueOf(tradeAmount);
@@ -375,7 +375,7 @@ public class AccountServicesImpl implements AccountServices {
 		if(account != null){
 			//判断余额是否能够扣减
 			Double useBalance = DoubleCalculate.sub(Double.valueOf(account.getBalance()),
-					Double.valueOf(account.getFreezeBalance()));
+					Double.valueOf(account.getFreeze_balance()));
 			if(useBalance >= Double.valueOf(tradeAmount)){
 				//增加会员账户余额
 				Double balance = DoubleCalculate.sub(Double.valueOf(account.getBalance()),
@@ -401,10 +401,10 @@ public class AccountServicesImpl implements AccountServices {
 		if(account != null){
 			//判断余额是否能够扣减冻结
 			Double useBalance = DoubleCalculate.sub(Double.valueOf(account.getBalance()),
-					Double.valueOf(account.getFreezeBalance()));
+					Double.valueOf(account.getFreeze_balance()));
 			if(useBalance >= Double.valueOf(tradeAmount)){
 				//增加会员冻结账户余额
-				Double freezeBalance = DoubleCalculate.add(Double.valueOf(account.getFreezeBalance()),
+				Double freezeBalance = DoubleCalculate.add(Double.valueOf(account.getFreeze_balance()),
 						Double.valueOf(tradeAmount));
 				//判断如果计算后冻结账户余额小于0返回-1不成功
 				if(freezeBalance < 0){
@@ -426,7 +426,7 @@ public class AccountServicesImpl implements AccountServices {
 		MSAccount account = getAccountMoney(memId);
 		if(account != null){
 			//减少会员冻结账户余额
-			Double freezeBalance = DoubleCalculate.sub(Double.valueOf(account.getFreezeBalance()),
+			Double freezeBalance = DoubleCalculate.sub(Double.valueOf(account.getFreeze_balance()),
 					Double.valueOf(tradeAmount));
 			//判断如果扣减后冻结账户余额小于0返回-1不成功
 			if(freezeBalance < 0){
@@ -451,7 +451,7 @@ public class AccountServicesImpl implements AccountServices {
 			Double balance = DoubleCalculate.add(Double.valueOf(account.getBalance()),
 					Double.valueOf(tradeAmount));
 			//减少会员冻结账户余额
-			Double freezeBalance = DoubleCalculate.sub(Double.valueOf(account.getFreezeBalance()),
+			Double freezeBalance = DoubleCalculate.sub(Double.valueOf(account.getFreeze_balance()),
 					Double.valueOf(freezeTradeAmount));
 			//判断如果计算后账户余额小于0或如果扣减后冻结账户余额小于0返回-1不成功
 			if(freezeBalance < 0 || balance < 0){
@@ -473,7 +473,7 @@ public class AccountServicesImpl implements AccountServices {
 		MSAccount account = getAccountMoney(memId);
 		if(account != null){
 			//减少会员冻结账户余额
-			Double freezeBalance = DoubleCalculate.sub(Double.valueOf(account.getFreezeBalance()),
+			Double freezeBalance = DoubleCalculate.sub(Double.valueOf(account.getFreeze_balance()),
 					Double.valueOf(freezeTradeAmount));
 			//扣减会员账户余额
 			Double balance = DoubleCalculate.sub(Double.valueOf(account.getBalance()),
@@ -523,7 +523,7 @@ public class AccountServicesImpl implements AccountServices {
 					tradeDate, String.valueOf(balance), remark);
 			returnBool = true;
 		}else{
-			throw new MdBizException(ApiStatusConst.FROZEN_BALANCE_FAILED_ERROR);
+			throw new MdBizException(ConstApiStatus.FROZEN_BALANCE_FAILED_ERROR);
 		}
 		return returnBool;
 	}
@@ -559,7 +559,7 @@ public class AccountServicesImpl implements AccountServices {
 					tradeDate, String.valueOf(balance), remark);
 			returnBool = true;
 		}else{
-			throw new MdBizException(ApiStatusConst.FROZEN_BALANCE_FAILED_ERROR);
+			throw new MdBizException(ConstApiStatus.FROZEN_BALANCE_FAILED_ERROR);
 		}
 		return returnBool;
 	}

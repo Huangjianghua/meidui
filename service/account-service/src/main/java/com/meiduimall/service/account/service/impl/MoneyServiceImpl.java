@@ -11,9 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.service.account.constant.ApiStatusConst;
-import com.meiduimall.service.account.constant.ApplicationConstant;
-import com.meiduimall.service.account.constant.SysParamsConst;
+import com.meiduimall.service.account.constant.ConstApiStatus;
+import com.meiduimall.service.account.constant.ConstTradeType;
+import com.meiduimall.service.account.constant.ConstSysParamsDefination;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSAccount;
 import com.meiduimall.service.account.service.MoneyService;
@@ -30,14 +30,14 @@ public class MoneyServiceImpl implements MoneyService {
 
 	@Override
 	public ResBodyData freezeMoneyAndAddRecord(String memId,Double consumeMoney,String orderId,String orderSource) {
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
 		if(this.updateAccountFreezeMoney(memId,consumeMoney)){
 			MSAccount account = this.getAccountByMemId(memId);
-			this.saveAccountFreezeDetail(memId,orderId,account.getId(),account.getType(),consumeMoney,account.getFreezeBalance());
+			this.saveAccountFreezeDetail(memId,orderId,account.getId(),account.getType(),consumeMoney,account.getFreeze_balance());
 		}
 		else{
-			resBodyData.setStatus(ApiStatusConst.OPERATION_DB_EX);
-			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.OPERATION_DB_EX));
+			resBodyData.setStatus(ConstApiStatus.OPERATION_DB_EX);
+			resBodyData.setMsg(ConstApiStatus.getZhMsg(ConstApiStatus.OPERATION_DB_EX));
 		}
 		return resBodyData;
 	}
@@ -52,10 +52,10 @@ public class MoneyServiceImpl implements MoneyService {
 		MSAccount account = this.getAccountByMemId(memId);
 		if(account != null){
 			/**获取可用余额*/
-			Double availableMoney = DoubleCalculate.sub(Double.valueOf(account.getBalance()),Double.valueOf(account.getFreezeBalance()));
+			Double availableMoney = DoubleCalculate.sub(Double.valueOf(account.getBalance()),Double.valueOf(account.getFreeze_balance()));
 			/**判断可用余额是否能扣减消费金额*/
 			if(availableMoney>=consumeMoney){
-				Double newFreezeBalance = DoubleCalculate.add(Double.valueOf(account.getFreezeBalance()),consumeMoney);
+				Double newFreezeBalance = DoubleCalculate.add(Double.valueOf(account.getFreeze_balance()),consumeMoney);
 				if(newFreezeBalance < 0){
 					return false;
 				}
@@ -69,7 +69,7 @@ public class MoneyServiceImpl implements MoneyService {
 	private MSAccount getAccountByMemId(String memId){
 		Map<String,String> paramsMap = new HashMap<String,String>();
 		paramsMap.put("memId", memId);
-		paramsMap.put("accountType", ApplicationConstant.ACCOUNT_TYPE_MONEY);
+		paramsMap.put("accountType", ConstSysParamsDefination.ACCOUNT_TYPE_MONEY);
 		try {
 			MSAccount msAccount = baseDao.selectOne(paramsMap, "MSAccountMapper.getAccountByMemId");
 			logger.info("会员ID：{}的账户信息：{}",memId,msAccount.toString());
@@ -82,7 +82,7 @@ public class MoneyServiceImpl implements MoneyService {
 	private boolean updateAccountFreezeBalance(String id, Double freezeBalance){
 		Map<String,Object> paramsMap=new HashMap<>();
 		paramsMap.put("id", id);
-		paramsMap.put("accountType", ApplicationConstant.ACCOUNT_TYPE_MONEY);
+		paramsMap.put("accountType", ConstSysParamsDefination.ACCOUNT_TYPE_MONEY);
 		paramsMap.put("freezeBalance",freezeBalance);
 		try {
 			int updateFlag = baseDao.update(paramsMap, "MSAccountMapper.updateFreezeBalanceByMemIdAndType");
@@ -105,7 +105,7 @@ public class MoneyServiceImpl implements MoneyService {
 		paramsMap.put("accountType", accountType);
 		paramsMap.put("tradeAmount", consumeMoney);
 		paramsMap.put("freezeBalance", freezeBalance);
-		paramsMap.put("tradeType",SysParamsConst.MONEY_TRADE_TYPE_YEXF);
+		paramsMap.put("tradeType",ConstTradeType.TRADE_TYPE_YEXF.getCode());
 		paramsMap.put("inOrOut", "1");
 		
 		try {
@@ -133,7 +133,7 @@ public class MoneyServiceImpl implements MoneyService {
 		Double returnBalance = Double.valueOf("-1");
 		MSAccount account = getAccountByMemId(memId);
 		if(account != null){
-			Double freezeBalance = DoubleCalculate.sub(Double.valueOf(account.getFreezeBalance()),consumeMoney);
+			Double freezeBalance = DoubleCalculate.sub(Double.valueOf(account.getFreeze_balance()),consumeMoney);
 			if(freezeBalance < 0){
 				return returnBalance;
 			}
@@ -188,7 +188,7 @@ public class MoneyServiceImpl implements MoneyService {
 		MSAccount account = getAccountByMemId(memId);
 		if(account != null){
 			Double useBalance = DoubleCalculate.sub(Double.valueOf(account.getBalance()),
-					Double.valueOf(account.getFreezeBalance()));
+					Double.valueOf(account.getFreeze_balance()));
 			if(useBalance >= Double.valueOf(consumeMoney)){
 				Double balance = DoubleCalculate.sub(Double.valueOf(account.getBalance()),consumeMoney);
 				if(balance < 0){
@@ -206,7 +206,7 @@ public class MoneyServiceImpl implements MoneyService {
 	private boolean updateAccountBalance(String id, Double balance){
 		Map<String,String> paramsMap = new HashMap<String,String>();
 		paramsMap.put("id", id);
-		paramsMap.put("accountType", ApplicationConstant.ACCOUNT_TYPE_MONEY);
+		paramsMap.put("accountType", ConstSysParamsDefination.ACCOUNT_TYPE_MONEY);
 		paramsMap.put("balance", String.valueOf(balance));
 		try {
 			Integer updateFlag = baseDao.update(paramsMap, "MSAccountMapper.updateAccountBalance");

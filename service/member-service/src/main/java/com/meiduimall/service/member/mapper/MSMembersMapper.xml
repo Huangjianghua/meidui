@@ -4,15 +4,20 @@
 <!-- 会员表 ms_members相关操作 -->
 <mapper namespace="MSMembersMapper">
 
+	<!-- 根据会员手机号查找mem_id -->
+	<select id="selectMemIdByPhone" resultType="java.lang.String" parameterType="java.lang.String">
+		select mem_id from ms_members where mem_phone=#{mem_phone}
+	</select>
+	
 	<!-- 根据userId查询是否存在一条记录 -->
-	<select id="selectCountByUserId" parameterType="java.lang.String" resultType="java.util.List" >
+	<select id="selectCountByUserId" parameterType="java.lang.String" resultType="java.lang.String" >
 		SELECT m.mem_id
 		FROM ms_members m
 		WHERE m.mem_phone = #{userId}
 		UNION ALL
 		SELECT m.mem_id
 		FROM ms_members m
-		WHERE m.mem_login_name = #{userId}
+		WHERE m.mem_login_name =#{userId}
 		UNION ALL
 	    SELECT m.mem_id
 		FROM ms_members m
@@ -27,7 +32,7 @@
 		m.mem_phone AS phone,
 		m.mem_nick_name AS nick_name,
 		m.mem_created_date AS registertime,
-	    m.mem_basic_account_total_quantity AS currentpoints,
+	    m.mem_basic_account_total_quantity AS totalPoints,
 	    m.mem_pic AS pic_url,
 		m.mem_email AS email,
 		m.mem_birthday AS birthday,
@@ -266,6 +271,7 @@
 		</if>
 	</select>
 	
+
 		<!--更新父类ID-->
 	<update id="updateParentValue" parameterType="com.meiduimall.service.member.model.MSMembersGet">
 	 UPDATE ms_members SET 
@@ -274,4 +280,12 @@
 	 mem_parent_value3=#{memParentValue3}
 	 WHERE mem_id=#{memId}
 	</update>
+
+    <!--  查询会员手机归属表中没有的会员数据   -->	
+	<select id="findNotInMemberMobileArea" resultType="com.meiduimall.service.member.model.response.MemberMobileAreaDTO">
+	 SELECT ms.mem_id memId, ms.mem_phone memPhone FROM  ms_members ms WHERE ms.mem_id NOT IN(
+   		SELECT  m.mem_id  FROM ms_members m  INNER JOIN
+   		ms_member_mobile_area ma  ON m.`mem_id` = ma.mem_id)
+	</select>
+
 </mapper>

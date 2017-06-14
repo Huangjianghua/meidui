@@ -48,6 +48,21 @@ public class SmsApiCode extends BaseApiCode {
 	/** 替换内容与替换参数不匹配 **/
 	public static final Integer PARAM_ERROR = 7106;
 
+	/** 请求微信AccessToken异常 **/
+	public static final Integer REQUEST_ACCESS_TOKEN_EXCEPTION = 7015;
+
+	/** 请求不到用户数据 **/
+	public static final Integer CAN_NOT_REQUEST_MEMBER_INFO = 7016;
+
+	/** 用户数据异常 **/
+	public static final Integer MEMBER_INFO_EXCEPTION = 7017;
+
+	/** 发送微信模板消息失败 **/
+	public static final Integer SEND_WEIXIN_TEMPLATE_MSG_FAIL = 7018;
+
+	/** 发送微信模板消息成功 **/
+	public static final Integer SEND_WEIXIN_TEMPLATE_MSG_SUCCESS = 7019;
+
 	/** 数据库异常 **/
 	public static final Integer DB_EXCEPTION = 7107;
 
@@ -64,7 +79,20 @@ public class SmsApiCode extends BaseApiCode {
 		zhMsgMap.put(SMS_VALID_CODE_EXPIRED, "验证码已过期");
 		zhMsgMap.put(SMS_VALID_CODE_UNMATCHED, "验证码不匹配");
 		zhMsgMap.put(CHECK_CODE_SUCCESS, "验证码校验成功");
-
+		zhMsgMap.put(PARAM_ERROR, "替换内容与替换参数不匹配");
+		zhMsgMap.put(NOT_FOUND_TEMPLATE_LIST, "无法获取短信模板列表");
+		zhMsgMap.put(NOT_FOUND_TEMPLATE, "获取不到模板id对应短信模板记录");
+		zhMsgMap.put(EXCEPTION_ACCESS_CHANNEL, "获取短信渠道列表异常");
+		zhMsgMap.put(EXCEPTION_ACCESS_TEMPLATE, "获取短信模板列表异常");
+		zhMsgMap.put(REQUEST_PARAMS_ERROR, "请求参数错误");
+		zhMsgMap.put(REPEATING, "请勿频繁重复发送短信");
+		zhMsgMap.put(REQUEST_ACCESS_TOKEN_EXCEPTION, "请求微信AccessToken异常");
+		zhMsgMap.put(CAN_NOT_REQUEST_MEMBER_INFO, "请求不到用户数据");
+		zhMsgMap.put(MEMBER_INFO_EXCEPTION, "用户数据异常");
+		zhMsgMap.put(SEND_WEIXIN_TEMPLATE_MSG_FAIL, "发送微信模板消息失败");
+		zhMsgMap.put(SEND_WEIXIN_TEMPLATE_MSG_SUCCESS, "发送微信模板消息成功");
+		zhMsgMap.put(DB_EXCEPTION, "数据库异常");
+		zhMsgMap.put(UNKNOW_ERROR, "未知错误");
 		zhMsgMap.put(REPEATING, "请勿重复发送短信");
 
 		// 系统异常
@@ -76,6 +104,7 @@ public class SmsApiCode extends BaseApiCode {
 		zhMsgMap.put(PARAM_ERROR, "系统异常：" + PARAM_ERROR + "，请联系客服。");
 		zhMsgMap.put(DB_EXCEPTION, "系统异常：" + DB_EXCEPTION + "，请联系客服。");
 		zhMsgMap.put(UNKNOW_ERROR, "系统异常：" + UNKNOW_ERROR + "，请联系客服。");
+
 	}
 
 	private SmsApiCode() {

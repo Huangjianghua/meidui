@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="MsMemberWeixinMapper">
+
+	<resultMap id="BaseResultMap"
+		type="com.meiduimall.service.member.model.MsMemberWeixin">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="mem_id" property="memId" jdbcType="VARCHAR" />
+		<result column="mem_phone" property="memPhone" jdbcType="VARCHAR" />
+		<result column="wx_open_id" property="wxOpenId" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, mem_id, mem_phone, wx_open_id
+	</sql>
+	
+	<select id="selectCountByPhone" resultType="java.lang.Integer" parameterType="java.lang.String">
+		SELECT COUNT(*) FROM ms_member_weixin WHERE mem_phone=#{mem_phone}
+	</select>
+	
+	<!-- 根据会员手机号查找会员相关信息 -->
+	<select id="selectMemInfoByPhone" resultType="com.meiduimall.service.member.model.response.MemberOpenIdDTO" parameterType="java.lang.String">
+		SELECT 
+		wx.mem_id AS memId,
+		wx.wx_open_id AS wxOpenId,
+		ms.mem_login_name AS memLoginName,
+		ms.mem_nick_name AS memNickName,
+		ms.mem_basic_account_total_quantity AS memPoint
+		FROM ms_member_weixin wx, ms_members ms
+		WHERE wx.mem_phone=#{memPhone,jdbcType=VARCHAR} AND ms.mem_id = wx.mem_id;
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select * from ms_member_weixin
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from ms_member_weixin
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<insert id="insert" parameterType="com.meiduimall.service.member.model.MsMemberWeixin">
+		insert into ms_member_weixin (id, mem_id, mem_phone,
+		wx_open_id)
+		values (#{id,jdbcType=INTEGER}, #{memId,jdbcType=VARCHAR},
+		#{memPhone,jdbcType=VARCHAR},
+		#{wxOpenId,jdbcType=VARCHAR})
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.meiduimall.service.member.model.MsMemberWeixin">
+		insert into ms_member_weixin
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="memId != null">
+				mem_id,
+			</if>
+			<if test="memPhone != null">
+				mem_phone,
+			</if>
+			<if test="wxOpenId != null">
+				wx_open_id,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="memId != null">
+				#{memId,jdbcType=VARCHAR},
+			</if>
+			<if test="memPhone != null">
+				#{memPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="wxOpenId != null">
+				#{wxOpenId,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.meiduimall.service.member.model.MsMemberWeixin">
+		update ms_member_weixin
+		<set>
+			<if test="memId != null">
+				mem_id = #{memId,jdbcType=VARCHAR},
+			</if>
+			<if test="memPhone != null">
+				mem_phone = #{memPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="wxOpenId != null">
+				wx_open_id = #{wxOpenId,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<update id="updateByPrimaryKey" parameterType="com.meiduimall.service.member.model.MsMemberWeixin">
+		update ms_member_weixin
+		set mem_id = #{memId,jdbcType=VARCHAR},
+		mem_phone = #{memPhone,jdbcType=VARCHAR},
+		wx_open_id = #{wxOpenId,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>

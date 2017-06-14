@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 import com.meiduimall.exception.MdSysException;
-import com.meiduimall.service.account.constant.AccountReviseStatusEnum;
-import com.meiduimall.service.account.constant.AccountReviseTypeEnum;
+import com.meiduimall.service.account.constant.ConstAccountAdjustType;
+import com.meiduimall.service.account.constant.ConstAccountAdjustStatus;
 import com.meiduimall.service.account.util.DESC;
 
 /**
@@ -27,6 +27,11 @@ public class AccountReviseDetail implements Serializable {
 	private String memLoginName;
 	/** 手机号 */
 	private String memPhone;
+	
+	/** 钱包类型  **/
+	private String walletType;
+	private String walletName;
+	
 	/**
 	 * 调整类型(1-调增,2-调减)
 	 */
@@ -66,12 +71,30 @@ public class AccountReviseDetail implements Serializable {
 
 	private String updatedDate;
 
-	private String isDelete;
+	 
 
 	/**
 	 * agree -同意 reject-拒绝
 	 */
 	private String operate;
+
+	
+	
+	public String getWalletName() {
+		return walletName;
+	}
+
+	public void setWalletName(String walletName) {
+		this.walletName = walletName;
+	}
+
+	public String getWalletType() {
+		return walletType;
+	}
+
+	public void setWalletType(String walletType) {
+		this.walletType = walletType;
+	}
 
 	public String getId() {
 		return id;
@@ -90,7 +113,7 @@ public class AccountReviseDetail implements Serializable {
 	}
 
 	public String getReviseType() {
-		return AccountReviseTypeEnum.getNameByCode(reviseType);
+		return ConstAccountAdjustType.getNameByCode(reviseType);
 	}
 
 	public void setReviseType(String reviseType) {
@@ -138,7 +161,7 @@ public class AccountReviseDetail implements Serializable {
 	}
 
 	public String getStatus() {
-		return AccountReviseStatusEnum.getNameByCode(status);
+		return ConstAccountAdjustStatus.getNameByCode(status);
 	}
 
 	public void setStatus(String status) {
@@ -169,13 +192,6 @@ public class AccountReviseDetail implements Serializable {
 		this.reviewRemark = reviewRemark == null ? null : reviewRemark.trim();
 	}
 
-	public String getIsDelete() {
-		return isDelete;
-	}
-
-	public void setIsDelete(String isDelete) {
-		this.isDelete = isDelete;
-	}
 
 	public String getMemLoginName() throws MdSysException {
 		return  DESC.deyption(memLoginName);
