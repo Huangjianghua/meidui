@@ -764,6 +764,7 @@ public class TradeServiceImpl implements TradeService {
 				//根据订单号查询账户明细
 				List<MSAccountDetail> listAccountDetail = accountDetailService.listAccountDetail(new MSAccountDetailGet(ms.getOrderId()));
 				List<MSAccount> msAccountlist = new ArrayList<MSAccount>();
+				List<MSAccountDetail> listAccountDetail2 = new ArrayList<>();
 				//根据memId查询会员余额
 				List<MSAccount> balanceAccountList = accountServices.getBalanceAccountList(ms.getMemId());
 			    for (MSAccount msAccount : balanceAccountList) {
@@ -775,10 +776,25 @@ public class TradeServiceImpl implements TradeService {
 			    		      account.setBalanceEncrypt(DESC.encryption(String.valueOf(msAccountDetail.getTradeAmount()+msAccount.getBalance()), msAccount.getMemId()));
 			    		      msAccountlist.add(account);
 			    		}
+			    		MSAccountDetail msAccountDetail2 = new MSAccountDetail();
+			    		msAccountDetail2.setId(UUID.randomUUID().toString());
+			    		msAccountDetail2.setAccountNo(msAccountDetail.getAccountNo());
+			    		msAccountDetail2.setTradeType(msAccountDetail.getTradeType());
+			    		msAccountDetail2.setTradeAmount(msAccountDetail.getTradeAmount());
+			    		msAccountDetail2.setTradeDate(msAccountDetail.getTradeDate());
+			    		msAccountDetail2.setInOrOut(1);
+			    		msAccountDetail2.setBalance(msAccountDetail.getBalance());
+			    		msAccountDetail2.setBusinessNo(msAccountDetail.getBusinessNo());
+			    		msAccountDetail2.setCreateUser(msAccountDetail.getCreateUser());
+			    		msAccountDetail2.setCreateDate(new Date());
+			    		msAccountDetail2.setUpdateUser(msAccountDetail.getUpdateUser());
+			    		msAccountDetail2.setUpdateDate(new Date());
+			    		msAccountDetail2.setRemark("账户编号:"+msAccountDetail2.getAccountNo()+" 退款"+msAccountDetail2.getTradeAmount()+"元");
+			    		listAccountDetail2.add(msAccountDetail2);
 			    		
 			    	}
 				}
-				
+			    accountDetailService.batchInsertAccoutDetail(listAccountDetail2);
 				accountAdjustService.batchUpdateBalance(msAccountlist);
 				
 
