@@ -239,9 +239,9 @@
                 update ms_account   
                 <set>  
                   balance = ${item.balance},
-                  balance_encrypt = '${item.balanceEncrypt}'
+                  balance_encrypt = #{item.balanceEncrypt}
                 </set>  
-                where account_no = ${item.accountNo}  
+                where account_no = #{item.accountNo}  
          </foreach>  
     </update>  
     

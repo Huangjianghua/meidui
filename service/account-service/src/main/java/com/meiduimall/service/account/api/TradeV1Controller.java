@@ -207,6 +207,72 @@ public class TradeV1Controller {
 	 * @return ResBodyData
 	 * @author wujun
 	 */
+	@PostMapping(value = "/save_order_notoken_old")
+	ResBodyData saveOrderNotokenOld( MSMemberConsumeRecordsReq ms) throws MdSysException{
+	 
+		logger.info("保存当前会员订单信息接口(免token校验)请求输入参数："+ms.toString());
+		 
+		try {
+			 
+			if (StringUtils.isEmpty(ms.getMemId())) {
+				logger.info("当前用户不存在");
+				return new ResBodyData(ConstApiStatus.ACCOUNT_NOT_EXIST, ConstApiStatus.getZhMsg(ConstApiStatus.ACCOUNT_NOT_EXIST));
+			}
+			
+			if (!"1".equals(ms.getOrderStatus())) {
+				logger.info("订单状态输入错误");
+				return new ResBodyData(ConstApiStatus.ORDER_STATUS_ERROR, ConstApiStatus.getZhMsg(ConstApiStatus.ORDER_STATUS_ERROR));
+			}
+			
+			//余额支付金额 2017-03-02
+			if (Double.valueOf(ms.getConsumeMoney()) > Double.valueOf(ms.getConsumeAmount())) {
+				logger.info("余额支付金额不能大于消费总金额");
+				return new ResBodyData(ConstApiStatus.PAYMONEY_ERROR, ConstApiStatus.getZhMsg(ConstApiStatus.PAYMONEY_ERROR));
+			}
+			
+			  //增加美兑积分逻辑  2016-10-31
+			if (Double.valueOf(ms.getConsumePoints()) > Double.valueOf(ms.getConsumeAmount())) {
+				logger.info("消费积分不能大于消费金额");
+				return new ResBodyData(ConstApiStatus.POINTS_BIGGER_THAN_MONEY, ConstApiStatus.getZhMsg(ConstApiStatus.POINTS_BIGGER_THAN_MONEY));
+			}
+			  
+			//如果是支付积分+余额 判断(支付积分+余额<消费总金额)
+		   double count = new BigDecimal(ms.getConsumeMoney()).add(new BigDecimal(ms.getConsumePoints())).doubleValue();
+		   if(count > Double.valueOf(ms.getConsumeAmount())){
+				logger.info("支付积分加余额不能大于消费金额");
+				return new ResBodyData(ConstApiStatus.PAY_POINTS_MONEY_ERROR, ConstApiStatus.getZhMsg(ConstApiStatus.PAY_POINTS_MONEY_ERROR));
+		   }
+			   
+		  //增加美兑积分逻辑  2016-10-31
+			if("2".equals(ms.getPayType())){
+				if(Double.valueOf(ms.getConsumePoints()) <= 0 && Double.valueOf(ms.getConsumeMoney()) <= 0){
+					logger.info("混合支付支付模式，支付积分+余额不能为小于或等于0");
+					return new ResBodyData(ConstApiStatus.MIX_PAYTYPE_ERROR, ConstApiStatus.getZhMsg(ConstApiStatus.MIX_PAYTYPE_ERROR));
+				}
+			}
+				
+			// 来源转换
+			ms.setOrderSource(SerialStringUtil.getDictOrderSource(ms.getOrderSource()));
+			 
+		    
+			//提交订单请求
+			ResBodyData saveMemberOrder = tradeService.saveMemberOrder(ms);
+			
+			logger.info("保存当前会员订单信息接口(免token校验)输出参数：{}", saveMemberOrder.toString());
+			return saveMemberOrder;
+		} catch (ServiceException e) {
+			logger.info(ConstApiStatus.getZhMsg(ConstApiStatus.SERVER_DEAL_WITH_EXCEPTION) + " :{}", e);
+			throw new ApiException(ConstApiStatus.SERVER_DEAL_WITH_EXCEPTION, ConstApiStatus.getZhMsg(ConstApiStatus.SERVER_DEAL_WITH_EXCEPTION));
+		}
+		
+    }
+	
+	
+	/**
+	 * 保存当前会员订单信息接口(免token校验) http://IP:PORT/Authorized/saveOrderNotoken
+	 * @return ResBodyData
+	 * @author wujun
+	 */
 	@PostMapping(value = "/save_order_notoken")
 	ResBodyData saveOrderNotoken(@RequestBody MSMemberConsumeRecordsReq ms) throws MdSysException{
 	 
