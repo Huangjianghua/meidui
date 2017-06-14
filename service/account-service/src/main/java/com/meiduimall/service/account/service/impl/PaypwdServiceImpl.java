@@ -10,12 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.meiduimall.exception.ServiceException;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdSysException;
+import com.meiduimall.exception.ServiceException;
+import com.meiduimall.exception.SystemException;
 import com.meiduimall.service.account.config.ServiceUrlProfileConfig;
 import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.constant.ConstSmsTemplateType;
@@ -58,7 +59,7 @@ public class PaypwdServiceImpl implements PaypwdService {
 				boolean blowPwd = BCrypt.checkpw(paypwd,existPaypwd.getPay_pwd());
 				if(blowPwd){
 					msMembersPaypwd.setMd5Pwd(MD5Util.MD5EncryptBy32(paypwd));
-					baseDao.selectOne(msMembersPaypwd, "MSMembersPaypwdMapper.updatePaypwdByMemId");
+					baseDao.update(msMembersPaypwd, "MSMembersPaypwdMapper.updatePaypwdByMemId");
 				}
 				else{
 					resBodyData.setStatus(ConstApiStatus.PAYPWD_NOT_RIGHT);
@@ -131,17 +132,16 @@ public class PaypwdServiceImpl implements PaypwdService {
 			logger.warn("旧支付密码校验不通过");
 			resBodyData.setStatus(ConstApiStatus.OLD_PAYPWD_NOT_RIGHT);
 			resBodyData.setMsg(ConstApiStatus.getZhMsg(ConstApiStatus.OLD_PAYPWD_NOT_RIGHT));
+			return resBodyData;
 		}
 		logger.info("旧支付密码校验通过");
-		
 		/**设置支付密码*/
 		this.setNewPaypwd(requestUpdatePaypwd.getMemId(),requestUpdatePaypwd.getNew_pay_pwd());		
+		resBodyData.setMsg("修改支付密码成功");
 		return resBodyData;
 	}
 	
 	@Override
-
-
 	public void retrievePaypwd(RequestRetrievePaypwd requestRetrievePaypwd) throws MdSysException{
 		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
 		String memberServiceUrl=serviceUrlProfileConfig.getMemberServiceUrl()+"/v1/get_member_basic_info?memId="+requestRetrievePaypwd.getMemId();
@@ -233,12 +233,9 @@ public class PaypwdServiceImpl implements PaypwdService {
 	 * 设置新支付密码
 	 * @param memId 会员ID
 	 * @param paypwd 新支付密码
-
-
 	 * @throws SystemException 检查类型异常
 	 */
 	private void setNewPaypwd(String memId,String paypwd) throws MdSysException{
-
 		MSMembersPaypwd msMembersPaypwd=new MSMembersPaypwd();
 		msMembersPaypwd.setMemId(memId);
 		msMembersPaypwd.setPay_pwd(paypwd);

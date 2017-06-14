@@ -26,6 +26,7 @@ sign :
   clientID : mall_java
   key : 20822875
 
+
 # 商品模块微服务地址
 catalog-service : 
   host : http://10.45.178.235:9050
@@ -36,11 +37,12 @@ member-access :
 ---
 spring:
   profiles: pro
-
+ 
 # 配置clientID和key
 sign : 
   clientID : mall_java
   key : 20822875
+
 
 # 商品模块微服务地址
 catalog-service : 

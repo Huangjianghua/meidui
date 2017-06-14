@@ -96,7 +96,9 @@ public class MSConsumePointsDetailGet extends PageHelp implements Serializable{
 
 
 
+
 	public String getMcpIncome()throws MdSysException {
+
 
 
 
@@ -110,7 +112,9 @@ public class MSConsumePointsDetailGet extends PageHelp implements Serializable{
 
 
 
+
 	public String getMcpExpenditure()throws MdSysException {
+
 
 
 
@@ -120,6 +124,7 @@ public class MSConsumePointsDetailGet extends PageHelp implements Serializable{
 	public void setMcpExpenditure(String mcpExpenditure) {
 		this.mcpExpenditure = mcpExpenditure;
 	}
+
 
 
 

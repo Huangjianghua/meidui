@@ -27,9 +27,11 @@ import com.meiduimall.service.account.model.request.RequestPointTransfer;
  */
 public class PointsV1ControllerTest extends BaseControllerTest {
 	
+
 	private final static Logger logger=LoggerFactory.getLogger(PointsV1ControllerTest.class); 
 
 	/**积分流水分页*/
+
     @Test
     public void listConsumePointsDetail() throws Exception{
     	/*MSConsumePointsDetailGet model=new MSConsumePointsDetailGet();

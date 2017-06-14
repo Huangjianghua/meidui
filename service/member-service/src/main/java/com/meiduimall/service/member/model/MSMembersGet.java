@@ -235,8 +235,10 @@ public class MSMembersGet implements Serializable {
 
 
 
+
 	public String getMemBasicAccountTotalQuantity() throws MdSysException  {
 		return DESC.deyption(memBasicAccountTotalQuantity,this.memId);
+
 	}
 
 	public void setMemBasicAccountTotalQuantity(String memBasicAccountTotalQuantity) {
@@ -342,6 +344,7 @@ public class MSMembersGet implements Serializable {
 
 	public String getMemLoginName() throws MdSysException  {
 		return DESC.deyption(this.memLoginName);
+
 	}
 
 	public void setMemOldPhone(String memOldPhone) {
@@ -366,9 +369,11 @@ public class MSMembersGet implements Serializable {
 
 
 
+
 	public String getMemNickName()  throws MdSysException {
 
 		return DESC.deyption(this.memNickName);
+
 	}
 
 	public void setMemLoginPwd(String memLoginPwd) {

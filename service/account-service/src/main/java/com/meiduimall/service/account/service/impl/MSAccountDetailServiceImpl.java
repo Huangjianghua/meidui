@@ -96,7 +96,9 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			}
 			mSAccountDetail.setTradeTypeList(arrayList);
 		}
+
 		List<MSAccountDetail> selectList = baseDao.selectList(mSAccountDetail, "MSAccountDetailMapper.listMSAccountDetail");
+
 		return selectList;
 	}
 	
@@ -277,6 +279,8 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			balanceReport=-balanceReport;
 			//step3 修改ms_account_report 对应的金额
 			updateAccountBalanceReport(account.getAccountTypeNo(),-detail.getReviseBalance().doubleValue(),account.getMemId(),ConstSysParamsDefination.BALANCE_UPDATE_OPERATE);
+			if(balance<Constants.CONSTANT_INT_ZERO) throw new MdBizException(ApiStatusConst.ACCOUNT_REVISE_BALANCE_ERROR);
+			type=Constants.CONSTANT_INT_INVALID;
 		}else{
 			balance = DoubleCalculate.add(Double.valueOf(account.getBalance()),detail.getReviseBalance().doubleValue());
 			//step3 修改ms_account_report 对应的金额

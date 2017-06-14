@@ -24,13 +24,13 @@
         <sonar.language>java</sonar.language>
         <jacoco.version>0.7.9</jacoco.version>
     </properties>
-<!--     <scm>
+   <scm>
         <connection>scm:git:http://git.meiduimall.com/service/meiduimall.git</connection>
         <developerConnection>scm:git:http://git.meiduimall.com/service/meiduimall.git</developerConnection>
-        <url>http://git.meiduimall.com/service/meiduimall/tree/develop</url>
-        <tag>mall-1.0.2</tag>
-      <tag>mall-1.0.0</tag>
-  </scm> -->
+        <url>http://git.meiduimall.com/service/meiduimall/tree/master</url>
+       
+    <tag>mall-1.0.0</tag>
+  </scm> 
 
     <profiles>
         <profile>

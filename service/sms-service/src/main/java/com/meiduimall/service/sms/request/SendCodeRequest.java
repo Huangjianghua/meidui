@@ -20,6 +20,9 @@ public class SendCodeRequest implements Serializable {
 	private String templateId; // 模板id
 	private String supplierId;// 渠道编号
 	private String params;// 替换短信中的参数
+	
+	
+
 
 	@NotNull
 	private String type;// 验证码类型：注册使用的验证码/找回密码使用的验证码...

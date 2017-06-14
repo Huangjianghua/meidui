@@ -88,7 +88,7 @@
         <dependency>
             <groupId>com.meiduimall</groupId>
             <artifactId>meiduimall-support-security</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 

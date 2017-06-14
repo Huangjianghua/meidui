@@ -164,7 +164,9 @@ public class MSConsumePointsDetail implements Serializable{
 
 
 
+
 	public String getMemLoginName() throws MdSysException {
+
 
 
 
@@ -173,7 +175,9 @@ public class MSConsumePointsDetail implements Serializable{
 
 
 
+
 	public void setMemLoginName(String memLoginName) throws MdSysException {
+
 
 
 		this.memLoginName = memLoginName!=null?DESC.encryption(memLoginName):memLoginName;

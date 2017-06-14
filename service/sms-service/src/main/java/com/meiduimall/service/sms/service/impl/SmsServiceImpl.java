@@ -98,6 +98,7 @@ public class SmsServiceImpl implements SmsService {
 			logger.info("只使用阿里大于发送--阿里大于发送短信结果flag：" + flag);
 			if (!flag) {
 				// 发送失败，直接抛出异常
+
 				throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER);
 			}
 			channelId = "1";
@@ -122,7 +123,9 @@ public class SmsServiceImpl implements SmsService {
 		try {
 			// 发送成功，缓存到redis，设置缓存时间
 			int expire = 60;
+
 			if (model.getTimeout() != null && model.getTimeout() > 60) {
+
 				expire = model.getTimeout();
 			}
 			RedisUtils.setex(redisKey, expire, content);
@@ -155,6 +158,7 @@ public class SmsServiceImpl implements SmsService {
 	private String sendMessageByZucp(SendMessageRequest model, String content, String res) {
 		try {
 			res = zucpService.send(model.getPhones(), content);
+
 		} catch (MdSysException e) {
 			logger.info("漫道普通短信发送异常：" + e);
 			throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER);
@@ -228,6 +232,7 @@ public class SmsServiceImpl implements SmsService {
 		String params = "";
 		if (StringUtils.isNotEmpty(model.getParams())) {
 			params = aliDaYuParamsToJson(true, randomNumber + "," + model.getParams());
+
 		} else {
 			params = aliDaYuParamsToJson(true, randomNumber);
 		}
@@ -242,6 +247,7 @@ public class SmsServiceImpl implements SmsService {
 			logger.info("只使用阿里大于发送---阿里大于发送验证码短信结果flag：" + flag);
 			if (!flag) {
 				// 发送失败，直接抛出异常
+
 				throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER);
 			}
 			channelId = "1";
@@ -264,6 +270,7 @@ public class SmsServiceImpl implements SmsService {
 		}
 
 		try {
+
 			// 发送成功，缓存到redis(格式：916817##1494323395427)，设置缓存时间
 			int expire = 600;
 			if (model.getTimeout() != null && model.getTimeout() > 60) {
@@ -299,6 +306,7 @@ public class SmsServiceImpl implements SmsService {
 	private String sendCodeByZucp(SendCodeRequest model, String content, String res) {
 		try {
 			res = zucpService.send(model.getPhones(), content);
+
 		} catch (MdSysException e) {
 			logger.info("漫道发送验证码短信异常：" + e);
 			throw new ServiceException(SmsApiCode.SEND_CODE_FAILUER);

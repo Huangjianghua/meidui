@@ -235,12 +235,14 @@ public class BasicOpServiceImpl implements BasicOpService {
 		return map;
 	}
 	
+
 	@Transactional
 	public ResBodyData login(RequestLogin requestLogin) throws MdSysException {
 		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
 		String userid=requestLogin.getUser_name();//用户名
 		String password=requestLogin.getPassword();//密码
 		String tokenKey=requestLogin.getTokenKey();
+
 		
 		Map<String, Object> mapCondition=new HashMap<>();//查询条件
 		mapCondition.put("userid",DESC.encryption(userid));
@@ -288,8 +290,10 @@ public class BasicOpServiceImpl implements BasicOpService {
 			if(null!=msMembersGet.getMemLoginTime()){
 				msMembersSet.setPfLastLoginTime(msMembersGet.getMemLoginTime());//设置上一次登录时间
 			}
+
 			msMembersSet.setMemLoginTime(new Date());
 		    baseDao.update(msMembersSet,"MSMembersMapper.updateMemberBasicInfoByCondition");
+
 			
 		    RedisTemplate.getJedisInstance().execSetexToCache(redisToken,Constants.REDIS_ONEMONTH,msMembersGet.getMemId());//把token存储到redis，并设置失效时间一个月
 		    RedisTemplate.getJedisInstance().execSetexToCache(msMembersGet.getMemId(),Constants.REDIS_ONEMONTH,redisToken);//临时代码，兼容旧会员系统

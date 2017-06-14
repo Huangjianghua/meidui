@@ -18,6 +18,7 @@ spring:
       maximum-pool-size: 300
       minimumIdle : 10
       pool-name: harika-cp
+
       
 eureka:
   client:

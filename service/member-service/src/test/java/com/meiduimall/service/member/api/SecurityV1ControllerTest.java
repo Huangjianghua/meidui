@@ -69,6 +69,7 @@ public class SecurityV1ControllerTest extends BaseControllerTest {
 	    	securityV1Controller.unDisabledAccount(map);
 	    } 
 	    
+
 	   /**
 	    * 账号重置
 	    * @throws Exception

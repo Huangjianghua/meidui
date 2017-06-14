@@ -18,24 +18,31 @@ import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.meiduimall.core.util.JsonUtils;
+
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.model.AddOrUpdateAccountReviseDetail;
 import com.meiduimall.service.account.model.MSAccountDetailCondition;
 import com.meiduimall.service.account.model.MSAccountDetailGet;
 import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
+
 import com.meiduimall.service.account.model.request.RequestAccountReviseDetail;
 import com.meiduimall.service.account.util.DESC;
 
 import net.sf.json.JSONObject;
 
 
+
 /**
+
  * @FileName: MoneyV1ControllerTests.java
  * @Author:   jianhua.huang 
+
  * @Date:     2017年4月18日 下午3:39:45
  * @Description: 测试新会员列表接口	
+
  */
 public class MoneyV1ControllerTests extends BaseControllerTest {
+
 	private final static Logger logger=LoggerFactory.getLogger(MoneyV1ControllerTests.class);
 	/**
 	 * 余额流水
@@ -55,6 +62,7 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 			@Override
 			public void handle(MvcResult result) throws Exception {
 				logger.info("单元测试>>余额流水分页API>>执行结果:{}",result.getResponse().getContentAsString());;
+
 
 			}
 		});
@@ -106,7 +114,7 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 		 String url = "/member/account_service/v1/update_account_revision_detail";
 		 AddOrUpdateAccountReviseDetail dto=new AddOrUpdateAccountReviseDetail();
 		 dto.setMemId("72063681-7408-435c-88fd-cd837c95c66e");
-		 dto.setMemLoginName("很test1");
+		 dto.setMemLoginName("111");
 		 dto.setMemPhone("15112347555");
 		 dto.setReviseType("1");
 		 dto.setStatus("AR");
@@ -162,22 +170,28 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 	@Rollback
 	public void agreeExamineMSAccountReviseDetailTest() throws Exception {
 		 String url = "/member/account_service/v1/examine_account_revision_detail";
+
 		 AddOrUpdateAccountReviseDetail detail=new AddOrUpdateAccountReviseDetail();
 		 detail.setId("f320c1aa-bce2-4cd2-9c3a-1e605761d242");
 		 detail.setReviseRemark("财务调整");
 		 detail.setOperate("agree");//同意
+
 		 String json=JsonUtils.beanToJson(detail);
 		 
 		 resultSystemOutPut(url,json);
 	}
 	
 
+
 	/**
 	 * @Description: 修改提现记录 测试
+
 	 * @Author: jianhua.huang
-	 * @Date:   2017年4月25日 下午3:01:55
+
+
 	 */
 	@Test
+
 	public void updateWidthDrawDepositTest()throws Exception{
 		 String url = "/member/account_service/v1/update_withdraw";
 		 MSBankWithdrawDeposit deposit=new MSBankWithdrawDeposit();
@@ -262,6 +276,7 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 		 
 		 JSONObject object=JSONObject.fromObject(deposit);
 		 String json=object.toString();
+
 		 
 		 resultSystemOutPut(url,json);
 	}
@@ -280,13 +295,15 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 			}
 		});
 		}catch(Exception e){
-			System.out.println("异常*********************"+e);
+			System.out.println("寮傚父*********************"+e);
 		}
 	}
+
 	public static void main(String[] args) throws MdSysException {
 		String s="100";
 		System.out.println(DESC.encryption(s, "b9d78165-1483-42f7-a48c-fbfcc3b06431"));
 	}
 
 }
+
 

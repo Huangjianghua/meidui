@@ -18,5 +18,5 @@ public class MallApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MallApplication.class, args);
-	}
+	} 
 }
