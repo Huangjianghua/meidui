@@ -30,7 +30,7 @@ public class TradeV1Controller {
 	 * 当前商家退会员订单信息接口  http://IP:PORT/Authorized/BusinessRecedeOrder
 	 * @return ResBodyData
 	 */
-	@HasToken
+	
 	@RequestMapping(value="/business_recede_order")
 	ResBodyData businessRecedeOrder(){
 		ResBodyData resBodyData=null;
@@ -50,7 +50,7 @@ public class TradeV1Controller {
 	 * 保存当前会员订单信息接口(免token校验) http://IP:PORT/Authorized/saveOrderNotoken
 	 * @return ResBodyData
 	 */
-	@HasToken
+	
 	@RequestMapping(value="/save_order_notoken")
 	ResBodyData saveOrderNotoken(){
 		ResBodyData resBodyData=null;
@@ -70,7 +70,7 @@ public class TradeV1Controller {
 	 * 当前会员退单信息接口  http://IP:PORT/Authorized/RecedeOrder
 	 * @return ResBodyData
 	 */
-	@HasToken
+	
 	@RequestMapping(value="/recede_order")
 	ResBodyData recedeOrder(){
 		ResBodyData resBodyData=null;
