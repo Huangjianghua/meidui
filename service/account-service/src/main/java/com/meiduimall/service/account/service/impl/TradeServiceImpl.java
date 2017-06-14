@@ -305,6 +305,19 @@ public class TradeServiceImpl implements TradeService {
 		
 		//根据订单号查询积分冻结解冻的记录
 		List<MSConsumePointsFreezeInfo> listPointsFreezeInfo=pointsFreezeInfoService.getRecordsByOrderId(orderId);
+		
+		//解冻该订单号对应的积分
+		for(MSConsumePointsFreezeInfo item:listPointsFreezeInfo){
+			item.setMcpfId(UUID.randomUUID().toString());
+		}
+		MSConsumePointsFreezeInfo freezeUnfreezeInfo=new MSConsumePointsFreezeInfo();
+		freezeUnfreezeInfo.setMcpfId(UUID.randomUUID().toString());
+		freezeUnfreezeInfo.setMemId(memId);
+		freezeUnfreezeInfo.setMcpfOrderId(model.getOrderId());
+		/*freezeUnfreezeInfo.setMcpfConsumePoints(String.valueOf(model.getConsumePoints()));*/
+		freezeUnfreezeInfo.setMcpfRemark("解冻消费积分");
+		/*pointsFreezeInfoService.insertConsumePointsFreezeInfo(freezeUnfreezeInfo,ConstPointsChangeType.POINTS_FREEZE_TYPE_JD.getCode());*/
+		
 		//根据订单号查询余额冻结解冻的记录
 		List<MSAccountFreezeDetail> listBalanceFreeze=accountFreezeDetailService.getRecordsByOrderId(orderId);
 		

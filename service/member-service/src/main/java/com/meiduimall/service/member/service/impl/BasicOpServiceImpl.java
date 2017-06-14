@@ -248,6 +248,10 @@ public class BasicOpServiceImpl implements BasicOpService {
 		if(msMembersGet==null){
 			throw new ServiceException(ConstApiStatus.MEMBER_NOT_EXIST);
 		}
+		
+		//记录手机对应区域
+		userInfoService.recordArea(msMembersGet.getMemId(),msMembersGet.getMemPhone());
+		
 		String memLockCount=msMembersGet.getMemLockCount();//锁定次数密文
 		String memLockCountPlained=msMembersGet.getMemLockCountPlained();//锁定次数明文
 		String memId=msMembersGet.getMemId();
@@ -389,6 +393,9 @@ public class BasicOpServiceImpl implements BasicOpService {
 		mapCondition.put("remark","账号服务注册生成");
 		baseDao.insert(mapCondition,"MSMembersMapper.insertAccountReport");
 		
+		//记录手机对应区域
+		userInfoService.recordArea(memid,model.getPhone());
+		
 		/*MSMemberCertificate mc = new MSMemberCertificate();//生成会员证件信息
 		mc.setMcerId(UUID.randomUUID().toString());
 		mc.setMemId(memid);
@@ -484,6 +491,9 @@ public class BasicOpServiceImpl implements BasicOpService {
 		mapCondition.put("remark","账号服务注册生成");
 		baseDao.insert(mapCondition,"MSMembersMapper.insertAccountReport");
 		
+		//记录手机对应区域
+		userInfoService.recordArea(memid,model.getPhone());
+		
 		/*MSMemberCertificate mc = new MSMemberCertificate();//生成会员证件信息
 		mc.setMcerId(UUID.randomUUID().toString());
 		mc.setMemId(memid);
@@ -576,6 +586,9 @@ public class BasicOpServiceImpl implements BasicOpService {
 		mapCondition.put("updateUser","账户服务");
 		mapCondition.put("remark","账号服务注册生成");
 		baseDao.insert(mapCondition,"MSMembersMapper.insertAccountReport");
+		
+		//记录手机对应区域
+		userInfoService.recordArea(memid,model.getPhone());
 		
 		/*MSMemberCertificate mc = new MSMemberCertificate();//生成会员证件信息
 		mc.setMcerId(UUID.randomUUID().toString());
