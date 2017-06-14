@@ -42,7 +42,6 @@ public class TradeV1ControllerTest extends BaseControllerTest {
     	requestSaveOrder.setConsumeAmount(1200.00);
     	requestSaveOrder.setProductName("苹果7");
     	requestSaveOrder.setOrderSource("1gw");
-    	requestSaveOrder.setPayType(2);
     	requestSaveOrder.setConsumeMoney(1100.00);
     	requestSaveOrder.setConsumePoints(100.00);
     	

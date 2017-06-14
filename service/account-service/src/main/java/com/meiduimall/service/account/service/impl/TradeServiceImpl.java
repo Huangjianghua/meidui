@@ -107,8 +107,6 @@ public class TradeServiceImpl implements TradeService {
 	
 	@Autowired
 	private AccountDetailService accountDetailService;
-	
-	 
 
 	@Override
 	@Transactional
@@ -299,27 +297,19 @@ public class TradeServiceImpl implements TradeService {
 	public ResBodyData cancelOrder(RequestCancelOrder model) {
 		ResBodyData resBodyData = new ResBodyData(Constants.CONSTANT_INT_ZERO,"订单取消成功");
 		
-		int orderStatus=model.getOrderStatus();
-		String memId=model.getMemId();
-		String orderId=model.getOrderId();
+		int orderStatus=model.getOrderStatus(); //订单状态
+		String memId=model.getMemId(); //会员ID
+		String orderId=model.getOrderId(); //订单号
 		
 		//根据订单号查询积分冻结解冻的记录
 		List<MSConsumePointsFreezeInfo> listPointsFreezeInfo=pointsFreezeInfoService.getRecordsByOrderId(orderId);
+		//根据订单号查询余额冻结解冻的记录
+		List<MSAccountFreezeDetail> listBalanceFreeze=accountFreezeDetailService.getRecordsByOrderId(orderId);
 		
-		//解冻该订单号对应的积分
+		//解冻该订单号对应的积分冻结记录
 		for(MSConsumePointsFreezeInfo item:listPointsFreezeInfo){
 			item.setMcpfId(UUID.randomUUID().toString());
 		}
-		MSConsumePointsFreezeInfo freezeUnfreezeInfo=new MSConsumePointsFreezeInfo();
-		freezeUnfreezeInfo.setMcpfId(UUID.randomUUID().toString());
-		freezeUnfreezeInfo.setMemId(memId);
-		freezeUnfreezeInfo.setMcpfOrderId(model.getOrderId());
-		/*freezeUnfreezeInfo.setMcpfConsumePoints(String.valueOf(model.getConsumePoints()));*/
-		freezeUnfreezeInfo.setMcpfRemark("解冻消费积分");
-		/*pointsFreezeInfoService.insertConsumePointsFreezeInfo(freezeUnfreezeInfo,ConstPointsChangeType.POINTS_FREEZE_TYPE_JD.getCode());*/
-		
-		//根据订单号查询余额冻结解冻的记录
-		List<MSAccountFreezeDetail> listBalanceFreeze=accountFreezeDetailService.getRecordsByOrderId(orderId);
 		
 		return resBodyData;
 	}
