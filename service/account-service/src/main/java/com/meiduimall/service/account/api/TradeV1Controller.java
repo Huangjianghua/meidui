@@ -99,7 +99,7 @@ public class TradeV1Controller {
 	 * @author wujun
 	 */
 	@GetMapping(value = "/recede_order_old")
-	ResBodyData recedeOrderOld(@RequestBody MSMemberConsumeRecordsReq ms)   {
+	ResBodyData recedeOrderOld(MSMemberConsumeRecordsReq ms)   {
 		
 		logger.info("退订单接口请求输入参数："+ ms.toString());
 		
