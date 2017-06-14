@@ -250,7 +250,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 		}
 		
 		//记录手机对应区域
-		userInfoService.recordArea(msMembersGet.getMemId(),msMembersGet.getMemPhone());
+		/*userInfoService.recordArea(msMembersGet.getMemId(),msMembersGet.getMemPhone());*/
 		
 		String memLockCount=msMembersGet.getMemLockCount();//锁定次数密文
 		String memLockCountPlained=msMembersGet.getMemLockCountPlained();//锁定次数明文
