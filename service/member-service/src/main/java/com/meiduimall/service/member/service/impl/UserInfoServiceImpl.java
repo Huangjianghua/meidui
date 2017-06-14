@@ -109,7 +109,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 				.getBody();
 
 		memberBasicInfo.setPaypwd_isset("1");
-		if (!"0".equals(resIsExistPayPwd.getStatus())) {
+		if (resIsExistPayPwd.getStatus()!=0) {
 			memberBasicInfo.setPaypwd_isset("0");
 		}
 		memberBasicInfo.setTotalMoney(
