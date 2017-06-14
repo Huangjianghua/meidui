@@ -803,7 +803,7 @@ public class TradeServiceImpl implements TradeService {
 				Map<String, Object> map = new HashMap<>();
 				map.put("balance", ms.getConsumeMoney());
 				map.put("memId", ms.getMemId());
-				accountReportService.updateBalanceAndfreezeBalance(map);
+				baseDao.update(map,"MSAccountReportMapper.updateBalance");
 
 				// 返回退单后余额
 				json.put("after_shopping_coupon", StringUtil.interceptionCharacter(2, afterMoney));
