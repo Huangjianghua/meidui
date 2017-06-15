@@ -4,11 +4,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -230,8 +233,8 @@ public class AccountWithDrawV1Controller {
 	 * @return
 	 * @author: jianhua.huang 2017年5月5日 下午5:33:05
 	 */
-	@RequestMapping(value = "/get_withdraw_poundage")
-	public ResBodyData getWithDrawFreeForApp(@RequestBody RequestMSBankWithDrawDepostieFree depostie) {
+	@GetMapping(value = "/get_withdraw_poundage")
+	public ResBodyData getWithDrawFreeForApp(@Valid RequestMSBankWithDrawDepostieFree depostie) {
 		ResBodyData resultData = new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M);
 		try {
 			Double free=withDrawService.getWithDrawFree(depostie);
