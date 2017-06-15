@@ -32,10 +32,10 @@ public class ResponseMemberBasicInfo implements Serializable{
 	/**会员余额总额*/
 	@JsonProperty("total_money")
 	private String totalMoney;
-	
+
 	/**会员余额总额*/
 	@JsonProperty("available_money ")
-	private String availableMoney ;
+	private String availableMoney;
 
 	/**登录名*/
 	private String login_name;
@@ -123,9 +123,11 @@ public class ResponseMemberBasicInfo implements Serializable{
 		this.email =DESC.deyption(email);
 	}
 
+
 	public String getTotalPoints() {
 		return totalPoints;
 	}
+	
 
 	public void setTotalPoints(String totalPoints)throws MdSysException {
 		this.totalPoints = DoubleCalculate.getFormalValueTwo(DESC.deyption(totalPoints,memId));
@@ -139,12 +141,22 @@ public class ResponseMemberBasicInfo implements Serializable{
 		this.totalMoney = totalMoney;
 	}
 	
+
 	public String getAvailableMoney() {
 		return availableMoney;
 	}
+	
+	public String getTotalpoints() {
+		return totalPoints;
+	}
+
 
 	public void setAvailableMoney(String availableMoney) {
 		this.availableMoney = availableMoney;
+	}
+	
+	public void setTotalpoints(String totalpoints) throws MdSysException {
+		this.totalPoints = DoubleCalculate.getFormalValueTwo(DESC.deyption(totalpoints,memId));
 	}
 
 	public String getNick_name() {
@@ -260,6 +272,7 @@ public class ResponseMemberBasicInfo implements Serializable{
 	public void setAvailablePoints(String availablePoints) {
 		this.availablePoints = availablePoints;
 	}
+
 
 	@Override
 	public String toString() {

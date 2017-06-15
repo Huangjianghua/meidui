@@ -31,7 +31,8 @@ public class UserInfoV1Controller{
 	@Autowired
 	private UserInfoService userInfoService;
 	
-	/**根据memId获取会员基本信息*/
+	/**根据memId获取会员基本信息
+	 * @throws MdSysException */
 	@GetMapping(value = "/get_member_basic_info")
 	ResBodyData getmemberbasicinfo(@Valid RequestGetMemberBasicInfo requestGetMemberBasicInfo) throws MdSysException{
 		String memId=requestGetMemberBasicInfo.getMemId();

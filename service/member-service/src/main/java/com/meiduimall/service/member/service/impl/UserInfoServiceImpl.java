@@ -71,6 +71,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 	@LoadBalanced
 	RestTemplate restTemplate;
 
+
 	@Override
 	public ResBodyData getBasicInfoByMemId(String memId) throws MdSysException {
 		ResBodyData resBodyData = new ResBodyData(ConstApiStatus.SUCCESS,
@@ -122,7 +123,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 		}
 		memberBasicInfo.setTotalMoney(totalMoney);
 		memberBasicInfo.setAvailableMoney(availableMoeny);
-		memberBasicInfo.setAvailablePoints(pointsService.getAvailabelePoints(memId,memberBasicInfo.getTotalPoints()));
+		memberBasicInfo.setAvailablePoints(pointsService.getAvailablePoints(memId,memberBasicInfo.getTotalPoints()));
 
 		resBodyData.setData(memberBasicInfo);
 		return resBodyData;

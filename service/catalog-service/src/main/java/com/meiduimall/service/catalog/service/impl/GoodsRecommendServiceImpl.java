@@ -130,6 +130,7 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
  						detail.setActivityPrice(String.valueOf(activityItem.getActivityPrice()));
  						detail.setIsJoinActivity(1);
  					}
+
 					if (sourceId == 2) {
 						detail.setUrl(baseUrl + "/item.html?item_id=" + detail.getItemId());
 					} else {

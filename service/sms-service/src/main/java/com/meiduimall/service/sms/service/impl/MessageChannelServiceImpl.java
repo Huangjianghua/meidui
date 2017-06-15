@@ -28,7 +28,14 @@ public class MessageChannelServiceImpl implements MessageChannelService {
 	@Override
 	public String getChannelList(String key) {
 		// 先从redis缓存中取出所有的第三方短信发送渠道列表，取不到再从数据库取
-		String channelListJsonStr = RedisUtils.get(key);
+		String channelListJsonStr = null;
+		// 这里需要对缓存剩余时间做判断，有时候会出现剩余时间为-1的情况，需要删除这条数据
+		Long ttl = RedisUtils.ttl(key);
+		if (ttl > 0) {
+			channelListJsonStr = RedisUtils.get(key);
+		} else {
+			RedisUtils.del(key);
+		}
 		if (StringUtils.isEmpty(channelListJsonStr)) {
 			try {
 				// 从数据库查询所有的第三方短信发送渠道列表

@@ -62,7 +62,13 @@ public class SmsServiceImpl implements SmsService {
 		// 检查是否已在超时时间内，给该手机发送了短信
 		String tempMsg = RedisUtils.get(redisKey);
 		if (StringUtils.isNotEmpty(tempMsg)) {
-			throw new ServiceException(SmsApiCode.REPEATING);
+			// 这里需要对缓存剩余时间做判断，有时候会出现剩余时间为-1的情况，需要删除这条数据
+			Long ttl = RedisUtils.ttl(redisKey);
+			if (ttl > 0) {
+				throw new ServiceException(SmsApiCode.REPEATING);
+			} else {
+				RedisUtils.del(redisKey);
+			}
 		}
 
 		// 获取消息模板--这里获取到的是所有的模板信息的json数据
@@ -192,12 +198,18 @@ public class SmsServiceImpl implements SmsService {
 		try {
 			String tempMsg = RedisUtils.get(redisKey);
 			if (StringUtils.isNotEmpty(tempMsg)) {
-				String[] split = tempMsg.split(SysConstant.CODE_SPLIT_KEY);
-				if (split != null && split.length > 1) {
-					long cacheTime = Long.parseLong(split[1]);
-					if (System.currentTimeMillis() - cacheTime < 1000 * 60) {
-						throw new ServiceException(SmsApiCode.REPEATING);
+				// 这里需要对缓存剩余时间做判断，有时候会出现剩余时间为-1的情况，需要删除这条数据
+				Long ttl = RedisUtils.ttl(redisKey);
+				if (ttl > 0) {
+					String[] split = tempMsg.split(SysConstant.CODE_SPLIT_KEY);
+					if (split != null && split.length > 1) {
+						long cacheTime = Long.parseLong(split[1]);
+						if (System.currentTimeMillis() - cacheTime < 1000 * 60) {
+							throw new ServiceException(SmsApiCode.REPEATING);
+						}
 					}
+				} else {
+					RedisUtils.del(redisKey);
 				}
 			}
 		} catch (NumberFormatException e1) {

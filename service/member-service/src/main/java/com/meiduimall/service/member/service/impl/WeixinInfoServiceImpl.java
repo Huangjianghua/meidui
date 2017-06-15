@@ -12,7 +12,12 @@ import com.meiduimall.service.member.constant.ConstApiStatus;
 import com.meiduimall.service.member.dao.BaseDao;
 import com.meiduimall.service.member.model.MsMemberWeixin;
 import com.meiduimall.service.member.model.request.RequestBindingWeixin;
+
 import com.meiduimall.service.member.model.response.ResponseMemberOpenId;
+
+
+import com.meiduimall.service.member.service.PointsService;
+
 import com.meiduimall.service.member.service.WeixinInfoService;
 import com.meiduimall.service.member.util.DESC;
 
@@ -21,6 +26,9 @@ public class WeixinInfoServiceImpl implements WeixinInfoService {
 
 	@Autowired
 	private BaseDao baseDao;
+	
+	@Autowired
+	private PointsService pointsService;
 
 	@Override
 	public ResBodyData bindingWeixinOpenID(RequestBindingWeixin model) {
@@ -78,7 +86,11 @@ public class WeixinInfoServiceImpl implements WeixinInfoService {
 		try {
 			record.setMemLoginName(DESC.deyption(record.getMemLoginName()));
 			record.setMemNickName(DESC.deyption(record.getMemNickName()));
-			record.setMemPoint(DESC.deyption(record.getMemPoint(), record.getMemId()));
+			// 获取总积分
+			String totalPoint = DESC.deyption(record.getMemPoint(), record.getMemId());
+			// 获取可用美兑积分
+			String availablePoints = pointsService.getAvailablePoints(record.getMemId(), totalPoint);
+			record.setMemPoint(availablePoints);
 		} catch (MdSysException e) {
 			throw new ServiceException(ConstApiStatus.DECRYPTION_EXCEPTION);
 		}

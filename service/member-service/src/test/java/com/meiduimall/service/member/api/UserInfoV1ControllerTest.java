@@ -18,8 +18,13 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.service.member.model.MSMemberMobileArea;
 
+<<<<<<< HEAD
 *//**
  * 会员信息
+=======
+/**
+ * 会员信息 
+>>>>>>> refs/remotes/origin/release/4.0.2
  * @author chencong
  *
  *//*

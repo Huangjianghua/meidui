@@ -9,7 +9,7 @@
 
 	<groupId>com.meiduimall.application</groupId>
 	<artifactId>md1gw-access</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.1</version>
 	<packaging>jar</packaging>
 
 	<name>md1gw-access</name>
