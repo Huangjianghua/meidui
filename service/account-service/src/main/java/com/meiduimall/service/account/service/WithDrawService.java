@@ -5,6 +5,7 @@ import java.util.Map;
 import com.meiduimall.exception.MdBizException;
 import com.meiduimall.service.account.model.request.RequestBankWithdrawDepositsList;
 import com.meiduimall.service.account.model.request.RequestMSBankWithDrawDepostie;
+import com.meiduimall.service.account.model.request.RequestMSBankWithDrawDepostieFree;
 import com.meiduimall.service.account.model.response.ResponseBankWithdrawDepositList;
 
 /**
@@ -34,5 +35,5 @@ public interface WithDrawService {
 	 * @throws MdBizException
 	 * @author: jianhua.huang  2017年6月15日 上午9:52:45
 	 */
-	Double getWithDrawFree(RequestMSBankWithDrawDepostie depostie) throws MdBizException;
+	Double getWithDrawFree(RequestMSBankWithDrawDepostieFree depostie) throws MdBizException;
 }

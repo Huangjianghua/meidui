@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.service.account.model.MSAccountDetailCondition;
 import com.meiduimall.service.account.model.request.RequestMSBankWithDrawDepostie;
+import com.meiduimall.service.account.model.request.RequestMSBankWithDrawDepostieFree;
 import com.meiduimall.service.account.service.MSMembersService;
 
 /**
@@ -115,13 +116,13 @@ public class AccountWithDrawV1ControllerTest extends BaseControllerTest {
      */
     @Test
 	public void testGetBankWithdrawDepositsFreeForApp() throws Exception {
-    	RequestMSBankWithDrawDepostie dto=new RequestMSBankWithDrawDepostie();
+    	RequestMSBankWithDrawDepostieFree dto=new RequestMSBankWithDrawDepostieFree();
     	dto.setMemId("48d98556-cc3a-4e41-83d8-8cb2ab14c2d3");
-    	dto.setApplyCarryCash("1200.00");
+    	dto.setAllowWithdrawBalance("1200.00");
     	String object=JsonUtils.beanToJson(dto);
     		try{
     		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
-    				.post("/member/account_service/v1/query_bankWithdraw_free_for_app")
+    				.post("/member/account_service/v1/get_withdraw_poundage")
     				.contentType(MediaType.APPLICATION_JSON).content(object))
     				.andExpect(status().isOk());
     		
