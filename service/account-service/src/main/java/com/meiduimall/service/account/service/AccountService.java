@@ -145,4 +145,11 @@ public interface AccountService {
 	 */
 	void updateAccountTotalPoints(String memId,Double changePoints) throws MdSysException;
 	
+	/**
+	 * 查询当前会员可提现余额
+	 * @param memId 会员ID
+	 * @return 可提现余额
+	 */
+	Double getAllowWithdrawBalance(String memId);
+	
 }

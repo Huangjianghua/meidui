@@ -263,4 +263,9 @@ public class AccountServiceImpl implements AccountService {
 		baseDao.update(mapCondition,"MSAccountMapper.updateAccountTotalPoints");
 	}
 
+	@Override
+	public Double getAllowWithdrawBalance(String memId) {
+		return baseDao.selectOne(memId,"MSAccountMapper.getAllowWithdrawBalance");
+	}
+
 }
