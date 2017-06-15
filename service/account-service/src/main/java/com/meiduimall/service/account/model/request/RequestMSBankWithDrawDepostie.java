@@ -27,7 +27,7 @@ public class RequestMSBankWithDrawDepostie implements Serializable{
 	/** 申请提现金额 */
 	private Double applyWithdrawAmount;
 	/** 申请提现金额 */
-	private String ApplyCarryCash;
+	private String applyCarryCash;
 	/** 提现时余额*/
 	private String withdrawBalance;
 	/** 手续费 */
@@ -325,14 +325,14 @@ public class RequestMSBankWithDrawDepostie implements Serializable{
 	 * @return the applyCarryCash
 	 */
 	public String getApplyCarryCash() {
-		return ApplyCarryCash;
+		return applyCarryCash;
 	}
 
 	/**
 	 * @param applyCarryCash the applyCarryCash to set
 	 */
 	public void setApplyCarryCash(String applyCarryCash) {
-		ApplyCarryCash = applyCarryCash;
+		this.applyCarryCash = applyCarryCash;
 	}
 	
 }

@@ -25,6 +25,7 @@ import com.meiduimall.service.account.model.MSAccountDetailCondition;
 import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
 import com.meiduimall.service.account.model.request.RequestBankWithdrawDepositsList;
 import com.meiduimall.service.account.model.request.RequestMSBankWithDrawDepostie;
+import com.meiduimall.service.account.model.request.RequestMSBankWithDrawDepostieFree;
 import com.meiduimall.service.account.service.BankWithdrawDepositService;
 import com.meiduimall.service.account.service.MSAccountDetailService;
 import com.meiduimall.service.account.service.WithDrawService;
@@ -229,13 +230,13 @@ public class AccountWithDrawV1Controller {
 	 * @return
 	 * @author: jianhua.huang 2017年5月5日 下午5:33:05
 	 */
-	@RequestMapping(value = "/query_bankWithdraw_free_for_app")
-	public ResBodyData queryBankWithdrawFreeForApp(@RequestBody RequestMSBankWithDrawDepostie depostie) {
+	@RequestMapping(value = "/get_withdraw_poundage")
+	public ResBodyData getWithDrawFreeForApp(@RequestBody RequestMSBankWithDrawDepostieFree depostie) {
 		ResBodyData resultData = new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M);
 		try {
 			Double free=withDrawService.getWithDrawFree(depostie);
 			Map<String, Object> returnMap=new HashMap<>();
-			returnMap.put("withDraw_free", free);
+			returnMap.put("withdraw_poundage", free);
 			resultData.setData(returnMap);
 		} catch (MdBizException e) {
 			throw new ApiException(e.getCode(), e.getMessage());

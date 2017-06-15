@@ -23,6 +23,7 @@ import com.meiduimall.service.account.model.MSAccount;
 import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
 import com.meiduimall.service.account.model.request.RequestBankWithdrawDepositsList;
 import com.meiduimall.service.account.model.request.RequestMSBankWithDrawDepostie;
+import com.meiduimall.service.account.model.request.RequestMSBankWithDrawDepostieFree;
 import com.meiduimall.service.account.model.response.ResponseBankWithdrawDeposit;
 import com.meiduimall.service.account.model.response.ResponseBankWithdrawDepositList;
 import com.meiduimall.service.account.service.MSMembersService;
@@ -142,9 +143,9 @@ public class WithDrawServiceImpl implements WithDrawService {
 	 * @throws MdBizException
 	 */
 	@Override
-	public Double getWithDrawFree(RequestMSBankWithDrawDepostie depostie) throws MdBizException {
+	public Double getWithDrawFree(RequestMSBankWithDrawDepostieFree depostie) throws MdBizException {
 		List<MSAccount> list=null;
-		Double withdrawMoney=Double.valueOf(depostie.getApplyCarryCash());
+		Double withdrawMoney=Double.valueOf(depostie.getAllowWithdrawBalance());
 		Double freeTotal=0.0; //手续费总和
 		try {
 			list=queryAccountList(depostie.getMemId(),Constants.CONSTANT_STR_ONE,null);
