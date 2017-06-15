@@ -67,22 +67,29 @@ public class MSMembersServiceImpl implements MSMembersService {
 		// 可使用积分，不含冻结积分（注意：这里是相加）
 		int useConsumePoints = totalConsumePoints + freezeConsumePoints;
 		
-		MSAccountReport report = accountReportService.getTotalAndFreezeBalanceByMemId(memId);
-		// 全部余额，含冻结余额
-		Double totalConsumeMoney = DoubleCalculate.getFormalValueTwo(report.getBalance());
-		// 冻结余额
-		Double freezeConsumeMoney = DoubleCalculate.getFormalValueTwo(report.getFreezeBalance());
-		// 可使用账户余额，不含冻结余额（注意：这里是相减）
-		Double useConsumeMoney = DoubleCalculate.getFormalValueTwo(totalConsumeMoney - freezeConsumeMoney);
-
 		ResponseAccountBalance data = new ResponseAccountBalance();
 		data.setAllPoints(String.valueOf(totalConsumePoints));
 		data.setUsePoints(String.valueOf(useConsumePoints));
 		// 冻结积分freezeConsumePoints查出来的是负值，但是返回前端要变成正值，所以需要取绝对值
 		data.setFreezePoints(String.valueOf(Math.abs(freezeConsumePoints)));
-		data.setAllMoney(String.valueOf(totalConsumeMoney));
-		data.setUseMoney(String.valueOf(useConsumeMoney));
-		data.setFreezeMoney(String.valueOf(freezeConsumeMoney));
+		
+		try {
+			MSAccountReport report = accountReportService.getTotalAndFreezeBalanceByMemId(memId);
+			// 全部余额，含冻结余额
+			Double totalConsumeMoney = DoubleCalculate.getFormalValueTwo(report.getBalance());
+			// 冻结余额
+			Double freezeConsumeMoney = DoubleCalculate.getFormalValueTwo(report.getFreezeBalance());
+			// 可使用账户余额，不含冻结余额（注意：这里是相减）
+			Double useConsumeMoney = DoubleCalculate.getFormalValueTwo(totalConsumeMoney - freezeConsumeMoney);
+			data.setAllMoney(String.valueOf(totalConsumeMoney));
+			data.setUseMoney(String.valueOf(useConsumeMoney));
+			data.setFreezeMoney(String.valueOf(freezeConsumeMoney));
+		} catch (Exception e) {
+			data.setAllMoney("0");
+			data.setUseMoney("0");
+			data.setFreezeMoney("0");
+			logger.error("获取个人账户余额，出现异常：" + e);
+		}
 		return data;
 	}
 
