@@ -1,6 +1,11 @@
 package com.meiduimall.service.account.service;
 
+import java.util.Map;
+
+import com.meiduimall.exception.MdBizException;
 import com.meiduimall.service.account.model.request.RequestBankWithdrawDepositsList;
+import com.meiduimall.service.account.model.request.RequestMSBankWithDrawDepostie;
+import com.meiduimall.service.account.model.request.RequestMSBankWithDrawDepostieFree;
 import com.meiduimall.service.account.model.response.ResponseBankWithdrawDepositList;
 
 /**
@@ -23,5 +28,12 @@ public interface WithDrawService {
 //	 * @return 提现业务单号，对应ms_bank_withdraw_deposit表的business_no字段
 //	 */
 //	String saveBankWithdrawDeposit(RequestSaveBankWithdrawDeposit model);
-	
+	/**
+	 * 获取账号提现手续费用
+	 * @param param
+	 * @return
+	 * @throws MdBizException
+	 * @author: jianhua.huang  2017年6月15日 上午9:52:45
+	 */
+	Double getWithDrawFree(RequestMSBankWithDrawDepostieFree depostie) throws MdBizException;
 }
