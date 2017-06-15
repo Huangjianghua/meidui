@@ -3,6 +3,7 @@ package com.meiduimall.application.usercenter.api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,6 +14,7 @@ import com.meiduimall.application.usercenter.interceptor.ValRequest;
 import com.meiduimall.application.usercenter.service.WithDrawService;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
+import com.meiduimall.exception.MdSysException;
 
 /**
  * 提现相关API
@@ -35,17 +37,14 @@ public class WithDrawV1Controller {
 	@HasToken
 	@RequestMapping(value="/query_withdraw_detail")
 	ResBodyData queryWithDrawDetail(){
-		ResBodyData resBodyData=null;
 		JSONObject reqJson=ValRequest.apiReqData.get();
 		logger.info("收到提现明细API请求：{}",reqJson.toString());
 		try {
-			resBodyData=withdrawService.queryWithDrawDetail(reqJson);
-		} catch (Exception e) {
+			return withdrawService.queryWithDrawDetail(reqJson);
+		} catch (MdSysException e) {
 			logger.info("提现明细API请求异常：{}",e.toString());
 			throw new ApiException(ConstApiStatus.SYSTEM_ERROR);
 		}
-		logger.info("提现明细API请求结果：{}",resBodyData.toString());
-		return resBodyData;
 	}
 	
 	/**
@@ -53,18 +52,15 @@ public class WithDrawV1Controller {
 	 * @return ResBodyData
 	 */
 	@HasToken
-	@RequestMapping(value="/get_withdraw_poundage")
+	@GetMapping(value="/get_withdraw_poundage")
 	ResBodyData getWithDrawPoundage(){
-		ResBodyData resBodyData=null;
 		JSONObject reqJson=ValRequest.apiReqData.get();
-		logger.info("收到提现查询手续费API请求：{}",reqJson.toString());
+		logger.info("收到查询提现手续费API请求：{}",reqJson.toString());
 		try {
-			resBodyData=withdrawService.getWithDrawPoundage(reqJson);
+			return withdrawService.getWithDrawPoundage(reqJson);
 		} catch (Exception e) {
-			logger.info("提现查询手续费API请求异常：{}",e.toString());
+			logger.info("查询提现手续费API请求异常：{}",e.toString());
 			throw new ApiException(ConstApiStatus.SYSTEM_ERROR);
 		}
-		logger.info("提现查询手续费API请求结果：{}",resBodyData.toString());
-		return resBodyData;
 	}
 }

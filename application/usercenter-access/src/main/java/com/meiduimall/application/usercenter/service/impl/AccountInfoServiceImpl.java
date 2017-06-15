@@ -9,36 +9,36 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.usercenter.config.ProfileParamsConfig;
 import com.meiduimall.application.usercenter.constant.ConstApiStatus;
-import com.meiduimall.application.usercenter.service.UserInfoService;
+import com.meiduimall.application.usercenter.service.AccountInfoService;
 import com.meiduimall.application.usercenter.util.HttpUtils;
 import com.meiduimall.application.usercenter.util.MD5Utils;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdSysException;
 
 /**
- * 会员账号信息业务逻辑接口{@link=UserInfoService}实现类
+ * 会员账户信息业务逻辑接口{@link=AccountInfoServiced}实现类
  * @author chencong
  *
  */
 @Service
-public class UserInfoServiceImpl implements UserInfoService  {
+public class AccountInfoServiceImpl implements AccountInfoService  {
 	
-	private static Logger logger = LoggerFactory.getLogger(UserInfoServiceImpl.class);
+	private static Logger logger = LoggerFactory.getLogger(AccountInfoServiceImpl.class);
 	
 	@Autowired
 	private ProfileParamsConfig profile;
 
 	@Override
-	public ResBodyData getmemberbasicinfo(JSONObject reqJson) throws MdSysException {
-		String url=profile.getServiceMemberUrl()+"v1/get_member_basic_info";
+	public ResBodyData getAllowWithdrawBalance(JSONObject reqJson) throws MdSysException {
 		MD5Utils.updateSign(reqJson,profile.getRouteClientID(),profile.getRouteKey());
-		logger.info("调用账号服务>>获取会员基本信息API>>URL:{}  Data:{}",url,reqJson.toString());
+		String url=profile.getServiceAccountUrl()+"v1/get_allow_withdraw_balance";
+		logger.info("调用账户服务>>查询当前会员可提现余额API>>URL:{}  Data:{}",url,reqJson.toString());
 		try {
 			String result=HttpUtils.get(url,reqJson);
-			logger.info("调用账号服务>>获取会员基本信息API>>结果：{}",result);
+			logger.info("调用账户服务>>查询当前会员可提现余额API>>结果：{}",result);
 			return JSON.parseObject(result,ResBodyData.class);
 		} catch (Exception e) {
-			logger.error("调用账号服务>>获取会员基本信息API>>异常:{}",e.toString());
+			logger.error("调用账户服务>>查询当前会员可提现余额API>>异常:{}",e.toString());
 			throw new MdSysException(ConstApiStatus.REQUEST_GATEWAY_EX);
 		} 
 	}

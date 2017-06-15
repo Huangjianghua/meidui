@@ -129,6 +129,7 @@ public abstract class ConstApiStatus extends BaseApiCode {
 		zhMsgMap.put(DB_DELETE_EXCEPTION, "数据库删除失败");
 		zhMsgMap.put(DB_INSERT_EXCEPTION, "数据库插入失败");
 		zhMsgMap.put(SYSTEM_ERROR, "系统错误，请联系客服");
+		zhMsgMap.put(JSON_PARSE_EXCEPTION, "json解析异常");
 
 		zhMsgMap.put(USERNAME_ERROR, "用户名输入错误");
 		zhMsgMap.put(MEMBER_NOT_EXIST, "该用户不存在，请先注册");

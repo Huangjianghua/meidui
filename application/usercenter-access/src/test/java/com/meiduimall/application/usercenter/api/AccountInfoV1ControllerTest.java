@@ -20,23 +20,20 @@ import com.meiduimall.application.usercenter.util.MD5Utils;
 import com.meiduimall.core.ResBodyData;
 
 /**
- * 会员账号相关信息API{@link=UserInfoV1Controller}}单元测试
+ * 账户信息相关API{@link=AccountInfoV1Controller}}单元测试
  * @author chencong
  *
  */
-public class UserInfoV1ControllerTest extends BaseControllerTest{
+public class AccountInfoV1ControllerTest extends BaseControllerTest{
 
-	private final static Logger logger=LoggerFactory.getLogger(UserInfoV1ControllerTest.class);
+	private final static Logger logger=LoggerFactory.getLogger(AccountInfoV1ControllerTest.class);
 	
 	@Autowired
 	private BaseOpService baseOpService;
 	
-	/**
-	 * 获取会员基本信息
-	 * @throws Exception
-	 */
+	/**获取当前会员可提现余额*/
     @Test
-    public void testGetMemberBasicInfo_01() throws Exception{
+    public void testGetAllowWithdrawBalance_01() throws Exception{
     	//先登录获取token
     	JSONObject json=new JSONObject();
     	json.put("user_name",phone);
@@ -46,16 +43,16 @@ public class UserInfoV1ControllerTest extends BaseControllerTest{
     	if(resBodyData.getStatus()==0){
     		String token=JackSonUtil.getJsonMap(resBodyData.getData()).get("token").toString();
     		
-        	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/get_member_basic_info?token="+token))
+        	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/v1/get_allow_withdraw_balance?token="+token))
         			.andExpect(status().isOk())
         			.andExpect(jsonPath("$.status",is(0)));
         	
         	resultActions.andDo(new ResultHandler() {
     			@Override
     			public void handle(MvcResult result) throws Exception {
-    				logger.info("单元测试>>获取会员基本信息API>>执行结果:{}",result.getResponse().getContentAsString());;
+    				logger.info("单元测试>>获取当前会员可提现余额API>>执行结果:{}",result.getResponse().getContentAsString());;
     			}
-    		});    		
+    		});
     	}
     }
 }

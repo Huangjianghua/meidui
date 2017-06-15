@@ -5,18 +5,18 @@ import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdSysException;
 
 /**
- * 会员账号信息业务逻辑接口
+ * 会员账户信息业务逻辑接口
  * @author chencong
  *
  */
-public interface UserInfoService {
+public interface AccountInfoService {
 
 	/**
-	 * 根据memdId查询会员基本信息
+	 * 查询当前会员可提现余额
 	 * @param reqJson 请求的数据
 	 * @return 统一数据返回格式
 	 * @throws MdSysException 系统异常
 	 */
-	 ResBodyData getmemberbasicinfo(JSONObject reqJson) throws MdSysException;
+	 ResBodyData getAllowWithdrawBalance(JSONObject reqJson) throws MdSysException;
 	
 }

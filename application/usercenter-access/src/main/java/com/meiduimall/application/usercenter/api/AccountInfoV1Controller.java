@@ -11,36 +11,36 @@ import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.usercenter.annotation.HasToken;
 import com.meiduimall.application.usercenter.constant.ConstApiStatus;
 import com.meiduimall.application.usercenter.interceptor.ValRequest;
-import com.meiduimall.application.usercenter.service.UserInfoService;
+import com.meiduimall.application.usercenter.service.AccountInfoService;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.MdSysException;
 
 
 /**
- * 会员账号相关信息API
+ * 账户信息相关API
  * @author chencong
  *
  */
 @RestController
 @RequestMapping("/member/front_user_center/v1")
-public class UserInfoV1Controller {
+public class AccountInfoV1Controller {
 	
-	private static Logger logger = LoggerFactory.getLogger(UserInfoV1Controller.class);
+	private static Logger logger = LoggerFactory.getLogger(AccountInfoV1Controller.class);
 	
 	@Autowired
-	private UserInfoService userInfoService;
+	private AccountInfoService accountInfoService;
 	
-	/**获取当前会员基本信息*/
+	/**查询当前会员可提现余额*/
 	@HasToken
-	@GetMapping(value = "/get_member_basic_info")
-	ResBodyData getMemberBasicInfo(){	
+	@GetMapping(value = "/get_allow_withdraw_balance")
+	ResBodyData getAllowWithdrawBalance(){	
 		JSONObject reqJson=ValRequest.apiReqData.get();
-		logger.info("收到获取当前会员基本信息API请求：{}",reqJson.toString());
+		logger.info("收到查询当前会员可提现余额API请求：{}",reqJson.toString());
 		try {
-			return userInfoService.getmemberbasicinfo(reqJson);
+			return accountInfoService.getAllowWithdrawBalance(reqJson);
 		} catch (MdSysException e) {
-			logger.error("获取会员基本信息API异常：{}",e.toString());
+			logger.error("查询当前会员可提现余额API异常：{}",e.toString());
 			throw new ApiException(ConstApiStatus.SYSTEM_ERROR);
 		}
 	}

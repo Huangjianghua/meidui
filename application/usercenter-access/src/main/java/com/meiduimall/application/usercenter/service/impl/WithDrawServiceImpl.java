@@ -31,21 +31,19 @@ public class WithDrawServiceImpl implements WithDrawService{
 	
 	@Override
 	public ResBodyData queryWithDrawDetail(JSONObject reqJson) throws MdSysException {
-		ResBodyData resBodyData=new ResBodyData(null,null);
 		String url=profile.getServiceAccountUrl()+"v1/query_withdraw_detail";
 		MD5Utils.updateSign(reqJson,profile.getRouteClientID(),profile.getRouteKey());
-		logger.info("提现明细API>>URL:{}  Data:{}",url,reqJson.toString());
+		logger.info("调用账户服务>>查询提现明细API>>URL:{}  Data:{}",url,reqJson.toString());
 		try {
 			Map<String, String> headers=new HashMap<>();
 			headers.put(ConstSysParamsDefination.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
 			String result=HttpUtils.post(url,reqJson.toString(),headers);
-			logger.info("提现明细API>>结果：{}",result);
-			resBodyData=JSON.parseObject(result,ResBodyData.class);
+			logger.info("调用账户服务>>查询提现明细API>>结果：{}",result);
+			return JSON.parseObject(result,ResBodyData.class);
 		} catch (Exception e) {
-			logger.error("提现明细API>>异常:{}",e.toString());
+			logger.error("调用账户服务>>查询提现明细API>>异常:{}",e.toString());
 			throw new MdSysException(ConstApiStatus.REQUEST_GATEWAY_EX);
 		}
-		return resBodyData;
 	}
 
 
@@ -56,19 +54,16 @@ public class WithDrawServiceImpl implements WithDrawService{
 	 */
 	@Override
 	public ResBodyData getWithDrawPoundage(JSONObject reqJson) throws MdSysException {
-		ResBodyData resBodyData=new ResBodyData(null,null);
 		String url=profile.getServiceAccountUrl()+"v1/get_withdraw_poundage";
 		MD5Utils.updateSign(reqJson,profile.getRouteClientID(),profile.getRouteKey());
-		logger.info("提现手续费API>>URL:{}  Data:{}",url,reqJson.toString());
+		logger.info("调用账户服务>>查询当前会员提现手续费API>>URL:{}  Data:{}",url,reqJson.toString());
 		try {
 			String result=HttpUtils.get(url, reqJson);
-			logger.info("提现手续费API>>结果：{}",result);
-			resBodyData=JSON.parseObject(result,ResBodyData.class);
+			logger.info("调用账户服务>>查询当年会员提现手续费API>>结果：{}",result);
+			return JSON.parseObject(result,ResBodyData.class);
 		} catch (Exception e) {
-			logger.error("提现手续费API>>异常:{}",e.toString());
+			logger.error("调用账户服务>>查询当前会员提现手续费API>>异常:{}",e.toString());
 			throw new MdSysException(ConstApiStatus.REQUEST_GATEWAY_EX);
 		}
-		return resBodyData;
 	}
-
 }

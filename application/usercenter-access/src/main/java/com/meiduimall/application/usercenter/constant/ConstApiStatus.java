@@ -20,9 +20,10 @@ public class ConstApiStatus extends BaseApiCode {
 	public final static Integer MEMID_OF_TOKEN_EMPTY=9009;
 	public final static Integer SIGN_FORMAT_ERROR=9010;
 	public final static Integer SIGN_ERROR=9011;
-	public final static Integer CREATE_SIGN_EXCEPTION=9012;
+	public final static Integer CREATE_SIGN_EXCEPTION=9012;	
+	public final static Integer JSON_PARSE_EXCEPTION=9013;
 	
-	public final static Integer LOGIN_EXPIRE=9013;
+	public final static Integer LOGIN_EXPIRE=9014;
 
 	
 	static {
@@ -38,6 +39,7 @@ public class ConstApiStatus extends BaseApiCode {
 		zhMsgMap.put(SIGN_FORMAT_ERROR, "签名格式错误");
 		zhMsgMap.put(SIGN_ERROR, "签名错误");
 		zhMsgMap.put(CREATE_SIGN_EXCEPTION, "生成签名失败");
+		zhMsgMap.put(JSON_PARSE_EXCEPTION, "json解析异常");
 		
 		zhMsgMap.put(LOGIN_EXPIRE, "登录已过期，请重新登陆");
 		
