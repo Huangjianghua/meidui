@@ -14,7 +14,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.meiduimall.redis.util.RedisTemplate;
+import com.meiduimall.exception.MdSysException;
+import com.meiduimall.service.member.dao.BaseDao;
+import com.meiduimall.service.member.util.DESC;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -26,20 +28,22 @@ public class BaseControllerTest {
 	
 	protected MockMvc mockMvc;
 	
-	protected final static String memId="81405e44-2178-44d7-822f-dec561022888";
-	protected final static String phone="13049847742";
-	protected final static String payPwd="123456";
-	protected  String token=null;
+	protected final static String phone="18898447755";
 	
-	protected final String baseUrl="/member/member_service/v1";
+	protected  String memId=null;
+	
+	protected final String baseUrl="/member/member_service";
 	
 	@Autowired
 	private WebApplicationContext webApplicationContext;
+
+	@Autowired
+	private BaseDao baseDao;
 	
 	@Before
-	public void setUp(){
+	public void setUp() throws MdSysException{
 		 mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-		 token=RedisTemplate.getJedisInstance().execGetFromCache(memId);
+		 memId=baseDao.selectOne(DESC.encryption(phone),"MSMembersMapper.selectMemIdByPhone");
 	   }
 	
 	@Test

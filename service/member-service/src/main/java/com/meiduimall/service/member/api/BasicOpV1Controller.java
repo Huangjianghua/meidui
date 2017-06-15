@@ -34,10 +34,6 @@ import com.meiduimall.service.member.service.BasicOpService;
 import com.meiduimall.service.member.service.UserInfoService;
 import com.meiduimall.service.member.util.HttpResolveUtils;
 
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-
 /**
  * 会员基本行为相关API
  * @author chencong

@@ -488,10 +488,10 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 					ConstTradeType.TRADE_TYPE_YETX.getCode(),String.valueOf(accountType.getWithdrawAmount()),
 					 new Date(),String.valueOf(account.getBalance()),  ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
 			//手续费
-			Double free=DoubleCalculate.mul(accountType.getWithdrawAmount(), account.getWithdrawPoundageScale());
-			accountDetailService.saveCutAccountDetail(null,withdrawDeposit.getBusinessNo(),account.getAccountNo(),"",
-					ConstTradeType.TRADE_TYPE_TXSX.getCode(),String.valueOf(free),
-					 new Date(), String.valueOf(account.getBalance()), ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);
+//			Double free=DoubleCalculate.mul(accountType.getWithdrawAmount(), account.getWithdrawPoundageScale());
+//			accountDetailService.saveCutAccountDetail(null,withdrawDeposit.getBusinessNo(),account.getAccountNo(),"",
+//					ConstTradeType.TRADE_TYPE_TXSX.getCode(),String.valueOf(free),
+//					 new Date(), String.valueOf(account.getBalance()), ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK);
 		}
 		//step5 修改总的金额    
 		Map<String, Object> mapParam=new HashMap<>();
@@ -654,9 +654,9 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 				//更新ms_account_report 表总对应账号的字段值
 				updateAccountBalanceReport(account.getAccountTypeNo(),addFreezeMoney,account.getMemId(),ConstSysParamsDefination.FREE_ALANCE_UPDATE_OPERATE);
 				//增加余额冻结明细
-				insertAccoutFreezeDetail(account.getAccountNo(),businessNo,ConstSysParamsDefination.FREEZE,ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK,DoubleCalculate.sub(addFreezeMoney, free),ConstTradeType.TRADE_TYPE_YETX.getCode(),DoubleCalculate.sub(freezeBalance, free),date);
+				insertAccoutFreezeDetail(account.getAccountNo(),businessNo,ConstSysParamsDefination.FREEZE,ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK,addFreezeMoney,ConstTradeType.TRADE_TYPE_YETX.getCode(),freezeBalance,date);
 				//插入手续费冻结明细
-				insertAccoutFreezeDetail(account.getAccountNo(),businessNo,ConstSysParamsDefination.FREEZE,ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK,free,ConstTradeType.TRADE_TYPE_TXSX.getCode(),freezeBalance,date);
+				//insertAccoutFreezeDetail(account.getAccountNo(),businessNo,ConstSysParamsDefination.FREEZE,ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK,free,ConstTradeType.TRADE_TYPE_TXSX.getCode(),freezeBalance,date);
 				freeTotal=DoubleCalculate.add(freeTotal, free); //累加手续费
 				break;
 			}
@@ -671,11 +671,13 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			//更新ms_account_report 表总对应账号的字段值
 			updateAccountBalanceReport(account.getAccountTypeNo(),useBalance,account.getMemId(),ConstSysParamsDefination.FREE_ALANCE_UPDATE_OPERATE);
 			//增加明细
-			insertAccoutFreezeDetail(account.getAccountNo(),businessNo,ConstSysParamsDefination.FREEZE,ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK,DoubleCalculate.sub(useBalance, free),ConstTradeType.TRADE_TYPE_YETX.getCode(),DoubleCalculate.sub(freezeBalance, free),date);
+			insertAccoutFreezeDetail(account.getAccountNo(),businessNo,ConstSysParamsDefination.FREEZE,ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK,useBalance,ConstTradeType.TRADE_TYPE_YETX.getCode(),freezeBalance,date);
 			//增加明细
 			freeTotal=DoubleCalculate.add(freeTotal, free); //累加手续费
-			insertAccoutFreezeDetail(account.getAccountNo(),businessNo,ConstSysParamsDefination.FREEZE,ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK,free,ConstTradeType.TRADE_TYPE_TXSX.getCode(),freezeBalance,date);
+			//insertAccoutFreezeDetail(account.getAccountNo(),businessNo,ConstSysParamsDefination.FREEZE,ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK,free,ConstTradeType.TRADE_TYPE_TXSX.getCode(),freezeBalance,date);
 			}
+			//判断手续费是否小于最低2元
+			if(freeTotal<Constants.CONSTANT_INT_TWO) freeTotal=Double.valueOf(Constants.CONSTANT_INT_TWO);
 			//step3更新提现 实际金额和手续费
 			updateWithDrawAmountAndFee(id,freeTotal,DoubleCalculate.sub(totalFrezeMoney, freeTotal));
 			//step4 修改总的冻结金额
@@ -756,7 +758,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			model.setCreateUser(ConstSysParamsDefination.SYSTEM_USER);
 			model.setId(UUID.randomUUID().toString());
 			model.setInOrOut(inOrOut);
-			model.setRemark(remark);
+			model.setRemark("账户:"+accountNo+","+remark+":"+tradeAmount);
 			model.setTradeAmount(tradeAmount);
 			model.setTradeDate(date);
 			model.setTradeType(tradeType);
