@@ -35,7 +35,7 @@ public class AccountWithDrawV1ControllerTest extends BaseControllerTest {
 	/**查询提现明细*/
     @Test
     public void queryWithdrawDetail() throws Exception{
-    	MSAccountDetailCondition msAccount = new MSAccountDetailCondition();
+    /*	MSAccountDetailCondition msAccount = new MSAccountDetailCondition();
     	msAccount.setId("00623cf9-a2c8-4995-b914-ff37d52822ea");
     	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/v1/query_withdraw_detail")
     			.contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -49,7 +49,7 @@ public class AccountWithDrawV1ControllerTest extends BaseControllerTest {
 				logger.info("单元测试>>提现明细API>>执行结果:{}",result.getResponse().getContentAsString());;
 
 			}
-		});
+		});*/
     }
 	
     /**
