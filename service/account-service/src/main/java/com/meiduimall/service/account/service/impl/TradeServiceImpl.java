@@ -1,7 +1,5 @@
 package com.meiduimall.service.account.service.impl;
 
-import static org.hamcrest.CoreMatchers.endsWith;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import com.alibaba.fastjson.JSONObject;
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
@@ -301,8 +298,9 @@ public class TradeServiceImpl implements TradeService {
 		return resBodyData;
 	}
 
+	@Transactional
 	@Override
-	public ResBodyData cancelOrder(RequestCancelOrder model) {
+	public ResBodyData cancelOrder(RequestCancelOrder model) throws MdSysException {
 		ResBodyData resBodyData = new ResBodyData(Constants.CONSTANT_INT_ZERO,"订单取消成功");
 		
 		int orderStatus=model.getOrderStatus(); //订单状态
@@ -327,9 +325,37 @@ public class TradeServiceImpl implements TradeService {
 		for(MSConsumePointsFreezeInfo item:listPointsFreezeInfo){
 			//下面的属性重新赋值，其他属性继续沿用之前的值
 			item.setMcpfId(UUID.randomUUID().toString());
-			item.setMcpfFreezeType(ConstPointsChangeType.POINTS_FREEZE_TYPE_JD.getCode());
 			item.setMcpfConsumePoints("-"+item.getMcpfConsumePoints());
+			item.setMcpfCreatedBy("账户服务");
+			item.setMcpfUpdatedBy("账户服务");
+			item.setMcpfRemark(SerialStringUtil.getPointsRemark(ConstPointsChangeType.POINTS_OPERATOR_TYPE_QX.getCode(),memId));
+			pointsFreezeInfoService.insertConsumePointsFreezeInfo(item,ConstPointsChangeType.POINTS_OPERATOR_TYPE_QX.getCode());
 		}
+		
+		//解冻该订单号对应的余额冻结记录
+		for(MSAccountFreezeDetail item:listBalanceFreeze){
+			//下面的属性重新赋值，其他属性继续沿用之前的值
+			item.setId(UUID.randomUUID().toString());
+			item.setTradeType(ConstTradeType.TRADE_TYPE_TKQX.getCode());
+			item.setTradeDate(new Date());
+			item.setInOrOut(Constants.CONSTANT_INT_INVALID);
+			item.setCreateUser("账户服务");
+			item.setUpdateUser("账户服务");
+			item.setRemark("订单取消解冻余额");
+			accountFreezeDetailService.insertAccoutFreezeDetail(item);
+			
+			//更新账户冻结记录
+			
+		}
+		
+		//更新账户报表的冻结余额
+		
+		//更新消费记录表状态为已退单
+		Map<String,Object> mapMcr=new HashMap<>();
+		mapMcr.put("orderId",orderId);
+		mapMcr.put("orderStatus",Constants.CONSTANT_INT_ONE);
+		mapMcr.put("newOrderStatus",Constants.CONSTANT_INT_TWO);
+		baseDao.update(mapMcr,"MSMemberConsumeRecordsMapper.updateOrderStatus");
 		
 		return resBodyData;
 	}
