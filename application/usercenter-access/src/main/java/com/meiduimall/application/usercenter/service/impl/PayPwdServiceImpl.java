@@ -3,7 +3,6 @@ package com.meiduimall.application.usercenter.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.meiduimall.exception.MdSysException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +18,7 @@ import com.meiduimall.application.usercenter.service.PayPwdService;
 import com.meiduimall.application.usercenter.util.HttpUtils;
 import com.meiduimall.application.usercenter.util.MD5Utils;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.MdSysException;
 
 @Service
 public class PayPwdServiceImpl implements PayPwdService  {

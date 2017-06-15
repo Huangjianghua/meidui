@@ -26,10 +26,12 @@ import com.meiduimall.service.account.util.DESC;
 public class BaseControllerTest {
 	
 	protected MockMvc mockMvc;
-	
+	protected  String memId="72063681-7408-435c-88fd-cd837c95c66e";
+	protected final static String phone="18898447755";
+	protected final static String payPwd="123456";
+
+	protected  String token=null; 
 	protected final String baseUrl="/member/account_service";
-	protected String memId=null;
-	protected final String phone="18898447755";
 	
 	@Autowired
 	private WebApplicationContext webApplicationContext;
@@ -47,4 +49,4 @@ public class BaseControllerTest {
 	public void test(){
 		
 	}
-}
+}

@@ -50,6 +50,7 @@ public class OldSmsController {
 				return new ResultBody(ResultBody.FAILED, SmsApiCode.getZhMsg(SmsApiCode.REQUEST_PARAMS_ERROR));
 			}
 
+
 			// 过滤手机号+86字符
 			model.setPhones(PhoneUtil.formatParamsPhones(model.getPhones()));
 

@@ -15,4 +15,4 @@ public class MethodLogPointcut {
 	public void pointcutLog() {
 		// Do nothing because of X and Y.
 	}
-}
+} 

@@ -111,7 +111,7 @@ public class BasicOpV1Controller {
         @ApiImplicitParam(name = "requestLogin", value = "登录实体", required = true, dataType = "RequestLogin"),
 	})*/
 	@PostMapping(value = "/login")
-	ResBodyData login(@RequestBody @Valid RequestLogin requestLogin){
+	ResBodyData login(@RequestBody @Valid RequestLogin requestLogin) throws MdSysException{
 		requestLogin.setIp(request.getRemoteAddr());
 		String tokenKey=request.getHeader(ConstSysParamsDefination.TERMINAL_ID);
 		if(StringUtils.isEmpty(tokenKey)){
@@ -119,13 +119,16 @@ public class BasicOpV1Controller {
 		}
 		requestLogin.setTokenKey(tokenKey);
 		logger.info("收到会员登录API请求：",requestLogin.toString());
+
 		ResBodyData resBodyData=null;
 		try {
+
 			resBodyData = basicOpService.login(requestLogin);
 		} catch (MdSysException e) {
 			logger.error("会员登录API请求异常：{}",e.toString());
 			throw new ApiException(ConstApiStatus.LOGIN_EXCEPTION);
 		}
+
 		logger.info("会员登录API请求结果  ：{}",resBodyData.toString());
 		return resBodyData;
 	}
@@ -212,19 +215,16 @@ public class BasicOpV1Controller {
 	/**我是谁（token转memId）*/
 	@GetMapping(value = "/get_memid_by_token")
 	ResBodyData getMemIdByToken(@RequestParam String token){
-
 		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,"");
 		logger.info("收到我是谁API请求：{}",token);
 		if(RedisTemplate.getJedisInstance().execExistsFromCache(token)){
 			String memId=RedisTemplate.getJedisInstance().execGetFromCache(token);
 			Map<String, Object> data=new HashMap<>();
 			data.put(ConstSysParamsDefination.MEM_ID,memId);
-
 			resBodyData.setData(data);
 			return resBodyData;
 		}
 		else{
-
 			throw new ApiException(ConstApiStatus.TOKEN_NOT_EXISTS);
 		}
 	}

@@ -89,6 +89,7 @@ public class DESC {
 		return result;
 	}
 
+
 	private static String decrypt(String data, String key) throws MdSysException {
 		if(StringUtils.isEmpty(data)){
 			return "";
@@ -96,6 +97,7 @@ public class DESC {
 		if(String.valueOf(Constants.CONSTANT_INT_ZERO).equals(data)){
 			return String.valueOf(Constants.CONSTANT_INT_ZERO);
 		}
+
 		String result=null;
 		try {
 			Key deskey = keyGenerator(key);

@@ -81,6 +81,7 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {/*
 		});
     	
     }
+<<<<<<< HEAD
     
 	*//**登出
 	 * @throws Exception *//*
@@ -123,6 +124,14 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {/*
     @Test
     public void test003GetPut() throws Exception{
     	//**get token*//*
+=======
+   
+
+
+
+    /*public void getPut() throws Exception{
+    	*//**get token*//*
+>>>>>>> refs/remotes/origin/hotfix/v4.0.0
     	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/getput?user_id=1gw_"+phone+"&type=1"))
     			.andExpect(status().isOk())
     			.andExpect(jsonPath("$.status_code",is("0")));

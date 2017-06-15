@@ -11,3 +11,4 @@ public class MethodLogPointcut {
 		// Do nothing because of X and Y.
 	}
 }
+ 

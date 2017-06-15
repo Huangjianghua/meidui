@@ -46,6 +46,7 @@ public abstract class ApiStatusConst extends BaseApiCode {
 		public final static Integer PAYPWD_NOT_RIGHT=7014;
 		public final static Integer UPDATE_PAYPWD_EXCEPTION=7015;
 		public final static Integer RETRIEVE_PAYPWD_EXCEPTION=7016;
+
 		public final static Integer OLD_PAYPWD_NOT_RIGHT=7017;
 		
 		public static final Integer USER_NOT_EXIST = 7018;
@@ -113,7 +114,7 @@ public abstract class ApiStatusConst extends BaseApiCode {
 		public final static Integer INSERT_MEMBER_FREEZE_DETAIL_ERROR=7125;
 		/**修改提现 实际金额和手续费异常 */
 		public final static Integer UPDATE_WITHDRAW_DEPOSIT_AMOUNT_ERROR=7126;
-		
+
 		static {
 			zhMsgMap.put(OPERATION_DB_EX, "操作数据库程序异常");
 			zhMsgMap.put(REQUIRED_PARAM_EMPTY, "必填参数为空");
@@ -157,6 +158,10 @@ public abstract class ApiStatusConst extends BaseApiCode {
 			zhMsgMap.put(QUERY_BANK_WITHDRAW_BY_ID_ERROR, "查看提现记录错误");
 			zhMsgMap.put(QUERY_BANK_WITHDRAW__DETAIL_BY_ID_ERROR, "查看提现记录明细错误 ");
 			zhMsgMap.put(UPDATE_PAYPWD_EXCEPTION, "更新支付密码失败，请联系客服");
+
+			zhMsgMap.put(RETRIEVE_PAYPWD_EXCEPTION, "找回支付密码失败，请联系客服");
+			zhMsgMap.put(OLD_PAYPWD_NOT_RIGHT, "旧支付密码验证不通过，请联系客服");
+
         	zhMsgMap.put(DEALWLTH_ACCOUNT_MONEY_ERROR, "结算处理用户账号余额错误 ");
 			zhMsgMap.put(ACCOUNT_BANK_CARD_IS_NULL, "当前会员银行卡账户信息不存在  ");
 			zhMsgMap.put(ACCOUNT_APPLY_CARRY_CASH_ERROR, "超过最大可提现限制50000");
@@ -173,5 +178,6 @@ public abstract class ApiStatusConst extends BaseApiCode {
 			zhMsgMap.put(SERVER_DEAL_WITH_EXCEPTION, "服务器处理异常!");
 			zhMsgMap.put(INSERT_MEMBER_FREEZE_DETAIL_ERROR, "添加账号冻结明细错误");
 			zhMsgMap.put(UPDATE_WITHDRAW_DEPOSIT_AMOUNT_ERROR, "修改提现实际金额和手续费异常");
+
 		}
 }

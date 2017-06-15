@@ -1,7 +1,5 @@
 package com.meiduimall.service.account.service;
 
-import org.omg.CORBA.SystemException;
-
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.model.MSMembersPaypwd;
@@ -44,14 +42,13 @@ public interface PaypwdService {
 	 * @return 统一数据返回格式
 	 * @throws MdSysException 检查类型异常
 	 */
-
-
-	ResBodyData updatePaypwd(RequestUpdatePaypwd requestUpdatePaypwd) throws  MdSysException;
+	ResBodyData updatePaypwd(RequestUpdatePaypwd requestUpdatePaypwd) throws MdSysException;
 	
 	/**
 	 * 找回支付密码
 	 * @param requestRetrievePaypwd 修改支付密码请求映射实体
-	 * @throws MdSysException 
+	 * @throws MdSysException 检查类型异常
 	 */
 	void retrievePaypwd(RequestRetrievePaypwd requestRetrievePaypwd) throws MdSysException;
+
 }

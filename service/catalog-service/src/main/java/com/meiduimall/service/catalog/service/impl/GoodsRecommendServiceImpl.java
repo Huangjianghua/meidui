@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import com.meiduimall.exception.ServiceException;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.catalog.constant.ServiceCatalogApiCode;
 import com.meiduimall.service.catalog.dao.BaseDao;
 import com.meiduimall.service.catalog.entity.SysitemItemRecommend;
+import com.meiduimall.service.catalog.entity.SyspromotionActivityItem;
 import com.meiduimall.service.catalog.result.CheckGoodsResult;
 import com.meiduimall.service.catalog.result.GoodsDetailResult;
 import com.meiduimall.service.catalog.result.JsonCheckGoodsResult;
@@ -112,6 +116,20 @@ public class GoodsRecommendServiceImpl implements GoodsRecommendService {
 			if (!results.isEmpty()) {
 				// 分别给每一个商品详情查询结果添加访问地址
 				for (GoodsDetailResult detail : results) {
+					// 查询活动商品价格
+ 					Map<String, Integer> map = new HashMap<>();
+ 					map.put("item_id", Integer.parseInt(detail.getItemId()));
+ 					Long currentTime = System.currentTimeMillis() / 1000;
+ 					map.put("current_time", currentTime.intValue());
+ 					SyspromotionActivityItem activityItem = baseDao.selectOne(map, "SyspromotionActivityItemMapper.selectByItemIdAndTime");
+ 					if(activityItem != null){
+ 						// 不为空则说明该商品正在参与活动
+ 						detail.setActivityStartTime(DateFormatUtils.format(activityItem.getStartTime().intValue() * 1000l, "yyyy-MM-dd HH:mm:ss"));
+ 						detail.setActivityEndTime(DateFormatUtils.format(activityItem.getEndTime().intValue() * 1000l, "yyyy-MM-dd HH:mm:ss"));
+ 						detail.setActivityPoint(activityItem.getActivityPoint());
+ 						detail.setActivityPrice(String.valueOf(activityItem.getActivityPrice()));
+ 						detail.setIsJoinActivity(1);
+ 					}
 					if (sourceId == 2) {
 						detail.setUrl(baseUrl + "/item.html?item_id=" + detail.getItemId());
 					} else {

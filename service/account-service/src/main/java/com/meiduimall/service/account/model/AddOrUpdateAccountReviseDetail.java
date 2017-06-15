@@ -6,7 +6,9 @@ import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
 
+
 import com.meiduimall.exception.MdSysException;
+
 import com.meiduimall.service.account.util.DESC;
 
 /**
@@ -210,7 +212,9 @@ public class AddOrUpdateAccountReviseDetail implements Serializable {
 	}
 
 
+
 	public String getMemLoginName() throws  MdSysException {
+
 		if(StringUtils.isNotBlank(this.memLoginName)) DESC.deyption(memLoginName);
 		return  memLoginName;
 	}
@@ -218,7 +222,9 @@ public class AddOrUpdateAccountReviseDetail implements Serializable {
 	public void setMemLoginName(String memLoginName) {
 		this.memLoginName = memLoginName;
 	}
+
 	public String getMemPhone() throws MdSysException {
+
 		if(StringUtils.isNotBlank(this.memLoginName)) DESC.deyption(memLoginName);
 		return memPhone;
 	}

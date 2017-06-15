@@ -1,5 +1,6 @@
 package com.meiduimall.service.account.config;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -22,4 +23,5 @@ public class ServiceUrlProfileConfig {
 	public String getMemberServiceUrl() {
 		return env.getProperty("service.member");
 	}
+
 }
