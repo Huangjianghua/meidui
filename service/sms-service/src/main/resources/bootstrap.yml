@@ -4,7 +4,7 @@ server:
 #应用名称
 spring:
   application:
-     name: short_msg_service
+     name: sms-service
 
 # mybatis-config
 mybatis: 
