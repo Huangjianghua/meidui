@@ -29,12 +29,12 @@ import com.meiduimall.core.util.JsonUtils;
  */
 public class WithDrawV1ControllerTest extends BaseControllerTest {
 	
-	private final static Logger logger=LoggerFactory.getLogger(WithDrawV1ControllerTest.class);
+	/*private final static Logger logger=LoggerFactory.getLogger(WithDrawV1ControllerTest.class);
 	 
 	@Autowired
 	private BaseOpService baseOpService;
 	
-    /**查询提现明细*/
+    *//**查询提现明细*//*
     @Test
     public void testGetWithdrawDetail_01() throws Exception{
     	Map<String, Object> mapCondition=new HashMap<>();
@@ -54,7 +54,7 @@ public class WithDrawV1ControllerTest extends BaseControllerTest {
     }
     
     
-    /**查询当前会员提现手续费*/
+    *//**查询当前会员提现手续费*//*
     @Test
 	public void testGetWithDrawPoundage_02() throws Exception {    	
     	//先登录获取token
@@ -77,6 +77,6 @@ public class WithDrawV1ControllerTest extends BaseControllerTest {
     			}
     		});
     	}
-	}
+	}*/
 	      
 }

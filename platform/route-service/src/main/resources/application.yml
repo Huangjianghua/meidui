@@ -1,12 +1,3 @@
-server:
-  port: ${PORT:9050}
-hystrix:
-  command:
-    default:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 3000 #缺省为1000
 
 ---
 spring:
