@@ -1,13 +1,5 @@
 package com.meiduimall.payment.api.controller;
 
-import com.meiduimall.exception.ApiException;
-import com.meiduimall.exception.MdBizException;
-import com.meiduimall.payment.api.constant.ServicePaymentApiCode;
-import com.meiduimall.payment.api.model.api.PaymentParamModel;
-import com.meiduimall.payment.api.model.api.PaymentResultModel;
-import com.meiduimall.payment.api.service.PaymentService;
-import com.meiduimall.core.ResBodyData;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +7,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.ApiException;
+import com.meiduimall.exception.MdBizException;
+import com.meiduimall.payment.api.constant.ServicePaymentApiCode;
+import com.meiduimall.payment.api.model.api.PaymentParamModel;
+import com.meiduimall.payment.api.model.api.PaymentResultModel;
+import com.meiduimall.payment.api.service.PaymentService;
+
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * @author nico
@@ -36,6 +40,10 @@ public class PaymentController {
      * @param model 支付接收对象
      * @return resultBody 支付结果返回对象
      */
+    @ApiOperation(value="支付方法", notes="支付方法")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "model", value = "支付参数", required = true, dataType = "PaymentParamModel"),
+	})
     @PostMapping(value ="/payment")
     public ResBodyData pay(@RequestBody PaymentParamModel model) {
     	 ResBodyData resultBody = new ResBodyData(ServicePaymentApiCode.OPERAT_SUCCESS, ServicePaymentApiCode.getZhMsg(ServicePaymentApiCode.OPERAT_SUCCESS));
