@@ -229,7 +229,7 @@ public class AccountWithDrawV1Controller {
 	 * @return
 	 * @author: jianhua.huang 2017年5月5日 下午5:33:05
 	 */
-	@PostMapping(value = "/query_bankWithdraw_free_for_app")
+	@RequestMapping(value = "/query_bankWithdraw_free_for_app")
 	public ResBodyData queryBankWithdrawFreeForApp(@RequestBody RequestMSBankWithDrawDepostie depostie) {
 		ResBodyData resultData = new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M);
 		try {
