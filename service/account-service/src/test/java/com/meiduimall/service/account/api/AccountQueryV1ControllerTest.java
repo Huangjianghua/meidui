@@ -16,9 +16,12 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import com.meiduimall.core.Constants;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.MdSysException;
+import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.model.AddOrUpdateAccountReviseDetail;
+import com.meiduimall.service.account.model.MSAccountDetailGet;
 import com.meiduimall.service.account.service.MSMembersService;
 import com.meiduimall.service.account.util.DESC;
 
@@ -35,12 +38,31 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 	private MSMembersService mSMembersService;
 	
 	/**
-	 * 查询当前会员可用余额
+	 * 查询可提现余额
 	 * @author chencong
 	 * @throws Exception
-	 *//*
+	 */
     @Test
-    public void getAvailableBalance() throws Exception{
+    public void testGetAvailableBalance_01() throws Exception{
+    	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/v1/get_allow_withdraw_balance?memId="+memId))
+    			.andExpect(status().isOk())
+    			.andExpect(jsonPath("$.status",is(Constants.CONSTANT_INT_ZERO)));
+    	
+    	postResultAction.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				logger.info("单元测试>>查询当前会员可提现余额API>>执行结果:{}",result.getResponse().getContentAsString());;
+			}
+		});
+    }
+
+	/**
+	 * 查询可用余额
+	 * @author chencong
+	 * @throws Exception
+	 */
+    @Test
+    public void testGetAvailableBalance_02() throws Exception{
     	//当前会员账户存在
     	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/v1/get_available_balance?memId="+memId))
     			.andExpect(status().isOk())
@@ -66,12 +88,12 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 		});
     }
 	
-	*//**余额流水*//*
+	
     @Test
     public void listMSAccountDetail() throws Exception{
     	MSAccountDetailGet model=new MSAccountDetailGet();
     	model.setMemId(memId);
-    	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/list_account_detail")
+    	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/v1/list_account_detail")
     			.contentType(MediaType.APPLICATION_JSON_UTF8)
     			.content(JsonUtils.beanToJson(model)))
     			.andExpect(status().isOk())
@@ -87,10 +109,10 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
     }
 
 	
-	*//**
+	/**
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月18日 下午3:46:31
-	 *//*
+	 */
 	@Test
 	public void queryAccountListTest() throws Exception {
 		 String url = "/member/account_service/v1/list_account";
@@ -99,7 +121,7 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 		 resultSystemOutPut(url,json);
 	}
 	
-	*//**
+	/**
 	 * @Description: 添加测试
 	 * @Author: jianhua.huang
 	 * @Date:   2017年4月20日 下午2:18:31

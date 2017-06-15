@@ -22,6 +22,7 @@ import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.ApiException;
+import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.MdBizException;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
@@ -34,6 +35,7 @@ import com.meiduimall.service.account.model.MSAccountReport;
 import com.meiduimall.service.account.model.request.RequestAccountReviseDetail;
 import com.meiduimall.service.account.model.request.RequestMSAccountList;
 import com.meiduimall.service.account.service.AccountReportService;
+import com.meiduimall.service.account.service.AccountService;
 import com.meiduimall.service.account.service.MSAccountDetailService;
 import com.meiduimall.service.account.service.MSMembersService;
 
@@ -56,6 +58,9 @@ public class AccountQueryV1Controller {
 	
 	@Autowired
 	private AccountReportService accountReportService;
+	
+	@Autowired
+	private AccountService accountService;
 	
 	/**
 	 * 查询当前会员可用余额
@@ -242,5 +247,23 @@ public class AccountQueryV1Controller {
 	@RequestMapping(value = "/personalConsumptionPoints")
 	public ResBodyData personalConsumptionPoints(String memId){
 		return mSMembersService.personalConsumptionPoints(memId);
+	}
+	
+	/**
+	 * 查询当前会员可提现余额
+	 * @author chencong
+	 */
+	@GetMapping(value = "/get_allow_withdraw_balance")
+	public ResBodyData getAllowWithdrawBalance(@RequestParam String memId) {
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
+		try {
+			Double allowWithdrawBalance=accountService.getAllowWithdrawBalance(memId);
+			ObjectNode rootNode = JsonUtils.getInstance().createObjectNode();
+			rootNode.set("allow_withdraw_balance",new DoubleNode(allowWithdrawBalance));
+			resBodyData.setData(rootNode);
+			return resBodyData;
+		} catch (DaoException e) {
+			throw new ApiException(ConstApiStatus.SYSTEM_ERROR);
+		}
 	}
 }

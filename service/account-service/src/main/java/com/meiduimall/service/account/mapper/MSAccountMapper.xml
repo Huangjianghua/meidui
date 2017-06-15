@@ -70,6 +70,17 @@
 		AND m.account_type_no IN ('CWTZ1','CWTZ2','CWTZ3','FJJL','GDYE','KFCZ1','KFCZ2','QDYE','SCJL','SJJL','SJYE','YEDR')
 	</select>
 	
+	<!-- 查询当前会员可提现的余额 -->
+	<select id="getAllowWithdrawBalance" resultType="java.lang.Double" parameterType="java.lang.String">
+		SELECT SUM(m.balance)-SUM(m.freeze_balance)
+		FROM ms_account m
+		WHERE 1=1
+		AND m.mem_id=#{memId}
+		AND m.allow_withdraw=0
+		AND m.account_type_no IN ('CWTZ1','CWTZ2','CWTZ3','FJJL','GDYE','KFCZ1','KFCZ2','QDYE','SCJL','SJJL','SJYE','YEDR')
+		GROUP BY m.mem_id
+	</select>
+	
 	<!-- 插入会员账户信息 -->
 	  <insert id="insertAccount" parameterType="com.meiduimall.service.account.model.MSAccount" >
 	  INSERT INTO ms_account
@@ -244,5 +255,6 @@
                 where account_no = #{item.accountNo}  
          </foreach>  
     </update>  
+    
     
 </mapper>
