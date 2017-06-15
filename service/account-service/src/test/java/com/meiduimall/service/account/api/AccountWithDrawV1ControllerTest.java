@@ -15,8 +15,6 @@ import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.meiduimall.core.util.JsonUtils;
-import com.meiduimall.service.account.model.MSAccountDetailCondition;
-import com.meiduimall.service.account.model.request.RequestMSBankWithDrawDepostie;
 import com.meiduimall.service.account.model.request.RequestMSBankWithDrawDepostieFree;
 import com.meiduimall.service.account.service.MSMembersService;
 
