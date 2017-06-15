@@ -18,26 +18,25 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.service.member.dao.BaseDao;
 import com.meiduimall.service.member.model.MSMembersGet;
 import com.meiduimall.service.member.model.request.RequestLogin;
 
 /**
- * 会员基本操作
+ * 会员基本操作API{@link=}
  * @author chencong
  *
  */
-public class BaseOpV1ControllerTest extends BaseControllerTest {/*
+public class BaseOpV1ControllerTest extends BaseControllerTest {
 	
 	private final static Logger logger=LoggerFactory.getLogger(BaseOpV1ControllerTest.class);
 	
 	@Autowired
 	private BaseDao baseDao;
 	 
-	*//**登录
-	 * @throws Exception *//*
+	/**登录
+	 * @throws Exception */
     @Test
     public void test001Login() throws Exception{
     	Map<String, Object> mapCondition=new HashMap<>();
@@ -46,7 +45,7 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {/*
     	String memberLockCount=msMembersGet.getMemLockCountPlained();//锁定次数明文
     	
     	RequestLogin requestLogin=new RequestLogin();
-    	*//**正确的账号和密码*//*
+    	/**正确的账号和密码*/
     	requestLogin.setPassword("e10adc3949ba59abbe56e057f20f883e");
     	requestLogin.setUser_name(phone);
     	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/login")
@@ -62,7 +61,7 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {/*
 			}
 		});
     	
-    	*//**错误的账号和密码*//*
+    	/**错误的账号和密码*/
     	requestLogin.setPassword("e10adc3949ba59abbe56e057f20f8831");
     	requestLogin.setUser_name(phone);
     	resultActions=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/login")
@@ -81,58 +80,10 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {/*
 		});
     	
     }
-<<<<<<< HEAD
     
-	*//**登出
-	 * @throws Exception *//*
-    @Test
-    public void test002Exit() throws Exception{
-    	*//**正确的token*//*
-    	JSONObject json=new JSONObject();
-    	json.put("token",token);
-    	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/exit")
-    			.contentType(MediaType.APPLICATION_JSON_UTF8)
-    			.content(json.toJSONString()))
-    			.andExpect(status().isOk())
-    			.andExpect(jsonPath("$.status",is(0)));
-    	
-    	resultActions.andDo(new ResultHandler() {
-			@Override
-			public void handle(MvcResult result) throws Exception {
-				logger.info("单元测试>>退出登录API>>正确的token>>执行结果:{}",result.getResponse().getContentAsString());;
-			}
-		});
-    	*//**不存在的token*//*
-    	json.put("token","1111111");
-    	resultActions=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/exit")
-    			.contentType(MediaType.APPLICATION_JSON_UTF8)
-    			.content(json.toJSONString()))
-    			.andExpect(status().isOk())
-    			.andExpect(jsonPath("$.status",is(8004)));
-    	
-    	resultActions.andDo(new ResultHandler() {
-			@Override
-			public void handle(MvcResult result) throws Exception {
-				logger.info("单元测试>>退出登录API>>不存在的token>>执行结果:{}",result.getResponse().getContentAsString());;
-			}
-		});
-    	
-    }
-    
-    *//**getput
-	 * @throws Exception *//*
-    @Test
-    public void test003GetPut() throws Exception{
-    	//**get token*//*
-=======
-   
 
-
-
-    /*public void getPut() throws Exception{
-    	*//**get token*//*
->>>>>>> refs/remotes/origin/hotfix/v4.0.0
-    	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/getput?user_id=1gw_"+phone+"&type=1"))
+    public void getPut() throws Exception{
+    	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/v1/getput?user_id=1gw_"+phone+"&type=1"))
     			.andExpect(status().isOk())
     			.andExpect(jsonPath("$.status_code",is("0")));
     	
@@ -143,8 +94,8 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {/*
 			}
 		});
     	
-    	//**put token*//*
-    	resultActions=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/getput?user_id=1gw_"+phone+"&type=2"))
+    	//**put token
+    	resultActions=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/v1/getput?user_id=1gw_"+phone+"&type=2"))
     			.andExpect(status().isOk())
     			.andExpect(jsonPath("$.status_code",is("0")));
     	
@@ -155,8 +106,8 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {/*
 			}
 		});
     	
-      	//**通过token找userid*//*
-    	resultActions=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/getput?token="+token+"&type=3"))
+      	//**通过token找userid
+    	resultActions=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/v1/getput?token="+token+"&type=3"))
     			.andExpect(status().isOk())
     			.andExpect(jsonPath("$.status_code",is("0")));
     	
@@ -169,46 +120,5 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {/*
     	
     }
     
-    *//**handlesignout 
-	 * @throws Exception *//*
-    @Test
-    public void test004HandleSignOut () throws Exception{
-    	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/handlesignout?user_id=1gw_"+phone))
-    			.andExpect(status().isOk())
-    			.andExpect(jsonPath("$.status_code",is("0")));
-    	
-    	resultActions.andDo(new ResultHandler() {
-			@Override
-			public void handle(MvcResult result) throws Exception {
-				logger.info("单元测试>>handlesignout API>>执行结果:{}",result.getResponse().getContentAsString());;
-			}
-		});
-    	
-    }
-    
-    *//**注册
-	 * @throws Exception *//*
-    @Test
-    public void test005Register() throws Exception{
-    	JSONObject json=new JSONObject();
-    	*//**已存在的账号*//*
-    	json.put("phone",phone);
-    	json.put("pass_word","e10adc3949ba59abbe56e057f20f883e");
-    	json.put("source",1);
-    	json.put("role_type",2);
-    	json.put("validate_code","");
-    	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/login")
-    			.contentType(MediaType.APPLICATION_JSON_UTF8)
-    			.content(json.toJSONString()))
-    			.andExpect(status().isOk())
-    			.andExpect(jsonPath("$.status",is(0)));
-    	
-    	resultActions.andDo(new ResultHandler() {
-			@Override
-			public void handle(MvcResult result) throws Exception {
-				logger.info("单元测试>>登录API>>正确的账号和密码>>执行结果:{}",result.getResponse().getContentAsString());;
-			}
-		});
-    }
-	      
-*/}
+   
+}
