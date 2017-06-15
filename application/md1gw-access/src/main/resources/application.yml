@@ -75,6 +75,7 @@ myProps :
   finishUrl : http://www.meiduimall.com/wap/finish.html #完成url
   signClientID : mall_java
   signKey: Test123
+  otoUrl : http://o2odev.meiduimall.com
 
 ---
 spring :
@@ -137,6 +138,7 @@ myProps :
   finishUrl : http://www.meiduimall.com/wap/finish.html #完成url
   signClientID : mall_java
   signKey: 20822875
+  otoUrl : http://o2oy.meiduimall.com
 
 ---
 spring :
@@ -199,6 +201,7 @@ myProps :
   finishUrl : http://www.meiduimall.com/wap/finish.html #完成url
   signClientID : mall_java
   signKey: 20822875
+  otoUrl : http://shangjia.meiduimall.com
 
 
 ---
@@ -262,4 +265,5 @@ myProps :
   finishUrl : http://www.meiduimall.com/wap/finish.html #完成url
   signClientID : mall_java
   signKey: Test123
+  otoUrl : http://o2ot.meiduimall.com
 

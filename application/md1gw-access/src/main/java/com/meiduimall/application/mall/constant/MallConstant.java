@@ -16,6 +16,8 @@ public class MallConstant {
 	public static final String SERVICE_CATALOG_BASE_URL = "/mall/catalog-service/v1";
 	
 	public static final String MEMBER_SERVCIE = "/member/member_service/v1";
+	
+	public static final String ACCOUNT_SERVCIE = "/member/account_service/v1";
 
 	public static final String CONTENT_TYPE = "Content-Type";
 

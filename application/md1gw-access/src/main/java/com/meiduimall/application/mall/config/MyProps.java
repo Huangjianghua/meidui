@@ -16,6 +16,8 @@ public class MyProps {
 
 	private String signClientID;// 网关签名clientID
 	private String signKey;// 网关签名key
+	
+	private String otoUrl;
 
 	public String getRouteServiceUrl() {
 		return routeServiceUrl;
@@ -79,6 +81,14 @@ public class MyProps {
 
 	public void setSignKey(String signKey) {
 		this.signKey = signKey;
+	}
+
+	public String getOtoUrl() {
+		return otoUrl;
+	}
+
+	public void setOtoUrl(String otoUrl) {
+		this.otoUrl = otoUrl;
 	}
 
 }
