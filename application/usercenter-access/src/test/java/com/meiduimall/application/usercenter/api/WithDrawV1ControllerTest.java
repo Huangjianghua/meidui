@@ -1,4 +1,4 @@
-/*package com.meiduimall.application.usercenter.api;
+package com.meiduimall.application.usercenter.api;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import java.util.HashMap;
@@ -13,19 +13,19 @@ import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.meiduimall.core.util.JsonUtils;
 
-*//**
+/**
  * 提现相关
  * @author jun.wu@meiduimall.com
  *
- *//*
+ */
 public class WithDrawV1ControllerTest extends BaseControllerTest {
 	
 	private final static Logger logger=LoggerFactory.getLogger(WithDrawV1ControllerTest.class);
 	 
-    *//**
+    /**
      * 提现明细
      * @throws Exception
-     *//*
+     */
     @Test
     public void queryWithDrawDetail () throws Exception{
     	Map<String, Object> mapCondition=new HashMap<>();
@@ -43,5 +43,35 @@ public class WithDrawV1ControllerTest extends BaseControllerTest {
 			}
 		});
     }
+    
+    
+    /**
+     * 
+     * 提现申请查询手续费接口
+     * @throws Exception
+     */
+    @Test
+	public void testGetBankWithdrawDepositsFreeForApp() throws Exception {
+    	Map<String, Object> mapCondition=new HashMap<>();
+    	mapCondition.put("token","5e8ff2ab947c02d06f69f56f6bcd72d5");
+    	mapCondition.put("allow_withdraw_balance", "1200");
+    	String object=JsonUtils.beanToJson(mapCondition);
+    		try{
+    		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
+    				.post(baseUrl+"/get_withdraw_poundage")
+    				.contentType(MediaType.APPLICATION_JSON).content(object))
+    				.andExpect(status().isOk());
+    		
+    		results.andDo(new ResultHandler() {
+    			@Override
+    			public void handle(MvcResult result) throws Exception {
+    				System.out.println("*********" + result.getResponse().getContentAsString());
+    			}
+    		});
+    		}catch(Exception e){
+    			System.out.println("异常*********************"+e);
+    		}
+    
+	}
 	      
-}*/
+}

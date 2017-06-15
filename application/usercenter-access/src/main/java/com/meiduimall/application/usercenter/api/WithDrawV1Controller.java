@@ -47,4 +47,24 @@ public class WithDrawV1Controller {
 		logger.info("提现明细API请求结果：{}",resBodyData.toString());
 		return resBodyData;
 	}
+	
+	/**
+	 * 查询提现手续费
+	 * @return ResBodyData
+	 */
+	@HasToken
+	@RequestMapping(value="/get_withdraw_poundage")
+	ResBodyData getWithDrawPoundage(){
+		ResBodyData resBodyData=null;
+		JSONObject reqJson=ValRequest.apiReqData.get();
+		logger.info("收到提现查询手续费API请求：{}",reqJson.toString());
+		try {
+			resBodyData=withdrawService.getWithDrawPoundage(reqJson);
+		} catch (Exception e) {
+			logger.info("提现查询手续费API请求异常：{}",e.toString());
+			throw new ApiException(ConstApiStatus.SYSTEM_ERROR);
+		}
+		logger.info("提现查询手续费API请求结果：{}",resBodyData.toString());
+		return resBodyData;
+	}
 }

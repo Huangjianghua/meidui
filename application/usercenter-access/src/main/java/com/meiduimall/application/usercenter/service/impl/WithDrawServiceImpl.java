@@ -48,4 +48,29 @@ public class WithDrawServiceImpl implements WithDrawService{
 		return resBodyData;
 	}
 
+
+	/**
+	 * @param reqJson
+	 * @return
+	 * @throws MdSysException
+	 */
+	@Override
+	public ResBodyData getWithDrawPoundage(JSONObject reqJson) throws MdSysException {
+		ResBodyData resBodyData=new ResBodyData(null,null);
+		String url=profile.getServiceAccountUrl()+"v1/get_withdraw_poundage";
+		MD5Utils.updateSign(reqJson,profile.getRouteClientID(),profile.getRouteKey());
+		logger.info("提现手续费API>>URL:{}  Data:{}",url,reqJson.toString());
+		try {
+			Map<String, String> headers=new HashMap<>();
+			headers.put(ConstSysParamsDefination.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
+			String result=HttpUtils.post(url,reqJson.toString(),headers);
+			logger.info("提现手续费API>>结果：{}",result);
+			resBodyData=JSON.parseObject(result,ResBodyData.class);
+		} catch (Exception e) {
+			logger.error("提现手续费API>>异常:{}",e.toString());
+			throw new MdSysException(ConstApiStatus.REQUEST_GATEWAY_EX);
+		}
+		return resBodyData;
+	}
+
 }
