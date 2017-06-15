@@ -100,17 +100,5 @@ public class UserInfoV1Controller{
 		return recordArea;
     }
 	
-    /**
-     * 更新会员手机号归属地
-     * @return ResBodyData
-     */
-	@GetMapping(value = "/update_member_phone_area")
-	ResBodyData updateMemberArea() {
-		logger.info("更新开始");
-		ResBodyData resBodyData = userInfoService.updateMemberArea();
-		logger.info("更新结果  ：{}",resBodyData.toString());
-		logger.info("更新结束");
-		return resBodyData;
-	}
 	
 }

@@ -1,4 +1,4 @@
-/*package com.meiduimall.service.member.api;
+package com.meiduimall.service.member.api;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertTrue;
@@ -23,11 +23,11 @@ import com.meiduimall.service.member.dao.BaseDao;
 import com.meiduimall.service.member.model.MSMembersGet;
 import com.meiduimall.service.member.model.request.RequestLogin;
 
-*//**
+/**
  * 会员基本操作API{@link=}
  * @author chencong
  *
- *//*
+ */
 public class BaseOpV1ControllerTest extends BaseControllerTest {
 	
 	private final static Logger logger=LoggerFactory.getLogger(BaseOpV1ControllerTest.class);
@@ -35,11 +35,11 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {
 	@Autowired
 	private BaseDao baseDao;
 	 
-	*//**登录
-	 * @throws Exception *//*
+	/**登录
+	 * @throws Exception */
     @Test
     public void test001Login() throws Exception{
-    	Map<String, Object> mapCondition=new HashMap<>();
+    	/*Map<String, Object> mapCondition=new HashMap<>();
     	mapCondition.put("memId",memId);
     	MSMembersGet msMembersGet=baseDao.selectOne(mapCondition,"MSMembersMapper.getMemberBasicInfoByCondition");
     	String memberLockCount=msMembersGet.getMemLockCountPlained();//锁定次数明文
@@ -48,7 +48,7 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {
     	*//**正确的账号和密码*//*
     	requestLogin.setPassword("e10adc3949ba59abbe56e057f20f883e");
     	requestLogin.setUser_name(phone);
-    	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/login")
+    	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/v1/login")
     			.contentType(MediaType.APPLICATION_JSON_UTF8)
     			.content(JsonUtils.beanToJson(requestLogin)))
     			.andExpect(status().isOk())
@@ -77,13 +77,13 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {
 			public void handle(MvcResult result) throws Exception {
 				logger.info("单元测试>>登录API>>错误的账号和密码>>执行结果:{}",result.getResponse().getContentAsString());;
 			}
-		});
+		});*/
     	
     }
     
 
     public void getPut() throws Exception{
-    	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/v1/getput?user_id=1gw_"+phone+"&type=1"))
+    /*	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/v1/getput?user_id=1gw_"+phone+"&type=1"))
     			.andExpect(status().isOk())
     			.andExpect(jsonPath("$.status_code",is("0")));
     	
@@ -116,9 +116,9 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {
 			public void handle(MvcResult result) throws Exception {
 				logger.info("单元测试>>getput API>>通过token找userid>>执行结果:{}",result.getResponse().getContentAsString());;
 			}
-		});
+		});*/
     	
     }
     
    
-}*/
+}
