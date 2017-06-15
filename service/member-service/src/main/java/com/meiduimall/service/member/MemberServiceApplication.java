@@ -16,7 +16,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
 
-
 @EnableHystrix
 @SpringBootApplication
 @EnableTransactionManagement

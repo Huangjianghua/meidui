@@ -1,4 +1,4 @@
-/*package com.meiduimall.application.usercenter.api;
+package com.meiduimall.application.usercenter.api;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -22,11 +22,11 @@ import com.meiduimall.application.usercenter.util.MD5Utils;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
 
-*//**
+/**
  * 提现相关API{@link=WithDrawV1Controller}单元测试
  * @author chencong
  *
- *//*
+ */
 public class WithDrawV1ControllerTest extends BaseControllerTest {
 	
 	private final static Logger logger=LoggerFactory.getLogger(WithDrawV1ControllerTest.class);
@@ -34,7 +34,7 @@ public class WithDrawV1ControllerTest extends BaseControllerTest {
 	@Autowired
 	private BaseOpService baseOpService;
 	
-    *//**查询提现明细*//*
+    /**查询提现明细*/
     @Test
     public void testGetWithdrawDetail_01() throws Exception{
     	Map<String, Object> mapCondition=new HashMap<>();
@@ -54,7 +54,7 @@ public class WithDrawV1ControllerTest extends BaseControllerTest {
     }
     
     
-    *//**查询当前会员提现手续费*//*
+    /**查询当前会员提现手续费*/
     @Test
 	public void testGetWithDrawPoundage_02() throws Exception {    	
     	//先登录获取token
@@ -79,4 +79,4 @@ public class WithDrawV1ControllerTest extends BaseControllerTest {
     	}
 	}
 	      
-}*/
+}

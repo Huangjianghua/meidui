@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.meiduimall.core.util.JsonUtils;
+import com.meiduimall.service.account.model.MSAccountDetailCondition;
 import com.meiduimall.service.account.model.request.RequestMSBankWithDrawDepostieFree;
 import com.meiduimall.service.account.service.MSMembersService;
 
@@ -30,16 +31,13 @@ public class AccountWithDrawV1ControllerTest extends BaseControllerTest {
 	@Autowired
 	private MSMembersService mSMembersService;
 	 
-	/**
-	 * 查询提现列表(主表)
-	 * @author chencong
-	 * @throws Exception
-	 */
+
+	/**查询提现明细*/
     @Test
     public void queryWithdrawDetail() throws Exception{
-    /*	MSAccountDetailCondition msAccount = new MSAccountDetailCondition();
+    	MSAccountDetailCondition msAccount = new MSAccountDetailCondition();
     	msAccount.setId("00623cf9-a2c8-4995-b914-ff37d52822ea");
-    	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/query_withdraw_detail")
+    	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/v1/query_withdraw_detail")
     			.contentType(MediaType.APPLICATION_JSON_UTF8)
     			.content(JsonUtils.beanToJson(msAccount)))
     			.andExpect(status().isOk())
@@ -48,12 +46,12 @@ public class AccountWithDrawV1ControllerTest extends BaseControllerTest {
     	postResultAction.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				logger.info("单元测试>>提现明细API>>执行结果:{}",result.getResponse().getContentAsString());
+				logger.info("单元测试>>提现明细API>>执行结果:{}",result.getResponse().getContentAsString());;
 
 			}
-		});*/
+		});
     }
-
+	
     /**
      * 提现申请查询接口
      * @throws Exception
@@ -114,7 +112,7 @@ public class AccountWithDrawV1ControllerTest extends BaseControllerTest {
      */
     @Test
 	public void testGetBankWithdrawDepositsFreeForApp() throws Exception {
-    	RequestMSBankWithDrawDepostieFree dto=new RequestMSBankWithDrawDepostieFree();
+    	/*RequestMSBankWithDrawDepostieFree dto=new RequestMSBankWithDrawDepostieFree();
     	dto.setMemId("48d98556-cc3a-4e41-83d8-8cb2ab14c2d3");
     	dto.setAllowWithdrawBalance("1200.00");
     	String object=JsonUtils.beanToJson(dto);
@@ -132,8 +130,7 @@ public class AccountWithDrawV1ControllerTest extends BaseControllerTest {
     		});
     		}catch(Exception e){
     			System.out.println("异常*********************"+e);
-    		}
-    
+    		}*/
 	}
     
 }
