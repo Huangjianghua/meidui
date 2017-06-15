@@ -111,26 +111,23 @@ public class AccountWithDrawV1ControllerTest extends BaseControllerTest {
      * @throws Exception
      */
     @Test
-	public void testGetBankWithdrawDepositsFreeForApp() throws Exception {
-    	/*RequestMSBankWithDrawDepostieFree dto=new RequestMSBankWithDrawDepostieFree();
-    	dto.setMemId("48d98556-cc3a-4e41-83d8-8cb2ab14c2d3");
-    	dto.setAllowWithdrawBalance("1200.00");
-    	String object=JsonUtils.beanToJson(dto);
-    		try{
-    		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
-    				.post("/member/account_service/v1/get_withdraw_poundage")
-    				.contentType(MediaType.APPLICATION_JSON).content(object))
-    				.andExpect(status().isOk());
-    		
-    		results.andDo(new ResultHandler() {
-    			@Override
-    			public void handle(MvcResult result) throws Exception {
-    				System.out.println("*********" + result.getResponse().getContentAsString());
-    			}
-    		});
-    		}catch(Exception e){
-    			System.out.println("异常*********************"+e);
-    		}*/
+	public void testGetWithDrawPoundage_01() throws Exception {
+		try {
+			ResultActions resultActions = mockMvc
+					.perform(MockMvcRequestBuilders
+							.get(baseUrl + "/v1/get_withdraw_poundage?allow_withdraw_balance=1200&memId=48d98556-cc3a-4e41-83d8-8cb2ab14c2d3"))
+					.andExpect(status().isOk())
+					.andExpect(jsonPath("$.status", is(0)));
+
+			resultActions.andDo(new ResultHandler() {
+				@Override
+				public void handle(MvcResult result) throws Exception {
+					System.out.println("*********" + result.getResponse().getContentAsString());
+				}
+			});
+		} catch (Exception e) {
+			System.out.println("异常*********************" + e);
+		}
 	}
     
 }

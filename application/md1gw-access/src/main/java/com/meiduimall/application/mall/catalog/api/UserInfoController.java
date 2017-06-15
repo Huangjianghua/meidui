@@ -22,7 +22,7 @@ public class UserInfoController {
 
 	/**
 	 * 获取用户基本信息--给APP个人中心页面使用
-	 * @return 数据对象
+	 * @return 数据对象 
 	 */
 	@HasToken
 	@RequestMapping(value = "/getUserInfoForApp")

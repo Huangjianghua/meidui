@@ -35,7 +35,7 @@ zuul:
     ##短信通知服务
     short_msg_service:
       path: /notify/short_msg_service/**
-      serviceId: short_msg_service
+      serviceId: sms-service
       stripPrefix: false
     ##短信服务
     service-push:
