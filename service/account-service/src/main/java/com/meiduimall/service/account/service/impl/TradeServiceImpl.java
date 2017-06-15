@@ -107,8 +107,6 @@ public class TradeServiceImpl implements TradeService {
 	
 	@Autowired
 	private AccountDetailService accountDetailService;
-	
-	 
 
 	@Override
 	@Transactional
@@ -190,6 +188,7 @@ public class TradeServiceImpl implements TradeService {
 			consumeRecords.setTradeTime(accountFreezeDetail.getTradeDate());
 			consumeRecords.setOrderStatus(recordsOrderStatus);
 			consumeRecords.setCreateUser("账户服务");
+			consumeRecords.setPayType(model.getPayType());
 			consumeRecords.setUpdateUser("账户服务");
 			consumeRecordsService.insertConsumeRecords(consumeRecords);			
 		}
@@ -273,6 +272,7 @@ public class TradeServiceImpl implements TradeService {
 				msAccountDetail.setBusinessNo(item.getBusinessNo());
 				msAccountDetail.setCreateUser("账户服务");
 				msAccountDetail.setUpdateUser("账户服务");
+				msAccountDetail.setRemark("账户编号："+msAccountDetail.getAccountNo()+"余额消费扣款");
 				accountDetailService.insertAccountDetail(msAccountDetail);
 			}			
 			baseDao.update(mapCondition,"MSAccountReportMapper.updateBalanceAndFreezeBalance");
@@ -299,27 +299,31 @@ public class TradeServiceImpl implements TradeService {
 	public ResBodyData cancelOrder(RequestCancelOrder model) {
 		ResBodyData resBodyData = new ResBodyData(Constants.CONSTANT_INT_ZERO,"订单取消成功");
 		
-		int orderStatus=model.getOrderStatus();
-		String memId=model.getMemId();
-		String orderId=model.getOrderId();
+		int orderStatus=model.getOrderStatus(); //订单状态
+		String memId=model.getMemId(); //会员ID
+		String orderId=model.getOrderId(); //订单号
 		
 		//根据订单号查询积分冻结解冻的记录
 		List<MSConsumePointsFreezeInfo> listPointsFreezeInfo=pointsFreezeInfoService.getRecordsByOrderId(orderId);
-		
-		//解冻该订单号对应的积分
-		for(MSConsumePointsFreezeInfo item:listPointsFreezeInfo){
-			item.setMcpfId(UUID.randomUUID().toString());
+		if(listPointsFreezeInfo.size()==0){
+			logger.warn("会员{}的订单{}不存在积分冻结记录",memId,orderId);
+			throw new ServiceException(ConstApiStatus.NO_DJ_POINTS);
 		}
-		MSConsumePointsFreezeInfo freezeUnfreezeInfo=new MSConsumePointsFreezeInfo();
-		freezeUnfreezeInfo.setMcpfId(UUID.randomUUID().toString());
-		freezeUnfreezeInfo.setMemId(memId);
-		freezeUnfreezeInfo.setMcpfOrderId(model.getOrderId());
-		/*freezeUnfreezeInfo.setMcpfConsumePoints(String.valueOf(model.getConsumePoints()));*/
-		freezeUnfreezeInfo.setMcpfRemark("解冻消费积分");
-		/*pointsFreezeInfoService.insertConsumePointsFreezeInfo(freezeUnfreezeInfo,ConstPointsChangeType.POINTS_FREEZE_TYPE_JD.getCode());*/
 		
 		//根据订单号查询余额冻结解冻的记录
 		List<MSAccountFreezeDetail> listBalanceFreeze=accountFreezeDetailService.getRecordsByOrderId(orderId);
+		if(listBalanceFreeze.size()==0){
+			logger.warn("会员{}的订单{}不存在余额冻结记录",memId,orderId);
+			throw new ServiceException(ConstApiStatus.NO_DJ_MONEY);
+		}
+		
+		//解冻该订单号对应的积分冻结记录
+		for(MSConsumePointsFreezeInfo item:listPointsFreezeInfo){
+			//下面的属性重新赋值，其他属性继续沿用之前的值
+			item.setMcpfId(UUID.randomUUID().toString());
+			item.setMcpfFreezeType(ConstPointsChangeType.POINTS_FREEZE_TYPE_JD.getCode());
+			item.setMcpfConsumePoints("-"+item.getMcpfConsumePoints());
+		}
 		
 		return resBodyData;
 	}
@@ -760,6 +764,7 @@ public class TradeServiceImpl implements TradeService {
 				//根据订单号查询账户明细
 				List<MSAccountDetail> listAccountDetail = accountDetailService.listAccountDetail(new MSAccountDetailGet(ms.getOrderId()));
 				List<MSAccount> msAccountlist = new ArrayList<MSAccount>();
+				List<MSAccountDetail> listAccountDetail2 = new ArrayList<>();
 				//根据memId查询会员余额
 				List<MSAccount> balanceAccountList = accountServices.getBalanceAccountList(ms.getMemId());
 			    for (MSAccount msAccount : balanceAccountList) {
@@ -771,10 +776,25 @@ public class TradeServiceImpl implements TradeService {
 			    		      account.setBalanceEncrypt(DESC.encryption(String.valueOf(msAccountDetail.getTradeAmount()+msAccount.getBalance()), msAccount.getMemId()));
 			    		      msAccountlist.add(account);
 			    		}
+			    		MSAccountDetail msAccountDetail2 = new MSAccountDetail();
+			    		msAccountDetail2.setId(UUID.randomUUID().toString());
+			    		msAccountDetail2.setAccountNo(msAccountDetail.getAccountNo());
+			    		msAccountDetail2.setTradeType(msAccountDetail.getTradeType());
+			    		msAccountDetail2.setTradeAmount(msAccountDetail.getTradeAmount());
+			    		msAccountDetail2.setTradeDate(msAccountDetail.getTradeDate());
+			    		msAccountDetail2.setInOrOut(1);
+			    		msAccountDetail2.setBalance(msAccountDetail.getBalance());
+			    		msAccountDetail2.setBusinessNo(msAccountDetail.getBusinessNo());
+			    		msAccountDetail2.setCreateUser(msAccountDetail.getCreateUser());
+			    		msAccountDetail2.setCreateDate(new Date());
+			    		msAccountDetail2.setUpdateUser(msAccountDetail.getUpdateUser());
+			    		msAccountDetail2.setUpdateDate(new Date());
+			    		msAccountDetail2.setRemark("账户编号:"+msAccountDetail2.getAccountNo()+" 退款"+msAccountDetail2.getTradeAmount()+"元");
+			    		listAccountDetail2.add(msAccountDetail2);
 			    		
 			    	}
 				}
-				
+			    accountDetailService.batchInsertAccoutDetail(listAccountDetail2);
 				accountAdjustService.batchUpdateBalance(msAccountlist);
 				
 
@@ -784,7 +804,7 @@ public class TradeServiceImpl implements TradeService {
 				Map<String, Object> map = new HashMap<>();
 				map.put("balance", ms.getConsumeMoney());
 				map.put("memId", ms.getMemId());
-				accountReportService.updateBalanceAndfreezeBalance(map);
+				baseDao.update(map,"MSAccountReportMapper.updateBalance");
 
 				// 返回退单后余额
 				json.put("after_shopping_coupon", StringUtil.interceptionCharacter(2, afterMoney));

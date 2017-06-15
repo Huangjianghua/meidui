@@ -79,7 +79,7 @@ public class AccountDetailServiceImpl implements AccountDetailService{
 		paramsMap.put("tradeType", tradeType);
 		paramsMap.put("tradeAmount", Double.valueOf(tradeAmount));
 		paramsMap.put("inOrOut", -1);
-		paramsMap.put("remark", remark);
+		paramsMap.put("remark","账户编号："+accountId+" "+remark+"扣款");
 		paramsMap.put("createUser", "system");
 		paramsMap.put("createDate", DateUtil.format(tradeDate,DateUtil.YYYY_MM_DD_HH_MM_SS));
 		paramsMap.put("updateUser", "system");

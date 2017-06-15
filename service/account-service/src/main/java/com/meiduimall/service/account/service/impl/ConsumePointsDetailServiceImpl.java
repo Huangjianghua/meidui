@@ -84,8 +84,7 @@ public class ConsumePointsDetailServiceImpl implements ConsumePointsDetailServic
 		param.put("after_page",pageSize);
 		if(reqMap.containsKey("dict_operator_type"))
 		{
-			param.put("mcpOperatorType", reqMap.get("dict_operator_type"));
-			
+			param.put("mcpOperatorType", reqMap.get("dict_operator_type"));			
 		}
 		if(reqMap.containsKey("many_dict_operator_type"))
 		{

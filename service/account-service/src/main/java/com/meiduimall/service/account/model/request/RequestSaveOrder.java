@@ -44,13 +44,6 @@ public class RequestSaveOrder extends RequestBaseModel implements Serializable {
 	@NotEmpty(message="订单来源不能为空")
 	private String orderSource;
 	
-	/**支付方式（积分、其他支付方式（比如支付宝，网银支付等等）） 1：表示单独使用积分支付 2：混合支付 3:其他第三方支付*/
-	@JsonProperty("pay_type")
-	@NotNull(message="支付方式不能为空")
-	@Min(1)
-	@Max(3)
-	private Integer payType;
-	
 	/**订单状态 1未支付 2已支付*/
 	@JsonProperty("order_status")
 	@NotNull(message="订单状态不能为空")
@@ -64,6 +57,10 @@ public class RequestSaveOrder extends RequestBaseModel implements Serializable {
 	@Min(0)
 	private Double consumeMoney;
 	
+	/**支付方式（积分、其他支付方式（比如支付宝，网银支付等等）） 1：表示单独使用积分支付 2：混合支付 3:其他第三方支付*/
+	@JsonProperty("pay_type")
+	private Integer payType;
+
 	/**积分支付金额*/
 	@JsonProperty("consume_points")
 	@NotNull(message="积分支付金额不能为空")
@@ -102,20 +99,21 @@ public class RequestSaveOrder extends RequestBaseModel implements Serializable {
 		this.orderSource = orderSource;
 	}
 
-	public Integer getPayType() {
-		return payType;
-	}
-
-	public void setPayType(Integer payType) {
-		this.payType = payType;
-	}
-
 	public Integer getOrderStatus() {
 		return orderStatus;
 	}
 
 	public void setOrderStatus(Integer orderStatus) {
 		this.orderStatus = orderStatus;
+	}
+	
+	
+	public Integer getPayType() {
+		return payType;
+	}
+
+	public void setPayType(Integer payType) {
+		this.payType = payType;
 	}
 
 	public Double getConsumeMoney() {
@@ -138,7 +136,7 @@ public class RequestSaveOrder extends RequestBaseModel implements Serializable {
 	@Override
 	public String toString() {
 		return "RequestSaveOrder [orderId=" + orderId + ", consumeAmount=" + consumeAmount + ", productName="
-				+ productName + ", orderSource=" + orderSource + ", payType=" + payType + ", orderStatus=" +orderStatus
+				+ productName + ", orderSource=" + orderSource +  ", orderStatus=" +orderStatus
 				+ ", consumeMoney=" + consumeMoney + ", consumePoints=" + consumePoints + ", memId=" + getMemId() +"]";
 	}
 	
