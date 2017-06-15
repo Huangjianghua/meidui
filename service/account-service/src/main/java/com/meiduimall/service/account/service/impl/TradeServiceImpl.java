@@ -1,5 +1,6 @@
 package com.meiduimall.service.account.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.DaoException;
@@ -756,41 +759,56 @@ public class TradeServiceImpl implements TradeService {
 			logger.info("退费订单号：{}，进入退费美积分计算方法.", ms.getOrderId());
 			logger.info("返还余额为: {} , 返还积分为: {}", ms.getConsumeMoney(), ms.getConsumePoints());
 			if (null != ms.getConsumeMoney()) {
-				// 退单增加余额
-				/*accountAdjustService.addConsumeMoneyAndDetail(ms.getMemId(), ms.getOrderId(),
-						ConstTradeType.TRADE_TYPE_TKSH.getCode(), new Date(), ms.getConsumeMoney(),
-						ConstTradeType.TRADE_TYPE_TKSH.getCode());*/
-				
 				//根据订单号查询账户明细
 				List<MSAccountDetail> listAccountDetail = accountDetailService.listAccountDetail(new MSAccountDetailGet(ms.getOrderId()));
 				List<MSAccount> msAccountlist = new ArrayList<MSAccount>();
 				List<MSAccountDetail> listAccountDetail2 = new ArrayList<>();
 				//根据memId查询会员余额
+				PageHelper.orderBy("m.spend_priority DESC");
 				List<MSAccount> balanceAccountList = accountServices.getBalanceAccountList(ms.getMemId());
+				BigDecimal bigDecimal = new BigDecimal(ms.getConsumeMoney());
 			    for (MSAccount msAccount : balanceAccountList) {
 			    	for (MSAccountDetail msAccountDetail : listAccountDetail) {
 			    		MSAccount account = new MSAccount();
+			    		//判断账户与账户明细的账户是否相等
 			    		if(msAccount.getAccountNo().equals(msAccountDetail.getAccountNo())){
-			    			  account.setAccountNo(msAccount.getAccountNo());
-			    		      account.setBalance(msAccountDetail.getTradeAmount()+msAccount.getBalance());
-			    		      account.setBalanceEncrypt(DESC.encryption(String.valueOf(msAccountDetail.getTradeAmount()+msAccount.getBalance()), msAccount.getMemId()));
-			    		      msAccountlist.add(account);
+							double balance = 0;
+							double consumeMoney = bigDecimal.doubleValue();
+						  if(consumeMoney > 0){
+			    			if(consumeMoney <= msAccountDetail.getTradeAmount()){
+			    			    balance = consumeMoney;
+			    			}else{
+			    				balance = msAccountDetail.getTradeAmount();
+			    			}
+			    		    //更新账户
+			    			logger.info("更新账户表:退款账户:{},退款优先级:{},退款余额:{}",msAccount.getAccountNo(),msAccount.getSpendPriority(),balance);
+			    			account.setAccountNo(msAccount.getAccountNo());
+			    			account.setBalance(balance + msAccount.getBalance());
+			    			account.setBalanceEncrypt(DESC.encryption(String.valueOf(balance + msAccount.getBalance()), msAccount.getMemId()));
+			    			msAccountlist.add(account);
+			    			
+			    			//插入退款明细
+			    			MSAccountDetail msAccountDetail2 = new MSAccountDetail();
+				    		msAccountDetail2.setId(UUID.randomUUID().toString());
+				    		msAccountDetail2.setAccountNo(msAccountDetail.getAccountNo());
+				    		msAccountDetail2.setTradeType(msAccountDetail.getTradeType());
+				    		msAccountDetail2.setTradeAmount(balance);
+				    		msAccountDetail2.setTradeDate(new Date());
+				    		msAccountDetail2.setInOrOut(1);
+				    		msAccountDetail2.setBalance(preConsumeMoney + balance);
+				    		msAccountDetail2.setBusinessNo(msAccountDetail.getBusinessNo());
+				    		msAccountDetail2.setCreateUser(msAccountDetail.getCreateUser());
+				    		msAccountDetail2.setCreateDate(new Date());
+				    		msAccountDetail2.setUpdateUser(msAccountDetail.getUpdateUser());
+				    		msAccountDetail2.setUpdateDate(new Date());
+				    		msAccountDetail2.setRemark("账户编号:" + msAccountDetail2.getAccountNo() + " 退款"+ balance +"元");
+				    		listAccountDetail2.add(msAccountDetail2);
+				    		logger.info("插入账户明细表:退款账户:{},退款余额:{},退款之后的余额:{}",msAccount.getAccountNo(),balance,preConsumeMoney + balance);
+				    		preConsumeMoney = preConsumeMoney + balance;
+						  }
+			    		  bigDecimal = bigDecimal.subtract(new BigDecimal(msAccountDetail.getTradeAmount()));
+			    		       
 			    		}
-			    		MSAccountDetail msAccountDetail2 = new MSAccountDetail();
-			    		msAccountDetail2.setId(UUID.randomUUID().toString());
-			    		msAccountDetail2.setAccountNo(msAccountDetail.getAccountNo());
-			    		msAccountDetail2.setTradeType(msAccountDetail.getTradeType());
-			    		msAccountDetail2.setTradeAmount(msAccountDetail.getTradeAmount());
-			    		msAccountDetail2.setTradeDate(msAccountDetail.getTradeDate());
-			    		msAccountDetail2.setInOrOut(1);
-			    		msAccountDetail2.setBalance(msAccountDetail.getBalance());
-			    		msAccountDetail2.setBusinessNo(msAccountDetail.getBusinessNo());
-			    		msAccountDetail2.setCreateUser(msAccountDetail.getCreateUser());
-			    		msAccountDetail2.setCreateDate(new Date());
-			    		msAccountDetail2.setUpdateUser(msAccountDetail.getUpdateUser());
-			    		msAccountDetail2.setUpdateDate(new Date());
-			    		msAccountDetail2.setRemark("账户编号:"+msAccountDetail2.getAccountNo()+" 退款"+msAccountDetail2.getTradeAmount()+"元");
-			    		listAccountDetail2.add(msAccountDetail2);
 			    		
 			    	}
 				}
