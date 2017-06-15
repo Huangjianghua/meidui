@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.service.account.model.MSAccountDetailCondition;
+import com.meiduimall.service.account.model.request.RequestMSBankWithDrawDepostie;
 import com.meiduimall.service.account.service.MSMembersService;
 
 /**
@@ -106,5 +107,35 @@ public class AccountWithDrawV1ControllerTest extends BaseControllerTest {
 			}
 		});
 	}
+    
+    /**
+     * 
+     * 提现申请查询手续费接口
+     * @throws Exception
+     */
+    @Test
+	public void testGetBankWithdrawDepositsFreeForApp() throws Exception {
+    	RequestMSBankWithDrawDepostie dto=new RequestMSBankWithDrawDepostie();
+    	dto.setMemId("48d98556-cc3a-4e41-83d8-8cb2ab14c2d3");
+    	dto.setApplyCarryCash("1200.00");
+    	String object=JsonUtils.beanToJson(dto);
+    		try{
+    		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
+    				.post("/member/account_service/v1/queryBankWithdrawFreeForApp")
+    				.contentType(MediaType.APPLICATION_JSON).content(object))
+    				.andExpect(status().isOk());
+    		
+    		results.andDo(new ResultHandler() {
+    			@Override
+    			public void handle(MvcResult result) throws Exception {
+    				System.out.println("*********" + result.getResponse().getContentAsString());
+    			}
+    		});
+    		}catch(Exception e){
+    			System.out.println("异常*********************"+e);
+    		}
+    
+	}
+    
 }
 

@@ -186,6 +186,8 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	public final static Integer QUERY_WITHDRAW_BY_ACCOUNT_TYPE_ERROR=7314;
 	/**	查询ms_account_report 表数据异常  */
 	public final static Integer QUERY_ACCOUNT_REPORT_ERROR=7315;
+	//提现申请查询手续费异常
+	public final static Integer QUERY_WITHDRAW_APPLY_FREE_ERROR=7316;
 	
 	
 	/**会员信息相关*/
@@ -294,5 +296,6 @@ public abstract class ConstApiStatus extends BaseApiCode {
 		zhMsgMap.put(WITHDRAW_APPLY_ERROR, "提现申请错误");
 		zhMsgMap.put(QUERY_WITHDRAW_BY_ACCOUNT_TYPE_ERROR, "提现子表查询异常");
 		zhMsgMap.put(QUERY_ACCOUNT_REPORT_ERROR, "查询会员账号总表异常");
+		zhMsgMap.put(QUERY_WITHDRAW_APPLY_FREE_ERROR, "查询提现手续费异常");
 	}
 }

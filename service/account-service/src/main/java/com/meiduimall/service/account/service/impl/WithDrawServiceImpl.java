@@ -6,22 +6,31 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.time.DateFormatUtils;
+import org.apache.tomcat.util.bcel.Const;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.meiduimall.core.Constants;
+import com.meiduimall.exception.MdBizException;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
+import com.meiduimall.service.account.constant.ConstSysParamsDefination;
+import com.meiduimall.service.account.constant.ConstTradeType;
 import com.meiduimall.service.account.dao.BaseDao;
+import com.meiduimall.service.account.model.MSAccount;
 import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
 import com.meiduimall.service.account.model.request.RequestBankWithdrawDepositsList;
+import com.meiduimall.service.account.model.request.RequestMSBankWithDrawDepostie;
 import com.meiduimall.service.account.model.response.ResponseBankWithdrawDeposit;
 import com.meiduimall.service.account.model.response.ResponseBankWithdrawDepositList;
 import com.meiduimall.service.account.service.MSMembersService;
 import com.meiduimall.service.account.service.WithDrawService;
+import com.meiduimall.service.account.util.DoubleCalculate;
 
 /**
  * 提现相关Service接口{@link=WithDrawService}实现类
@@ -130,6 +139,65 @@ public class WithDrawServiceImpl implements WithDrawService {
 		return data;
 	}
 
+	/**
+	 * @param param
+	 * @return
+	 * @throws MdBizException
+	 */
+	@Override
+	public Double getWithDrawFree(RequestMSBankWithDrawDepostie depostie) throws MdBizException {
+		List<MSAccount> list=null;
+		Double withdrawMoney=Double.valueOf(depostie.getApplyCarryCash());
+		Double freeTotal=0.0; //手续费总和
+		try {
+			list=queryAccountList(depostie.getMemId(),Constants.CONSTANT_STR_ONE,null);
+			for(MSAccount account:list){
+				//判断账号余额是否能够扣减冻结
+				Double useBalance = DoubleCalculate.sub(Double.valueOf(account.getBalance()),Double.valueOf(account.getFreezeBalance()));
+				if(useBalance<=0){
+					continue;
+				}
+				Double deductionMoney= DoubleCalculate.sub(withdrawMoney, useBalance); // 扣减金额=提现金额-账号可用金额
+				//step2 扣减金额<0 表示 第一个账号的钱足够扣除
+				if(deductionMoney<=0){
+					double free=DoubleCalculate.mul(withdrawMoney, account.getWithdrawPoundageScale()); //计算账号手续费
+					freeTotal=DoubleCalculate.add(freeTotal, free); //累加手续费
+					break;
+				}
+				withdrawMoney=deductionMoney;
+				Double free=DoubleCalculate.mul(useBalance, account.getWithdrawPoundageScale());  //单个账号的手续费比例
+				freeTotal=DoubleCalculate.add(freeTotal, free); //累加手续费
+			}
+			if(freeTotal<Constants.CONSTANT_INT_TWO){
+				freeTotal=Double.valueOf(Constants.CONSTANT_INT_TWO);
+			}
+		} catch (Exception e) {
+			logger.error("提现获取手续费API异常:{}",e);
+			throw new MdBizException(ConstApiStatus.QUERY_WITHDRAW_APPLY_FREE_ERROR);
+		}
+		return freeTotal;
+	}
+
+	/**
+	 * 查询账号集合
+	 * @param memId
+	 * @param orderByName
+	 * @return
+	 * @author: jianhua.huang  2017年6月2日 上午10:38:41
+	 */
+	private List<MSAccount> queryAccountList(String memId,String orderByName,String accountNo) throws MdBizException{
+		List<MSAccount> list=null;
+		Map<String, Object> map=new HashMap<>();
+		map.put("memId", memId);
+		map.put("accountNo", accountNo);
+		map.put("orderByName", orderByName);
+		list=baseDao.selectList(map, "MSBankWithdrawDepositMapper.queryAccountByMemIdList");
+		if(CollectionUtils.isEmpty(list)){//没有账户信息
+			throw new MdBizException(ConstApiStatus.ACCOUNT_IS_NULL_ERROR);
+		}
+		return list;
+	}
+	
 	// @Override
 	// public String saveBankWithdrawDeposit(RequestSaveBankWithdrawDeposit
 	// model) {

@@ -335,7 +335,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		paramsMap.put("tradeType", ConstSysParamsDefination.TRADETYPE);
 		paramsMap.put("tradeAmount", detail.getReviseBalance().doubleValue());
 		paramsMap.put("balance", balance);
-		paramsMap.put("remark", detail.getAccountTypeName());
+		paramsMap.put("remark", "账户编号:"+detail.getAccountNo()+" "+detail.getAccountTypeName()+"调整金额:"+detail.getReviseBalance().doubleValue());
 		paramsMap.put("inOrOut", type);
 		paramsMap.put("tradeDate", new Date());
 		paramsMap.put("createDate", DateUtil.format(new Date(),DateUtil.YYYY_MM_DD_HH_MM_SS));
@@ -630,7 +630,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		Double totalFrezeMoney=addFreezeMoney;
 		Double freeTotal=0.0; //手续费总和
 		try {
-			list=queryAccountList(memId,"1",null);
+			list=queryAccountList(memId,Constants.CONSTANT_STR_ONE,null);
 			Date date=new Date();
 			for(MSAccount account:list){
 			//判断账号余额是否能够扣减冻结
