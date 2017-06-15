@@ -1,7 +1,5 @@
 package com.meiduimall.service.account.service.impl;
 
-import static org.hamcrest.CoreMatchers.endsWith;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import com.alibaba.fastjson.JSONObject;
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;

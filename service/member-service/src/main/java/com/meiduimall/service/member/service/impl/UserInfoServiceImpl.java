@@ -112,9 +112,16 @@ public class UserInfoServiceImpl implements UserInfoService {
 		if (resIsExistPayPwd.getStatus()!=0) {
 			memberBasicInfo.setPaypwd_isset("0");
 		}
-		memberBasicInfo.setTotalMoney(
-				String.valueOf(JackSonUtil.getJsonMap(resAvailableBalance.getData()).get("total_money")));
-		memberBasicInfo.setAvailableMoney(String.valueOf(JackSonUtil.getJsonMap(resAvailableBalance.getData()).get("available_money")));
+		
+		//如果账户不存在就赋值为0.00
+		String totalMoney="0.00";
+		String availableMoeny="0.00";
+		if(resAvailableBalance.getStatus()==0){
+			totalMoney=String.valueOf(JackSonUtil.getJsonMap(resAvailableBalance.getData()).get("total_money"));
+			availableMoeny=String.valueOf(JackSonUtil.getJsonMap(resAvailableBalance.getData()).get("available_money"));
+		}
+		memberBasicInfo.setTotalMoney(totalMoney);
+		memberBasicInfo.setAvailableMoney(availableMoeny);
 		memberBasicInfo.setAvailablePoints(pointsService.getAvailabelePoints(memId,memberBasicInfo.getTotalPoints()));
 
 		resBodyData.setData(memberBasicInfo);
