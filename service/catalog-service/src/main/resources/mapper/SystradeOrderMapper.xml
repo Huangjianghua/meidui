@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="SystradeOrderMapper" >
+
+  <resultMap id="BaseResultMap" type="com.meiduimall.service.catalog.entity.SystradeOrder" >
+    <id column="oid" property="oid" jdbcType="BIGINT" />
+    <result column="tid" property="tid" jdbcType="BIGINT" />
+    <result column="shop_id" property="shopId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="item_id" property="itemId" jdbcType="INTEGER" />
+    <result column="sku_id" property="skuId" jdbcType="INTEGER" />
+    <result column="bn" property="bn" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="num" property="num" jdbcType="INTEGER" />
+    <result column="sendnum" property="sendnum" jdbcType="DOUBLE" />
+    <result column="sku_properties_name" property="skuPropertiesName" jdbcType="VARCHAR" />
+    <result column="refund_id" property="refundId" jdbcType="VARCHAR" />
+    <result column="is_oversold" property="isOversold" jdbcType="INTEGER" />
+    <result column="pay_time" property="payTime" jdbcType="INTEGER" />
+    <result column="end_time" property="endTime" jdbcType="INTEGER" />
+    <result column="consign_time" property="consignTime" jdbcType="INTEGER" />
+    <result column="shipping_type" property="shippingType" jdbcType="VARCHAR" />
+    <result column="bind_oid" property="bindOid" jdbcType="VARCHAR" />
+    <result column="logistics_company" property="logisticsCompany" jdbcType="VARCHAR" />
+    <result column="invoice_no" property="invoiceNo" jdbcType="VARCHAR" />
+    <result column="divide_order_fee" property="divideOrderFee" jdbcType="DECIMAL" />
+    <result column="part_mjz_discount" property="partMjzDiscount" jdbcType="DECIMAL" />
+    <result column="total_fee" property="totalFee" jdbcType="DECIMAL" />
+    <result column="payment" property="payment" jdbcType="DECIMAL" />
+    <result column="discount_fee" property="discountFee" jdbcType="DECIMAL" />
+    <result column="adjust_fee" property="adjustFee" jdbcType="DECIMAL" />
+    <result column="modified_time" property="modifiedTime" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="aftersales_status" property="aftersalesStatus" jdbcType="VARCHAR" />
+    <result column="complaints_status" property="complaintsStatus" jdbcType="VARCHAR" />
+    <result column="refund_fee" property="refundFee" jdbcType="DECIMAL" />
+    <result column="buyer_rate" property="buyerRate" jdbcType="INTEGER" />
+    <result column="anony" property="anony" jdbcType="INTEGER" />
+    <result column="seller_rate" property="sellerRate" jdbcType="INTEGER" />
+    <result column="cat_service_rate" property="catServiceRate" jdbcType="DECIMAL" />
+    <result column="order_from" property="orderFrom" jdbcType="VARCHAR" />
+    <result column="pic_path" property="picPath" jdbcType="VARCHAR" />
+    <result column="timeout_action_time" property="timeoutActionTime" jdbcType="INTEGER" />
+    <result column="outer_iid" property="outerIid" jdbcType="VARCHAR" />
+    <result column="outer_sku_id" property="outerSkuId" jdbcType="VARCHAR" />
+    <result column="sub_stock" property="subStock" jdbcType="INTEGER" />
+    <result column="order_type" property="orderType" jdbcType="INTEGER" />
+    <result column="mpid" property="mpid" jdbcType="VARCHAR" />
+    <result column="chargeNumber" property="chargenumber" jdbcType="BIGINT" />
+    <result column="chargeMobile" property="chargemobile" jdbcType="BIGINT" />
+    <result column="productId" property="productid" jdbcType="VARCHAR" />
+    <result column="platform_id" property="platformId" jdbcType="BIGINT" />
+    <result column="operate_cost" property="operateCost" jdbcType="DECIMAL" />
+    <result column="sku_price" property="skuPrice" jdbcType="DECIMAL" />
+    <result column="operate_total_cost" property="operateTotalCost" jdbcType="DECIMAL" />
+    <result column="sku_total_price" property="skuTotalPrice" jdbcType="DECIMAL" />
+    <result column="is_update" property="isUpdate" jdbcType="INTEGER" />
+    <result column="o_meidui_point" property="oMeiduiPoint" jdbcType="INTEGER" />
+    <result column="tkstatus" property="tkstatus" jdbcType="VARCHAR" />
+    <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <resultMap id="ResultMapWithBLOBs" type="com.meiduimall.service.catalog.entity.SystradeOrder" extends="BaseResultMap" >
+    <result column="spec_nature_info" property="specNatureInfo" jdbcType="LONGVARCHAR" />
+  </resultMap>
+
+  <select id="selectWaitRateTradeByUserId" parameterType="java.lang.Integer" resultType="java.lang.String">
+  	SELECT 
+  	tid 
+  	FROM systrade_order 
+  	WHERE user_id=#{userId} 
+  	AND status='TRADE_FINISHED' 
+  	AND (aftersales_status IS NULL OR aftersales_status='') 
+  	AND buyer_rate=0 
+  	GROUP BY tid 
+  </select>
+  
+</mapper>

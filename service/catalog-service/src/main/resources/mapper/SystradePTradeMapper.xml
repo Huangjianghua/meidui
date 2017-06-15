@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="SystradePTradeMapper" >
+
+  <resultMap id="BaseResultMap" type="com.meiduimall.service.catalog.entity.SystradePTrade" >
+    <id column="platform_id" property="platformId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="total_money" property="totalMoney" jdbcType="DECIMAL" />
+    <result column="xfc" property="xfc" jdbcType="DECIMAL" />
+    <result column="wallet_pay" property="walletPay" jdbcType="DECIMAL" />
+    <result column="coup_pay" property="coupPay" jdbcType="DECIMAL" />
+    <result column="shoping_pay" property="shopingPay" jdbcType="DECIMAL" />
+    <result column="cash_pay" property="cashPay" jdbcType="DECIMAL" />
+    <result column="t_wallet_pay" property="tWalletPay" jdbcType="DECIMAL" />
+    <result column="t_cash_pay" property="tCashPay" jdbcType="DECIMAL" />
+    <result column="t_coup_pay" property="tCoupPay" jdbcType="DECIMAL" />
+    <result column="t_shoping_pay" property="tShopingPay" jdbcType="DECIMAL" />
+    <result column="t_xfc" property="tXfc" jdbcType="DECIMAL" />
+    <result column="created_time" property="createdTime" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="INTEGER" />
+    <result column="is_sync" property="isSync" jdbcType="INTEGER" />
+    <result column="pay_type" property="payType" jdbcType="INTEGER" />
+    <result column="error_num" property="errorNum" jdbcType="INTEGER" />
+    <result column="is_paying" property="isPaying" jdbcType="INTEGER" />
+    <result column="trade_from" property="tradeFrom" jdbcType="VARCHAR" />
+    <result column="is_update" property="isUpdate" jdbcType="INTEGER" />
+    <result column="total_point" property="totalPoint" jdbcType="INTEGER" />
+    <result column="t_total_point" property="tTotalPoint" jdbcType="INTEGER" />
+    <result column="point_pay" property="pointPay" jdbcType="INTEGER" />
+    <result column="t_point_pay" property="tPointPay" jdbcType="INTEGER" />
+    <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <!-- 查询某个用户的待付款订单数量 -->
+  <select id="selectWaitPayCountByUserId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+  	SELECT 
+  	COUNT(*) 
+  	FROM systrade_p_trade 
+  	WHERE user_id=#{userId} 
+  	AND STATUS='WAIT_BUYER_PAY'
+  </select>
+  
+</mapper>
