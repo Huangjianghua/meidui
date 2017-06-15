@@ -291,18 +291,18 @@ public class TradeV1ControllerTest extends BaseControllerTest {
 	 * @author wuun
 	 */
     @Test
-    public void testRecedeOrder_01() throws Exception{
-    	/*ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/v1/recede_order")
+    public void testRecedeOrderOld_01() throws Exception{
+    	/**ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/v1/recede_order_old")
     			.param("memId", "0000eb24-c1f7-41a3-b7b8-b957078c5da0")
-    			.param("orderId", "2")
+    			.param("orderId", "17061419203372578758")
 				.param("consumeAmount", "3.00")
 				.param("consumeMoney", "1.00")
 				.param("consumePoints", "2")
-				.param("productName", "单元测试")
 				.param("orderSource", "1gw")
 				.param("payType", "2")
-				.param("orderStatus", "1"))
-    			.andExpect(status().isOk());
+				.param("orderStatus", "2"))
+    			.andExpect(status().isOk())
+    			.andExpect(jsonPath("$.status",is(0)));
     	
     	postResultAction.andDo(new ResultHandler() {
     		@Override

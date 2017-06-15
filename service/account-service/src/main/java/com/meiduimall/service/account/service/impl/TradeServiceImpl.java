@@ -1,5 +1,7 @@
 package com.meiduimall.service.account.service.impl;
 
+import static org.hamcrest.CoreMatchers.endsWith;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -842,7 +844,23 @@ public class TradeServiceImpl implements TradeService {
 				}
 				// 退单后积分余额
 				double afterPoints = DoubleCalculate.add(preConsumePoints, Double.valueOf(ms.getConsumePoints()));
-				// 同时更新订单表的
+				// 记录积分明细表
+				MSConsumePointsDetail mscpd = new MSConsumePointsDetail();
+				mscpd.setMcpId(UUID.randomUUID().toString());
+				mscpd.setMemId(ms.getMemId());
+				mscpd.setMcpOrderId(ms.getOrderId());
+				mscpd.setMcpOrderSource(ms.getOrderSource());
+				mscpd.setMcpOperatorType(ConstPointsChangeType.POINTS_OPERATOR_TYPE_TK.getCode());
+				mscpd.setMcpIncome(ms.getConsumePoints());
+				mscpd.setMcpExpenditure("0");
+				BigDecimal add = new BigDecimal(preConsumePoints).add(new BigDecimal(ms.getConsumePoints()));
+				mscpd.setMcpBalance(add.toString());
+				mscpd.setMcpCreatedBy(ms.getMemId());
+				mscpd.setMcpCreatedDate(new Date());
+				mscpd.setMcpUpdatedBy(ms.getMemId());
+				mscpd.setMcpUpdatedDate(new Date());
+				mscpd.setMcpRemark("会员编号:" + ms.getMemId() + " 退积分"+ ms.getConsumePoints());
+				baseDao.insert(mscpd, "MSConsumePointsDetailMapper.insertConsumePointsDetail");
 
 				// 返回退单后积分
 				json.put("after_consume_points", StringUtil.interceptionCharacter(2, afterPoints));
