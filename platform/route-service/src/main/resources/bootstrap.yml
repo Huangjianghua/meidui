@@ -2,7 +2,7 @@ server:
   port: ${PORT:9050}
 spring:
   application:
-    name: route-service
+    name: service-route
 
 zuul:
   ignoredServices: '*'
