@@ -38,6 +38,7 @@ import com.meiduimall.service.account.model.MSAccountReport;
 import com.meiduimall.service.account.model.MSBankAccount;
 import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
 import com.meiduimall.service.account.model.MSConsumePointsDetail;
+import com.meiduimall.service.account.model.MSConsumePointsDetailSet;
 import com.meiduimall.service.account.model.MSConsumePointsFreezeInfo;
 import com.meiduimall.service.account.model.MSMemberConsumeRecords;
 import com.meiduimall.service.account.model.request.MSMemberConsumeRecordsReq;
@@ -845,16 +846,16 @@ public class TradeServiceImpl implements TradeService {
 				// 退单后积分余额
 				double afterPoints = DoubleCalculate.add(preConsumePoints, Double.valueOf(ms.getConsumePoints()));
 				// 记录积分明细表
-				MSConsumePointsDetail mscpd = new MSConsumePointsDetail();
+				MSConsumePointsDetailSet mscpd = new MSConsumePointsDetailSet();
 				mscpd.setMcpId(UUID.randomUUID().toString());
 				mscpd.setMemId(ms.getMemId());
 				mscpd.setMcpOrderId(ms.getOrderId());
 				mscpd.setMcpOrderSource(ms.getOrderSource());
 				mscpd.setMcpOperatorType(ConstPointsChangeType.POINTS_OPERATOR_TYPE_TK.getCode());
-				mscpd.setMcpIncome(DESC.encryption(ms.getConsumePoints(), ms.getMemId()));
-				mscpd.setMcpExpenditure(DESC.encryption("0", ms.getMemId()));
+				mscpd.setMcpIncome(ms.getConsumePoints());
+				mscpd.setMcpExpenditure("0");
 				BigDecimal add = new BigDecimal(preConsumePoints).add(new BigDecimal(ms.getConsumePoints()));
-				mscpd.setMcpBalance(DESC.encryption(add.toString(), ms.getMemId()));
+				mscpd.setMcpBalance(add.toString());
 				mscpd.setMcpCreatedBy(ms.getMemId());
 				mscpd.setMcpCreatedDate(new Date());
 				mscpd.setMcpUpdatedBy(ms.getMemId());
