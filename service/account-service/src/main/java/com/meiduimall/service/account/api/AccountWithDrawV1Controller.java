@@ -1,6 +1,8 @@
 package com.meiduimall.service.account.api;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -220,6 +222,30 @@ public class AccountWithDrawV1Controller {
 		return result;
 	}
 
+	/**
+	 * 查询提现手续费
+	 * 
+	 * @param mSAccountDetailCondition
+	 * @return
+	 * @author: jianhua.huang 2017年5月5日 下午5:33:05
+	 */
+	@RequestMapping(value = "/query_bankWithdraw_free_for_app")
+	public ResBodyData queryBankWithdrawFreeForApp(@RequestBody RequestMSBankWithDrawDepostie depostie) {
+		ResBodyData resultData = new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M);
+		try {
+			Double free=withDrawService.getWithDrawFree(depostie);
+			Map<String, Object> returnMap=new HashMap<>();
+			returnMap.put("withDraw_free", free);
+			resultData.setData(returnMap);
+		} catch (MdBizException e) {
+			throw new ApiException(e.getCode(), e.getMessage());
+		} catch (Exception e) {
+			logger.error("查看提现手续费Controller异常:{}", e.getMessage());
+			throw new ApiException(ConstApiStatus.SERVER_DEAL_WITH_EXCEPTION);
+		}
+		return resultData;
+	}
+	
 //	/**
 //	 * 账户余额提现申请接口--该接口给旧会员系统使用(但是旧会员系统的接口没人用？)
 //	 * 
