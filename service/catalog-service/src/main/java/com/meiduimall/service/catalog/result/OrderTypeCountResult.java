@@ -1,12 +1,29 @@
 package com.meiduimall.service.catalog.result;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class OrderTypeCountResult {
 
+	/**购物车商品数量(比如商品A有1个，商品B有3个，返回4)*/
+	@JsonProperty("cart_num")
 	private int cartNum;
+	
+	/**待付款*/
+	@JsonProperty("wait_pay")
 	private int waitPay;
+	
+	/**待发货*/
+	@JsonProperty("wait_delivery")
 	private int waitDelivery;
+	
+	/**待收货*/
+	@JsonProperty("wait_enter")
 	private int waitEnter;
+	
+	/**待评价*/
+	@JsonProperty("wait_rate")
 	private int waitRate;
+	
 	public int getCartNum() {
 		return cartNum;
 	}
