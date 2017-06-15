@@ -374,7 +374,7 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
      * 根据会员memId，获取会员账户余额和积分余额
      * @throws Exception
      */
-   /* @Test
+   @Test
 	public void testGetAccountBalanceForApp_01() throws Exception {
     	
     	String memId = "68d1d796-ffa8-4a49-8f95-ec554eabe3d8";
@@ -398,5 +398,5 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 				System.out.println("testGetAccountBalanceForApp_01*********" + result.getResponse().getContentAsString());
 			}
 		});
-	}*/
+	}
 }
