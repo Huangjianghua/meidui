@@ -851,10 +851,10 @@ public class TradeServiceImpl implements TradeService {
 				mscpd.setMcpOrderId(ms.getOrderId());
 				mscpd.setMcpOrderSource(ms.getOrderSource());
 				mscpd.setMcpOperatorType(ConstPointsChangeType.POINTS_OPERATOR_TYPE_TK.getCode());
-				mscpd.setMcpIncome(ms.getConsumePoints());
-				mscpd.setMcpExpenditure("0");
+				mscpd.setMcpIncome(DESC.encryption(ms.getConsumePoints(), ms.getMemId()));
+				mscpd.setMcpExpenditure(DESC.encryption("0", ms.getMemId()));
 				BigDecimal add = new BigDecimal(preConsumePoints).add(new BigDecimal(ms.getConsumePoints()));
-				mscpd.setMcpBalance(add.toString());
+				mscpd.setMcpBalance(DESC.encryption(add.toString(), ms.getMemId()));
 				mscpd.setMcpCreatedBy(ms.getMemId());
 				mscpd.setMcpCreatedDate(new Date());
 				mscpd.setMcpUpdatedBy(ms.getMemId());
