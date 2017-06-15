@@ -61,9 +61,7 @@ public class WithDrawServiceImpl implements WithDrawService{
 		MD5Utils.updateSign(reqJson,profile.getRouteClientID(),profile.getRouteKey());
 		logger.info("提现手续费API>>URL:{}  Data:{}",url,reqJson.toString());
 		try {
-			Map<String, String> headers=new HashMap<>();
-			headers.put(ConstSysParamsDefination.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
-			String result=HttpUtils.post(url,reqJson.toString(),headers);
+			String result=HttpUtils.get(url, reqJson);
 			logger.info("提现手续费API>>结果：{}",result);
 			resBodyData=JSON.parseObject(result,ResBodyData.class);
 		} catch (Exception e) {
