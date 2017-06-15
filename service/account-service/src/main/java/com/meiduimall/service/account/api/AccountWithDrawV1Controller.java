@@ -1,6 +1,8 @@
 package com.meiduimall.service.account.api;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -227,12 +229,14 @@ public class AccountWithDrawV1Controller {
 	 * @return
 	 * @author: jianhua.huang 2017年5月5日 下午5:33:05
 	 */
-	@PostMapping(value = "/queryBankWithdrawFreeForApp")
+	@PostMapping(value = "/query_bankWithdraw_free_for_app")
 	public ResBodyData queryBankWithdrawFreeForApp(@RequestBody RequestMSBankWithDrawDepostie depostie) {
 		ResBodyData resultData = new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M);
 		try {
 			Double free=withDrawService.getWithDrawFree(depostie);
-			resultData.setData(free);
+			Map<String, Object> returnMap=new HashMap<>();
+			returnMap.put("withDraw_free", free);
+			resultData.setData(returnMap);
 		} catch (MdBizException e) {
 			throw new ApiException(e.getCode(), e.getMessage());
 		} catch (Exception e) {

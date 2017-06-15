@@ -121,7 +121,7 @@ public class AccountWithDrawV1ControllerTest extends BaseControllerTest {
     	String object=JsonUtils.beanToJson(dto);
     		try{
     		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
-    				.post("/member/account_service/v1/queryBankWithdrawFreeForApp")
+    				.post("/member/account_service/v1/query_bankWithdraw_free_for_app")
     				.contentType(MediaType.APPLICATION_JSON).content(object))
     				.andExpect(status().isOk());
     		

@@ -16,13 +16,11 @@ import org.springframework.stereotype.Component;
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.redis.util.RedisTemplate;
 import com.meiduimall.service.account.constant.ConstApiStatus;
-import com.meiduimall.service.account.constant.ConstPointsChangeType;
 import com.meiduimall.service.account.dao.BaseDao;
-import com.meiduimall.service.account.service.MDMallServices;
 import com.meiduimall.service.account.service.ConsumePointsDetailService;
+import com.meiduimall.service.account.service.MDMallServices;
 import com.meiduimall.service.account.util.DESC;
 import com.meiduimall.service.account.util.RequestURL;
-import com.meiduimall.service.account.util.SerialStringUtil;
 import com.meiduimall.service.account.util.StringUtil;
 import com.meiduimall.service.account.util.SystemConfig;
 
