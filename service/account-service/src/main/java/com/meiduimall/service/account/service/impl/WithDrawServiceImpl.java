@@ -22,7 +22,6 @@ import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSAccount;
 import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
 import com.meiduimall.service.account.model.request.RequestBankWithdrawDepositsList;
-import com.meiduimall.service.account.model.request.RequestMSBankWithDrawDepostie;
 import com.meiduimall.service.account.model.request.RequestMSBankWithDrawDepostieFree;
 import com.meiduimall.service.account.model.response.ResponseBankWithdrawDeposit;
 import com.meiduimall.service.account.model.response.ResponseBankWithdrawDepositList;
@@ -145,7 +144,7 @@ public class WithDrawServiceImpl implements WithDrawService {
 	@Override
 	public Double getWithDrawFree(RequestMSBankWithDrawDepostieFree depostie) throws MdBizException {
 		List<MSAccount> list=null;
-		Double withdrawMoney=Double.valueOf(depostie.getAllowWithdrawBalance());
+		Double withdrawMoney=Double.valueOf(depostie.getAllow_withdraw_balance());
 		Double freeTotal=0.0; //手续费总和
 		try {
 			list=queryAccountList(depostie.getMemId(),Constants.CONSTANT_STR_ONE,null);

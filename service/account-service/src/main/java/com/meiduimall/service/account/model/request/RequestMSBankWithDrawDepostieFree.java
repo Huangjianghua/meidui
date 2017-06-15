@@ -7,8 +7,6 @@ import java.io.Serializable;
 
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 /**
  * @author:   jianhua.huang 
  * @version:  2017年6月15日 上午11:44:30 0.1 
@@ -16,13 +14,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class RequestMSBankWithDrawDepostieFree implements Serializable{
 
-	private static final long serialVersionUID = 5475129089699436850L;
+	private static final long serialVersionUID = 180839605719741969L;
+
 	@NotNull(message="memId不能为空")
 	private String memId;
 	
-	@JsonProperty("allow_withdraw_balance")
-	@NotNull(message="提现金额不能为空")
-	private String allowWithdrawBalance;
+	@NotNull(message="可提现金额不能为空")
+	private String allow_withdraw_balance;
 
 	/**
 	 * @return the memId
@@ -39,16 +37,17 @@ public class RequestMSBankWithDrawDepostieFree implements Serializable{
 	}
 
 	/**
-	 * @return the allowWithdrawBalance
+	 * @return the allow_withdraw_balance
 	 */
-	public String getAllowWithdrawBalance() {
-		return allowWithdrawBalance;
+	public String getAllow_withdraw_balance() {
+		return allow_withdraw_balance;
 	}
 
 	/**
-	 * @param allowWithdrawBalance the allowWithdrawBalance to set
+	 * @param allow_withdraw_balance the allow_withdraw_balance to set
 	 */
-	public void setAllowWithdrawBalance(String allowWithdrawBalance) {
-		this.allowWithdrawBalance = allowWithdrawBalance;
+	public void setAllow_withdraw_balance(String allow_withdraw_balance) {
+		this.allow_withdraw_balance = allow_withdraw_balance;
 	}
+
 }
