@@ -785,6 +785,9 @@ public class TradeServiceImpl implements TradeService {
 
 			// 获取退费前积分余额
 			Double preConsumePoints = pointsService.getAvailablePointsByMemId(ms.getMemId());
+			Double realPoints = Double.valueOf("0");
+			String accountPoint = baseDao.selectOne(ms.getMemId(), "MSAccountMapper.getCurrentPointsByMemId");
+			realPoints = Double.valueOf(DESC.deyption(accountPoint,ms.getMemId()));
 			// 获取退费前余额
 			Double preConsumeMoney = accountReportService.getAvailableBalance(ms.getMemId());
 
@@ -896,7 +899,7 @@ public class TradeServiceImpl implements TradeService {
 				mscpd.setMcpOperatorType(ConstPointsChangeType.POINTS_OPERATOR_TYPE_TK.getCode());
 				mscpd.setMcpIncome(ms.getConsumePoints());
 				mscpd.setMcpExpenditure("0");
-				BigDecimal add = new BigDecimal(preConsumePoints).add(new BigDecimal(ms.getConsumePoints()));
+				BigDecimal add = new BigDecimal(realPoints).add(new BigDecimal(ms.getConsumePoints()));
 				mscpd.setMcpBalance(add.toString());
 				mscpd.setMcpCreatedBy(ms.getMemId());
 				mscpd.setMcpCreatedDate(new Date());
