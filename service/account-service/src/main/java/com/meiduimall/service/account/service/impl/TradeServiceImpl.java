@@ -834,7 +834,7 @@ public class TradeServiceImpl implements TradeService {
 				    		msAccountDetail2.setTradeAmount(balance);
 				    		msAccountDetail2.setTradeDate(new Date());
 				    		msAccountDetail2.setInOrOut(1);
-				    		msAccountDetail2.setBalance(preConsumeMoney + balance);
+				    		msAccountDetail2.setBalance(msAccount.getBalance() + balance);
 				    		msAccountDetail2.setBusinessNo(msAccountDetail.getBusinessNo());
 				    		msAccountDetail2.setCreateUser(msAccountDetail.getCreateUser());
 				    		msAccountDetail2.setCreateDate(new Date());
@@ -842,8 +842,8 @@ public class TradeServiceImpl implements TradeService {
 				    		msAccountDetail2.setUpdateDate(new Date());
 				    		msAccountDetail2.setRemark("账户编号:" + msAccountDetail2.getAccountNo() + " 退款"+ balance +"元");
 				    		listAccountDetail2.add(msAccountDetail2);
-				    		logger.info("插入账户明细表:退款账户:{},退款余额:{},退款之后的余额:{}",msAccount.getAccountNo(),balance,preConsumeMoney + balance);
-				    		preConsumeMoney = preConsumeMoney + balance;
+				    		logger.info("插入账户明细表:退款账户:{},退款之前的余额:{},退款余额:{},退款之后的余额:{}",msAccount.getAccountNo(),msAccount.getBalance(),
+				    				balance,msAccount.getBalance() + balance);
 						  }
 			    		  bigDecimal = bigDecimal.subtract(new BigDecimal(msAccountDetail.getTradeAmount()));
 			    		       
@@ -851,17 +851,23 @@ public class TradeServiceImpl implements TradeService {
 			    		
 			    	}
 				}
+			    
+			    //更新MSAccountReport
+			    Map<String, Object> map = new HashMap<>();
+			    map.put("balance", ms.getConsumeMoney());
+			    map.put("memId", ms.getMemId());
+			    baseDao.update(map,"MSAccountReportMapper.updateBalance");
+			    
+			    //更新MSAccount
+			    accountAdjustService.batchUpdateBalance(msAccountlist);
+			    
+			    //更新MSAccountDetail
 			    accountDetailService.batchInsertAccoutDetail(listAccountDetail2);
-				accountAdjustService.batchUpdateBalance(msAccountlist);
 				
 
 				// 退单后余额
 				double afterMoney = DoubleCalculate.add(preConsumeMoney, Double.valueOf(ms.getConsumeMoney()));
 				
-				Map<String, Object> map = new HashMap<>();
-				map.put("balance", ms.getConsumeMoney());
-				map.put("memId", ms.getMemId());
-				baseDao.update(map,"MSAccountReportMapper.updateBalance");
 
 				// 返回退单后余额
 				json.put("after_shopping_coupon", StringUtil.interceptionCharacter(2, afterMoney));
