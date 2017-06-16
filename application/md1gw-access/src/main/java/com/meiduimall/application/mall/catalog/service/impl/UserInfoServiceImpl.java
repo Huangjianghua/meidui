@@ -21,6 +21,7 @@ import com.meiduimall.application.mall.util.HttpGatewayUtils;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.HttpUtils;
 import com.meiduimall.core.util.JsonUtils;
+import com.netflix.servo.util.Strings;
 
 @Service
 public class UserInfoServiceImpl implements UserInfoService {
@@ -63,6 +64,11 @@ public class UserInfoServiceImpl implements UserInfoService {
 				memInfo.setEmail(email == null ? "" : email);
 				String birthday = node.get("birthday").textValue();
 				memInfo.setBirthday(birthday == null ? "" : birthday);
+				String qrcodeName = phone;
+				if(!Strings.isNullOrEmpty(qrcodeName)){
+					qrcodeName = loginName;
+				}
+				memInfo.setQrcodeName(qrcodeName);
 			} catch (Exception e) {
 				logger.error("请求member-service，json数据解析异常：" + e);
 			}

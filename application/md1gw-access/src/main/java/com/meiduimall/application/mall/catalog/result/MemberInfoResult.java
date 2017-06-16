@@ -32,6 +32,10 @@ public class MemberInfoResult {
 	/** 生日 */
 	private String birthday = "";
 
+	/** 会员个人二维码显示名字 */
+	@JsonProperty("qrcode_name")
+	private String qrcodeName;
+	
 	/** 可用积分 */
 	@JsonProperty("use_points")
 	private String usePoints = "0";
@@ -158,5 +162,13 @@ public class MemberInfoResult {
 
 	public void setFreezeMoney(String freezeMoney) {
 		this.freezeMoney = freezeMoney;
+	}
+
+	public String getQrcodeName() {
+		return qrcodeName;
+	}
+
+	public void setQrcodeName(String qrcodeName) {
+		this.qrcodeName = qrcodeName;
 	}
 }
