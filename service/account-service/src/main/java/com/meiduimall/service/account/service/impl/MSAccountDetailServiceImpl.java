@@ -165,7 +165,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 				 msAccount.setAccountNo(dto.getAccountTypeNo()+updateSequenceByAccountTypeNo);
 				 msAccount.setAccountTypeNo(accountType.getAccountTypeNo());
 				 msAccount.setAccountNoSequence(accountType.getAccountNoSequence());
-				 msAccount.setBalance(Double.valueOf(dto.getReviseBalance().toString()));
+				 msAccount.setBalance(Double.valueOf(Constants.CONSTANT_INT_ZERO));
 				 msAccount.setBalanceEncrypt(DESC.encryption(dto.getReviseBalance().toString(), dto.getMemId()));
 				 msAccount.setFreezeBalance(0.00);
 				 msAccount.setFreezeBalanceEncrypt(DESC.encryption(String.valueOf(0.00), dto.getMemId()));
