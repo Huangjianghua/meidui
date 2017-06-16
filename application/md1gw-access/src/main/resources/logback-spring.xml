@@ -3,9 +3,7 @@
 
     <!-- <property resource="resource1.properties" /> -->
 	<property name="LOG_HOME" value="/var/log/meiduimall" />
-	<property name="FILE_NAME" value="front-user-center" />
-	
-	
+	<property name="FILE_NAME" value="md1gw-access" />
 	
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 	    <layout class="ch.qos.logback.classic.PatternLayout">
@@ -45,7 +43,6 @@
   <logger name="jdbc.sqltiming" level="INFO">
      <appender-ref ref="SQL_FILE_APPENDER" />  
   </logger>
-  
 
   <logger name="java.sql.Connection" level="INFO" />
   <logger name="java.sql.Statement" level="INFO" />

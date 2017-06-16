@@ -73,7 +73,7 @@ eureka:
 
 # 商城地址配置
 estore : 
-  base-url : http://www.meiduimall.com
+  base-url : http://shopy.meiduimall.com
 
 
 ---
@@ -83,7 +83,7 @@ spring:
   datasource :
     type : com.zaxxer.hikari.HikariDataSource
     driver-class-name : com.mysql.jdbc.Driver
-    url : jdbc:mysql://127.0.0.1:3306/meiduishop?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
+    url : jdbc:mysql://127.0.0.1:3306/sqldb?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
     username : root
     password : 123456
     connectionTimeout : 30000
