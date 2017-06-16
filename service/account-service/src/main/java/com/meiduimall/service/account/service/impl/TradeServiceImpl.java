@@ -962,8 +962,7 @@ public class TradeServiceImpl implements TradeService {
 				if (!StringUtils.isEmpty(points)) {
 					  
 					// 解冻金额和冻结金额是否一样
-					if (DoubleCalculate.add(Double.valueOf(mmt.getConsumePoints()),
-							Double.valueOf(points.getMcpfConsumePoints())) != 0.0) {
+					if (Double.valueOf(mmt.getConsumePoints()).compareTo(Double.valueOf(points.getMcpfConsumePoints())) != 0) {
 						logger.info("订单解冻积分不等于冻结积分");
 						return new ResBodyData(ConstApiStatus.DJ_NOT_EQUALS_DJ,
 								ConstApiStatus.getZhMsg(ConstApiStatus.DJ_NOT_EQUALS_DJ));
@@ -1041,8 +1040,7 @@ public class TradeServiceImpl implements TradeService {
 					}
 					
 					// 解冻金额和冻结金额是否一样
-					if (DoubleCalculate.sub(Double.valueOf(mmt.getConsumeMoney()),
-							moneySum) != 0.0) {
+					if (Double.valueOf(mmt.getConsumeMoney()).compareTo(moneySum) != 0) {
 						logger.info("订单解冻余额不等于冻结余额!");
 						return new ResBodyData(ConstApiStatus.MONEY_DJ_NOT_EQUALS_DJ,
 								ConstApiStatus.getZhMsg(ConstApiStatus.MONEY_DJ_NOT_EQUALS_DJ));
@@ -1121,7 +1119,8 @@ public class TradeServiceImpl implements TradeService {
 			if (Double.valueOf(obj.toString()) > 0) {
 				return true;
 			}
-		} catch (Exception e) {
+		} catch (ServiceException e) {
+			logger.error("判断是否为零异常", e);
 			return false;
 		}
 		return false;
