@@ -38,7 +38,7 @@ public class IndexController {
 	 * 第一次将所有数据库信息增加到索引库
 	 * 
 	 * @param number
-	 *            每页更新数量
+	 *            每页更新数量 
 	 * @return
 	 */
 	@RequestMapping(value = "/updateIndex")
