@@ -271,8 +271,7 @@ public class TradeServiceImpl implements TradeService {
 				msAccountDetail.setTradeAmount(item.getFreezeBalance());
 				msAccountDetail.setTradeDate(item.getTradeDate());
 				msAccountDetail.setInOrOut(Constants.CONSTANT_INT_INVALID);
-				msAccountDetail.setBalance(beforeTotalMoney-msAccountDetail.getTradeAmount());
-				beforeTotalMoney=msAccountDetail.getBalance();
+				msAccountDetail.setBalance(msAccount.getBalance()-model.getConsumeMoney());
 				msAccountDetail.setBusinessNo(item.getBusinessNo());
 				msAccountDetail.setCreateUser("账户服务");
 				msAccountDetail.setUpdateUser("账户服务");
