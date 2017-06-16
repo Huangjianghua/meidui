@@ -11,7 +11,7 @@
 	<groupId>com.meiduimall.application</groupId>
 	<artifactId>search</artifactId>
 	<version>1.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>search</name>
 	<description>search</description>
 

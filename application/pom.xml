@@ -16,6 +16,7 @@
     <modules>
  		<module>md1gw-access</module>
  		<module>usercenter-access</module>
+		<module>search</module>
     </modules>
 
 </project>
