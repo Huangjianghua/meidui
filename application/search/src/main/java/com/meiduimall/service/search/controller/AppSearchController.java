@@ -32,7 +32,7 @@ public class AppSearchController {
 	private AppProductIndexService appProductIndexService;
 
 	/**
-	 * 搜索
+	 * APP搜索
 	 * 
 	 * @param searchParam
 	 * @return
