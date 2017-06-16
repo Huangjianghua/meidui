@@ -268,4 +268,6 @@ public class AccountServiceImpl implements AccountService {
 		return baseDao.selectOne(memId,"MSAccountMapper.getAllowWithdrawBalance");
 	}
 
+
+
 }

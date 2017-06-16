@@ -303,7 +303,6 @@ public class TradeServiceImpl implements TradeService {
 	public ResBodyData cancelOrder(RequestCancelOrder model) throws MdSysException {
 		ResBodyData resBodyData = new ResBodyData(Constants.CONSTANT_INT_ZERO,"订单取消成功");
 		
-		int orderStatus=model.getOrderStatus(); //订单状态
 		String memId=model.getMemId(); //会员ID
 		String orderId=model.getOrderId(); //订单号
 		
@@ -321,18 +320,21 @@ public class TradeServiceImpl implements TradeService {
 			throw new ServiceException(ConstApiStatus.NO_DJ_MONEY);
 		}
 		
-		//解冻该订单号对应的积分冻结记录
+		//添加该订单号对应的积分解冻记录
 		for(MSConsumePointsFreezeInfo item:listPointsFreezeInfo){
 			//下面的属性重新赋值，其他属性继续沿用之前的值
 			item.setMcpfId(UUID.randomUUID().toString());
-			item.setMcpfConsumePoints("-"+item.getMcpfConsumePoints());
+			item.setMcpfConsumePoints(String.valueOf(-Double.valueOf(item.getMcpfConsumePoints())));
 			item.setMcpfCreatedBy("账户服务");
 			item.setMcpfUpdatedBy("账户服务");
 			item.setMcpfRemark(SerialStringUtil.getPointsRemark(ConstPointsChangeType.POINTS_OPERATOR_TYPE_QX.getCode(),memId));
-			pointsFreezeInfoService.insertConsumePointsFreezeInfo(item,ConstPointsChangeType.POINTS_OPERATOR_TYPE_QX.getCode());
+			pointsFreezeInfoService.insertConsumePointsFreezeInfo(item,ConstPointsChangeType.POINTS_FREEZE_TYPE_JD.getCode());
 		}
 		
-		//解冻该订单号对应的余额冻结记录
+		//先定义更新账户报表的冻结余额的条件
+		Map<String,Double> mapCondition=new HashMap<>();
+		mapCondition.put("freezeBalance",0.00);
+		//添加该订单号对应的余额解冻记录
 		for(MSAccountFreezeDetail item:listBalanceFreeze){
 			//下面的属性重新赋值，其他属性继续沿用之前的值
 			item.setId(UUID.randomUUID().toString());
@@ -344,11 +346,18 @@ public class TradeServiceImpl implements TradeService {
 			item.setRemark("订单取消解冻余额");
 			accountFreezeDetailService.insertAccoutFreezeDetail(item);
 			
-			//更新账户冻结记录
-			
+			//更新账户的冻结余额
+			MSAccount msAccount=accountServices.getAccountInfoByMemIdAndAccountNo(memId,item.getAccountNo());
+			msAccount.setFreezeBalance(msAccount.getFreezeBalance()-item.getFreezeBalance());
+			msAccount.setFreezeBalanceEncrypt(DESC.encryption(String.valueOf(msAccount.getFreezeBalance()),memId));
+			baseDao.update(msAccount,"MSAccountMapper.updateAccountByCondition");
+		
+			mapCondition.put("freezeBalance",mapCondition.get("freezeBalance")-item.getFreezeBalance());
+			mapCondition.put("freezeBalance"+msAccount.getAccountTypeNo(),-item.getFreezeBalance());
 		}
 		
 		//更新账户报表的冻结余额
+		baseDao.update(mapCondition,"MSAccountReportMapper.updateFreezeBalance");
 		
 		//更新消费记录表状态为已退单
 		Map<String,Object> mapMcr=new HashMap<>();
