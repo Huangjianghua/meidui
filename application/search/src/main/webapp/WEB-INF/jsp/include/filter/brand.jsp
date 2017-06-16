@@ -17,13 +17,13 @@
 								<c:if test="${!empty chkbrand}">
 									<c:forEach var="chd" items="${chkbrand}">
 										<c:if test="${chd == bd.brandId}">
-											<a href="${url}&b=${bd.brandId}" class="on"
+											<a href="${url}&b=${bd.brandId}" class="on" />
 										</c:if>
 										<c:if test="${chd != bd.brandId}">
-											<a href="${url}&b=${bd.brandId}"
+											<a href="${url}&b=${bd.brandId}" />
 										</c:if>
 									</c:forEach>
-									> ${bd.brand}  <i class="icon icon-close"></i></a>
+									  ${bd.brand}  <i class="icon icon-close"></i></a>
 								</c:if>
 							</c:forEach>
 						</p>
