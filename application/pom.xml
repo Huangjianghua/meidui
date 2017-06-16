@@ -14,7 +14,6 @@
     <packaging>pom</packaging>
     <version>1.0.0</version>
     <modules>
-		<module>md1gw-access2</module>
  		<module>md1gw-access</module>
  		<module>usercenter-access</module> 
  		<module>search</module>

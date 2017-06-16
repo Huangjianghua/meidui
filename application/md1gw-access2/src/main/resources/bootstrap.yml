@@ -1,8 +1,0 @@
-server:
-  port: ${PORT:10092}
-
-# AOP
-spring :
-  aop :
-    auto : true
-    proxy-target-class : true
