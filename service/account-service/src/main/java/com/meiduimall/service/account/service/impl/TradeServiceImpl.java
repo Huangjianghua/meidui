@@ -233,9 +233,9 @@ public class TradeServiceImpl implements TradeService {
 			pointsDetailService.insertConsumePointsDetail(model.getMemId(),
 					model.getOrderId(),
 					model.getOrderSource(),
-					"0.00",
-					String.valueOf(model.getConsumePoints()),
-					String.valueOf(accountReportService.getTotalPointsByMemId(model.getMemId())-model.getConsumePoints()),
+					DESC.encryption("0.00",model.getMemId()),
+					DESC.encryption(String.valueOf(model.getConsumePoints()),model.getMemId()),
+					DESC.encryption(String.valueOf(accountReportService.getTotalPointsByMemId(model.getMemId())-model.getConsumePoints()),model.getMemId()),
 					ConstPointsChangeType.POINTS_OPERATOR_TYPE_XF.getCode(),
 					model.getMemId(),
 					SerialStringUtil.getPointsRemark(ConstPointsChangeType.POINTS_OPERATOR_TYPE_XF.getCode(),model.getMemId()));
