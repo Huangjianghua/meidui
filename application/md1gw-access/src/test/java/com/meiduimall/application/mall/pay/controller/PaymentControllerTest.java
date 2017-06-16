@@ -17,7 +17,7 @@ public class PaymentControllerTest extends BaseTest {
 	 * @throws Exception
 	 */
 	@Test
-	public void payJudgment_test_01() throws Exception {
+	public void testPayJudgment_test_01() throws Exception {
 		ResultActions results = mockMvc
 				.perform(MockMvcRequestBuilders.get("/md1gwmall/md1gw_access/v1/PayJudgment"))
 				.andExpect(status().isOk());
@@ -25,7 +25,7 @@ public class PaymentControllerTest extends BaseTest {
 		results.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				System.out.println("payJudgment_test_01*********" + result.getResponse().getContentAsString());
+				System.out.println("testPayJudgment_test_01*********" + result.getResponse().getContentAsString());
 			}
 		});
 	}
@@ -34,7 +34,7 @@ public class PaymentControllerTest extends BaseTest {
 	 * 测试token不能为空
 	 */
 	@Test
-	public void payJudgment_test_02() throws Exception {
+	public void testPayJudgment_test_02() throws Exception {
 		ResultActions results = mockMvc
 				.perform(MockMvcRequestBuilders.get("/md1gwmall/md1gw_access/v1/PayJudgment")
 						.param("token", "")
@@ -49,7 +49,7 @@ public class PaymentControllerTest extends BaseTest {
 		results.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				System.out.println("payJudgment_test_01*********" + result.getResponse().getContentAsString());
+				System.out.println("testPayJudgment_test_02*********" + result.getResponse().getContentAsString());
 			}
 		});
 	}
@@ -59,7 +59,7 @@ public class PaymentControllerTest extends BaseTest {
 	 * @throws Exception
 	 */
 	@Test
-	public void payJudgment_test_03() throws Exception {
+	public void testPayJudgment_test_03() throws Exception {
 		ResultActions results = mockMvc
 				.perform(MockMvcRequestBuilders.get("/md1gwmall/md1gw_access/v1/PayJudgment")
 						.param("token", "8791413989843219898321")
@@ -74,7 +74,7 @@ public class PaymentControllerTest extends BaseTest {
 		results.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				System.out.println("payJudgment_test_01*********" + result.getResponse().getContentAsString());
+				System.out.println("testPayJudgment_test_03*********" + result.getResponse().getContentAsString());
 			}
 		});
 	}
@@ -85,7 +85,7 @@ public class PaymentControllerTest extends BaseTest {
 	 * @throws Exception
 	 */
 	@Test
-	public void payJudgment_test_04() throws Exception {
+	public void testPayJudgment_test_04() throws Exception {
 		ResultActions results = mockMvc
 				.perform(MockMvcRequestBuilders.get("/md1gwmall/md1gw_access/v1/PayJudgment")
 						.param("token", "8791413989843219898321")
@@ -100,7 +100,7 @@ public class PaymentControllerTest extends BaseTest {
 		results.andDo(new ResultHandler() {
 			@Override
 			public void handle(MvcResult result) throws Exception {
-				System.out.println("payJudgment_test_01*********" + result.getResponse().getContentAsString());
+				System.out.println("testPayJudgment_test_04*********" + result.getResponse().getContentAsString());
 			}
 		});
 	}

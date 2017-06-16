@@ -7,6 +7,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.meiduimall.exception.ServiceException;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +33,7 @@ import net.sf.json.JSONObject;
 
 @RestController
 @RequestMapping("/md1gwmall/md1gw_access/v1")
+@Api("支付接入调相关api")
 public class PaymentController { 
 
 	@Autowired
@@ -40,10 +47,22 @@ public class PaymentController {
 	
 	
 	/**
-	 * 支付之前判断
+	 * 支付接入
 	 * @param paymentTrade 订单信息
 	 * @return JSONObject
 	 */
+	@ApiOperation(value="支付接入", notes="App微信或者支付宝支付,请求到达,进行相应的逻辑判断.返回签名信息.")
+	@ApiImplicitParams({
+        @ApiImplicitParam(name = "token", value = "token", required = true, dataType = "String"),
+        @ApiImplicitParam(name = "user_id", value = "用户id", required = true, dataType = "String"),
+        @ApiImplicitParam(name = "payment_id", value = "支付单号", required = true, dataType = "String"),
+        @ApiImplicitParam(name = "use_point", value = "积分", required = true, dataType = "String"),
+        @ApiImplicitParam(name = "use_money", value = "余额", required = true, dataType = "String"),
+        @ApiImplicitParam(name = "pay_type", value = "支付类型  wechatpay:微信  其他:支付宝", required = true, dataType = "String"),
+        @ApiImplicitParam(name = "pay_password", value = "支付密码  (明文)", required = true, dataType = "String"),
+        @ApiImplicitParam(name = "wechat_pay_account_type", value = "1:壹购物的签名  2:美兑的签名", required = true, dataType = "String"),
+        @ApiImplicitParam(name = "is_new", value = "is_new", required = false, dataType = "String")
+	})
 	@GetMapping(value="/PayJudgment")
 	public JSONObject payJudgment(PaymentTrade  paymentTrade){
 		//验证支付密码是否正确，用户输的支付密码拼接userPayKey(商城配置为'{liangping}')与pay_password比较。

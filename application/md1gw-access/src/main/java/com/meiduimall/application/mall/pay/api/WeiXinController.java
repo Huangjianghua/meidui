@@ -28,8 +28,14 @@ import com.meiduimall.application.mall.util.Logger;
 import com.meiduimall.application.mall.util.MD5Util;
 import com.meiduimall.application.mall.util.XMLUtil;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/md1gwmall/md1gw_access/v1")
+@Api("微信异步回调相关api")
 public class WeiXinController {
  
 	
@@ -53,6 +59,16 @@ public class WeiXinController {
 	@Autowired
 	private PaymentService paymentService;
 	
+	@ApiOperation(value="微信异步回调", notes="微信支付的通知返回参数，可参考微信支付官方文档中页面跳转同步通知参数列表(以下仅供参考)")
+	@ApiImplicitParams({
+        @ApiImplicitParam(name = "result_code", value = "SUCCESS", required = true, dataType = "String"),
+        @ApiImplicitParam(name = "out_trade_no", value = "支付单号", required = true, dataType = "String"),
+        @ApiImplicitParam(name = "total_fee", value = "订单金额", required = true, dataType = "String"),
+        @ApiImplicitParam(name = "return_code", value = "交易状态", required = true, dataType = "String"),
+        @ApiImplicitParam(name = "transaction_id", value = "交易号", required = true, dataType = "String"),
+        @ApiImplicitParam(name = "mch_id", value = "商户id", required = true, dataType = "String"),
+        @ApiImplicitParam(name = "time_end", value = "交易结束时间", required = true, dataType = "String")
+	})
 	@SuppressWarnings({ "unchecked" })
 	@PostMapping(value = "/getWXPayNotify" )
 	public String getPayNotify(HttpServletRequest request,HttpServletResponse response) throws Exception {
