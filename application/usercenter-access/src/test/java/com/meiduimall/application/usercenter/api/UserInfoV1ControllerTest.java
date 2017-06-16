@@ -36,7 +36,7 @@ public class UserInfoV1ControllerTest extends BaseControllerTest{
 	 * @throws Exception
 	 */
     @Test
-    public void testGetMemberBasicInfo_01() throws Exception{/*
+    public void testGetMemberBasicInfo_01() throws Exception{
     	//先登录获取token
     	JSONObject json=new JSONObject();
     	json.put("user_name",phone);
@@ -57,5 +57,5 @@ public class UserInfoV1ControllerTest extends BaseControllerTest{
     			}
     		});    		
     	}
-    */}
+    }
 }
