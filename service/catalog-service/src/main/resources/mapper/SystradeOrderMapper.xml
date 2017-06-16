@@ -65,7 +65,7 @@
     <result column="spec_nature_info" property="specNatureInfo" jdbcType="LONGVARCHAR" />
   </resultMap>
 
-  <select id="selectWaitRateTradeByUserId" parameterType="java.lang.Integer" resultType="java.lang.String">
+  <select id="selectWaitRateTradeByUserId" parameterType="java.util.Map" resultType="java.lang.String">
   	SELECT 
   	tid 
   	FROM systrade_order 
@@ -73,6 +73,7 @@
   	AND status='TRADE_FINISHED' 
   	AND (aftersales_status IS NULL OR aftersales_status='') 
   	AND buyer_rate=0 
+  	AND end_time &gt; #{time}
   	GROUP BY tid 
   </select>
   
