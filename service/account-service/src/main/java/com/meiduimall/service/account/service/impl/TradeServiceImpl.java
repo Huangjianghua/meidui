@@ -353,7 +353,7 @@ public class TradeServiceImpl implements TradeService {
 			baseDao.update(msAccount,"MSAccountMapper.updateAccountByCondition");
 		
 			mapCondition.put("freezeBalance",mapCondition.get("freezeBalance")-item.getFreezeBalance());
-			mapCondition.put("freezeBalance"+msAccount.getAccountTypeNo(),-item.getFreezeBalance());
+			mapCondition.put(msAccount.getAccountTypeNo(),-item.getFreezeBalance());
 		}
 		
 		//更新账户报表的冻结余额

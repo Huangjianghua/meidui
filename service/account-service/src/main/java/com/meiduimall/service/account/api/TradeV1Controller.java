@@ -76,7 +76,7 @@ public class TradeV1Controller {
 	 * 会员取消订单（适配旧会员系统）
 	 * @author chencong
 	 */
-	@PostMapping(value="/cancel_order_old")
+	@GetMapping(value="/cancel_order_old")
 	ResBodyData cancelOrderOld(@Valid RequestCancelOrder model) throws MdSysException {
 		logger.info("收到会员取消订单API请求 ：{}",model.toString());
 		return tradeService.cancelOrder(model);
