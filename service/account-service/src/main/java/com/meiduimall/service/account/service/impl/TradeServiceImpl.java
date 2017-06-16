@@ -277,8 +277,8 @@ public class TradeServiceImpl implements TradeService {
 				msAccountDetail.setUpdateUser("账户服务");
 				msAccountDetail.setRemark("账户编号："+msAccountDetail.getAccountNo()+"余额消费扣款");
 				accountDetailService.insertAccountDetail(msAccountDetail);
-			}			
-			baseDao.update(mapCondition,"MSAccountReportMapper.updateBalanceAndFreezeBalance");
+				baseDao.update(mapCondition,"MSAccountReportMapper.updateBalanceAndFreezeBalance");
+			}						
 			//更新消费记录表订单状态
 			Map<String,Object> mapMcr=new HashMap<>();
 			mapMcr.put("orderId",model.getOrderId());
