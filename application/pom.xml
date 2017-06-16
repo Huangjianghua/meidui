@@ -15,8 +15,7 @@
     <version>1.0.0</version>
     <modules>
  		<module>md1gw-access</module>
- 		<module>usercenter-access</module> 
- 		<module>search</module>
+ 		<module>usercenter-access</module>
     </modules>
 
 </project>
