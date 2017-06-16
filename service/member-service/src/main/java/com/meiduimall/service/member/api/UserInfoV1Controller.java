@@ -102,4 +102,12 @@ public class UserInfoV1Controller{
     }
 	
 	
+	/**注册时记录会员手机对应的区域*/
+	@GetMapping(value = "/update_member_area")
+	ResBodyData updateMemberArea() throws MdSysException{
+		ResBodyData recordArea = userInfoService.updateMemberArea();
+		return recordArea;
+    }
+	
+	
 }
