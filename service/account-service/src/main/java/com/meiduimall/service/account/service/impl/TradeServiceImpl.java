@@ -271,14 +271,14 @@ public class TradeServiceImpl implements TradeService {
 				msAccountDetail.setTradeAmount(item.getFreezeBalance());
 				msAccountDetail.setTradeDate(item.getTradeDate());
 				msAccountDetail.setInOrOut(Constants.CONSTANT_INT_INVALID);
-				msAccountDetail.setBalance(accountReportService.getTotalAndFreezeBalanceByMemId(model.getMemId()).getBalance());
+				msAccountDetail.setBalance(accountReportService.getTotalAndFreezeBalanceByMemId(model.getMemId()).getBalance()-msAccountDetail.getTradeAmount());
 				msAccountDetail.setBusinessNo(item.getBusinessNo());
 				msAccountDetail.setCreateUser("账户服务");
 				msAccountDetail.setUpdateUser("账户服务");
 				msAccountDetail.setRemark("账户编号："+msAccountDetail.getAccountNo()+"余额消费扣款");
 				accountDetailService.insertAccountDetail(msAccountDetail);
-			}			
-			baseDao.update(mapCondition,"MSAccountReportMapper.updateBalanceAndFreezeBalance");
+				baseDao.update(mapCondition,"MSAccountReportMapper.updateBalanceAndFreezeBalance");
+			}						
 			//更新消费记录表订单状态
 			Map<String,Object> mapMcr=new HashMap<>();
 			mapMcr.put("orderId",model.getOrderId());

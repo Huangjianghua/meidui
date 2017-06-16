@@ -33,7 +33,7 @@ public class AccountInfoV1ControllerTest extends BaseControllerTest{
 	
 	/**获取当前会员可提现余额*/
     @Test
-    public void testGetAllowWithdrawBalance_01() throws Exception{/*
+    public void testGetAllowWithdrawBalance_01() throws Exception{
     	//先登录获取token
     	JSONObject json=new JSONObject();
     	json.put("user_name",phone);
@@ -54,5 +54,5 @@ public class AccountInfoV1ControllerTest extends BaseControllerTest{
     			}
     		});
     	}
-    */}
+   }
 }

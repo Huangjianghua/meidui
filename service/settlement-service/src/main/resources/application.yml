@@ -86,9 +86,9 @@ spring:
 # HikariConfig
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: ##jdbc:mysql://192.168.4.236:3306/meidui_settlement?useUnicode=true&characterEncoding=utf-8&useSSL=false
-    username: ##root
-    password: ##meidui@2016.?!
+    url: jdbc:mysql://10.170.135.70:3306/meidui_settlement?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: meidui
+    password: meiduishop
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
       connection-init-sql: SELECT 1
@@ -123,9 +123,9 @@ eureka:
 config:
   jedis: 
     jedisShardInfo:  
-      host: ##192.168.4.236
-      port: ##6379  
-      password: ##meiduiredis2016
+      host: 10.170.135.70
+      port: 6379  
+      password: meiduiredis2017
       database: 1
     maxTotal: 1024  
     maxIdle: 250  
@@ -168,9 +168,9 @@ spring:
 # HikariConfig
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: ##jdbc:mysql://192.168.4.236:3306/meidui_settlement?useUnicode=true&characterEncoding=utf-8&useSSL=false
-    username: ##root
-    password: ##meidui@2016.?!
+    url: jdbc:mysql://127.0.0.1:3306/meidui_settlement?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: 123456
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
       connection-init-sql: SELECT 1
@@ -205,9 +205,9 @@ eureka:
 config:
   jedis: 
     jedisShardInfo:  
-      host: ##192.168.4.236
-      port: ##6379  
-      password: ##meiduiredis2016
+      host: 127.0.0.1
+      port: 6379  
+      password: 123456
       database: 1
     maxTotal: 1024  
     maxIdle: 250  
@@ -250,7 +250,7 @@ spring:
   # HikariConfig
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://10.170.135.70:3306/meidui_settlement?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    url: jdbc:mysql://192.168.4.110:3306/meidui_settlement?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: meidui
     password: meiduishop
     type: com.zaxxer.hikari.HikariDataSource
@@ -268,7 +268,7 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://10.45.178.235:9001/eureka/
+      defaultZone: http://192.168.4.111:9001/eureka/
     registry-fetch-interval-seconds: 10  
     healthcheck:
       enabled: true  
@@ -287,9 +287,9 @@ eureka:
 config:
   jedis: 
     jedisShardInfo:  
-      host : 10.45.178.235
+      host : 192.168.4.110
       port : 6379  
-      password : meiduiredis2017Md?!
+      password : meiduiredis2017
       database: 1
     maxTotal: 1024  
     maxIdle: 250  

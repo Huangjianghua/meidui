@@ -1,11 +1,21 @@
-# Spring Properties
+#应用名称
 spring:
   application:
-     name: search
-server:
-  port: 80
-  
-  
+    name: search-service
 
-  
- 
+#端口
+server:
+  port: 11188
+
+# mybatis-config
+mybatis :
+  mapper-locations : classpath:com/meiduimall/service/search/mapper/*Mapper.xml
+
+#熔断机制     
+hystrix:  
+    command:  
+    default: 
+      execution:  
+        isolation:  
+          thread:  
+            timeoutInMilliseconds: 3000 #缺省为1000 

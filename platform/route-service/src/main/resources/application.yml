@@ -42,9 +42,9 @@ eureka:
 config:
   jedis :
     jedisShardInfo :
-      host :
-      port :
-      password :
+      host : 10.170.135.70
+      port : 6379
+      password : meiduiredis2017
     maxTotal: 1024
     maxIdle: 250
     maxWaitMillis : 2000
@@ -68,9 +68,9 @@ eureka:
 config:
   jedis :
     jedisShardInfo :
-      host :
-      port :
-      password :
+      host : 127.0.0.1
+      port : 6379
+      password : 123456
     maxTotal: 1024
     maxIdle: 250
     maxWaitMillis : 2000
@@ -83,7 +83,7 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://10.45.178.235:9001/eureka/
+      defaultZone: http://192.168.4.111:9001/eureka/
     registry-fetch-interval-seconds: 10
     healthcheck:
       enabled: true
@@ -94,9 +94,9 @@ eureka:
 config:
   jedis :
     jedisShardInfo :
-      host : 10.45.178.235
+      host : 192.168.4.110
       port : 6379
-      password : meiduiredis2017Md?!
+      password : meiduiredis2017
     maxTotal: 1024
     maxIdle: 250
     maxWaitMillis : 2000
