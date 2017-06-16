@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.base.Strings;
 import com.meiduimall.application.mall.catalog.result.APPUserInfoResult;
 import com.meiduimall.application.mall.catalog.result.MallInfoResult;
 import com.meiduimall.application.mall.catalog.result.MemberInfoResult;
@@ -21,7 +22,6 @@ import com.meiduimall.application.mall.util.HttpGatewayUtils;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.HttpUtils;
 import com.meiduimall.core.util.JsonUtils;
-import com.netflix.servo.util.Strings;
 
 @Service
 public class UserInfoServiceImpl implements UserInfoService {
