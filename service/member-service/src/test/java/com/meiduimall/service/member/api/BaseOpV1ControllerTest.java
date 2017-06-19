@@ -35,7 +35,7 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {
 	private BaseDao baseDao;
 	 
 	/**登录*/
-    @Test
+    /*@Test
     public void testLogin_01() throws Exception{
     	String url=baseUrl+"/v1/login";
     	RequestLogin requestLogin=new RequestLogin();
@@ -78,7 +78,7 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {
     	//失败后锁定次数应该+1
     	assertTrue((Integer.valueOf(memberLockCount)+1)==Integer.valueOf(msMembersGet.getMemLockCountPlained()));
     	
-    }
+    }*/
     
     /**普通会员注册*/
     @Test
