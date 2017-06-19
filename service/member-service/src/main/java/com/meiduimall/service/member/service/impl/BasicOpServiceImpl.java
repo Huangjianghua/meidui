@@ -413,7 +413,8 @@ public class BasicOpServiceImpl implements BasicOpService {
 		mro.setRoleId(SysEncrypParamsConst.PUTONGHUIYUAN);
 		baseDao.insert(null,"");*/
 		
-		//更新父类字符串（获取粉丝明细会用到）...暂时忽略
+		//更新父类字符串，插入推荐人和粉丝的关联关系（后期数据库表结构改造后此处需修正）
+		setShareMenAndFunsRelation(memberSet,shareManInfo);
 	
 		/**增加积分并写入积分流水*/
 		userInfoService.updateCurrentPointByMemId(memid,String.valueOf(Constants.CONSTANT_INT_ZERO),ConstSysParamsDefination.MD1GW_REGISTER_ADD_POINTS);
@@ -607,7 +608,8 @@ public class BasicOpServiceImpl implements BasicOpService {
 		mro.setRoleId(SysEncrypParamsConst.PUTONGHUIYUAN);
 		baseDao.insert(null,"");*/
 		
-		//更新父类字符串（获取粉丝明细会用到）...暂时忽略
+		//更新父类字符串，插入推荐人和粉丝的关联关系（后期数据库表结构改造后此处需修正）
+		setShareMenAndFunsRelation(memberSet,shareManInfo);
 	
 		/**增加积分并写入积分流水*/
 		userInfoService.updateCurrentPointByMemId(memid,String.valueOf(Constants.CONSTANT_INT_ZERO),ConstSysParamsDefination.MD1GW_REGISTER_ADD_POINTS);
