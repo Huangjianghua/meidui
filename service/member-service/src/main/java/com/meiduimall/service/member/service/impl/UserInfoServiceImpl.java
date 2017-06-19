@@ -333,7 +333,10 @@ public class UserInfoServiceImpl implements UserInfoService {
 			logger.error("批量插入会员手机归属地表异常: {}", e);
 			//throw new ServiceException(ConstApiStatus.INSERT_SELECTIVE_EXCEPTION);
 		}
-		return new ResBodyData(ConstApiStatus.SUCCESS, "执行完成,还剩"+new LongpageInfo.getTotal() - new Long("1000")+"-1000 个会员手机号");
+		int intValue = new Long(pageInfo.getTotal()).intValue();
+		int i = 1000;
+		int a = intValue - i;
+		return new ResBodyData(ConstApiStatus.SUCCESS, "执行完成,还剩"+a+"个会员手机号");
 	}
 
 	private MobileNumberInfo queryMobile(String substr) {
