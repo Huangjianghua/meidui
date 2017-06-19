@@ -20,6 +20,7 @@ import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.service.member.constant.ConstApiStatus;
 import com.meiduimall.service.member.dao.BaseDao;
 import com.meiduimall.service.member.model.MSMembersGet;
+import com.meiduimall.service.member.model.request.AccountVerification;
 import com.meiduimall.service.member.model.request.RequestLogin;
 
 /**
@@ -119,6 +120,5 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {
 		});*/
     	
     }
-    
-   
+
 }

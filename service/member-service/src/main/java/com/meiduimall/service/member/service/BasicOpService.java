@@ -5,6 +5,7 @@ import java.util.Map;
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdSysException;
+import com.meiduimall.service.member.model.request.AccountVerification;
 import com.meiduimall.service.member.model.request.RequestLogin;
 import com.meiduimall.service.member.model.request.RequestRegister;
 import com.meiduimall.service.member.model.request.RequestRegisterNoCode;
@@ -47,7 +48,6 @@ public interface BasicOpService {
 	
 	public ResBodyData login(RequestLogin requestLogin) throws MdSysException;
 	
-	
 	/**
 	 * 扫码注册
 	 * @param model 普通会员注册请求映射实体
@@ -56,4 +56,11 @@ public interface BasicOpService {
 	 */
 	public ResBodyData registerNoCheckCode(RequestRegisterNoCode model) throws MdSysException;
 
+	/**
+	 * 验证帐号是否存在
+	 * @param requestLogin
+	 * @return
+	 * @throws MdSysException
+	 */
+	public ResBodyData validateAccounts(AccountVerification accountVerification) throws MdSysException;
 }

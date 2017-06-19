@@ -42,7 +42,9 @@ public class BaseControllerTest {
 	@Before
 	public void setUp() throws DaoException, MdSysException{
 		 mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+
 		 memId=baseDao.selectOne(DESC.encryption(phone),"MSMembersMapper.selectMemIdByPhone");
+		// token=RedisTemplate.getJedisInstance().execGetFromCache(memId);
 	   }
 	
 	@Test

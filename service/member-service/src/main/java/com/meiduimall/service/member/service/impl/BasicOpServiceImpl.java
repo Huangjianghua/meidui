@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import com.meiduimall.exception.ServiceException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -21,6 +19,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdSysException;
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.redis.util.RedisTemplate;
 import com.meiduimall.service.member.constant.ConstApiStatus;
 import com.meiduimall.service.member.constant.ConstSmsTemplateID;
@@ -31,6 +30,7 @@ import com.meiduimall.service.member.model.MSConsumePointsDetail;
 import com.meiduimall.service.member.model.MSMembersGet;
 import com.meiduimall.service.member.model.MSMembersSet;
 import com.meiduimall.service.member.model.MemberAddressesSet;
+import com.meiduimall.service.member.model.request.AccountVerification;
 import com.meiduimall.service.member.model.request.RequestCheckValidateCode;
 import com.meiduimall.service.member.model.request.RequestLogin;
 import com.meiduimall.service.member.model.request.RequestRegister;
@@ -664,7 +664,6 @@ public class BasicOpServiceImpl implements BasicOpService {
 		consumePointsDetail.setMcpUpdatedDate(nowDate);
 		baseDao.insert(consumePointsDetail,"MSConsumePointsDetailMapper.saveConsumePointsDetails");
 	}
-
 	
 	 /**
 	  * 设置推荐人和粉丝的关联关系
@@ -852,4 +851,20 @@ public class BasicOpServiceImpl implements BasicOpService {
 		return resBodyData;
 	} 
 
+	@Override
+	public ResBodyData validateAccounts(AccountVerification accountVerification) throws MdSysException {
+		
+		ResBodyData resBodyData = new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
+		Map<String, Object> mapCondition = new HashMap<>();//查询条件
+		mapCondition.put("phone",DESC.encryption(accountVerification.getPhone()));
+		MSMembersGet msMembersGet=baseDao.selectOne(mapCondition,"MSMembersMapper.getMemberBasicInfoByCondition");//根据userid判断该用户是否存在
+		if(msMembersGet==null){
+			throw new ServiceException(ConstApiStatus.MEMBER_NOT_EXIST);
+		}else{
+			AccountVerification aVerification = new AccountVerification();
+			aVerification.setMemId(msMembersGet.getMemId());
+			resBodyData.setData(aVerification);
+		}
+		return resBodyData;
+	}
 }

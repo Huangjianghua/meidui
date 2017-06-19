@@ -74,6 +74,9 @@
 		<if test="userid != null and userid != ''">
 		AND (m.mem_login_name = #{userid} OR m.mem_email = #{userid} OR m.mem_phone = #{userid})
 		</if>
+		<if test="phone != null and phone != ''">
+		AND m.mem_phone=#{phone}
+		</if>
 		<if test="(md_pwd != null and md_pwd != '') or (ygw_pwd != null and ygw_pwd != '')">
 		AND (m.mem_login_pwd=#{ygw_pwd} OR m.mem_login_pwd=#{md_pwd})
 		</if>
