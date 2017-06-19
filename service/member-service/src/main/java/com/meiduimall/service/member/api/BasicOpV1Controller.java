@@ -34,8 +34,12 @@ import com.meiduimall.service.member.service.BasicOpService;
 import com.meiduimall.service.member.service.UserInfoService;
 import com.meiduimall.service.member.util.HttpResolveUtils;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 /**
- * 会员基本行为相关API
+ * 会员基本操作API
  * @author chencong
  *
  */
@@ -96,16 +100,11 @@ public class BasicOpV1Controller {
 		return result;
 	    }
 	
-	/**
-	 * 会员登录
-	 * @param requestLogin 登录API请求映射实体
-	 * @return 统一数据返回格式
-	 * @throws MdSysException 系统异常
-	 */
-	/*@ApiOperation(value="会员登录", notes="会员登录")
+	/**登录*/
+	@ApiOperation(value="会员登录", notes="会员登录")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "requestLogin", value = "登录实体", required = true, dataType = "RequestLogin"),
-	})*/
+	})
 	@PostMapping(value = "/login")
 	ResBodyData login(@RequestBody @Valid RequestLogin requestLogin) throws MdSysException{
 		requestLogin.setIp(request.getRemoteAddr());
@@ -115,18 +114,12 @@ public class BasicOpV1Controller {
 		}
 		requestLogin.setTokenKey(tokenKey);
 		logger.info("收到会员登录API请求：",requestLogin.toString());
-
-		ResBodyData resBodyData=null;
 		try {
-
-			resBodyData = basicOpService.login(requestLogin);
+			return basicOpService.login(requestLogin);
 		} catch (MdSysException e) {
 			logger.error("会员登录API请求异常：{}",e.toString());
 			throw new ApiException(ConstApiStatus.LOGIN_EXCEPTION);
 		}
-
-		logger.info("会员登录API请求结果  ：{}",resBodyData.toString());
-		return resBodyData;
 	}
 	
 	/**会员退出登录*/

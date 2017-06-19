@@ -14,6 +14,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import com.meiduimall.core.Constants;
+
 
 
 /**
@@ -28,12 +30,12 @@ public class UserInfoV1ControllerTest extends BaseControllerTest {
 	
 	private final static Logger logger=LoggerFactory.getLogger(UserInfoV1ControllerTest.class);
 	   
-	  /* *//**获取当前会员基本信息*//*
+	   /**获取当前会员基本信息*/
 	    @Test
 	    public void getMemberBaicInfo() throws Exception{
 	    	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/v1/get_member_basic_info?memId="+memId))
 	    	.andExpect(status().isOk())
-	    	.andExpect(jsonPath("$.status",is(0)));
+	    	.andExpect(jsonPath("$.status",is(Constants.CONSTANT_INT_ZERO)));
 	    	
 	    	resultActions.andDo(new ResultHandler() {
 				@Override
@@ -42,7 +44,5 @@ public class UserInfoV1ControllerTest extends BaseControllerTest {
 				}
 			});
 	    } 
-	    */
-
 	    
 }

@@ -237,22 +237,21 @@ public class BasicOpServiceImpl implements BasicOpService {
 	
 
 	@Transactional
+	@Override
 	public ResBodyData login(RequestLogin requestLogin) throws MdSysException {
-		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
-		String userid=requestLogin.getUser_name();//用户名
-		String password=requestLogin.getPassword();//密码
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,"登录成功");
+		
+		String userid=requestLogin.getUserName();
+		String password=requestLogin.getPassWord();
 		String tokenKey=requestLogin.getTokenKey();
 
-		
-		Map<String, Object> mapCondition=new HashMap<>();//查询条件
+		//根据user_id查询会员信息
+		Map<String, Object> mapCondition=new HashMap<>();
 		mapCondition.put("userid",DESC.encryption(userid));
-		MSMembersGet msMembersGet=baseDao.selectOne(mapCondition,"MSMembersMapper.getMemberBasicInfoByCondition");//根据userid判断该用户是否存在
+		MSMembersGet msMembersGet=baseDao.selectOne(mapCondition,"MSMembersMapper.getMemberBasicInfoByCondition");
 		if(msMembersGet==null){
 			throw new ServiceException(ConstApiStatus.MEMBER_NOT_EXIST);
 		}
-		
-		//记录手机对应区域
-		userInfoService.recordArea(msMembersGet.getMemId(),msMembersGet.getMemPhone());
 		
 		String memLockCount=msMembersGet.getMemLockCount();//锁定次数密文
 		String memLockCountPlained=msMembersGet.getMemLockCountPlained();//锁定次数明文
