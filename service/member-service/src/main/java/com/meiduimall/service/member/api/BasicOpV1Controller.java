@@ -29,6 +29,7 @@ import com.meiduimall.service.member.constant.ConstSysParamsDefination;
 import com.meiduimall.service.member.model.request.RequestExit;
 import com.meiduimall.service.member.model.request.RequestLogin;
 import com.meiduimall.service.member.model.request.RequestRegister;
+import com.meiduimall.service.member.model.request.RequestRegisterNoCode;
 import com.meiduimall.service.member.model.request.RequestRegisterO2O;
 import com.meiduimall.service.member.service.BasicOpService;
 import com.meiduimall.service.member.service.UserInfoService;
@@ -242,6 +243,24 @@ public class BasicOpV1Controller {
 			throw new ApiException(ConstApiStatus.CHECK_TOKEN_NOT_PASS);
 		}
 		return resBodyData;
-}
+	}
 	
+	/**扫码注册（临时接口，不校验验证码，不推荐使用）*/
+	@PostMapping(value = "/register_no_check_code")
+	ResBodyData registerNoCheckCode(@RequestBody @Valid RequestRegisterNoCode model){
+		String tokenKey=request.getHeader(ConstSysParamsDefination.TERMINAL_ID);
+		if(StringUtils.isEmpty(tokenKey)){
+			 tokenKey=request.getHeader(ConstSysParamsDefination.USER_AGENT);
+		}
+		model.setTokenKey(tokenKey);
+		logger.info("收到扫码注册API请求：{}",model.toString());
+		ResBodyData resBodyData=null;
+		try {
+			resBodyData=basicOpService.registerNoCheckCode(model);
+		} catch (DaoException  | MdSysException e) {
+			logger.error("扫码注册API请求异常：{}",e.toString());
+			throw new ApiException(ConstApiStatus.REGISTER_EXCEPTION);
+		}
+		return resBodyData; 
+	}
 }

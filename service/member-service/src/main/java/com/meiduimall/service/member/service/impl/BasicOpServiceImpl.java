@@ -34,6 +34,7 @@ import com.meiduimall.service.member.model.MemberAddressesSet;
 import com.meiduimall.service.member.model.request.RequestCheckValidateCode;
 import com.meiduimall.service.member.model.request.RequestLogin;
 import com.meiduimall.service.member.model.request.RequestRegister;
+import com.meiduimall.service.member.model.request.RequestRegisterNoCode;
 import com.meiduimall.service.member.model.request.RequestRegisterO2O;
 import com.meiduimall.service.member.model.request.RequestSendSms;
 import com.meiduimall.service.member.service.BasicOpService;
@@ -663,6 +664,7 @@ public class BasicOpServiceImpl implements BasicOpService {
 		consumePointsDetail.setMcpUpdatedDate(nowDate);
 		baseDao.insert(consumePointsDetail,"MSConsumePointsDetailMapper.saveConsumePointsDetails");
 	}
+
 	
 	 /**
 	  * 设置推荐人和粉丝的关联关系
@@ -733,5 +735,11 @@ public class BasicOpServiceImpl implements BasicOpService {
 	  }
 	 }
 
+
+	@Override
+	public ResBodyData registerNoCheckCode(RequestRegisterNoCode model) throws MdSysException {
+		// TODO Auto-generated method stub
+		return null;
+	} 
 
 }

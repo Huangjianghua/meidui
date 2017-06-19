@@ -7,6 +7,7 @@ import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.member.model.request.RequestLogin;
 import com.meiduimall.service.member.model.request.RequestRegister;
+import com.meiduimall.service.member.model.request.RequestRegisterNoCode;
 import com.meiduimall.service.member.model.request.RequestRegisterO2O;
 
 /**
@@ -45,5 +46,14 @@ public interface BasicOpService {
 	public ResBodyData registerO2O(RequestRegisterO2O model) throws MdSysException;
 	
 	public ResBodyData login(RequestLogin requestLogin) throws MdSysException;
+	
+	
+	/**
+	 * 扫码注册
+	 * @param model 普通会员注册请求映射实体
+	 * @return 统一数据返回格式
+	 * @throws MdSysException 
+	 */
+	public ResBodyData registerNoCheckCode(RequestRegisterNoCode model) throws MdSysException;
 
 }

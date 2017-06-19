@@ -3,6 +3,7 @@ package com.meiduimall.service.member.service;
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdSysException;
+import com.meiduimall.service.member.model.request.RequestUpdateMemberBasicInfo;
 
 /**
  * 会员信息操作接口
@@ -75,4 +76,11 @@ public interface UserInfoService {
 	 * @return 数据对象
 	 */
 	ResBodyData getSimpleInfoByMemId(String memId);
+
+	/**
+	 * 更新会员基本信息
+	 * @param model 会员信息封装参数
+	 * @return 数据对象
+	 */
+	ResBodyData updateMemberBasicInfo(RequestUpdateMemberBasicInfo model);
 }

@@ -33,6 +33,7 @@ import com.meiduimall.service.member.model.MSMembersSet;
 import com.meiduimall.service.member.model.MemberAddressesSet;
 import com.meiduimall.service.member.model.MobileNumberInfo;
 import com.meiduimall.service.member.model.request.RequestMobile;
+import com.meiduimall.service.member.model.request.RequestUpdateMemberBasicInfo;
 import com.meiduimall.service.member.model.response.ResponseMemberBasicInfo;
 import com.meiduimall.service.member.model.response.ResponseMemberMobileArea;
 import com.meiduimall.service.member.service.AccountInfoService;
@@ -347,6 +348,11 @@ public class UserInfoServiceImpl implements UserInfoService {
 		memberBasicInfo.setPaypwd_isopen("Y".equals(memberBasicInfo.getPaypwd_isopen()) ? "1" : "0");
 		resBodyData.setData(memberBasicInfo);
 		return resBodyData;
+	}
+
+	@Override
+	public ResBodyData updateMemberBasicInfo(RequestUpdateMemberBasicInfo model) {
+		return null;
 	}
 
 }
