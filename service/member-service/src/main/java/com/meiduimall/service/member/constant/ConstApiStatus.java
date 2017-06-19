@@ -61,6 +61,13 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	//注册来源不合法
 	public final static Integer REGISTER_SOURCE_WRONG=8014;
 	
+	//日期格式错误
+	public final static Integer DATE_FORMAT_ERROR= 8015;
+	//保存失败
+	public final static Integer SAVE_FAIL= 8016;
+	//保存成功
+	public final static Integer SAVE_SUCCESS= 8017;
+	
 	/**会员账号权限相关*/
 	//token不存在
 	public final static Integer TOKEN_NOT_EXISTS=8201;
@@ -171,6 +178,9 @@ public abstract class ConstApiStatus extends BaseApiCode {
 		
 		zhMsgMap.put(REGISTER_SOURCE_WRONG, "注册来源不合法");
 		zhMsgMap.put(TOKEN_NOT_EXISTS, "token不存在");
+		zhMsgMap.put(DATE_FORMAT_ERROR, "日期格式错误");
+		zhMsgMap.put(SAVE_FAIL, "保存失败");
+		zhMsgMap.put(SAVE_SUCCESS, "保存成功");
 	}
 
 }

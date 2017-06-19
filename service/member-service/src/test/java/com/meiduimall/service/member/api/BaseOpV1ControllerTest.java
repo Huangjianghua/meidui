@@ -121,4 +121,16 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {
     	
     }
 
+    
+   
+//    @Test
+//    public void testRegisterNoCheckCode_01() throws Exception{
+//    	mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/v1/register_no_check_code")
+//    			.contentType(MediaType.APPLICATION_JSON_UTF8)
+//    			.content("{\"phone\":\"18000000002\",\"pass_word\":\"123456\",\"source\":\"5\",\"role_type\":\"2\"}")
+//    			)
+//		.andExpect(status().isOk())
+//		.andExpect(jsonPath("$.status",is(0)));
+//    }
+
 }

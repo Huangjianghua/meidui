@@ -42,5 +42,20 @@ public class UserInfoServiceImpl implements UserInfoService  {
 			throw new MdSysException(ConstApiStatus.REQUEST_GATEWAY_EX);
 		} 
 	}
+
+	@Override
+	public ResBodyData updateMemberBasicInfo(JSONObject reqJson) throws MdSysException {
+		String url = profile.getServiceMemberUrl() + "v1/update_member_basic_info";
+		MD5Utils.updateSign(reqJson, profile.getRouteClientID(), profile.getRouteKey());
+		logger.info("调用member-service>>获取会员基本信息API>>URL:{}  Data:{}", url, reqJson.toString());
+		try {
+			String result = HttpUtils.get(url, reqJson);
+			logger.info("调用member-service>>获取会员基本信息API>>结果：{}", result);
+			return JSON.parseObject(result, ResBodyData.class);
+		} catch (Exception e) {
+			logger.error("调用member-service>>获取会员基本信息API>>异常:{}", e.toString());
+			throw new MdSysException(ConstApiStatus.REQUEST_GATEWAY_EX);
+		}
+	}
 	
 }

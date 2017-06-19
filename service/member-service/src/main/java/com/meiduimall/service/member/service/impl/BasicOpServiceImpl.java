@@ -16,6 +16,7 @@ import org.springframework.util.StringUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.base.Strings;
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdSysException;
@@ -844,10 +845,12 @@ public class BasicOpServiceImpl implements BasicOpService {
 		requestSendSms.setParams(model.getPhone());
 		smsService.sendSms(requestSendSms);
 		/**发送分享人赠送积分短信...*/
-		requestSendSms.setPhone(shareManInfo.getMemPhone());
-		requestSendSms.setTemplateId(ConstSmsTemplateID.getSmsTemplate(ConstSmsTemplateID.GIVE_POINT));
-		requestSendSms.setParams(shareManInfo.getMemPhone());
-		smsService.sendSms(requestSendSms);
+		if(!Strings.isNullOrEmpty(shareManInfo.getMemPhone())){
+			requestSendSms.setPhone(shareManInfo.getMemPhone());
+			requestSendSms.setTemplateId(ConstSmsTemplateID.getSmsTemplate(ConstSmsTemplateID.GIVE_POINT));
+			requestSendSms.setParams(shareManInfo.getMemPhone());
+			smsService.sendSms(requestSendSms);
+		}
 		return resBodyData;
 	} 
 
