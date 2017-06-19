@@ -81,9 +81,14 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {
     @Test
     public void externalRecharge () throws   Exception{
     	Map<String, Object> mapCondition=new HashMap<>();
-    	mapCondition.put("token","ec697a80e4a8574fda615c8c7b274796");
-    	mapCondition.put("accountNo", "1234546913454");
-    	mapCondition.put("applyCarryCash", 3.01);
+    	mapCondition.put("md_user","18898447755");
+    	mapCondition.put("client_id", "KFJT");
+    	mapCondition.put("biz_id", "201707161019554832692");
+    	mapCondition.put("recharge_amout","100.88");
+    	//mapCondition.put("recharge_type", "KFCZ1");
+    	mapCondition.put("req_time", "1497844432438");
+    	mapCondition.put("sign", "FDF17AF525AA5418A9848A52484ACBDC");
+    	mapCondition.put("callback_url", "http://xsb001kf171.abc123rt.com/recharge_receive.php");
     	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/externalRecharge")
     			.contentType(MediaType.APPLICATION_JSON_UTF8)
     			.content(JsonUtils.beanToJson(mapCondition)))
@@ -95,5 +100,5 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {
 				logger.info("单元测试>>>执行结果:{}",result.getResponse().getContentAsString());;
 			}
 		});
-    }      
+    }       
 }

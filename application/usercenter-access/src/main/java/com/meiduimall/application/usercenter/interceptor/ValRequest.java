@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.usercenter.constant.ApiStatusConst;
@@ -15,7 +14,6 @@ import com.meiduimall.application.usercenter.constant.SysParamsConst;
 import com.meiduimall.application.usercenter.util.HttpResolveUtils;
 import com.meiduimall.application.usercenter.util.MD5Utils;
 import com.meiduimall.core.ResBodyData;
-import com.meiduimall.redis.util.RedisTemplate;
 
 /**
  * 校验API请求
@@ -60,15 +58,58 @@ public class ValRequest {
 		}
 		logger.info("拦截器解析请求后的json：{}",reqJson.toString());
 		/**校验必填参数，时间戳，签名*/
-/*		resBodyData=validateParamters(reqJson);
-		if(resBodyData.getStatus()!=0)
-			return resBodyData;
-		resBodyData=validateTimesatamp(reqJson.getLong(ApiValConst.TIMESATAMP));
-		if(resBodyData.getStatus()!=0)
-			return resBodyData;
-		resBodyData=validateSign(reqJson);
-		if(resBodyData.getStatus()!=0)
-			return resBodyData;*/
+		resBodyData=validateParamters(reqJson);
+		
+		/**判断是否来自外部，调用校验**/
+		if(reqJson.containsKey("biz_id")){
+			
+			if(reqJson.containsKey("md_user")){
+				String mdUser = (String) reqJson.get("md_user");
+				if(mdUser==null || mdUser.equals("")){
+					resBodyData.setStatus(ApiStatusConst.MDUSER_EMPTY);
+					resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.MDUSER_EMPTY));
+					return resBodyData;
+				}
+			}else if(reqJson.containsKey("recharge_amout")){
+				String rechargeAmout = (String) reqJson.get("recharge_amout");
+				if(rechargeAmout==null || rechargeAmout.equals("")){
+					resBodyData.setStatus(ApiStatusConst.RECHARGE_AMOUT_EMPTY);
+					resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.RECHARGE_AMOUT_EMPTY));
+					return resBodyData;
+				}
+			}else if(reqJson.containsKey("recharge_type")){
+				String rechargeType = (String) reqJson.get("recharge_type");
+				if(rechargeType==null || rechargeType.equals("")){
+					resBodyData.setStatus(ApiStatusConst.RECHARGE_TYPE_EMPTY);
+					resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.RECHARGE_TYPE_EMPTY));
+					return resBodyData;
+				}
+			}else if(reqJson.containsKey("callback_url")){
+				String callbackUrl = (String) reqJson.get("callback_url");
+				if(callbackUrl==null || callbackUrl.equals("")){
+					resBodyData.setStatus(ApiStatusConst.CALLBACK_URL_EMPTY);
+					resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.CALLBACK_URL_EMPTY));
+					return resBodyData;
+				}
+			}
+			
+			
+			String bizId = (String) reqJson.get("biz_id");
+			if(bizId==null || bizId.equals("")){
+				resBodyData.setStatus(ApiStatusConst.BIZID_EMPTY);
+				resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.BIZID_EMPTY));
+				return resBodyData;
+			}else{
+				if(resBodyData.getStatus()!=0)
+					return resBodyData;
+				resBodyData=validateTimesatamp(reqJson.getLong(SysParamsConst.REQ_TIM));
+				if(resBodyData.getStatus()!=0)
+					return resBodyData;
+				resBodyData=validateSign(reqJson);
+				if(resBodyData.getStatus()!=0)
+					return resBodyData;
+			}
+		}
 		/**校验token，将token转换为memId*/
 		if (hasToken) {
 			if (reqJson.containsKey(SysParamsConst.TOKEN)){
@@ -97,11 +138,11 @@ public class ValRequest {
 	 */
 	private static ResBodyData validateParamters(JSONObject reqJson){
 		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
-		if(!reqJson.containsKey(SysParamsConst.CLIENTID)){
+		if(!reqJson.containsKey(SysParamsConst.CLIENT_ID)){
 			resBodyData.setStatus(ApiStatusConst.CLIENTID_EMPTY);
 			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.CLIENTID_EMPTY));
 		}
-		if(!reqJson.containsKey(SysParamsConst.TIMESATAMP)){
+		if(!reqJson.containsKey(SysParamsConst.REQ_TIM)){
 			resBodyData.setStatus(ApiStatusConst.TIMESTAMP_EMPTY);
 			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.TIMESTAMP_EMPTY));
 		}
@@ -148,14 +189,13 @@ public class ValRequest {
 			return resBodyData;
 		}
 		String clientSign=reqJson.getString(SysParamsConst.SIGN);
-		String serverSign=null;
-		String memberSecretJson=RedisTemplate.getJedisInstance().execGetFromCache(SysParamsConst.memberSecretJson);
-		String clientID=reqJson.getString(SysParamsConst.CLIENTID);
-		String secretkey=JSONObject.parseObject(memberSecretJson).getString(clientID);
+		String secretkey="Test123";//RedisTemplate.getJedisInstance().execGetFromCache(SysParamsConst.memberSecretJson);
+		//String clientID=reqJson.getString(SysParamsConst.CLIENTID);
+		//String secretkey=JSONObject.parseObject(memberSecretJson).getString(clientID);
 		resBodyData = MD5Utils.getSign(reqJson,secretkey);
 		if(resBodyData.getStatus()!=0)
 			return resBodyData;
-		if (clientSign.equals(serverSign)){
+		if (clientSign.equals(resBodyData.getData())){
 			resBodyData.setStatus(ApiStatusConst.SUCCESS);
 		} else{
 			resBodyData.setStatus(ApiStatusConst.SIGN_ERROR);

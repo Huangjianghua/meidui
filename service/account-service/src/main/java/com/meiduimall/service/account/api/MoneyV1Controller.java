@@ -26,7 +26,6 @@ import com.meiduimall.service.account.model.MSAccountDetailGet;
 import com.meiduimall.service.account.model.MSAccountList;
 import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
 import com.meiduimall.service.account.model.MSDict;
-import com.meiduimall.service.account.model.MSRechargeApply;
 import com.meiduimall.service.account.model.request.RequestAccountReviseDetail;
 import com.meiduimall.service.account.model.request.RequestMSAccountList;
 import com.meiduimall.service.account.model.request.RequestMSBankWithDrawDepostie;
@@ -411,45 +410,5 @@ public class MoneyV1Controller {
 		}else if(StringUtils.isBlank(deposit.getApplyCarryCash())){
 			throw new ApiException(ApiStatusConst.PARAMETER_APPLYCARRYCASH_IS_NULL);
 		}
-	}
-	/**
-	 * 外部充值申请
-	 */
-	@PostMapping(value="/rechargeApply")
-	public ResBodyData  rechargeApply(@RequestBody MSRechargeApply deposit){
-		try {
-			mSAccountDetailService.rechargeApply(deposit);
-		} catch (MdBizException e) {
-			logger.error("申请充值操作异常:{}", e.getMessage());
-			throw new ApiException(e.getCode(),e.getMessage());
-		}
-		return new ResBodyData(ApiStatusConst.SUCCESS, ApiStatusConst.SUCCESS_M);
-	}
-	/**
-	 * 外部充值列表
-	 */
-	@RequestMapping(value="/list_External")
-	public ResBodyData  queryExternalList(@RequestBody MSRechargeApply mSRechargeApply){
-		List<MSRechargeApply> msAccountLists = null;
-		try{
-			//分页查询
-			if(mSRechargeApply.getFlg().equals(Constant.ONE)){
-				//分页
-				PageHelper.startPage(mSRechargeApply.getPageNum(), mSRechargeApply.getPageSize());
-				//PageHelper.orderBy("memRegTime DESC");
-			}else{
-				//不分页
-				PageHelper.startPage(mSRechargeApply.getPageNum(), 0, false, false, true);
-				//PageHelper.orderBy("memRegTime DESC");
-			}
-			msAccountLists=mSAccountDetailService.queryExternalList(mSRechargeApply);
-		}catch(MdBizException e){
-			throw new ApiException(e.getCode(),e.getMessage());
-		}catch(Exception e){
-			logger.error("查询充值列表Controller异常:{}", e.getMessage());
-			throw new ApiException(ApiStatusConst.SERVER_DEAL_WITH_EXCEPTION);
-		}
-		ResBodyData res = new ResBodyData(ApiStatusConst.SUCCESS, ApiStatusConst.SUCCESS_M,new PageInfo<>(msAccountLists));
-		return res;
 	}
 }

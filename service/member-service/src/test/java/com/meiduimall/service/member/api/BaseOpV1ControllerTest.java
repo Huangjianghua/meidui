@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.meiduimall.core.util.JsonUtils;
+import com.meiduimall.service.member.model.request.AccountVerification;
 import com.meiduimall.service.member.model.request.RequestLogin;
 
 /**
@@ -109,26 +110,22 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {
 		});
     	
     }
-	/**登录
-	 * @throws Exception */
-    @Test
-    public void accountsThereExist() throws Exception{
-    	RequestLogin requestLogin=new RequestLogin();
-    	/**正确的账号和密码*/
-    	requestLogin.setPassword("e10adc3949ba59abbe56e057f20f883e");
-    	requestLogin.setUser_name(phone);
-    	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/thereexist")
-    			.contentType(MediaType.APPLICATION_JSON_UTF8)
-    			.content(JsonUtils.beanToJson(requestLogin)))
-    			.andExpect(status().isOk())
-    			.andExpect(jsonPath("$.status",is(0)));
-    	
-    	resultActions.andDo(new ResultHandler() {
-			@Override
-			public void handle(MvcResult result) throws Exception {
-				logger.info("单元测试>>登录API>>正确的账号和密码>>执行结果:{}",result.getResponse().getContentAsString());;
-			}
-		});
-    	
-    }      
+//	/**验证帐号是否存在
+//	 * @throws Exception */
+//    @Test
+//    public void accountsThereExist() throws Exception{
+//    	AccountVerification accountVerification=new AccountVerification();
+//    	accountVerification.setPhone("18898447752");
+//    	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/thereexist")
+//			.contentType(MediaType.APPLICATION_JSON_UTF8)
+//			.content(JsonUtils.beanToJson(accountVerification)))
+//			.andExpect(status().isOk());
+//    	resultActions.andDo(new ResultHandler() {
+//			@Override
+//			public void handle(MvcResult result) throws Exception {
+//				logger.info("单元测试>>登录API>>正确的账号>>执行结果:{}",result.getResponse().getContentAsString());;
+//			}
+//		});
+//    	
+//    }      
 }

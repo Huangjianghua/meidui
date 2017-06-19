@@ -28,6 +28,11 @@ public class ApiStatusConst extends BaseApiCode {
 	public final static Integer UPDATE_PAYPWD_EXCEPTION=9016;
 	public final static Integer GET_VALIDATE_CODE_EXCEPTION=9017;
 	public final static Integer REGISTER_EXCEPTION=9018;
+	public final static Integer BIZID_EMPTY=9019;
+	public final static Integer MDUSER_EMPTY=9020;
+	public final static Integer RECHARGE_AMOUT_EMPTY=9021;
+	public final static Integer RECHARGE_TYPE_EMPTY=9022;
+	public final static Integer CALLBACK_URL_EMPTY=9023;
 	
 	static {
 		zhMsgMap.put(REQUEST_GATEWAY_EX, "网关HTTP请求程序异常");
@@ -48,5 +53,10 @@ public class ApiStatusConst extends BaseApiCode {
 		zhMsgMap.put(EXIT_EXCEPTION, "退出登录失败，请联系客服");
 		zhMsgMap.put(UPDATE_PAYPWD_EXCEPTION, "修改支付密码失败，请联系客服");
 		zhMsgMap.put(REGISTER_EXCEPTION, "注册失败，请联系客服");
+		zhMsgMap.put(BIZID_EMPTY, "外部系统充值订单号不能为空");
+		zhMsgMap.put(MDUSER_EMPTY, "美兑用户名不能为空");
+		zhMsgMap.put(RECHARGE_AMOUT_EMPTY, "充值金额不能为空");
+		zhMsgMap.put(RECHARGE_TYPE_EMPTY, "充值类型不能为空");
+		zhMsgMap.put(CALLBACK_URL_EMPTY, "回调地址不能为空");
 	}
 }

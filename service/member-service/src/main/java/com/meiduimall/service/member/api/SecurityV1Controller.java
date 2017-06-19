@@ -239,7 +239,7 @@ public class SecurityV1Controller {
 			securityService.unlockMember(param);
 		} catch (MdBizException e) {
 			logger.info("调用解锁用户API接口异常 :{},id:{}",e.getMessage());
-			throw new ApiException(e.getCode(),e.getMessage());
+			//throw new ApiException(e.getCode(),e.getMessage());
 		}
 		return new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
 	}

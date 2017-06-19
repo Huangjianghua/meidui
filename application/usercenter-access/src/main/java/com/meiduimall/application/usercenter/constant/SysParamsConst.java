@@ -8,6 +8,8 @@ public class SysParamsConst {
 	
 	/**时间戳字符串*/
 	public static final String TIMESATAMP = "timestamp";
+	/**时间戳字符串*/
+	public static final String REQ_TIM = "req_time";
 	
 	/**签名*/
 	public static final String SIGN = "sign";
@@ -17,6 +19,9 @@ public class SysParamsConst {
 	
 	/**应用标识*/
 	public static final String CLIENTID = "clientID";
+	
+	/**应用标识*/
+	public static final String CLIENT_ID = "client_id";
 	
 	/**会员ID*/
 	public static final String MEMID = "memId";

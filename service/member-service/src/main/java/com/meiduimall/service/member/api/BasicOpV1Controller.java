@@ -25,6 +25,7 @@ import com.meiduimall.exception.MdSysException;
 import com.meiduimall.redis.util.RedisTemplate;
 import com.meiduimall.service.member.constant.ApiStatusConst;
 import com.meiduimall.service.member.constant.SysParamsConst;
+import com.meiduimall.service.member.model.request.AccountVerification;
 import com.meiduimall.service.member.model.request.RequestExit;
 import com.meiduimall.service.member.model.request.RequestLogin;
 import com.meiduimall.service.member.model.request.RequestRegister;
@@ -235,16 +236,10 @@ public class BasicOpV1Controller {
 	 * @throws MdSysException 系统异常
 	 */
 	@PostMapping(value = "/thereexist")
-	public ResBodyData accountsThereExist(@RequestBody @Valid RequestLogin requestLogin) throws MdSysException{
-		requestLogin.setIp(request.getRemoteAddr());
-		String tokenKey=request.getHeader(SysParamsConst.TERMINAL_ID);
-		if(StringUtils.isEmpty(tokenKey)){
-			 tokenKey=request.getHeader(SysParamsConst.USER_AGENT);
-		}
-		requestLogin.setTokenKey(tokenKey);
+	public ResBodyData accountsThereExist(@RequestBody @Valid AccountVerification accountVerification) throws MdSysException{
 		ResBodyData resBodyData=null;
 		try {
-			resBodyData = basicOpService.validateAccounts(requestLogin);
+			resBodyData = basicOpService.validateAccounts(accountVerification);
 		} catch (MdSysException e) {
 			throw new ApiException(ApiStatusConst.MEMBER_NOT_EXIST);
 		}

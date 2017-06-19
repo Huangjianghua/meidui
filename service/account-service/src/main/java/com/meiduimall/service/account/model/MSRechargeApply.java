@@ -1,6 +1,7 @@
 package com.meiduimall.service.account.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import com.meiduimall.service.account.util.PageHelp;
 
@@ -10,64 +11,103 @@ public class MSRechargeApply extends PageHelp implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -9169330321048734969L;
-	
-	/**充值申请表主键 */
-	private String id;
-	
-	/**美兑用户名 */
-	private String mdUser;
-	
-	/**企业标识 */
-	private String clientId;
-	
-	/**外部系统充值订单号 */
-	private String bizId;
-	
-	/**充值金额 */
+	/**充值申请表主键ID**/
+	private String recId;
+	/**订单号**/
+	private String orderId;
+	/**外部订单号**/
+	private String extorderId;
+	/**四位英文企业标识，由美兑发放,通过线下途径申请**/
+	private String extCompanyCode;
+	/**会员账号**/
+	private String accountId;
+	/**帐户类型**/
+	private String accountType;
+	/**帐户名字**/
+	private String accountName;
+	/**充值金额**/
 	private String rechargeAmout;
-	
-	/**时间戳 */
-	private String reqTime;
-	
-	/**回调地址 */
+	/**充值申请时间**/
+	private Date rechargeDate;
+	/**实际充值时间**/
+	private Date realityRechargeDate;
+	/**审批状态**/
+	private String status;
+	/**备注**/
+	private String remark;
+	/**回调地址**/
 	private String callbackUrl;
-	
-	/**充值类型 */
-	private String rechargeType;
-	
 	/**是否分页  1：是  0:否	*/
-	private String flg;  
-
-	public String getId() {
-		return id;
+	private String flg; 
+	/**phone**/
+	private String phone;
+	/**memId**/
+	private String memId;
+	
+	/**充值申请开始时间**/
+	private String rechargeTimeBegin;
+	/**充值申请开始时间**/
+	private String rechargeTimeEnd;
+	
+	/**实际充值开始时间**/
+	private String realityRechargeTimeBegin;
+	/**实际充值结束时间**/
+	private String realityRechargeTimeEnd;
+	
+	public String getRecId() {
+		return recId;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setRecId(String recId) {
+		this.recId = recId;
 	}
 
-	public String getMdUser() {
-		return mdUser;
+	public String getOrderId() {
+		return orderId;
 	}
 
-	public void setMdUser(String mdUser) {
-		this.mdUser = mdUser;
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
 	}
 
-	public String getClientId() {
-		return clientId;
+	public String getExtorderId() {
+		return extorderId;
 	}
 
-	public void setClientId(String clientId) {
-		this.clientId = clientId;
+	public void setExtorderId(String extorderId) {
+		this.extorderId = extorderId;
+	}
+	
+	public String getExtCompanyCode() {
+		return extCompanyCode;
 	}
 
-	public String getBizId() {
-		return bizId;
+	public void setExtCompanyCode(String extCompanyCode) {
+		this.extCompanyCode = extCompanyCode;
 	}
 
-	public void setBizId(String bizId) {
-		this.bizId = bizId;
+	public String getAccountId() {
+		return accountId;
+	}
+
+	public void setAccountId(String accountId) {
+		this.accountId = accountId;
+	}
+
+	public String getAccountType() {
+		return accountType;
+	}
+
+	public void setAccountType(String accountType) {
+		this.accountType = accountType;
+	}
+
+	public String getAccountName() {
+		return accountName;
+	}
+
+	public void setAccountName(String accountName) {
+		this.accountName = accountName;
 	}
 
 	public String getRechargeAmout() {
@@ -78,12 +118,36 @@ public class MSRechargeApply extends PageHelp implements Serializable{
 		this.rechargeAmout = rechargeAmout;
 	}
 
-	public String getReqTime() {
-		return reqTime;
+	public Date getRechargeDate() {
+		return rechargeDate;
 	}
 
-	public void setReqTime(String reqTime) {
-		this.reqTime = reqTime;
+	public void setRechargeDate(Date rechargeDate) {
+		this.rechargeDate = rechargeDate;
+	}
+
+	public Date getRealityRechargeDate() {
+		return realityRechargeDate;
+	}
+
+	public void setRealityRechargeDate(Date realityRechargeDate) {
+		this.realityRechargeDate = realityRechargeDate;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 	public String getCallbackUrl() {
@@ -94,20 +158,60 @@ public class MSRechargeApply extends PageHelp implements Serializable{
 		this.callbackUrl = callbackUrl;
 	}
 
-	public String getRechargeType() {
-		return rechargeType;
-	}
-
-	public void setRechargeType(String rechargeType) {
-		this.rechargeType = rechargeType;
-	}
-
 	public String getFlg() {
 		return flg;
 	}
 
 	public void setFlg(String flg) {
 		this.flg = flg;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getMemId() {
+		return memId;
+	}
+
+	public void setMemId(String memId) {
+		this.memId = memId;
+	}
+
+	public String getRechargeTimeBegin() {
+		return rechargeTimeBegin;
+	}
+
+	public void setRechargeTimeBegin(String rechargeTimeBegin) {
+		this.rechargeTimeBegin = rechargeTimeBegin;
+	}
+
+	public String getRechargeTimeEnd() {
+		return rechargeTimeEnd;
+	}
+
+	public void setRechargeTimeEnd(String rechargeTimeEnd) {
+		this.rechargeTimeEnd = rechargeTimeEnd;
+	}
+
+	public String getRealityRechargeTimeBegin() {
+		return realityRechargeTimeBegin;
+	}
+
+	public void setRealityRechargeTimeBegin(String realityRechargeTimeBegin) {
+		this.realityRechargeTimeBegin = realityRechargeTimeBegin;
+	}
+
+	public String getRealityRechargeTimeEnd() {
+		return realityRechargeTimeEnd;
+	}
+
+	public void setRealityRechargeTimeEnd(String realityRechargeTimeEnd) {
+		this.realityRechargeTimeEnd = realityRechargeTimeEnd;
 	}	
 	
 	

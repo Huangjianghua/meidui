@@ -5,6 +5,7 @@ import java.util.Map;
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdSysException;
+import com.meiduimall.service.member.model.request.AccountVerification;
 import com.meiduimall.service.member.model.request.RequestLogin;
 import com.meiduimall.service.member.model.request.RequestRegister;
 import com.meiduimall.service.member.model.request.RequestRegisterO2O;
@@ -51,5 +52,5 @@ public interface BasicOpService {
 	 * @return
 	 * @throws MdSysException
 	 */
-	public ResBodyData validateAccounts(RequestLogin requestLogin) throws MdSysException;
+	public ResBodyData validateAccounts(AccountVerification accountVerification) throws MdSysException;
 }

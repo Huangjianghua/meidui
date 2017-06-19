@@ -23,7 +23,6 @@ import com.meiduimall.service.account.model.AddOrUpdateAccountReviseDetail;
 import com.meiduimall.service.account.model.MSAccountDetailCondition;
 import com.meiduimall.service.account.model.MSAccountDetailGet;
 import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
-import com.meiduimall.service.account.model.MSRechargeApply;
 import com.meiduimall.service.account.model.request.RequestAccountReviseDetail;
 import com.meiduimall.service.account.util.DESC;
 import com.meiduimall.service.account.util.DateUtil;
@@ -305,36 +304,6 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 	public static void main(String[] args) throws MdSysException {
 		String s="100";
 		System.out.println(DESC.encryption(s, "b9d78165-1483-42f7-a48c-fbfcc3b06431"));
-	}
-
-	/**
-	 * 外部充值申请
-	 * @throws Exception
-	 */
-	@Test
-	public void rechargeApply()throws Exception{
-		 String url = "/member/account_service/v1/rechargeApply";
-		 MSRechargeApply deposit=new MSRechargeApply();
-		 
-		 deposit.setMdUser("1");
-		 deposit.setClientId("1");
-		 deposit.setBizId("1");
-		 deposit.setRechargeAmout("1");
-		 deposit.setReqTime("1");
-		 deposit.setCallbackUrl("1");
-		 deposit.setRechargeType("1");
-		 JSONObject object=JSONObject.fromObject(deposit);
-		 String json=object.toString();
-		 
-		 resultSystemOutPut(url,json);
-	}
-	
-	@Test
-	public void queryExternalList() throws Exception {
-		 String url = "/member/account_service/v1/list_External";
-		 String json = "{\"flg\":\"1\"}";
-		 
-		 resultSystemOutPut(url,json);
 	}
 }
 

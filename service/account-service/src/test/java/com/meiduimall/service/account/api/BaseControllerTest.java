@@ -36,7 +36,7 @@ public class BaseControllerTest {
 	@Before
 	public void setUp(){
 		 mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-		 token=RedisTemplate.getJedisInstance().execGetFromCache(memId);
+		// token=RedisTemplate.getJedisInstance().execGetFromCache(memId);
 	   }
 	
 	@Test
