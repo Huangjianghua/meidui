@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import com.meiduimall.exception.ServiceException;
 
+import org.assertj.core.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -845,10 +846,12 @@ public class BasicOpServiceImpl implements BasicOpService {
 		requestSendSms.setParams(model.getPhone());
 		smsService.sendSms(requestSendSms);
 		/**发送分享人赠送积分短信...*/
-		requestSendSms.setPhone(shareManInfo.getMemPhone());
-		requestSendSms.setTemplateId(ConstSmsTemplateID.getSmsTemplate(ConstSmsTemplateID.GIVE_POINT));
-		requestSendSms.setParams(shareManInfo.getMemPhone());
-		smsService.sendSms(requestSendSms);
+		if(!Strings.isNullOrEmpty(shareManInfo.getMemPhone())){
+			requestSendSms.setPhone(shareManInfo.getMemPhone());
+			requestSendSms.setTemplateId(ConstSmsTemplateID.getSmsTemplate(ConstSmsTemplateID.GIVE_POINT));
+			requestSendSms.setParams(shareManInfo.getMemPhone());
+			smsService.sendSms(requestSendSms);
+		}
 		return resBodyData;
 	} 
 
