@@ -10,7 +10,6 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.support.PagedListHolder;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -291,11 +290,8 @@ public class UserInfoServiceImpl implements UserInfoService {
 	public ResBodyData updateMemberArea() {
 		List<ResponseMemberMobileArea> memberMobileAreaDTO = null;
 		List<MSMemberMobileArea> areas = new ArrayList<>();
-		PageInfo<ResponseMemberMobileArea> pageInfo = null;
 		try {
-			PageHelper.offsetPage(0, 1000);
 			memberMobileAreaDTO = baseDao.selectList(null, "MSMembersMapper.findNotInMemberMobileArea");
-			pageInfo = new PageInfo<>(memberMobileAreaDTO);
 			if (StringUtils.isEmpty(memberMobileAreaDTO)) {
 				return new ResBodyData(ConstApiStatus.SUCCESS, "没有需要更新的会员");
 			}
@@ -333,10 +329,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 			logger.error("批量插入会员手机归属地表异常: {}", e);
 			//throw new ServiceException(ConstApiStatus.INSERT_SELECTIVE_EXCEPTION);
 		}
-		int intValue = new Long(pageInfo.getTotal()).intValue();
-		int i = 1000;
-		int a = intValue - i;
-		return new ResBodyData(ConstApiStatus.SUCCESS, "执行完成,还剩"+a+"个会员手机号");
+		return new ResBodyData(ConstApiStatus.SUCCESS, "执行完成");
 	}
 
 	private MobileNumberInfo queryMobile(String substr) {
