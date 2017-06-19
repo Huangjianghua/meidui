@@ -111,7 +111,7 @@ public class UserInfoV1Controller{
     }
 	
 	/**
-	 * 更新会员基本信息
+	 * 更新会员基本信息 
 	 * @param model 会员信息封装参数
 	 * @return 数据对象
 	 */
