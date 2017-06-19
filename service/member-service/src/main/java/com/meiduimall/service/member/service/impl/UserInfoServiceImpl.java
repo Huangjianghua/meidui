@@ -10,6 +10,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.MdSysException;
@@ -288,21 +291,24 @@ public class UserInfoServiceImpl implements UserInfoService {
 	public ResBodyData updateMemberArea() {
 		List<ResponseMemberMobileArea> memberMobileAreaDTO = null;
 		List<MSMemberMobileArea> areas = new ArrayList<>();
+		PageInfo<ResponseMemberMobileArea> pageInfo = null;
 		try {
+			PageHelper.offsetPage(0, 1000);
 			memberMobileAreaDTO = baseDao.selectList(null, "MSMembersMapper.findNotInMemberMobileArea");
+			pageInfo = new PageInfo<>(memberMobileAreaDTO);
 			if (StringUtils.isEmpty(memberMobileAreaDTO)) {
 				return new ResBodyData(ConstApiStatus.SUCCESS, "没有需要更新的会员");
 			}
 		} catch (DaoException e) {
 			logger.error("查询不在会员手机归属地表异常: {}", e);
-			throw new ServiceException(ConstApiStatus.FIND_MEMBER_EXCEPTION);
+			//throw new ServiceException(ConstApiStatus.FIND_MEMBER_EXCEPTION);
 		}
 		for (ResponseMemberMobileArea mmaDTO : memberMobileAreaDTO) {
 			try {
 				if (StringUtil.isPhoneToRegex(mmaDTO.getMemPhone())) {
 					String substr = mmaDTO.getMemPhone().substring(0, 7);
 					MobileNumberInfo mobNum = queryMobile(substr);
-					if (!StringUtils.isEmpty(mobNum) || !StringUtils.isEmpty(mobNum.getCityName())) {
+					if (!StringUtils.isEmpty(mobNum) && !StringUtils.isEmpty(mobNum.getCityName())) {
 						MSMemberMobileArea memMoArea = new MSMemberMobileArea();
 						memMoArea.setMemId(mmaDTO.getMemId());
 						memMoArea.setPhone(mmaDTO.getMemPhone());
@@ -317,17 +323,17 @@ public class UserInfoServiceImpl implements UserInfoService {
 				}
 			} catch (MdSysException e) {
 				logger.error("查询手机前7位确定归属地异常: {}", e);
-				throw new ServiceException(ConstApiStatus.QUERY_MOBILE_EXCEPTION);
+				//throw new ServiceException(ConstApiStatus.QUERY_MOBILE_EXCEPTION);
 			}
 		}
 		try {
-			logger.error("要插入会员手机归属地表的数据 : {}", areas);
+			logger.info("要插入会员手机归属地表的数据 : {}", areas);
 			baseDao.insertBatch(areas, "MSMemberMobileAreaMapper.insertSelective");
 		} catch (DaoException e) {
 			logger.error("批量插入会员手机归属地表异常: {}", e);
-			throw new ServiceException(ConstApiStatus.INSERT_SELECTIVE_EXCEPTION);
+			//throw new ServiceException(ConstApiStatus.INSERT_SELECTIVE_EXCEPTION);
 		}
-		return new ResBodyData(ConstApiStatus.SUCCESS, "执行完成");
+		return new ResBodyData(ConstApiStatus.SUCCESS, "执行完成,还剩"+new LongpageInfo.getTotal() - new Long("1000")+"-1000 个会员手机号");
 	}
 
 	private MobileNumberInfo queryMobile(String substr) {

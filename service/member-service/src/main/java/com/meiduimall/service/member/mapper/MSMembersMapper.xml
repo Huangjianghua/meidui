@@ -268,9 +268,11 @@
 
     <!--  查询会员手机归属表中没有的会员数据   -->	
 	<select id="findNotInMemberMobileArea" resultType="com.meiduimall.service.member.model.response.ResponseMemberMobileArea">
-	 SELECT ms.mem_id memId, ms.mem_phone memPhone FROM  ms_members ms WHERE ms.mem_id NOT IN(
-   		SELECT  m.mem_id  FROM ms_members m  INNER JOIN
-   		ms_member_mobile_area ma  ON m.`mem_id` = ma.mem_id)
+	 	 SELECT  ms.mem_id memId, ms.mem_phone memPhone FROM  ms_members ms WHERE ms.mem_id NOT IN(
+   		SELECT  m.mem_id  FROM ms_members m INNER JOIN
+   		ms_member_mobile_area ma  ON m.`mem_id` = ma.mem_id 
+   		WHERE m.`mem_phone` IS NOT NULL AND m.`mem_phone` NOT IN ('')
+   		)  AND ms.`mem_phone` IS NOT NULL  AND  ms.`mem_phone` NOT IN ('')  
 	</select>
 
 	<!--添加账户报表信息，临时使用，4.0.3版本废弃，改为调用账户服务来生成-->
