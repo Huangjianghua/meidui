@@ -1,5 +1,6 @@
 package com.meiduimall.service.member.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,6 +10,7 @@ import com.meiduimall.exception.ServiceException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -658,6 +660,76 @@ public class BasicOpServiceImpl implements BasicOpService {
 		consumePointsDetail.setMcpCreatedDate(nowDate);
 		consumePointsDetail.setMcpUpdatedDate(nowDate);
 		baseDao.insert(consumePointsDetail,"MSConsumePointsDetailMapper.saveConsumePointsDetails");
-	} 
+	}
+	
+	 /**
+	  * 设置推荐人和粉丝的关联关系
+	  * @param msMembersSet 会员信息
+	  */
+	 private void setShareMenAndFunsRelation(MSMembersSet msMembersSet,MSMembersGet shareManInfo){
+	  // 定义一个集合，存放所有需要变更的会员
+	  ArrayList<MSMembersGet> groupMems = new ArrayList<MSMembersGet>();
+	  // 首先获取到注册会员的直接父节点A
+	  MSMembersGet parentMember = shareManInfo;
+	  // 给直接父节点A设置所有孩子
+	  String memParentValue2 = parentMember.getMemParentValue2();
+	  if(!StringUtil.isEmptyByString(memParentValue2)){
+	   parentMember.setMemParentValue2(msMembersSet.getMemId() + "," + memParentValue2);
+	  }else {
+	   parentMember.setMemParentValue2(msMembersSet.getMemId());
+	  }
+	  // 给直接父节点A增加亲儿子
+	  String memParentValue3 = parentMember.getMemParentValue3();
+	  if(!StringUtil.isEmptyByString(memParentValue3)){
+	   parentMember.setMemParentValue3(msMembersSet.getMemId() + "," + memParentValue3);
+	  }else {
+	   parentMember.setMemParentValue3(msMembersSet.getMemId());
+	  }
+	  groupMems.add(parentMember);
+	  
+	  // 再拿到根据父节点A 的parentValue1 拿到A 的所有父节点
+	  String parentValue1 = parentMember.getMemParentValue1();
+	  if(!StringUtil.isEmptyByString(parentValue1)){
+	   if(parentValue1.trim().endsWith(",")){
+	    parentValue1 = parentValue1.substring(0, parentValue1.length()-1);
+	   }
+	   String[] allParentId = parentValue1.split(",");
+	   
+	   // 给注册会员增加ParentValue1 的值
+	   msMembersSet.setMemParentValue1(shareManInfo.getMemId() + ","+parentValue1);
+	   // 给注册会员增加层级数
+	   msMembersSet.setMemGroupLevel(String.valueOf(allParentId.length + 2));
+	   
+	   // 更改A 的所有父节点的ParentValue2
+	   for (String everyParentId : allParentId) {
+	    if(!StringUtil.isEmptyByString(everyParentId)){
+	     Map<String,Object> mapCondition=new HashMap<>();
+	     mapCondition.put("memId",everyParentId);
+	     MSMembersGet everyParent = baseDao.selectOne(mapCondition,"MSMembersMapper.getMemberBasicInfoByCondition");
+	     if(everyParent != null){
+	      String value2 = everyParent.getMemParentValue2();
+	      if(!StringUtil.isEmptyByString(value2)){
+	       everyParent.setMemParentValue2(msMembersSet.getMemId() + "," + value2);
+	      }else{
+	       everyParent.setMemParentValue2(msMembersSet.getMemId());
+	      }
+	      groupMems.add(everyParent);
+	     }
+	    }
+	   }
+	  }else{
+	   // 给注册会员增加ParentValue1 的值
+	   msMembersSet.setMemParentValue1(shareManInfo.getMemId());
+	   // 给注册会员增加层级数
+	   msMembersSet.setMemGroupLevel("2");
+	  }
+	  MSMembersGet newModel=new MSMembersGet();
+	  BeanUtils.copyProperties(msMembersSet,newModel);
+	  groupMems.add(newModel);
+	  for(MSMembersGet model:groupMems){
+	   baseDao.update(model,"MSMembersMapper.updateParentValue");
+	  }
+	 }
+
 
 }

@@ -80,7 +80,14 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {
     	
     }
     
+    /**普通会员注册*/
+    @Test
+    public void testRegitser_03() throws Exception{
+    	
+    }
 
+    /**旧会员系统token getput*/
+    @Test
     public void testGetPut_02() throws Exception{
     	/*mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/v1/getput?user_id=1gw_"+phone+"&type=1"))
     			.andExpect(status().isOk())
