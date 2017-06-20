@@ -37,6 +37,7 @@ import com.meiduimall.service.member.model.MSMembersGet;
 import com.meiduimall.service.member.model.MSMembersSet;
 import com.meiduimall.service.member.model.MemberAddressesSet;
 import com.meiduimall.service.member.model.MobileNumberInfo;
+import com.meiduimall.service.member.model.UpdateMembers;
 import com.meiduimall.service.member.model.request.RequestMobile;
 import com.meiduimall.service.member.model.request.RequestUpdateMemberBasicInfo;
 import com.meiduimall.service.member.model.response.ResponseMemberBasicInfo;
@@ -77,7 +78,6 @@ public class UserInfoServiceImpl implements UserInfoService {
 	@LoadBalanced
 	RestTemplate restTemplate;
 
-
 	@Override
 	public ResBodyData getBasicInfoByMemId(String memId) throws MdSysException {
 		ResBodyData resBodyData = new ResBodyData(ConstApiStatus.SUCCESS,
@@ -109,27 +109,31 @@ public class UserInfoServiceImpl implements UserInfoService {
 		}
 		// 调用账户服务>查询当前会员是否存在支付密码
 		ResBodyData resIsExistPayPwd = restTemplate
-				.getForEntity("http://ACCOUNT-SERVICE/member/account_service/v1/is_exist_paypwd?memId=" + memId, ResBodyData.class).getBody();
+				.getForEntity("http://ACCOUNT-SERVICE/member/account_service/v1/is_exist_paypwd?memId=" + memId,
+						ResBodyData.class)
+				.getBody();
 		// 调用账户服务>查询当前会员可用余额
 		ResBodyData resAvailableBalance = restTemplate
-				.getForEntity("http://ACCOUNT-SERVICE/member/account_service/v1/get_available_balance?memId=" + memId, ResBodyData.class)
+				.getForEntity("http://ACCOUNT-SERVICE/member/account_service/v1/get_available_balance?memId=" + memId,
+						ResBodyData.class)
 				.getBody();
 
 		memberBasicInfo.setPaypwd_isset("1");
-		if (resIsExistPayPwd.getStatus()!=0) {
+		if (resIsExistPayPwd.getStatus() != 0) {
 			memberBasicInfo.setPaypwd_isset("0");
 		}
-		
-		//如果账户不存在就赋值为0.00
-		String totalMoney="0.00";
-		String availableMoeny="0.00";
-		if(resAvailableBalance.getStatus()==0){
-			totalMoney=String.valueOf(JackSonUtil.getJsonMap(resAvailableBalance.getData()).get("total_money"));
-			availableMoeny=String.valueOf(JackSonUtil.getJsonMap(resAvailableBalance.getData()).get("available_money"));
+
+		// 如果账户不存在就赋值为0.00
+		String totalMoney = "0.00";
+		String availableMoeny = "0.00";
+		if (resAvailableBalance.getStatus() == 0) {
+			totalMoney = String.valueOf(JackSonUtil.getJsonMap(resAvailableBalance.getData()).get("total_money"));
+			availableMoeny = String
+					.valueOf(JackSonUtil.getJsonMap(resAvailableBalance.getData()).get("available_money"));
 		}
 		memberBasicInfo.setTotalMoney(totalMoney);
 		memberBasicInfo.setAvailableMoney(availableMoeny);
-		memberBasicInfo.setAvailablePoints(pointsService.getAvailablePoints(memId,memberBasicInfo.getTotalPoints()));
+		memberBasicInfo.setAvailablePoints(pointsService.getAvailablePoints(memId, memberBasicInfo.getTotalPoints()));
 
 		resBodyData.setData(memberBasicInfo);
 		return resBodyData;
@@ -377,9 +381,9 @@ public class UserInfoServiceImpl implements UserInfoService {
 		if (memberBasicInfo == null) {
 			throw new ServiceException(ConstApiStatus.MEMBER_NOT_EXIST);
 		}
-		
+
 		// 更新会员信息
-		MSMembersSet member = new MSMembersSet();
+		UpdateMembers member = new UpdateMembers();
 		member.setMemId(model.getMemId());
 		try {
 			if (!Strings.isNullOrEmpty(model.getSex()))
@@ -388,13 +392,24 @@ public class UserInfoServiceImpl implements UserInfoService {
 				member.setMemBirthday(new SimpleDateFormat(DateUtil.YYYY_MM_DD).parse(model.getBirthday()));
 			if (!Strings.isNullOrEmpty(model.getNickName()))
 				member.setMemNickName(model.getNickName());
-			if (!Strings.isNullOrEmpty(model.getPhone())){
+			// 保存新号码，同时将旧号码迁移到mem_old_phone字段
+			if (!Strings.isNullOrEmpty(model.getPhone())) {
 				member.setMemPhone(model.getPhone());
-				if(!Strings.isNullOrEmpty(memberBasicInfo.getPhone())){
+				if (!Strings.isNullOrEmpty(memberBasicInfo.getPhone())
+						&& !model.getPhone().equals(memberBasicInfo.getPhone())) {
 					member.setMemOldPhone(memberBasicInfo.getPhone());
 				}
+				member.setChangePhoneDate(new Date());
 			}
-			// TODO 没有保存邮箱
+			// 保存新邮箱，同时将旧邮箱迁移到mem_old_email字段
+			if (!Strings.isNullOrEmpty(model.getEmail())) {
+				member.setMemEmail(model.getEmail());
+				if (!Strings.isNullOrEmpty(memberBasicInfo.getEmail())
+						&& !model.getEmail().equals(memberBasicInfo.getEmail())) {
+					member.setMemOldEmail(memberBasicInfo.getEmail());
+				}
+			}
+			member.setMemUpdatedDate(new Date());
 		} catch (ParseException e) {
 			// 日期格式错误
 			logger.error("会员生日填写错误：" + e);
@@ -404,8 +419,8 @@ public class UserInfoServiceImpl implements UserInfoService {
 			logger.error("数据加密错误：" + e);
 			throw new ServiceException(ConstApiStatus.SYSTEM_ERROR);
 		}
-		Integer rows = baseDao.update(member, "MSMembersMapper.updateMemberInfoByMemId");
-		if(rows < 1){
+		Integer rows = baseDao.update(member, "MSMembersMapper.updateMemberSimpleInfoByMemId");
+		if (rows < 1) {
 			throw new ServiceException(ConstApiStatus.SAVE_FAIL);
 		}
 		ResBodyData result = new ResBodyData();

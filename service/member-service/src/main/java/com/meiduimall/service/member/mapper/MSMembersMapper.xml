@@ -293,4 +293,21 @@
 		)
 	</insert>
 
+	<!-- 修改会员基本信息 -->
+	<update id="updateMemberSimpleInfoByMemId" parameterType="com.meiduimall.service.member.model.MSMembersSet">
+		UPDATE ms_members SET mem_id = #{memId}
+		<if test="memName != null and memName != ''">, mem_name = #{memName}</if>
+		<if test="memLoginName != null and memLoginName != ''">, mem_login_name = #{memLoginName}</if>
+		<if test="memOldEmail != null and memOldEmail != ''">, mem_old_email = #{memOldEmail}</if>
+		<if test="memEmail != null and memEmail != ''">, mem_email = #{memEmail}</if>
+		<if test="memOldPhone != null and memOldPhone != ''">, mem_old_phone = #{memOldPhone}</if>
+		<if test="memPhone != null and memPhone != ''">, mem_phone = #{memPhone}</if>
+		<if test="memNickName != null and memNickName != ''">, mem_nick_name = #{memNickName}</if>
+		<if test="memSex != null and memSex != ''">, mem_sex = #{memSex}</if>
+		<if test="memBirthday != null">, mem_birthday = #{memBirthday}</if>
+		<if test="memPic != null and memPic != ''">, mem_pic = #{memPic}</if>
+		<if test="memUpdatedDate != null">, mem_updated_date = #{memUpdatedDate}</if>
+		<if test="changePhoneDate != null">, mem_change_phone_date = #{changePhoneDate}</if>
+		 WHERE mem_id = #{memId}
+	</update>
 </mapper>

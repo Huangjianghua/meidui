@@ -50,21 +50,22 @@ public class UserInfoV1ControllerTest extends BaseControllerTest {
 	 * 修改会员信息
 	 * @throws Exception
 	 */
-//	@Test
-//	public void testUpdateMemberBaicInfo_01() throws Exception{
-//    	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/v1/update_member_basic_info")
-//    			.param("memId", "68d1d796-ffa8-4a49-8f95-ec554eabe3d8")
-//    			.param("nickName", "张三")
-//    			.param("sex", "男")
-//    			.param("birthday", "1991-05-05"))
-//    	.andExpect(status().isOk())
+	@Test
+	public void testUpdateMemberBaicInfo_01() throws Exception{
+    	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/v1/update_member_basic_info")
+    			.param("memId", "68d1d796-ffa8-4a49-8f95-ec554eabe3d8")
+    			.param("nickName", "张三")
+    			.param("sex", "男")
+    			.param("phone", "18475520019")
+    			.param("birthday", "1991-05-05"))
+    	.andExpect(status().isOk());
 //    	.andExpect(jsonPath("$.status",is(0)));
-//    	
-//    	resultActions.andDo(new ResultHandler() {
-//			@Override
-//			public void handle(MvcResult result) throws Exception {
-//				logger.info("单元测试>>获取会员基本信息API>>执行结果:{}",result.getResponse().getContentAsString());
-//			}
-//		});
-//    }
+    	
+    	resultActions.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				logger.info("单元测试>>获取会员基本信息API>>执行结果:{}",result.getResponse().getContentAsString());
+			}
+		});
+    }
 }
