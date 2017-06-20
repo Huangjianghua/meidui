@@ -13,7 +13,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableSwagger2
-public class Swagger2 {
+public class SwaggerApplication {
 
 	@Bean
     public Docket createRestApi() {
@@ -27,11 +27,7 @@ public class Swagger2 {
 	
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("结算系统RESTful APIs")
-                .description("访问地址：http://localhost:10020/swagger-ui.html/")
-                .termsOfServiceUrl("http://localhost:10020/swagger-ui.html/")
-                .contact("桂冬玲")
-                .version("1.0")
+                .title("结算系统接口文档")
                 .build();
     }
 
