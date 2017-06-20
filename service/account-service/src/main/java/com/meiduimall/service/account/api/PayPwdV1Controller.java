@@ -17,7 +17,7 @@ import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.model.MSMembersPaypwd;
-import com.meiduimall.service.account.constant.ApiStatusConst;
+import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.model.request.RequestRetrievePaypwd;
 import com.meiduimall.service.account.model.request.RequestUpdatePaypwd;
 import com.meiduimall.service.account.service.PaypwdService;
@@ -94,7 +94,7 @@ public class PayPwdV1Controller {
 	@PostMapping(value = "/retrieve_pay_pwd")
 	public ResBodyData retrievePaypwd(@RequestBody @Valid RequestRetrievePaypwd requestRetrievePaypwd) {
 		logger.info("收到找回支付密码API请求  ：{}",requestRetrievePaypwd.toString());
-		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
 		try {
 			paypwdService.retrievePaypwd(requestRetrievePaypwd);
 		}catch (MdSysException e) {

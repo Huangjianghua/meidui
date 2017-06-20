@@ -9,14 +9,18 @@ import java.util.UUID;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultHandler;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import com.fasterxml.jackson.databind.deser.Deserializers.Base;
 import com.meiduimall.core.util.JsonUtils;
+import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.request.RequestSaveOrder;
+import com.meiduimall.service.account.service.TradeService;
 
 /**
  * 订单交易相关API{@link=TradeV1Controller}单元测试
@@ -28,6 +32,9 @@ public class TradeV1ControllerTest extends BaseControllerTest {
 	private final static Logger logger=LoggerFactory.getLogger(TradeV1ControllerTest.class);
 	
 	private final static String orderId=UUID.randomUUID().toString();
+	
+	@Autowired
+	private TradeService tradeService;
 	
 	 /**
      * 会员保存订单
@@ -153,31 +160,6 @@ public class TradeV1ControllerTest extends BaseControllerTest {
     
     
     
-    /**
-	 * 当前商家退会员订单信息接口  
-	 * @author wujun
-	 */
-    @Test
-    public void businessRecedeOrder() throws Exception{
-    	/*ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/v1/business_recede_order")
-    			.param("memId", "a0db1419-f44a-48e8-9394-a49620e47940")
-    			.param("orderId", "1")
-				.param("consumeAmount", "2.00")
-				.param("consumeMoney", "1.00")
-				.param("consumePoints", "1")
-				.param("productName", "单元测试")
-				.param("orderSource", "1gw")
-				.param("payType", "2")
-				.param("orderStatus", "2"))
-    			.andExpect(status().isOk());
-    	
-    	postResultAction.andDo(new ResultHandler() {
-			@Override
-			public void handle(MvcResult result) throws Exception {
-				logger.info("单元测试>>当前商家退会员订单信息API>>执行结果:{}",result.getResponse().getContentAsString());
-			}
-		});*/
-    }
     
     
 	/**
@@ -206,85 +188,6 @@ public class TradeV1ControllerTest extends BaseControllerTest {
     	});
     */}
     
-    /**
-	 * 保存当前会员订单信息接口(免token校验) --测试订单状态不正确
-	 * @author wujun
-	 */
-    @Test
-    public void testSaveOrderNotoken_02() throws Exception{
-    	/*ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/v1/save_order_notoken")
-    			.param("memId", "0000eb24-c1f7-41a3-b7b8-b957078c5da0")
-    			.param("orderId", "3")
-				.param("consumeAmount", "3.00")
-				.param("consumeMoney", "1.00")
-				.param("consumePoints", "2")
-				.param("productName", "单元测试")
-				.param("orderSource", "1gw")
-				.param("payType", "2")
-				.param("orderStatus", "2"))
-    			.andExpect(status().isOk());
-    	
-    	postResultAction.andDo(new ResultHandler() {
-    		@Override
-    		public void handle(MvcResult result) throws Exception {
-    			logger.info("单元测试>>保存当前会员订单信息接口(免token校验) API>>执行结果:{}",result.getResponse().getContentAsString());
-    		}
-    	});
-    */}
-    
-    
-    /**
-	 * 保存当前会员订单信息接口(免token校验)  -- 测试订单金额不正确
-	 * @author wujun
-	 */
-    @Test
-    public void testSaveOrderNotoken_03() throws Exception{
-    	/*ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/v1/save_order_notoken")
-    			.param("memId", "0000eb24-c1f7-41a3-b7b8-b957078c5da0")
-    			.param("orderId", "3")
-				.param("consumeAmount", "9.00")
-				.param("consumeMoney", "7.00")
-				.param("consumePoints", "2")
-				.param("productName", "单元测试")
-				.param("orderSource", "1gw")
-				.param("payType", "2")
-				.param("orderStatus", "2"))
-    			.andExpect(status().isOk());
-    	
-    	postResultAction.andDo(new ResultHandler() {
-    		@Override
-    		public void handle(MvcResult result) throws Exception {
-    			logger.info("单元测试>>保存当前会员订单信息接口(免token校验) API>>执行结果:{}",result.getResponse().getContentAsString());
-    		}
-    	});
-    */}
-    
-    
-    /**
-	 * 保存当前会员订单信息接口(免token校验)  --测试订单不存在
-	 * @author wujun
-	 */
-    @Test
-    public void testSaveOrderNotoken_04() throws Exception{
-    	/*ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/v1/save_order_notoken")
-    			.param("memId", "0000eb24-c1f7-41a3-b7b8-b957078c5da0")
-    			.param("orderId", "30820")
-    			.param("consumeAmount", "3.00")
-				.param("consumeMoney", "1.00")
-				.param("consumePoints", "2")
-				.param("productName", "单元测试")
-				.param("orderSource", "1gw")
-				.param("payType", "2")
-				.param("orderStatus", "0"))
-    			.andExpect(status().isOk());
-    	
-    	postResultAction.andDo(new ResultHandler() {
-    		@Override
-    		public void handle(MvcResult result) throws Exception {
-    			logger.info("单元测试>>保存当前会员订单信息接口(免token校验) API>>执行结果:{}",result.getResponse().getContentAsString());
-    		}
-    	});
-    */}
     
 	/**
 	 * 会员退单信息接口    -- 正确的测试
@@ -292,15 +195,32 @@ public class TradeV1ControllerTest extends BaseControllerTest {
 	 */
     @Test
     public void testRecedeOrderOld_01() throws Exception{
-    	/**ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/v1/recede_order_old")
-    			.param("memId", "0000eb24-c1f7-41a3-b7b8-b957078c5da0")
-    			.param("orderId", "17061419203372578758")
-				.param("consumeAmount", "3.00")
-				.param("consumeMoney", "1.00")
-				.param("consumePoints", "2")
-				.param("orderSource", "1gw")
-				.param("payType", "2")
-				.param("orderStatus", "2"))
+    	RequestSaveOrder requestSaveOrder = new RequestSaveOrder();
+    	requestSaveOrder.setMemId("48d98556-cc3a-4e41-83d8-8cb2ab14c2d3"); //谢铭澄的memId
+    	requestSaveOrder.setOrderId(orderId);
+    	requestSaveOrder.setOrderSource("1gw");
+    	requestSaveOrder.setOrderStatus(1);
+    	requestSaveOrder.setPayType(2);
+    	requestSaveOrder.setProductName("测试");
+    	requestSaveOrder.setConsumeAmount(3.00);
+    	requestSaveOrder.setConsumeMoney(1.00);
+    	requestSaveOrder.setConsumePoints(2.00);
+        //冻结,待付款
+    	tradeService.saveOrder(requestSaveOrder);
+    	requestSaveOrder.setOrderStatus(2);
+    	//解冻扣减支付成功
+    	tradeService.saveOrder(requestSaveOrder);
+    	
+    	//退款
+    	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/v1/recede_order_old")
+    			.param("memId", requestSaveOrder.getMemId())
+    			.param("orderId", requestSaveOrder.getOrderId())
+				.param("consumeAmount", requestSaveOrder.getConsumeAmount().toString())
+				.param("consumeMoney", requestSaveOrder.getConsumeMoney().toString())
+				.param("consumePoints", requestSaveOrder.getConsumePoints().toString())
+				.param("orderSource", requestSaveOrder.getOrderSource())
+				.param("payType", requestSaveOrder.getPayType().toString())
+				.param("orderStatus", requestSaveOrder.getOrderStatus().toString()))
     			.andExpect(status().isOk())
     			.andExpect(jsonPath("$.status",is(0)));
     	
@@ -310,7 +230,7 @@ public class TradeV1ControllerTest extends BaseControllerTest {
     			logger.info("单元测试>>当前会员退单信息API>>执行结果:{}",result.getResponse().getContentAsString());
     		}
     	});
-    */}
+    }
     
     /**
 	 * 会员退单信息接口   --测试订单状态不正确

@@ -74,6 +74,9 @@
 		<if test="userid != null and userid != ''">
 		AND (m.mem_login_name = #{userid} OR m.mem_email = #{userid} OR m.mem_phone = #{userid})
 		</if>
+		<if test="phone != null and phone != ''">
+		AND m.mem_phone=#{phone}
+		</if>
 		<if test="(md_pwd != null and md_pwd != '') or (ygw_pwd != null and ygw_pwd != '')">
 		AND (m.mem_login_pwd=#{ygw_pwd} OR m.mem_login_pwd=#{md_pwd})
 		</if>
@@ -268,14 +271,17 @@
 
     <!--  查询会员手机归属表中没有的会员数据   -->	
 	<select id="findNotInMemberMobileArea" resultType="com.meiduimall.service.member.model.response.ResponseMemberMobileArea">
-	 SELECT ms.mem_id memId, ms.mem_phone memPhone FROM  ms_members ms WHERE ms.mem_id NOT IN(
-   		SELECT  m.mem_id  FROM ms_members m  INNER JOIN
-   		ms_member_mobile_area ma  ON m.`mem_id` = ma.mem_id)
+	 	 SELECT  ms.mem_id memId, ms.mem_phone memPhone FROM  ms_members ms WHERE ms.mem_id NOT IN(
+   		SELECT  m.mem_id  FROM ms_members m INNER JOIN
+   		ms_member_mobile_area ma  ON m.`mem_id` = ma.mem_id 
+   		WHERE m.`mem_phone` IS NOT NULL AND m.`mem_phone` NOT IN ('')
+   		)  AND ms.`mem_phone` IS NOT NULL  AND  ms.`mem_phone` NOT IN ('')  
 	</select>
 
 	<!--添加账户报表信息，临时使用，4.0.3版本废弃，改为调用账户服务来生成-->
 	<insert id="insertAccountReport" parameterType="java.util.Map">
 	   INSERT INTO  ms_account_report
+	   	(id, mem_id, create_date, create_user, update_date, update_user, remark)
 		VALUES
 		(#{id},
 		#{memId},
@@ -287,4 +293,21 @@
 		)
 	</insert>
 
+	<!-- 修改会员基本信息 -->
+	<update id="updateMemberSimpleInfoByMemId" parameterType="com.meiduimall.service.member.model.MSMembersSet">
+		UPDATE ms_members SET mem_id = #{memId}
+		<if test="memName != null and memName != ''">, mem_name = #{memName}</if>
+		<if test="memLoginName != null and memLoginName != ''">, mem_login_name = #{memLoginName}</if>
+		<if test="memOldEmail != null and memOldEmail != ''">, mem_old_email = #{memOldEmail}</if>
+		<if test="memEmail != null and memEmail != ''">, mem_email = #{memEmail}</if>
+		<if test="memOldPhone != null and memOldPhone != ''">, mem_old_phone = #{memOldPhone}</if>
+		<if test="memPhone != null and memPhone != ''">, mem_phone = #{memPhone}</if>
+		<if test="memNickName != null and memNickName != ''">, mem_nick_name = #{memNickName}</if>
+		<if test="memSex != null and memSex != ''">, mem_sex = #{memSex}</if>
+		<if test="memBirthday != null">, mem_birthday = #{memBirthday}</if>
+		<if test="memPic != null and memPic != ''">, mem_pic = #{memPic}</if>
+		<if test="memUpdatedDate != null">, mem_updated_date = #{memUpdatedDate}</if>
+		<if test="changePhoneDate != null">, mem_change_phone_date = #{changePhoneDate}</if>
+		 WHERE mem_id = #{memId}
+	</update>
 </mapper>

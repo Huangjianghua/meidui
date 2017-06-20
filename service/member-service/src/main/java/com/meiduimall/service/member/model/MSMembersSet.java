@@ -66,6 +66,9 @@ public class MSMembersSet implements Serializable {
 	
 	/**是否启用支付密码*/
 	private String enable;
+	
+	 /**层级数，注册接口生成推荐人和粉丝的关系时会用到 */		
+	private String memGroupLevel;
 
 	/** 会员生日 **/
 	private java.util.Date memBirthday;
@@ -545,4 +548,11 @@ public class MSMembersSet implements Serializable {
 		this.memParentIsdefaultIschanged = DESC.encryption(memParentIsdefaultIschanged,memId);
 	}
 
+	public String getMemGroupLevel() {
+		return memGroupLevel;
+	}
+
+	public void setMemGroupLevel(String memGroupLevel) {
+		this.memGroupLevel = memGroupLevel;
+	}
 }

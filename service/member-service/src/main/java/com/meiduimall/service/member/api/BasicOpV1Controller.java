@@ -26,16 +26,22 @@ import com.meiduimall.exception.MdSysException;
 import com.meiduimall.redis.util.RedisTemplate;
 import com.meiduimall.service.member.constant.ConstApiStatus;
 import com.meiduimall.service.member.constant.ConstSysParamsDefination;
+import com.meiduimall.service.member.model.request.AccountVerification;
 import com.meiduimall.service.member.model.request.RequestExit;
 import com.meiduimall.service.member.model.request.RequestLogin;
 import com.meiduimall.service.member.model.request.RequestRegister;
+import com.meiduimall.service.member.model.request.RequestRegisterNoCode;
 import com.meiduimall.service.member.model.request.RequestRegisterO2O;
 import com.meiduimall.service.member.service.BasicOpService;
 import com.meiduimall.service.member.service.UserInfoService;
 import com.meiduimall.service.member.util.HttpResolveUtils;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 /**
- * 会员基本行为相关API
+ * 会员基本操作API
  * @author chencong
  *
  */
@@ -96,16 +102,11 @@ public class BasicOpV1Controller {
 		return result;
 	    }
 	
-	/**
-	 * 会员登录
-	 * @param requestLogin 登录API请求映射实体
-	 * @return 统一数据返回格式
-	 * @throws MdSysException 系统异常
-	 */
-	/*@ApiOperation(value="会员登录", notes="会员登录")
+	/**登录*/
+	@ApiOperation(value="会员登录", notes="会员登录")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "requestLogin", value = "登录实体", required = true, dataType = "RequestLogin"),
-	})*/
+	})
 	@PostMapping(value = "/login")
 	ResBodyData login(@RequestBody @Valid RequestLogin requestLogin) throws MdSysException{
 		requestLogin.setIp(request.getRemoteAddr());
@@ -115,18 +116,12 @@ public class BasicOpV1Controller {
 		}
 		requestLogin.setTokenKey(tokenKey);
 		logger.info("收到会员登录API请求：",requestLogin.toString());
-
-		ResBodyData resBodyData=null;
 		try {
-
-			resBodyData = basicOpService.login(requestLogin);
+			return basicOpService.login(requestLogin);
 		} catch (MdSysException e) {
 			logger.error("会员登录API请求异常：{}",e.toString());
 			throw new ApiException(ConstApiStatus.LOGIN_EXCEPTION);
 		}
-
-		logger.info("会员登录API请求结果  ：{}",resBodyData.toString());
-		return resBodyData;
 	}
 	
 	/**会员退出登录*/
@@ -249,6 +244,39 @@ public class BasicOpV1Controller {
 			throw new ApiException(ConstApiStatus.CHECK_TOKEN_NOT_PASS);
 		}
 		return resBodyData;
-}
+	}
 	
+	/**扫码注册（临时接口，不校验验证码，不推荐使用）*/
+	@PostMapping(value = "/register_no_check_code")
+	ResBodyData registerNoCheckCode(@RequestBody @Valid RequestRegisterNoCode model){
+		String tokenKey=request.getHeader(ConstSysParamsDefination.TERMINAL_ID);
+		if(StringUtils.isEmpty(tokenKey)){
+			 tokenKey=request.getHeader(ConstSysParamsDefination.USER_AGENT);
+		}
+		model.setTokenKey(tokenKey);
+		logger.info("收到扫码注册API请求：{}",model.toString());
+		ResBodyData resBodyData=null;
+		try {
+			resBodyData=basicOpService.registerNoCheckCode(model);
+		} catch (DaoException  | MdSysException e) {
+			logger.error("扫码注册API请求异常：{}",e.toString());
+			throw new ApiException(ConstApiStatus.REGISTER_EXCEPTION);
+		}
+		return resBodyData; 
+}
+	/**
+	 * 验证帐号是否存在
+	 * @return 统一数据返回格式
+	 * @throws MdSysException 系统异常
+	 */
+	@PostMapping(value = "/thereexist")
+	public ResBodyData accountsThereExist(@RequestBody @Valid AccountVerification accountVerification) throws MdSysException{
+		ResBodyData resBodyData=null;
+		try {
+			resBodyData = basicOpService.validateAccounts(accountVerification);
+		} catch (MdSysException e) {
+			throw new ApiException(ConstApiStatus.MEMBER_NOT_EXIST);
+		}
+		return resBodyData;
+	}
 }

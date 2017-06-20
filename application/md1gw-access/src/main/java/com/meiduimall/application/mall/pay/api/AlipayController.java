@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,8 +20,14 @@ import com.meiduimall.application.mall.pay.service.PaymentService;
 import com.meiduimall.application.mall.util.DateUtil;
 import com.meiduimall.application.mall.util.Logger;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/md1gwmall/md1gw_access/v1")
+@Api("支付宝异步回调调相关api")
 public class AlipayController {
 
 //	total_amount=2.00     //订单金额
@@ -48,8 +55,20 @@ public class AlipayController {
 	@Autowired
 	private PaymentService paymentService; 
 	
+	
+	@ApiOperation(value="支付宝异步回调", notes="支付宝的通知返回参数，可参考支付宝官方文档中页面跳转同步通知参数列表(以下仅供参考)")
+	@ApiImplicitParams({
+        @ApiImplicitParam(name = "out_trade_no", value = "商户订单号", required = true, dataType = "String"),
+        @ApiImplicitParam(name = "trade_no", value = "支付宝交易号", required = true, dataType = "String"),
+        @ApiImplicitParam(name = "trade_status", value = "交易状态", required = true, dataType = "String"),
+        @ApiImplicitParam(name = "notify_id", value = "异步通知ID", required = true, dataType = "String"),
+        @ApiImplicitParam(name = "sign", value = "sign", required = true, dataType = "String"),
+        @ApiImplicitParam(name = "total_fee", value = "订单金额", required = true, dataType = "String"),
+        @ApiImplicitParam(name = "gmt_payment", value = "交易结束时间", required = true, dataType = "String"),
+        @ApiImplicitParam(name = "seller_id", value = "seller_id", required = true, dataType = "String")
+	})
 	@SuppressWarnings({ "rawtypes" })
-	@RequestMapping(value =  "/getAliPayNotify" )
+	@GetMapping(value =  "/getAliPayNotify" )
 	public String getPayNotify(HttpServletRequest request) throws Exception {
 		Logger.info("进入支付宝异步回调");
 		

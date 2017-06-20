@@ -15,6 +15,7 @@ import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.member.model.MSMemberMobileArea;
 import com.meiduimall.service.member.model.request.RequestGetMemberBasicInfo;
+import com.meiduimall.service.member.model.request.RequestUpdateMemberBasicInfo;
 import com.meiduimall.service.member.service.UserInfoService;
 
 /**
@@ -102,4 +103,20 @@ public class UserInfoV1Controller{
     }
 	
 	
+	/**注册时记录会员手机对应的区域*/
+	@GetMapping(value = "/update_member_area")
+	ResBodyData updateMemberArea() throws MdSysException{
+		ResBodyData recordArea = userInfoService.updateMemberArea();
+		return recordArea;
+    }
+	
+	/**
+	 * 更新会员基本信息 
+	 * @param model 会员信息封装参数
+	 * @return 数据对象
+	 */
+	@RequestMapping(value = "/update_member_basic_info")
+	public ResBodyData updateMemberBasicInfo(@Valid RequestUpdateMemberBasicInfo model){
+		return userInfoService.updateMemberBasicInfo(model);
+	}
 }

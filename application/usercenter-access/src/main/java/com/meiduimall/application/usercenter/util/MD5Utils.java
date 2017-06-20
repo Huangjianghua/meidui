@@ -8,9 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSONObject;
-import com.meiduimall.application.usercenter.constant.ConstApiStatus;
-import com.meiduimall.application.usercenter.constant.ConstSysParamsDefination;
-import com.meiduimall.exception.MdSysException;
+import com.meiduimall.application.usercenter.constant.ApiStatusConst;
+import com.meiduimall.application.usercenter.constant.SysParamsConst;
+import com.meiduimall.core.ResBodyData;
 
 /**
  * MD5工具类
@@ -26,33 +26,35 @@ public class MD5Utils {
 	 * @param reqJson HTTP请求数据
 	 * @param secretkey 密钥
 	 * @return 统一返回数据格式
-	 * @throws MdSysException 系统异常
 	 */
-	public static String getSign(JSONObject reqJson,String secretkey) throws MdSysException{
+	public static ResBodyData getSign(JSONObject reqJson,String secretkey){
+		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
 		String serverSign=null;
-		String[] arr = new String[reqJson.containsKey(ConstSysParamsDefination.SIGN)?(reqJson.size()- 1):reqJson.size()];
+		String[] arr = new String[reqJson.containsKey(SysParamsConst.SIGN)?(reqJson.size()- 1):reqJson.size()];
 		int i=0;
 		try {
 			for (String key: reqJson.keySet()) {
-				if (ConstSysParamsDefination.SIGN.equals(key))
+				if (SysParamsConst.SIGN.equals(key))
 					continue;
-				arr[i] = key+ ConstSysParamsDefination.EQUALS_SYMBOL +reqJson.getString(key);
+				arr[i] = key+ SysParamsConst.EQUALS_SYMBOL +reqJson.getString(key);
 				i++;
 			}
 			Arrays.sort(arr);
 			StringBuffer buffer = new StringBuffer();
 			for (int k = 0; k < arr.length; k++) {
 				buffer.append(arr[k]);
-				buffer.append(ConstSysParamsDefination.CONNECTION_SYMBOL);
+				buffer.append(SysParamsConst.CONNECTION_SYMBOL);
 			}
-			buffer.append(ConstSysParamsDefination.KEY_LAST);
+			buffer.append(SysParamsConst.KEY_LAST);
 			buffer.append(secretkey);
 			serverSign=MD5Utils.MD5EncryptBy32(buffer.toString()).toUpperCase();
+			resBodyData.setData(serverSign);
 		} catch (Exception e) {
-			logger.error("生成签名程序异常",e.toString());
-			throw new MdSysException(ConstApiStatus.CREATE_SIGN_EXCEPTION);
+			logger.error("exec getSign() error:{}",e.toString());
+			resBodyData.setStatus(ApiStatusConst.GET_SIGN_EX);
+			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.GET_SIGN_EX));
 		}
-		return serverSign;
+		return resBodyData;
 	}
 	/**
 	 * MD5 32位加密
@@ -83,11 +85,19 @@ public class MD5Utils {
 		return buf.toString();
 	}
 	
-	public static void updateSign(JSONObject reqJson,String clientID,String key) throws MdSysException{
-		reqJson.put(ConstSysParamsDefination.CLIENTID,clientID);
-		reqJson.put(ConstSysParamsDefination.TIMESATAMP,System.currentTimeMillis());
-		reqJson.put(ConstSysParamsDefination.SIGN,MD5Utils.getSign(reqJson,key));
+	public static ResBodyData updateSign(JSONObject reqJson,String clientID,String key){
+		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,null);
+		reqJson.put(SysParamsConst.CLIENTID,clientID);
+		reqJson.put(SysParamsConst.TIMESATAMP,System.currentTimeMillis());
+		resBodyData=MD5Utils.getSign(reqJson,key);
+		if(resBodyData.getStatus()!=0){
+			logger.error("接入层请求网关更新签名失败");
+			return resBodyData;
+		}
+		String sign=resBodyData.getData().toString();
+		reqJson.put(SysParamsConst.SIGN,sign);
 		logger.info("接入层请求网关更新签名成功");
+		return resBodyData;
 	}
 	
 }

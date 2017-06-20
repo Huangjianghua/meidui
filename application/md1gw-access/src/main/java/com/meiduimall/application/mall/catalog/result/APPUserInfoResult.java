@@ -1,11 +1,16 @@
 package com.meiduimall.application.mall.catalog.result;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class APPUserInfoResult {
 
+	@JsonProperty("mem_info")
 	private MemberInfoResult memInfo;
 
+	@JsonProperty("oto_info")
 	private OtoInfoResult otoInfo;
 
+	@JsonProperty("mall_info")
 	private MallInfoResult mallInfo;
 
 	public MemberInfoResult getMemInfo() {

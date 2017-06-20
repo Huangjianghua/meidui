@@ -899,7 +899,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		returnMap.put("calc_counterFee", String.valueOf(calc_counterFee));
 		return returnMap;
 	}
-	
+
 	/**
 	 * 查询账号集合
 	 * @param memId
@@ -919,5 +919,5 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		}
 		return list;
 	}
-	
-	}
+}
+

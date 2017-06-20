@@ -233,9 +233,9 @@ public class TradeServiceImpl implements TradeService {
 			pointsDetailService.insertConsumePointsDetail(model.getMemId(),
 					model.getOrderId(),
 					model.getOrderSource(),
-					"0.00",
-					String.valueOf(model.getConsumePoints()),
-					String.valueOf(accountReportService.getTotalPointsByMemId(model.getMemId())-model.getConsumePoints()),
+					DESC.encryption("0.00",model.getMemId()),
+					DESC.encryption(String.valueOf(model.getConsumePoints()),model.getMemId()),
+					DESC.encryption(String.valueOf(accountReportService.getTotalPointsByMemId(model.getMemId())-model.getConsumePoints()),model.getMemId()),
 					ConstPointsChangeType.POINTS_OPERATOR_TYPE_XF.getCode(),
 					model.getMemId(),
 					SerialStringUtil.getPointsRemark(ConstPointsChangeType.POINTS_OPERATOR_TYPE_XF.getCode(),model.getMemId()));
@@ -252,6 +252,7 @@ public class TradeServiceImpl implements TradeService {
 				accountFreezeDetailService.insertAccoutFreezeDetail(item);
 				
 				MSAccount msAccount=accountServices.getAccountInfoByMemIdAndAccountNo(model.getMemId()	,item.getAccountNo());
+				double balance=msAccount.getBalance();
 				msAccount.setBalance(msAccount.getBalance()-item.getFreezeBalance());
 				msAccount.setBalanceEncrypt(DESC.encryption(String.valueOf(msAccount.getBalance()),model.getMemId()));
 				msAccount.setFreezeBalance(msAccount.getFreezeBalance()-item.getFreezeBalance());
@@ -271,7 +272,7 @@ public class TradeServiceImpl implements TradeService {
 				msAccountDetail.setTradeAmount(item.getFreezeBalance());
 				msAccountDetail.setTradeDate(item.getTradeDate());
 				msAccountDetail.setInOrOut(Constants.CONSTANT_INT_INVALID);
-				msAccountDetail.setBalance(accountReportService.getTotalAndFreezeBalanceByMemId(model.getMemId()).getBalance()-msAccountDetail.getTradeAmount());
+				msAccountDetail.setBalance(balance-item.getFreezeBalance());
 				msAccountDetail.setBusinessNo(item.getBusinessNo());
 				msAccountDetail.setCreateUser("账户服务");
 				msAccountDetail.setUpdateUser("账户服务");
@@ -784,6 +785,9 @@ public class TradeServiceImpl implements TradeService {
 
 			// 获取退费前积分余额
 			Double preConsumePoints = pointsService.getAvailablePointsByMemId(ms.getMemId());
+			Double realPoints = Double.valueOf("0");
+			String accountPoint = baseDao.selectOne(ms.getMemId(), "MSAccountMapper.getCurrentPointsByMemId");
+			realPoints = Double.valueOf(DESC.deyption(accountPoint,ms.getMemId()));
 			// 获取退费前余额
 			Double preConsumeMoney = accountReportService.getAvailableBalance(ms.getMemId());
 
@@ -833,7 +837,7 @@ public class TradeServiceImpl implements TradeService {
 				    		msAccountDetail2.setTradeAmount(balance);
 				    		msAccountDetail2.setTradeDate(new Date());
 				    		msAccountDetail2.setInOrOut(1);
-				    		msAccountDetail2.setBalance(preConsumeMoney + balance);
+				    		msAccountDetail2.setBalance(msAccount.getBalance() + balance);
 				    		msAccountDetail2.setBusinessNo(msAccountDetail.getBusinessNo());
 				    		msAccountDetail2.setCreateUser(msAccountDetail.getCreateUser());
 				    		msAccountDetail2.setCreateDate(new Date());
@@ -841,8 +845,8 @@ public class TradeServiceImpl implements TradeService {
 				    		msAccountDetail2.setUpdateDate(new Date());
 				    		msAccountDetail2.setRemark("账户编号:" + msAccountDetail2.getAccountNo() + " 退款"+ balance +"元");
 				    		listAccountDetail2.add(msAccountDetail2);
-				    		logger.info("插入账户明细表:退款账户:{},退款余额:{},退款之后的余额:{}",msAccount.getAccountNo(),balance,preConsumeMoney + balance);
-				    		preConsumeMoney = preConsumeMoney + balance;
+				    		logger.info("插入账户明细表:退款账户:{},退款之前的余额:{},退款余额:{},退款之后的余额:{}",msAccount.getAccountNo(),msAccount.getBalance(),
+				    				balance,msAccount.getBalance() + balance);
 						  }
 			    		  bigDecimal = bigDecimal.subtract(new BigDecimal(msAccountDetail.getTradeAmount()));
 			    		       
@@ -850,17 +854,23 @@ public class TradeServiceImpl implements TradeService {
 			    		
 			    	}
 				}
+			    
+			    //更新MSAccountReport
+			    Map<String, Object> map = new HashMap<>();
+			    map.put("balance", ms.getConsumeMoney());
+			    map.put("memId", ms.getMemId());
+			    baseDao.update(map,"MSAccountReportMapper.updateBalance");
+			    
+			    //更新MSAccount
+			    accountAdjustService.batchUpdateBalance(msAccountlist);
+			    
+			    //更新MSAccountDetail
 			    accountDetailService.batchInsertAccoutDetail(listAccountDetail2);
-				accountAdjustService.batchUpdateBalance(msAccountlist);
 				
 
 				// 退单后余额
 				double afterMoney = DoubleCalculate.add(preConsumeMoney, Double.valueOf(ms.getConsumeMoney()));
 				
-				Map<String, Object> map = new HashMap<>();
-				map.put("balance", ms.getConsumeMoney());
-				map.put("memId", ms.getMemId());
-				baseDao.update(map,"MSAccountReportMapper.updateBalance");
 
 				// 返回退单后余额
 				json.put("after_shopping_coupon", StringUtil.interceptionCharacter(2, afterMoney));
@@ -889,7 +899,7 @@ public class TradeServiceImpl implements TradeService {
 				mscpd.setMcpOperatorType(ConstPointsChangeType.POINTS_OPERATOR_TYPE_TK.getCode());
 				mscpd.setMcpIncome(ms.getConsumePoints());
 				mscpd.setMcpExpenditure("0");
-				BigDecimal add = new BigDecimal(preConsumePoints).add(new BigDecimal(ms.getConsumePoints()));
+				BigDecimal add = new BigDecimal(realPoints).add(new BigDecimal(ms.getConsumePoints()));
 				mscpd.setMcpBalance(add.toString());
 				mscpd.setMcpCreatedBy(ms.getMemId());
 				mscpd.setMcpCreatedDate(new Date());
@@ -962,8 +972,7 @@ public class TradeServiceImpl implements TradeService {
 				if (!StringUtils.isEmpty(points)) {
 					  
 					// 解冻金额和冻结金额是否一样
-					if (DoubleCalculate.add(Double.valueOf(mmt.getConsumePoints()),
-							Double.valueOf(points.getMcpfConsumePoints())) != 0.0) {
+					if (Double.valueOf(mmt.getConsumePoints()).compareTo(Double.valueOf(points.getMcpfConsumePoints())) != 0) {
 						logger.info("订单解冻积分不等于冻结积分");
 						return new ResBodyData(ConstApiStatus.DJ_NOT_EQUALS_DJ,
 								ConstApiStatus.getZhMsg(ConstApiStatus.DJ_NOT_EQUALS_DJ));
@@ -1041,8 +1050,7 @@ public class TradeServiceImpl implements TradeService {
 					}
 					
 					// 解冻金额和冻结金额是否一样
-					if (DoubleCalculate.sub(Double.valueOf(mmt.getConsumeMoney()),
-							moneySum) != 0.0) {
+					if (Double.valueOf(mmt.getConsumeMoney()).compareTo(moneySum) != 0) {
 						logger.info("订单解冻余额不等于冻结余额!");
 						return new ResBodyData(ConstApiStatus.MONEY_DJ_NOT_EQUALS_DJ,
 								ConstApiStatus.getZhMsg(ConstApiStatus.MONEY_DJ_NOT_EQUALS_DJ));
@@ -1121,7 +1129,8 @@ public class TradeServiceImpl implements TradeService {
 			if (Double.valueOf(obj.toString()) > 0) {
 				return true;
 			}
-		} catch (Exception e) {
+		} catch (ServiceException e) {
+			logger.error("判断是否为零异常", e);
 			return false;
 		}
 		return false;
