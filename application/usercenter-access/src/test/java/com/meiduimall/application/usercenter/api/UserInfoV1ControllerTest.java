@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultHandler;
@@ -57,5 +58,29 @@ public class UserInfoV1ControllerTest extends BaseControllerTest{
     			}
     		});    		
     	}
+    }
+    
+    /**
+	 * 修改会员信息
+	 * @throws Exception
+	 */
+	@Test
+	public void testUpdateMemberBaicInfo_01() throws Exception{
+    	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/v1/update_member_basic_info")
+    			.contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    			.param("token", "c668adee62e84cb6cee687b00bed7dc3")
+    			.param("nickName", "张三")
+    			.param("sex", "男")
+    			.param("phone", "18475520019")
+    			.param("birthday", "1991-05-05"))
+    	.andExpect(status().isOk());
+//    	.andExpect(jsonPath("$.status",is(0)));
+    	
+    	resultActions.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				logger.info("单元测试>>修改会员信息API>>执行结果:{}",result.getResponse().getContentAsString());
+			}
+		});
     }
 }

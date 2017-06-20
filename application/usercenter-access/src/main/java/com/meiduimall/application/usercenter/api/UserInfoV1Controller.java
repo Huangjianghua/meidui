@@ -46,7 +46,7 @@ public class UserInfoV1Controller {
 	}
 	
 	@HasToken
-	@GetMapping(value = "/update_member_basic_info")
+	@RequestMapping(value = "/update_member_basic_info")
 	public ResBodyData updateMemberBasicInfo(){
 		JSONObject reqJson=ValRequest.apiReqData.get();
 		logger.info("收到更改当前会员基本信息API请求：{}",reqJson.toString());
