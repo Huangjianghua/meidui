@@ -290,8 +290,11 @@ public class UserInfoServiceImpl implements UserInfoService {
 	public ResBodyData updateMemberArea() {
 		List<ResponseMemberMobileArea> memberMobileAreaDTO = null;
 		List<MSMemberMobileArea> areas = new ArrayList<>();
+		PageInfo<ResponseMemberMobileArea> pageInfo = null;
 		try {
+			PageHelper.offsetPage(0, 1000);
 			memberMobileAreaDTO = baseDao.selectList(null, "MSMembersMapper.findNotInMemberMobileArea");
+			pageInfo = new PageInfo<>(memberMobileAreaDTO); 
 			if (StringUtils.isEmpty(memberMobileAreaDTO)) {
 				return new ResBodyData(ConstApiStatus.SUCCESS, "没有需要更新的会员");
 			}
@@ -329,9 +332,19 @@ public class UserInfoServiceImpl implements UserInfoService {
 			logger.error("批量插入会员手机归属地表异常: {}", e);
 			//throw new ServiceException(ConstApiStatus.INSERT_SELECTIVE_EXCEPTION);
 		}
+		int intValue = new Long(pageInfo.getTotal()).intValue();
+		if(intValue > 0){
+			int size = intValue - 1000;
+			logger.info("还剩" + size +"手机号没有被同步更新");
+			updateMemberArea();
+		}
 		return new ResBodyData(ConstApiStatus.SUCCESS, "执行完成");
+		
 	}
-
+	
+	
+	
+	
 	private MobileNumberInfo queryMobile(String substr) {
 		return baseDao.selectOne(new RequestMobile(substr), "MobileNumberInfoMapper.queryMobile");
 	}
