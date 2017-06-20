@@ -13,6 +13,8 @@ import com.meiduimall.service.settlement.common.SettlementUtil;
 import com.meiduimall.service.settlement.model.EcmSystemSetting;
 import com.meiduimall.service.settlement.service.SettingService;
 
+import io.swagger.annotations.ApiOperation;
+
 /**
  * Copyright (C), 2002-2017, 美兑壹购物
  * FileName: SettingController.java
@@ -35,6 +37,7 @@ public class SettingController {
 	 * @return ResBodyData
 	 * 
 	 */
+	@ApiOperation(value="更新分润比例配置", notes="")
 	@PostMapping(value="/updatesystemsetting")
 	public ResBodyData updatesystemsetting(@Validated EcmSystemSetting systemSetting) {
 		EcmSystemSetting ecmSystemSetting = settingService.updatesystemsetting(systemSetting);
@@ -50,6 +53,7 @@ public class SettingController {
 	 * @return ResBodyData
 	 * 
 	 */
+	@ApiOperation(value="查询分润比例配置列表", notes="")
 	@PostMapping(value="/listsystemsetting")
 	public ResBodyData listsystemsetting(EcmSystemSetting systemSetting){
 		List<EcmSystemSetting> systemSettingList = settingService.listsystemsetting(systemSetting);
