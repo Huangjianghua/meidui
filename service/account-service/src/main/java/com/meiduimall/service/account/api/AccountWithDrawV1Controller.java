@@ -33,6 +33,10 @@ import com.meiduimall.service.account.service.BankWithdrawDepositService;
 import com.meiduimall.service.account.service.MSAccountDetailService;
 import com.meiduimall.service.account.service.WithDrawService;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 /**
  * 提现相关接口
  * 
@@ -61,6 +65,9 @@ public class AccountWithDrawV1Controller {
 	 * @return
 	 * @author: jianhua.huang 2017年5月5日 下午5:31:38
 	 */
+	@ApiOperation(value="查询提现记录", notes="查询提现记录")
+    @ApiImplicitParams({
+    @ApiImplicitParam(name = "mSAccountDetailCondition", value = "提现查询实体", required = true, dataType = "MSAccountDetailCondition"),})
 	@PostMapping(value = "/list_withdraw_condition")
 	public ResBodyData listWithDrawCondition(@RequestBody MSAccountDetailCondition mSAccountDetailCondition) {
 		List<MSBankWithdrawDeposit> listMSBankWithdrawDeposit = null;
