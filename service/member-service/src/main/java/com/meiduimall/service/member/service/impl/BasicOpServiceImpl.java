@@ -1,14 +1,14 @@
 package com.meiduimall.service.member.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import com.meiduimall.exception.ServiceException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,9 +16,11 @@ import org.springframework.util.StringUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.base.Strings;
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdSysException;
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.redis.util.RedisTemplate;
 import com.meiduimall.service.member.constant.ConstApiStatus;
 import com.meiduimall.service.member.constant.ConstSmsTemplateID;
@@ -29,9 +31,11 @@ import com.meiduimall.service.member.model.MSConsumePointsDetail;
 import com.meiduimall.service.member.model.MSMembersGet;
 import com.meiduimall.service.member.model.MSMembersSet;
 import com.meiduimall.service.member.model.MemberAddressesSet;
+import com.meiduimall.service.member.model.request.AccountVerification;
 import com.meiduimall.service.member.model.request.RequestCheckValidateCode;
 import com.meiduimall.service.member.model.request.RequestLogin;
 import com.meiduimall.service.member.model.request.RequestRegister;
+import com.meiduimall.service.member.model.request.RequestRegisterNoCode;
 import com.meiduimall.service.member.model.request.RequestRegisterO2O;
 import com.meiduimall.service.member.model.request.RequestSendSms;
 import com.meiduimall.service.member.service.BasicOpService;
@@ -237,22 +241,21 @@ public class BasicOpServiceImpl implements BasicOpService {
 	
 
 	@Transactional
+	@Override
 	public ResBodyData login(RequestLogin requestLogin) throws MdSysException {
-		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
-		String userid=requestLogin.getUser_name();//用户名
-		String password=requestLogin.getPassword();//密码
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,"登录成功");
+		
+		String userid=requestLogin.getUserName();
+		String password=requestLogin.getPassWord();
 		String tokenKey=requestLogin.getTokenKey();
 
-		
-		Map<String, Object> mapCondition=new HashMap<>();//查询条件
+		//根据user_id查询会员信息
+		Map<String, Object> mapCondition=new HashMap<>();
 		mapCondition.put("userid",DESC.encryption(userid));
-		MSMembersGet msMembersGet=baseDao.selectOne(mapCondition,"MSMembersMapper.getMemberBasicInfoByCondition");//根据userid判断该用户是否存在
+		MSMembersGet msMembersGet=baseDao.selectOne(mapCondition,"MSMembersMapper.getMemberBasicInfoByCondition");
 		if(msMembersGet==null){
 			throw new ServiceException(ConstApiStatus.MEMBER_NOT_EXIST);
 		}
-		
-		//记录手机对应区域
-		userInfoService.recordArea(msMembersGet.getMemId(),msMembersGet.getMemPhone());
 		
 		String memLockCount=msMembersGet.getMemLockCount();//锁定次数密文
 		String memLockCountPlained=msMembersGet.getMemLockCountPlained();//锁定次数明文
@@ -412,7 +415,8 @@ public class BasicOpServiceImpl implements BasicOpService {
 		mro.setRoleId(SysEncrypParamsConst.PUTONGHUIYUAN);
 		baseDao.insert(null,"");*/
 		
-		//更新父类字符串（获取粉丝明细会用到）...暂时忽略
+		//更新父类字符串，插入推荐人和粉丝的关联关系（后期数据库表结构改造后此处需修正）
+		setShareMenAndFunsRelation(memberSet,shareManInfo);
 	
 		/**增加积分并写入积分流水*/
 		userInfoService.updateCurrentPointByMemId(memid,String.valueOf(Constants.CONSTANT_INT_ZERO),ConstSysParamsDefination.MD1GW_REGISTER_ADD_POINTS);
@@ -606,7 +610,8 @@ public class BasicOpServiceImpl implements BasicOpService {
 		mro.setRoleId(SysEncrypParamsConst.PUTONGHUIYUAN);
 		baseDao.insert(null,"");*/
 		
-		//更新父类字符串（获取粉丝明细会用到）...暂时忽略
+		//更新父类字符串，插入推荐人和粉丝的关联关系（后期数据库表结构改造后此处需修正）
+		setShareMenAndFunsRelation(memberSet,shareManInfo);
 	
 		/**增加积分并写入积分流水*/
 		userInfoService.updateCurrentPointByMemId(memid,String.valueOf(Constants.CONSTANT_INT_ZERO),ConstSysParamsDefination.MD1GW_REGISTER_ADD_POINTS);
@@ -659,6 +664,210 @@ public class BasicOpServiceImpl implements BasicOpService {
 		consumePointsDetail.setMcpCreatedDate(nowDate);
 		consumePointsDetail.setMcpUpdatedDate(nowDate);
 		baseDao.insert(consumePointsDetail,"MSConsumePointsDetailMapper.saveConsumePointsDetails");
+	}
+	
+	 /**
+	  * 设置推荐人和粉丝的关联关系
+	  * @param msMembersSet 会员信息
+	  */
+	 private void setShareMenAndFunsRelation(MSMembersSet msMembersSet,MSMembersGet shareManInfo){
+	  // 定义一个集合，存放所有需要变更的会员
+	  ArrayList<MSMembersGet> groupMems = new ArrayList<MSMembersGet>();
+	  // 首先获取到注册会员的直接父节点A
+	  MSMembersGet parentMember = shareManInfo;
+	  // 给直接父节点A设置所有孩子
+	  String memParentValue2 = parentMember.getMemParentValue2();
+	  if(!StringUtil.isEmptyByString(memParentValue2)){
+	   parentMember.setMemParentValue2(msMembersSet.getMemId() + "," + memParentValue2);
+	  }else {
+	   parentMember.setMemParentValue2(msMembersSet.getMemId());
+	  }
+	  // 给直接父节点A增加亲儿子
+	  String memParentValue3 = parentMember.getMemParentValue3();
+	  if(!StringUtil.isEmptyByString(memParentValue3)){
+	   parentMember.setMemParentValue3(msMembersSet.getMemId() + "," + memParentValue3);
+	  }else {
+	   parentMember.setMemParentValue3(msMembersSet.getMemId());
+	  }
+	  groupMems.add(parentMember);
+	  
+	  // 再拿到根据父节点A 的parentValue1 拿到A 的所有父节点
+	  String parentValue1 = parentMember.getMemParentValue1();
+	  if(!StringUtil.isEmptyByString(parentValue1)){
+	   if(parentValue1.trim().endsWith(",")){
+	    parentValue1 = parentValue1.substring(0, parentValue1.length()-1);
+	   }
+	   String[] allParentId = parentValue1.split(",");
+	   
+	   // 给注册会员增加ParentValue1 的值
+	   msMembersSet.setMemParentValue1(shareManInfo.getMemId() + ","+parentValue1);
+	   // 给注册会员增加层级数
+	   msMembersSet.setMemGroupLevel(String.valueOf(allParentId.length + 2));
+	   
+	   // 更改A 的所有父节点的ParentValue2
+	   for (String everyParentId : allParentId) {
+	    if(!StringUtil.isEmptyByString(everyParentId)){
+	     Map<String,Object> mapCondition=new HashMap<>();
+	     mapCondition.put("memId",everyParentId);
+	     MSMembersGet everyParent = baseDao.selectOne(mapCondition,"MSMembersMapper.getMemberBasicInfoByCondition");
+	     if(everyParent != null){
+	      String value2 = everyParent.getMemParentValue2();
+	      if(!StringUtil.isEmptyByString(value2)){
+	       everyParent.setMemParentValue2(msMembersSet.getMemId() + "," + value2);
+	      }else{
+	       everyParent.setMemParentValue2(msMembersSet.getMemId());
+	      }
+	      groupMems.add(everyParent);
+	     }
+	    }
+	   }
+	  }else{
+	   // 给注册会员增加ParentValue1 的值
+	   msMembersSet.setMemParentValue1(shareManInfo.getMemId());
+	   // 给注册会员增加层级数
+	   msMembersSet.setMemGroupLevel("2");
+	  }
+	  MSMembersGet newModel=new MSMembersGet();
+	  BeanUtils.copyProperties(msMembersSet,newModel);
+	  groupMems.add(newModel);
+	  for(MSMembersGet model:groupMems){
+	   baseDao.update(model,"MSMembersMapper.updateParentValue");
+	  }
+	 }
+
+
+	@Override
+	public ResBodyData registerNoCheckCode(RequestRegisterNoCode model) throws MdSysException {
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
+		boolean open_default_share_man=false;//是否分配默认推荐人
+		boolean open_default_login_name=false;//是否分配默认登录名
+		String tokenKey=model.getTokenKey();
+		/**校验该用户是否已存在*/
+		validateService.checkUserIdExistsThrowable(model.getPhone());
+		/**校验推荐人,没传就分配默认的*/
+		if(!StringUtils.isEmpty(model.getShare_man())){
+			if(model.getPhone().equals(model.getShare_man())){
+				throw new ServiceException(ConstApiStatus.SHARE_MAN_CANNOT_IS_ITSELF);
+			}
+		}
+		else {
+			open_default_share_man=true;
+			model.setShare_man(ConstSysParamsDefination.MD1GW_DEFAULT_SHARE_LOGIN_NAME);
+		}
+		MSMembersGet shareManInfo=shareMenService.checkShareMan(model.getShare_man());
+		/**校验注册验证码*/
+//		RequestCheckValidateCode checkCode=new RequestCheckValidateCode();
+//		checkCode.setPhone(model.getPhone());
+//		checkCode.setType(Constants.CONSTANT_INT_TWO);
+//		checkCode.setValidate_code(model.getValidate_code());
+//		smsService.checkValidateCode(checkCode);
+		/**开始生成会员信息*/
+		MSMembersSet memberSet=new MSMembersSet();//生成会员基本信息
+		Date date = new Date();
+		String memid=UUID.randomUUID().toString();
+		memberSet.setMemId(memid);
+		memberSet.setMemCreatedBy(memid);
+		memberSet.setMemLoginName(ConstSysParamsDefination.DEFAULT_LOGIN_NAME_PREFIX+model.getPhone()+String.valueOf(Constants.CONSTANT_INT_ZERO));
+		memberSet.setMemLoginNameIsdefaultIschanged(open_default_login_name?"0_1":"1_0");
+		memberSet.setMemOldPhone(model.getPhone());
+		memberSet.setMemPhone(model.getPhone());
+		memberSet.setMemLoginPwd(model.getPass_word());
+		memberSet.setMemNickName(model.getPhone());
+		memberSet.setMemIsAllActivated(true);
+		memberSet.setMemCreatedDate(date);
+		memberSet.setMemCreatedCategory(1);
+		memberSet.setDictMemStatus(ConstSysEncrypParams.MEMBER_STATUS_OK);
+		memberSet.setMemParentId(shareManInfo.getMemId());
+		memberSet.setMemSignSource(model.getSource());
+		switch(model.getRole_type()){
+		case "1":memberSet.setMemIsAllowShop(ConstSysEncrypParams.MEMBERKAIDIAN_YES);
+		case "2":memberSet.setMemIsAllowShop(ConstSysEncrypParams.MEMBERKAIDIAN_NO);
+		}
+		memberSet.setMemBasicAccountTotal(String.valueOf(Constants.CONSTANT_INT_ZERO));
+		memberSet.setMemBasicAccountTotal(String.valueOf(Constants.CONSTANT_INT_ZERO));
+		memberSet.setMemParentIsdefaultIschanged(open_default_share_man?"0_1":"1_0");
+		baseDao.insert(memberSet,"MSMembersMapper.insertMsMember");
+		
+		MemberAddressesSet memberAddressesSet = new MemberAddressesSet();//生成会员地址信息
+		memberAddressesSet.setMemaId(UUID.randomUUID().toString());
+		memberAddressesSet.setMemId(memid);
+		memberAddressesSet.setMemaStatus(String.valueOf(Constants.CONSTANT_INT_ZERO));
+		baseDao.insert(memberAddressesSet,"MSMemberAddressesMapper.addMemberAddressInfo");
+		
+		//生成会员账户报表信息
+		Map<String,Object> mapCondition=new HashMap<>();
+		mapCondition.put("id",UUID.randomUUID().toString());
+		mapCondition.put("memId",memid);
+		mapCondition.put("createUser","账户服务");
+		mapCondition.put("updateUser","账户服务");
+		mapCondition.put("remark","账号服务注册生成");
+		baseDao.insert(mapCondition,"MSMembersMapper.insertAccountReport");
+		
+		//记录手机对应区域
+		userInfoService.recordArea(memid,model.getPhone());
+		
+		/*MSMemberCertificate mc = new MSMemberCertificate();//生成会员证件信息
+		mc.setMcerId(UUID.randomUUID().toString());
+		mc.setMemId(memid);
+		mc.setDictMcerId(SysEncrypParamsConst.CERTIFICATE_SFZ);
+		mc.setMcStatus(SysEncrypParamsConst.HUIYUANRENZHEN_WRZ);
+		baseDao.insert(null,"");*/
+		
+		/*MSMemberRole mro = new MSMemberRole();//生成会员角色信息
+		mro.setMemId(memid);
+		mro.setRoleId(SysEncrypParamsConst.PUTONGHUIYUAN);
+		baseDao.insert(null,"");*/
+		
+		//更新父类字符串，插入推荐人和粉丝的关联关系（后期数据库表结构改造后此处需修正）
+		setShareMenAndFunsRelation(memberSet,shareManInfo);
+	
+		/**增加积分并写入积分流水*/
+		userInfoService.updateCurrentPointByMemId(memid,String.valueOf(Constants.CONSTANT_INT_ZERO),ConstSysParamsDefination.MD1GW_REGISTER_ADD_POINTS);
+		String orderId=ConstSysParamsDefination.DEFAULT_ORDERID_PREFIX+ model.getLogin_name()+ConstSysParamsDefination.ADD_SYMBOL+String.valueOf(System.currentTimeMillis()/1000L);
+		insertConsumePointDetail(memid,orderId,model.getSource(),ConstSysParamsDefination.MD1GW_REGISTER_ADD_POINTS,ConstSysParamsDefination.MD1GW_REGISTER_ADD_POINTS,model.getPhone(),ConstSysEncrypParams.POINTS_OPERATOR_TYPE_ZCZS);
+		if (!open_default_share_man) {//如果推荐人非系统默认
+			userInfoService.updateCurrentPointByMemId(shareManInfo.getMemId(),shareManInfo.getMemBasicAccountTotalQuantity(),ConstSysParamsDefination.MD1GW_REGISTER_ADD_POINTS);//一级分享人增加100积分
+			orderId=ConstSysParamsDefination.DEFAULT_ORDERID_PREFIX+ model.getShare_man()+ConstSysParamsDefination.ADD_SYMBOL+String.valueOf(System.currentTimeMillis()/1000L);
+			insertConsumePointDetail(shareManInfo.getMemId(),orderId,model.getSource(),ConstSysParamsDefination.MD1GW_REGISTER_ADD_POINTS,ConstSysParamsDefination.MD1GW_REGISTER_ADD_POINTS,model.getPhone(),ConstSysEncrypParams.POINTS_OPERATOR_TYPE_YQZCZS);
+		}
+		
+		String redisToken=ToolsUtil.createToken(model.getPhone(),tokenKey);//生成token
+		RedisTemplate.getJedisInstance().execSetexToCache(redisToken,Constants.REDIS_ONEMONTH,memid);//把token存储到redis，并设置失效时间一个月
+		RedisTemplate.getJedisInstance().execSetexToCache(memid,Constants.REDIS_ONEMONTH,redisToken);//临时代码，兼容旧会员系统
+		Map<String, Object> mapData=new HashMap<>();
+		mapData.put("token",redisToken);
+		resBodyData.setData(mapData);
+		
+		/**发送注册成功短信*/
+		RequestSendSms requestSendSms=new RequestSendSms();
+		requestSendSms.setPhone(model.getPhone());
+		requestSendSms.setTemplateId(ConstSmsTemplateID.getSmsTemplate(ConstSmsTemplateID.REGIST_SCAN_CODE_SUCCESS));
+		requestSendSms.setParams(model.getPhone());
+		smsService.sendSms(requestSendSms);
+		/**发送分享人赠送积分短信...*/
+		if(!Strings.isNullOrEmpty(shareManInfo.getMemPhone())){
+			requestSendSms.setPhone(shareManInfo.getMemPhone());
+			requestSendSms.setTemplateId(ConstSmsTemplateID.getSmsTemplate(ConstSmsTemplateID.GIVE_POINT));
+			requestSendSms.setParams(shareManInfo.getMemPhone());
+			smsService.sendSms(requestSendSms);
+		}
+		return resBodyData;
 	} 
 
+	@Override
+	public ResBodyData validateAccounts(AccountVerification accountVerification) throws MdSysException {
+		
+		ResBodyData resBodyData = new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
+		Map<String, Object> mapCondition = new HashMap<>();//查询条件
+		mapCondition.put("phone",DESC.encryption(accountVerification.getPhone()));
+		MSMembersGet msMembersGet=baseDao.selectOne(mapCondition,"MSMembersMapper.getMemberBasicInfoByCondition");//根据userid判断该用户是否存在
+		if(msMembersGet==null){
+			throw new ServiceException(ConstApiStatus.MEMBER_NOT_EXIST);
+		}else{
+			AccountVerification aVerification = new AccountVerification();
+			aVerification.setMemId(msMembersGet.getMemId());
+			resBodyData.setData(aVerification);
+		}
+		return resBodyData;
+	}
 }

@@ -20,8 +20,8 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 @EnableTransactionManagement
 @EnableAsync
-//@EnableEurekaClient
-//@EnableDiscoveryClient
+@EnableEurekaClient
+@EnableDiscoveryClient
 public class MemberServiceApplication extends SpringBootServletInitializer{
 	
     @Autowired  

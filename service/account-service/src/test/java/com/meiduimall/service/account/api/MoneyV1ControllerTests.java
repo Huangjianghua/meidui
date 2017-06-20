@@ -303,7 +303,6 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 		String s="100";
 		System.out.println(DESC.encryption(s, "b9d78165-1483-42f7-a48c-fbfcc3b06431"));
 	}
-
 }
 
 

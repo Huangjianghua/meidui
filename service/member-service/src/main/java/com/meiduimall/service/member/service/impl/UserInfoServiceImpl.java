@@ -1,5 +1,6 @@
 package com.meiduimall.service.member.service.impl;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,7 +20,9 @@ import org.springframework.web.client.RestTemplate;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.base.Strings;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.exception.ServiceException;
@@ -35,6 +38,7 @@ import com.meiduimall.service.member.model.MSMembersSet;
 import com.meiduimall.service.member.model.MemberAddressesSet;
 import com.meiduimall.service.member.model.MobileNumberInfo;
 import com.meiduimall.service.member.model.request.RequestMobile;
+import com.meiduimall.service.member.model.request.RequestUpdateMemberBasicInfo;
 import com.meiduimall.service.member.model.response.ResponseMemberBasicInfo;
 import com.meiduimall.service.member.model.response.ResponseMemberMobileArea;
 import com.meiduimall.service.member.service.AccountInfoService;
@@ -362,6 +366,53 @@ public class UserInfoServiceImpl implements UserInfoService {
 		memberBasicInfo.setPaypwd_isopen("Y".equals(memberBasicInfo.getPaypwd_isopen()) ? "1" : "0");
 		resBodyData.setData(memberBasicInfo);
 		return resBodyData;
+	}
+
+	@Transactional
+	@Override
+	public ResBodyData updateMemberBasicInfo(RequestUpdateMemberBasicInfo model) {
+		// 根据memId查找会员
+		ResponseMemberBasicInfo memberBasicInfo = baseDao.selectOne(model.getMemId(),
+				"MSMembersMapper.getRespMemberBasicInfoByMemId");
+		if (memberBasicInfo == null) {
+			throw new ServiceException(ConstApiStatus.MEMBER_NOT_EXIST);
+		}
+		
+		// 更新会员信息
+		MSMembersSet member = new MSMembersSet();
+		member.setMemId(model.getMemId());
+		try {
+			if (!Strings.isNullOrEmpty(model.getSex()))
+				member.setMemSex(model.getSex());
+			if (!Strings.isNullOrEmpty(model.getBirthday()))
+				member.setMemBirthday(new SimpleDateFormat(DateUtil.YYYY_MM_DD).parse(model.getBirthday()));
+			if (!Strings.isNullOrEmpty(model.getNickName()))
+				member.setMemNickName(model.getNickName());
+			if (!Strings.isNullOrEmpty(model.getPhone())){
+				member.setMemPhone(model.getPhone());
+				if(!Strings.isNullOrEmpty(memberBasicInfo.getPhone())){
+					member.setMemOldPhone(memberBasicInfo.getPhone());
+				}
+			}
+			// TODO 没有保存邮箱
+		} catch (ParseException e) {
+			// 日期格式错误
+			logger.error("会员生日填写错误：" + e);
+			throw new ServiceException(ConstApiStatus.DATE_FORMAT_ERROR);
+		} catch (MdSysException e) {
+			// 加密错误
+			logger.error("数据加密错误：" + e);
+			throw new ServiceException(ConstApiStatus.SYSTEM_ERROR);
+		}
+		Integer rows = baseDao.update(member, "MSMembersMapper.updateMemberInfoByMemId");
+		if(rows < 1){
+			throw new ServiceException(ConstApiStatus.SAVE_FAIL);
+		}
+		ResBodyData result = new ResBodyData();
+		result.setStatus(ConstApiStatus.SUCCESS);
+		result.setMsg(ConstApiStatus.getZhMsg(ConstApiStatus.SAVE_SUCCESS));
+		result.setData(JsonUtils.getInstance().createObjectNode());
+		return result;
 	}
 
 }
