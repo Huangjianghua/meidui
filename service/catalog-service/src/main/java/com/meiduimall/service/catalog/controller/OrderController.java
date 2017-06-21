@@ -11,6 +11,8 @@ import com.meiduimall.service.catalog.annotation.HasMemId;
 import com.meiduimall.service.catalog.entity.SysuserAccount;
 import com.meiduimall.service.catalog.service.OrderService;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/mall/catalog-service/v1")
 public class OrderController {
@@ -25,6 +27,7 @@ public class OrderController {
 	 * 获取各种状态的订单数量
 	 * @return
 	 */
+	@ApiOperation(value="获取各种状态的订单数量", notes="获取各种状态的订单数量")
 	@HasMemId
 	@RequestMapping(value = "/order_getEveryOrderTypeCount")
 	public ResBodyData getEveryOrderTypeCount() {

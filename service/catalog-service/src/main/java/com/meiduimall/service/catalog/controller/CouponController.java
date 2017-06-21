@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.service.catalog.service.CouponService;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/mall/catalog-service/v1/coupon")
 public class CouponController {
@@ -15,10 +17,11 @@ public class CouponController {
 	private CouponService couponService;
 
 	/**
-	 * 查询所有的优惠券规则  
+	 * 查询所有的优惠券赠送规则  
 	 * 
 	 * @return 优惠券赠送规则
 	 */
+	@ApiOperation(value="查询所有的优惠券赠送规则", notes="查询所有的优惠券赠送规则")
 	@RequestMapping("/getAllRule")
 	public ResBodyData selectAllCouponRule() {
 		return couponService.selectAllCouponRule();

@@ -16,6 +16,10 @@ import com.meiduimall.service.catalog.constant.ServiceCatalogApiCode;
 import com.meiduimall.service.catalog.service.GoodsRecommendService;
 import com.meiduimall.service.catalog.util.HttpHeaderTools;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 /**
  * 商品推荐相关操作
  * 
@@ -47,6 +51,13 @@ public class GoodsRecommendController {
 	 *            推荐等级
 	 * @return 状态信息
 	 */
+	@ApiOperation(value="插入推荐商品", notes="插入推荐商品")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "item_ids", value = "商品编号，可以传一个或者多个，不能为空", required = true, dataType = "String"),
+        @ApiImplicitParam(name = "type", value = "推荐类型，不能为空，1代表支付成功推荐，2代表注册成功推荐", required = true, dataType = "String"),
+        @ApiImplicitParam(name = "optUser", value = "操作人", required = false, dataType = "String"),
+        @ApiImplicitParam(name = "level", value = "推荐等级", required = false, dataType = "String")
+	})
 	@RequestMapping(value = "/insertBatch")
 	public ResBodyData insertBatchItems(@RequestParam(value = "item_ids", required = false) String itemIds, String type,
 			@RequestParam(value = "opt_user", required = false) String optUser,
@@ -106,6 +117,11 @@ public class GoodsRecommendController {
 	 *            客户端编号，1为手机，2为PC，默认是1
 	 * @return 推荐商品详细信息
 	 */
+	@ApiOperation(value="获取推荐商品", notes="获取推荐商品")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "type", value = "推荐类型，不能为空，1代表支付成功推荐，2代表注册成功推荐", required = true, dataType = "String"),
+        @ApiImplicitParam(name = "sourceId", value = "客户端编号，1为手机，2为PC，默认是1", required = false, dataType = "String")
+	})
 	@RequestMapping(value = "/getFirstRecommend")
 	public ResBodyData getFirstRecommendItems(String type,
 			@RequestParam(value = "sourceId", required = false, defaultValue = "1") String sourceId) {
@@ -128,6 +144,7 @@ public class GoodsRecommendController {
 	 * 
 	 * @return 推荐商品的ID和url
 	 */
+	@ApiOperation(value="获取正在推荐的商品", notes="获取正在推荐的商品")
 	@RequestMapping(value = "/getFirstRecommendItemId")
 	public ResBodyData getFirstRecommendItemsAllType() {
 		return goodsRecommendService.getFirstRecommendItemsAllType();

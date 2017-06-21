@@ -17,6 +17,10 @@ import com.meiduimall.service.catalog.entity.SysuserAccount;
 import com.meiduimall.service.catalog.request.ShopProductRequest;
 import com.meiduimall.service.catalog.service.ShopService;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/mall/catalog-service/v1/shopInfo")
 public class ShopController {
@@ -38,6 +42,11 @@ public class ShopController {
 	 *            会员系统ID
 	 * @return 店铺详细信息
 	 */
+	@ApiOperation(value="获取店铺详情", notes="获取店铺详情")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "shopId", value = "店铺ID", required = true, dataType = "String"),
+        @ApiImplicitParam(name = "memId", value = "会员系统ID", required = true, dataType = "String")
+	})
 	@RequestMapping(value = "/getShopDetail")
 	public ResBodyData getShopDetail(String shopId, String memId) {
 
@@ -62,6 +71,11 @@ public class ShopController {
 	 *            1代表收藏，0代表取消收藏
 	 * @return 收藏/取消收藏结果
 	 */
+	@ApiOperation(value="收藏或者取消收藏店铺", notes="收藏或者取消收藏店铺")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "shopId", value = "店铺ID", required = true, dataType = "String"),
+        @ApiImplicitParam(name = "isCollect", value = "1代表收藏，0代表取消收藏", required = true, dataType = "String")
+	})
 	@HasMemId
 	@RequestMapping(value = "/collectShop")
 	public ResBodyData collectOrCancelShop(String shopId, String isCollect) {
@@ -87,6 +101,10 @@ public class ShopController {
 	 *            店铺ID
 	 * @return 商品分类
 	 */
+	@ApiOperation(value="获取店铺商品分类", notes="获取店铺商品分类")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "shopId", value = "店铺ID", required = true, dataType = "String")
+	})
 	@RequestMapping(value = "/getShopCatalog")
 	public ResBodyData getShopProductCatalog(String shopId) {
 
@@ -108,6 +126,10 @@ public class ShopController {
 	 *            请求参数封装对象
 	 * @return 店铺商品列表
 	 */
+	@ApiOperation(value="获取店铺的商品列表", notes="获取店铺的商品列表")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "param", value = "请求参数封装对象", required = true, dataType = "ShopProductRequest")
+	})
 	@RequestMapping(value = "/getProductList")
 	public ResBodyData getShopProductList(@Validated ShopProductRequest param) {
 		return shopService.getShopProductList(param);

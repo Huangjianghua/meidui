@@ -12,6 +12,10 @@ import com.meiduimall.core.ResBodyData;
 import com.meiduimall.service.catalog.constant.ServiceCatalogApiCode;
 import com.meiduimall.service.catalog.service.GoodsDetailService;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 /**
  * 商品详情相关操作 
  * 
@@ -34,6 +38,10 @@ public class GoodsDetailController {
 	 *            商品编号，必须
 	 * @return 查询结果和url
 	 */
+	@ApiOperation(value="根据商品编号，查询商品是否存在", notes="根据商品编号，查询商品是否存在")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "item_id", value = "商品编号", required = true, dataType = "String")
+	})
 	@RequestMapping(value = "/isExist")
 	public ResBodyData checkItemIsExist(
 			@RequestParam(value = "item_id", required = false) String itemId) {
@@ -57,6 +65,11 @@ public class GoodsDetailController {
 	 *            商品编号，必须
 	 * @return 详情信息
 	 */
+	@ApiOperation(value="根据商品编号，查询商品详情", notes="根据商品编号，查询商品详情")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "memId", value = "会员系统ID", required = true, dataType = "String"),
+        @ApiImplicitParam(name = "itemId", value = "商品编号", required = true, dataType = "String")
+	})
 	@RequestMapping(value = "/getItem")
 	public ResBodyData getItemDetail(String memId, String itemId) {
 		int id = 0;
