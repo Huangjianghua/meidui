@@ -23,6 +23,8 @@ import com.meiduimall.service.settlement.model.EcmStore;
 import com.meiduimall.service.settlement.service.AgentService;
 import com.meiduimall.service.settlement.service.DepositService;
 
+import io.swagger.annotations.ApiOperation;
+
 /**
  * Copyright (C), 2002-2017, 美兑壹购物
  * FileName: AgentController.java
@@ -50,6 +52,7 @@ public class AgentController {
 	 * @param  ecmAgent 新个代相关信息
 	 * @return ResBodyData
 	 */
+	@ApiOperation(value="保证金分润", notes="保证金分润")
 	@PostMapping("/sharedeposit")
 	public ResBodyData shareDeposit(@Validated EcmAgent ecmAgent) {
 		
@@ -85,6 +88,7 @@ public class AgentController {
 	 * @param  ecmStore(手机号,商家编号)
 	 * @return ResBodyData
 	 */
+	@ApiOperation(value="新商家送积分", notes="新商家送积分")
 	@PostMapping("/sendscore")
 	public ResBodyData sendScore(@Validated EcmStore ecmStore) {
 		List<Map<String,Object>> resultList = depositService.updateStoreScore(ecmStore);
@@ -102,6 +106,7 @@ public class AgentController {
 	 * @param  ecmMzfAccount(code-代理编号)
 	 * @return ResBodyData
 	 */
+	@ApiOperation(value="创建区代、个代和商家账号", notes="创建区代、个代和商家账号")
 	@PostMapping("/createaccoutbalance")
 	public ResBodyData createAccoutBalance(@Validated EcmMzfAccount ecmMzfAccount) {
 		depositService.createAccount(ecmMzfAccount);

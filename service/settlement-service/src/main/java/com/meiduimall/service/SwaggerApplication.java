@@ -20,7 +20,7 @@ public class SwaggerApplication {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.meiduimall.service.settlement.api"))
+                .apis(RequestHandlerSelectors.basePackage("com.meiduimall.service"))
                 .paths(PathSelectors.any())
                 .build();
     }

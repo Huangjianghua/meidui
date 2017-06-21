@@ -26,6 +26,8 @@ import com.meiduimall.service.settlement.model.EcmMzfSellerBonus;
 import com.meiduimall.service.settlement.model.EcmMzfSellerFee;
 import com.meiduimall.service.settlement.service.SellerFeeBonusService;
 
+import io.swagger.annotations.ApiOperation;
+
 /**
  * 商家服务费、奖励金
  * @author guidl
@@ -45,6 +47,7 @@ public class SellerFeeBonusController {
 	 * @param time 计算账单时间
 	 * @return ResponseBodyData
 	 */
+	@ApiOperation(value="验证请求计算是否可用", notes="验证请求计算是否可用")
 	@PostMapping("/checkcalculate")
 	public ResBodyData checkCalculate(String time) {
 		try {
@@ -74,6 +77,7 @@ public class SellerFeeBonusController {
 	 * @param sellers 商家信息
 	 * @return ResponseBodyData
 	 */
+	@ApiOperation(value="计算商家服务费和奖励金", notes="计算商家服务费和奖励金")
 	@PostMapping("/calfeebonus")
 	public ResBodyData calFeeBonus(String sellers, String time) {
 		try {
@@ -103,6 +107,7 @@ public class SellerFeeBonusController {
 	 * @param msAccount 商家账号
 	 * @return
 	 */
+	@ApiOperation(value="发放服务费和奖励金", notes="发放服务费和奖励金")
 	@PostMapping("/issuefeebonus")
 	public ResBodyData issueFeeBonus(String billId, String type, String sellerPhone, String memId){
 		try {
@@ -142,6 +147,7 @@ public class SellerFeeBonusController {
 	 * @param params(serllerNames:商家编号,多个可用逗号隔开;time:计算时间;type:查询类型 服务费或奖励金,status:状态  0 全部  1 发放成功  2 未发放  3 发放失败 , 可不填,默认全部)
 	 * @return ResponseBodyData
 	 */
+	@ApiOperation(value="获取商家服务费或奖励金列表", notes="获取商家服务费或奖励金列表")
 	@PostMapping("/queryfeebonus")
 	public ResBodyData queryFeeBonus(@RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = "20") int pageSize, String sellerNames, String time,
@@ -178,6 +184,7 @@ public class SellerFeeBonusController {
 	 * @param time 账单期 格式为YYYY-MM 或 YYYY
 	 * @return ResponseBodyData
 	 */
+	@ApiOperation(value="商家平台登录获取服务费奖励金列表", notes="商家平台登录获取服务费奖励金列表")
 	@PostMapping("/sellersFeeBonus")
 	public ResBodyData getSellersFeeBonus(@RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = "20") int pageSize, String sellerName, String time){

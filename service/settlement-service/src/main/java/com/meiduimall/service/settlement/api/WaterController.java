@@ -27,6 +27,8 @@ import com.meiduimall.service.settlement.service.AgentService;
 import com.meiduimall.service.settlement.service.OrderService;
 import com.meiduimall.service.settlement.service.WaterService;
 
+import io.swagger.annotations.ApiOperation;
+
 /**
  * Copyright (C), 2002-2017, 美兑壹购物
  * FileName: WaterController.java
@@ -61,6 +63,7 @@ public class WaterController {
 	 * @param  waterType 流水类型
 	 * @return ResBodyData
 	 */
+	@ApiOperation(value="获取流水列表", notes="获取流水列表")
 	@PostMapping("/querywater")
 	public ResBodyData queryWater(@RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = "20") int pageSize,
@@ -100,6 +103,7 @@ public class WaterController {
 	 * @param  pageSize 每页条数
 	 * @return ResBodyData
 	 */
+	@ApiOperation(value="根据流水编号获取流水详情", notes="根据流水编号获取流水详情")
 	@PostMapping("/querywaterbyid")
 	public ResBodyData queryWaterById(String waterId, String waterType, Integer loginType, String code,
 			Integer pageNumber, Integer pageSize) {
@@ -148,6 +152,7 @@ public class WaterController {
 	 * @param  params(code-推荐人编号,recNo-推荐单号)
 	 * @return ResBodyData
 	 */
+	@ApiOperation(value="获取推荐人推荐费", notes="获取推荐人推荐费")
 	@PostMapping("/getrecmoney")
 	public ResBodyData getRecMoney(@RequestParam Map<String, Object> params){
 		String money = agentService.getRecommenderMoney(params);

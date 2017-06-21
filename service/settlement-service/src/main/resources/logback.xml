@@ -23,9 +23,9 @@
 		<encoder>
       		<pattern>%d %-5level [%X{X-B3-TraceId:-} %X{X-B3-SpanId:-} %X{X-Span-Export:-}] %logger{36}:%line - %msg%n</pattern>
     	</encoder>
-  </appender>
+  	</appender>
   
-  <appender name="SQL_FILE_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+  	<appender name="SQL_FILE_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
 	    <file>${LOG_HOME}/sql_${FILE_NAME}.log</file>
 	    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- daily rollover -->
@@ -37,30 +37,30 @@
 		<encoder>
       		<pattern>%d{HH:mm:ss.SSS} %-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
     	</encoder>
-  </appender>
+  	</appender>
   
 
   
   
-  <!--log4jdbc -->
-  <logger name="jdbc.sqltiming" level="debug">
+  	<!--log4jdbc -->
+  	<logger name="jdbc.sqltiming" level="debug">
    		<appender-ref ref="SQL_FILE_APPENDER" />  
-  </logger>
+  	</logger>
   
-  <!-- 
+  	<!-- 
 	  <logger name="org.apache.ibatis" level="ERROR">
 	      <appender-ref ref="SQL_FILE_APPENDER" />
 	  </logger>
-  -->  
-  <logger name="java.sql.Connection" level="debug" />
-  <logger name="java.sql.Statement" level="debug" />
-  <logger name="java.sql.PreparedStatement" level="debug" />
-  <logger name="java.sql.ResultSet" level="debug" />
+  	-->  
+  	<logger name="java.sql.Connection" level="debug" />
+  	<logger name="java.sql.Statement" level="debug" />
+  	<logger name="java.sql.PreparedStatement" level="debug" />
+  	<logger name="java.sql.ResultSet" level="debug" />
 
 
-  <root level="INFO">
-    <appender-ref ref="STDOUT" />
-    <appender-ref ref="FILE_APPENDER" />
-  </root>
+  	<root level="INFO">
+    	<appender-ref ref="STDOUT" />
+    	<appender-ref ref="FILE_APPENDER" />
+  	</root>
 
 </configuration>

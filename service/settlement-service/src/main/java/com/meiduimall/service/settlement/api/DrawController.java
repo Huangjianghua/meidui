@@ -29,6 +29,8 @@ import com.meiduimall.service.settlement.service.AgentService;
 import com.meiduimall.service.settlement.service.DrawService;
 import com.meiduimall.service.settlement.util.DateUtil;
 
+import io.swagger.annotations.ApiOperation;
+
 /**
  * Copyright (C), 2002-2017, 美兑壹购物
  * FileName: DrawController.java
@@ -60,6 +62,7 @@ public class DrawController {
 	 * @param  code 代理编号
 	 * @return ResBodyData
 	 */
+	@ApiOperation(value="根据代理编号获取区代、个代或商家可提现金额", notes="根据代理编号获取区代、个代或商家可提现金额")
 	@PostMapping(value="/queryaccoutbalance")
 	public ResBodyData queryAccoutBalance(String code) {
 		try {
@@ -85,6 +88,7 @@ public class DrawController {
 	 * @param  ecmMzfDraw 提现信息
 	 * @return ResBodyData
 	 */
+	@ApiOperation(value="新增提现申请", notes="新增提现申请")
 	@PostMapping(value = "/drawcash")
 	public ResBodyData drawCash(@Validated EcmMzfDraw ecmMzfDraw) {
 		//提现手续费从配置表获取
@@ -138,6 +142,7 @@ public class DrawController {
 	 * @param  params params(drawCode,code,drawType,realname,userType,addTime,status,drawName)
 	 * @return ResBodyData
 	 */
+	@ApiOperation(value="获取提现管理列表", notes="获取提现管理列表")
 	@PostMapping(value = "/querydrawcash")
 	public ResBodyData queryDrawCash(
 			@RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber,
@@ -165,6 +170,7 @@ public class DrawController {
 	 * @param  drawCode-提现编号
 	 * @return ResBodyData
 	 */
+	@ApiOperation(value="根据提现编号获取提现详情", notes="根据提现编号获取提现详情")
 	@PostMapping(value="/querydrawcashbyid")
 	public ResBodyData queryDrawCashById(String drawCode) {
 		EcmMzfDraw drawDetail = drawService.queryDrawCashById(drawCode);
@@ -179,6 +185,7 @@ public class DrawController {
 	 * @param  ecmmzfdraw 提现信息
 	 * @return ResBodyData
 	 */
+	@ApiOperation(value="审核提现申请", notes="审核提现申请")
 	@PostMapping(value="/verifydrawcashbyid")
 	public ResBodyData verifyDrawCashById(EcmMzfDraw ecmmzfdraw) {
 		
@@ -203,6 +210,7 @@ public class DrawController {
 	 * @param  ecmmzfdraw 提现信息
 	 * @return ResBodyData
 	 */
+	@ApiOperation(value="驳回提现申请", notes="驳回提现申请")
 	@PostMapping(value="/rejectdrawcashbyid")
 	public ResBodyData rejectDrawCashById(EcmMzfDraw ecmmzfdraw) {
 		
@@ -228,6 +236,7 @@ public class DrawController {
 	 * @param  ecmmzfdraw 提现信息
 	 * @return ResBodyData
 	 */
+	@ApiOperation(value="确认提现转账成功或失败", notes="确认提现转账成功或失败")
 	@PostMapping(value="/confirmdrawcashbyidbytype")
 	public ResBodyData confirmDrawCashByIdByType(EcmMzfDraw ecmmzfdraw) {
 		

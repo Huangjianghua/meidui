@@ -25,6 +25,8 @@ import com.meiduimall.service.settlement.service.OrderService;
 import com.meiduimall.service.settlement.task.AsyncTaskService;
 import com.meiduimall.service.settlement.vo.ShareProfitVO;
 
+import io.swagger.annotations.ApiOperation;
+
 /**
  * Copyright (C), 2002-2017, 美兑壹购物
  * FileName: OrderController.java
@@ -52,6 +54,7 @@ public class OrderController {
 	 * @param  ecmOrder 订单信息
 	 * @return ResBodyData
 	 */
+	@ApiOperation(value="订单分润", notes="订单分润")
 	@PostMapping("/shareprofit")
 	public ResBodyData shareProfit(@Validated EcmOrder ecmOrder){
 		
@@ -95,6 +98,7 @@ public class OrderController {
 	 * @param  orderSns 订单号
 	 * @return ResBodyData
 	 */
+	@ApiOperation(value="根据订单号列表查询订单状态", notes="根据订单号列表查询订单状态")
 	@PostMapping(value="/queryorderstatus")
 	public ResBodyData queryOrderStatus(String[] orderSns) {
 		
@@ -115,6 +119,7 @@ public class OrderController {
 	 * @param  orderStatus 订单相关状态
 	 * @return ResBodyData
 	 */
+	@ApiOperation(value="同步订单审核状态", notes="同步订单审核状态")
 	@PostMapping(value="/syncverifystatus")
 	public ResBodyData syncVerifyStatus(@Validated EcmMzfOrderStatus orderStatus) {
 		log.info("syncVerifyStatus() in the OrderController start--");
@@ -148,6 +153,7 @@ public class OrderController {
 	 * @param  orderSns 订单号
 	 * @return ResBodyData
 	 */
+	@ApiOperation(value="根据订单号列表查询订单分润", notes="根据订单号列表查询订单分润")
 	@PostMapping("/queryshareprofit")
 	public ResBodyData queryShareProfit(String[] orderSns) {
 		List<EcmMzfShareProfit> shareProfits = new ArrayList<>();
@@ -167,6 +173,7 @@ public class OrderController {
 	 * @param  accountRoleType 账号类型
 	 * @return ResBodyData
 	 */
+	@ApiOperation(value="根据区代/个代查询今日订单佣金和待结算金额", notes="根据区代/个代查询今日订单佣金和待结算金额")
 	@PostMapping("/queryprofitbyrole")
 	public ResBodyData queryProfitByRole(String code,Integer accountRoleType) {
 		ShareProfitVO shareProfitVO = orderService.queryProfitByRole(code, accountRoleType);
@@ -183,6 +190,7 @@ public class OrderController {
 	 * @param  billEndDate 账单结束时间
 	 * @return ResBodyData
 	 */
+	@ApiOperation(value="根据代理或商家编号查询汇总分润数据", notes="根据代理或商家编号查询汇总分润数据")
 	@PostMapping("/querytotalprofit")
 	public ResBodyData queryTotalProfit(String[] codes,Integer billStartDate,Integer billEndDate) {
 		

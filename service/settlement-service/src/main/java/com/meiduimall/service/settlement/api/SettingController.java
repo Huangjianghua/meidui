@@ -37,7 +37,7 @@ public class SettingController {
 	 * @return ResBodyData
 	 * 
 	 */
-	@ApiOperation(value="更新分润比例配置", notes="")
+	@ApiOperation(value="更新分润比例配置", notes="更新分润比例配置")
 	@PostMapping(value="/updatesystemsetting")
 	public ResBodyData updatesystemsetting(@Validated EcmSystemSetting systemSetting) {
 		EcmSystemSetting ecmSystemSetting = settingService.updatesystemsetting(systemSetting);
@@ -53,7 +53,7 @@ public class SettingController {
 	 * @return ResBodyData
 	 * 
 	 */
-	@ApiOperation(value="查询分润比例配置列表", notes="")
+	@ApiOperation(value="查询分润比例配置列表", notes="查询分润比例配置列表")
 	@PostMapping(value="/listsystemsetting")
 	public ResBodyData listsystemsetting(EcmSystemSetting systemSetting){
 		List<EcmSystemSetting> systemSettingList = settingService.listsystemsetting(systemSetting);
