@@ -135,6 +135,7 @@ public class EnterpriseRechargeController {
 	@PostMapping(value="/updateEnterpriseAccount")
 	public ResBodyData  updateEnterpriseAccount(@RequestBody BusinessManagementEntity businessManagementEntity){
 		try {
+			logger.info("调整授信,帐户充值>>>>>>");
 			enterpriseRechargeService.updateEnterpriseAccount(businessManagementEntity);
 		} catch (MdBizException e) {
 			logger.error("调整授信,帐户充值更新操作异常:{}", e.getMessage());
