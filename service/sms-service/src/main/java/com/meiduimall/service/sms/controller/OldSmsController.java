@@ -17,6 +17,10 @@ import com.meiduimall.service.sms.request.SendMessageRequest;
 import com.meiduimall.service.sms.service.SmsService;
 import com.meiduimall.service.sms.util.PhoneUtil;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 /**
  * 公共短信发送和校验
  *
@@ -39,6 +43,10 @@ public class OldSmsController {
 	 *            请求参数封装的SendMessageRequest对象
 	 * @return 发送结果
 	 */
+	@ApiOperation(value="发送普通短信", notes="发送普通短信")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "model", value = "短信实体", required = true, dataType = "SendMessageRequest")
+	})
 	@RequestMapping("/send_common_sms_message")
 	public ResultBody oldSendSmsMessage(SendMessageRequest model) {
 		try {
@@ -80,6 +88,10 @@ public class OldSmsController {
 	 *            请求参数封装的SendCodeRequest对象
 	 * @return 发送结果和验证码
 	 */
+	@ApiOperation(value="发送短信验证码", notes="发送短信验证码")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "model", value = "短信实体", required = true, dataType = "SendCodeRequest")
+	})
 	@RequestMapping("/send_sms_verification_code")
 	public ResultBody oldSendSmsVerificationCode(SendCodeRequest model) {
 		try {
@@ -120,6 +132,10 @@ public class OldSmsController {
 	 *            请求参数封装的CheckCodeRequest对象
 	 * @return 校验结果
 	 */
+	@ApiOperation(value="校验短信验证码", notes="校验短信验证码")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "model", value = "验证码实体", required = true, dataType = "CheckCodeRequest")
+	})
 	@RequestMapping("/check_sms_verification_code")
 	public ResultBody oldCheckSmsVerificationCode(CheckCodeRequest model) {
 		try {

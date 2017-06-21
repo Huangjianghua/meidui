@@ -21,7 +21,10 @@ eureka:
     serviceUrl:
       defaultZone: http://192.168.4.240:9001/eureka/
   instance:
-    hostname: 192.168.4.240  
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+    status-page-url: http://${spring.cloud.client.ipAddress:localhost}:${server.port}/swagger-ui.html
+    lease-renewal-interval-in-seconds: 15      # 心跳时间，即服务续约间隔时间（缺省为30s）
+    lease-expiration-duration-in-seconds: 30  # 发呆时间，即服务续约到期时间（缺省为90s）
 # redis
 config:
   jedis:
@@ -81,7 +84,10 @@ eureka:
     serviceUrl:
       defaultZone: http://10.45.178.235:9001/eureka/
   instance:
-     hostname: 10.45.178.235
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+    status-page-url: http://${spring.cloud.client.ipAddress:localhost}:${server.port}/swagger-ui.html
+    lease-renewal-interval-in-seconds: 15      # 心跳时间，即服务续约间隔时间（缺省为30s）
+    lease-expiration-duration-in-seconds: 30  # 发呆时间，即服务续约到期时间（缺省为90s）
 # redis
 config:
   jedis:
@@ -140,7 +146,10 @@ eureka:
     serviceUrl:
       defaultZone: http://10.116.21.93:9001/eureka/
   instance:
-     hostname: 10.116.21.93
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+    status-page-url: http://${spring.cloud.client.ipAddress:localhost}:${server.port}/swagger-ui.html
+    lease-renewal-interval-in-seconds: 15      # 心跳时间，即服务续约间隔时间（缺省为30s）
+    lease-expiration-duration-in-seconds: 30  # 发呆时间，即服务续约到期时间（缺省为90s）
 # redis
 config:
   jedis:
@@ -199,7 +208,10 @@ eureka:
     serviceUrl:
       defaultZone: http://192.168.4.111:9001/eureka/
   instance:
-     hostname: 192.168.4.111  
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+    status-page-url: http://${spring.cloud.client.ipAddress:localhost}:${server.port}/swagger-ui.html
+    lease-renewal-interval-in-seconds: 15      # 心跳时间，即服务续约间隔时间（缺省为30s）
+    lease-expiration-duration-in-seconds: 30  # 发呆时间，即服务续约到期时间（缺省为90s）  
 # redis
 config:
   jedis:
@@ -258,7 +270,10 @@ eureka:
     serviceUrl:
       defaultZone: http://192.168.4.240:9001/eureka/
   instance:
-    hostname: 192.168.4.240  
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+    status-page-url: http://${spring.cloud.client.ipAddress:localhost}:${server.port}/swagger-ui.html
+    lease-renewal-interval-in-seconds: 15      # 心跳时间，即服务续约间隔时间（缺省为30s）
+    lease-expiration-duration-in-seconds: 30  # 发呆时间，即服务续约到期时间（缺省为90s）  
 # redis
 config:
   jedis:

@@ -20,6 +20,10 @@ import com.meiduimall.service.financial.entity.DownloadStatistics;
 import com.meiduimall.service.financial.service.DownloadStatisticsService;
 import com.meiduimall.service.financial.util.HttpHeaderTools;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/financial/financial-system-service/v1/statistics")
 public class DownloadStatisticsController {
@@ -39,6 +43,10 @@ public class DownloadStatisticsController {
 	 *            渠道编号，必须要传
 	 * @return 操作结果
 	 */
+	@ApiOperation(value="插入下载渠道信息", notes="插入下载渠道信息")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "portal", value = "渠道编号", required = true, dataType = "String")
+	})
 	@RequestMapping(value = "/insert")
 	public ResBodyData insertPortal(String portal) {
 
@@ -79,6 +87,11 @@ public class DownloadStatisticsController {
 	 *            结束时间，传递之前需要进行URL编码，格式'2017-03-08 09:30:25' 或者 '2017-03-08'
 	 * @return 统计列表
 	 */
+	@ApiOperation(value="统计下载渠道信息", notes="统计下载渠道信息")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "beginDate", value = "开始日期", required = true, dataType = "String"),
+        @ApiImplicitParam(name = "endDate", value = "开始日期", required = true, dataType = "String")
+	})
 	@RequestMapping(value = "/query")
 	public ResBodyData queryByDate(String beginDate, String endDate) {
 
