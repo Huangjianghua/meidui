@@ -37,7 +37,7 @@ public class DownloadStatisticsController {
 	private DownloadStatisticsService downloadStatisticsService;
 
 	/**
-	 * 插入下载渠道信息
+	 * 插入下载渠道信息 
 	 * 
 	 * @param portal
 	 *            渠道编号，必须要传
