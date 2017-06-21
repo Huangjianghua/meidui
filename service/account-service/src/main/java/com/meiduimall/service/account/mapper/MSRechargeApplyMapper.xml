@@ -35,6 +35,7 @@
 	<select id="queryExternalList" parameterType="com.meiduimall.service.account.model.MSRechargeApply" resultType="com.meiduimall.service.account.model.AccountRechargeApply">
 		select 
 			mer.rec_id recId,
+			mte.enterprise_key enterpriseKey,
 			mted.det_id detId,
 			mer.order_id orderId,
 			mer.mem_id memId,

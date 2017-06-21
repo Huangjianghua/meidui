@@ -46,7 +46,7 @@ public class EnterpriseRechargeServiceImpl implements IEnterpriseRechargeService
 			baseDao.insert(dto, "MSRechargeApplyMapper.insertRechargeApply");
 		}catch(Exception e){
 			logger.error("外部充值申请异常:{}",e);
-			throw new MdBizException(ApiStatusConst.INSERT_WITHDRAW_ERROR);
+			throw new MdBizException(ApiStatusConst.INSERT_RECHARGE_ERROR);
 		}
 	
 	}
@@ -71,7 +71,7 @@ public class EnterpriseRechargeServiceImpl implements IEnterpriseRechargeService
 			if(!CollectionUtils.isEmpty(selectList)) return selectList;
 		}catch(Exception e){
 			logger.error("查询外部充值列表出现错误,错误信息:{}", e.getMessage());
-			throw new MdBizException(ApiStatusConst.QUERY_MEMBER_LIST_ERROR);
+			throw new MdBizException(ApiStatusConst.QUERY_EXTERNAL_LIST_ERROR);
 		}
 		return selectList;
 	}
@@ -85,7 +85,7 @@ public class EnterpriseRechargeServiceImpl implements IEnterpriseRechargeService
 			baseDao.update(MSRechargeApply, "MSRechargeApplyMapper.updateRechargeStatus");
 		}catch(Exception e){
 			logger.error("更新充值状态异常:{}",e);
-			throw new MdBizException(ApiStatusConst.INSERT_WITHDRAW_ERROR);
+			throw new MdBizException(ApiStatusConst.UPDATE_RECHARGE_ERROR);
 		}
 		return resBodyData;
 		
@@ -101,7 +101,7 @@ public class EnterpriseRechargeServiceImpl implements IEnterpriseRechargeService
 			baseDao.insert(businessManagementEntity, "MSRechargeApplyMapper.insertBusinessManagement");
 		}catch(Exception e){
 			logger.error("企业管理插入数据异常:{}",e);
-			throw new MdBizException(ApiStatusConst.INSERT_WITHDRAW_ERROR);
+			throw new MdBizException(ApiStatusConst.INSERT_ENTERPRISE_ERROR);
 		}
 	
 	}
@@ -116,7 +116,7 @@ public class EnterpriseRechargeServiceImpl implements IEnterpriseRechargeService
 			baseDao.insert(businessManagementEntity, "MSRechargeApplyMapper.insertTripartiteEnterpriseDetail");
 		}catch(Exception e){
 			logger.error("企业管理详情插入数据异常:{}",e);
-			throw new MdBizException(ApiStatusConst.INSERT_WITHDRAW_ERROR);
+			throw new MdBizException(ApiStatusConst.INSERT_TRIPARTITE_ERROR);
 		}
 	
 	}
@@ -129,7 +129,7 @@ public class EnterpriseRechargeServiceImpl implements IEnterpriseRechargeService
 			baseDao.insert(businessManagementEntity, "MSRechargeApplyMapper.updateEnterprise");
 		}catch(Exception e){
 			logger.error("企业管理帐户更新异常:{}",e);
-			throw new MdBizException(ApiStatusConst.INSERT_WITHDRAW_ERROR);
+			throw new MdBizException(ApiStatusConst.UPDATE_ENTERPRISE_ERROR);
 		}
 	}
 	/**
@@ -140,8 +140,8 @@ public class EnterpriseRechargeServiceImpl implements IEnterpriseRechargeService
 		try{
 			baseDao.update(businessManagementEntity, "MSRechargeApplyMapper.updateEnterpriseAccount");
 		}catch(Exception e){
-			logger.error("企业管理帐户更新异常:{}",e);
-			throw new MdBizException(ApiStatusConst.INSERT_WITHDRAW_ERROR);
+			logger.error("调整授信或者帐户充值异常:{}",e);
+			throw new MdBizException(ApiStatusConst.UPDATE_ENTERPRISE_ACCOUNT_ERROR);
 		}
 	}
 	/**
@@ -152,8 +152,8 @@ public class EnterpriseRechargeServiceImpl implements IEnterpriseRechargeService
 		try{
 			return baseDao.selectOne(businessManagementEntity, "MSRechargeApplyMapper.findRechargeCeiling");
 		}catch(Exception e){
-			logger.error("企业管理帐户更新异常:{}",e);
-			throw new MdBizException(ApiStatusConst.INSERT_WITHDRAW_ERROR);
+			logger.error("查询帐户最大的充值上限异常:{}",e);
+			throw new MdBizException(ApiStatusConst.RECHARGE_CEILING_ERROR);
 		}
 	}
 	/**
@@ -167,7 +167,7 @@ public class EnterpriseRechargeServiceImpl implements IEnterpriseRechargeService
 			if(!CollectionUtils.isEmpty(selectList)) return selectList;
 		}catch(Exception e){
 			logger.error("查询企业管理列表出现错误,错误信息:{}", e.getMessage());
-			throw new MdBizException(ApiStatusConst.QUERY_MEMBER_LIST_ERROR);
+			throw new MdBizException(ApiStatusConst.QUERY_MANAGEMENT_LIST_ERROR);
 		}
 		return selectList;
 	}
@@ -182,7 +182,7 @@ public class EnterpriseRechargeServiceImpl implements IEnterpriseRechargeService
 			if(!CollectionUtils.isEmpty(selectList)) return selectList;
 		}catch(Exception e){
 			logger.error("查询企业管理详情查询列表出现错误,错误信息:{}", e.getMessage());
-			throw new MdBizException(ApiStatusConst.QUERY_MEMBER_LIST_ERROR);
+			throw new MdBizException(ApiStatusConst.QUERY_TRIPARTITE_LIST_ERROR);
 		}
 		return selectList;
 	}
@@ -197,7 +197,7 @@ public class EnterpriseRechargeServiceImpl implements IEnterpriseRechargeService
 			if(!CollectionUtils.isEmpty(selectList)) return selectList;
 		}catch(Exception e){
 			logger.error("账户名称查询列表出现错误,错误信息:{}", e.getMessage());
-			throw new MdBizException(ApiStatusConst.QUERY_MEMBER_LIST_ERROR);
+			throw new MdBizException(ApiStatusConst.QUERY_ACCOUNT_LIST_ERROR);
 		}
 		return selectList;
 	}
@@ -213,7 +213,7 @@ public class EnterpriseRechargeServiceImpl implements IEnterpriseRechargeService
 			baseDao.insert(accountFlowEntity, "MSRechargeApplyMapper.insertAccountFlow");
 		}catch(Exception e){
 			logger.error("帐户流水插入数据异常:{}",e);
-			throw new MdBizException(ApiStatusConst.INSERT_WITHDRAW_ERROR);
+			throw new MdBizException(ApiStatusConst.INSERT_ACCOUNTFLOW_ERROR);
 		}
 	
 	}
@@ -228,7 +228,7 @@ public class EnterpriseRechargeServiceImpl implements IEnterpriseRechargeService
 			if(!CollectionUtils.isEmpty(selectList)) return selectList;
 		}catch(Exception e){
 			logger.error("查询帐户流水列表出现错误,错误信息:{}", e.getMessage());
-			throw new MdBizException(ApiStatusConst.QUERY_MEMBER_LIST_ERROR);
+			throw new MdBizException(ApiStatusConst.QUERY_ACCOUNTFLOW_LIST_ERROR);
 		}
 		return selectList;
 	}
@@ -243,7 +243,7 @@ public class EnterpriseRechargeServiceImpl implements IEnterpriseRechargeService
 			baseDao.insert(refundRequestEntity, "MSRechargeApplyMapper.insertRefundRequest");
 		}catch(Exception e){
 			logger.error("退款申请插入数据异常:{}",e);
-			throw new MdBizException(ApiStatusConst.INSERT_WITHDRAW_ERROR);
+			throw new MdBizException(ApiStatusConst.INSERT_REFUND_ERROR);
 		}
 	
 	}
@@ -258,7 +258,7 @@ public class EnterpriseRechargeServiceImpl implements IEnterpriseRechargeService
 			if(!CollectionUtils.isEmpty(selectList)) return selectList;
 		}catch(Exception e){
 			logger.error("查询退款申请列表出现错误,错误信息:{}", e.getMessage());
-			throw new MdBizException(ApiStatusConst.QUERY_MEMBER_LIST_ERROR);
+			throw new MdBizException(ApiStatusConst.QUERY_REFUND_LIST_ERROR);
 		}
 		return selectList;
 	}
