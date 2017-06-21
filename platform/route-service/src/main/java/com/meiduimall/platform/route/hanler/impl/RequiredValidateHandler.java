@@ -47,7 +47,19 @@ public class RequiredValidateHandler implements Handler {
 			ResponsePackUtil.responseWrapper(ctx, BaseApiCode.NOT_EXISTS_CLIENTID);
 			return false;
 		}
-		String timestamp = param.get("timestamp");
+		
+		Object  obj =param.get("timestamp");
+		String timestamp;
+		if(obj instanceof String){
+			timestamp =param.get("timestamp");
+		}else if(obj instanceof Long){
+			timestamp = String.valueOf(obj);
+		}else{
+			log.info("timestamp必填验证处理层,url:{},请求参数:{}", request.getRequestURL().toString(),
+					JsonUtils.beanToJson(param));
+			ResponsePackUtil.responseWrapper(ctx, BaseApiCode.NOT_TYPE_TIMESTAMP);
+			return false;
+		}
 		if (Strings.isNullOrEmpty(timestamp) ||(!CharMatcher.DIGIT.matchesAllOf(timestamp))) {
 			log.info("timestamp必填验证处理层,url:{},请求参数:{}", request.getRequestURL().toString(),
 					JsonUtils.beanToJson(param));

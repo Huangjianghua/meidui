@@ -11,6 +11,7 @@ eureka:
       enabled: true  
   instance:
     instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+    status-page-url: http://${spring.cloud.client.ipAddress:localhost}:${server.port}/swagger-ui.html
     lease-renewal-interval-in-seconds: 15      # 心跳时间，即服务续约间隔时间（缺省为30s）
     lease-expiration-duration-in-seconds: 30  # 发呆时间，即服务续约到期时间（缺省为90s）    
 config:
@@ -37,6 +38,7 @@ eureka:
       enabled: true
   instance:
     instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+    status-page-url: http://${spring.cloud.client.ipAddress:localhost}:${server.port}/swagger-ui.html
     lease-renewal-interval-in-seconds: 15      # 心跳时间，即服务续约间隔时间（缺省为30s）
     lease-expiration-duration-in-seconds: 30  # 发呆时间，即服务续约到期时间（缺省为90s）
 config:
@@ -63,6 +65,7 @@ eureka:
       enabled: true
   instance:
     instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+    status-page-url: http://${spring.cloud.client.ipAddress:localhost}:${server.port}/swagger-ui.html
     lease-renewal-interval-in-seconds: 15      # 心跳时间，即服务续约间隔时间（缺省为30s）
     lease-expiration-duration-in-seconds: 30  # 发呆时间，即服务续约到期时间（缺省为90s）
 config:
@@ -89,6 +92,7 @@ eureka:
       enabled: true
   instance:
     instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+    status-page-url: http://${spring.cloud.client.ipAddress:localhost}:${server.port}/swagger-ui.html
     lease-renewal-interval-in-seconds: 15      # 心跳时间，即服务续约间隔时间（缺省为30s）
     lease-expiration-duration-in-seconds: 30  # 发呆时间，即服务续约到期时间（缺省为90s）
 config:

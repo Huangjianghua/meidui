@@ -60,6 +60,10 @@ public class BaseApiCode {
 	public static final Integer EXCEPTION_PRASE_FORM = 3008;
 	/** 未知异常 **/
 	public static final Integer EXCEPTION_UNKNOWN = 3009;
+	
+	/** 时间戳类型不对 **/
+	public static final Integer NOT_TYPE_TIMESTAMP = 3010;
+	
 
 	
 	public static String getZhMsg(Integer errorCode) {
@@ -73,6 +77,7 @@ public class BaseApiCode {
 		zhMsgMap.put(NOT_EXISTS_TIMESTAMP, "timestamp请求参数不存在或者非数字");
 		zhMsgMap.put(NOT_EXISTS_SIGN, "sign请求参数不存在");
 		zhMsgMap.put(FAIL_TIMESTAMP, "调用时间戳超出五分钟时间范围");
+		zhMsgMap.put(NOT_TYPE_TIMESTAMP, "调用时间戳类型不对,应为String或long类型");
 		zhMsgMap.put(FAIL_SIGN, "签名验证失败");
 		zhMsgMap.put(NOT_EXISTS_SECRET, "未发现秘钥");
 		zhMsgMap.put(EXCEPTION_PRASE_JSON, "解析Json失败");

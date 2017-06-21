@@ -30,7 +30,7 @@ public class GatewaySignUtil {
             if ("sign".equals(key)){
             	continue;
             }
-            String value = map.get(key);
+            String value = String.valueOf(map.get(key));
             if ( value == null || value.length() < 1 ) {
             	continue;
             }

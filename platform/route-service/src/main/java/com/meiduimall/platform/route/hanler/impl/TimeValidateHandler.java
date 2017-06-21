@@ -39,7 +39,18 @@ public class TimeValidateHandler implements Handler {
     HttpServletRequest request = ctx.getRequest();
     Map<String, String> param = (Map<String, String>) ctx.get("param");
     try {
-      long requestTime = Long.parseLong(param.get("timestamp"));
+    	long requestTime;
+    	Object  obj =param.get("timestamp");
+		if(obj instanceof String){
+			requestTime= Long.parseLong(obj.toString());
+		}else if(obj instanceof Long){
+			requestTime=(long)obj;
+		}else{
+			log.info("timestamp必填验证处理层,url:{},请求参数:{}", request.getRequestURL().toString(),
+					JsonUtils.beanToJson(param));
+			ResponsePackUtil.responseWrapper(ctx, BaseApiCode.NOT_TYPE_TIMESTAMP);
+			return false;
+		}
       long curTime = System.currentTimeMillis();
       if ((curTime - requestTime) > Constants.CONSTANT_FIVEMINUTE) {
         log.info("时间戳是否超时验证处理层,url:{},请求参数:{}", request.getRequestURL().toString(),
@@ -48,7 +59,7 @@ public class TimeValidateHandler implements Handler {
         return false;
       }
     } catch (Exception e) {
-      log.error("时间戳是否超时验证处理层,url:{},请求参数:{},异常:{}",
+    	log.error("时间戳是否超时验证处理层,url:{},请求参数:{},异常:{}",
           request.getRequestURL().toString(), JsonUtils.beanToJson(param), ExceptionUtils.getFullStackTrace(e));
       ResponsePackUtil.responseWrapper(ctx, BaseApiCode.EXCEPTION_TIMESTAMP);
       return false;
