@@ -23,7 +23,7 @@
 			<totalSizeCap>1GB</totalSizeCap>
     	</rollingPolicy>
 		<encoder>
-      		<pattern>%d  %-4relative %-5level %logger{35} [%X{X-B3-TraceId:-} %X{X-B3-SpanId:-} ] - %msg%n</pattern>
+      		<pattern>%d %-5level [%X{X-B3-TraceId:-} %X{X-B3-SpanId:-} %X{X-Span-Export:-}] %logger{36}:%line - %msg%n</pattern>
     	</encoder>
   </appender>
   
