@@ -3,6 +3,11 @@ package com.meiduimall.application.mall.catalog.api;
 import javax.servlet.http.HttpServletResponse;
 
 import com.meiduimall.exception.ApiException;
+
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,11 +40,16 @@ public class GoodsRecommendController {
 	 * 根据推荐类型，获取推荐商品
 	 * 
 	 * @param type
-	 *            推荐类型
+	 *            推荐类型，不能为空，1代表支付成功推荐，2代表注册成功推荐
 	 * @param sourceId
-	 *            请求来源
+	 *            客户端编号，1为手机，2为PC，默认是1
 	 * @return 推荐商品列表
 	 */
+	@ApiOperation(value="获取推荐商品", notes="获取推荐商品")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "type", value = "推荐类型，不能为空，1代表支付成功推荐，2代表注册成功推荐", required = true, dataType = "String"),
+        @ApiImplicitParam(name = "sourceId", value = "客户端编号，1为手机，2为PC，默认是1", required = false, dataType = "String")
+	})
 	@RequestMapping("/getRecommend")
 	public ResBodyData getFirstRecommendGoods(String type,
 			@RequestParam(value = "sourceId", required = false, defaultValue = "1") String sourceId) {

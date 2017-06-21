@@ -13,6 +13,10 @@ import com.meiduimall.application.mall.catalog.service.GoodsDetailService;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 /**
  * 商品详情接口
  * 
@@ -31,12 +35,16 @@ public class GoodsDetailController {
 	private GoodsDetailService goodsDetailService;
 
 	/**
-	 * 根据商品itemId获取商品详情
+	 * 根据商品编号，查询商品详情
 	 * 
 	 * @param itemId
 	 *            商品ID
-	 * @return 商品详情 
+	 * @return 商品详情
 	 */
+	@ApiOperation(value="根据商品编号，查询商品详情", notes="根据商品编号，查询商品详情")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "itemId", value = "商品编号", required = true, dataType = "String")
+	})
 	@RequestMapping("/getItem")
 	public ResBodyData getItemDetail(String itemId) {
 		int intItemId = 0;

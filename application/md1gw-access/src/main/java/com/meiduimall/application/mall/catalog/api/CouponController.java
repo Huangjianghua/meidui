@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.meiduimall.application.mall.catalog.service.CouponService;
 import com.meiduimall.core.ResBodyData;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/md1gwmall/md1gw_access/v1/coupon")
 public class CouponController {
@@ -20,10 +22,11 @@ public class CouponController {
 	private CouponService couponService;
 
 	/**
-	 * 获取所有优惠券赠送规则
+	 * 查询所有的优惠券赠送规则
 	 * 
 	 * @return 优惠券赠送规则
 	 */
+	@ApiOperation(value="查询所有的优惠券赠送规则", notes="查询所有的优惠券赠送规则")
 	@RequestMapping("/getAllRule")
 	public ResBodyData getAllCouponRule() {
 		// 增加头部--解决JS跨域问题

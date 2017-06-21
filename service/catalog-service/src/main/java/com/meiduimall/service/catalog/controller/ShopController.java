@@ -95,13 +95,13 @@ public class ShopController {
 	}
 
 	/**
-	 * 获取店铺商品分类
+	 * 获取商家自定义商品分类列表
 	 * 
 	 * @param shopId
 	 *            店铺ID
 	 * @return 商品分类
 	 */
-	@ApiOperation(value="获取店铺商品分类", notes="获取店铺商品分类")
+	@ApiOperation(value="获取商家自定义商品分类列表", notes="获取商家自定义商品分类列表")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "shopId", value = "店铺ID", required = true, dataType = "String")
 	})
