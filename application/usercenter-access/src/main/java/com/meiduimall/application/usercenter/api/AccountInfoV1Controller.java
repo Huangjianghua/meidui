@@ -16,6 +16,8 @@ import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.MdSysException;
 
+import io.swagger.annotations.ApiOperation;
+
 
 /**
  * 账户信息相关API
@@ -32,6 +34,7 @@ public class AccountInfoV1Controller {
 	private AccountInfoService accountInfoService;
 	
 	/**查询当前会员可提现余额*/
+	@ApiOperation(value="查询当前会员可提现余额", notes="")
 	@HasToken
 	@GetMapping(value = "/get_allow_withdraw_balance")
 	ResBodyData getAllowWithdrawBalance(){	

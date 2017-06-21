@@ -15,6 +15,8 @@ import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.MdSysException;
 
+import io.swagger.annotations.ApiOperation;
+
 /**
  * 用户常规操作
  * @author chencong
@@ -30,6 +32,7 @@ public class BasicOpV2Controller {
 	private BaseOpService baseOpService;
 	
 	/**登录*/
+	
 	 @RequestMapping(value = "/login")
 	 ResBodyData login(){
 	  ResBodyData resBodyData=null;

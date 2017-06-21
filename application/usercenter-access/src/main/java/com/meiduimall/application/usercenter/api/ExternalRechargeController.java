@@ -12,6 +12,8 @@ import com.meiduimall.application.usercenter.interceptor.ValInterceptor;
 import com.meiduimall.application.usercenter.interceptor.ValRequest;
 import com.meiduimall.application.usercenter.service.ExternalRechargeService;
 import com.meiduimall.core.ResBodyData;
+
+import io.swagger.annotations.ApiOperation;
 /**
  * 外部会员充值接口
  * @author liuhailang
@@ -26,6 +28,7 @@ public class ExternalRechargeController {
 	private ExternalRechargeService externalRechargeService;
 	
 	/**外部充值*/
+	@ApiOperation(value="外部充值", notes="")
 	@RequestMapping(value = "/externalRecharge")
 	public ResBodyData externalMemberRecharge(){
 		ResBodyData resBodyData=null;

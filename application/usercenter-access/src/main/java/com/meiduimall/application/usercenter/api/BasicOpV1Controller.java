@@ -24,6 +24,8 @@ import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.redis.util.RedisTemplate;
 
+import io.swagger.annotations.ApiOperation;
+
 /**
  * 用户基本行为API
  * @author chencong
@@ -39,6 +41,7 @@ public class BasicOpV1Controller {
 	private BaseOpService baseOpService;
 	
 	/**登录*/
+	@ApiOperation(value="登录v1", notes="")
 	@RequestMapping(value = "/baseop/login")
 	ResBodyData login(){
 		ResBodyData resBodyData=null;
@@ -55,6 +58,7 @@ public class BasicOpV1Controller {
 	}
 	
 	/**普通会员注册*/
+	@ApiOperation(value="普通会员注册", notes="")
 	@RequestMapping(value="/register")
 	ResBodyData register(){
 		ResBodyData resBodyData=null;
@@ -71,6 +75,7 @@ public class BasicOpV1Controller {
 	}
 	
 	/**登出*/
+	@ApiOperation(value="登出", notes="")
 	@PostMapping(value = "/exit")
 	ResBodyData exit(){
 		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,null);
@@ -87,6 +92,7 @@ public class BasicOpV1Controller {
 	}
 	
 	/**我是谁（token转memId）*/
+	@ApiOperation(value="token转memId", notes="")
 	@HasToken
 	@GetMapping(value = "/get_memid_by_token")
 	ResBodyData getMemIdByToken(){
@@ -101,6 +107,7 @@ public class BasicOpV1Controller {
 	}
 	
 	/**校验token*/
+	@ApiOperation(value="校验token", notes="")
 	@HasToken
 	@GetMapping(value = "/checktoken")
 	ResBodyData checkToken(){
@@ -121,6 +128,7 @@ public class BasicOpV1Controller {
 	 * 因为APP可能没升级，还会请求旧会员系统的登录和注册，所以这两个接口的put token要走这个接口
 	 * 其他的接口get token也是走这个接口，两种操作用type区分，1是get，2是put
 	 * */
+	@ApiOperation(value="旧会员系统获取token或创建token", notes="")
 	@RequestMapping(value = "/baseop/getput",method=RequestMethod.GET)
 	ResBodyDataShiPei getPut(){
 		ResBodyDataShiPei resBodyDataShiPei=new ResBodyDataShiPei(null,null);
@@ -137,6 +145,7 @@ public class BasicOpV1Controller {
 	}
 	
 	/**旧会员系统登出接口调用新会员系统的接口*/
+	@ApiOperation(value="旧会员系统登出接口", notes="")
     @RequestMapping(value = "/baseop/handlesignout",method=RequestMethod.GET)
     ResBodyDataShiPei handleSignout(){
 		ResBodyDataShiPei resBodyDataShiPei=new ResBodyDataShiPei(null,null);

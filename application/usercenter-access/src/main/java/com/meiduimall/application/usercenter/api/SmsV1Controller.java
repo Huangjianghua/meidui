@@ -16,6 +16,8 @@ import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.MdSysException;
 
+import io.swagger.annotations.ApiOperation;
+
 /**
  * 短信相关API
  * @author chencong
@@ -31,6 +33,7 @@ public class SmsV1Controller {
 	private SmsService smsService;
 
 	/**获取短信验证码，需要token*/
+	@ApiOperation(value="获取短信验证码，需要token", notes="")
 	@HasToken
 	@GetMapping(value="/get_validate_code")
 	ResBodyData getValidateCode(){
@@ -48,6 +51,7 @@ public class SmsV1Controller {
 	}
 	
 	/**获取短信验证码，不需要token*/
+	@ApiOperation(value="获取短信验证码，不需要token", notes="")
 	@GetMapping(value="/get_validate_code_notoken")
 	ResBodyData getValidateCodeNoToken(){
 		ResBodyData resBodyData=null;

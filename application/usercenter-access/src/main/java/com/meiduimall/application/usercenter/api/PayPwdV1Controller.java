@@ -15,6 +15,8 @@ import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.MdSysException;
 
+import io.swagger.annotations.ApiOperation;
+
 /**
  * 支付密码相关API
  * @author chencong
@@ -30,6 +32,7 @@ public class PayPwdV1Controller {
 	private PayPwdService payPwdService;
 
 	/**验证支付密码*/
+	@ApiOperation(value="验证支付密码", notes="")
 	@HasToken
 	@RequestMapping(value="/valide_pay_pwd")
 	ResBodyData validatePayPwd(){
@@ -47,6 +50,7 @@ public class PayPwdV1Controller {
 	}
 
 	/**设置支付密码*/
+	@ApiOperation(value="设置支付密码", notes="")
 	@HasToken
 	@RequestMapping(value="/set_pay_pwd")
 	ResBodyData setPayPwd(){
@@ -64,6 +68,7 @@ public class PayPwdV1Controller {
 	}
 	
 	/**设置支付密码开关*/
+	@ApiOperation(value="设置支付密码开关", notes="")
 	@HasToken
 	@RequestMapping(value="/set_paypwd_status")
 	ResBodyData setPaypwdStatus(){
@@ -81,6 +86,7 @@ public class PayPwdV1Controller {
 	}
 	
 	/**修改支付密码*/
+	@ApiOperation(value="修改支付密码", notes="")
 	@HasToken
 	@RequestMapping(value="/update_pay_pwd")
 	ResBodyData updatePaypwd(){
@@ -98,6 +104,7 @@ public class PayPwdV1Controller {
 	}
 	
 	/**找回支付密码*/
+	@ApiOperation(value="找回支付密码", notes="")
 	@HasToken
 	@RequestMapping(value="/retrieve_pay_pwd")
 	ResBodyData retrievePaypwd(){

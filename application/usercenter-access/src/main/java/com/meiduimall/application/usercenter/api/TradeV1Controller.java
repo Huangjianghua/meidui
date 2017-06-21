@@ -7,12 +7,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
-import com.meiduimall.application.usercenter.annotation.HasToken;
 import com.meiduimall.application.usercenter.constant.ConstApiStatus;
 import com.meiduimall.application.usercenter.interceptor.ValRequest;
 import com.meiduimall.application.usercenter.service.TradeService;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
+
+import io.swagger.annotations.ApiOperation;
 
 /**
  * 会员订单相关
@@ -30,7 +31,7 @@ public class TradeV1Controller {
 	 * 当前商家退会员订单信息接口  http://IP:PORT/Authorized/BusinessRecedeOrder
 	 * @return ResBodyData
 	 */
-	
+	@ApiOperation(value="当前商家退会员订单信息接口", notes="")
 	@RequestMapping(value="/business_recede_order")
 	ResBodyData businessRecedeOrder(){
 		ResBodyData resBodyData=null;
@@ -50,7 +51,7 @@ public class TradeV1Controller {
 	 * 保存当前会员订单信息接口(免token校验) http://IP:PORT/Authorized/saveOrderNotoken
 	 * @return ResBodyData
 	 */
-	
+	@ApiOperation(value="保存当前会员订单信息接口(免token校验)", notes="")
 	@RequestMapping(value="/save_order_notoken")
 	ResBodyData saveOrderNotoken(){
 		ResBodyData resBodyData=null;
@@ -70,7 +71,7 @@ public class TradeV1Controller {
 	 * 当前会员退单信息接口  http://IP:PORT/Authorized/RecedeOrder
 	 * @return ResBodyData
 	 */
-	
+	@ApiOperation(value="当前会员退单信息接口", notes="")
 	@RequestMapping(value="/recede_order")
 	ResBodyData recedeOrder(){
 		ResBodyData resBodyData=null;

@@ -16,6 +16,8 @@ import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.MdSysException;
 
+import io.swagger.annotations.ApiOperation;
+
 
 /**
  * 会员账号相关信息API
@@ -32,6 +34,7 @@ public class UserInfoV1Controller {
 	private UserInfoService userInfoService;
 	
 	/**获取当前会员基本信息*/
+	@ApiOperation(value="获取当前会员基本信息", notes="")
 	@HasToken
 	@GetMapping(value = "/get_member_basic_info")
 	ResBodyData getMemberBasicInfo(){	
@@ -45,6 +48,7 @@ public class UserInfoV1Controller {
 		}
 	}
 	
+	@ApiOperation(value="更新当前会员基本信息", notes="")
 	@HasToken
 	@RequestMapping(value = "/update_member_basic_info")
 	public ResBodyData updateMemberBasicInfo(){

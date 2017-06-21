@@ -16,6 +16,8 @@ import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.MdSysException;
 
+import io.swagger.annotations.ApiOperation;
+
 /**
  * 提现相关API
  * @author chencong
@@ -34,6 +36,7 @@ public class WithDrawV1Controller {
 	 * 提现明细
 	 * @return ResBodyData
 	 */
+	@ApiOperation(value="查询提现明细", notes="")
 	@HasToken
 	@RequestMapping(value="/query_withdraw_detail")
 	ResBodyData queryWithDrawDetail(){
@@ -51,6 +54,7 @@ public class WithDrawV1Controller {
 	 * 查询提现手续费
 	 * @return ResBodyData
 	 */
+	@ApiOperation(value="查询提现手续费", notes="")
 	@HasToken
 	@GetMapping(value="/get_withdraw_poundage")
 	ResBodyData getWithDrawPoundage(){

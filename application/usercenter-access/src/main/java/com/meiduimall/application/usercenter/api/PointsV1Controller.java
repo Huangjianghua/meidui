@@ -16,6 +16,8 @@ import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.MdSysException;
 
+import io.swagger.annotations.ApiOperation;
+
 /**
  * 提现相关API
  * @author chencong
@@ -31,6 +33,7 @@ public class PointsV1Controller {
 	private PointsService pointsService;
 	
 	/**积分流水（分页）*/
+	@ApiOperation(value="积分流水（分页）", notes="")
 	@HasToken
 	@RequestMapping(value="/list_consume_points_detail")
 	ResBodyData listConsumePointsDetail(){

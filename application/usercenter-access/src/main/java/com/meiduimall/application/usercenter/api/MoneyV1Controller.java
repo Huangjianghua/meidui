@@ -15,6 +15,8 @@ import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.MdSysException;
 
+import io.swagger.annotations.ApiOperation;
+
 /**
  * 余额相关API
  * @author chencong
@@ -30,6 +32,7 @@ public class MoneyV1Controller {
 	private MoneyService moneyService;
 	
 	/**余额流水（分页）*/
+	@ApiOperation(value="余额流水（分页）", notes="")
 	@HasToken
 	@RequestMapping(value="/list_account_detail")
 	ResBodyData listAccountDetail(){
@@ -47,6 +50,7 @@ public class MoneyV1Controller {
 	}
 	
 	/**提现申请*/
+	@ApiOperation(value="提现申请", notes="")
 	@HasToken
 	@RequestMapping(value="/save_withdraw")
 	ResBodyData saveWithDrawApply(){
@@ -68,6 +72,7 @@ public class MoneyV1Controller {
 	 * 
 	 * @return
 	 */
+	@ApiOperation(value="获取会员账户余额和积分余额---给APP调用", notes="")
 	@HasToken
 	@RequestMapping(value = "/getAccountBalanceForApp")
 	public ResBodyData getAccountBalanceForApp() {
