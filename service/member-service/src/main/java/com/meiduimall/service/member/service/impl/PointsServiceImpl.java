@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.meiduimall.service.member.dao.BaseDao;
 import com.meiduimall.service.member.service.PointsService;
@@ -24,7 +25,7 @@ public class PointsServiceImpl implements PointsService {
 		try{
 			/**冻结解冻的积分总额*/
 			String fzPoints =baseDao.selectOne(memId,"MSConsumePointsFreezeInfoMapper.getSumConsumePointsByMemId");
-			avaliablePoints = DoubleCalculate.add(Double.valueOf(fzPoints),
+			avaliablePoints = DoubleCalculate.add(Double.valueOf(StringUtils.isEmpty(fzPoints)?"0.00":fzPoints),
 					Double.valueOf(currentPoints));
 		}catch(Exception e){
 			logger.error("查询汇总积分操作失败:{}",e.getMessage());
