@@ -371,9 +371,9 @@
 				#{withdrawBalance},
 				#{applyDate},
 				#{createDate},
-				null,
+				#{createUser},
 				#{createDate},
-				null,
+				#{createUser},
 				null
 			   )
 	</insert>

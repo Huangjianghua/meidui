@@ -840,6 +840,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			map.put("withdrawBalance", withdrawBalance);
 			map.put("applyDate", nowDate);
 			map.put("createDate", nowDate);
+			map.put("createUser", ConstSysParamsDefination.SYSTEM_USER);
 			baseDao.insert(map, "MSBankWithdrawDepositMapper.insertWithDrawInfoByAccountType");
 		}catch(Exception e){
 			logger.error("新增提现记录ms_withdraw_info_by_account_type表异常:{}",e);
