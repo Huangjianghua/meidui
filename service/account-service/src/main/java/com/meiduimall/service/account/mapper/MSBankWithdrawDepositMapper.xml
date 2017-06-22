@@ -373,7 +373,7 @@
 				#{createDate},
 				#{createUser},
 				#{createDate},
-				#{createUser},
+				#{createUser}, 
 				null
 			   )
 	</insert>
