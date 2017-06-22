@@ -279,7 +279,7 @@
 	<!--添加账户报表信息，临时使用，4.0.3版本废弃，改为调用账户服务来生成-->
 	<insert id="insertAccountReport" parameterType="java.util.Map">
 	   INSERT INTO  ms_account_report
-	   	(id, mem_id,balance,freeze_balance,create_date, create_user, update_date, update_user, remark)
+	   	(id, mem_id,create_date, create_user, update_date, update_user, remark)
 		VALUES
 		(#{id},
 		#{memId},
