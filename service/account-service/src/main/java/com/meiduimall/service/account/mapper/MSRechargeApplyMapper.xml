@@ -188,6 +188,11 @@
 			mtn.enterprise_key enterpriseKey
 		from 
 			ms_tripartite_enterprise mtn
+		<where>
+	      <if test="enterpriseIdentity !=null and enterpriseIdentity !=''">
+			AND mtn.enterprise_identity=#{enterpriseIdentity}
+		  </if>
+	    </where>
 	</select>
 		<!-- 企业管理帐户更新 -->
 	<update id="updateEnterprise"  parameterType="com.meiduimall.service.account.model.BusinessManagementEntity" >
