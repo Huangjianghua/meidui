@@ -70,21 +70,39 @@ public class ValRequest {
 					resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.MDUSER_EMPTY));
 					return resBodyData;
 				}
-			}else if(reqJson.containsKey("recharge_amout")){
+			}
+			if(reqJson.containsKey("recharge_amout")){
 				String rechargeAmout = (String) reqJson.get("recharge_amout");
 				if(rechargeAmout==null || rechargeAmout.equals("")){
 					resBodyData.setStatus(ApiStatusConst.RECHARGE_AMOUT_EMPTY);
 					resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.RECHARGE_AMOUT_EMPTY));
 					return resBodyData;
 				}
-			}else if(reqJson.containsKey("recharge_type")){
+				if(!isNumeric(rechargeAmout)){
+					resBodyData.setStatus(ApiStatusConst.CALLBACK_URL_ISNUM);
+					resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.CALLBACK_URL_ISNUM));
+					return resBodyData;
+				}
+				if(Double.valueOf(rechargeAmout)<0){
+					resBodyData.setStatus(ApiStatusConst.CALLBACK_URL_NEGATIVE);
+					resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.CALLBACK_URL_NEGATIVE));
+					return resBodyData;
+				}
+				if(Double.valueOf(rechargeAmout)==0){
+					resBodyData.setStatus(ApiStatusConst.CALLBACK_URL_ZERO);
+					resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.CALLBACK_URL_ZERO));
+					return resBodyData;
+				}
+			}
+			if(reqJson.containsKey("recharge_type")){
 				String rechargeType = (String) reqJson.get("recharge_type");
 				if(rechargeType==null || rechargeType.equals("")){
 					resBodyData.setStatus(ApiStatusConst.RECHARGE_TYPE_EMPTY);
 					resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.RECHARGE_TYPE_EMPTY));
 					return resBodyData;
 				}
-			}else if(reqJson.containsKey("callback_url")){
+			}
+			if(reqJson.containsKey("callback_url")){
 				String callbackUrl = (String) reqJson.get("callback_url");
 				if(callbackUrl==null || callbackUrl.equals("")){
 					resBodyData.setStatus(ApiStatusConst.CALLBACK_URL_EMPTY);
@@ -100,14 +118,17 @@ public class ValRequest {
 				resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.BIZID_EMPTY));
 				return resBodyData;
 			}else{
-				if(resBodyData.getStatus()!=0)
+				if(resBodyData.getStatus()!=0){
 					return resBodyData;
+				}
 				resBodyData=validateTimesatamp(reqJson.getLong(SysParamsConst.REQ_TIM));
-				if(resBodyData.getStatus()!=0)
+				if(resBodyData.getStatus()!=0){
 					return resBodyData;
+				}
 				resBodyData=validateSign(reqJson);
-				if(resBodyData.getStatus()!=0)
+				if(resBodyData.getStatus()!=0){
 					return resBodyData;
+				}
 			}
 		}
 		/**校验token，将token转换为memId*/
@@ -130,7 +151,14 @@ public class ValRequest {
 		apiReqData.set(reqJson);
 		return resBodyData;
 	}
-	
+	public static boolean isNumeric(String str){
+		  for (int i = 0; i < str.length(); i++){
+		   if (!Character.isDigit(str.charAt(i))){
+		    return false;
+		   }
+		  }
+		  return true;
+		 }
 	/**
 	 * 校验必填参数
 	 * @param reqJson 请求的json格式数据

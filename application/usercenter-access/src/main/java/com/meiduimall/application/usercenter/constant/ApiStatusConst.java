@@ -33,8 +33,14 @@ public class ApiStatusConst extends BaseApiCode {
 	public final static Integer RECHARGE_AMOUT_EMPTY=9021;
 	public final static Integer RECHARGE_TYPE_EMPTY=9022;
 	public final static Integer CALLBACK_URL_EMPTY=9023;
+	public final static Integer CALLBACK_URL_NEGATIVE=9024;
+	public final static Integer CALLBACK_URL_ZERO=9025;
+	public final static Integer CALLBACK_URL_ISNUM=9026;
 	
 	static {
+		zhMsgMap.put(CALLBACK_URL_ISNUM, "充值金额只能为纯数字");
+		zhMsgMap.put(CALLBACK_URL_ZERO, "充值金额不能为0");
+		zhMsgMap.put(CALLBACK_URL_NEGATIVE, "充值金额不能为负数");
 		zhMsgMap.put(REQUEST_GATEWAY_EX, "网关HTTP请求程序异常");
 		zhMsgMap.put(VAL_TOKEN_ANNOTATION_EX, "判断API接口是否有token注解程序异常");
 		zhMsgMap.put(TOKEN_NOT_EXIST, "token不存在");
