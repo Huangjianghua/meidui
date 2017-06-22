@@ -26,6 +26,7 @@ import com.meiduimall.exception.MdSysException;
 import com.meiduimall.redis.util.RedisTemplate;
 import com.meiduimall.service.member.constant.ApiStatusConst;
 import com.meiduimall.service.member.constant.SysParamsConst;
+import com.meiduimall.service.member.model.request.AccountVerification;
 import com.meiduimall.service.member.model.request.RequestExit;
 import com.meiduimall.service.member.model.request.RequestLogin;
 import com.meiduimall.service.member.model.request.RequestRegister;
@@ -256,5 +257,19 @@ public class BasicOpV1Controller {
 		}
 		return resBodyData;
 }
-	
+	/**
+	 * 验证帐号是否存在
+	 * @return 统一数据返回格式
+	 * @throws MdSysException 系统异常
+	 */
+	@PostMapping(value = "/thereexist")
+	public ResBodyData accountsThereExist(@RequestBody @Valid AccountVerification accountVerification) throws MdSysException{
+		ResBodyData resBodyData=null;
+		try {
+			resBodyData = basicOpService.validateAccounts(accountVerification);
+		} catch (MdSysException e) {
+			throw new ApiException(ApiStatusConst.MEMBER_NOT_EXIST);
+		}
+		return resBodyData;
+	}
 }

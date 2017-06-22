@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MSRechargeApplyMapper">
+	<!-- 充值申请插入数据 -->
+	<insert id="insertRechargeApply" parameterType="com.meiduimall.service.account.model.MSBankWithdrawDeposit">
+		insert into ms_tripartite_recharge
+			   (rec_id,
+				order_id,
+				extorder_id,
+				extcompany_code,
+				account_type,
+				recharge_amout,
+				status,
+				callback_url,
+				recharge_date,
+				mem_id,
+				phone
+				)
+	 	 values(
+	 	        #{recId},
+				#{orderId},
+				#{extorderId},
+				#{extCompanyCode},
+				#{accountType},
+				#{rechargeAmout},
+				'1',
+				#{callbackUrl},
+				#{rechargeDate},
+				#{memId},
+				#{phone}
+			   )
+	</insert>
+	<!-- 查询充值申请列表 -->
+	<select id="queryExternalList" parameterType="com.meiduimall.service.account.model.MSRechargeApply" resultType="com.meiduimall.service.account.model.AccountRechargeApply">
+		select 
+			mer.rec_id recId,
+			mte.enterprise_key enterpriseKey,
+			mted.det_id detId,
+			mer.order_id orderId,
+			mer.mem_id memId,
+			mer.phone phone,
+			mer.extorder_id extorderId,
+			mer.extcompany_code extCompanyCode,
+			mte.enterprise_name companyName,
+			mer.account_type accountType,
+			mted.enterprise_account_name accountName,
+			mer.recharge_amout rechargeAmout,
+			mer.recharge_date rechargeDate,
+			mer.reality_recharge_date realityRechargeDate,
+			mer.status status,
+			mer.remark remark,
+			mer.callback_url callbackUrl
+		from 
+			ms_tripartite_recharge mer,ms_tripartite_enterprise mte,ms_tripartite_enterprise_detail mted
+		WHERE mte.enterprise_identity = mer.extcompany_code 
+		  AND mted.ent_id = mte.ent_id 
+	      and mted.personal_account_type = mer.account_type
+	      <if test="recId !=null and recId !=''">
+				AND mer.rec_id=#{recId}
+		  </if>
+		  <if test="phone !=null and phone !=''">
+				AND mer.phone=#{phone}
+		  </if>
+		  <if test="orderId !=null and orderId !=''">
+				AND mer.order_id=#{orderId}
+		  </if>
+		  <if test="extorderId !=null and extorderId !=''">
+				AND mer.extorder_id=#{extorderId}
+		  </if>
+		  <if test="status !=null and status !=''">
+				AND mer.status=#{status}
+		  </if>
+		  <if test="rechargeTimeBegin !=null and rechargeTimeBegin !=''">
+				AND mer.recharge_date &gt;= #{rechargeTimeBegin}
+		  </if>
+		  <if test="rechargeTimeEnd !=null and rechargeTimeEnd !=''">
+				AND mer.recharge_date &lt;= #{rechargeTimeEnd}
+		  </if>
+		  <if test="realityRechargeTimeBegin !=null and realityRechargeTimeBegin !=''">
+				AND mer.reality_recharge_date &gt;= #{realityRechargeTimeBegin}
+		  </if>
+		  <if test="realityRechargeTimeEnd !=null and realityRechargeTimeEnd !=''">
+				AND mer.reality_recharge_date &lt;= #{realityRechargeTimeEnd}
+		  </if>
+	</select>
+	<!-- 更新充值状态 -->
+	<update id="updateRechargeStatus"  parameterType="com.meiduimall.service.account.model.MSRechargeApply" >
+		update ms_tripartite_recharge
+		<set >
+	      <if test="status != null and status !=''" >
+	        status = #{status,jdbcType=CHAR},
+	        reality_recharge_date = #{realityRechargeDate}
+	      </if>
+	    </set>
+	    <where>
+	      <if test="recId !=null and recId !=''">
+			AND rec_id=#{recId}
+		  </if>
+	    </where>
+	</update>
+	<!-- 企业管理详情插入数据 -->
+	<insert id="insertTripartiteEnterpriseDetail" parameterType="com.meiduimall.service.account.model.BusinessManagementEntity">
+		insert into ms_tripartite_enterprise_detail
+			   (det_id,
+			    ent_id,
+			    enterprise_account_name,
+			    personal_account_type,
+			    line_of_credit,
+			    cash_account
+				)
+	 	 values(
+	 	 		#{detId},
+	 	 		#{entId},
+	 	 		#{enterpriseAccountName},
+	 	 		#{personalAccountType},
+	 	 		#{lineOfCredit},
+	 	 		#{cashAccount}
+			   )
+	</insert>
+		<!-- 调整授信 -->
+	<update id="updateEnterpriseAccount"  parameterType="com.meiduimall.service.account.model.BusinessManagementEntity" >
+		update ms_tripartite_enterprise_detail
+		<set >
+	      <if test="lineOfCredit != null and lineOfCredit !=''" >
+	        line_of_credit = #{lineOfCredit,jdbcType=CHAR},
+	      </if>
+	      <if test="cashAccount != null and cashAccount !=''" >
+	        cash_account = #{cashAccount,jdbcType=CHAR}+cash_account,
+	      </if>
+	      <if test="cashRecharge != null and cashRecharge !=''" >
+	        cash_account = cash_account-#{cashRecharge,jdbcType=CHAR},
+	      </if>
+	    </set>
+	    <where>
+	      <if test="detId !=null and detId !=''">
+			AND det_id=#{detId}
+		  </if>
+	    </where>
+	</update>
+		<!-- 企业管理查询列表 -->
+	<select id="findRechargeCeiling" parameterType="com.meiduimall.service.account.model.BusinessManagementEntity" resultType="com.meiduimall.service.account.model.BusinessManagementEntity">
+		select t.cash_account+t.line_of_credit totalAmount,t.cash_account cashAccount
+			 from ms_tripartite_enterprise_detail t
+			 where t.det_id=#{detId}
+	</select>
+	<!-- 企业管理详情查询列表 -->
+	<select id="findTripartiteEnterpriseDetailList" parameterType="com.meiduimall.service.account.model.BusinessManagementEntity" resultType="com.meiduimall.service.account.model.AccountBusinessManagement">
+		SELECT MTE.ent_id entId,
+		       MTE.enterprise_identity enterpriseIdentity,
+			   MTE.enterprise_key enterpriseKey,
+               MTE.enterprise_name enterpriseName,
+               MTED.det_id detId,
+			   MTED.enterprise_account_name enterpriseAccountName,
+			   MTED.personal_account_type personalAccountType,
+			   MTED.line_of_credit lineOfCredit,
+			   MTED.cash_account cashAccount
+		FROM 
+		ms_tripartite_enterprise MTE,ms_tripartite_enterprise_detail MTED
+		where MTE.ent_id = MTED.ent_id
+		and MTE.ent_id = #{entId}
+	</select>
+		<!-- 企业管理详情查询列表 -->
+	<select id="findAccountNameList" parameterType="com.meiduimall.service.account.model.BusinessManagementEntity" resultType="com.meiduimall.service.account.model.AccountBusinessManagement">
+		select DISTINCT med.enterprise_account_name enterpriseAccountName from ms_tripartite_enterprise_detail med
+	</select>
+	<!-- 企业管理插入数据 -->
+	<insert id="insertBusinessManagement" parameterType="com.meiduimall.service.account.model.BusinessManagementEntity">
+		insert into ms_tripartite_enterprise
+			   (ent_id,
+			    enterprise_identity,
+			    enterprise_name,
+			    enterprise_key
+				)
+	 	 values(
+	 	 		#{entId},
+	 	 		#{enterpriseIdentity},
+	 	 		#{enterpriseName},
+	 	 		#{enterpriseKey}
+			   )
+	</insert>
+	<!-- 企业管理查询列表 -->
+	<select id="findBusinessManagementList" parameterType="com.meiduimall.service.account.model.BusinessManagementEntity" resultType="com.meiduimall.service.account.model.AccountBusinessManagement">
+		select 
+			mtn.ent_id entId,
+			mtn.enterprise_identity enterpriseIdentity,
+			mtn.enterprise_name enterpriseName,
+			mtn.enterprise_key enterpriseKey
+		from 
+			ms_tripartite_enterprise mtn
+	</select>
+		<!-- 企业管理帐户更新 -->
+	<update id="updateEnterprise"  parameterType="com.meiduimall.service.account.model.BusinessManagementEntity" >
+		update ms_tripartite_enterprise
+		<set >
+	      <if test="enterpriseName != null and enterpriseName !=''" >
+	        enterprise_name = #{enterpriseName,jdbcType=CHAR},
+	      </if>
+	      <if test="enterpriseKey != null and enterpriseKey !=''" >
+	        enterprise_key = #{enterpriseKey,jdbcType=CHAR},
+	      </if>
+	    </set>
+	    <where>
+	      <if test="entId !=null and entId !=''">
+			AND ent_id=#{entId}
+		  </if>
+	    </where>
+	</update>
+	<!-- 帐户流水插入数据 -->
+	<insert id="insertAccountFlow" parameterType="com.meiduimall.service.account.model.AccountFlowEntity">
+		insert into ms_tripartite_account_flow
+			   (flow_id,
+			    flow_type,
+			    extcompany_code,
+			    account_type,
+			    before_change_amout,
+			    after_change_amout,
+			    income,
+			    expenses,
+			    order_id,
+			    created_date,
+			    remark,
+			    created_by
+				)
+	 	 values(
+	 	 		#{flowId},
+	 	 		#{flowType},
+	 	 		#{extcompanyCode},
+	 	 		#{accountType},
+	 	 		#{beforeChangeAmout},
+	 	 		#{afterChangeAmout},
+	 	 		#{income},
+	 	 		#{expenses},
+	 	 		#{orderId},
+	 	 		#{createdDate},
+	 	 		#{remark},
+	 	 		#{createdBy}
+			   )
+	</insert>
+	<!-- 帐户流水查询列表 -->
+	<select id="findAccountFlowList" parameterType="com.meiduimall.service.account.model.AccountFlowEntity" resultType="com.meiduimall.service.account.model.AccountFlow">
+		select 
+			mta.flow_id flowId,
+		    mta.flow_type flowType,
+		    mta.extcompany_code extcompanyCode,
+		    mta.account_type accountType,
+			mte.enterprise_name extcompanyName,
+		    mted.enterprise_account_name accountName,
+		    mta.before_change_amout beforeChangeAmout,
+		    mta.after_change_amout afterChangeAmout,
+		    mta.income income,
+		    mta.expenses expenses,
+		    mta.order_id orderId,
+		    mta.created_date createdDate,
+		    mta.remark remark,
+		    mta.created_by createdBy
+		from 
+			ms_tripartite_account_flow mta,ms_tripartite_enterprise mte,ms_tripartite_enterprise_detail mted
+		WHERE mte.enterprise_identity = mta.extcompany_code 
+		      and mte.ent_id = mted.ent_id
+			  and mta.account_type = mted.personal_account_type
+			
+		  <if test="enterpriseAccountName !=null and enterpriseAccountName !=''">
+				AND mted.enterprise_account_name = #{enterpriseAccountName}
+		  </if>
+		  <if test="extcompanyCode !=null and extcompanyCode !=''">
+				AND mta.extcompany_code = #{extcompanyCode}
+		  </if>  
+		  <if test="flowTimeBegin !=null and flowTimeBegin !=''">
+				AND mta.created_date &gt;= #{flowTimeBegin}
+		  </if>
+		  <if test="flowTimeEnd !=null and flowTimeEnd !=''">
+				AND mta.created_date &lt;= #{flowTimeEnd}
+		  </if>
+	</select>
+	
+	<!-- 退款申请插入数据 -->
+	<insert id="insertRefundRequest" parameterType="com.meiduimall.service.account.model.RefundRequestEntity">
+		insert into ms_tripartite_refund
+			   (ref_id,
+			    order_id,
+			    extorder_id,
+			    extcompany_name,
+			    account_id,
+			    refund_amout,
+			    account_type,
+			    request_date,
+			    status
+				)
+	 	 values(
+	 	 		#{refId},
+	 	 		#{orderId},
+	 	 		#{extorderId},
+	 	 		#{extcompanyName},
+	 	 		#{accountId},
+	 	 		#{refundAmout},
+	 	 		#{accountType},
+	 	 		#{requestDate},
+	 	 		#{status}
+			   )
+	</insert>
+	
+	<!-- 退款申请查询列表 -->
+	<select id="findRefundRequestList" parameterType="com.meiduimall.service.account.model.RefundRequestEntity" resultType="com.meiduimall.service.account.model.RefundRequest">
+		select 
+			mtr.ref_id refId,
+		    mtr.order_id orderId,
+		    mtr.extorder_id extorderId,
+		    mtr.extcompany_name extcompanyName,
+		    mtr.account_id accountId,
+		    mtr.refund_amout refundAmout,
+		    mtr.account_type accountType,
+		    mtr.request_date requestDate,
+		    mtr.status status
+		from 
+			ms_tripartite_refund mtr
+	</select>
+</mapper>

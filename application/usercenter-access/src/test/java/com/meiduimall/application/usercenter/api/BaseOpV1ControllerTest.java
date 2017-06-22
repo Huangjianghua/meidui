@@ -69,26 +69,26 @@ public class BaseOpV1ControllerTest extends BaseControllerTest {
     	
     */}
 
-    
-    /**会员登出 
-	 * @throws Exception */
-    @Test
-    public void test002Exit() throws Exception{
-    	Map<String, Object> mapCondition=new HashMap<>();
-    	mapCondition.put("token",RedisTemplate.getJedisInstance().execGetFromCache(memId));
-    	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/exit")
-    			.contentType(MediaType.APPLICATION_JSON_UTF8)
-    			.content(JsonUtils.beanToJson(mapCondition)))
-    			.andExpect(status().isOk())
-    			.andExpect(jsonPath("$.status",is(0)));
-    	
-    	resultActions.andDo(new ResultHandler() {
-			@Override
-			public void handle(MvcResult result) throws Exception {
-				logger.info("单元测试>>会员登出API>>执行结果:{}",result.getResponse().getContentAsString());;
-			}
-		});
-    }
+//    
+//    /**会员登出 
+//	 * @throws Exception */
+//    @Test
+//    public void test002Exit() throws Exception{
+//    	Map<String, Object> mapCondition=new HashMap<>();
+//    	mapCondition.put("token",RedisTemplate.getJedisInstance().execGetFromCache(memId));
+//    	ResultActions resultActions=mockMvc.perform(MockMvcRequestBuilders.post(baseUrl+"/exit")
+//    			.contentType(MediaType.APPLICATION_JSON_UTF8)
+//    			.content(JsonUtils.beanToJson(mapCondition)))
+//    			.andExpect(status().isOk())
+//    			.andExpect(jsonPath("$.status",is(0)));
+//    	
+//    	resultActions.andDo(new ResultHandler() {
+//			@Override
+//			public void handle(MvcResult result) throws Exception {
+//				logger.info("单元测试>>会员登出API>>执行结果:{}",result.getResponse().getContentAsString());;
+//			}
+//		});
+//    }
     
     
     /**注册

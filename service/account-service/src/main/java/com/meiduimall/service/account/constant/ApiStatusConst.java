@@ -112,9 +112,52 @@ public abstract class ApiStatusConst extends BaseApiCode {
 		public final static Integer INSERT_MEMBER_REVISE_DETAIL_ERROR=7124;
 		/**添加账号冻结明细错误 */
 		public final static Integer INSERT_MEMBER_FREEZE_DETAIL_ERROR=7125;
+		/**修改提现 实际金额和手续费异常 */
+		public final static Integer UPDATE_WITHDRAW_DEPOSIT_AMOUNT_ERROR=7126;
+		/**新增新增企业账户异常,请检查企业标识是否唯一  */
+		public final static Integer INSERT_ENTERPRISE_ERROR=7127;
+		/**新增企业管理详情异常 */
+		public final static Integer INSERT_TRIPARTITE_ERROR=7128;
+		/**外部充值申请异常*/
+		public final static Integer INSERT_RECHARGE_ERROR=7129;
+		/**查询外部充值列表异常*/
+		public final static Integer QUERY_EXTERNAL_LIST_ERROR=7130;
+		/**更新充值状态异常*/
+		public final static Integer UPDATE_RECHARGE_ERROR=7131;
+		/**企业管理帐户更新异常*/
+		public final static Integer UPDATE_ENTERPRISE_ERROR=7132;
+		/**调整授信或者帐户充值异常*/
+		public final static Integer UPDATE_ENTERPRISE_ACCOUNT_ERROR=7133;
+		/**查询帐户最大的充值上限异常*/
+		public final static Integer RECHARGE_CEILING_ERROR=7134;
+		/**查询企业管理列表异常*/
+		public final static Integer QUERY_MANAGEMENT_LIST_ERROR=7135;
+		/**查询企业管理详情查询列表异常*/
+		public final static Integer QUERY_TRIPARTITE_LIST_ERROR=7136;
+		/**账户名称查询列表异常*/
+		public final static Integer QUERY_ACCOUNT_LIST_ERROR=7137;
+		/**帐户流水插入数据异常*/
+		public final static Integer INSERT_ACCOUNTFLOW_ERROR=7138;
+		/**查询帐户流水列表异常*/
+		public final static Integer QUERY_ACCOUNTFLOW_LIST_ERROR=7139;
+		/**退款申请插入数据异常*/
+		public final static Integer INSERT_REFUND_ERROR=7140;
+		/**查询退款申请列表异常*/
+		public final static Integer QUERY_REFUND_LIST_ERROR=7141;
 
-		
 		static {
+			zhMsgMap.put(QUERY_REFUND_LIST_ERROR, "查询退款申请列表异常");
+			zhMsgMap.put(INSERT_REFUND_ERROR, "退款申请插入数据异常");
+			zhMsgMap.put(QUERY_ACCOUNTFLOW_LIST_ERROR, "查询帐户流水列表异常");
+			zhMsgMap.put(INSERT_ACCOUNTFLOW_ERROR, "帐户流水插入数据异常");
+			zhMsgMap.put(QUERY_ACCOUNT_LIST_ERROR, "账户名称查询列表异常");
+			zhMsgMap.put(QUERY_TRIPARTITE_LIST_ERROR, "查询企业管理详情查询列表异常");
+			zhMsgMap.put(QUERY_MANAGEMENT_LIST_ERROR, "查询企业管理列表异常");
+			zhMsgMap.put(RECHARGE_CEILING_ERROR, "查询帐户最大的充值上限异常");
+			zhMsgMap.put(UPDATE_ENTERPRISE_ACCOUNT_ERROR, "调整授信或者帐户充值异常");
+			zhMsgMap.put(UPDATE_ENTERPRISE_ERROR, "企业管理帐户更新异常");
+			zhMsgMap.put(UPDATE_RECHARGE_ERROR, "更新充值状态异常");
+			zhMsgMap.put(QUERY_EXTERNAL_LIST_ERROR, "查询外部充值列表异常");
 			zhMsgMap.put(OPERATION_DB_EX, "操作数据库程序异常");
 			zhMsgMap.put(REQUIRED_PARAM_EMPTY, "必填参数为空");
 			zhMsgMap.put(MD5_EXCEPTION, "生成MD5程序异常");
@@ -176,6 +219,10 @@ public abstract class ApiStatusConst extends BaseApiCode {
 			zhMsgMap.put(FROZEN_BALANCE_FAILED_ERROR, "冻结余额变动失败");
 			zhMsgMap.put(SERVER_DEAL_WITH_EXCEPTION, "服务器处理异常!");
 			zhMsgMap.put(INSERT_MEMBER_FREEZE_DETAIL_ERROR, "添加账号冻结明细错误");
+			zhMsgMap.put(UPDATE_WITHDRAW_DEPOSIT_AMOUNT_ERROR, "修改提现实际金额和手续费异常");
+			zhMsgMap.put(INSERT_ENTERPRISE_ERROR, "新增新增企业账户异常,请检查企业标识是否唯一");
+			zhMsgMap.put(INSERT_TRIPARTITE_ERROR, "新增企业管理详情异常");
+			zhMsgMap.put(INSERT_RECHARGE_ERROR, "外部充值申请异常");
 
 		}
 }
