@@ -2,24 +2,37 @@ package com.meiduimall.application.usercenter.interceptor;
 
 
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 
 import com.alibaba.fastjson.JSONObject;
+import com.meiduimall.application.usercenter.config.ProfileParamsConfig;
 import com.meiduimall.application.usercenter.constant.ApiStatusConst;
 import com.meiduimall.application.usercenter.constant.SysParamsConst;
 import com.meiduimall.application.usercenter.util.HttpResolveUtils;
 import com.meiduimall.application.usercenter.util.MD5Utils;
 import com.meiduimall.core.ResBodyData;
+import com.meiduimall.core.util.HttpUtils;
+import com.meiduimall.core.util.JsonUtils;
+import com.meiduimall.exception.ApiException;
+import com.meiduimall.exception.MdSysException;
 
 /**
  * 校验 API请求
  * @author chencong
  *
  */
+@Configuration
 public class ValRequest {
 	
 	private static Logger logger = LoggerFactory.getLogger(ValRequest.class);
@@ -27,11 +40,26 @@ public class ValRequest {
 	/**API请求数据*/
 	public static ThreadLocal<JSONObject> apiReqData=new ThreadLocal<>();
 	
+    @Autowired  
+    private ProfileParamsConfig profileParamsConfig;  
+    private static ValRequest valRequest;  
+  
+    public void setUserInfo(ProfileParamsConfig profileParamsConfig) {  
+        this.profileParamsConfig = profileParamsConfig;  
+    }  
+      
+    @PostConstruct  
+    public void init() {  
+    	valRequest = this;  
+    	valRequest.profileParamsConfig = this.profileParamsConfig;  
+  
+    } 
 	/**
 	 * 校验API请求
 	 * @param request HttpServletRequest对象
 	 * @param hasToken API接口方法是否有token注解
 	 * @return 统一数据返回格式
+	 * @throws MdSysException 
 	 */
 	public static ResBodyData validate(HttpServletRequest request, boolean hasToken){
 		logger.info("拦截器开始校验request数据和token");
@@ -70,21 +98,39 @@ public class ValRequest {
 					resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.MDUSER_EMPTY));
 					return resBodyData;
 				}
-			}else if(reqJson.containsKey("recharge_amout")){
+			}
+			if(reqJson.containsKey("recharge_amout")){
 				String rechargeAmout = (String) reqJson.get("recharge_amout");
 				if(rechargeAmout==null || rechargeAmout.equals("")){
 					resBodyData.setStatus(ApiStatusConst.RECHARGE_AMOUT_EMPTY);
 					resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.RECHARGE_AMOUT_EMPTY));
 					return resBodyData;
 				}
-			}else if(reqJson.containsKey("recharge_type")){
+				if(!isNumeric(rechargeAmout)){
+					resBodyData.setStatus(ApiStatusConst.CALLBACK_URL_ISNUM);
+					resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.CALLBACK_URL_ISNUM));
+					return resBodyData;
+				}
+				if(Double.valueOf(rechargeAmout)<0){
+					resBodyData.setStatus(ApiStatusConst.CALLBACK_URL_NEGATIVE);
+					resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.CALLBACK_URL_NEGATIVE));
+					return resBodyData;
+				}
+				if(Double.valueOf(rechargeAmout)==0){
+					resBodyData.setStatus(ApiStatusConst.CALLBACK_URL_ZERO);
+					resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.CALLBACK_URL_ZERO));
+					return resBodyData;
+				}
+			}
+			if(reqJson.containsKey("recharge_type")){
 				String rechargeType = (String) reqJson.get("recharge_type");
 				if(rechargeType==null || rechargeType.equals("")){
 					resBodyData.setStatus(ApiStatusConst.RECHARGE_TYPE_EMPTY);
 					resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.RECHARGE_TYPE_EMPTY));
 					return resBodyData;
 				}
-			}else if(reqJson.containsKey("callback_url")){
+			}
+			if(reqJson.containsKey("callback_url")){
 				String callbackUrl = (String) reqJson.get("callback_url");
 				if(callbackUrl==null || callbackUrl.equals("")){
 					resBodyData.setStatus(ApiStatusConst.CALLBACK_URL_EMPTY);
@@ -100,14 +146,17 @@ public class ValRequest {
 				resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.BIZID_EMPTY));
 				return resBodyData;
 			}else{
-				if(resBodyData.getStatus()!=0)
+				if(resBodyData.getStatus()!=0){
 					return resBodyData;
+				}
 				resBodyData=validateTimesatamp(reqJson.getLong(SysParamsConst.REQ_TIM));
-				if(resBodyData.getStatus()!=0)
+				if(resBodyData.getStatus()!=0){
 					return resBodyData;
+				}
 				resBodyData=validateSign(reqJson);
-				if(resBodyData.getStatus()!=0)
+				if(resBodyData.getStatus()!=0){
 					return resBodyData;
+				}
 			}
 		}
 		/**校验token，将token转换为memId*/
@@ -130,7 +179,9 @@ public class ValRequest {
 		apiReqData.set(reqJson);
 		return resBodyData;
 	}
-	
+	public static boolean isNumeric(String str){
+		return str.matches("^[-+]?(([0-9]+)([.]([0-9]+))?|([.]([0-9]+))?)$");
+	}
 	/**
 	 * 校验必填参数
 	 * @param reqJson 请求的json格式数据
@@ -180,6 +231,7 @@ public class ValRequest {
 	 * 校验签名
 	 * @param reqJson 请求的json格式数据
 	 * @return 统一数据返回格式
+	 * @throws MdSysException 
 	 */
 	private static ResBodyData validateSign(JSONObject reqJson){
 		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
@@ -189,7 +241,7 @@ public class ValRequest {
 			return resBodyData;
 		}
 		String clientSign=reqJson.getString(SysParamsConst.SIGN);
-		String secretkey="Test123";//RedisTemplate.getJedisInstance().execGetFromCache(SysParamsConst.memberSecretJson);
+		String secretkey=getKey(reqJson);//RedisTemplate.getJedisInstance().execGetFromCache(SysParamsConst.memberSecretJson);
 		//String clientID=reqJson.getString(SysParamsConst.CLIENTID);
 		//String secretkey=JSONObject.parseObject(memberSecretJson).getString(clientID);
 		resBodyData = MD5Utils.getSign(reqJson,secretkey);
@@ -204,4 +256,31 @@ public class ValRequest {
 		logger.info("拦截器校验签名结果：{}",resBodyData.toString());
 		return resBodyData;
 	}
+	@SuppressWarnings("rawtypes")
+	public static String getKey(JSONObject reqJson) {
+		JSONObject js = new JSONObject();
+		String key="";
+		if(reqJson.containsKey(SysParamsConst.CLIENT_ID)){
+			js.put("enterpriseIdentity", reqJson.get(SysParamsConst.CLIENT_ID));
+			js.put("flg", "0");
+		}
+		ResBodyData resBodyData = new ResBodyData(null,null);
+		String url = valRequest.profileParamsConfig.getServiceAccountUrl()+"v1/findBusinessManagementList";
+		resBodyData = MD5Utils.updateSign(js,valRequest.profileParamsConfig.getRouteClientID(),valRequest.profileParamsConfig.getRouteKey());
+		try {
+			Map<String, String> headers=new HashMap<>();
+			headers.put(SysParamsConst.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
+			String result = HttpUtils.post(url,js.toString(),headers);
+			resBodyData = JsonUtils.jsonToBean(result,ResBodyData.class);//.get("enterpriseKey").toString()
+			
+			List array=(List) ((Map)resBodyData.getData()).get("list");
+			key = (String) ((Map)array.get(0)).get("enterpriseKey");
+		    logger.info("__"+key);
+		} catch (Exception e) {
+			throw new ApiException(ApiStatusConst.REQUEST_GATEWAY_EX);
+		}
+	
+		logger.info("---resBodyData");
+		return key;
+}
 }

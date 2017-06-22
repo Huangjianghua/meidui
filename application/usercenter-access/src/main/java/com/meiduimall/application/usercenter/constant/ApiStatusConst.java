@@ -35,7 +35,13 @@ public class ApiStatusConst extends BaseApiCode {
 	public final static Integer CALLBACK_URL_EMPTY=9023;
 	public final static Integer SYSTEM_ERROR=9001;
 	public final static Integer LOGIN_EXPIRE=9014;
+	public final static Integer CALLBACK_URL_NEGATIVE=9024;
+	public final static Integer CALLBACK_URL_ZERO=9025;
+	public final static Integer CALLBACK_URL_ISNUM=9026;
 	static {
+		zhMsgMap.put(CALLBACK_URL_ISNUM, "充值金额只能为纯数字");
+		zhMsgMap.put(CALLBACK_URL_ZERO, "充值金额不能为0");
+		zhMsgMap.put(CALLBACK_URL_NEGATIVE, "充值金额不能为负数");
 		zhMsgMap.put(SYSTEM_ERROR, "系统错误，请联系客服");
 		zhMsgMap.put(REQUEST_GATEWAY_EX, "网关HTTP请求程序异常");
 		zhMsgMap.put(VAL_TOKEN_ANNOTATION_EX, "判断API接口是否有token注解程序异常");
