@@ -804,7 +804,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			entity.setApplyWithdrawAmount(Double.valueOf(dto.getApplyCarryCash()));
 			entity.setPoundageAmount(Double.valueOf(dto.getCounterFee()));
 			entity.setActualWithdrawAmount(Double.valueOf(dto.getActualCarryCash()));
-			entity.setRemark(dto.getRemark());
+			entity.setRemark(ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK);
 			entity.setCreateDate(nowDate);
 			Map<String, Object> params=new HashMap<>();
 			params.put("memId", dto.getMemId());
