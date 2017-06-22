@@ -32,7 +32,7 @@ public class BaseControllerTest {
 	protected  String token=null;
 	
 	protected final String baseUrl="/member/front_user_center/v1";
-	
+	 
 	@Autowired
 	private WebApplicationContext webApplicationContext;
 	
