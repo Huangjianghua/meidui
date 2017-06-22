@@ -29,7 +29,10 @@
 				audit_state,
 				remark,
 				create_date,
-				is_delete
+				is_delete,
+				create_user,
+				update_user,
+				update_date
 				)
 	 	 values(#{id},
 				#{businessNo},
@@ -53,7 +56,10 @@
 				null,
 				#{remark},
 				#{createDate},
-				#{isDelete}
+				#{isDelete},
+				#{createUser},
+				#{createUser},
+				#{createDate}
 			   )
 	</insert>
 	
@@ -390,5 +396,22 @@
 	   		 </if>
      	</where>
   </select>
+  
+  <!-- 根据条件获取会员信息 -->
+	<select id="getMemberInfoByCondition" parameterType="java.util.Map" resultType="com.meiduimall.service.account.model.MSMembers">
+		SELECT 
+			mem_id as memId,
+			mem_phone as memPhone,
+			mem_login_name as memLoginName
+		 FROM ms_members 
+		 <where>
+		  <if test="memId !=null and memId !=''">
+		         	AND mem_id = #{memId}
+		     </if> 
+		     <if test="memPhone !=null and memPhone !=''">
+		         	AND mem_phone = #{memPhone}
+		     </if> 
+		 </where>
+	</select>
   
 </mapper>
