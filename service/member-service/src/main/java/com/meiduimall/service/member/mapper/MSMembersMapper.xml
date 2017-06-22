@@ -283,8 +283,6 @@
 		VALUES
 		(#{id},
 		#{memId},
-		#{balance},
-		#{freezeBalance},
 		now(),
 		#{createUser},
 		now(),
