@@ -10,7 +10,7 @@
 	<groupId>com.meiduimall.service</groupId>
     <artifactId>account-service</artifactId>
 	<name>service::account-service</name>
-	<version>1.0.1</version>
+	<version>1.0.2</version>
 	<packaging>jar</packaging>
 
 	<dependencies>
