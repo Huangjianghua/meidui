@@ -4,9 +4,6 @@ import java.io.Serializable;
 
 public class BilledWaterVO2Merge implements Serializable{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 5907535967793585936L;
 	private Integer idDel;
 	private Integer idKeep;

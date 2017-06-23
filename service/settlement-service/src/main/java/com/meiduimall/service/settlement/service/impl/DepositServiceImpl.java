@@ -19,7 +19,6 @@ import org.springframework.util.CollectionUtils;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
-import com.meiduimall.core.BaseApiCode;
 import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.SettlementApiCode;
@@ -452,7 +451,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 			logger.info("插入分润参数：{}", agentWater.toString());
 		} catch (DaoException e) {
 			logger.error("插入代理流水失败", e);
-			throw new ServiceException(SettlementApiCode.INSERT_AGENT_WATER_FAIL, BaseApiCode.getZhMsg(SettlementApiCode.INSERT_AGENT_WATER_FAIL));
+			throw new ServiceException(SettlementApiCode.INSERT_AGENT_WATER_FAIL);
 		}
 		
 	}
@@ -467,7 +466,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 			mzfAccount = agentService.findAccountByCode(ecmMzfAccount.getCode());
 		} catch (DaoException e) {
 			logger.error("根据代理编号获取账户信息失败", e);
-			throw new ServiceException(SettlementApiCode.FIND_ACCOUNT_FAIL, BaseApiCode.getZhMsg(SettlementApiCode.FIND_ACCOUNT_FAIL));
+			throw new ServiceException(SettlementApiCode.FIND_ACCOUNT_FAIL);
 		}
 		
 		if(mzfAccount != null){
@@ -484,7 +483,7 @@ public class DepositServiceImpl implements DepositService, BeanSelfAware {
 			return agentService.insertAccount(account);
 		} catch (DaoException e) {
 			logger.error("创建新个代账户失败", e);
-			throw new ServiceException(SettlementApiCode.CREATE_ACCOUNT_FAIL, BaseApiCode.getZhMsg(SettlementApiCode.CREATE_ACCOUNT_FAIL));
+			throw new ServiceException(SettlementApiCode.CREATE_ACCOUNT_FAIL);
 		}
 	}
 
