@@ -27,11 +27,6 @@ public class AccountReviseDetail implements Serializable {
 	private String memLoginName;
 	/** 手机号 */
 	private String memPhone;
-	
-	/** 钱包类型  **/
-	private String walletType;
-	private String walletName;
-	
 	/**
 	 * 调整类型(1-调增,2-调减)
 	 */
@@ -71,30 +66,12 @@ public class AccountReviseDetail implements Serializable {
 
 	private String updatedDate;
 
-	 
+	private String isDelete;
 
 	/**
 	 * agree -同意 reject-拒绝
 	 */
 	private String operate;
-
-	
-	
-	public String getWalletName() {
-		return walletName;
-	}
-
-	public void setWalletName(String walletName) {
-		this.walletName = walletName;
-	}
-
-	public String getWalletType() {
-		return walletType;
-	}
-
-	public void setWalletType(String walletType) {
-		this.walletType = walletType;
-	}
 
 	public String getId() {
 		return id;
@@ -215,6 +192,15 @@ public class AccountReviseDetail implements Serializable {
 
 	public void setOperate(String operate) {
 		this.operate = operate;
+	}
+	 public String getIsDelete()
+	{
+		return this.isDelete;
+	}
+  
+	public void setIsDelete(String isDelete)
+	{
+		this.isDelete = isDelete;
 	}
 
 }

@@ -80,7 +80,7 @@ public class AccountInfoQueryV1Controller {
 		List<MSAccountDetail> listMSAccountDetail = null;
 		try{
 			//分页查询
-			if(mSAccountDetailCondition.getFlg().equals(Constants.CONSTANT_INT_ONE)){
+			if(mSAccountDetailCondition.getFlg().equals(Constants.CONSTANT_STR_ONE)){
 				//分页
 				PageHelper.startPage(mSAccountDetailCondition.getPageNum(), mSAccountDetailCondition.getPageSize());
 				PageHelper.orderBy("create_date DESC");
@@ -115,7 +115,7 @@ public class AccountInfoQueryV1Controller {
 		List<MSAccountList> msAccountLists = null;
 		try{
 			//分页查询
-			if(msAccountListRequest.getFlg().equals(Constants.CONSTANT_INT_ONE)){
+			if(msAccountListRequest.getFlg().equals(Constants.CONSTANT_STR_ONE)){
 				//分页
 				PageHelper.startPage(msAccountListRequest.getPageNum(), msAccountListRequest.getPageSize());
 				PageHelper.orderBy("memRegTime DESC");
@@ -169,7 +169,7 @@ public class AccountInfoQueryV1Controller {
 		List<AccountReviseDetail> list = null;
 		try {
 			//分页查询
-			if(detailRequest.getFlg().equals(Constants.CONSTANT_INT_ONE)){
+			if(detailRequest.getFlg().equals(Constants.CONSTANT_STR_ONE)){
 				//分页
 				PageHelper.startPage(detailRequest.getPageNum(), detailRequest.getPageSize());
 				PageHelper.orderBy("msard.created_date DESC");
