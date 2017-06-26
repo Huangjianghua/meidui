@@ -2,6 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="MSRechargeApplyMapper">
+<!-- 插入日志信息 -->
+	<insert id="insertLog" parameterType="com.meiduimall.service.account.model.TripartiteLog">
+		insert into ms_tripartite_log
+			   (log_id,
+			    log_type,
+				log_date,
+				attribute1,
+				attribute2,
+				attribute3,
+				attribute4,
+				attribute5,
+				attribute6,
+				attribute7,
+				attribute8,
+				attribute9,
+				attribute10
+				)
+	 	 values(
+	 	        #{logId},
+	 	        #{logType},
+				#{logDate},
+				#{attribute1},
+				#{attribute2},
+				#{attribute3},
+				#{attribute4},
+				#{attribute5},
+				#{attribute6},
+				#{attribute7},
+				#{attribute8},
+				#{attribute9},
+				#{attribute10}
+			   )
+	</insert>
 	<!-- 充值申请插入数据 -->
 	<insert id="insertRechargeApply" parameterType="com.meiduimall.service.account.model.MSBankWithdrawDeposit">
 		insert into ms_tripartite_recharge
@@ -15,7 +48,8 @@
 				callback_url,
 				recharge_date,
 				mem_id,
-				phone
+				phone,
+				callback_qty
 				)
 	 	 values(
 	 	        #{recId},
@@ -28,7 +62,8 @@
 				#{callbackUrl},
 				#{rechargeDate},
 				#{memId},
-				#{phone}
+				#{phone},
+				0
 			   )
 	</insert>
 	<!-- 查询充值申请列表 -->
@@ -90,7 +125,8 @@
 		<set >
 	      <if test="status != null and status !=''" >
 	        status = #{status,jdbcType=CHAR},
-	        reality_recharge_date = #{realityRechargeDate}
+	        reality_recharge_date = #{realityRechargeDate},
+	        callback_qty = callback_qty+1
 	      </if>
 	    </set>
 	    <where>
