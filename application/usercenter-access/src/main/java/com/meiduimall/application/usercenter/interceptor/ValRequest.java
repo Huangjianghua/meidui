@@ -146,18 +146,23 @@ public class ValRequest {
 				resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.BIZID_EMPTY));
 				return resBodyData;
 			}else{
-				if(resBodyData.getStatus()!=0){
-					return resBodyData;
-				}
-				resBodyData=validateTimesatamp(reqJson.getLong(SysParamsConst.REQ_TIM));
-				if(resBodyData.getStatus()!=0){
-					return resBodyData;
-				}
-				resBodyData=validateSign(reqJson);
-				if(resBodyData.getStatus()!=0){
+				int size = getRepeatOrderId(reqJson);
+				if(size>0){
+					resBodyData.setStatus(ApiStatusConst.BIZID_REPEAT);
+					resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.BIZID_REPEAT));
 					return resBodyData;
 				}
 			}
+
+			resBodyData=validateTimesatamp(reqJson.getLong(SysParamsConst.REQ_TIM));
+			if(resBodyData.getStatus()!=0){
+				return resBodyData;
+			}
+			resBodyData=validateSign(reqJson);
+			if(resBodyData.getStatus()!=0){
+				return resBodyData;
+			}
+		
 		}
 		/**校验token，将token转换为memId*/
 		if (hasToken) {
@@ -282,5 +287,32 @@ public class ValRequest {
 	
 		logger.info("---resBodyData");
 		return key;
-}
+	}
+	@SuppressWarnings("rawtypes")
+	public static int getRepeatOrderId(JSONObject reqJson) {
+		JSONObject js = new JSONObject();
+		if(reqJson.containsKey("biz_id")){
+			js.put("extorderId", reqJson.get("biz_id"));
+			js.put("flg", "0");
+		}
+		int size=0;
+		ResBodyData resBodyData = new ResBodyData(null,null);
+		String url = valRequest.profileParamsConfig.getServiceAccountUrl()+"v1/findExternalRechargeList";
+		resBodyData = MD5Utils.updateSign(js,valRequest.profileParamsConfig.getRouteClientID(),valRequest.profileParamsConfig.getRouteKey());
+		try {
+			Map<String, String> headers=new HashMap<>();
+			headers.put(SysParamsConst.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
+			String result = HttpUtils.post(url,js.toString(),headers);
+			resBodyData = JsonUtils.jsonToBean(result,ResBodyData.class);
+			
+			List array=(List) ((Map)resBodyData.getData()).get("list");
+			size = array.size();
+		    logger.info("__"+array.size());
+		} catch (Exception e) {
+			throw new ApiException(ApiStatusConst.REQUEST_GATEWAY_EX);
+		}
+	
+		logger.info("---resBodyData");
+		return size;
+	}
 }

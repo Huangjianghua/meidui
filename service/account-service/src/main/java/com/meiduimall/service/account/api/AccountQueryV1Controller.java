@@ -259,7 +259,7 @@ public class AccountQueryV1Controller {
 		try {
 			Double allowWithdrawBalance=accountService.getAllowWithdrawBalance(memId);
 			ObjectNode rootNode = JsonUtils.getInstance().createObjectNode();
-			rootNode.set("allow_withdraw_balance",new DoubleNode(allowWithdrawBalance==null?0.0:allowWithdrawBalance)));
+			rootNode.set("allow_withdraw_balance",new DoubleNode(allowWithdrawBalance==null?0.0:allowWithdrawBalance));
 			resBodyData.setData(rootNode);
 			return resBodyData;
 		} catch (DaoException e) {
