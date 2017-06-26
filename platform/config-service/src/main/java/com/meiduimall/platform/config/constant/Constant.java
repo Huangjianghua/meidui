@@ -29,7 +29,7 @@ public class Constant {
 	/**
 	 * 下载git 项目临时存放目录
 	 */
-	public static final String DIR_TEM="/var/tmp/";
+	public static final String DIR_TEM="/var/opt/";
 	/*public static final String DIR_TEM="D:\\tmp\\";*/
 	/**
 	 * 下载git 路径
