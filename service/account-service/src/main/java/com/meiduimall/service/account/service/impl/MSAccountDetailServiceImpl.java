@@ -634,6 +634,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		Double freezeBalance=0.0;
 		Double totalFrezeMoney=addFreezeMoney;
 		Double freeTotal=0.0; //手续费总和
+		List<Double> listFree=new ArrayList<Double>();
 		try {
 			list=queryAccountList(memId,Constants.CONSTANT_STR_ONE,null);
 			Date date=new Date();
@@ -656,9 +657,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 				updateAccountBalanceReport(account.getAccountTypeNo(),addFreezeMoney,account.getMemId(),ConstSysParamsDefination.FREE_ALANCE_UPDATE_OPERATE);
 				//增加余额冻结明细
 				insertAccoutFreezeDetail(account.getAccountNo(),businessNo,ConstSysParamsDefination.FREEZE,ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK,addFreezeMoney,ConstTradeType.TRADE_TYPE_YETX.getCode(),freezeBalance,date);
-				//插入手续费冻结明细
-				//insertAccoutFreezeDetail(account.getAccountNo(),businessNo,ConstSysParamsDefination.FREEZE,ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK,free,ConstTradeType.TRADE_TYPE_TXSX.getCode(),freezeBalance,date);
-				freeTotal=DoubleCalculate.add(freeTotal, free); //累加手续费
+				if(account.getWithdrawPoundageScale()>0) listFree.add(free);//保存每一个账号的手续费 用于累加
 				break;
 			}
 			addFreezeMoney=deductionMoney;
@@ -673,12 +672,15 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			updateAccountBalanceReport(account.getAccountTypeNo(),useBalance,account.getMemId(),ConstSysParamsDefination.FREE_ALANCE_UPDATE_OPERATE);
 			//增加明细
 			insertAccoutFreezeDetail(account.getAccountNo(),businessNo,ConstSysParamsDefination.FREEZE,ConstSysParamsDefination.ACCOUNT_BALANCE_DETAIL_REMARK,useBalance,ConstTradeType.TRADE_TYPE_YETX.getCode(),freezeBalance,date);
-			//增加明细
-			freeTotal=DoubleCalculate.add(freeTotal, free); //累加手续费
-			//insertAccoutFreezeDetail(account.getAccountNo(),businessNo,ConstSysParamsDefination.FREEZE,ConstSysParamsDefination.ACCOUNT_FEE_DETAIL_REMARK,free,ConstTradeType.TRADE_TYPE_TXSX.getCode(),freezeBalance,date);
+			if(account.getWithdrawPoundageScale()>0)  listFree.add(free);//保存每一个账号的手续费 用于累加
 			}
-			//判断手续费是否小于最低2元
-			if(freeTotal<Constants.CONSTANT_INT_TWO) freeTotal=Double.valueOf(Constants.CONSTANT_INT_TWO);
+			if(listFree.size()>0){
+				for(Double value:listFree){
+					freeTotal=DoubleCalculate.add(freeTotal, value);
+				}
+				//判断手续费是否小于最低2元
+				if(freeTotal<Constants.CONSTANT_INT_TWO) freeTotal=Double.valueOf(Constants.CONSTANT_INT_TWO);
+			}
 			//step3更新提现 实际金额和手续费
 			updateWithDrawAmountAndFee(id,freeTotal,DoubleCalculate.sub(totalFrezeMoney, freeTotal));
 			//step4 修改总的冻结金额
