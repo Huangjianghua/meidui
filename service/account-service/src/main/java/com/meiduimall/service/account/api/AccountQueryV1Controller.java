@@ -251,7 +251,7 @@ public class AccountQueryV1Controller {
 	
 	/**
 	 * 查询当前会员可提现余额
-	 * @author chencong
+	 * @author chencong 
 	 */
 	@GetMapping(value = "/get_allow_withdraw_balance")
 	public ResBodyData getAllowWithdrawBalance(@RequestParam String memId) {
