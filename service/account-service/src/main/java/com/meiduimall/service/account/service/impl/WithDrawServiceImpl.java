@@ -146,6 +146,7 @@ public class WithDrawServiceImpl implements WithDrawService {
 		List<MSAccount> list=null;
 		Double withdrawMoney=Double.valueOf(depostie.getAllow_withdraw_balance());
 		Double freeTotal=0.0; //手续费总和
+		List<Double> listFree=new ArrayList<Double>();
 		try {
 			list=queryAccountList(depostie.getMemId(),Constants.CONSTANT_STR_ONE,null);
 			for(MSAccount account:list){
@@ -158,15 +159,19 @@ public class WithDrawServiceImpl implements WithDrawService {
 				//step2 扣减金额<0 表示 第一个账号的钱足够扣除
 				if(deductionMoney<=0){
 					double free=DoubleCalculate.mul(withdrawMoney, account.getWithdrawPoundageScale()); //计算账号手续费
-					freeTotal=DoubleCalculate.add(freeTotal, free); //累加手续费
+					if(account.getWithdrawPoundageScale()>0) listFree.add(free);//保存每一个账号的手续费 用于累加
 					break;
 				}
 				withdrawMoney=deductionMoney;
 				Double free=DoubleCalculate.mul(useBalance, account.getWithdrawPoundageScale());  //单个账号的手续费比例
-				freeTotal=DoubleCalculate.add(freeTotal, free); //累加手续费
+				if(account.getWithdrawPoundageScale()>0)  listFree.add(free);//保存每一个账号的手续费 用于累加                                                                                                              //累加手续费
 			}
-			if(freeTotal<Constants.CONSTANT_INT_TWO){
-				freeTotal=Double.valueOf(Constants.CONSTANT_INT_TWO);
+			if(listFree.size()>0){
+				for(Double value:listFree){
+					freeTotal=DoubleCalculate.add(freeTotal, value);
+				}
+				//判断手续费是否小于最低2元
+				if(freeTotal<Constants.CONSTANT_INT_TWO) freeTotal=Double.valueOf(Constants.CONSTANT_INT_TWO);
 			}
 		} catch (Exception e) {
 			logger.error("提现获取手续费API异常:{}",e);

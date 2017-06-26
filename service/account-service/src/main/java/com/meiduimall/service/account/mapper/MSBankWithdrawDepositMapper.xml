@@ -178,7 +178,7 @@
 	       <if test="remark != null and remark !=''" >
 	        remark = #{remark},
 	      </if>
-	       <if test="poundageAmount != null and poundageAmount !=''" >
+	       <if test="poundageAmount != null and poundageAmount !='' or poundageAmount=0.0" >
 	        poundage_amount = #{poundageAmount},
 	      </if>
 	      <if test="actualWithdrawAmount != null and actualWithdrawAmount !=''" >
