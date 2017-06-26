@@ -36,8 +36,10 @@ public class ApiStatusConst extends BaseApiCode {
 	public final static Integer CALLBACK_URL_NEGATIVE=9024;
 	public final static Integer CALLBACK_URL_ZERO=9025;
 	public final static Integer CALLBACK_URL_ISNUM=9026;
+	public final static Integer BIZID_REPEAT=9027;
 	
 	static {
+		zhMsgMap.put(BIZID_REPEAT, "充值单号重复");
 		zhMsgMap.put(CALLBACK_URL_ISNUM, "充值金额只能为纯数字");
 		zhMsgMap.put(CALLBACK_URL_ZERO, "充值金额不能为0");
 		zhMsgMap.put(CALLBACK_URL_NEGATIVE, "充值金额不能为负数");
