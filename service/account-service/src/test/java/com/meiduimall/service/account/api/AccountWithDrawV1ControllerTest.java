@@ -115,7 +115,7 @@ public class AccountWithDrawV1ControllerTest extends BaseControllerTest {
 		try {
 			ResultActions resultActions = mockMvc
 					.perform(MockMvcRequestBuilders
-							.get(baseUrl + "/v1/get_withdraw_poundage?allow_withdraw_balance=900&memId=358200ed-f2da-4874-a1a7-573e6fff7cac"))
+							.get(baseUrl + "/v1/get_withdraw_poundage?allow_withdraw_balance=900&memId=48d98556-cc3a-4e41-83d8-8cb2ab14c2d3"))
 					.andExpect(status().isOk())
 					.andExpect(jsonPath("$.status", is(0)));
 
