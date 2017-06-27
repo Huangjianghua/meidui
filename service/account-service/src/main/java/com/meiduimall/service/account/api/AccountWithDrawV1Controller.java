@@ -3,6 +3,8 @@ package com.meiduimall.service.account.api;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.validation.Valid;
 
@@ -57,6 +59,8 @@ public class AccountWithDrawV1Controller {
 
 	@Autowired
 	private WithDrawService withDrawService;
+	
+	private static Lock lock=new ReentrantLock(); 
 
 	/**
 	 * 描述：提现记录查询接口实现
@@ -102,12 +106,15 @@ public class AccountWithDrawV1Controller {
 	public ResBodyData saveBankWithDraw(@RequestBody RequestMSBankWithDrawDepostie deposit) {
 		// step1 检查参数
 		this.checkSaveBankWithDrawParam(deposit);
+		lock.lock();
 		try {
 			// stpe2 执行提现申请
 			mSAccountDetailService.saveBankWithdrawDeposit(deposit);
 		} catch (MdBizException e) {
 			logger.error("余额提现申请操作Controller异常:{}", e.getMessage());
 			throw new ApiException(e.getCode(), e.getMessage());
+		}finally {
+			lock.unlock();
 		}
 		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M);
 	}
