@@ -56,9 +56,9 @@ spring :
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://10.45.178.109:3306/membersystem?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
-    username : root
-    password : meidui@2016.?!
+    url: jdbc:mysql://10.170.135.70:3306/membersystem?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
+    username : meidui
+    password : meiduishop
     connectionTimeout : 30000
     idleTimeout : 600000
     maxLifetime : 1800000
@@ -85,9 +85,9 @@ eureka:
 config :
   jedis :  
     jedisShardInfo :  
-      host : 192.168.4.236  
+      host : 10.170.135.70  
       port : 6379  
-      password: meiduiredis2016 
+      password: meiduiredis2017
     maxTotal: 1024  
     maxIdle: 250  
     maxWaitMillis : 2000 
