@@ -181,6 +181,10 @@
             <version>${jacoco.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-sleuth</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>io.springfox</groupId>
