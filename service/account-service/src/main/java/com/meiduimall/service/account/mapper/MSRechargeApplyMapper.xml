@@ -195,6 +195,9 @@
 		ms_tripartite_enterprise MTE,ms_tripartite_enterprise_detail MTED
 		where MTE.ent_id = MTED.ent_id
 		and MTE.ent_id = #{entId}
+		<if test="personalAccountType !=null and personalAccountType !=''">
+			AND MTED.personal_account_type = #{personalAccountType}
+		 </if>
 	</select>
 		<!-- 企业管理详情查询列表 -->
 	<select id="findAccountNameList" parameterType="com.meiduimall.service.account.model.BusinessManagementEntity" resultType="com.meiduimall.service.account.model.AccountBusinessManagement">

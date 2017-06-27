@@ -138,4 +138,12 @@
      </if>
   </select>
   
+  <select id="selectMoneyIncome" parameterType="java.lang.String" resultType="java.lang.String" >
+  	SELECT SUM(ms_account_detail.trade_amount) FROM ms_account,ms_account_detail 
+	WHERE ms_account.account_no = ms_account_detail.account_no
+	AND ms_account.mem_id=#{memId} 
+	AND ms_account_detail.in_or_out=1
+	AND (ms_account_detail.trade_type='FJJL' OR ms_account_detail.trade_type='SCJL')
+  </select>
+  
 </mapper>

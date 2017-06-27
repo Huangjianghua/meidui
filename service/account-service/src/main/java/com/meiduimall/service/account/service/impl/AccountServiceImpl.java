@@ -203,6 +203,7 @@ public class AccountServiceImpl implements AccountService {
 				Map<String,Object> mapCondition=new HashMap<>();
 				mapCondition.put(account.getAccountTypeNo(),newFreezeBalance);
 				mapCondition.put("freezeBalance",newFreezeBalance);
+				mapCondition.put("memId",memId);
 				baseDao.update(mapCondition,"MSAccountReportMapper.updateFreezeBalance");
 				break;
 			}
@@ -224,6 +225,7 @@ public class AccountServiceImpl implements AccountService {
 				Map<String,Object> mapCondition=new HashMap<>();
 				mapCondition.put(account.getAccountTypeNo(),account.getBalance());
 				mapCondition.put("freezeBalance",account.getBalance());
+				mapCondition.put("memId",memId);
 				baseDao.update(mapCondition,"MSAccountReportMapper.updateFreezeBalance");
 				newFreezeBalance=newFreezeBalance-account.getBalance();
 				continue;

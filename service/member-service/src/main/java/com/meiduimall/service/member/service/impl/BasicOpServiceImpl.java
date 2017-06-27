@@ -395,8 +395,8 @@ public class BasicOpServiceImpl implements BasicOpService {
 		Map<String,Object> mapCondition=new HashMap<>();
 		mapCondition.put("id",UUID.randomUUID().toString());
 		mapCondition.put("memId",memid);
-		mapCondition.put("createUser","账户服务");
-		mapCondition.put("updateUser","账户服务");
+		mapCondition.put("createUser","账号服务");
+		mapCondition.put("updateUser","账号服务");
 		mapCondition.put("remark","账号服务注册生成");
 		baseDao.insert(mapCondition,"MSMembersMapper.insertAccountReport");
 		
@@ -494,8 +494,8 @@ public class BasicOpServiceImpl implements BasicOpService {
 		Map<String,Object> mapCondition=new HashMap<>();
 		mapCondition.put("id",UUID.randomUUID().toString());
 		mapCondition.put("memId",memid);
-		mapCondition.put("createUser","账户服务");
-		mapCondition.put("updateUser","账户服务");
+		mapCondition.put("createUser","账号服务");
+		mapCondition.put("updateUser","账号服务");
 		mapCondition.put("remark","账号服务注册生成");
 		baseDao.insert(mapCondition,"MSMembersMapper.insertAccountReport");
 		

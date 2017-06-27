@@ -241,7 +241,7 @@ public class TradeServiceImpl implements TradeService {
 					SerialStringUtil.getPointsRemark(ConstPointsChangeType.POINTS_OPERATOR_TYPE_XF.getCode(),model.getMemId()));
 			
 			//写入账户解冻信息到冻结解冻流水，并更新会员账户和会员账户报表
-			Map<String,Double> mapCondition=new HashMap<>();
+			Map<String,Object> mapCondition=new HashMap<>();
 			mapCondition.put("balance",0.00);
 			mapCondition.put("freezeBalance",0.00);
 			for (MSAccountFreezeDetail item : listBalanceFreeze) {
@@ -259,8 +259,9 @@ public class TradeServiceImpl implements TradeService {
 				msAccount.setFreezeBalanceEncrypt(DESC.encryption(String.valueOf(msAccount.getFreezeBalanceEncrypt()),model.getMemId()));
 				baseDao.update(msAccount,"MSAccountMapper.updateAccountByCondition");
 				
-				mapCondition.put("balance",mapCondition.get("balance")-item.getFreezeBalance());
-				mapCondition.put("freezeBalance",mapCondition.get("freezeBalance")-item.getFreezeBalance());
+				mapCondition.put("memId",model.getMemId());
+				mapCondition.put("balance",(double)mapCondition.get("balance")-item.getFreezeBalance());
+				mapCondition.put("freezeBalance",(double)mapCondition.get("freezeBalance")-item.getFreezeBalance());
 				mapCondition.put(msAccount.getAccountTypeNo(), -item.getFreezeBalance());
 				mapCondition.put("freezeBalance"+msAccount.getAccountTypeNo(),-item.getFreezeBalance());
 				
