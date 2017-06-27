@@ -202,5 +202,10 @@ public class AccountDetailServiceImpl implements AccountDetailService{
 	public void batchInsertAccoutDetail(List<MSAccountDetail> MSAccountDetail) {
 		baseDao.insertBatch(MSAccountDetail, "MSAccountDetailMapper.batchInsertAccountDetail");
 	}
+
+	@Override
+	public String getMoneyIncome(String memId) {
+		return baseDao.selectOne(memId, "MSAccountDetailMapper.selectMoneyIncome");
+	}
 	
 }

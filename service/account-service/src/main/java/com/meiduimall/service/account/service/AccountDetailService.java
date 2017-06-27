@@ -150,4 +150,10 @@ public interface AccountDetailService {
 	 */
 	public void batchInsertAccoutDetail(List<MSAccountDetail> MSAccountDetail);
 	
+	/**
+	 * 专为旧会员系统调用--获取个人推广接口的现金收益总额
+	 * @param memId 会员ID
+	 * @return 现金收益总额
+	 */
+	String getMoneyIncome(String memId);
 }
