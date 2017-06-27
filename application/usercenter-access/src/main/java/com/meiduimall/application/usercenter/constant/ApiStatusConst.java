@@ -39,8 +39,12 @@ public class ApiStatusConst extends BaseApiCode {
 	public final static Integer BIZID_REPEAT=9027;
 	public final static Integer RECHARGE_AMOUT_DECIMAL=9028;
 	public final static Integer ACCOUNT_TYPE_NON_EXISTENT=9029;
+	public final static Integer RECHARGE_AMOUT_MAX=9030;
+	public final static Integer CORPORATE_IDENTITY_EMPTY=9031;
 	
 	static {
+		zhMsgMap.put(CORPORATE_IDENTITY_EMPTY, "企业标识不存在");
+		zhMsgMap.put(RECHARGE_AMOUT_MAX, "充值金额过大");
 		zhMsgMap.put(ACCOUNT_TYPE_NON_EXISTENT, "个人帐户类型不存在");
 		zhMsgMap.put(RECHARGE_AMOUT_DECIMAL, "充值金额小数位大于2位");
 		zhMsgMap.put(BIZID_REPEAT, "充值单号重复");

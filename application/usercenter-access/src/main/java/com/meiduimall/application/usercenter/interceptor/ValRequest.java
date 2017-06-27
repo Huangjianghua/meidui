@@ -122,9 +122,16 @@ public class ValRequest {
 					resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.CALLBACK_URL_ZERO));
 					return resBodyData;
 				}
-				if (rechargeAmout.split("\\.")[1].length()>2){
-					resBodyData.setStatus(ApiStatusConst.RECHARGE_AMOUT_DECIMAL);
-					resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.RECHARGE_AMOUT_DECIMAL));
+				if(rechargeAmout.indexOf(".")!=-1){
+					if (rechargeAmout.split("\\.")[1].length()>2){
+						resBodyData.setStatus(ApiStatusConst.RECHARGE_AMOUT_DECIMAL);
+						resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.RECHARGE_AMOUT_DECIMAL));
+						return resBodyData;
+					}
+				}
+				if (rechargeAmout.split("\\.")[0].length()>9){
+					resBodyData.setStatus(ApiStatusConst.RECHARGE_AMOUT_MAX);
+					resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.RECHARGE_AMOUT_MAX));
 					return resBodyData;
 				}
 			}
@@ -254,6 +261,11 @@ public class ValRequest {
 		}
 		String clientSign=reqJson.getString(SysParamsConst.SIGN);
 		List array = getKey(reqJson);
+		if(array.size()==0){
+			resBodyData.setStatus(ApiStatusConst.CORPORATE_IDENTITY_EMPTY);
+			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.CORPORATE_IDENTITY_EMPTY));
+			return resBodyData;
+		}
 		String secretkey=(String) ((Map)array.get(0)).get("enterpriseKey");
 		List arr = getAccountType((String) ((Map)array.get(0)).get("entId"),(String) reqJson.get("recharge_type"));
 		if(arr.size()==0){
