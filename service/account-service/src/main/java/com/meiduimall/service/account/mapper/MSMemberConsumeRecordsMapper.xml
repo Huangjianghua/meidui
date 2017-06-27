@@ -64,9 +64,16 @@
 	<!--  将订单状态更新为已完成-->
 	<update id="updateOrderStatus" parameterType="java.util.Map">
 	   update ms_member_consume_records set order_status = #{newOrderStatus}
+	   <if test="consumeMoney != null and consumeMoney !=''">
+	     ,consume_money =  consume_money - #{consumeMoney}
+	   </if>
+	   <if test="consumePoints != null and consumePoints !=''">
+	   	 ,consume_points = consume_points - #{consumePoints}
+	   </if>
 	   where order_id = #{orderId} 
 	     and order_source = #{orderSource}
 	     and order_status = #{orderStatus}
 	</update>
+	 
 
 </mapper>

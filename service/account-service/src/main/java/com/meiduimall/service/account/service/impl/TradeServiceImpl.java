@@ -771,14 +771,29 @@ public class TradeServiceImpl implements TradeService {
 			MSMemberConsumeRecords history = consumeRecordsService.getConsumeRecords(ms.getOrderId(), ms.getOrderSource(), 1);
 			
 			if (null == history) {
-				logger.info("当前退单的订单号与已提交的订单号不匹配");
-				return new ResBodyData(2063, "当前退单的订单号与已提交的订单号不匹配");
+				MSMemberConsumeRecords record = consumeRecordsService.getConsumeRecords(ms.getOrderId(), ms.getOrderSource(), 2);
+				if(record.getConsumeAmount() < Double.valueOf(ms.getConsumeAmount())){
+					logger.info("第二次退单金额大于消费金额");
+					return new ResBodyData(2063, "第二次退单金额大于消费金额");
+				}
+				
+				if(record.getConsumePoints() < Double.valueOf(ms.getConsumePoints())){
+					logger.info("第二次退单积分大于消费积分");
+					return new ResBodyData(2063, "第二次退单积分大于消费积分");
+				}
+				
+				if (DateUtil.daysBetween(record.getCreateDate(), new Date()) > 30) {
+					logger.info("当前退单时间超过下单时的时间，无法退单");
+					return new ResBodyData(2066, "当前退单时间超过下单时的时间，无法退单");
+				}
+				
+			}else{
+				if (DateUtil.daysBetween(history.getCreateDate(), new Date()) > 30) {
+					logger.info("当前退单时间超过下单时的时间，无法退单");
+					return new ResBodyData(2066, "当前退单时间超过下单时的时间，无法退单");
+				}
 			}
 
-			if (DateUtil.daysBetween(history.getCreateDate(), new Date()) > 30) {
-				logger.info("当前退单时间超过下单时的时间，无法退单");
-				return new ResBodyData(2066, "当前退单时间超过下单时的时间，无法退单");
-			}
 
 			json = new JSONObject();
 			json.put("mem_id", ms.getMemId());
@@ -800,9 +815,16 @@ public class TradeServiceImpl implements TradeService {
 			json.put("after_consume_coupon", "0.00");
 			logger.info("退费订单号：{}，进入退费美积分计算方法.", ms.getOrderId());
 			logger.info("返还余额为: {} , 返还积分为: {}", ms.getConsumeMoney(), ms.getConsumePoints());
-			if (null != ms.getConsumeMoney()) {
+			if (null != ms.getConsumeMoney() && Double.valueOf(ms.getConsumeMoney()) > 0) {
+				logger.info("余额退还...");
 				//根据订单号查询账户明细
 				List<MSAccountDetail> listAccountDetail = accountDetailService.listAccountDetail(new MSAccountDetailGet(ms.getOrderId()));
+				double inMoney = 0;
+				for (MSAccountDetail msAccountDetail : listAccountDetail) {
+					if(msAccountDetail.getInOrOut() == 1){
+						inMoney = inMoney + msAccountDetail.getTradeAmount();
+					}
+				}
 				List<MSAccount> msAccountlist = new ArrayList<MSAccount>();
 				List<MSAccountDetail> listAccountDetail2 = new ArrayList<>();
 				//根据memId查询会员余额
@@ -812,9 +834,21 @@ public class TradeServiceImpl implements TradeService {
 			    for (MSAccount msAccount : balanceAccountList) {
 			    	for (MSAccountDetail msAccountDetail : listAccountDetail) {
 			    		MSAccount account = new MSAccount();
+			    		if(msAccountDetail.getInOrOut() == -1){  //这里获取之前消费明细-1 支出 1是收入
+			    			logger.info("账户变更标识:{}",msAccountDetail.getInOrOut());
 			    		//判断账户与账户明细的账户是否相等
 			    		if(msAccount.getAccountNo().equals(msAccountDetail.getAccountNo())){
-							double balance = 0;
+			    			logger.info("这个日志是记录第二次退款时看第一次退款了多少余额,如果为0就是第一次退款:",inMoney);
+			    			if(inMoney > 0 ){
+			    			inMoney = msAccountDetail.getTradeAmount() - inMoney;
+			    			}
+			    			else{
+			    				if(inMoney == 0){
+			    					msAccountDetail.setTradeAmount(-inMoney);
+			    					inMoney = 0;
+			    				}
+			    			 logger.info("当把之前退款全减完了,进来退款余下的账户,并保存到数据库");
+			    			double balance = 0;
 							double consumeMoney = bigDecimal.doubleValue();
 						  if(consumeMoney > 0){
 			    			if(consumeMoney <= msAccountDetail.getTradeAmount()){
@@ -850,8 +884,9 @@ public class TradeServiceImpl implements TradeService {
 						  }
 			    		  bigDecimal = bigDecimal.subtract(new BigDecimal(msAccountDetail.getTradeAmount()));
 			    		       
+			    		 }
 			    		}
-			    		
+			    	}
 			    	}
 				}
 			    
@@ -876,10 +911,11 @@ public class TradeServiceImpl implements TradeService {
 				json.put("after_shopping_coupon", StringUtil.interceptionCharacter(2, afterMoney));
 
 				logger.info("退费订单号：" + ms.getOrderId() + "，当次退费余额是：" + ms.getConsumeMoney());
-
+				logger.info("余额退还完成");
 			}
 			// 增加美兑积分需求 2016-11-01
-			if (null != ms.getConsumePoints()) {
+			if (null != ms.getConsumePoints() && Double.valueOf(ms.getConsumePoints()) > 0) {
+				logger.info("积分退还...");
 				// 退单返回美兑积分
 				try {
 					accountAdjustService.addMDConsumePoints(ms.getMemId(), ms.getConsumePoints(), false);
@@ -919,10 +955,12 @@ public class TradeServiceImpl implements TradeService {
 			mapCondition.put("orderId",ms.getOrderId());
 			mapCondition.put("orderSource",ms.getOrderSource());
 			mapCondition.put("orderStatus","1");
+			mapCondition.put("consumeMoney", ms.getConsumeMoney());
+			mapCondition.put("consumePoints", ms.getConsumePoints());
 			consumeRecordsService.updateOrderStatus(mapCondition);
 
 			logger.info("当前退余额: " + ms.getConsumeMoney() + "当前退积分：" + ms.getConsumePoints());
-			 
+			logger.info("积分退还完成");
 		} catch (DaoException e) {
 			logger.error(ConstApiStatus.getZhMsg(ConstApiStatus.SERVER_DEAL_WITH_EXCEPTION) + ":{}", e);
 			throw new ServiceException(ConstApiStatus.SERVER_DEAL_WITH_EXCEPTION,
