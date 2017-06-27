@@ -840,7 +840,7 @@ public class TradeServiceImpl implements TradeService {
 			    		if(msAccount.getAccountNo().equals(msAccountDetail.getAccountNo())){
 			    			if(inMoney > 0 ){
 			    				logger.info("这个日志是记录第二次退款时看第一次退款了多少余额:{}",inMoney);
-			    				inMoney = msAccountDetail.getTradeAmount() - inMoney;
+			    				inMoney =  inMoney - msAccountDetail.getTradeAmount();
 			    				if(inMoney < 0){	
 			    					msAccountDetail.setTradeAmount(-inMoney);
 			    					inMoney = 0;
