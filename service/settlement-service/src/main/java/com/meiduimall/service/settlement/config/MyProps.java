@@ -17,10 +17,15 @@ public class MyProps {
 	private String o2oUrl;
 	private String o2oSaveOrderBillStatu;
 	private String o2oAddProxyFee;
+	private String o2oGetStoreInfo;
 	private String o2oApiKey;
 	private String smsUrl;
 	private String smsSendMessage;
 	private String smsPhones;
+	private String memUrl;
+	private String memAccountUrl;
+	private String memCheckUseridExists;
+	private String memAccountAdjustAmount;
 	
 	public String getOauthSignatureMethod() {
 		return oauthSignatureMethod;
@@ -105,6 +110,36 @@ public class MyProps {
 	}
 	public void setSmsPhones(String smsPhones) {
 		this.smsPhones = smsPhones;
+	}
+	public String getMemUrl() {
+		return memUrl;
+	}
+	public void setMemUrl(String memUrl) {
+		this.memUrl = memUrl;
+	}
+	public String getMemAccountUrl() {
+		return memAccountUrl;
+	}
+	public void setMemAccountUrl(String memAccountUrl) {
+		this.memAccountUrl = memAccountUrl;
+	}
+	public String getMemCheckUseridExists() {
+		return memCheckUseridExists;
+	}
+	public void setMemCheckUseridExists(String memCheckUseridExists) {
+		this.memCheckUseridExists = memCheckUseridExists;
+	}
+	public String getMemAccountAdjustAmount() {
+		return memAccountAdjustAmount;
+	}
+	public void setMemAccountAdjustAmount(String memAccountAdjustAmount) {
+		this.memAccountAdjustAmount = memAccountAdjustAmount;
+	}
+	public String getO2oGetStoreInfo() {
+		return o2oGetStoreInfo;
+	}
+	public void setO2oGetStoreInfo(String o2oGetStoreInfo) {
+		this.o2oGetStoreInfo = o2oGetStoreInfo;
 	}
 	
 

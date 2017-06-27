@@ -4,18 +4,21 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
-
-import com.google.common.base.Joiner;
-import com.google.common.base.Strings;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.github.pagehelper.StringUtil;
+import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
 import com.meiduimall.core.ResBodyData;
+
+import net.sf.json.JSONObject;
 
 /**
  * Copyright (C), 2002-2017, 美兑壹购
@@ -109,6 +112,25 @@ public class SettlementUtil {
 			result=Joiner.on(newSeparator).skipNulls().join(src);
 		}
 		return result;
+	}
+	
+	/**
+	 * 将json格式的字符串解析成Map对象
+	 * @param jsonStr
+	 * @return
+	 */
+	public static Map<String, String> jsonToMap(String jsonStr) {
+		Map<String, String> data = Maps.newHashMap();
+		// 将json字符串转换成jsonObject
+		JSONObject jsonObject = JSONObject.fromObject(jsonStr);
+		Iterator it = jsonObject.keys();
+		// 遍历jsonObject数据，添加到Map对象
+		while (it.hasNext()) {
+			String key = String.valueOf(it.next());
+			String value = (String) jsonObject.get(key);
+			data.put(key, value);
+		}
+		return data;
 	}
 	
 

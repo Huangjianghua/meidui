@@ -145,7 +145,7 @@ public interface DrawService {
 	public int getCountByCode(Map<String,Object> params);
 	
 	
-	 /**
+	/**
      * 商家余额转移至会员系统
      * @param memId
      * @param sellerName
@@ -154,6 +154,6 @@ public interface DrawService {
      * @throws Exception
      */
     public boolean transferToMall(String memId, String sellerName, String money) throws Exception;
-	
+    
 	
 }

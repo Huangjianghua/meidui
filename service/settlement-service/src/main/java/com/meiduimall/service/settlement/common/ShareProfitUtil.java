@@ -217,7 +217,7 @@ public class ShareProfitUtil {
 //	}
 	
 	public static Map<String, String> getlvlAndPhone(String arrStr) {
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, String> map = Maps.newHashMap();
 		JSONArray array = JSONArray.fromObject(arrStr);
 		for (int i = 0; i < array.size(); i++) {
 			JSONObject object = array.getJSONObject(i);

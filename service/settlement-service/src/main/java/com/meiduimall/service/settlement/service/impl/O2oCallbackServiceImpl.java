@@ -2,6 +2,7 @@ package com.meiduimall.service.settlement.service.impl;
 
 
 import java.util.Collection;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.common.base.Joiner;
+import com.google.common.collect.Maps;
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
@@ -22,6 +24,8 @@ import com.meiduimall.service.settlement.service.O2oCallbackService;
 import com.meiduimall.service.settlement.service.SmsService;
 import com.meiduimall.service.settlement.util.ConnectionUrlUtil;
 import com.meiduimall.service.settlement.util.DateUtil;
+
+import net.sf.json.JSONObject;
 
 
 @Service
@@ -120,6 +124,29 @@ public class O2oCallbackServiceImpl implements O2oCallbackService{
 				+ addTime + "&verifyUser=0" + "&addTime="
 				+ addTime + "&type=1" + "&apiKey=" + apiKey;
 		return apiUrl + apiPath + params;
+	}
+	
+	/**
+	 * 获取用于计算次日服务费、奖励金的商家信息
+	 */
+	@Override
+	public Map<String, String> getActiveStoreInfo() throws Exception {
+		String apiUrl = myProps.getO2oUrl();
+		String apiPath = myProps.getO2oGetStoreInfo();
+		String apiKey = myProps.getO2oApiKey();
+		String url = apiUrl + apiPath + "?apiKey=" + apiKey;
+		
+		Map<String, String> result = Maps.newHashMap();
+		String resultJsonStr = ConnectionUrlUtil.httpRequest(url, ShareProfitUtil.REQUEST_METHOD_GET, null);
+		JSONObject resultObj = JSONObject.fromObject(resultJsonStr);
+		if("0".equals(resultObj.getString("status"))){
+			resultObj = resultObj.getJSONObject("data");
+			result.put("sellers", resultObj.getString("sellers"));
+		}else{
+			log.error("回调o2o获取商家信息失败，用于计算次日服务费和奖励金");
+			throw new Exception("回调o2o获取商家信息失败");
+		}
+		return result;
 	}
 	
 

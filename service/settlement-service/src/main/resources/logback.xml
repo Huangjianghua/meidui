@@ -35,7 +35,7 @@
 			<totalSizeCap>1GB</totalSizeCap>
     	</rollingPolicy>
 		<encoder>
-      		<pattern>%d{HH:mm:ss.SSS} %-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
+      		<pattern>%d %-5level [%X{X-B3-TraceId:-} %X{X-B3-SpanId:-} %X{X-Span-Export:-}] %logger{36}:%line - %msg%n</pattern>
     	</encoder>
   	</appender>
   

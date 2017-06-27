@@ -77,11 +77,17 @@ public abstract class ShareProfitConstants {
 	public static final int ROLE_TYPE_PERSONAL_AGENT=2;
 	public static final int ROLE_TYPE_STORE=3;
 	
-	/** 1提现 2账单 3代理费 4保证金   **/
+	/** 1提现  2账单  3代理费  4保证金  5手工提现，财务调减  6服务费  7奖励金  8转移  9次日服务费  10次日奖励金   **/
 	public static final String WATER_TYPE_DRAW_CASH="1";
 	public static final String WATER_TYPE_BILL="2";
 	public static final String WATER_TYPE_AGENT_PROFIT="3";
 	public static final String WATER_TYPE_DEPOSIT="4";
+	public static final String WATER_TYPE_HAND_DRAW = "5";
+	public static final String WATER_TYPE_FEE = "6";
+	public static final String WATER_TYPE_BONUS = "7";
+	public static final String WATER_TYPE_TRANSFER = "8";
+	public static final String WATER_TYPE_FEE_MORROW = "9";
+	public static final String WATER_TYPE_BONUS_MORROW = "10";
 	
 	/**  回调O2O接口时传递的结算状态码： 1:积分已送  2：已结算   3：一级推荐人现金奖励已送 **/
 	public static final Integer O2O_SETTLEMENT_STATUS_CODE_SCORE=1;

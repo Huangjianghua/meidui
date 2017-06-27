@@ -45,6 +45,16 @@ public class CronExpression {
 	 */
 	public static final String TIME_ZERO_HOUR_THIRTY_MIN = "0 30 0 * * ?";
 	
+	/**
+	 * 每天0点15分触发
+	 */
+	public static final String TIME_ZERO_HOUR_FIFTEEN_MIN = "0 15 0 * * ?";
+	
+	/**
+	 * 每天0点20分触发
+	 */
+	public static final String TIME_ZERO_HOUR_TWENTY_MIN = "0 20 0 * * ?";
+	
 	private CronExpression(){}
 	
 }

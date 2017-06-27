@@ -8,6 +8,8 @@ public class Seller implements Serializable {
 	
 	//商家编号
 	private String sellerName;
+	//商家账号
+	private String sellerPhone;
 	//年华率
 	private String ratio;
 	//标记服务费 是否开启   0 关闭  1开启（目前一直为开启）
@@ -16,12 +18,26 @@ public class Seller implements Serializable {
 	private String reward;
 	//需要计算服务费和奖励金的时间
 	private String time;
+	//金额区间start
+	private String ratioWaterAmountL;
+	//金额区间end
+	private String ratioWaterAmountR;
+	//算法区间start
+	private String ratioWaterRewardL;
+	//算法区间end
+	private String ratioWaterRewardR;
 	
 	public String getSellerName() {
 		return sellerName;
 	}
 	public void setSellerName(String sellerName) {
 		this.sellerName = sellerName;
+	}
+	public String getSellerPhone() {
+		return sellerPhone;
+	}
+	public void setSellerPhone(String sellerPhone) {
+		this.sellerPhone = sellerPhone;
 	}
 	public String getRatio() {
 		return ratio;
@@ -47,6 +63,30 @@ public class Seller implements Serializable {
 	public void setTime(String time) {
 		this.time = time;
 	}
-
+	public String getRatioWaterAmountL() {
+		return ratioWaterAmountL;
+	}
+	public void setRatioWaterAmountL(String ratioWaterAmountL) {
+		this.ratioWaterAmountL = ratioWaterAmountL;
+	}
+	public String getRatioWaterAmountR() {
+		return ratioWaterAmountR;
+	}
+	public void setRatioWaterAmountR(String ratioWaterAmountR) {
+		this.ratioWaterAmountR = ratioWaterAmountR;
+	}
+	public String getRatioWaterRewardL() {
+		return ratioWaterRewardL;
+	}
+	public void setRatioWaterRewardL(String ratioWaterRewardL) {
+		this.ratioWaterRewardL = ratioWaterRewardL;
+	}
+	public String getRatioWaterRewardR() {
+		return ratioWaterRewardR;
+	}
+	public void setRatioWaterRewardR(String ratioWaterRewardR) {
+		this.ratioWaterRewardR = ratioWaterRewardR;
+	}
+	
 	
 }

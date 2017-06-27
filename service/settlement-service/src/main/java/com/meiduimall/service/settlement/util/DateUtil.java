@@ -1003,5 +1003,18 @@ public class DateUtil {
 	public static String getCurrentSixDay() {
 		return new SimpleDateFormat("yyMMdd").format(new Date());
 	}
+	
+	/**
+	 * 获取前一天日期
+	 * @param date
+	 * @return
+	 */
+	public static String getPreviousDay(Date date) {  
+		SimpleDateFormat fmt = new SimpleDateFormat(YYYY_MM_DD);
+        Calendar calendar = Calendar.getInstance();  
+        calendar.setTime(date);  
+        calendar.add(Calendar.DAY_OF_MONTH, -1);  
+        return fmt.format(calendar.getTime());  
+    } 
 
 }

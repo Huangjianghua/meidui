@@ -19,6 +19,7 @@ import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.SettlementApiCode;
 import com.meiduimall.service.settlement.common.CodeRuleUtil;
 import com.meiduimall.service.settlement.common.DrawCashConstants;
+import com.meiduimall.service.settlement.common.O2oApiConstants;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 import com.meiduimall.service.settlement.dao.BaseMapper;
 import com.meiduimall.service.settlement.model.EcmMzfAccount;
@@ -346,57 +347,6 @@ public class DrawServiceImpl implements DrawService {
 	
 	
 	@Override
-	public boolean transferToMall(String memId, String sellerName, String money) throws Exception {
-		//根据商家编号获取账户信息
-		EcmMzfAccount ecmMzfAccount = agentService.findAccountByCode(sellerName);
-		String waterId = "";
-		//判断服务费相关信息和账户信息是否存在
-		if(ecmMzfAccount == null){
-			log.error("商家编号为："+sellerName+"的账户不存在");
-			return false;
-		}
-			
-		if(ecmMzfAccount.getBalance().compareTo(new BigDecimal(money)) < 0){//balance>money时返回1,-1是小于,0是等于
-			log.error("转入金额不能大于账户总金额");
-			return false;
-		}
-		
-		waterId = CodeRuleUtil.getBillId("SH", ecmMzfAccount.getCode());
-		//调用会员系统 商家余额转移至会员系统接口
-		boolean result = memberService.accountAdjustAmount(memId, waterId, money, "商家充值");
-		if(!result){
-			log.error("提现到商城余额失败");
-			return false;
-		}
-		
-		EcmMzfAccount account = new EcmMzfAccount();
-		account.setCode(ecmMzfAccount.getCode());
-		account.setBalance(new BigDecimal(money).multiply(new BigDecimal(-1)));
-		
-		//插入发放服务费流水记录
-		EcmMzfWater water = new EcmMzfWater();
-		water.setWaterId(waterId);
-		water.setRemark("提现到商城余额");
-		water.setCode(ecmMzfAccount.getCode());
-		water.setMoney(new BigDecimal(money).multiply(new BigDecimal(-1)));
-		water.setWaterType("8");
-		water.setOpTime(new Timestamp(System.currentTimeMillis()));
-		water.setBalance(ecmMzfAccount.getBalance());
-		
-		//更新账户余额
-	    int accountResult = agentService.updateAccount(account);
-	    //插入流水
-		int waterResult = agentService.insertWater(water);
-		
-		if(accountResult > 0 && waterResult > 0){
-			log.info("提现到商城余额成功");
-			return true;
-		}
-		return false;
-	}
-	
-	
-	@Override
 	public int insertDraw(EcmMzfDraw ecmMzfDraw) {
 		return baseMapper.insert(ecmMzfDraw, "EcmMzfDrawMapper.insertDraw");
 	}
@@ -418,6 +368,57 @@ public class DrawServiceImpl implements DrawService {
 	public int getCountByCode(Map<String, Object> params) {
 		return baseMapper.selectOne(params, "EcmMzfDrawMapper.getCountByCode");
 	}
-
+	
+	
+	@Override
+	public boolean transferToMall(String memId, String sellerName, String money) throws Exception {
+		//根据商家编号获取账户信息
+		EcmMzfAccount ecmMzfAccount = agentService.findAccountByCode(sellerName);
+		String waterId = "";
+		//判断服务费相关信息和账户信息是否存在
+		if(ecmMzfAccount == null){
+			log.error("商家编号为："+sellerName+"的账户不存在");
+			return false;
+		}
+			
+		if(ecmMzfAccount.getBalance().compareTo(new BigDecimal(money)) < 0){//balance>money时返回1,-1是小于,0是等于
+			log.error("转入金额不能大于账户总金额");
+			return false;
+		}
+		
+		waterId = CodeRuleUtil.getBillId("SH", ecmMzfAccount.getCode());
+		//调用会员系统 商家余额转移至会员系统接口
+		boolean result = memberService.accountAdjustAmount(memId, waterId, money, "商家充值", O2oApiConstants.TARDE_TYPE_YEDR);
+		if(!result){
+			log.error("提现到商城余额失败");
+			return false;
+		}
+		
+		EcmMzfAccount account = new EcmMzfAccount();
+		account.setCode(ecmMzfAccount.getCode());
+		account.setBalance(new BigDecimal(money).multiply(new BigDecimal(-1)));
+		
+		//插入发放服务费流水记录
+		EcmMzfWater water = new EcmMzfWater();
+		water.setWaterId(waterId);
+		water.setRemark("提现到商城余额");
+		water.setCode(ecmMzfAccount.getCode());
+		water.setMoney(new BigDecimal(money).multiply(new BigDecimal(-1)));
+		water.setWaterType(ShareProfitConstants.WATER_TYPE_TRANSFER);
+		water.setOpTime(new Timestamp(System.currentTimeMillis()));
+		water.setBalance(ecmMzfAccount.getBalance());
+		
+		//更新账户余额
+	    int accountResult = agentService.updateAccount(account);
+	    //插入流水
+		int waterResult = agentService.insertWater(water);
+		
+		if(accountResult > 0 && waterResult > 0){
+			log.info("提现到商城余额成功");
+			return true;
+		}
+		return false;
+	}
+	
 	
 }

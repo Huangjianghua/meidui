@@ -48,6 +48,8 @@ public class DrawController {
 	
 	private static final String ADMIN = "admin";
 	
+	private static final String MONEY = "money";
+	
 	@Autowired
 	private DrawService drawService;
 	
@@ -66,16 +68,17 @@ public class DrawController {
 	@PostMapping(value="/queryaccoutbalance")
 	public ResBodyData queryAccoutBalance(String code) {
 		try {
-		Map<String, Object> accountResult = drawService.queryAccoutBalance(code);
-		//获取提现中金额
-		Map<String, Object> drawMoney = drawService.getDrawMoney(code);
-		if(drawMoney != null && !drawMoney.isEmpty()){
-			accountResult.put("money", drawMoney.get("money"));
-		}else{
-			accountResult.put("money", 0);
-		}
-		return SettlementUtil.success(accountResult);
+			Map<String, Object> accountResult = drawService.queryAccoutBalance(code);
+			//获取提现中金额
+			Map<String, Object> drawMoney = drawService.getDrawMoney(code);
+			if(drawMoney != null && !drawMoney.isEmpty()){
+				accountResult.put(MONEY, drawMoney.get(MONEY));
+			}else{
+				accountResult.put(MONEY, 0);
+			}
+			return SettlementUtil.success(accountResult);
 		} catch (DaoException e) {
+			log.error("获取商家可提现金额异常：{}", e);
 			throw new ServiceException(e.getCode());
 		}
 	}

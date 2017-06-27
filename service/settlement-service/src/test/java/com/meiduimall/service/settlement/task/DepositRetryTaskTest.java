@@ -1,4 +1,4 @@
-/*package com.meiduimall.service.settlement.task;
+package com.meiduimall.service.settlement.task;
 
 import java.util.Map;
 
@@ -26,4 +26,3 @@ public class DepositRetryTaskTest extends BaseTest {
 	}
 
 }
-*/

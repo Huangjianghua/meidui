@@ -25,7 +25,7 @@ import com.google.common.collect.Maps;
 import com.meiduimall.core.Constants;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
-import com.meiduimall.service.settlement.common.OauthConst;
+import com.meiduimall.service.settlement.common.O2oApiConstants;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 import com.meiduimall.service.settlement.common.ShareProfitUtil;
 import com.meiduimall.service.settlement.config.MyProps;
@@ -41,7 +41,6 @@ import com.meiduimall.service.settlement.service.ShareProfitLogService;
 import com.meiduimall.service.settlement.service.SmsService;
 import com.meiduimall.service.settlement.util.ConnectionUrlUtil;
 import com.meiduimall.service.settlement.util.DateUtil;
-import com.meiduimall.service.settlement.util.GatewaySignUtil;
 
 import net.sf.json.JSONObject;
 
@@ -370,11 +369,11 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public boolean accountAdjustAmount(String memId, String orderId, String amount, String remark) {
-		String reqResult = "";
+	public boolean accountAdjustAmount(String memId, String orderId, String amount, String remark, String tradeType) {
 		
 		StringBuilder url = new StringBuilder();
-		url.append("http://192.168.4.150:8091/server/index.php?g=Web&c=Mock&o=success&mockCode=XCRU7DLIjTNc6ctF5ubx5ZPSGVdQ4KlV");
+		url.append(myProps.getMemAccountUrl());
+		url.append(myProps.getMemAccountAdjustAmount());
 		
 		HttpHeaders headers = new HttpHeaders();
 		MediaType type = MediaType.parseMediaType("application/json; charset=utf-8");
@@ -386,21 +385,18 @@ public class MemberServiceImpl implements MemberService {
 		json.put("order_id", orderId);
 		json.put("trade_amount", amount);
 		json.put("remark", remark);
-		json.put("direction", "IN");
+		json.put("direction", O2oApiConstants.DIRECTION_IN);
 		json.put("trade_time", timestamp);
-		json.put("trade_type", "YETX");
-		json.put("source", "O2O");
-		json.put(OauthConst.CLIENT_ID, OauthConst.CLIENT_ID_VALUE);
-		json.put(OauthConst.TIMESATAMP, timestamp);
-		json.put(OauthConst.SIGN, GatewaySignUtil.buildsign(OauthConst.SECRETKEY_VALUE, json));
-		HttpEntity<JSONObject> formEntity = new HttpEntity<JSONObject>(json, headers);
-		reqResult = restTemplate.postForObject(url.toString(), formEntity, String.class);
-		JSONObject resultJson = JSONObject.fromObject(reqResult.toString());
+		json.put("trade_type", tradeType);
+		json.put("source", O2oApiConstants.SOURCE);
+		HttpEntity<JSONObject> formEntity = new HttpEntity<>(json, headers);
+		String reqResult = restTemplate.postForObject(url.toString(), formEntity, String.class);
+		JSONObject resultJson = JSONObject.fromObject(reqResult);
 		if (resultJson == null) {
 			return false;
 		} else {
 			// 判断返回是否成功,如果不成功则不理会
-			if (Integer.valueOf((int) resultJson.get("status")) == 0) {
+			if ("0".equals(resultJson.getString("status"))) {
 				return true;
 			} else {
 				log.error("errcode:" + resultJson.get("status") + ";errmsg:" + resultJson.get("msg"));
@@ -409,5 +405,21 @@ public class MemberServiceImpl implements MemberService {
 		}
 	}
  
+	@Override
+	public String getMemId(String sellerPhone) {
+		StringBuilder url = new StringBuilder();
+		url.append(myProps.getMemUrl());
+		url.append(myProps.getMemCheckUseridExists());
+		url.append("?userid=");
+		url.append(sellerPhone);
+		
+		JSONObject resultJson = restTemplate.getForObject(url.toString(), JSONObject.class);
+		String memId = "";
+		if("0".equals(resultJson.getString("status"))){
+			resultJson = resultJson.getJSONObject("data");
+			memId = resultJson.getString("memId");
+		}
+		return memId;
+	}
 	
 }

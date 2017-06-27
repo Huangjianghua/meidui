@@ -9,10 +9,14 @@ package com.meiduimall.service.settlement.common;
  */
 public class O2oApiConstants {
 	
-	public static final String KEY_O2O_API_URL="o2o.api.url";
-	public static final String KEY_O2O_API_SAVE_ORDER_BILL_STATUS="o2o.api.save_order_bill_statu";
-	public static final String KEY_O2O_API_ADD_PROXY_FEE="o2o.api.add_proxy_fee";
-	public static final String KEY_O2O_API_KEY="o2o.api.api_key";
+	//交易类型 商家充值
+	public static final String TARDE_TYPE_YEDR = "YEDR";
+	//交易类型  商家订单奖励
+	public static final String TRADE_TYPE_SJJL = "SJJL";
+	//调账方向 调账方向，IN调增，OUT调减
+	public static final String DIRECTION_IN = "IN";
+	//交易来源
+	public static final String SOURCE = "O2O";
 
 	private O2oApiConstants(){}
 	

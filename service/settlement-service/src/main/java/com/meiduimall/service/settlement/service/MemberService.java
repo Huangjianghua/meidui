@@ -50,5 +50,13 @@ public interface MemberService {
      * @return
      * @throws Exception
      */
-    public boolean accountAdjustAmount(String memId, String orderId, String amount, String remark);
+    public boolean accountAdjustAmount(String memId, String orderId, String amount, String remark, String tradeType);
+    
+    /**
+     * 根据手机号码获取memId
+     * @param sellerPhone
+     * @return
+     * @throws Exception
+     */
+    public String getMemId(String sellerPhone);
 }

@@ -154,7 +154,9 @@ public class BillServiceImpl implements BillService,BeanSelfAware {
 				water.setWaterType("2");
 				water.setExtId(billid);
 				water.setOpTime(opTime);
-				water.setBalance(ecmMzfAccount.getBalance());//变更前可提现金额(2017-04-01)
+				if(ecmMzfAccount != null){
+					water.setBalance(ecmMzfAccount.getBalance());//变更前可提现金额(2017-04-01)
+				}
 				int insertResult = agentService.insertWater(water);
 				log.info("生成编号为"+code+"的流水汇总数据："+insertResult+"条  金额:"+amount+" 角色类型:"+type);		
 				

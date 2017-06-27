@@ -1,6 +1,7 @@
 package com.meiduimall.service.settlement.service;
 
 import java.util.Collection;
+import java.util.Map;
 
 import com.meiduimall.service.settlement.model.EcmAgent;
 
@@ -34,5 +35,12 @@ public interface O2oCallbackService {
 	 * 
 	 */
 	public String addProxyFee(EcmAgent areaAgent, double amount);
+	
+	/**
+	 * 获取需要计算次日服务费、奖励金的商家信息
+	 * @return
+	 * @throws Exception
+	 */
+	public Map<String, String> getActiveStoreInfo() throws Exception;
 
 }
