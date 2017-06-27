@@ -37,8 +37,12 @@ public class ApiStatusConst extends BaseApiCode {
 	public final static Integer CALLBACK_URL_ZERO=9025;
 	public final static Integer CALLBACK_URL_ISNUM=9026;
 	public final static Integer BIZID_REPEAT=9027;
+	public final static Integer RECHARGE_AMOUT_DECIMAL=9028;
+	public final static Integer ACCOUNT_TYPE_NON_EXISTENT=9029;
 	
 	static {
+		zhMsgMap.put(ACCOUNT_TYPE_NON_EXISTENT, "个人帐户类型不存在");
+		zhMsgMap.put(RECHARGE_AMOUT_DECIMAL, "充值金额小数位大于2位");
 		zhMsgMap.put(BIZID_REPEAT, "充值单号重复");
 		zhMsgMap.put(CALLBACK_URL_ISNUM, "充值金额只能为纯数字");
 		zhMsgMap.put(CALLBACK_URL_ZERO, "充值金额不能为0");
