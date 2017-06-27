@@ -838,7 +838,7 @@ public class TradeServiceImpl implements TradeService {
 			    			logger.info("账户变更标识:{}",msAccountDetail.getInOrOut());
 			    		//判断账户与账户明细的账户是否相等
 			    		if(msAccount.getAccountNo().equals(msAccountDetail.getAccountNo())){
-			    			logger.info("这个日志是记录第二次退款时看第一次退款了多少余额,如果为0就是第一次退款:",inMoney);
+			    			logger.info("这个日志是记录第二次退款时看第一次退款了多少余额,如果为0就是第一次退款:{}",inMoney);
 			    			if(inMoney > 0 ){
 			    				inMoney = msAccountDetail.getTradeAmount() - inMoney;
 			    			}else{
@@ -846,7 +846,7 @@ public class TradeServiceImpl implements TradeService {
 			    					msAccountDetail.setTradeAmount(-inMoney);
 			    					inMoney = 0;
 			    				}
-			    			 logger.info("当把之前退款全减完了,进来退款余下的账户,并保存到数据库");
+			    			 logger.info("当把之前退款全减完了,进来退款余下的账户,并保存到数据库TradeAmount:{}",msAccountDetail.getTradeAmount());
 			    			
 							double balance = 0;
 							double consumeMoney = bigDecimal.doubleValue();
@@ -953,6 +953,8 @@ public class TradeServiceImpl implements TradeService {
 			mapCondition.put("orderId",ms.getOrderId());
 			mapCondition.put("orderSource",ms.getOrderSource());
 			mapCondition.put("orderStatus","1");
+			mapCondition.put("consumeMoney", ms.getConsumeMoney());
+			mapCondition.put("consumePoints", ms.getConsumePoints());
 			consumeRecordsService.updateOrderStatus(mapCondition);
 
 			logger.info("当前退余额: " + ms.getConsumeMoney() + "当前退积分：" + ms.getConsumePoints());
