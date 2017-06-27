@@ -3,6 +3,8 @@ package com.meiduimall.service.account.api;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.validation.Valid;
 
@@ -33,6 +35,10 @@ import com.meiduimall.service.account.service.BankWithdrawDepositService;
 import com.meiduimall.service.account.service.MSAccountDetailService;
 import com.meiduimall.service.account.service.WithDrawService;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 /**
  * 提现相关接口
  * 
@@ -53,6 +59,8 @@ public class AccountWithDrawV1Controller {
 
 	@Autowired
 	private WithDrawService withDrawService;
+	
+	private static Lock lock=new ReentrantLock(); 
 
 	/**
 	 * 描述：提现记录查询接口实现
@@ -61,6 +69,9 @@ public class AccountWithDrawV1Controller {
 	 * @return
 	 * @author: jianhua.huang 2017年5月5日 下午5:31:38
 	 */
+	@ApiOperation(value="查询提现记录", notes="查询提现记录")
+    @ApiImplicitParams({
+    @ApiImplicitParam(name = "mSAccountDetailCondition", value = "提现查询实体", required = true, dataType = "MSAccountDetailCondition"),})
 	@PostMapping(value = "/list_withdraw_condition")
 	public ResBodyData listWithDrawCondition(@RequestBody MSAccountDetailCondition mSAccountDetailCondition) {
 		List<MSBankWithdrawDeposit> listMSBankWithdrawDeposit = null;
@@ -95,12 +106,15 @@ public class AccountWithDrawV1Controller {
 	public ResBodyData saveBankWithDraw(@RequestBody RequestMSBankWithDrawDepostie deposit) {
 		// step1 检查参数
 		this.checkSaveBankWithDrawParam(deposit);
+		lock.lock();
 		try {
 			// stpe2 执行提现申请
 			mSAccountDetailService.saveBankWithdrawDeposit(deposit);
 		} catch (MdBizException e) {
 			logger.error("余额提现申请操作Controller异常:{}", e.getMessage());
 			throw new ApiException(e.getCode(), e.getMessage());
+		}finally {
+			lock.unlock();
 		}
 		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M);
 	}
