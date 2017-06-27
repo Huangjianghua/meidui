@@ -251,7 +251,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		paramsMap.put("tradeType", ConstSysParamsDefination.TRADETYPE);
 		paramsMap.put("tradeAmount", detail.getReviseBalance().toString());
 		paramsMap.put("balance", balance.toString());
-		paramsMap.put("remark", detail.getWalletName());
+		paramsMap.put("remark", detail.getReviseRemark());
 		paramsMap.put("inOrOut", type);
 		paramsMap.put("tradeDate", DateUtil.format(new Date(),DateUtil.YYYY_MM_DD_HH_MM_SS));
 		paramsMap.put("createDate", DateUtil.format(new Date(),DateUtil.YYYY_MM_DD_HH_MM_SS));
@@ -390,7 +390,17 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			paramsMap.put("memId", memId);
 			paramsMap.put("accountType", ConstSysParamsDefination.ACCOUNT_TYPE_MONEY);
 			account=baseDao.selectOne(paramsMap, "MSAccountMapper.getAccountByMemId");
-			if(account==null) throw new MdBizException(ConstApiStatus.ACCOUNT_IS_NULL_ERROR);
+			if(account==null){
+				account = new MSAccount();//生成会员余额账户信息
+				account.setId(UUID.randomUUID().toString());
+				account.setMemId(memId);
+				account.setType(ConstSysParamsDefination.ACCOUNT_TYPE_MONEY);
+				account.setBalance(String.valueOf(Constants.CONSTANT_INT_ZERO));
+				account.setFreeze_balance(String.valueOf(Constants.CONSTANT_INT_ZERO));
+				account.setCreateDate(new Date());
+				account.setUpdateDate(new Date());
+				baseDao.insert(account,"MSAccountMapper.insertMsAccount");
+			}
 		} catch (Exception e) {
 			logger.error("根据memID:{},查询账号queryAccountByMemId错误:{}",memId,e);
 			throw new MdBizException(ConstApiStatus.ACCOUNT_IS_NULL_ERROR);

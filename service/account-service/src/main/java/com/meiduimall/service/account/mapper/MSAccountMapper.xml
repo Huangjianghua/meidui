@@ -17,7 +17,7 @@
 		mem_id AS memId,
 		type AS type,
 		balance AS balance,
-		freeze_balance AS freezeBalance,
+		freeze_balance AS freeze_balance,
 		create_date AS createDate,
 		update_date AS updateDate
 		FROM ms_account 
@@ -138,7 +138,7 @@
 		#{memId},
 		#{type},
 		#{balance},
-		#{freezeBalance},
+		#{freeze_balance},
 		#{createDate},
 		#{updateDate}
 		)

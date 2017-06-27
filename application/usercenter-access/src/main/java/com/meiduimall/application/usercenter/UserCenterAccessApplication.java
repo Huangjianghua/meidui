@@ -12,5 +12,6 @@ public class UserCenterAccessApplication extends SpringBootServletInitializer{
 	public static void main(String[] args) {
 		SpringApplication.run(UserCenterAccessApplication.class, args);
 	}
+	
 } 
  
