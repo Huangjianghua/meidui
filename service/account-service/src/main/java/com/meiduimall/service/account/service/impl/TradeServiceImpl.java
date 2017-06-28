@@ -838,16 +838,29 @@ public class TradeServiceImpl implements TradeService {
 			    			logger.info("账户变更标识:{}",msAccountDetail.getInOrOut());
 			    		//判断账户与账户明细的账户是否相等
 			    		if(msAccount.getAccountNo().equals(msAccountDetail.getAccountNo())){
-			    			logger.info("这个日志是记录第二次退款时看第一次退款了多少余额,如果为0就是第一次退款:",inMoney);
 			    			if(inMoney > 0 ){
-			    			inMoney = msAccountDetail.getTradeAmount() - inMoney;
-			    			}
-			    			else{
-			    				if(inMoney == 0){
+			    				logger.info("这个日志是记录第二次退款时看第一次退款了多少余额:{}",inMoney);
+			    				inMoney =  inMoney - msAccountDetail.getTradeAmount();
+			    				
+			    			    logger.info("当把之前退款全减完了,进来退款余下的账户,并保存到数据库TradeAmount:{}",msAccountDetail.getTradeAmount());
+			    			    if(inMoney == 0){
+			    			 		logger.info("计算结果等于0中止这次循环continue");
+			    					continue;
+			    			 	}
+			    			    if(inMoney < 0){
+			    			 		logger.info("当前计算第一次退款:{}",inMoney);
 			    					msAccountDetail.setTradeAmount(-inMoney);
 			    					inMoney = 0;
 			    				}
-			    			 logger.info("当把之前退款全减完了,进来退款余下的账户,并保存到数据库");
+			    			 	
+			    			}
+			    			
+			    			if(inMoney > 0){
+			    				logger.info("中止这次循环continue");
+		    					continue;
+			    			} 
+			    			
+			    			
 			    			double balance = 0;
 							double consumeMoney = bigDecimal.doubleValue();
 						  if(consumeMoney > 0){
@@ -883,10 +896,9 @@ public class TradeServiceImpl implements TradeService {
 				    				balance,msAccount.getBalance() + balance);
 						  }
 			    		  bigDecimal = bigDecimal.subtract(new BigDecimal(msAccountDetail.getTradeAmount()));
-			    		       
-			    		 }
+			    		     
 			    		}
-			    	}
+			    	    }
 			    	}
 				}
 			    
