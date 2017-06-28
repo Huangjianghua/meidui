@@ -827,13 +827,11 @@ public class TradeServiceImpl implements TradeService {
 			if (null != ms.getConsumeMoney() && Double.valueOf(ms.getConsumeMoney()) > 0) {
 				logger.info("余额退还...");
 				//根据订单号查询账户明细
-				List<MSAccountDetail> listAccountDetail = accountDetailService.listAccountDetail(new MSAccountDetailGet(ms.getOrderId()));
 				double inMoney = 0;
-				for (MSAccountDetail msAccountDetail : listAccountDetail) {
-					if(msAccountDetail.getInOrOut() == 1){
-						inMoney = inMoney + msAccountDetail.getTradeAmount();
-					}
-				}
+				String sumTradeAmount = baseDao.selectOne(new MSAccountDetailGet(1, ms.getOrderId()), "MSAccountDetailMapper.sumTradeAmount");
+				inMoney = Double.valueOf(sumTradeAmount);
+				
+				List<MSAccountDetail> listAccountDetail = accountDetailService.listAccountDetail(new MSAccountDetailGet(-1,ms.getOrderId()));
 				
 				List<MSAccount> msAccountlist = new ArrayList<MSAccount>();
 				List<MSAccountDetail> listAccountDetail2 = new ArrayList<>();
@@ -844,7 +842,7 @@ public class TradeServiceImpl implements TradeService {
 			    for (MSAccount msAccount : balanceAccountList) {
 			    	for (MSAccountDetail msAccountDetail : listAccountDetail) {
 			    		MSAccount account = new MSAccount();
-			    		if(msAccountDetail.getInOrOut() == -1){  //这里获取之前消费明细-1 支出 1是收入
+			    		   //这里获取之前消费明细-1 支出 1是收入
 			    		//判断账户与账户明细的账户是否相等
 			    		if(msAccount.getAccountNo().equals(msAccountDetail.getAccountNo())){
 			    			if(inMoney > 0 ){
@@ -909,7 +907,6 @@ public class TradeServiceImpl implements TradeService {
 			    		
 			    		}
 			    		}
-			    	}
 				}
 			    
 			    //更新MSAccountReport
@@ -1195,5 +1192,4 @@ public class TradeServiceImpl implements TradeService {
 		}
 		return false;
 	}
-
 }

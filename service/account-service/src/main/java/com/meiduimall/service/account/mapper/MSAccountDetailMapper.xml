@@ -107,6 +107,9 @@
      <if test="businessNo !=null and businessNo !=''">
           and m.business_no = #{businessNo}
      </if>
+     <if test="inOrOut !=null and inOrOut !=''">
+          and m.in_or_out = #{inOrOut}
+     </if>
   </select>
 	
 	<select id="listMSAccountCondition" resultType="com.meiduimall.service.account.model.MSAccountDetail" parameterType="com.meiduimall.service.account.model.MSAccountDetailCondition" >
@@ -144,6 +147,10 @@
 	AND ms_account.mem_id=#{memId} 
 	AND ms_account_detail.in_or_out=1
 	AND (ms_account_detail.trade_type='FJJL' OR ms_account_detail.trade_type='SCJL')
+  </select>
+  
+  <select id="sumTradeAmount" parameterType="com.meiduimall.service.account.model.MSAccountDetailGet" resultType="java.lang.String">
+    SELECT  SUM(trade_amount) sumTradeAmount  FROM ms_account_detail WHERE  business_no = #{businessNo} AND in_or_out = #{inOrOut}
   </select>
   
 </mapper>
