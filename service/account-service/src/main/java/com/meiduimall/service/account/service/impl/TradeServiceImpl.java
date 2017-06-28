@@ -774,8 +774,8 @@ public class TradeServiceImpl implements TradeService {
 			if (null == history) {
 				MSMemberConsumeRecords record = consumeRecordsService.getConsumeRecords(ms.getOrderId(), ms.getOrderSource(), 2);
 				if(record == null){
-					logger.info("没有查消费订单");
-					return new ResBodyData(2063, "没有查消费订单");
+					logger.info("没有查询到消费订单");
+					return new ResBodyData(2063, "没有查询到消费订单");
 				}
 				if(record.getConsumeAmount() < Double.valueOf(ms.getConsumeAmount())){
 					logger.info("第二次退单金额大于消费金额");
@@ -819,7 +819,8 @@ public class TradeServiceImpl implements TradeService {
 			json.put("after_consume_coupon", "0.00");
 			logger.info("退费订单号：{}，进入退费美积分计算方法.", ms.getOrderId());
 			logger.info("返还余额为: {} , 返还积分为: {}", ms.getConsumeMoney(), ms.getConsumePoints());
-			if (null != ms.getConsumeMoney()) {
+			if (null != ms.getConsumeMoney() && Double.valueOf(ms.getConsumeMoney()) > 0) {
+				logger.info("余额退还...");
 				//根据订单号查询账户明细
 				List<MSAccountDetail> listAccountDetail = accountDetailService.listAccountDetail(new MSAccountDetailGet(ms.getOrderId()));
 				double inMoney = 0;
@@ -927,10 +928,11 @@ public class TradeServiceImpl implements TradeService {
 				json.put("after_shopping_coupon", StringUtil.interceptionCharacter(2, afterMoney));
 
 				logger.info("退费订单号：" + ms.getOrderId() + "，当次退费余额是：" + ms.getConsumeMoney());
-
+				logger.info("余额退还完成");
 			}
 			// 增加美兑积分需求 2016-11-01
-			if (null != ms.getConsumePoints()) {
+			if (null != ms.getConsumePoints() && Double.valueOf(ms.getConsumePoints()) > 0) {
+				logger.info("积分退还...");
 				// 退单返回美兑积分
 				try {
 					accountAdjustService.addMDConsumePoints(ms.getMemId(), ms.getConsumePoints(), false);
@@ -975,7 +977,7 @@ public class TradeServiceImpl implements TradeService {
 			consumeRecordsService.updateOrderStatus(mapCondition);
 
 			logger.info("当前退余额: " + ms.getConsumeMoney() + "当前退积分：" + ms.getConsumePoints());
-			 
+			logger.info("积分退还完成");
 		} catch (DaoException e) {
 			logger.error(ConstApiStatus.getZhMsg(ConstApiStatus.SERVER_DEAL_WITH_EXCEPTION) + ":{}", e);
 			throw new ServiceException(ConstApiStatus.SERVER_DEAL_WITH_EXCEPTION,
