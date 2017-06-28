@@ -106,7 +106,8 @@ public class WaterController {
 	@ApiOperation(value="根据流水编号获取流水详情", notes="根据流水编号获取流水详情")
 	@PostMapping("/querywaterbyid")
 	public ResBodyData queryWaterById(String waterId, String waterType, Integer loginType, String code,
-			Integer pageNumber, Integer pageSize) {
+			@RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = "20") int pageSize) {
 		
 		if(StringUtil.isEmpty(waterId) || StringUtil.isEmpty(waterType)){
 			logger.error("流水编号或流水类型不能为空");

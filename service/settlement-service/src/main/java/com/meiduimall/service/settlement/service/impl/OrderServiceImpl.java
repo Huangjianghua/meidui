@@ -451,11 +451,11 @@ public class OrderServiceImpl implements OrderService {
     for (EcmMzfShareProfit shareProfit : shareProfitList) {
 
       if (loginType != null && loginType == 1) {
-        if (!StringUtil.isEmpty(code) && code.length() == 6) {  //个代
-          shareProfit.setProfit(shareProfit.getPersonAgentProfit());
-        } else {  //区代
-          shareProfit.setProfit(shareProfit.getAreaAgentProfit().add(shareProfit.getOutareaAgentProfit()));
-        }
+    	  if(!StringUtil.isEmpty(code) && code.length()!=6){  //个代
+				shareProfit.setProfit(shareProfit.getPersonAgentProfit());
+		  }else{  //区代
+				shareProfit.setProfit(shareProfit.getAreaAgentProfit().add(shareProfit.getOutareaAgentProfit()==null?BigDecimal.valueOf(0):shareProfit.getOutareaAgentProfit()));
+		  }
       }
     }
     return shareProfitList;

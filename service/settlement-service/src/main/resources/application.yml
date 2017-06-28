@@ -79,8 +79,8 @@ myProps :
   ##url from sms
   smsUrl : http://192.168.4.240:20000/
   smsSendMessage : notify/short_msg_service/v1/new/send_common_sms_message
-  ##phones:xuyanxiong,guidonglin
-  smsPhones : 13410336992,13798431927
+  ##phones:guidongling
+  smsPhones : 13798431927
   ##new member
   memUrl : http://192.168.4.240:8098/
   memAccountUrl : http://192.168.4.240:8096/
@@ -168,8 +168,8 @@ myProps :
   ##url from sms
   smsUrl : http://10.45.178.235:20000/
   smsSendMessage : notify/short_msg_service/v1/new/send_common_sms_message
-  ##phones:xuyanxiong,guidonglin
-  smsPhones : 13410336992,13798431927,18898447755
+  ##phones:guidongling
+  smsPhones : 13798431927,18898447755
   ##new member
   memUrl : http://192.168.4.240:8098/
   memAccountUrl : http://192.168.4.240:8096/
@@ -257,8 +257,8 @@ myProps :
   ##url from sms
   smsUrl : http://10.116.21.93:20000/
   smsSendMessage : notify/short_msg_service/v1/new/send_common_sms_message
-  ##phones:xuyanxiong,guidonglin
-  smsPhones : 13410336992,13798431927,18898447755
+  ##phones:guidongling
+  smsPhones : 13798431927,18898447755
   ##new member
   memUrl : http://192.168.4.240:8098/
   memAccountUrl : http://192.168.4.240:8096/
@@ -346,8 +346,8 @@ myProps :
   ##url from sms
   smsUrl : http://10.45.178.235:20000/
   smsSendMessage : notify/short_msg_service/v1/new/send_common_sms_message
-  ##phones:xuyanxiong,guidonglin
-  smsPhones : 13410336992,13798431927
+  ##phones:guidongling
+  smsPhones : 13798431927
   ##new member
   memUrl : http://192.168.4.240:8098/
   memAccountUrl : http://192.168.4.240:8096/
