@@ -844,15 +844,19 @@ public class TradeServiceImpl implements TradeService {
 			    			if(inMoney > 0 ){
 			    				logger.info("这个日志是记录第二次退款时看第一次退款了多少余额:{}",inMoney);
 			    				inMoney =  inMoney - msAccountDetail.getTradeAmount();
-			    				if(inMoney < 0){	
+			    				
+			    			    logger.info("当把之前退款全减完了,进来退款余下的账户,并保存到数据库TradeAmount:{}",msAccountDetail.getTradeAmount());
+			    			 	if(inMoney <= 0){	
 			    					msAccountDetail.setTradeAmount(-inMoney);
 			    					inMoney = 0;
-			    				}else{
-			    					continue;
 			    				}
-			    			 logger.info("当把之前退款全减完了,进来退款余下的账户,并保存到数据库TradeAmount:{}",msAccountDetail.getTradeAmount());
-			    				
 			    			}
+			    			
+			    			if(inMoney > 0){
+			    				logger.info("中止这次循环continue");
+		    					continue;
+			    			}
+			    			
 			    			
 							double balance = 0;
 							double consumeMoney = bigDecimal.doubleValue();
@@ -889,7 +893,7 @@ public class TradeServiceImpl implements TradeService {
 				    				balance,msAccount.getBalance() + balance);
 						  }
 			    		  bigDecimal = bigDecimal.subtract(new BigDecimal(msAccountDetail.getTradeAmount()));
-			    		   
+			    		
 			    		}
 			    		}
 			    	}
