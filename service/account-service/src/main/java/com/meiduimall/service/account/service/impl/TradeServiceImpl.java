@@ -840,6 +840,8 @@ public class TradeServiceImpl implements TradeService {
 				List<MSAccount> msAccountlist = new ArrayList<MSAccount>();
 				List<MSAccountDetail> listAccountDetail2 = new ArrayList<>();
 				//根据memId查询会员余额
+				// 不分页
+				PageHelper.startPage(0, 0, false, false, true);
 				PageHelper.orderBy("m.spend_priority DESC");
 				List<MSAccount> balanceAccountList = accountServices.getBalanceAccountList(ms.getMemId());
 				logger.info("账户表size:{}",listAccountDetail.size());
