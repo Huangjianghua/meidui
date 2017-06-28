@@ -836,12 +836,13 @@ public class TradeServiceImpl implements TradeService {
 				}
 				
 				List<MSAccountDetail> listAccountDetail = accountDetailService.listAccountDetail(new MSAccountDetailGet(-1,ms.getOrderId()));
-				
+				logger.info("账户明细表size:{}",listAccountDetail.size());
 				List<MSAccount> msAccountlist = new ArrayList<MSAccount>();
 				List<MSAccountDetail> listAccountDetail2 = new ArrayList<>();
 				//根据memId查询会员余额
 				PageHelper.orderBy("m.spend_priority DESC");
 				List<MSAccount> balanceAccountList = accountServices.getBalanceAccountList(ms.getMemId());
+				logger.info("账户表size:{}",listAccountDetail.size());
 				BigDecimal bigDecimal = new BigDecimal(ms.getConsumeMoney());
 			    for (MSAccount msAccount : balanceAccountList) {
 			    	for (MSAccountDetail msAccountDetail : listAccountDetail) {
@@ -849,6 +850,7 @@ public class TradeServiceImpl implements TradeService {
 			    		   //这里获取之前消费明细-1 支出 1是收入
 			    		//判断账户与账户明细的账户是否相等
 			    		if(msAccount.getAccountNo().equals(msAccountDetail.getAccountNo())){
+			    			logger.info("AccountNo:{}",msAccountDetail.getAccountNo());
 			    			if(inMoney > 0 ){
 			    				logger.info("这个日志是记录第二次退款时看第一次退款了多少余额:{}",inMoney);
 			    				inMoney =  inMoney - msAccountDetail.getTradeAmount();
