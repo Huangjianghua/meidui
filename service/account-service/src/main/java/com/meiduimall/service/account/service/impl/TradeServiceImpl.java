@@ -307,6 +307,7 @@ public class TradeServiceImpl implements TradeService {
 		
 		String memId=model.getMemId(); //会员ID
 		String orderId=model.getOrderId(); //订单号
+		List<MSAccountFreezeDetail> listBalanceFreeze=new ArrayList<>();
 		
 		//根据订单号查询积分冻结解冻的记录
 		List<MSConsumePointsFreezeInfo> listPointsFreezeInfo=pointsFreezeInfoService.getRecordsByOrderId(orderId);
@@ -314,12 +315,15 @@ public class TradeServiceImpl implements TradeService {
 			logger.warn("会员{}的订单{}不存在积分冻结记录",memId,orderId);
 			throw new ServiceException(ConstApiStatus.NO_DJ_POINTS);
 		}
-		
-		//根据订单号查询余额冻结解冻的记录
-		List<MSAccountFreezeDetail> listBalanceFreeze=accountFreezeDetailService.getRecordsByOrderId(orderId);
-		if(listBalanceFreeze.size()==0){
-			logger.warn("会员{}的订单{}不存在余额冻结记录",memId,orderId);
-			throw new ServiceException(ConstApiStatus.NO_DJ_MONEY);
+		//修改法取消已支付积分的订单   加段逻辑控制
+		MSMemberConsumeRecords records=consumeRecordsService.getConsumeRecords(orderId, null, null);
+		if(records!=null&&records.getConsumeMoney()>0){
+			//根据订单号查询余额冻结解冻的记录
+			listBalanceFreeze=accountFreezeDetailService.getRecordsByOrderId(orderId);
+			if(listBalanceFreeze.size()==0){
+				logger.warn("会员{}的订单{}不存在余额冻结记录",memId,orderId);
+				throw new ServiceException(ConstApiStatus.NO_DJ_MONEY);
+			}
 		}
 		
 		//添加该订单号对应的积分解冻记录
@@ -357,9 +361,10 @@ public class TradeServiceImpl implements TradeService {
 			mapCondition.put("freezeBalance",mapCondition.get("freezeBalance")-item.getFreezeBalance());
 			mapCondition.put(msAccount.getAccountTypeNo(),-item.getFreezeBalance());
 		}
-		
-		//更新账户报表的冻结余额
-		baseDao.update(mapCondition,"MSAccountReportMapper.updateFreezeBalance");
+		if(records!=null&&records.getConsumeMoney()>0){
+			//更新账户报表的冻结余额
+			baseDao.update(mapCondition,"MSAccountReportMapper.updateFreezeBalance");
+		}
 		
 		//更新消费记录表状态为已退单
 		Map<String,Object> mapMcr=new HashMap<>();
