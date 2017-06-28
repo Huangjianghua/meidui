@@ -773,6 +773,10 @@ public class TradeServiceImpl implements TradeService {
 			
 			if (null == history) {
 				MSMemberConsumeRecords record = consumeRecordsService.getConsumeRecords(ms.getOrderId(), ms.getOrderSource(), 2);
+				if(record == null){
+					logger.info("没有查消费订单");
+					return new ResBodyData(2063, "没有查消费订单");
+				}
 				if(record.getConsumeAmount() < Double.valueOf(ms.getConsumeAmount())){
 					logger.info("第二次退单金额大于消费金额");
 					return new ResBodyData(2063, "第二次退单金额大于消费金额");
@@ -835,7 +839,6 @@ public class TradeServiceImpl implements TradeService {
 			    	for (MSAccountDetail msAccountDetail : listAccountDetail) {
 			    		MSAccount account = new MSAccount();
 			    		if(msAccountDetail.getInOrOut() == -1){  //这里获取之前消费明细-1 支出 1是收入
-			    			logger.info("账户变更标识:{}",msAccountDetail.getInOrOut());
 			    		//判断账户与账户明细的账户是否相等
 			    		if(msAccount.getAccountNo().equals(msAccountDetail.getAccountNo())){
 			    			if(inMoney > 0 ){
@@ -844,11 +847,12 @@ public class TradeServiceImpl implements TradeService {
 			    				if(inMoney < 0){	
 			    					msAccountDetail.setTradeAmount(-inMoney);
 			    					inMoney = 0;
+			    				}else{
+			    					continue;
 			    				}
 			    			 logger.info("当把之前退款全减完了,进来退款余下的账户,并保存到数据库TradeAmount:{}",msAccountDetail.getTradeAmount());
 			    				
-			    			}else{
-			    				
+			    			}
 			    			
 							double balance = 0;
 							double consumeMoney = bigDecimal.doubleValue();
@@ -885,7 +889,7 @@ public class TradeServiceImpl implements TradeService {
 				    				balance,msAccount.getBalance() + balance);
 						  }
 			    		  bigDecimal = bigDecimal.subtract(new BigDecimal(msAccountDetail.getTradeAmount()));
-			    		}   
+			    		   
 			    		}
 			    		}
 			    	}
