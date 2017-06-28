@@ -195,7 +195,7 @@ public class TradeV1ControllerTest extends BaseControllerTest {
 	 */
     @Test
     public void testRecedeOrderOld_01() throws Exception{
-    	RequestSaveOrder requestSaveOrder = new RequestSaveOrder();
+    	/*RequestSaveOrder requestSaveOrder = new RequestSaveOrder();
     	requestSaveOrder.setMemId("48d98556-cc3a-4e41-83d8-8cb2ab14c2d3"); //谢铭澄的memId
     	requestSaveOrder.setOrderId(orderId);
     	requestSaveOrder.setOrderSource("1gw");
@@ -229,7 +229,7 @@ public class TradeV1ControllerTest extends BaseControllerTest {
     		public void handle(MvcResult result) throws Exception {
     			logger.info("单元测试>>当前会员退单信息API>>执行结果:{}",result.getResponse().getContentAsString());
     		}
-    	});
+    	});*/
     }
     
     /**
