@@ -846,15 +846,16 @@ public class TradeServiceImpl implements TradeService {
 			    				inMoney =  inMoney - msAccountDetail.getTradeAmount();
 			    				
 			    			    logger.info("当把之前退款全减完了,进来退款余下的账户,并保存到数据库TradeAmount:{}",msAccountDetail.getTradeAmount());
-			    			 	if(inMoney < 0){
+			    			    if(inMoney == 0){
+			    			 		logger.info("计算结果等于0中止这次循环continue");
+			    					continue;
+			    			 	}
+			    			    if(inMoney < 0){
 			    			 		logger.info("当前计算第一次退款:{}",inMoney);
 			    					msAccountDetail.setTradeAmount(-inMoney);
 			    					inMoney = 0;
 			    				}
-			    			 	if(inMoney == 0){
-			    			 		logger.info("计算结果等于0中止这次循环continue");
-			    					continue;
-			    			 	}
+			    			 	
 			    			}
 			    			
 			    			if(inMoney > 0){
