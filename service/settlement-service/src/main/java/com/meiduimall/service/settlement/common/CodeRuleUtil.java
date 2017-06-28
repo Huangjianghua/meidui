@@ -250,7 +250,13 @@ public class CodeRuleUtil {
 		return newtype;
 	}
 	
-	public static String getBillId(String prefix, String sellerName){
+	/**
+	 * 生成服务费、奖励金账单编号
+	 * @param prefix
+	 * @param sellerName
+	 * @return String
+	 */
+	public static String getBillNum(String prefix, String sellerName){
 		SimpleDateFormat fmt = new SimpleDateFormat(DAY_PATTERN);
 		
 		StringBuilder billId = new StringBuilder();

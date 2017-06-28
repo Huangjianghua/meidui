@@ -264,7 +264,7 @@ public class SellerFeeBonusServiceImpl implements SellerFeeBonusService {
 			//当前商家次月每笔订单所获奖励金
 			BigDecimal jlMoney = BigDecimal.valueOf(0);
 			
-			String billId = CodeRuleUtil.getBillId("HFM", seller.getSellerName());
+			String billId = CodeRuleUtil.getBillNum("HFM", seller.getSellerName());
 			long tt = DateUtil.getCurrentTimeSec();
 			
 			if(CollectionUtils.isNotEmpty(platformFeeList)){
@@ -309,7 +309,7 @@ public class SellerFeeBonusServiceImpl implements SellerFeeBonusService {
 			//reward=1时，需生成当前商家奖励金活动账单
 			if("1".equals(seller.getReward())){
 				EcmMzfSellerBonus ecmMzfSellerBonus = new EcmMzfSellerBonus();
-				billId = CodeRuleUtil.getBillId("HJM", seller.getSellerName());
+				billId = CodeRuleUtil.getBillNum("HJM", seller.getSellerName());
 				ecmMzfSellerBonus.setBillId(billId);
 				ecmMzfSellerBonus.setSellerName(seller.getSellerName());
 				ecmMzfSellerBonus.setSellerPhone(seller.getSellerPhone());

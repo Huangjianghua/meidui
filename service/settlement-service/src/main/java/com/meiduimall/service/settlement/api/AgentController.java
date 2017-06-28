@@ -72,10 +72,7 @@ public class AgentController {
 		logger.info("share profit for agent end:{}", end);
 		logger.info("total time(second) for shareprofit:{}", (end - start) / 1000);
 		
-		if(CollectionUtils.isNotEmpty(resultList)){
-			return SettlementUtil.success(resultList);
-		}
-		return null;
+		return SettlementUtil.success(resultList);
 		
 
 	}
@@ -92,10 +89,7 @@ public class AgentController {
 	@PostMapping("/sendscore")
 	public ResBodyData sendScore(@Validated EcmStore ecmStore) {
 		List<Map<String,Object>> resultList = depositService.updateStoreScore(ecmStore);
-		if(CollectionUtils.isNotEmpty(resultList)){
-			return SettlementUtil.success(resultList);
-		}
-		return null;	
+		return SettlementUtil.success(resultList);
 	}
 	
 	

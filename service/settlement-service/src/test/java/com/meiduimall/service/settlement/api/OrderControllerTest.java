@@ -23,7 +23,7 @@ public class OrderControllerTest extends BaseTest {
 	 * 功能描述:  订单分润
 	 * Author: guidl
 	 */
-	/*@Test
+	@Test
 	public void testShareProfit() throws Exception {
 		ResultActions results = mockMvc.perform(MockMvcRequestBuilders
 				.post("/settlementservice/orderservice/v1/shareprofit").param("orderSn", "D4405110000011704060002").param("sellerName", "440511000001")
@@ -42,7 +42,7 @@ public class OrderControllerTest extends BaseTest {
 				System.out.println("*********"+result.getResponse().getContentAsString());
 			}
 		});
-	}*/
+	}
 
 	/**
 	 * 功能描述:  根据订单号查询订单状态

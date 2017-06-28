@@ -1,7 +1,6 @@
 package com.meiduimall.service.settlement.exception;
 import javax.servlet.http.HttpServletRequest;
 
-import com.meiduimall.exception.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindException;
@@ -11,6 +10,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.core.util.JsonUtils;
+import com.meiduimall.exception.DaoException;
+import com.meiduimall.exception.ServiceException;
 import com.meiduimall.service.SettlementApiCode;
 import com.meiduimall.service.settlement.common.ShareProfitConstants;
 
@@ -48,6 +49,18 @@ public class GlobalExceptionHandler {
 	 */
 	@ExceptionHandler(value = ServiceException.class)
 	public ResBodyData serviceExceptionHandler(HttpServletRequest request, ServiceException exception) {
+		logger.error(request.getContextPath() + request.getRequestURI() + " " + exception.getLocalizedMessage());
+		return new ResBodyData(exception.getCode(), SettlementApiCode.getZhMsg(exception.getCode()), JsonUtils.getInstance().createObjectNode());
+	}
+	
+	/**
+	 * 数据层处理，返回异常
+	 * @param request 客户端发出请求
+	 * @param exception 绑定异常
+	 * @return ResBodyData
+	 */
+	@ExceptionHandler(value = DaoException.class)
+	public ResBodyData daoExceptionHandler(HttpServletRequest request, DaoException exception) {
 		logger.error(request.getContextPath() + request.getRequestURI() + " " + exception.getLocalizedMessage());
 		return new ResBodyData(exception.getCode(), SettlementApiCode.getZhMsg(exception.getCode()), JsonUtils.getInstance().createObjectNode());
 	}

@@ -85,8 +85,8 @@ public class FeeBonusTask {
 			//当前商家次月每笔订单所获奖励金
 			BigDecimal jlMoney = BigDecimal.valueOf(0);
 			
-			String feeBillId = CodeRuleUtil.getBillId("HFD", seller.getSellerName());
-			String bonusBillId = CodeRuleUtil.getBillId("HJD", seller.getSellerName());
+			String feeBillId = CodeRuleUtil.getBillNum("HFD", seller.getSellerName());
+			String bonusBillId = CodeRuleUtil.getBillNum("HJD", seller.getSellerName());
 			long tt = DateUtil.getCurrentTimeSec();
 			
 			if(CollectionUtils.isNotEmpty(platformFeeList)){

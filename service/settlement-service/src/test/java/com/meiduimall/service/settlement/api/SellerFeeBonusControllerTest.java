@@ -66,11 +66,59 @@ public class SellerFeeBonusControllerTest extends BaseTest {
 	 * Author: guidl
 	 */
 	@Test
-	public void testIssueFeeBonus() throws Exception {
+	public void testIssueFeeBonus_01() throws Exception {
 		ResultActions results = mockMvc
 				.perform(MockMvcRequestBuilders
 						.post("/settlementservice/sellerservice/v1/issuefeebonus")
-						.param("billId", "HJD451102000001170612233").param("type", "JL-CR"))
+						.param("billId", "HFM13010200000117061310").param("type", "FW"))
+				.andExpect(status().isOk());
+		
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+	
+	@Test
+	public void testIssueFeeBonus_02() throws Exception {
+		ResultActions results = mockMvc
+				.perform(MockMvcRequestBuilders
+						.post("/settlementservice/sellerservice/v1/issuefeebonus")
+						.param("billId", "HJM13010200000117061391").param("type", "JL"))
+				.andExpect(status().isOk());
+		
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+	
+	@Test
+	public void testIssueFeeBonus_03() throws Exception {
+		ResultActions results = mockMvc
+				.perform(MockMvcRequestBuilders
+						.post("/settlementservice/sellerservice/v1/issuefeebonus")
+						.param("billId", "HFD51040300000117060888").param("type", "FW-CR"))
+				.andExpect(status().isOk());
+		
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+	
+	@Test
+	public void testIssueFeeBonus_04() throws Exception {
+		ResultActions results = mockMvc
+				.perform(MockMvcRequestBuilders
+						.post("/settlementservice/sellerservice/v1/issuefeebonus")
+						.param("billId", "HJD35020500000117060880").param("type", "JL-CR"))
 				.andExpect(status().isOk());
 		
 		results.andDo(new ResultHandler() {
@@ -86,11 +134,59 @@ public class SellerFeeBonusControllerTest extends BaseTest {
 	 * Author: guidl
 	 */
 	@Test
-	public void testQueryFeeBonus() throws Exception {
+	public void testQueryFeeBonus_01() throws Exception {
 		ResultActions results = mockMvc
 				.perform(MockMvcRequestBuilders
 						.post("/settlementservice/sellerservice/v1/queryfeebonus")
 						.param("time", "2017-05").param("status", "2").param("loginType", "admin").param("type", "FW"))
+				.andExpect(status().isOk());
+		
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+	
+	@Test
+	public void testQueryFeeBonus_02() throws Exception {
+		ResultActions results = mockMvc
+				.perform(MockMvcRequestBuilders
+						.post("/settlementservice/sellerservice/v1/queryfeebonus")
+						.param("time", "2017-05").param("status", "2").param("loginType", "admin").param("type", "JL"))
+				.andExpect(status().isOk());
+		
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+	
+	@Test
+	public void testQueryFeeBonus_03() throws Exception {
+		ResultActions results = mockMvc
+				.perform(MockMvcRequestBuilders
+						.post("/settlementservice/sellerservice/v1/queryfeebonus")
+						.param("time", "2017-05").param("status", "2").param("loginType", "admin").param("type", "FW-CR"))
+				.andExpect(status().isOk());
+		
+		results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("*********" + result.getResponse().getContentAsString());
+			}
+		});
+	}
+	
+	@Test
+	public void testQueryFeeBonus_04() throws Exception {
+		ResultActions results = mockMvc
+				.perform(MockMvcRequestBuilders
+						.post("/settlementservice/sellerservice/v1/queryfeebonus")
+						.param("time", "2017-05").param("status", "2").param("loginType", "admin").param("type", "JL-CR"))
 				.andExpect(status().isOk());
 		
 		results.andDo(new ResultHandler() {

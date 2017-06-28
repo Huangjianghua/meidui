@@ -162,6 +162,7 @@ myProps :
   o2oUrl : http://10.24.167.124/
   o2oSaveOrderBillStatu : op/index.php/java/saveOrderBillStatus
   o2oAddProxyFee : op/index.php/java/addProxyFee
+  o2oGetStoreInfo : op/index.php/java/getActiveStoreInfo
   o2oApiKey : mdo2okey
   ##msg channel
   ##url from sms
@@ -169,6 +170,11 @@ myProps :
   smsSendMessage : notify/short_msg_service/v1/new/send_common_sms_message
   ##phones:xuyanxiong,guidonglin
   smsPhones : 13410336992,13798431927,18898447755
+  ##new member
+  memUrl : http://192.168.4.240:8098/
+  memAccountUrl : http://192.168.4.240:8096/
+  memCheckUseridExists : member/member_service/v1/check_userid_exists
+  memAccountAdjustAmount : member/account_service/v1/account_adjust_amount
 
 ---
 spring:
@@ -245,6 +251,7 @@ myProps :
   o2oUrl : http://10.24.167.124/
   o2oSaveOrderBillStatu : op/index.php/java/saveOrderBillStatus
   o2oAddProxyFee : op/index.php/java/addProxyFee
+  o2oGetStoreInfo : op/index.php/java/getActiveStoreInfo
   o2oApiKey : mdo2okey
   ##msg channel
   ##url from sms
@@ -252,6 +259,11 @@ myProps :
   smsSendMessage : notify/short_msg_service/v1/new/send_common_sms_message
   ##phones:xuyanxiong,guidonglin
   smsPhones : 13410336992,13798431927,18898447755
+  ##new member
+  memUrl : http://192.168.4.240:8098/
+  memAccountUrl : http://192.168.4.240:8096/
+  memCheckUseridExists : member/member_service/v1/check_userid_exists
+  memAccountAdjustAmount : member/account_service/v1/account_adjust_amount
 
 ---
 spring:
@@ -328,6 +340,7 @@ myProps :
   o2oUrl : http://o2ot.meiduimall.com/
   o2oSaveOrderBillStatu : op/index.php/java/saveOrderBillStatus
   o2oAddProxyFee : op/index.php/java/addProxyFee
+  o2oGetStoreInfo : op/index.php/java/getActiveStoreInfo
   o2oApiKey : mdo2okey
   ##msg channel
   ##url from sms
@@ -335,3 +348,8 @@ myProps :
   smsSendMessage : notify/short_msg_service/v1/new/send_common_sms_message
   ##phones:xuyanxiong,guidonglin
   smsPhones : 13410336992,13798431927
+  ##new member
+  memUrl : http://192.168.4.240:8098/
+  memAccountUrl : http://192.168.4.240:8096/
+  memCheckUseridExists : member/member_service/v1/check_userid_exists
+  memAccountAdjustAmount : member/account_service/v1/account_adjust_amount

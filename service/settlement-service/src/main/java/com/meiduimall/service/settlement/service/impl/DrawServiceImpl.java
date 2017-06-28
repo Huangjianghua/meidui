@@ -386,7 +386,7 @@ public class DrawServiceImpl implements DrawService {
 			return false;
 		}
 		
-		waterId = CodeRuleUtil.getBillId("SH", ecmMzfAccount.getCode());
+		waterId = CodeRuleUtil.getBillNum("SH", ecmMzfAccount.getCode());
 		//调用会员系统 商家余额转移至会员系统接口
 		boolean result = memberService.accountAdjustAmount(memId, waterId, money, "商家充值", O2oApiConstants.TARDE_TYPE_YEDR);
 		if(!result){
