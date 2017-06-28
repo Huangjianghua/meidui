@@ -829,7 +829,9 @@ public class TradeServiceImpl implements TradeService {
 				//根据订单号查询账户明细
 				double inMoney = 0;
 				String sumTradeAmount = baseDao.selectOne(new MSAccountDetailGet(1, ms.getOrderId()), "MSAccountDetailMapper.sumTradeAmount");
-				inMoney = Double.valueOf(sumTradeAmount);
+				if(sumTradeAmount != null){
+					inMoney = Double.valueOf(sumTradeAmount);
+				}
 				
 				List<MSAccountDetail> listAccountDetail = accountDetailService.listAccountDetail(new MSAccountDetailGet(-1,ms.getOrderId()));
 				
