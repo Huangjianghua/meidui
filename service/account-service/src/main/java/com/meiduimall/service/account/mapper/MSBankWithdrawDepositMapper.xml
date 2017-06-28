@@ -32,7 +32,8 @@
 				is_delete,
 				create_user,
 				update_user,
-				update_date
+				update_date,
+				withdraw_balance
 				)
 	 	 values(#{id},
 				#{businessNo},
@@ -59,7 +60,8 @@
 				#{isDelete},
 				#{createUser},
 				#{createUser},
-				#{createDate}
+				#{createDate},
+				#{withdrawBalance}
 			   )
 	</insert>
 	
