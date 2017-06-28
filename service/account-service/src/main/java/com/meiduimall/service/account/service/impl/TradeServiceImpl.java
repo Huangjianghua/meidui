@@ -834,7 +834,7 @@ public class TradeServiceImpl implements TradeService {
 				if(sumTradeAmount != null){
 					inMoney = Double.valueOf(sumTradeAmount);
 				}
-				
+				PageHelper.startPage(0, 0, false, false, true);
 				List<MSAccountDetail> listAccountDetail = accountDetailService.listAccountDetail(new MSAccountDetailGet(-1,ms.getOrderId()));
 				logger.info("账户明细表size:{}",listAccountDetail.size());
 				List<MSAccount> msAccountlist = new ArrayList<MSAccount>();
@@ -844,7 +844,7 @@ public class TradeServiceImpl implements TradeService {
 				PageHelper.startPage(0, 0, false, false, true);
 				PageHelper.orderBy("m.spend_priority DESC");
 				List<MSAccount> balanceAccountList = accountServices.getBalanceAccountList(ms.getMemId());
-				logger.info("账户表size:{}",listAccountDetail.size());
+				logger.info("账户表size:{}",balanceAccountList.size());
 				BigDecimal bigDecimal = new BigDecimal(ms.getConsumeMoney());
 			    for (MSAccount msAccount : balanceAccountList) {
 			    	for (MSAccountDetail msAccountDetail : listAccountDetail) {
