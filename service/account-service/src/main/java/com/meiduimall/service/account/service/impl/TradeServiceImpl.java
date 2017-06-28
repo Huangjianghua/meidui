@@ -61,6 +61,8 @@ import com.meiduimall.service.account.util.GenerateNumber;
 import com.meiduimall.service.account.util.SerialStringUtil;
 import com.meiduimall.service.account.util.StringUtil;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
+
 /**
  * 订单交易相关逻辑接口{@link=TradeService}实现类
  * 
@@ -852,22 +854,54 @@ public class TradeServiceImpl implements TradeService {
 			    				inMoney =  inMoney - msAccountDetail.getTradeAmount();
 			    				
 			    			    logger.info("当把之前退款全减完了,进来退款余下的账户,并保存到数据库TradeAmount:{}",msAccountDetail.getTradeAmount());
-			    			    if(inMoney == 0){
-			    			 		logger.info("计算结果等于0中止这次循环continue");
-			    					continue;
-			    			 	}
+ 
 			    			    if(inMoney < 0){
+			    			    	double money = 0;
 			    			 		logger.info("当前计算第一次退款:{}",inMoney);
-			    					msAccountDetail.setTradeAmount(-inMoney);
+			    			 		money = -inMoney;
 			    					inMoney = 0;
+			    					
+			    					double balance = 0;
+									double consumeMoney = bigDecimal.doubleValue();
+								  if(consumeMoney > 0){
+					    			if(consumeMoney <= money){
+					    			    balance = consumeMoney;
+					    			}else{
+					    				logger.info("查看退款金额:{}",money);
+					    				balance = money;
+					    			}
+					    		    //更新账户
+					    			logger.info("更新账户表:退款账户:{},退款优先级:{},退款余额:{}",msAccount.getAccountNo(),msAccount.getSpendPriority(),balance);
+					    			account.setAccountNo(msAccount.getAccountNo());
+					    			account.setBalance(balance + msAccount.getBalance());
+					    			account.setBalanceEncrypt(DESC.encryption(String.valueOf(balance + msAccount.getBalance()), msAccount.getMemId()));
+					    			msAccountlist.add(account);
+					    			
+					    			//插入退款明细
+					    			MSAccountDetail msAccountDetail2 = new MSAccountDetail();
+						    		msAccountDetail2.setId(UUID.randomUUID().toString());
+						    		msAccountDetail2.setAccountNo(msAccountDetail.getAccountNo());
+						    		msAccountDetail2.setTradeType(msAccountDetail.getTradeType());
+						    		msAccountDetail2.setTradeAmount(balance);
+						    		msAccountDetail2.setTradeDate(new Date());
+						    		msAccountDetail2.setInOrOut(1);
+						    		msAccountDetail2.setBalance(msAccount.getBalance() + balance);
+						    		msAccountDetail2.setBusinessNo(msAccountDetail.getBusinessNo());
+						    		msAccountDetail2.setCreateUser(msAccountDetail.getCreateUser());
+						    		msAccountDetail2.setCreateDate(new Date());
+						    		msAccountDetail2.setUpdateUser(msAccountDetail.getUpdateUser());
+						    		msAccountDetail2.setUpdateDate(new Date());
+						    		msAccountDetail2.setRemark("账户编号:" + msAccountDetail2.getAccountNo() + " 退款"+ balance +"元");
+						    		listAccountDetail2.add(msAccountDetail2);
+						    		logger.info("插入账户明细表:退款账户:{},退款之前的余额:{},退款余额:{},退款之后的余额:{}",msAccount.getAccountNo(),msAccount.getBalance(),
+						    				balance,msAccount.getBalance() + balance);
+								  }
+					    		  bigDecimal = bigDecimal.subtract(new BigDecimal(balance));
+					    		  logger.info("退款额-当前消费额={}",bigDecimal);
 			    				}
 			    			 	
-			    			}
-			    			
-			    			if(inMoney > 0){
-			    				logger.info("中止这次循环continue");
-		    					continue;
-			    			}
+			    			}else{
+			    				
 			    			
 			    			
 							double balance = 0;
@@ -906,7 +940,7 @@ public class TradeServiceImpl implements TradeService {
 				    				balance,msAccount.getBalance() + balance);
 						  }
 			    		  bigDecimal = bigDecimal.subtract(new BigDecimal(msAccountDetail.getTradeAmount()));
-			    		
+			    		}
 			    		}
 			    		}
 				}
