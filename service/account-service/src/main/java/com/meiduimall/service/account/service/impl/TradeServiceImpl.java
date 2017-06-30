@@ -340,7 +340,7 @@ public class TradeServiceImpl implements TradeService {
 		}
 		
 		//先定义更新账户报表的冻结余额的条件
-		Map<String,Double> mapCondition=new HashMap<>();
+		Map<String,Object> mapCondition=new HashMap<>();
 		mapCondition.put("freezeBalance",0.00);
 		//添加该订单号对应的余额解冻记录
 		for(MSAccountFreezeDetail item:listBalanceFreeze){
@@ -360,7 +360,8 @@ public class TradeServiceImpl implements TradeService {
 			msAccount.setFreezeBalanceEncrypt(DESC.encryption(String.valueOf(msAccount.getFreezeBalance()),memId));
 			baseDao.update(msAccount,"MSAccountMapper.updateAccountByCondition");
 		
-			mapCondition.put("freezeBalance",mapCondition.get("freezeBalance")-item.getFreezeBalance());
+			mapCondition.put("memId", memId);
+			mapCondition.put("freezeBalance",(Double)mapCondition.get("freezeBalance")-item.getFreezeBalance());
 			mapCondition.put(msAccount.getAccountTypeNo(),-item.getFreezeBalance());
 		}
 		if(records!=null&&records.getConsumeMoney()>0){
