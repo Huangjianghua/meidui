@@ -193,44 +193,44 @@ public class TradeV1ControllerTest extends BaseControllerTest {
 	 * 会员退单信息接口    -- 正确的测试
 	 * @author wuun
 	 */
-    @Test
-    public void testRecedeOrderOld_01() throws Exception{
-    	RequestSaveOrder requestSaveOrder = new RequestSaveOrder();
-    	requestSaveOrder.setMemId("48d98556-cc3a-4e41-83d8-8cb2ab14c2d3"); //谢铭澄的memId
-    	requestSaveOrder.setOrderId(orderId);
-    	requestSaveOrder.setOrderSource("1gw");
-    	requestSaveOrder.setOrderStatus(1);
-    	requestSaveOrder.setPayType(2);
-    	requestSaveOrder.setProductName("测试");
-    	requestSaveOrder.setConsumeAmount(3.00);
-    	requestSaveOrder.setConsumeMoney(1.00);
-    	requestSaveOrder.setConsumePoints(2.00);
-        //冻结,待付款
-    	tradeService.saveOrder(requestSaveOrder);
-    	requestSaveOrder.setOrderStatus(2);
-    	//解冻扣减支付成功
-    	tradeService.saveOrder(requestSaveOrder);
-    	
-    	//退款
-    	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/v1/recede_order_old")
-    			.param("memId", requestSaveOrder.getMemId())
-    			.param("orderId", requestSaveOrder.getOrderId())
-				.param("consumeAmount", requestSaveOrder.getConsumeAmount().toString())
-				.param("consumeMoney", requestSaveOrder.getConsumeMoney().toString())
-				.param("consumePoints", requestSaveOrder.getConsumePoints().toString())
-				.param("orderSource", requestSaveOrder.getOrderSource())
-				.param("payType", requestSaveOrder.getPayType().toString())
-				.param("orderStatus", requestSaveOrder.getOrderStatus().toString()))
-    			.andExpect(status().isOk())
-    			.andExpect(jsonPath("$.status",is(0)));
-    	
-    	postResultAction.andDo(new ResultHandler() {
-    		@Override
-    		public void handle(MvcResult result) throws Exception {
-    			logger.info("单元测试>>当前会员退单信息API>>执行结果:{}",result.getResponse().getContentAsString());
-    		}
-    	});
-    }
+//    @Test
+//    public void testRecedeOrderOld_01() throws Exception{
+//    	RequestSaveOrder requestSaveOrder = new RequestSaveOrder();
+//    	requestSaveOrder.setMemId("48d98556-cc3a-4e41-83d8-8cb2ab14c2d3"); //谢铭澄的memId
+//    	requestSaveOrder.setOrderId(orderId);
+//    	requestSaveOrder.setOrderSource("1gw");
+//    	requestSaveOrder.setOrderStatus(1);
+//    	requestSaveOrder.setPayType(2);
+//    	requestSaveOrder.setProductName("测试");
+//    	requestSaveOrder.setConsumeAmount(3.00);
+//    	requestSaveOrder.setConsumeMoney(1.00);
+//    	requestSaveOrder.setConsumePoints(2.00);
+//        //冻结,待付款
+//    	tradeService.saveOrder(requestSaveOrder);
+//    	requestSaveOrder.setOrderStatus(2);
+//    	//解冻扣减支付成功
+//    	tradeService.saveOrder(requestSaveOrder);
+//    	
+//    	//退款
+//    	ResultActions postResultAction=mockMvc.perform(MockMvcRequestBuilders.get(baseUrl+"/v1/recede_order_old")
+//    			.param("memId", requestSaveOrder.getMemId())
+//    			.param("orderId", requestSaveOrder.getOrderId())
+//				.param("consumeAmount", requestSaveOrder.getConsumeAmount().toString())
+//				.param("consumeMoney", requestSaveOrder.getConsumeMoney().toString())
+//				.param("consumePoints", requestSaveOrder.getConsumePoints().toString())
+//				.param("orderSource", requestSaveOrder.getOrderSource())
+//				.param("payType", requestSaveOrder.getPayType().toString())
+//				.param("orderStatus", requestSaveOrder.getOrderStatus().toString()))
+//    			.andExpect(status().isOk())
+//    			.andExpect(jsonPath("$.status",is(0)));
+//    	
+//    	postResultAction.andDo(new ResultHandler() {
+//    		@Override
+//    		public void handle(MvcResult result) throws Exception {
+//    			logger.info("单元测试>>当前会员退单信息API>>执行结果:{}",result.getResponse().getContentAsString());
+//    		}
+//    	});
+//    }
     
     /**
 	 * 会员退单信息接口   --测试订单状态不正确
