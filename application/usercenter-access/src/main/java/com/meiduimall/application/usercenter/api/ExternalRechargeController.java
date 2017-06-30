@@ -34,6 +34,7 @@ public class ExternalRechargeController {
 		if(resBodyData.getStatus()!=0){
 			return resBodyData;
 		}
+		externalRechargeService.insertLog(this.changeLogJson(reqJson));
 		logger.info("收到外部充值API请求：{}",this.changeJson(reqJson).toString());
 		resBodyData=externalRechargeService.externalMemberRecharge(this.changeJson(reqJson));
 		logger.info("外部充值API请求结果：{}",resBodyData.toString());
@@ -72,5 +73,33 @@ public class ExternalRechargeController {
 		}
 		return chjson;
 	}
-
+	private JSONObject changeLogJson (JSONObject reqJson){
+		JSONObject chjson = new JSONObject();
+		chjson.put("logType", "1");
+		if(reqJson.containsKey("md_user")){
+			chjson.put("attribute1", reqJson.get("md_user"));
+		}
+		if(reqJson.containsKey(SysParamsConst.CLIENT_ID)){
+			chjson.put("attribute2", reqJson.get(SysParamsConst.CLIENT_ID));
+		}
+		if(reqJson.containsKey("biz_id")){
+			chjson.put("attribute3", reqJson.get("biz_id"));
+		}
+		if(reqJson.containsKey("recharge_amout")){
+			chjson.put("attribute4", reqJson.get("recharge_amout"));
+		}
+		if(reqJson.containsKey("recharge_type")){
+			chjson.put("attribute5", reqJson.get("recharge_type"));
+		}
+		if(reqJson.containsKey("req_time")){
+			chjson.put("attribute6", reqJson.get("req_time"));
+		}
+		if(reqJson.containsKey("sign")){
+			chjson.put("attribute7", reqJson.get("sign"));
+		}
+		if(reqJson.containsKey("callback_url")){
+			chjson.put("attribute8", reqJson.get("callback_url"));
+		}
+		return chjson;
+	}
 }

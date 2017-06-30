@@ -50,5 +50,5 @@ public interface MemberService {
      * @return
      * @throws Exception
      */
-    public boolean accountAdjustAmount(String memId, String orderId, String amount, String remark) throws Exception;
+    public boolean accountAdjustAmount(String memId, String orderId, String amount, String remark);
 }

@@ -8,17 +8,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meiduimall.application.usercenter.annotation.HasToken;
-import com.meiduimall.application.usercenter.constant.ApiStatusConst;
+import com.meiduimall.application.usercenter.constant.ConstApiStatus;
 import com.meiduimall.application.usercenter.interceptor.ValRequest;
 import com.meiduimall.application.usercenter.service.MoneyService;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.MdSysException;
 
-
 /**
- * 余额相关
- * @author jun.wu@meiduimall.com
+ * 余额相关API
+ * @author chencong
  *
  */
 @RestController
@@ -41,7 +40,7 @@ public class MoneyV1Controller {
 			resBodyData=moneyService.listAccountDetail(reqJson);
 		} catch (MdSysException e) {
 			logger.info("余额流水分页API请求异常：{}",e.toString());
-			throw new ApiException(ApiStatusConst.SYSTEM_ERROR);
+			throw new ApiException(ConstApiStatus.SYSTEM_ERROR);
 		}
 		logger.info("余额流水分页API请求结果：{}",resBodyData.toString());
 		return resBodyData;
@@ -58,9 +57,22 @@ public class MoneyV1Controller {
 			resBodyData=moneyService.saveWithDrawApply(reqJson);
 		} catch (Exception e) {
 			logger.info("提现申请API请求异常：{}",e.toString());
-			throw new ApiException(ApiStatusConst.SYSTEM_ERROR);
+			throw new ApiException(ConstApiStatus.SYSTEM_ERROR);
 		}
 		logger.info("提现申请API请求结果：{}",resBodyData.toString());
 		return resBodyData;
+	}
+	
+	/**
+	 * 获取会员账户余额和积分余额---给APP调用
+	 * 
+	 * @return
+	 */
+	@HasToken
+	@RequestMapping(value = "/getAccountBalanceForApp")
+	public ResBodyData getAccountBalanceForApp() {
+		JSONObject reqJson = ValRequest.apiReqData.get();
+		logger.info("收到提现申请API请求：{}", reqJson.toString());
+		return moneyService.getAccountBalanceForApp(reqJson);
 	}
 }

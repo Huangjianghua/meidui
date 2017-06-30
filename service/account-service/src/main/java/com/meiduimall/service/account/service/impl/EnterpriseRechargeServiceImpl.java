@@ -22,6 +22,7 @@ import com.meiduimall.service.account.model.AccountRechargeApply;
 import com.meiduimall.service.account.model.BusinessManagementEntity;
 import com.meiduimall.service.account.model.MSRechargeApply;
 import com.meiduimall.service.account.model.RefundRequestEntity;
+import com.meiduimall.service.account.model.TripartiteLog;
 import com.meiduimall.service.account.service.IEnterpriseRechargeService;
 @Transactional
 @Component
@@ -31,6 +32,22 @@ public class EnterpriseRechargeServiceImpl implements IEnterpriseRechargeService
 	
 	@Autowired
 	private BaseDao baseDao;
+    /**
+     * 插入日志信息
+     */
+	@Override
+	public void insertLog(TripartiteLog tripartiteLog) throws MdBizException {
+		try{
+			String id = UUID.randomUUID().toString();
+			tripartiteLog.setLogId(id);
+			tripartiteLog.setLogDate(new Date());
+			baseDao.insert(tripartiteLog, "MSRechargeApplyMapper.insertLog");
+		}catch(Exception e){
+			logger.error("插入日志信息异常:{}",e);
+			throw new MdBizException(ApiStatusConst.INSERT_RECHARGE_ERROR);
+		}
+	
+	}
     /**
      * 外部充值申请
      */

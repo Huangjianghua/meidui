@@ -69,6 +69,8 @@ public class MSMembersSet implements Serializable {
 	
 	/**是否启用支付密码*/
 	private String enable;
+	
+	 
 
 	/** 会员生日 **/
 	private java.util.Date memBirthday;

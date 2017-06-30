@@ -1,12 +1,12 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@page import="com.first.pojo.SearchWidget"%>
-<%@page import="com.first.pojo.WidgetResult"%>
+<%@page import="com.meiduimall.service.search.result.SearchWidget"%>
+<%@page import="com.meiduimall.service.search.result.WidgetResult"%>
 	<div class="index_header_con">
 		<h1><!--  <div class="logo"><a href="http://www.meiduimall.com">
         <img src="http://www.meiduimall.com/themes/newfirst/images/logo.png" alt=""></a>
     </div> -->
-<a href="http://www.meiduimall.com/" style="background:url(http://img01.1gw.com/4734f12d76cbce9ce5caa020245e8c898d52b407.png) no-repeat left center;">
+<a href="http://www.meiduimall.com/" style="background:url(http://img01.1gw.com/212af8ad6aff58abfa4e617ca5b986752c41adf8.png) no-repeat left center;">
 </a>
 </h1>
 		<h2 class="ad_part">
@@ -148,8 +148,8 @@
 	</div>
 		<div class="tel_kf">
 			<div class="tel_box">
-				<h2>021-31776083</h2>
-				<p>周一至周日</p>
+				<h2>400-622-6555</h2>
+				<p>周一至周日 9:00-19:30</p>
 			</div>
 		</div>
 	</div>

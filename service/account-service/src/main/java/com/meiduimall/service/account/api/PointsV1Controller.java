@@ -30,12 +30,12 @@ import com.meiduimall.service.account.model.MSConsumePointsDetailGet;
 import com.meiduimall.service.account.model.MemberTransferHistory;
 import com.meiduimall.service.account.model.request.RequestPointTransfer;
 import com.meiduimall.service.account.service.MDMallServices;
-import com.meiduimall.service.account.service.MSConsumePointsDetailService;
+import com.meiduimall.service.account.service.ConsumePointsDetailService;
 import com.meiduimall.service.account.service.MembersPointsOpService;
 import com.meiduimall.service.account.service.PointsService;
 
 /**
- * 用户积分相关操作
+ * 会员积分相关API
  * @author chencong
  *
  */
@@ -58,7 +58,7 @@ public class PointsV1Controller {
 	private  MDMallServices mdmallServices;
 	
 	@Autowired
-	private MSConsumePointsDetailService mSConsumePointsDetailService;
+	private ConsumePointsDetailService mSConsumePointsDetailService;
 	
 	@Autowired
 	private PointsService pointsService;
@@ -169,7 +169,7 @@ public class PointsV1Controller {
 		List<MemberTransferHistory> list=null;
 		try {
 			//分页查询
-			if(transfer.getFlag().equals(Constants.CONSTANT_INT_ONE)){
+			if(transfer.getFlag().equals(Constants.CONSTANT_STR_ONE)){
 				//分页
 				PageHelper.startPage(transfer.getPageNum(), transfer.getPageSize());
 				PageHelper.orderBy("mth_created_date DESC");

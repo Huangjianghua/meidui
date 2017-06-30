@@ -21,15 +21,21 @@ public class ResponseMemberBasicInfo implements Serializable{
 	/**会员id*/
 	private String memId;
 	
-	/**会员总积分（包括冻结解冻的积分）*/
+	/**会员当前积分总额*/
+	@JsonProperty("total_points")
 	private String totalPoints;
-
-	/**会员当前积分总额（不包括冻结解冻的积分）*/
+	
+	/**会员当前可用积分总额*/
 	@JsonProperty("available_points")
 	private String availablePoints;
-	
+
 	/**会员余额总额*/
-	private String totalmoney;
+	@JsonProperty("total_money")
+	private String totalMoney;
+
+	/**会员余额总额*/
+	@JsonProperty("available_money ")
+	private String availableMoney;
 
 	/**登录名*/
 	private String login_name;
@@ -117,26 +123,38 @@ public class ResponseMemberBasicInfo implements Serializable{
 		this.email =DESC.deyption(email);
 	}
 
-	public String getAvailablePoints() {
-		return availablePoints;
-	}
 
-	public void setAvailablePoints(String availablePoints)throws MdSysException {
-		this.availablePoints = availablePoints;
+	public String getTotalPoints() {
+		return totalPoints;
 	}
 	
-	public String getTotalmoney() {
-		return totalmoney;
+
+	public void setTotalPoints(String totalPoints)throws MdSysException {
+		this.totalPoints = DoubleCalculate.getFormalValueTwo(DESC.deyption(totalPoints,memId));
+	}
+	
+	public String getTotalMoney() {
+		return totalMoney;
 	}
 
-	public void setTotalmoney(String totalmoney) {
-		this.totalmoney = totalmoney;
+	public void setTotalMoney(String totalMoney) {
+		this.totalMoney = totalMoney;
+	}
+	
+
+	public String getAvailableMoney() {
+		return availableMoney;
 	}
 	
 	public String getTotalpoints() {
 		return totalPoints;
 	}
 
+
+	public void setAvailableMoney(String availableMoney) {
+		this.availableMoney = availableMoney;
+	}
+	
 	public void setTotalpoints(String totalpoints) throws MdSysException {
 		this.totalPoints = DoubleCalculate.getFormalValueTwo(DESC.deyption(totalpoints,memId));
 	}
@@ -246,18 +264,25 @@ public class ResponseMemberBasicInfo implements Serializable{
 	public void setLogin_name(String login_name)throws MdSysException {
 		this.login_name =DESC.deyption(login_name);
 	}
+	
+	public String getAvailablePoints() {
+		return availablePoints;
+	}
+
+	public void setAvailablePoints(String availablePoints) {
+		this.availablePoints = availablePoints;
+	}
 
 
 	@Override
 	public String toString() {
-		return "MemberBasicInfoDTO [memId=" + memId + ", totalPoints=" + totalPoints + ", totalmoney=" + totalmoney
-				+ ", login_name=" + login_name + ", nick_name=" + nick_name
-				+ ", phone=" + phone + ", pic_url=" + pic_url + ", email=" + email + ", birthday=" + birthday + ", sex="
-				+ sex + ", name=" + name + ", registertime=" + registertime + ", memRegYear=" + memRegYear
-				+ ", memRegMonth=" + memRegMonth + ", memRegDay=" + memRegDay + ", memAddressShengShiQu="
-				+ memAddressShengShiQu + ", memAddressDetail=" + memAddressDetail + ", paypwd_isopen=" + paypwd_isopen
-				+ ", paypwd_isset=" + paypwd_isset + "]";
+		return "ResponseMemberBasicInfo [memId=" + memId + ", totalPoints=" + totalPoints + ", availablePoints="
+				+ availablePoints + ", totalmoney=" + totalMoney + ", totalpoints=" + totalPoints + ", login_name="
+				+ login_name + ", nick_name=" + nick_name + ", phone=" + phone + ", pic_url=" + pic_url + ", email="
+				+ email + ", birthday=" + birthday + ", sex=" + sex + ", name=" + name + ", registertime="
+				+ registertime + ", memRegYear=" + memRegYear + ", memRegMonth=" + memRegMonth + ", memRegDay="
+				+ memRegDay + ", memAddressShengShiQu=" + memAddressShengShiQu + ", memAddressDetail="
+				+ memAddressDetail + ", paypwd_isopen=" + paypwd_isopen + ", paypwd_isset=" + paypwd_isset + "]";
 	}
-	
 	
 }

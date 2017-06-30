@@ -7,14 +7,14 @@ import com.meiduimall.service.account.util.PageHelp;
 
 /**
  * 会员余额调整明细Model Request
- * @author:   jianhua.huang 
- * @version:  2017年5月5日 下午5:53:13 0.1 
- * Description:
+ * 
+ * @author: jianhua.huang
+ * @version: 2017年5月5日 下午5:53:13 0.1 Description:
  */
 public class RequestAccountReviseDetail extends PageHelp implements Serializable {
 
 	private static final long serialVersionUID = -7221481053458274360L;
-	
+
 	private String id;
 	/**
 	 * 会员编号
@@ -26,7 +26,15 @@ public class RequestAccountReviseDetail extends PageHelp implements Serializable
 	/** 手机号 */
 	private String memPhone;
 	/**
-	 * 调整类型(1-调增,2-调减)
+	 * <<<<<<< HEAD ======= 钱包类型
+	 */
+	private String accountNo;
+	private String accountTypeName;
+
+	private String accountTypeNo;
+
+	/**
+	 * >>>>>>> release/4.0.5 调整类型(1-调增,2-调减)
 	 */
 	private String reviseType;
 
@@ -46,8 +54,24 @@ public class RequestAccountReviseDetail extends PageHelp implements Serializable
 	private String updatedDateEnd;
 
 	private String isDelete;
-	/**是否分页  1：是  0:否	*/
-	private String flg;  
+	/** 是否分页 1：是 0:否 */
+	private String flg;
+
+	public String getAccountNo() {
+		return accountNo;
+	}
+
+	public void setAccountNo(String accountNo) {
+		this.accountNo = accountNo;
+	}
+
+	public String getAccountTypeName() {
+		return accountTypeName;
+	}
+
+	public void setAccountTypeName(String accountTypeName) {
+		this.accountTypeName = accountTypeName;
+	}
 
 	public String getId() {
 		return id;
@@ -69,8 +93,8 @@ public class RequestAccountReviseDetail extends PageHelp implements Serializable
 		return memLoginName;
 	}
 
-	public void setMemLoginName(String memLoginName){
-		this.memLoginName =memLoginName;
+	public void setMemLoginName(String memLoginName) {
+		this.memLoginName = memLoginName;
 	}
 
 	public String getMemPhone() {
@@ -143,6 +167,21 @@ public class RequestAccountReviseDetail extends PageHelp implements Serializable
 
 	public void setFlg(String flg) {
 		this.flg = flg;
+	}
+
+	/**
+	 * @return the accountTypeNo
+	 */
+	public String getAccountTypeNo() {
+		return accountTypeNo;
+	}
+
+	/**
+	 * @param accountTypeNo
+	 *            the accountTypeNo to set
+	 */
+	public void setAccountTypeNo(String accountTypeNo) {
+		this.accountTypeNo = accountTypeNo;
 	}
 
 }

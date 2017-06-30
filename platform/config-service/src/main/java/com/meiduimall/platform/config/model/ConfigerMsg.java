@@ -44,14 +44,6 @@ public class ConfigerMsg {
 	public ConfigerMsg() {
 	}
 	
-	/**
-	 * @param name
-	 * @param status
-	 * @param type
-	 * @param value
-	 * @param updateBy
-	 * @param updateDate
-	 */
 	public ConfigerMsg(String name, String status, String type, String value, String updateBy, String updateDate) {
 		this.name = name;
 		this.status = status;

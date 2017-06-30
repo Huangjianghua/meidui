@@ -1,93 +1,104 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="AccountReviseDetailMapper" >
+<!-- 账户调增调减表ms_account_revise_detail相关操作 -->
+<mapper namespace="MSAccountReviseDetailMapper" >
   <resultMap id="BaseResultMap" type="com.meiduimall.service.account.model.AccountReviseDetail" >
     <id column="id" property="id" jdbcType="CHAR" />
-    <result column="mem_id" property="memId" jdbcType="CHAR" />
+    <result column="account_no" property="accountNo" jdbcType="VARCHAR" />
     <result column="revise_type" property="reviseType" jdbcType="VARCHAR" />
     <result column="before_balance" property="beforeBalance" jdbcType="DECIMAL" />
     <result column="revise_balance" property="reviseBalance" jdbcType="DECIMAL" />
    	<result column="status" property="status" jdbcType="VARCHAR" />
    	<result column="revise_remark" property="reviseRemark" jdbcType="VARCHAR" />
     <result column="review_remark" property="reviewRemark" jdbcType="VARCHAR" />
-    <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
-    <result column="created_date" property="createdDate" jdbcType="TIMESTAMP" />
-    <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
-    <result column="updated_date" property="updatedDate" jdbcType="TIMESTAMP" />
-    <result column="is_delete" property="isDelete" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="account_type_no" property="accountTypeNo" jdbcType="VARCHAR" />
+    <result column="account_type_name" property="accountTypeName" jdbcType="VARCHAR" />
     
   </resultMap>
-  <sql id="Base_Column_List" >
-    id, mem_id, revise_type, before_balance, revise_balance, created_by, 
-    DATE_FORMAT(created_date,'%Y-%m-%d %H:%i:%s') as created_date, 
-    updated_by, status, DATE_FORMAT(updated_date,'%Y-%m-%d %H:%i:%s') as updated_date, 
-    revise_remark, review_remark,is_delete
-  </sql>
+   
   <!-- 查询调整金额明细集合 -->
   <select id="getAccountReviseDetail" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from ms_account_revise_detail
-    where id = #{id,jdbcType=CHAR}
+  	SELECT 
+    mard.id, mard.account_no, mard.revise_type, mard.before_balance, mard.revise_balance, mard.status,
+    mard.revise_remark, mard.review_remark, mard.create_user, DATE_FORMAT(mard.create_date,'%Y-%m-%d %H:%i:%s') create_date, 
+    mard.update_user, DATE_FORMAT(mard.update_date,'%Y-%m-%d %H:%i:%s') update_date, mard.remark, mat.account_type_name
+    FROM ms_account_revise_detail mard
+    left join ms_account ma on ma.account_no = mard.account_no
+    left join ms_account_type mat on mat.account_type_no = ma.account_type_no 
+    where mard.id = #{id,jdbcType=CHAR}
   </select>
    <!-- 查询调整金额明细集合 -->
-  <select id="queryAccountReviseDetailList" resultMap="BaseResultMap" parameterType="com.meiduimall.service.account.model.AccountReviseDetail" >
-    select 
-	    msard.id,
-		msard.mem_id,
-		msard.revise_type as reviseType,
-	    msm.mem_phone as memPhone,
-	    msm.mem_login_name as memLoginName,
-		msard.before_balance,
-		msard.revise_balance,
-		msard.created_by,
-		DATE_FORMAT(msard.created_date,'%Y-%m-%d %H:%i:%s') as created_date,
-		msard.updated_by as updated_by,
-		msard.status,
-		msard.revise_remark as reviseRemark,
-		msard.review_remark as reviewRemark,
-		DATE_FORMAT(msard.updated_date,'%Y-%m-%d %H:%i:%s') as updated_date
-    from ms_account_revise_detail msard
-    LEFT JOIN ms_members  msm on msm.mem_id=msard.mem_id
+  <select id="queryAccountReviseDetailList" resultType="com.meiduimall.service.account.model.AccountReviseDetail" parameterType="com.meiduimall.service.account.model.request.RequestAccountReviseDetail" >
+	SELECT
+		msard.id as id,
+		msard.revise_type AS reviseType,
+		msm.mem_phone AS memPhone,
+		msm.mem_login_name AS memLoginName,
+		msard.before_balance as beforeBalance,
+		msard.revise_balance as reviseBalance,
+		msard.create_user as createUser,
+		DATE_FORMAT(msard.create_date,'%Y-%m-%d %H:%i:%s') as createDate,
+		msard.update_user as updateUser,
+		msard.status as status,
+		msard.revise_remark AS reviseRemark,
+		msard.review_remark AS reviewRemark,
+		DATE_FORMAT(msard.update_date,'%Y-%m-%d %H:%i:%s') as updateDate,
+		msard.remark as remark,
+		mat.`account_type_no` as accountNo,
+		mat.`account_type_name` as accountTypeName
+	FROM ms_account_revise_detail msard
+	LEFT JOIN ms_account ma ON ma.`account_no` = msard.`account_no`
+	LEFT JOIN ms_members msm ON msm.mem_id = ma.`mem_id`
+	LEFT JOIN ms_account_type mat ON mat.`account_type_no` = ma.`account_type_no`
    <where>
     <if test="id !=null and id !=''">
-		AND msard.id=#{id}
+		AND msard.id = #{id}
 	  </if>
 	  <if test="memId !=null and memId !=''">
-		AND msard.mem_id=#{memId}
+		AND ma.mem_id = #{memId}
+	  </if>
+	  <if test="accountTypeNo !=null and accountTypeNo !=''">
+		AND ma.account_type_no = #{accountTypeNo}
 	  </if>
 	  <if test="memLoginName !=null and memLoginName !=''">
-		AND msm.mem_login_name=#{memLoginName}
+		AND msm.mem_login_name = #{memLoginName}
 	  </if>
 	  <if test="memPhone !=null and memPhone !=''">
-		AND msm.mem_phone=#{memPhone}
+		AND msm.mem_phone = #{memPhone}
 	  </if>
 	  <if test="status !=null and status !=''">
-		AND msard.status=#{status}
+		AND msard.status = #{status}
 	  </if>
 	  <if test="createdDateBegin !=null and createdDateBegin !=''">
-		AND msard.created_date &gt;= #{createdDateBegin}
+		AND msard.create_date &gt;= #{createdDateBegin}
 	  </if>
 	  <if test="createdDateEnd !=null and createdDateEnd !=''">
-		AND msard.created_date &lt;= #{createdDateEnd}
+		AND msard.create_date &lt;= #{createdDateEnd}
 	  </if>
 	  <if test="updatedDateBegin !=null and updatedDateBegin !=''">
-		AND msard.updated_date &gt;= #{updatedDateBegin}
+		AND msard.update_date &gt;= #{updatedDateBegin}
 	  </if>
 	  <if test="updatedDateEnd !=null and updatedDateEnd !=''">
-		AND msard.updated_date &lt;= #{updatedDateEnd}
+		AND msard.update_date &lt;= #{updatedDateEnd}
 	 </if>
    </where>
   </select>
+  
+  
   <!-- 添加调整金额明细 -->
-  <insert id="insertAccountReviseDetail" parameterType="com.meiduimall.service.account.model.AccountReviseDetail" >
+  <insert id="insertAccountReviseDetail" parameterType="com.meiduimall.service.account.model.AddOrUpdateAccountReviseDetail" >
     insert into ms_account_revise_detail
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
-      <if test="memId != null" >
-        mem_id,
+      <if test="accountNo != null" >
+        account_no,
       </if>
       <if test="reviseType != null" >
         revise_type,
@@ -98,34 +109,37 @@
       <if test="reviseBalance != null" >
         revise_balance,
       </if>
-      <if test="createdBy != null" >
-        created_by,
-      </if>
-      <if test="createdDate != null" >
-        created_date,
-      </if>
-      <if test="updatedBy != null" >
-        updated_by,
-      </if>
-      <if test="status != null" >
-        status,
-      </if>
-      <if test="updatedDate != null" >
-        updated_date,
-      </if>
-      <if test="reviseRemark != null" >
+       <if test="reviseRemark != null" >
         revise_remark,
       </if>
       <if test="reviewRemark != null" >
         review_remark,
+      </if>
+       <if test="status != null" >
+        status,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="remark != null" >
+        remark,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=CHAR},
       </if>
-      <if test="memId != null" >
-        #{memId,jdbcType=CHAR},
+      <if test="accountNo != null" >
+        #{accountNo,jdbcType=VARCHAR},
       </if>
       <if test="reviseType != null" >
         #{reviseType,jdbcType=VARCHAR},
@@ -136,35 +150,35 @@
       <if test="reviseBalance != null" >
         #{reviseBalance,jdbcType=DECIMAL},
       </if>
-      <if test="createdBy != null" >
-        #{createdBy,jdbcType=VARCHAR},
-      </if>
-      <if test="createdDate != null" >
-        #{createdDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updatedBy != null" >
-        #{updatedBy,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null" >
-        #{status,jdbcType=VARCHAR},
-      </if>
-      <if test="updatedDate != null" >
-        #{updatedDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="reviseRemark != null" >
+       <if test="reviseRemark != null" >
         #{reviseRemark,jdbcType=VARCHAR},
       </if>
       <if test="reviewRemark != null" >
         #{reviewRemark,jdbcType=VARCHAR},
       </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
     </trim>
   </insert>
   <!-- 更新调整金额    调增  调减 -->
-  <update id="updateAccountReviseDetail"  parameterType="com.meiduimall.service.account.model.AccountReviseDetail" >
+  <update id="updateAccountReviseDetail"  parameterType="com.meiduimall.service.account.model.AddOrUpdateAccountReviseDetail" >
     update ms_account_revise_detail
     <set >
-      <if test="memId != null and memId !=''" >
-        mem_id = #{memId,jdbcType=CHAR},
+      <if test="accountNo != null and accountNo !=''" >
+        account_no = #{accountNo,jdbcType=CHAR},
       </if>
       <if test="reviseType != null and reviseType !=''" >
         revise_type = #{reviseType,jdbcType=VARCHAR},
@@ -175,37 +189,26 @@
       <if test="reviseBalance != null and reviseBalance !=''" >
         revise_balance = #{reviseBalance,jdbcType=DECIMAL},
       </if>
-      <if test="createdBy != null and createdBy !=''" >
-        created_by = #{createdBy,jdbcType=VARCHAR},
-      </if>
-      <if test="createdDate != null and createdDate !=''" >
-        created_date = #{createdDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updatedBy != null and updatedBy !=''" >
-        updated_by = #{updatedBy,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null  and status !=''" >
-        status = #{status,jdbcType=VARCHAR},
-      </if>
-      <if test="updatedDate != null and updatedDate !=''" >
-        updated_date = #{updatedDate,jdbcType=TIMESTAMP},
-      </if>
       <if test="reviseRemark != null and reviseRemark !=''" >
         revise_remark = #{reviseRemark,jdbcType=VARCHAR},
       </if>
       <if test="reviewRemark != null and reviewRemark !=''" >
         review_remark = #{reviewRemark,jdbcType=VARCHAR},
       </if>
-      <if test="isDelete != null and isDelete !=''" >
-        is_delete = #{isDelete,jdbcType=VARCHAR},
+       <if test="status != null  and status !=''" >
+        status = #{status,jdbcType=VARCHAR},
       </if>
+      <if test="updateUser != null and updateUser !=''" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null and remark !=''" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+       update_date = now()
     </set>
     <where>
       <if test="id !=null and id !=''">
 		AND id=#{id}
-	  </if>
-	  <if test="memId !=null and memId !=''">
-		AND mem_id=#{memId}
 	  </if>
     </where>
   </update>

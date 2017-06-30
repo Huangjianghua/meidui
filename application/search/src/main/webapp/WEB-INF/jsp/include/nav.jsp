@@ -4,7 +4,7 @@
 			<!-- 顶部工具栏-->
 		<div class="nav_con">
 			<div class="left">
-				<p id="login_811" class="small-signin">欢迎来到美兑壹购物商城！&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<p id="login_811" class="small-signin">欢迎来到美兑商城！&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 请<a href="http://www.meiduimall.com/passport-signin.html" rel="nofollow" >登录</a>
 <a href="http://vip.meiduimall.com/trunk/vip/register.html" rel="nofollow" >免费注册</a>
 </p>
@@ -48,7 +48,7 @@ $(function(){
 
 		<!-- 上面，将下拉的菜单分开 -->
 		<li>
-		    	<a href="http://www.meiduimall.com/member-index.html"  rel="nofollow">我的美兑壹购物</a>
+		    	<a href="http://www.meiduimall.com/member-index.html"  rel="nofollow">我的美兑</a>
 		</li>
 		<!-- <li>
 		    	<a href="http://www.meiduimall.com/trade-list.html"  rel="nofollow">我的订单</a>

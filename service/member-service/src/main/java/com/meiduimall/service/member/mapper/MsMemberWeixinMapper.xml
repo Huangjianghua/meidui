@@ -19,7 +19,7 @@
 	</select>
 	
 	<!-- 根据会员手机号查找会员相关信息 -->
-	<select id="selectMemInfoByPhone" resultType="com.meiduimall.service.member.model.response.MemberOpenIdDTO" parameterType="java.lang.String">
+	<select id="selectMemInfoByPhone" resultType="com.meiduimall.service.member.model.response.ResponseMemberOpenId" parameterType="java.lang.String">
 		SELECT 
 		wx.mem_id AS memId,
 		wx.wx_open_id AS wxOpenId,

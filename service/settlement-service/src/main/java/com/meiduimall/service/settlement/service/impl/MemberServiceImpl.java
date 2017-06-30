@@ -370,7 +370,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public boolean accountAdjustAmount(String memId, String orderId, String amount, String remark) throws Exception {
+	public boolean accountAdjustAmount(String memId, String orderId, String amount, String remark) {
 		String reqResult = "";
 		
 		StringBuilder url = new StringBuilder();

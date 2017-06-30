@@ -73,7 +73,7 @@ public class DrawController {
 		}
 		return SettlementUtil.success(accountResult);
 		} catch (DaoException e) {
-			throw new ServiceException(e);
+			throw new ServiceException(e.getCode());
 		}
 	}
 	

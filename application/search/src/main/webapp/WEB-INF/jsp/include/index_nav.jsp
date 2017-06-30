@@ -1183,33 +1183,33 @@ var category = $('#category_box');
         <div class="site_nav">
         	
 
-<ul class="bar-ul">
-			<li>
-		    <a  href="http://www.meiduimall.com/" target="_blank">首页</a>
+<ul>
+			<li class="current">
+		    <a  href="http://www.meiduimall.com/index.php" target="_blank">首页</a>
 	    	</li>
 			<li>
-		    <a  href="http://www.meiduimall.com//singlepage.html?id=bigsale" target="_blank">特兑专区</a>
+		    <a  href="http://www.meiduimall.com/index.php/singlepage.html?id=bigsale" target="_blank">特兑专区</a>
 	    	</li>
 			<li>
-		    <a  href="http://www.meiduimall.com//topics-4.html" target="_blank">数码街</a>
+		    <a  href="http://www.meiduimall.com/index.php/activity.html?id=ganamall" target="_blank">美妆馆</a>
 	    	</li>
 			<li>
-		    <a  href="http://www.meiduimall.com//activity/catwalk.html" target="_blank">走秀专区</a>
+		    <a  href="http://www.meiduimall.com/index.php/topics-3.html" target="_blank">母婴岛</a>
 	    	</li>
 			<li>
-		    <a  href="http://www.meiduimall.com//activity.html?id=ganamall" target="_blank">美妆馆</a>
+		    <a  href="http://www.meiduimall.com/index.php/activity.html?lay=default&id=gansu" target="_blank">美食坊</a>
 	    	</li>
 			<li>
-		    <a  href="http://www.meiduimall.com//activity.html?lay=default&id=gansu" target="_blank">特色坊</a>
+		    <a  href="http://www.meiduimall.com/index.php/topics-4.html" target="_blank">数码街</a>
 	    	</li>
 			<li>
-		    <a  href="http://www.meiduimall.com//topcolmun/sjtj.html" target="_blank">品牌汇</a>
+		    <a  href="http://www.meiduimall.com/index.php/topcolmun/hwjp.html" target="_blank">海外精品</a>
 	    	</li>
 			<li>
-		    <a  href="http://www.meiduimall.com//topcolmun/hwjp.html" target="_blank">海外精品</a>
+		    <a  href="http://www.meiduimall.com/index.php/activity.html?lay=default&id=voucher" target="_blank">用券专区</a>
 	    	</li>
-
 	</ul>
+
         </div>
         <div class="xfc_price3">
 			

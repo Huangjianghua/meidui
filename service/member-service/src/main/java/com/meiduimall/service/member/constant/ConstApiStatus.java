@@ -1,5 +1,7 @@
 package com.meiduimall.service.member.constant;
+
 import com.meiduimall.core.BaseApiCode;
+
 /**
  * API返回状态编码和编码语义
  * @author chencong
@@ -98,6 +100,7 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	public final static Integer REGISTER_EXCEPTION=8305;
 	//退出异常
 	public final static Integer EXIT_ERROR=8306;
+
 	/**短信相关*/
 	//校验短信验证码不通过
 	public final static Integer CHECK_VALIDATE_CODE_NOT_PASS=8801;
@@ -111,6 +114,7 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	public static final Integer WEIXIN_OPENID_BINGDING_FAIL = 8821;
 	//未绑定微信openID
 	public static final Integer NOT_BINGDING_WEIXIN_OPENID = 8822;
+
 	/**其他*/
 	//查询不在会员手机归属地表异常
 	public static final Integer FIND_MEMBER_EXCEPTION= 8841;
@@ -118,6 +122,8 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	public static final Integer QUERY_MOBILE_EXCEPTION= 8842;
 	//批量插入会员手机归属地表异常
 	public static final Integer INSERT_SELECTIVE_EXCEPTION= 8843;
+
+
 	static {
 		zhMsgMap.put(REQUIRED_PARAM_EMPTY, "必填参数为空");
 		zhMsgMap.put(MD5_EXCEPTION, "生成MD5程序异常");
@@ -131,6 +137,7 @@ public abstract class ConstApiStatus extends BaseApiCode {
 		zhMsgMap.put(DB_INSERT_EXCEPTION, "数据库插入失败");
 		zhMsgMap.put(SYSTEM_ERROR, "系统错误，请联系客服");
 		zhMsgMap.put(JSON_PARSE_EXCEPTION, "json解析异常");
+
 		zhMsgMap.put(USERNAME_ERROR, "用户名输入错误");
 		zhMsgMap.put(MEMBER_NOT_EXIST, "该用户不存在，请先注册");
 		zhMsgMap.put(PASSWORD_ERROR, "密码输入错误");
@@ -142,6 +149,7 @@ public abstract class ConstApiStatus extends BaseApiCode {
 		zhMsgMap.put(SHARE_MAN_NOT_EXIST, "您的推荐人不存在");
 		zhMsgMap.put(MEMBER_LOCK, "密码输入错误次数超过5次已被锁定，明天0点0分自动解除");
 		zhMsgMap.put(MEMBER_FORBIDDEN, "会员账号已被禁用，请联系客服");
+
 		zhMsgMap.put(GET_USERINFO_EXCEPTION, "获取用户信息程序异常");
 		zhMsgMap.put(SET_PAYPWD_STATUS_EXCEPTION, "设置支付密码开关程序异常");
 		zhMsgMap.put(LOGIN_EXCEPTION, "登录异常，请联系客服");
@@ -151,6 +159,7 @@ public abstract class ConstApiStatus extends BaseApiCode {
 		zhMsgMap.put(ACCOUNT_EXCEPTION, "账号异常，请联系客服");
 		zhMsgMap.put(CHECK_VALIDATE_CODE_NOT_PASS, "短信验证码校验不通过");
 		zhMsgMap.put(SEND_SMS_FAILED, "短信发送失败");
+
 		zhMsgMap.put(LOGIN_UNLOCK_LIST_EXCEPTION, "获取用户登陆解锁列表异常");
 		zhMsgMap.put(LOGIN_UNLOCK_EXCEPTION, "解锁异常");
 		zhMsgMap.put(RESET_ACCOUNT_PWD_EXCEPTION, "重置账号密码异常");
@@ -173,4 +182,5 @@ public abstract class ConstApiStatus extends BaseApiCode {
 		zhMsgMap.put(SAVE_FAIL, "保存失败");
 		zhMsgMap.put(SAVE_SUCCESS, "保存成功");
 	}
+
 }

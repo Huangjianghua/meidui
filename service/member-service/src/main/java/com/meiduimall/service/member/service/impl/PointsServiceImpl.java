@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.google.common.base.Strings;
 import com.meiduimall.service.member.dao.BaseDao;
 import com.meiduimall.service.member.service.PointsService;
 import com.meiduimall.service.member.util.DoubleCalculate;
@@ -18,6 +19,8 @@ public class PointsServiceImpl implements PointsService {
 	@Autowired
 	private BaseDao baseDao;
 	
+
+	@Override
 	public String getAvailablePoints(String memId,String currentPoints) {
 		Double avaliablePoints = Double.valueOf("0");
 		try{
@@ -30,5 +33,7 @@ public class PointsServiceImpl implements PointsService {
 		}
 		return String.valueOf(avaliablePoints);
 	}
-	
+
+
+
 }

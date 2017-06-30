@@ -2,6 +2,7 @@ package com.meiduimall.service.account.service.impl;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -10,11 +11,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.dao.BaseDao;
+import com.meiduimall.service.account.model.MSAccountDetail;
+import com.meiduimall.service.account.model.MSAccountDetailGet;
 import com.meiduimall.service.account.service.AccountDetailService;
-import com.meiduimall.service.account.service.AccountService;
+import com.meiduimall.service.account.service.AccountReportService;
 import com.meiduimall.service.account.util.DateUtil;
 import com.meiduimall.service.account.util.DoubleCalculate;
+
 
 /**
  * 账户明细操作接口{@link=AccountDetailService}实现类
@@ -30,7 +35,12 @@ public class AccountDetailServiceImpl implements AccountDetailService{
 	private BaseDao baseDao;
 	
 	@Autowired
-	private AccountService accountServices;
+	private AccountReportService accountReportService;
+	
+	@Override
+	public void insertAccountDetail(MSAccountDetail model) {
+		baseDao.insert(model,"MSAccountDetailMapper.insertAccountDetail");
+	}
 	
 	@Override
 	public void saveAddAccountDetail(String memId, String orderId,
@@ -61,19 +71,21 @@ public class AccountDetailServiceImpl implements AccountDetailService{
 	public void saveCutAccountDetail(String memId, String orderId,
 			String accountId, String accountType, String tradeType,
 			String tradeAmount, Date tradeDate, String balance, String remark) {
-		Map<String,String> paramsMap = new HashMap<String,String>();
+		Map<String,Object> paramsMap = new HashMap<String,Object>();
 		paramsMap.put("id", UUID.randomUUID().toString());
 		paramsMap.put("memId", memId);
-		paramsMap.put("orderId", orderId);
-		paramsMap.put("accountId", accountId);
-		paramsMap.put("accountType", accountType);
+		paramsMap.put("accountNo", accountId);
 		paramsMap.put("tradeType", tradeType);
-		paramsMap.put("tradeAmount", tradeAmount);
-		paramsMap.put("balance", balance);
-		paramsMap.put("remark", remark);
-		paramsMap.put("inOrOut", "-1");
-		paramsMap.put("tradeDate", DateUtil.format(tradeDate,DateUtil.YYYY_MM_DD_HH_MM_SS));
-		
+		paramsMap.put("tradeAmount", Double.valueOf(tradeAmount));
+		paramsMap.put("inOrOut", -1);
+		paramsMap.put("remark","账户编号："+accountId+" "+remark+"扣款");
+		paramsMap.put("createUser", "system");
+		paramsMap.put("createDate", DateUtil.format(tradeDate,DateUtil.YYYY_MM_DD_HH_MM_SS));
+		paramsMap.put("updateUser", "system");
+		paramsMap.put("updateDate", DateUtil.format(tradeDate,DateUtil.YYYY_MM_DD_HH_MM_SS));
+		paramsMap.put("balance", Double.valueOf(balance));
+		paramsMap.put("businessNo", orderId);
+		paramsMap.put("tradeDate", tradeDate);
 		try {
 			baseDao.insert(paramsMap, "MSAccountDetailMapper.insertAccountDetail");
 		} catch (Exception e) {
@@ -85,9 +97,9 @@ public class AccountDetailServiceImpl implements AccountDetailService{
 	@Override
 	public void saveAddConsumePoints(String memId, String orderId,
 			String orderSource, String consumePoints, String operatorType,
-			String operator, String remark) {
+			String operator, String remark) throws MdSysException {
 		
-		double realPoints = accountServices.getUseConsumePoints(memId);
+		double realPoints =accountReportService.getAvailablePoints(memId);
 
 		String balancePoints = String.valueOf(DoubleCalculate.add(realPoints,
 				Double.valueOf(consumePoints)));
@@ -100,9 +112,9 @@ public class AccountDetailServiceImpl implements AccountDetailService{
 	@Override
 	public void saveCutConsumePoints(String memId, String orderId,
 			String orderSource, String consumePoints, String operatorType,
-			String operator, String remark) {
+			String operator, String remark) throws MdSysException {
 		
-		double realPoints = accountServices.getUseConsumePoints(memId);
+		double realPoints = accountReportService.getAvailablePoints(memId);
 
 		String balancePoints = String.valueOf(DoubleCalculate.sub(realPoints,
 				Double.valueOf(consumePoints)));
@@ -116,8 +128,8 @@ public class AccountDetailServiceImpl implements AccountDetailService{
 	public void saveConsumePoints(String memId, String orderId,
 			String orderSource, String inConsumePoints,
 			String outConsumePoints, String operatorType, String operator,
-			String remark) {
-		double realPoints = accountServices.getUseConsumePoints(memId);
+			String remark) throws MdSysException {
+		double realPoints = accountReportService.getAvailablePoints(memId);
 
 		String balancePoints = String.valueOf(DoubleCalculate.add(realPoints,
 				Double.valueOf(inConsumePoints))); //收入
@@ -175,6 +187,25 @@ public class AccountDetailServiceImpl implements AccountDetailService{
 			logger.error("写入积分变动明细出现错误-%s，会员编号：%s，订单编号：%s，错误信息：%s", 
 					calcFlag, memId, orderId, e.getMessage());
 		}
+	}
+
+	@Override
+	public List<MSAccountDetail> getAccountDetailListByOrderId(String orderId) {
+		return baseDao.selectList(orderId,"MSAccountDetailMapper.getAccountDetailListByOrderId");
+	}
+		
+	public List<MSAccountDetail> listAccountDetail(MSAccountDetailGet msAccountDetailGet) {
+		return baseDao.selectList(msAccountDetailGet, "MSAccountDetailMapper.listMSAccountDetail");
+	}
+
+	@Override
+	public void batchInsertAccoutDetail(List<MSAccountDetail> MSAccountDetail) {
+		baseDao.insertBatch(MSAccountDetail, "MSAccountDetailMapper.batchInsertAccountDetail");
+	}
+
+	@Override
+	public String getMoneyIncome(String memId) {
+		return baseDao.selectOne(memId, "MSAccountDetailMapper.selectMoneyIncome");
 	}
 	
 }

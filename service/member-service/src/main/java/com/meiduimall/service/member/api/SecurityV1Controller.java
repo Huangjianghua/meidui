@@ -22,15 +22,15 @@ import com.github.pagehelper.PageInfo;
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.MdBizException;
-import com.meiduimall.service.member.constant.ApiStatusConst;
+import com.meiduimall.service.member.constant.ConstApiStatus;
 import com.meiduimall.service.member.model.MSMembersGet;
 import com.meiduimall.service.member.model.request.RequestLoginUnlock;
 import com.meiduimall.service.member.model.request.RequestSetPaypwdStatus;
-import com.meiduimall.service.member.model.response.MemberLockDTO;
+import com.meiduimall.service.member.model.response.ResponseMemberLock;
 import com.meiduimall.service.member.service.SecurityService;
 
 /**
- * 账号安全相关接口
+ * 账号安全和权限相关API
  * @author chencong
  *
  */
@@ -56,7 +56,7 @@ public class SecurityV1Controller {
 		}
 		catch (MdBizException e) {
 			logger.error("设置支付密码开关API请求异常：{}",e.toString());
-			throw new ApiException(ApiStatusConst.SET_PAYPWD_STATUS_EXCEPTION,ApiStatusConst.getZhMsg(ApiStatusConst.SET_PAYPWD_STATUS_EXCEPTION));
+			throw new ApiException(ConstApiStatus.SET_PAYPWD_STATUS_EXCEPTION,ConstApiStatus.getZhMsg(ConstApiStatus.SET_PAYPWD_STATUS_EXCEPTION));
 		}
 	}
 
@@ -156,7 +156,7 @@ public class SecurityV1Controller {
 			logger.info("调用账号禁用API接口异常 :{},id:{}",e.getMessage());
 			throw new ApiException(e.getCode(),e.getMessage());
 		}
-		 return new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		 return new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
 	}
 	
 	/**
@@ -174,7 +174,7 @@ public class SecurityV1Controller {
 			logger.info("调用账号解禁API接口异常 :{},id:{}",e.getMessage());
 			throw new ApiException(e.getCode(),e.getMessage());
 		}
-		return new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		return new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
 	}
 	
 	
@@ -193,7 +193,7 @@ public class SecurityV1Controller {
 			logger.info("调用账号重置密码API接口异常 :{},id:{}",e.getMessage());
 			throw new ApiException(e.getCode(),e.getMessage());
 		}
-		return new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		return new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
 	}
 	
 	/**
@@ -205,7 +205,7 @@ public class SecurityV1Controller {
 	 */
 	@RequestMapping(value = "/loginUnlockList",method=RequestMethod.POST)
     public ResBodyData loginUnlockList(@RequestBody RequestLoginUnlock loginUnlock) throws Exception {
-		List<MemberLockDTO> list=null;
+		List<ResponseMemberLock> list=null;
 		try {
 			//分页查询
 			if(loginUnlock.getFlag().equals("1")){
@@ -222,7 +222,7 @@ public class SecurityV1Controller {
 			logger.info("调用登陆解锁列表API接口异常 :{},id:{}",e.getMessage());
 			throw new ApiException(e.getCode(),e.getMessage());
 		}
-		return new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS),new PageInfo<>(list));
+		return new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS),new PageInfo<>(list));
 	}
 	
 	/**
@@ -239,9 +239,9 @@ public class SecurityV1Controller {
 			securityService.unlockMember(param);
 		} catch (MdBizException e) {
 			logger.info("调用解锁用户API接口异常 :{},id:{}",e.getMessage());
-			throw new ApiException(e.getCode(),e.getMessage());
+			//throw new ApiException(e.getCode(),e.getMessage());
 		}
-		return new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
+		return new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
 	}
 	/**
 	 * 参数校验
@@ -251,11 +251,11 @@ public class SecurityV1Controller {
 	 */
 	private void checkParam(Map<String, Object> param) throws ApiException{
 		if(param==null){
-			throw new ApiException(ApiStatusConst.REQUIRED_PARAM_EMPTY);
+			throw new ApiException(ConstApiStatus.REQUIRED_PARAM_EMPTY);
 		}
 		if(param.containsKey("memId")){
 			if(StringUtils.isBlank(param.get("memId").toString())){
-				throw new ApiException(ApiStatusConst.ACCOUNT_MEMBER_ID_NULL);
+				throw new ApiException(ConstApiStatus.ACCOUNT_MEMBER_ID_NULL);
 			}
 		}
 	}

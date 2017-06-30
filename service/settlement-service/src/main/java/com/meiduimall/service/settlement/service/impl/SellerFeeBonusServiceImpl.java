@@ -14,6 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Maps;
 import com.meiduimall.core.util.JsonUtils;
+import com.meiduimall.exception.DaoException;
+import com.meiduimall.exception.ServiceException;
+import com.meiduimall.service.SettlementApiCode;
 import com.meiduimall.service.settlement.common.CodeRuleUtil;
 import com.meiduimall.service.settlement.dao.BaseMapper;
 import com.meiduimall.service.settlement.model.EcmMzfAccount;
@@ -42,14 +45,14 @@ public class SellerFeeBonusServiceImpl implements SellerFeeBonusService {
 	private MemberService memberService;
 
 	@Override
-	public EcmMzfSellerFee getSellerFeeByTime(String time) throws Exception {
+	public EcmMzfSellerFee getSellerFeeByTime(String time) {
 		Map<String, Object> params = Maps.newHashMap();
 		params.put("time", time);
 		return baseMapper.selectOne(params, "EcmMzfSellerFeeMapper.getSellerFeeByTime");
 	}
 	
 	@Override
-	public EcmMzfSellerFee getPlatformFee(String time, String sellerName) throws Exception {
+	public EcmMzfSellerFee getPlatformFee(String time, String sellerName) {
 		Map<String, Object> params = Maps.newHashMap();
 		params.put("time", time);
 		params.put("sellerName", sellerName);
@@ -57,17 +60,17 @@ public class SellerFeeBonusServiceImpl implements SellerFeeBonusService {
 	}
 
 	@Override
-	public EcmMzfSellerFee getSellerFeeByBillId(String billId) throws Exception {
+	public EcmMzfSellerFee getSellerFeeByBillId(String billId) {
 		return baseMapper.selectOne(billId, "EcmMzfSellerFeeMapper.getSellerFeeByBillId");
 	}
 
 	@Override
-	public EcmMzfSellerBonus getSellerBonusByBillId(String billId) throws Exception {
+	public EcmMzfSellerBonus getSellerBonusByBillId(String billId) {
 		return baseMapper.selectOne(billId, "EcmMzfSellerFeeMapper.getSellerBonusByBillId");
 	}
 	
 	@Override
-	public int updateSellerFeePhone(String billId, String sellerPhone, String state, String remark) throws Exception {
+	public int updateSellerFeePhone(String billId, String sellerPhone, String state, String remark) {
 		Map<String, Object> params = Maps.newHashMap();
 		params.put("billId", billId);
 		params.put("sellerPhone", sellerPhone);
@@ -78,7 +81,7 @@ public class SellerFeeBonusServiceImpl implements SellerFeeBonusService {
 	}
 
 	@Override
-	public int updateSellerBonusPhone(String billId, String sellerPhone, String state, String remark) throws Exception {
+	public int updateSellerBonusPhone(String billId, String sellerPhone, String state, String remark) {
 		Map<String, Object> params = Maps.newHashMap();
 		params.put("billId", billId);
 		params.put("sellerPhone", sellerPhone);
@@ -90,7 +93,7 @@ public class SellerFeeBonusServiceImpl implements SellerFeeBonusService {
 	
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	@Override
-	public boolean sendFeeOrBonus(String billId, String type, String sellerPhone, String memId) throws Exception {
+	public boolean sendFeeOrBonus(String billId, String type, String sellerPhone, String memId) {
 		//发放服务费
 		if("FW".equals(type)){
 			//根据账单编号获取服务费相关信息
@@ -162,38 +165,38 @@ public class SellerFeeBonusServiceImpl implements SellerFeeBonusService {
 	}
 	
 	@Override
-	public int insertSellerFee(EcmMzfSellerFee ecmMzfSellerFee) throws Exception {
+	public int insertSellerFee(EcmMzfSellerFee ecmMzfSellerFee) {
 		return baseMapper.insert(ecmMzfSellerFee, "EcmMzfSellerFeeMapper.insertSellerFee");
 	}
 
 	@Override
-	public int insertSellerBonus(EcmMzfSellerBonus ecmMzfSellerBonus) throws Exception {
+	public int insertSellerBonus(EcmMzfSellerBonus ecmMzfSellerBonus) {
 		return baseMapper.insert(ecmMzfSellerBonus, "EcmMzfSellerFeeMapper.insertSellerBonus");
 	}
 	
 	@Override
-	public List<EcmMzfSellerFee> getSellerFeeList(Map<String, Object> params) throws Exception {
-		return baseMapper.selectList(params, "EcmMzfSellerFeeMapper.getSellerFeeList");
+	public Map<String, Object> getSellerFeeList(Map<String, Object> params){
+		List<EcmMzfSellerFee> sellFeeList = baseMapper.selectList(params, "EcmMzfSellerFeeMapper.getSellerFeeList");
+		int feeCount = baseMapper.selectOne(params, "EcmMzfSellerFeeMapper.getSellerFeeCount");
+		Map<String, Object> result = Maps.newHashMap();
+		result.put("result", sellFeeList);
+		result.put("totalItem", feeCount);
+		return result;
 	}
 
 	@Override
-	public List<EcmMzfSellerBonus> getSellerBonusList(Map<String, Object> params) throws Exception {
-		return baseMapper.selectList(params, "EcmMzfSellerFeeMapper.getSellerBonusList");
+	public Map<String, Object> getSellerBonusList(Map<String, Object> params){
+		List<EcmMzfSellerBonus> sellerBonusList = baseMapper.selectList(params, "EcmMzfSellerFeeMapper.getSellerBonusList");
+		int bonusCount = baseMapper.selectOne(params, "EcmMzfSellerFeeMapper.getSellerBonusCount");
+		Map<String, Object> result = Maps.newHashMap();
+		result.put("result", sellerBonusList);
+		result.put("totalItem", bonusCount);
+		return result;
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = ServiceException.class)
 	@Override
-	public int getSellerFeeCount(Map<String, Object> params) throws Exception {
-		return baseMapper.selectOne(params, "EcmMzfSellerFeeMapper.getSellerFeeCount");
-	}
-
-	@Override
-	public int getSellerBonusCount(Map<String, Object> params) throws Exception {
-		return baseMapper.selectOne(params, "EcmMzfSellerFeeMapper.getSellerBonusCount");
-	}
-
-	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	@Override
-	public void calFeeBonus(String sellers, String time) throws Exception {
+	public void calFeeBonus(String sellers, String time) {
 		
 		List<Seller> sellerList = JsonUtils.jsonToList(sellers, Seller.class);
 		
@@ -220,7 +223,12 @@ public class SellerFeeBonusServiceImpl implements SellerFeeBonusService {
 			ecmMzfSellerFee.setCreateTime(tt);
 			ecmMzfSellerFee.setUpdateTime(tt);
 			//插入服务费活动账单，并返回主键id 目的是生成奖励金账单时插入到extId
-			this.insertSellerFee(ecmMzfSellerFee);
+			try {
+				this.insertSellerFee(ecmMzfSellerFee);
+			} catch (DaoException e) {
+				throw new ServiceException(SettlementApiCode.INSERT_SELLER_FEE_FAIL);
+			}
+			
 			
 			//reward=1时，需生成当前商家奖励金活动账单
 			if("1".equals(seller.getReward())){
@@ -241,19 +249,23 @@ public class SellerFeeBonusServiceImpl implements SellerFeeBonusService {
 				ecmMzfSellerBonus.setCreateTime(tt);
 				ecmMzfSellerBonus.setUpdateTime(tt);
 				ecmMzfSellerBonus.setExtId(ecmMzfSellerFee.getId());
-				this.insertSellerBonus(ecmMzfSellerBonus);
+				try {
+					this.insertSellerBonus(ecmMzfSellerBonus);
+				} catch (DaoException e) {
+					throw new ServiceException(SettlementApiCode.INSERT_SELLER_BONUS_FAIL);
+				}
 			}
 		}
 	}
 
 	@Override
-	public List<SellerFeeBonus> getSellersFeeBonus(Map<String, Object> params) throws Exception {
-		return baseMapper.selectList(params, "EcmMzfSellerFeeMapper.getSellersFeeBonus");
-	}
-
-	@Override
-	public int getSellersFeeBonusCount(Map<String, Object> params) throws Exception {
-		return baseMapper.selectOne(params, "EcmMzfSellerFeeMapper.getSellersFeeBonusCount");
+	public Map<String, Object> getSellersFeeBonus(Map<String, Object> params){
+		List<SellerFeeBonus> sellerFeeBonusList = baseMapper.selectList(params, "EcmMzfSellerFeeMapper.getSellersFeeBonus");
+		int totalItem = baseMapper.selectOne(params, "EcmMzfSellerFeeMapper.getSellersFeeBonusCount");
+		Map<String, Object> result = Maps.newHashMap();
+		result.put("result", sellerFeeBonusList);
+		result.put("totalItem", totalItem);
+		return result;
 	}
 
 

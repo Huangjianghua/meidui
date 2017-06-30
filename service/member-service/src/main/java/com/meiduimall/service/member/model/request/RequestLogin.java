@@ -5,6 +5,8 @@ import java.io.Serializable;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * 登录请求映射实体
  * @author chencong
@@ -16,10 +18,12 @@ public class RequestLogin  implements Serializable {
 
 	@NotEmpty(message="用户名不能为空")
 	@Length(max=100,message="用户名长度不正确")
-	private String user_name;
-	
+	@JsonProperty("user_name")
+	private String userName;
+
 	@NotEmpty(message="密码不能为空")
-	private String password;
+	@JsonProperty("password")
+	private String passWord;
 	
 	private String ip;
 	
@@ -40,27 +44,21 @@ public class RequestLogin  implements Serializable {
 	public void setIp(String ip) {
 		this.ip = ip;
 	}
-
-	public String getUser_name() {
-		return user_name;
+	
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setUser_name(String user_name) {
-		this.user_name = user_name;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getPassWord() {
+		return passWord;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	@Override
-	public String toString() {
-		return "RequestLogin [user_name=" + user_name + ", password=" + password + ", ip=" + ip + ", tokenKey="
-				+ tokenKey + "]";
+	public void setPassWord(String passWord) {
+		this.passWord = passWord;
 	}
 	
 }

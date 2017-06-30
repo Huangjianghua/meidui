@@ -2,6 +2,7 @@ package com.meiduimall.application.usercenter.interceptor;
 
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -92,7 +93,7 @@ public class ValRequest {
 		if(reqJson.containsKey("biz_id")){
 			
 			if(reqJson.containsKey("md_user")){
-				String mdUser = (String) reqJson.get("md_user");
+				String mdUser = ((String) reqJson.get("md_user")).trim();
 				if(mdUser==null || mdUser.equals("")){
 					resBodyData.setStatus(ApiStatusConst.MDUSER_EMPTY);
 					resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.MDUSER_EMPTY));
@@ -100,7 +101,7 @@ public class ValRequest {
 				}
 			}
 			if(reqJson.containsKey("recharge_amout")){
-				String rechargeAmout = (String) reqJson.get("recharge_amout");
+				String rechargeAmout = ((String) reqJson.get("recharge_amout")).trim();
 				if(rechargeAmout==null || rechargeAmout.equals("")){
 					resBodyData.setStatus(ApiStatusConst.RECHARGE_AMOUT_EMPTY);
 					resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.RECHARGE_AMOUT_EMPTY));
@@ -121,9 +122,21 @@ public class ValRequest {
 					resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.CALLBACK_URL_ZERO));
 					return resBodyData;
 				}
+				if(rechargeAmout.indexOf(".")!=-1){
+					if (rechargeAmout.split("\\.")[1].length()>2){
+						resBodyData.setStatus(ApiStatusConst.RECHARGE_AMOUT_DECIMAL);
+						resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.RECHARGE_AMOUT_DECIMAL));
+						return resBodyData;
+					}
+				}
+				if (rechargeAmout.split("\\.")[0].length()>9){
+					resBodyData.setStatus(ApiStatusConst.RECHARGE_AMOUT_MAX);
+					resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.RECHARGE_AMOUT_MAX));
+					return resBodyData;
+				}
 			}
 			if(reqJson.containsKey("recharge_type")){
-				String rechargeType = (String) reqJson.get("recharge_type");
+				String rechargeType = ((String) reqJson.get("recharge_type")).trim();
 				if(rechargeType==null || rechargeType.equals("")){
 					resBodyData.setStatus(ApiStatusConst.RECHARGE_TYPE_EMPTY);
 					resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.RECHARGE_TYPE_EMPTY));
@@ -131,7 +144,7 @@ public class ValRequest {
 				}
 			}
 			if(reqJson.containsKey("callback_url")){
-				String callbackUrl = (String) reqJson.get("callback_url");
+				String callbackUrl = ((String) reqJson.get("callback_url")).trim();
 				if(callbackUrl==null || callbackUrl.equals("")){
 					resBodyData.setStatus(ApiStatusConst.CALLBACK_URL_EMPTY);
 					resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.CALLBACK_URL_EMPTY));
@@ -140,24 +153,29 @@ public class ValRequest {
 			}
 			
 			
-			String bizId = (String) reqJson.get("biz_id");
+			String bizId = ((String) reqJson.get("biz_id")).trim();
 			if(bizId==null || bizId.equals("")){
 				resBodyData.setStatus(ApiStatusConst.BIZID_EMPTY);
 				resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.BIZID_EMPTY));
 				return resBodyData;
 			}else{
-				if(resBodyData.getStatus()!=0){
-					return resBodyData;
-				}
-				resBodyData=validateTimesatamp(reqJson.getLong(SysParamsConst.REQ_TIM));
-				if(resBodyData.getStatus()!=0){
-					return resBodyData;
-				}
-				resBodyData=validateSign(reqJson);
-				if(resBodyData.getStatus()!=0){
+				int size = getRepeatOrderId(reqJson);
+				if(size>0){
+					resBodyData.setStatus(ApiStatusConst.BIZID_REPEAT);
+					resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.BIZID_REPEAT));
 					return resBodyData;
 				}
 			}
+
+			resBodyData=validateTimesatamp(reqJson.getLong(SysParamsConst.REQ_TIM));
+			if(resBodyData.getStatus()!=0){
+				return resBodyData;
+			}
+			resBodyData=validateSign(reqJson);
+			if(resBodyData.getStatus()!=0){
+				return resBodyData;
+			}
+		
 		}
 		/**校验token，将token转换为memId*/
 		if (hasToken) {
@@ -233,6 +251,7 @@ public class ValRequest {
 	 * @return 统一数据返回格式
 	 * @throws MdSysException 
 	 */
+	@SuppressWarnings({ "rawtypes" })
 	private static ResBodyData validateSign(JSONObject reqJson){
 		ResBodyData resBodyData=new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.getZhMsg(ApiStatusConst.SUCCESS));
 		if(reqJson.getString(SysParamsConst.SIGN).length()!=32){
@@ -241,7 +260,20 @@ public class ValRequest {
 			return resBodyData;
 		}
 		String clientSign=reqJson.getString(SysParamsConst.SIGN);
-		String secretkey=getKey(reqJson);//RedisTemplate.getJedisInstance().execGetFromCache(SysParamsConst.memberSecretJson);
+		List array = getKey(reqJson);
+		if(array.size()==0){
+			resBodyData.setStatus(ApiStatusConst.CORPORATE_IDENTITY_EMPTY);
+			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.CORPORATE_IDENTITY_EMPTY));
+			return resBodyData;
+		}
+		String secretkey=(String) ((Map)array.get(0)).get("enterpriseKey");
+		List arr = getAccountType((String) ((Map)array.get(0)).get("entId"),(String) reqJson.get("recharge_type"));
+		if(arr.size()==0){
+			resBodyData.setStatus(ApiStatusConst.ACCOUNT_TYPE_NON_EXISTENT);
+			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.ACCOUNT_TYPE_NON_EXISTENT));
+			return resBodyData;
+		}
+		//RedisTemplate.getJedisInstance().execGetFromCache(SysParamsConst.memberSecretJson);
 		//String clientID=reqJson.getString(SysParamsConst.CLIENTID);
 		//String secretkey=JSONObject.parseObject(memberSecretJson).getString(clientID);
 		resBodyData = MD5Utils.getSign(reqJson,secretkey);
@@ -257,9 +289,9 @@ public class ValRequest {
 		return resBodyData;
 	}
 	@SuppressWarnings("rawtypes")
-	public static String getKey(JSONObject reqJson) {
+	public static List getKey(JSONObject reqJson) {
+		List array = new ArrayList<>();
 		JSONObject js = new JSONObject();
-		String key="";
 		if(reqJson.containsKey(SysParamsConst.CLIENT_ID)){
 			js.put("enterpriseIdentity", reqJson.get(SysParamsConst.CLIENT_ID));
 			js.put("flg", "0");
@@ -271,16 +303,62 @@ public class ValRequest {
 			Map<String, String> headers=new HashMap<>();
 			headers.put(SysParamsConst.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
 			String result = HttpUtils.post(url,js.toString(),headers);
-			resBodyData = JsonUtils.jsonToBean(result,ResBodyData.class);//.get("enterpriseKey").toString()
-			
-			List array=(List) ((Map)resBodyData.getData()).get("list");
-			key = (String) ((Map)array.get(0)).get("enterpriseKey");
-		    logger.info("__"+key);
+			resBodyData = JsonUtils.jsonToBean(result,ResBodyData.class);
+			array=(List) ((Map)resBodyData.getData()).get("list");
+		} catch (Exception e) {
+			throw new ApiException(ApiStatusConst.REQUEST_GATEWAY_EX);
+		}
+		logger.info("---resBodyData");
+		return array;
+	}
+	@SuppressWarnings("rawtypes")
+	public static List getAccountType(String entId,String accountType) {
+		JSONObject js = new JSONObject();
+		List array = new ArrayList<>();
+		js.put("personalAccountType", accountType);
+		js.put("entId", entId);
+		js.put("flg", "0");
+		ResBodyData resBodyData = new ResBodyData(null,null);
+		String url = valRequest.profileParamsConfig.getServiceAccountUrl()+"v1/findTripartiteEnterpriseDetailList";
+		resBodyData = MD5Utils.updateSign(js,valRequest.profileParamsConfig.getRouteClientID(),valRequest.profileParamsConfig.getRouteKey());
+		try {
+			Map<String, String> headers=new HashMap<>();
+			headers.put(SysParamsConst.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
+			String result = HttpUtils.post(url,js.toString(),headers);
+			resBodyData = JsonUtils.jsonToBean(result,ResBodyData.class);
+			array=(List) ((Map)resBodyData.getData()).get("list");
 		} catch (Exception e) {
 			throw new ApiException(ApiStatusConst.REQUEST_GATEWAY_EX);
 		}
 	
 		logger.info("---resBodyData");
-		return key;
-}
+		return array;
+	}
+	@SuppressWarnings("rawtypes")
+	public static int getRepeatOrderId(JSONObject reqJson) {
+		JSONObject js = new JSONObject();
+		if(reqJson.containsKey("biz_id")){
+			js.put("extorderId", reqJson.get("biz_id"));
+			js.put("flg", "0");
+		}
+		int size=0;
+		ResBodyData resBodyData = new ResBodyData(null,null);
+		String url = valRequest.profileParamsConfig.getServiceAccountUrl()+"v1/findExternalRechargeList";
+		resBodyData = MD5Utils.updateSign(js,valRequest.profileParamsConfig.getRouteClientID(),valRequest.profileParamsConfig.getRouteKey());
+		try {
+			Map<String, String> headers=new HashMap<>();
+			headers.put(SysParamsConst.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
+			String result = HttpUtils.post(url,js.toString(),headers);
+			resBodyData = JsonUtils.jsonToBean(result,ResBodyData.class);
+			
+			List array=(List) ((Map)resBodyData.getData()).get("list");
+			size = array.size();
+		    logger.info("__"+array.size());
+		} catch (Exception e) {
+			throw new ApiException(ApiStatusConst.REQUEST_GATEWAY_EX);
+		}
+	
+		logger.info("---resBodyData");
+		return size;
+	}
 }

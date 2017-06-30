@@ -65,9 +65,9 @@ spring:
   datasource :
     type : com.zaxxer.hikari.HikariDataSource
     driver-class-name : com.mysql.jdbc.Driver
-    url : jdbc:mysql://127.0.0.1:3306/sms_service?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
-    username : root
-    password : 123456
+    url : jdbc:mysql://10.170.135.70:3306/sms_service?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
+    username : meidui
+    password : meiduishop
     connectionTimeout : 30000
     idleTimeout : 600000
     maxLifetime : 1800000
@@ -86,9 +86,9 @@ eureka:
 config:
   jedis:
     jedisShardInfo:
-      host: 192.168.4.236
+      host: 10.170.135.70
       port: 6379
-      password: meiduiredis2016
+      password: meiduiredis2017
       database: 15
     maxTotal: 1024
     maxIdle: 250
@@ -112,7 +112,7 @@ weixin :
   templateId1 : Sk1r88iGA_HaiZM6yTKfOhNol2qN-CuH8Eow-AJ9D7w
   url : https://api.weixin.qq.com
 # APP下载地址
-app-download-url : http://shangjia.meiduimall.com/appapi/index.php?app=home&act=app_down&portal=12
+app-download-url : http://o2oy.meiduimall.com/appapi/index.php?app=home&act=app_down&portal=12
 # member-service地址
 member-service-host : http://10.45.178.235:8098
 
@@ -145,7 +145,7 @@ eureka:
 config:
   jedis:
     jedisShardInfo:
-      host: 192.168.4.236
+      host: 127.0.0.1
       port: 6379
       password: meiduiredis2016
       database: 15

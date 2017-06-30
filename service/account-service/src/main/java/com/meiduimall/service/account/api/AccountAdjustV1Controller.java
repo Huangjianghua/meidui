@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.ApiException;
+import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.MdBizException;
+import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.model.AddOrUpdateAccountReviseDetail;
 import com.meiduimall.service.account.model.request.RequestAccountAdjustAmount;
@@ -20,7 +22,7 @@ import com.meiduimall.service.account.service.AccountAdjustService;
 import com.meiduimall.service.account.service.MSAccountDetailService;
 
 /**
- * 账户调整相关接口
+ * 账户调整相关API
  * @author chencong
  *
  */
@@ -40,7 +42,11 @@ public class AccountAdjustV1Controller {
 	@PostMapping(value = "/account_adjust_amount")
 	public ResBodyData accountAdjustAmount(@RequestBody @Valid RequestAccountAdjustAmount model) {
 		logger.info("收到账户余额调增调减API请求  ：{}",model.toString());
-		return accountAdjustService.accountAdjustAmount(model);
+		try {
+			return accountAdjustService.accountAdjustAmount(model);
+		} catch (MdSysException | DaoException e) {
+			throw new ApiException(ConstApiStatus.SYSTEM_ERROR);
+		}
 	}
 	
 	/**
@@ -50,6 +56,7 @@ public class AccountAdjustV1Controller {
 	@PostMapping(value="/add_account_revision_detail")
 	public ResBodyData  addMSAccountRevisionDetail(@RequestBody AddOrUpdateAccountReviseDetail detail){
 		try{
+			logger.info("添加会员余额调整明细 API请求 :{}", detail);
 			mSAccountDetailService.addMSAccountReviseDetail(detail);
 		}catch(MdBizException e){
 			throw new ApiException(e.getCode(),e.getMessage());
@@ -66,6 +73,7 @@ public class AccountAdjustV1Controller {
 	 */
 	@PostMapping(value="/update_account_revision_detail")
 	public ResBodyData  updateMSAccountRevisionDetail(@RequestBody AddOrUpdateAccountReviseDetail detail){
+		logger.info("修改会员余额调整明细 API请求 :{}", detail);
 		try{
 		  mSAccountDetailService.updateMSAccountReviseDetail(detail);
 		}catch(MdBizException e){
@@ -83,6 +91,7 @@ public class AccountAdjustV1Controller {
 	 */
 	@PostMapping(value="/examine_account_revision_detail")
 	public ResBodyData  examineMSAccountRevisionDetail(@RequestBody AddOrUpdateAccountReviseDetail detail){
+		logger.info("会员余额审核 API请求 :{}", detail);
 		ResBodyData resBodyData=null;
 		try {
 			resBodyData=mSAccountDetailService.examineMSAccountReviseDetail(detail);

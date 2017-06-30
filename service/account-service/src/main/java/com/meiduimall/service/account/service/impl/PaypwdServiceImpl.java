@@ -109,7 +109,7 @@ public class PaypwdServiceImpl implements PaypwdService {
 	
 	@Override
 	public ResBodyData isExistPaypwd(String memId){
-		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
+		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,"该会员存在支付密码");
 		int i = baseDao.selectOne(memId,"MSMembersPaypwdMapper.getIsExistPaypwdByMemId");
 		if(i<1){
 			resBodyData.setStatus(ConstApiStatus.PAYPWD_NOT_EXIST);
@@ -137,6 +137,7 @@ public class PaypwdServiceImpl implements PaypwdService {
 		logger.info("旧支付密码校验通过");
 		/**设置支付密码*/
 		this.setNewPaypwd(requestUpdatePaypwd.getMemId(),requestUpdatePaypwd.getNew_pay_pwd());		
+		resBodyData.setMsg("修改支付密码成功");
 		return resBodyData;
 	}
 	

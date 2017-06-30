@@ -6,8 +6,8 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class RequestBaseModel implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+	
+	private static final long serialVersionUID = 3079379497028582655L;
 	
 	@NotEmpty(message="会员ID不能为空")
 	@Length(min=36,max=36,message="会员ID长度不正确")

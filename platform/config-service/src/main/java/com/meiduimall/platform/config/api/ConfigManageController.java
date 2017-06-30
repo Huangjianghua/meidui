@@ -68,7 +68,7 @@ public class ConfigManageController {
 	
 	/**
 	 * 查询配置信息
-	 * @param configerMsg
+	 * @param param
 	 * @return
 	 * @author: jianhua.huang  2017年5月23日 下午3:42:00
 	 */

@@ -14,14 +14,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.meiduimall.core.ResBodyData;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.StringUtil;
 import com.google.common.collect.Maps;
+import com.meiduimall.core.ResBodyData;
+import com.meiduimall.exception.DaoException;
+import com.meiduimall.exception.ServiceException;
+import com.meiduimall.service.SettlementApiCode;
 import com.meiduimall.service.settlement.common.SettlementUtil;
 import com.meiduimall.service.settlement.model.EcmMzfSellerBonus;
 import com.meiduimall.service.settlement.model.EcmMzfSellerFee;
-import com.meiduimall.service.settlement.model.SellerFeeBonus;
 import com.meiduimall.service.settlement.service.SellerFeeBonusService;
 
 /**
@@ -62,9 +64,8 @@ public class SellerFeeBonusController {
 			}
 			result.put("canUsed", "1");
 			return SettlementUtil.success(result);
-		} catch (Exception e) {
-			logger.error(e.toString());
-			return SettlementUtil.failure("", "操作失败");
+		} catch (DaoException e) {
+			throw new ServiceException(e.getCode());
 		}
 	}
 	
@@ -89,9 +90,8 @@ public class SellerFeeBonusController {
 			sellerFeeBonusService.calFeeBonus(sellers, time);
 			return SettlementUtil.success("");
 			
-		} catch (Exception e) {
-			logger.error(e.toString());
-			return SettlementUtil.failure("", "操作失败");
+		} catch (DaoException e) {
+			throw new ServiceException(e.getCode());
 		}
 	}
 	
@@ -110,18 +110,18 @@ public class SellerFeeBonusController {
 			if("FW".equals(type)){
 				EcmMzfSellerFee ecmMzfSellerFee = sellerFeeBonusService.getSellerFeeByBillId(billId);
 				if(ecmMzfSellerFee == null){
-					return SettlementUtil.failure("", billId+"此账单编号不存在");
+					throw new ServiceException(SettlementApiCode.BILL_NOT_EXIST);
 				}
 				if("1".equals(ecmMzfSellerFee.getState()) || ecmMzfSellerFee.getMoney().compareTo(BigDecimal.ZERO) == 0){
-					return SettlementUtil.failure("", "账号为"+sellerPhone+"服务费不可发放");
+					throw new ServiceException(SettlementApiCode.FEE_NOT_SEND);
 				}
 			}else{
 				EcmMzfSellerBonus ecmMzfSellerBonus = sellerFeeBonusService.getSellerBonusByBillId(billId);
 				if(ecmMzfSellerBonus == null){
-					return SettlementUtil.failure("", billId+"此账单编号不存在");
+					throw new ServiceException(SettlementApiCode.BILL_NOT_EXIST);
 				}
 				if("1".equals(ecmMzfSellerBonus.getState()) || ecmMzfSellerBonus.getMoney().compareTo(BigDecimal.ZERO) == 0){
-					return SettlementUtil.failure("", "账号为"+sellerPhone+"奖励金不可发放");
+					throw new ServiceException(SettlementApiCode.BONUS_NOT_SEND);
 				}
 			}
 			
@@ -130,9 +130,8 @@ public class SellerFeeBonusController {
 				return SettlementUtil.success("");
 			}
 			return SettlementUtil.failure("", "发放失败");
-		} catch (Exception e) {
-			logger.error(e.toString());
-			return SettlementUtil.failure("", "操作失败");
+		} catch (DaoException e) {
+			throw new ServiceException(e.getCode());
 		}
 	}
 	
@@ -158,27 +157,16 @@ public class SellerFeeBonusController {
 				
 			}
 			
+			PageHelper.startPage(pageNumber, pageSize);
 			if("FW".equals(type)){
-				
-				PageHelper.startPage(pageNumber, pageSize);
-				List<EcmMzfSellerFee> sellFeeList = sellerFeeBonusService.getSellerFeeList(params);
-				int feeCount = sellerFeeBonusService.getSellerFeeCount(params);
-				
-				result.put("result", sellFeeList);
-				result.put("totalItem", feeCount);
+				result = sellerFeeBonusService.getSellerFeeList(params);
 			}else{
-				PageHelper.startPage(pageNumber, pageSize);
-				List<EcmMzfSellerBonus> sellerBonusList = sellerFeeBonusService.getSellerBonusList(params);
-				int bonusCount = sellerFeeBonusService.getSellerBonusCount(params);
-				
-				result.put("result", sellerBonusList);
-				result.put("totalItem", bonusCount);
+				result = sellerFeeBonusService.getSellerBonusList(params);
 			}
 			
 			return SettlementUtil.success(result);
-		} catch (Exception e) {
-			logger.error(e.toString());
-			return SettlementUtil.failure("", "操作失败");
+		} catch (DaoException e) {
+			throw new ServiceException(e.getCode());
 		}
 	}
 	
@@ -195,7 +183,6 @@ public class SellerFeeBonusController {
 			@RequestParam(value = "pageSize", defaultValue = "20") int pageSize, String sellerName, String time){
 		try {
 			Map<String, Object> params = Maps.newHashMap();
-			Map<String, Object> result = Maps.newHashMap();
 			params.put("sellerName", sellerName);
 			if(time.length() > 4){
 				params.put("years", time);
@@ -204,14 +191,10 @@ public class SellerFeeBonusController {
 			}
 			
 			PageHelper.startPage(pageNumber, pageSize);
-			List<SellerFeeBonus> sellerFeeBonusList = sellerFeeBonusService.getSellersFeeBonus(params);
-			int totalItem = sellerFeeBonusService.getSellersFeeBonusCount(params);
-			result.put("result", sellerFeeBonusList);
-			result.put("totalItem", totalItem);
+			Map<String, Object> result = sellerFeeBonusService.getSellersFeeBonus(params);
 			return SettlementUtil.success(result);
-		} catch (Exception e) {
-			logger.error(e.toString());
-			return SettlementUtil.failure("", "操作失败");
+		} catch (DaoException e) {
+			throw new ServiceException(e.getCode());
 		}
 	}
 	

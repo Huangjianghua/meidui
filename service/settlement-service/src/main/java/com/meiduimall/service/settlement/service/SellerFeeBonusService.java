@@ -1,11 +1,9 @@
 package com.meiduimall.service.settlement.service;
 
-import java.util.List;
 import java.util.Map;
 
 import com.meiduimall.service.settlement.model.EcmMzfSellerBonus;
 import com.meiduimall.service.settlement.model.EcmMzfSellerFee;
-import com.meiduimall.service.settlement.model.SellerFeeBonus;
 
 /**
  * 商家服务费、奖励金service
@@ -19,7 +17,7 @@ public interface SellerFeeBonusService {
 	 * @param time 账单期 格式为YYYY-MM
 	 * @return EcmMzfSellerFee
 	 */
-	public EcmMzfSellerFee getSellerFeeByTime(String time) throws Exception;
+	public EcmMzfSellerFee getSellerFeeByTime(String time);
 	
 	/**
 	 * 获取商家服务费
@@ -28,7 +26,7 @@ public interface SellerFeeBonusService {
 	 * @return EcmMzfSellerFee
 	 * @throws Exception
 	 */
-	public EcmMzfSellerFee getPlatformFee(String time, String sellerName) throws Exception;
+	public EcmMzfSellerFee getPlatformFee(String time, String sellerName);
 	
 	/**
 	 * 根据账单编号获取服务费活动信息
@@ -36,7 +34,7 @@ public interface SellerFeeBonusService {
 	 * @return EcmMzfSellerFee 服务费对象
 	 * @throws Exception
 	 */
-	public EcmMzfSellerFee getSellerFeeByBillId(String billId) throws Exception;
+	public EcmMzfSellerFee getSellerFeeByBillId(String billId);
 	
 	/**
 	 * 根据账单编号获取奖励金活动信息
@@ -44,7 +42,7 @@ public interface SellerFeeBonusService {
 	 * @return EcmMzfSellerBonus 奖励金对象
 	 * @throws Exception
 	 */
-	public EcmMzfSellerBonus getSellerBonusByBillId(String billId) throws Exception;
+	public EcmMzfSellerBonus getSellerBonusByBillId(String billId);
 	
 	/**
 	 * 更新服务费活动表中的商家账号
@@ -53,7 +51,7 @@ public interface SellerFeeBonusService {
 	 * @return int
 	 * @throws Exception
 	 */
-	public int updateSellerFeePhone(String billId, String sellerPhone, String state, String remark) throws Exception;
+	public int updateSellerFeePhone(String billId, String sellerPhone, String state, String remark);
 	
 	/**
 	 * 更新奖励活动表中的商家账号
@@ -62,7 +60,7 @@ public interface SellerFeeBonusService {
 	 * @return int
 	 * @throws Exception
 	 */
-	public int updateSellerBonusPhone(String billId, String sellerPhone, String state, String remark) throws Exception;
+	public int updateSellerBonusPhone(String billId, String sellerPhone, String state, String remark);
 	
 	/**
 	 * 发送服务费或奖励
@@ -72,7 +70,7 @@ public interface SellerFeeBonusService {
 	 * @return boolean
 	 * @throws Exception
 	 */
-	public boolean sendFeeOrBonus(String billId, String type, String sellerPhone, String memId) throws Exception;
+	public boolean sendFeeOrBonus(String billId, String type, String sellerPhone, String memId);
 	
 	/**
 	 * 插入服务费活动账单
@@ -96,7 +94,7 @@ public interface SellerFeeBonusService {
 	 * @return EcmMzfSellerFee 服务费对象列表
 	 * @throws Exception
 	 */
-	public List<EcmMzfSellerFee> getSellerFeeList(Map<String, Object> params) throws Exception;
+	public Map<String, Object> getSellerFeeList(Map<String, Object> params);
 	
 	/**
 	 * 获取奖励金活动账单列表
@@ -104,23 +102,7 @@ public interface SellerFeeBonusService {
 	 * @return EcmMzfSellerBonus 奖励金对象列表
 	 * @throws Exception
 	 */
-	public List<EcmMzfSellerBonus> getSellerBonusList(Map<String, Object> params) throws Exception;
-	
-	/**
-	 * 根据条件获取服务费总数
-	 * @param params
-	 * @return int
-	 * @throws Exception
-	 */
-	public int getSellerFeeCount(Map<String, Object> params) throws Exception;
-	
-	/**
-	 * 根据条件获取奖励金总数
-	 * @param params
-	 * @return int
-	 * @throws Exception
-	 */
-	public int getSellerBonusCount(Map<String, Object> params) throws Exception;
+	public Map<String, Object> getSellerBonusList(Map<String, Object> params);
 	
 	/**
 	 * 计算服务费、奖励金
@@ -128,7 +110,7 @@ public interface SellerFeeBonusService {
 	 * @param time 账单期
 	 * @throws Exception
 	 */
-	public void calFeeBonus(String sellers, String time) throws Exception;
+	public void calFeeBonus(String sellers, String time);
 	
 	/**
 	 * 获取商家已发的服务费和奖励金
@@ -137,14 +119,6 @@ public interface SellerFeeBonusService {
 	 * @return SellerFeeBonus 奖励金对象列表
 	 * @throws Exception
 	 */
-	public List<SellerFeeBonus> getSellersFeeBonus(Map<String, Object> params) throws Exception;
-	
-	/**
-	 * 获取商家已发的服务费和奖励金总数
-	 * @param params
-	 * @return int
-	 * @throws Exception
-	 */
-	public int getSellersFeeBonusCount(Map<String, Object> params) throws Exception;
+	public Map<String, Object> getSellersFeeBonus(Map<String, Object> params);
 
 }

@@ -11,7 +11,7 @@ import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdBizException;
 import com.meiduimall.service.member.model.MSMembersGet;
 import com.meiduimall.service.member.model.request.RequestLoginUnlock;
-import com.meiduimall.service.member.model.response.MemberLockDTO;
+import com.meiduimall.service.member.model.response.ResponseMemberLock;
 
 
 public interface SecurityService {
@@ -81,7 +81,7 @@ public interface SecurityService {
 	 * @throws MdBizException
 	 * @author: jianhua.huang  2017年5月3日 下午12:10:48
 	 */
-	public List<MemberLockDTO>  loginUnlockList(RequestLoginUnlock loginUnlock)throws MdBizException;
+	public List<ResponseMemberLock>  loginUnlockList(RequestLoginUnlock loginUnlock)throws MdBizException;
 	
 	/**
 	 * 解锁账号

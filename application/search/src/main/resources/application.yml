@@ -1,19 +1,85 @@
+# AOP
+spring :
+  aop :
+    auto : true
+    proxy-target-class : true
+
+---
 spring:
-  datasource:
+  profiles: dev
+
+# HikariConfig
+  datasource :
     type : com.zaxxer.hikari.HikariDataSource
-    driver-class-name: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://192.168.4.236:3306/sqldb?useUnicode=true&characterEncoding=utf-8
-    username: meidui
-    password: meiduishop
-    hikari:
-      connection-init-sql: SELECT 1
-      connection-test-query: SELECT 1 FROM DUAL
-      auto-commit: true
-      connection-timeout: 30000
-      idle-timeout: 600000
-      max-lifetime: 1800000
-      maximum-pool-size: 300
-      minimumIdle : 10
-      pool-name: harika-cp
-      
-search_server_url: http://192.168.4.241:8050/solr     
+    driver-class-name : com.mysql.jdbc.Driver
+    url : jdbc:mysql://192.168.4.236:3306/meiduishop?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
+    username : root
+    password : meidui@2016.?!
+    connectionTimeout : 30000
+    idleTimeout : 600000
+    maxLifetime : 1800000
+    maximumPoolSize : 300
+    minimumIdle : 10
+    autoCommit : true;
+    connectionTestQuery : SELECT 1
+
+# solr服务地址
+search_server_url: http://192.168.4.242:8087/solr 
+
+---
+spring:
+  profiles: prepro
+
+# HikariConfig
+  datasource :
+    type : com.zaxxer.hikari.HikariDataSource
+    driver-class-name : com.mysql.jdbc.Driver
+    url : jdbc:mysql://10.170.135.70:3306/sqldb?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
+    username : meidui
+    password : meiduishop
+    connectionTimeout : 30000
+    idleTimeout : 600000
+    maxLifetime : 1800000
+    maximumPoolSize : 300
+    minimumIdle : 10
+    autoCommit : true;
+    connectionTestQuery : SELECT 1
+
+---
+spring:
+  profiles: pro
+
+# HikariConfig
+  datasource :
+    type : com.zaxxer.hikari.HikariDataSource
+    driver-class-name : com.mysql.jdbc.Driver
+    url : jdbc:mysql://127.0.0.1:3306/sqldb?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
+    username : root
+    password : 123456
+    connectionTimeout : 30000
+    idleTimeout : 600000
+    maxLifetime : 1800000
+    maximumPoolSize : 300
+    minimumIdle : 10
+    autoCommit : true;
+    connectionTestQuery : SELECT 1
+
+---
+spring:
+  profiles: test
+
+# HikariConfig
+  datasource :
+    type : com.zaxxer.hikari.HikariDataSource
+    driver-class-name : com.mysql.jdbc.Driver
+    url : jdbc:mysql://192.168.4.110:3306/sqldb?characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true
+    username : meidui
+    password : meiduishop
+    connectionTimeout : 30000
+    idleTimeout : 600000
+    maxLifetime : 1800000
+    maximumPoolSize : 300
+    minimumIdle : 10
+    autoCommit : true;
+    connectionTestQuery : SELECT 1
+

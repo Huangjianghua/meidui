@@ -1,6 +1,11 @@
 package com.meiduimall.service.account.service;
 
 import java.util.Date;
+import java.util.List;
+
+import com.meiduimall.exception.MdSysException;
+import com.meiduimall.service.account.model.MSAccountDetail;
+import com.meiduimall.service.account.model.MSAccountDetailGet;
 
 /**
  * 账户明细操作接口
@@ -57,10 +62,11 @@ public interface AccountDetailService {
 	 * @param operatorType
 	 * @param operator
 	 * @param remark
+	 * @throws MdSysException 
 	 */
 	public void saveAddConsumePoints(String memId, String orderId,
 			String orderSource, String consumePoints, String operatorType,
-			String operator, String remark);
+			String operator, String remark) throws MdSysException;
 	
 	/**
 	 * 方法名: saveCutConsumePoints<br>
@@ -74,10 +80,11 @@ public interface AccountDetailService {
 	 * @param operatorType
 	 * @param operator
 	 * @param remark
+	 * @throws MdSysException 
 	 */
 	public void saveCutConsumePoints(String memId, String orderId,
 			String orderSource, String consumePoints, String operatorType,
-			String operator, String remark);
+			String operator, String remark) throws MdSysException;
 
 	/**
 	 * 方法名: saveConsumePoints<br>
@@ -92,11 +99,12 @@ public interface AccountDetailService {
 	 * @param operatorType
 	 * @param operator
 	 * @param remark
+	 * @throws MdSysException 
 	 */
 	public void saveConsumePoints(String memId, String orderId,
 			String orderSource, String inConsumePoints,
 			String outConsumePoints, String operatorType, String operator,
-			String remark);
+			String remark) throws MdSysException;
 	
 	/**
 	 * 方法名: saveConsumePoints<br>
@@ -116,5 +124,36 @@ public interface AccountDetailService {
 			String orderSource, String inConsumePoints,
 			String outConsumePoints, String balancePoints, String operatorType,
 			String operator, String remark);
+
+	/**
+	 * 插入账户明细信息
+	 * @param model 账户明细表ms_account_detail实体类
+	 */
+	void insertAccountDetail(MSAccountDetail model);
 	
+	/**
+	 * 根据订单号查询账户变动明细列表
+	 * @param orderId 订单号
+	 * @return 账户变动明细列表
+	 */
+	List<MSAccountDetail> getAccountDetailListByOrderId(String orderId);
+	
+	/**
+	 * 根据订单号查询账户明细表
+	 * @param msAccountDetailGet msAccountDetailGet
+	 * @author wujun
+	 */
+	public List<MSAccountDetail> listAccountDetail(MSAccountDetailGet msAccountDetailGet);
+
+	/**
+	 * 批量插入账户明细
+	 */
+	public void batchInsertAccoutDetail(List<MSAccountDetail> MSAccountDetail);
+	
+	/**
+	 * 专为旧会员系统调用--获取个人推广接口的现金收益总额
+	 * @param memId 会员ID
+	 * @return 现金收益总额
+	 */
+	String getMoneyIncome(String memId);
 }

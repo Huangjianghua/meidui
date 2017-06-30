@@ -1,76 +1,67 @@
+
 package com.meiduimall.service.account.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.constant.ConstAccountAdjustType;
 import com.meiduimall.service.account.constant.ConstAccountAdjustStatus;
 import com.meiduimall.service.account.util.DESC;
 
 /**
- * 
- * @author:   jianhua.huang 
- * @version:  2017年5月5日 下午5:51:45 0.1 
+ * * * @author: jianhua.huang * @version: 2017年5月5日 下午5:51:45 0.1 *
  * Description:会员余额调整明细Model
  */
 public class AccountReviseDetail implements Serializable {
-
 	private static final long serialVersionUID = 1L;
-
 	private String id;
-	/**
-	 * 会员编号
-	 */
+	/** * 会员编号 */
 	private String memId;
 	/** 用户账户 */
 	private String memLoginName;
 	/** 手机号 */
 	private String memPhone;
-	/**
-	 * 调整类型(1-调增,2-调减)
-	 */
+	private String accountTypeName;
+	private String accountTypeNo;
+	private String accountNo;
+	/** * 调整类型(1-调增,2-调减) */
 	private String reviseType;
-	/**
-	 * 调整前金额
-	 */
+	/** * 调整前金额 */
 	private BigDecimal beforeBalance;
-	/**
-	 * 调整金额
-	 */
+	/** * 调整金额 */
 	private BigDecimal reviseBalance;
-	/**
-	 * 调整说明
-	 */
+	/** * 调整说明 */
 	private String reviseRemark;
-	/**
-	 * 审核说明
-	 */
+	/** * 审核说明 */
 	private String reviewRemark;
-	/**
-	 * 状态(WR-待审核,AR-已审核,RR-已拒绝)
-	 */
+	/** * 状态(WR-待审核,AR-已审核,RR-已拒绝) */
 	private String status;
-	/**
-	 * 
-	 */
-	private String createdBy;
-	/**
-	 * 
-	 */
-	private String createdDate;
-	/**
-	 * 
-	 */
-	private String updatedBy;
+	/** * */
+	private String createUser;
+	/** * */
+	private String createDate;
+	/** * */
+	private String updateUser;
+	private String updateDate;
+	private String remark;
 
-	private String updatedDate;
+	public String getAccountTypeName() {
+		return accountTypeName;
+	}
 
-	private String isDelete;
+	public void setAccountTypeName(String accountTypeName) {
+		this.accountTypeName = accountTypeName;
+	}
 
-	/**
-	 * agree -同意 reject-拒绝
-	 */
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	/** * agree -同意 reject-拒绝 */
 	private String operate;
 
 	public String getId() {
@@ -113,28 +104,36 @@ public class AccountReviseDetail implements Serializable {
 		this.reviseBalance = reviseBalance;
 	}
 
-	public String getCreatedBy() {
-		return createdBy;
+	public String getCreateUser() {
+		return createUser;
 	}
 
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy == null ? null : createdBy.trim();
+	public void setCreateUser(String createUser) {
+		this.createUser = createUser;
 	}
 
-	public String getCreatedDate() {
-		return createdDate;
+	public String getCreateDate() {
+		return createDate;
 	}
 
-	public void setCreatedDate(String createdDate) {
-		this.createdDate = createdDate;
+	public void setCreateDate(String createDate) {
+		this.createDate = createDate;
 	}
 
-	public String getUpdatedBy() {
-		return updatedBy;
+	public String getUpdateUser() {
+		return updateUser;
 	}
 
-	public void setUpdatedBy(String updatedBy) {
-		this.updatedBy = updatedBy == null ? null : updatedBy.trim();
+	public void setUpdateUser(String updateUser) {
+		this.updateUser = updateUser;
+	}
+
+	public String getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(String updateDate) {
+		this.updateDate = updateDate;
 	}
 
 	public String getStatus() {
@@ -143,14 +142,6 @@ public class AccountReviseDetail implements Serializable {
 
 	public void setStatus(String status) {
 		this.status = status == null ? null : status.trim();
-	}
-
-	public String getUpdatedDate() {
-		return updatedDate;
-	}
-
-	public void setUpdatedDate(String updatedDate) {
-		this.updatedDate = updatedDate;
 	}
 
 	public String getReviseRemark() {
@@ -169,9 +160,8 @@ public class AccountReviseDetail implements Serializable {
 		this.reviewRemark = reviewRemark == null ? null : reviewRemark.trim();
 	}
 
-
 	public String getMemLoginName() throws MdSysException {
-		return  DESC.deyption(memLoginName);
+		return DESC.deyption(memLoginName);
 	}
 
 	public void setMemLoginName(String memLoginName) {
@@ -193,14 +183,24 @@ public class AccountReviseDetail implements Serializable {
 	public void setOperate(String operate) {
 		this.operate = operate;
 	}
-	 public String getIsDelete()
-	{
-		return this.isDelete;
-	}
-  
-	public void setIsDelete(String isDelete)
-	{
-		this.isDelete = isDelete;
+
+	/** * @return the accountNo */
+	public String getAccountNo() {
+		return accountNo;
 	}
 
+	/** * @param accountNo the accountNo to set */
+	public void setAccountNo(String accountNo) {
+		this.accountNo = accountNo;
+	}
+
+	/** * @return the accountTypeNo */
+	public String getAccountTypeNo() {
+		return accountTypeNo;
+	}
+
+	/** * @param accountTypeNo the accountTypeNo to set */
+	public void setAccountTypeNo(String accountTypeNo) {
+		this.accountTypeNo = accountTypeNo;
+	}
 }

@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--会员账户表统计表ms_account_report相关操作 -->
+<mapper namespace="MSAccountReportMapper">
+	
+	<!-- 根据会员ID查询总余额和冻结余额-->
+	<select id="getTotalAndFreezeBalanceByMemId" parameterType="java.lang.String" resultType="com.meiduimall.service.account.model.MSAccountReport">
+     SELECT 
+     m.id AS id,
+     m.mem_id AS memId,
+     m.balance AS balance,
+     m.freeze_balance AS freezeBalance 
+     FROM ms_account_report m 
+     WHERE m.mem_id =#{memId}
+	</select>
+	
+	<!--  修改ms_account_report 相关字段的总金额  -->
+	<update id="updateBalanceAndfreezeBalance" parameterType="java.util.Map">
+		UPDATE ms_account_report
+		<set>
+		 <if test="balance !=null and balance !=''">
+           balance = balance - #{balance},
+        </if>
+		 <if test="freezeBalance !=null and freezeBalance !=''">
+           freeze_balance = #{freezeBalance},
+        </if>
+		</set>
+		<where>
+		<if test="memId !=null and memId !=''">
+		      AND mem_id = #{memId}
+	   	</if>
+	   	<if test="id !=null and id !=''">
+		      AND id = #{id}
+	   	</if>
+		</where>
+	</update>
+	
+	
+	<!--  修改ms_account_report 相关字段的总金额  -->
+	<update id="updateBalance" parameterType="java.util.Map">
+		UPDATE ms_account_report
+		<set>
+		 <if test="balance !=null and balance !=''">
+           balance =balance + #{balance},
+        </if>
+		 <if test="JFZH !=null and JFZH !=''">
+           balance_JFZH =balance_JFZH + #{JFZH},
+        </if>
+         <if test="KFCZ1 !=null and KFCZ1 !=''">
+           balance_KFCZ1 =balance_KFCZ1 + #{KFCZ1},
+        </if>
+         <if test="KFCZ2 !=null and KFCZ2 !=''">
+           balance_KFCZ2 =balance_KFCZ2 + #{KFCZ2},
+        </if>
+         <if test="CWTZ1 !=null and CWTZ1 !=''">
+           balance_CWTZ1 =balance_CWTZ1 + #{CWTZ1},
+        </if>  
+         <if test="CWTZ2 !=null and CWTZ2 !=''">
+           balance_CWTZ2 =balance_CWTZ2 + #{CWTZ2},
+        </if>
+         <if test="CWTZ3 !=null and CWTZ3 !=''">
+           balance_CWTZ3 =balance_CWTZ3 + #{CWTZ3},
+        </if>
+         <if test="SJJL !=null and SJJL !=''">
+           balance_SJJL =balance_SJJL + #{SJJL},
+        </if>
+         <if test="SJYE !=null and SJYE !=''">
+           balance_SJYE =balance_SJYE + #{SJYE},
+        </if>
+         <if test="GDYE !=null and GDYE !=''">
+           balance_GDYE =balance_GDYE + #{GDYE},
+        </if> 
+         <if test="QDYE !=null and QDYE !=''">
+           balance_QDYE =balance_QDYE + #{QDYE},
+        </if>
+         <if test="FJJL !=null and FJJL !=''">
+           balance_FJJL =balance_FJJL + #{FJJL},
+        </if>
+         <if test="SCJL !=null and SCJL !=''">
+           balance_SCJL =balance_SCJL + #{SCJL},
+        </if>
+        <if test="YEDR !=null and YEDR !=''">
+           balance_YEDR =balance_YEDR + #{YEDR},
+        </if>
+		</set>
+		<where>
+		<if test="memId !=null and memId !=''">
+		      AND mem_id = #{memId}
+	   	</if>
+		</where>
+	</update>
+	
+	<!--  修改ms_account_report 相关字段的冻结总金额  -->
+	<update id="updateFreezeBalance" parameterType="java.util.Map">
+		UPDATE ms_account_report
+		<set>
+		 <if test="freezeBalance !=null and freezeBalance !=''">
+           freeze_balance =freeze_balance + #{freezeBalance},
+        </if>
+		 <if test="JFZH !=null and JFZH !=''">
+           freeze_balance_JFZH =freeze_balance_JFZH + #{JFZH},
+        </if>
+         <if test="KFCZ1 !=null and KFCZ1 !=''">
+           freeze_balance_KFCZ1 =freeze_balance_KFCZ1 + #{KFCZ1},
+        </if>
+         <if test="KFCZ2 !=null and KFCZ2 !=''">
+           freeze_balance_KFCZ2 =freeze_balance_KFCZ2 + #{KFCZ2},
+        </if>
+         <if test="CWTZ1 !=null and CWTZ1 !=''">
+           freeze_balance_CWTZ1 =freeze_balance_CWTZ1 + #{CWTZ1},
+        </if>
+         <if test="CWTZ2 !=null and CWTZ2 !=''">
+           freeze_balance_CWTZ2 =freeze_balance_CWTZ2 + #{CWTZ2},
+        </if>
+         <if test="CWTZ3 !=null and CWTZ3 !=''">
+           freeze_balance_CWTZ3 =freeze_balance_CWTZ3 + #{CWTZ3},
+        </if>
+         <if test="SJJL !=null and SJJL !=''">
+           freeze_balance_SJJL =freeze_balance_SJJL + #{SJJL},
+        </if>
+         <if test="SJYE !=null and SJYE !=''">
+           freeze_balance_SJYE =freeze_balance_SJYE + #{SJYE},
+        </if>
+         <if test="GDYE !=null and GDYE !=''">
+           freeze_balance_GDYE =freeze_balance_GDYE + #{GDYE},
+        </if>
+         <if test="QDYE !=null and QDYE !=''">
+           freeze_balance_QDYE =freeze_balance_QDYE + #{QDYE},
+        </if>
+         <if test="FJJL !=null and FJJL !=''">
+           freeze_balance_FJJL =freeze_balance_FJJL + #{FJJL},
+        </if>
+         <if test="SCJL !=null and SCJL !=''">
+           freeze_balance_SCJL =freeze_balance_SCJL + #{SCJL},
+        </if>
+        <if test="YEDR !=null and YEDR !=''">
+           freeze_balance_YEDR =freeze_balance_YEDR + #{YEDR},
+        </if>
+		</set>
+		<where>
+		<if test="memId !=null and memId !=''">
+		      AND mem_id = #{memId}
+	   	</if>
+		</where>
+		</update>
+		
+	<!--  修改ms_account_report 相关字段的总金额和冻结总金额  -->
+	<update id="updateBalanceAndFreezeBalance" parameterType="java.util.Map">
+		UPDATE ms_account_report
+		<set>
+		 <if test="balance !=null and balance !=''">
+           balance =balance + #{balance},
+        </if>
+		 <if test="JFZH !=null and JFZH !=''">
+           balance_JFZH =balance_JFZH + #{JFZH},
+        </if>
+         <if test="KFCZ1 !=null and KFCZ1 !=''">
+           balance_KFCZ1 =balance_KFCZ1 + #{KFCZ1},
+        </if>
+         <if test="KFCZ2 !=null and KFCZ2 !=''">
+           balance_KFCZ2 =balance_KFCZ2 + #{KFCZ2},
+        </if>
+         <if test="CWTZ1 !=null and CWTZ1 !=''">
+           balance_CWTZ1 =balance_CWTZ1 + #{CWTZ1},
+        </if>  
+         <if test="CWTZ2 !=null and CWTZ2 !=''">
+           balance_CWTZ2 =balance_CWTZ2 + #{CWTZ2},
+        </if>
+         <if test="CWTZ3 !=null and CWTZ3 !=''">
+           balance_CWTZ3 =balance_CWTZ3 + #{CWTZ3},
+        </if>
+         <if test="SJJL !=null and SJJL !=''">
+           balance_SJJL =balance_SJJL + #{SJJL},
+        </if>
+         <if test="SJYE !=null and SJYE !=''">
+           balance_SJYE =balance_SJYE + #{SJYE},
+        </if>
+         <if test="GDYE !=null and GDYE !=''">
+           balance_GDYE =balance_GDYE + #{GDYE},
+        </if> 
+         <if test="QDYE !=null and QDYE !=''">
+           balance_QDYE =balance_QDYE + #{QDYE},
+        </if>
+         <if test="FJJL !=null and FJJL !=''">
+           balance_FJJL =balance_FJJL + #{FJJL},
+        </if>
+         <if test="SCJL !=null and SCJL !=''">
+           balance_SCJL =balance_SCJL + #{SCJL},
+        </if>
+        <if test="YEDR !=null and YEDR !=''">
+           balance_YEDR =balance_YEDR + #{YEDR},
+        </if>
+        <if test="freezeBalance !=null and freezeBalance !=''">
+           freeze_balance =freeze_balance + #{freezeBalance},
+        </if>
+		 <if test="freezeBalanceJFZH !=null and freezeBalanceJFZH !=''">
+           freeze_balance_JFZH =freeze_balance_JFZH + #{freezeBalanceJFZH},
+        </if>
+         <if test="freezeBalanceKFCZ1 !=null and freezeBalanceKFCZ1 !=''">
+           freeze_balance_KFCZ1 =freeze_balance_KFCZ1 + #{freezeBalanceKFCZ1},
+        </if>
+         <if test="freezeBalanceKFCZ2 !=null and freezeBalanceKFCZ2 !=''">
+           freeze_balance_KFCZ2 =freeze_balance_KFCZ2 + #{freezeBalanceKFCZ2},
+        </if>
+         <if test="freezeBalanceCWTZ1 !=null and freezeBalanceCWTZ1 !=''">
+           freeze_balance_CWTZ1 =freeze_balance_CWTZ1 + #{freezeBalanceCWTZ1},
+        </if>
+         <if test="freezeBalanceCWTZ2 !=null and freezeBalanceCWTZ2 !=''">
+           freeze_balance_CWTZ2 =freeze_balance_CWTZ2 + #{freezeBalanceCWTZ2},
+        </if>
+         <if test="freezeBalanceCWTZ3 !=null and freezeBalanceCWTZ3 !=''">
+           freeze_balance_CWTZ3 =freeze_balance_CWTZ3 + #{freezeBalanceCWTZ3},
+        </if>
+         <if test="freezeBalanceSJJL !=null and freezeBalanceSJJL !=''">
+           freeze_balance_SJJL =freeze_balance_SJJL + #{freezeBalanceSJJL},
+        </if>
+         <if test="freezeBalanceSJYE !=null and freezeBalanceSJYE !=''">
+           freeze_balance_SJYE =freeze_balance_SJYE + #{freezeBalanceSJYE},
+        </if>
+         <if test="freezeBalanceGDYE !=null and freezeBalanceGDYE !=''">
+           freeze_balance_GDYE =freeze_balance_GDYE + #{freezeBalanceGDYE},
+        </if>
+         <if test="freezeBalanceQDYE !=null and freezeBalanceQDYE !=''">
+           freeze_balance_QDYE =freeze_balance_QDYE + #{freezeBalanceQDYE},
+        </if>
+         <if test="freezeBalanceFJJL !=null and freezeBalanceFJJL !=''">
+           freeze_balance_FJJL =freeze_balance_FJJL + #{freezeBalanceFJJL},
+        </if>
+         <if test="freezeBalanceSCJL !=null and freezeBalanceSCJL !=''">
+           freeze_balance_SCJL =freeze_balance_SCJL + #{freezeBalanceSCJL},
+        </if>
+        <if test="freezeBalanceYEDR !=null and freezeBalanceYEDR !=''">
+           freeze_balance_YEDR =freeze_balance_YEDR + #{freezeBalanceYEDR},
+        </if>
+		</set>
+		<where>
+		<if test="memId !=null and memId !=''">
+		      AND mem_id = #{memId}
+	   	</if>
+		</where>
+	</update>
+		
+	
+</mapper>

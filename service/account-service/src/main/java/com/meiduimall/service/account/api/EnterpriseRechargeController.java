@@ -21,6 +21,9 @@ import com.meiduimall.service.account.model.AccountRechargeApply;
 import com.meiduimall.service.account.model.BusinessManagementEntity;
 import com.meiduimall.service.account.model.MSRechargeApply;
 import com.meiduimall.service.account.model.RefundRequestEntity;
+
+import com.meiduimall.service.account.model.TripartiteLog;
+
 import com.meiduimall.service.account.service.IEnterpriseRechargeService;
 
 
@@ -37,6 +40,19 @@ public class EnterpriseRechargeController {
 	
 	@Autowired
 	private IEnterpriseRechargeService enterpriseRechargeService;
+	/**
+	 * 插入日志信息
+	 */
+	@PostMapping(value="/insertLog")
+	public ResBodyData insertLog(@RequestBody TripartiteLog tripartiteLog){
+		try {
+			enterpriseRechargeService.insertLog(tripartiteLog);
+		} catch (MdBizException e) {
+			logger.error("插入日志信息操作异常:{}", e.getMessage());
+			throw new ApiException(e.getCode(),e.getMessage());
+		}
+		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M);
+	}
 	/**
 	 * 外部充值申请
 	 */

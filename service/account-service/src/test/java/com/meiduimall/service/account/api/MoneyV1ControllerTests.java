@@ -27,7 +27,6 @@ import com.meiduimall.service.account.model.MSBankWithdrawDeposit;
 
 import com.meiduimall.service.account.model.request.RequestAccountReviseDetail;
 import com.meiduimall.service.account.util.DESC;
-import com.meiduimall.service.account.util.DateUtil;
 
 import net.sf.json.JSONObject;
 
@@ -71,16 +70,8 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 
 	
 	/**
-<<<<<<< HEAD
-	 * @Description: 涓嶅姞鏉′欢鏌ヨ
-=======
->>>>>>> refs/remotes/origin/release/1.0.1
 	 * @Author: jianhua.huang
-<<<<<<< HEAD
-	 * @Date:   2017骞�4鏈�18鏃� 涓嬪崍3:46:31
-=======
 	 * @Date:   2017年4月18日 下午3:46:31
->>>>>>> refs/remotes/origin/release/1.0.1
 	 */
 	@Test
 	public void queryAccountListTest() throws Exception {
@@ -91,17 +82,9 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 	}
 	
 	/**
-<<<<<<< HEAD
-	 * @Description: 娣诲姞娴嬭瘯
-=======
 	 * @Description: 添加测试
->>>>>>> refs/remotes/origin/release/1.0.1
 	 * @Author: jianhua.huang
-<<<<<<< HEAD
-	 * @Date:   2017骞�4鏈�20鏃� 涓嬪崍2:18:31
-=======
 	 * @Date:   2017年4月20日 下午2:18:31
->>>>>>> refs/remotes/origin/release/1.0.1
 	 */
 	@Test
 	public void addMSAccountRevisionDetailTest() throws Exception {
@@ -111,66 +94,48 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 		 dto.setReviseType("1");
 		 dto.setStatus("WR");
 		 dto.setIsDelete("N");
-		 dto.setCreatedBy("huang");
-		 dto.setUpdatedBy("huang2");
-
+		 dto.setCreateUser("huang");
+		 dto.setUpdateUser("huang2");
 		 dto.setReviewRemark("是肯定会罚款决定付款后会计师的疯狂的11");
 		 dto.setReviseRemark("但是离开泛海建设啦看见哈佛I未来那块地方22");
 		 String object=JsonUtils.beanToJson(dto);
 		 String json=object.toString();
-
 		 
 		 resultSystemOutPut(url,json);
 	}
 	
 	/**
-<<<<<<< HEAD
-	 * @Description: 淇敼娴嬭瘯
-=======
 	 * @Description: 修改测试
->>>>>>> refs/remotes/origin/release/1.0.1
 	 * @Author: jianhua.huang
-<<<<<<< HEAD
-	 * @Date:   2017骞�4鏈�20鏃� 涓嬪崍2:48:31
-=======
 	 * @Date:   2017年4月20日 下午2:48:31
->>>>>>> refs/remotes/origin/release/1.0.1
 	 */
 	@Test
 	public void updateMSAccountRevisionDetailTest() throws Exception {
 		 String url = "/member/account_service/v1/update_account_revision_detail";
 		 AddOrUpdateAccountReviseDetail dto=new AddOrUpdateAccountReviseDetail();
 		 dto.setMemId("72063681-7408-435c-88fd-cd837c95c66e");
-		 dto.setMemLoginName("寰坱est1");
+		 dto.setMemLoginName("111");
 		 dto.setMemPhone("15112347555");
 		 dto.setReviseType("1");
 		 dto.setStatus("AR");
 		 dto.setIsDelete("N");
 		 dto.setBeforeBalance(BigDecimal.TEN);
 		 dto.setReviseBalance(BigDecimal.ONE);
-		 dto.setCreatedBy("huangTestUpdate1");
-		 dto.setCreatedDate(DateUtil.formatDateTime(new Date()));
-		 dto.setUpdatedDate(DateUtil.formatDateTime(new Date()));
-		 dto.setUpdatedBy("huangTestUpdate2");
-		 dto.setReviewRemark("璐㈠姟澶勭悊");
-		 dto.setReviseRemark("閫氳繃");
+		 dto.setCreateUser("huangTestUpdate1");
+		 dto.setCreateDate(new Date());
+		 dto.setUpdateDate(new Date());
+		 dto.setUpdateUser("huangTestUpdate2");
+		 dto.setReviewRemark("财务处理");
+		 dto.setReviseRemark("通过");
 		 String json=JsonUtils.beanToJson(dto);
 		 
 		 resultSystemOutPut(url,json);
 	}
 	
 	/**
-<<<<<<< HEAD
-	 * @Description: 鏌ョ湅浼氬憳浣欓鏄庣粏
-=======
 	 * @Description: 查看会员余额明细
->>>>>>> refs/remotes/origin/release/1.0.1
 	 * @Author: jianhua.huang
-<<<<<<< HEAD
-	 * @Date:   2017骞�4鏈�20鏃� 涓嬪崍3:02:44
-=======
 	 * @Date:   2017年4月20日 下午3:02:44
->>>>>>> refs/remotes/origin/release/1.0.1
 	 */
 	@Test
 	public void getMSAccountRevisionDetailTest() throws Exception {
@@ -181,17 +146,9 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 	}
 	
 	/**
-<<<<<<< HEAD
-	 * @Description: 鏌ョ湅浼氬憳浣欓鏄庣粏闆嗗悎
-=======
 	 * @Description: 查看会员余额明细集合
->>>>>>> refs/remotes/origin/release/1.0.1
 	 * @Author: jianhua.huang
-<<<<<<< HEAD
-	 * @Date:   2017骞�4鏈�20鏃� 涓嬪崍3:22:44
-=======
 	 * @Date:   2017年4月20日 下午3:22:44
->>>>>>> refs/remotes/origin/release/1.0.1
 	 */
 	@Test
 	public void queryMSAccountRevisionDetailListTest() throws Exception {
@@ -204,18 +161,10 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 	}
 	
 	/**
-<<<<<<< HEAD
-	 * 瀹℃牳鍚屾剰
-=======
 	 * 审核同意
->>>>>>> refs/remotes/origin/release/1.0.1
 	 * @Description: 
 	 * @Author: jianhua.huang
-<<<<<<< HEAD
-	 * @Date:   2017骞�4鏈�21鏃� 涓婂崍10:17:38
-=======
 	 * @Date:   2017年4月21日 上午10:17:38
->>>>>>> refs/remotes/origin/release/1.0.1
 	 */
 	@Test
 	@Rollback
@@ -248,7 +197,7 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 		 MSBankWithdrawDeposit deposit=new MSBankWithdrawDeposit();
 		 deposit.setId("d52e04eb-815c-443c-832d-5b4380b833d8");
 		 deposit.setStatus("3");
-		 deposit.setActualTransferCash("101");
+		 deposit.setActualTransferAmount(101.00);
 		 deposit.setOperate("客服审核");
 		 deposit.setRemark("查明无误");
 		 deposit.setAuditBy("huang");
@@ -319,9 +268,9 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 		 String url = "/member/account_service/v1/save_withdraw";
 		 MSBankWithdrawDeposit deposit=new MSBankWithdrawDeposit();
 		 
-		 deposit.setAccountNo("65555555555556666");
+		 deposit.setBankCardNo("65555555555556666");
 		 deposit.setMemId("ffc391ae-4e97-4830-8547-a2d537dc6d5d");
-		 deposit.setApplyCarryCash("10.5");
+		 deposit.setApplyWithdrawAmount(10.5);
 		 deposit.setAuditBy("huangTest");
 		 deposit.setRemark("huangjianhuaTestDate");
 		 
@@ -354,7 +303,6 @@ public class MoneyV1ControllerTests extends BaseControllerTest {
 		String s="100";
 		System.out.println(DESC.encryption(s, "b9d78165-1483-42f7-a48c-fbfcc3b06431"));
 	}
-
 }
 
 

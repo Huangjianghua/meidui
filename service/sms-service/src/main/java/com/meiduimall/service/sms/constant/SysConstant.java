@@ -9,7 +9,7 @@ import com.meiduimall.core.Constants;
  *
  */
 public class SysConstant extends Constants {
-
+	
 	/** 短信渠道key */
 	public static final String MESSAGE_CHANNEL_KEY = "message_channel_key";
 
@@ -29,8 +29,9 @@ public class SysConstant extends Constants {
 	
 	/** 微信access_token_key */
 	public static final String WEIXIN_ACCESS_TOKEN_KEY = "weixin_access_token_key";
-
+	
+	public static final String SYSTEM_EXCEPTION_MSG="，系统异常，请联系客服。";
+	
 	private SysConstant() {
 	}
-
 }

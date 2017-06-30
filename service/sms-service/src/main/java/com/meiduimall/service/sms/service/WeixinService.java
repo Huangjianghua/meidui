@@ -20,4 +20,10 @@ public interface WeixinService {
 	 * @return 发送结果
 	 */
 	ResBodyData sendTemplateMessageOnPaySuccess(WXMsgOnPaySuccessRequest model);
+
+	/**
+	 * 请求会员系统，获取用户信息
+	 * @param model
+	 */
+	void getMemberInfo(WXMsgOnPaySuccessRequest model);
 }

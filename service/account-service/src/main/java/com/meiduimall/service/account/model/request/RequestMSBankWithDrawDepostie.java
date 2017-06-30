@@ -25,6 +25,8 @@ public class RequestMSBankWithDrawDepostie implements Serializable{
 	/** 银行卡号 */
 	private String accountNo;
 	/** 申请提现金额 */
+	private Double applyWithdrawAmount;
+	/** 申请提现金额 */
 	private String applyCarryCash;
 	/** 提现时余额*/
 	private String withdrawBalance;
@@ -33,7 +35,7 @@ public class RequestMSBankWithDrawDepostie implements Serializable{
 	/** 实际提现金额 */
 	private String actualCarryCash;
 	/** 实际转账金额 */
-	private String actualTransferCash;
+	private String actualTransferAmount;
 	/** 申请时间 */
 	private Date applyDate;
 	/** 审核人 */
@@ -124,17 +126,17 @@ public class RequestMSBankWithDrawDepostie implements Serializable{
 	}
 
 	/**
-	 * @return the applyCarryCash
+	 * @return the applyWithdrawAmount
 	 */
-	public String getApplyCarryCash() {
-		return applyCarryCash;
+	public Double getApplyWithdrawAmount() {
+		return Double.valueOf(this.getApplyCarryCash());
 	}
 
 	/**
-	 * @param applyCarryCash the applyCarryCash to set
+	 * @param applyWithdrawAmount the applyWithdrawAmount to set
 	 */
-	public void setApplyCarryCash(String applyCarryCash) {
-		this.applyCarryCash = applyCarryCash;
+	public void setApplyWithdrawAmount(Double applyWithdrawAmount) {
+		this.applyWithdrawAmount = applyWithdrawAmount;
 	}
 
 	/**
@@ -180,17 +182,17 @@ public class RequestMSBankWithDrawDepostie implements Serializable{
 	}
 
 	/**
-	 * @return the actualTransferCash
+	 * @return the actualTransferAmount
 	 */
-	public String getActualTransferCash() {
-		return actualTransferCash;
+	public String getActualTransferAmount() {
+		return actualTransferAmount;
 	}
 
 	/**
-	 * @param actualTransferCash the actualTransferCash to set
+	 * @param actualTransferAmount the actualTransferAmount to set
 	 */
-	public void setActualTransferCash(String actualTransferCash) {
-		this.actualTransferCash = actualTransferCash;
+	public void setActualTransferAmount(String actualTransferAmount) {
+		this.actualTransferAmount = actualTransferAmount;
 	}
 
 	/**
@@ -318,6 +320,19 @@ public class RequestMSBankWithDrawDepostie implements Serializable{
 	public void setAccountNo(String accountNo) {
 		this.accountNo = accountNo;
 	}
-	
+
+	/**
+	 * @return the applyCarryCash
+	 */
+	public String getApplyCarryCash() {
+		return applyCarryCash;
+	}
+
+	/**
+	 * @param applyCarryCash the applyCarryCash to set
+	 */
+	public void setApplyCarryCash(String applyCarryCash) {
+		this.applyCarryCash = applyCarryCash;
+	}
 	
 }

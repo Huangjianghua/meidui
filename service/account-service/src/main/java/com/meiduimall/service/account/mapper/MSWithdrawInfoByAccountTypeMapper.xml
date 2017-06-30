@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 会员按账户类型提现表ms_withdraw_info_by_account_type相关操作 -->
+<mapper namespace="MSWithdrawInfoByAccountTypeMapper">
+	
+	
+	
+</mapper>

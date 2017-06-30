@@ -15,10 +15,11 @@ import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.member.model.MSMemberMobileArea;
 import com.meiduimall.service.member.model.request.RequestGetMemberBasicInfo;
+import com.meiduimall.service.member.model.request.RequestUpdateMemberBasicInfo;
 import com.meiduimall.service.member.service.UserInfoService;
 
 /**
- * 获取用户基本信息
+ * 会员信息相关API
  * @author chencong
  *
  */
@@ -34,12 +35,22 @@ public class UserInfoV1Controller{
 	/**根据memId获取会员基本信息
 	 * @throws MdSysException */
 	@GetMapping(value = "/get_member_basic_info")
-	ResBodyData getmemberbasicinfo(@Valid RequestGetMemberBasicInfo requestGetMemberBasicInfo) throws MdSysException {
+	ResBodyData getmemberbasicinfo(@Valid RequestGetMemberBasicInfo requestGetMemberBasicInfo) throws MdSysException{
 		String memId=requestGetMemberBasicInfo.getMemId();
 		logger.info("收到会员：{}获取基本信息API请求",memId);
 		ResBodyData resBodyData = userInfoService.getBasicInfoByMemId(memId);
 		logger.info("获取会员：{}基本信息API请求结果  ：{}",memId,resBodyData.toString());
 		return resBodyData;
+	}
+	
+	/**
+	 * 根据会员memId获取会员简单的信息
+	 * @param memId 会员ID
+	 * @return 数据对象
+	 */
+	@RequestMapping(value = "/get_member_simple_info")
+	public ResBodyData getMemberSimpleInfo(String memId){
+		return userInfoService.getSimpleInfoByMemId(memId);
 	}
 	
 	
@@ -91,17 +102,21 @@ public class UserInfoV1Controller{
 		return recordArea;
     }
 	
-    /**
-     * 更新会员手机号归属地
-     * @return ResBodyData
-     */
-	@GetMapping(value = "/update_member_phone_area")
-	ResBodyData updateMemberArea() {
-		logger.info("更新开始");
-		ResBodyData resBodyData = userInfoService.updateMemberArea();
-		logger.info("更新结果  ：{}",resBodyData.toString());
-		logger.info("更新结束");
-		return resBodyData;
-	}
 	
+	/**注册时记录会员手机对应的区域*/
+	@GetMapping(value = "/update_member_area")
+	ResBodyData updateMemberArea() throws MdSysException{
+		ResBodyData recordArea = userInfoService.updateMemberArea();
+		return recordArea;
+    }
+	
+	/**
+	 * 更新会员基本信息 
+	 * @param model 会员信息封装参数
+	 * @return 数据对象
+	 */
+	@RequestMapping(value = "/update_member_basic_info")
+	public ResBodyData updateMemberBasicInfo(@Valid RequestUpdateMemberBasicInfo model){
+		return userInfoService.updateMemberBasicInfo(model);
+	}
 }

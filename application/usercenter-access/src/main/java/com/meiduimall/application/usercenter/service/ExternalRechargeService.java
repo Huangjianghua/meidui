@@ -10,4 +10,6 @@ public interface ExternalRechargeService {
 	 * @return
 	 */
 	public ResBodyData externalMemberRecharge(JSONObject reqJson);
+
+	ResBodyData insertLog(JSONObject reqJson);
 }

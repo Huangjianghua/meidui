@@ -2,4 +2,66 @@ server:
   port: ${PORT:9050}
 spring:
   application:
-    name: service-router
+    name: service-route
+
+zuul:
+  ignoredServices: '*'
+  routes:
+    user-service:
+      path: /mall/mall_user_service/v1/**
+      serviceId: mall-user-service
+    commodity-service:
+      path: /mall/mall_commodity_service/v1/**
+      serviceId: mall-commodity-service
+    shoppingcart-service:
+      path: /mall/mall_shoppingcart_service/v1/**
+      serviceId: mall-shoppingcart-service
+    order-service:
+      path: /mall/mall_order_service/v1/**
+      serviceId: mall-order-service
+    config-refresh:
+      path: /bus/refresh/**
+      serviceId: service-config
+    ##会员系统用户服务
+    member-service:
+      path: /member/member_service/**
+      serviceId: member-service
+      stripPrefix: false
+    ##会员系统账户服务
+    account-servcie:
+      path: /member/account_service/**
+      serviceId: account-service
+      stripPrefix: false
+    ##短信通知服务
+    short_msg_service:
+      path: /notify/short_msg_service/**
+      serviceId: sms-service
+      stripPrefix: false
+    ##短信服务
+    service-push:
+      path: /push/push-service/v1/**
+      serviceId: service-push
+    ##模板服务
+    template-service:
+      path: /template/template-service/v1/**
+      serviceId: template-service
+    ##财务系统服务
+    financial-system-service:
+      path: /financial/financial-system-service/v1/**
+      serviceId: financial-system-service
+      stripPrefix: false
+    ##结算服务
+    settlement-service:
+      path: /settlementservice/**
+      serviceId: settlement-service
+      stripPrefix: false
+    ##商城商品目录模块服务
+    catalog-service:
+      path: /mall/catalog-service/v1/**
+      serviceId: catalog-service
+      stripPrefix: false
+    ##支付服务
+    payment-service:
+      path: /pay/payment-service/v1/**
+      serviceId: payment-service
+      stripPrefix: false  

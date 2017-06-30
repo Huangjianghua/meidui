@@ -33,16 +33,24 @@ public class ApiStatusConst extends BaseApiCode {
 	public final static Integer RECHARGE_AMOUT_EMPTY=9021;
 	public final static Integer RECHARGE_TYPE_EMPTY=9022;
 	public final static Integer CALLBACK_URL_EMPTY=9023;
-	public final static Integer SYSTEM_ERROR=9001;
-	public final static Integer LOGIN_EXPIRE=9014;
 	public final static Integer CALLBACK_URL_NEGATIVE=9024;
 	public final static Integer CALLBACK_URL_ZERO=9025;
 	public final static Integer CALLBACK_URL_ISNUM=9026;
+	public final static Integer BIZID_REPEAT=9027;
+	public final static Integer RECHARGE_AMOUT_DECIMAL=9028;
+	public final static Integer ACCOUNT_TYPE_NON_EXISTENT=9029;
+	public final static Integer RECHARGE_AMOUT_MAX=9030;
+	public final static Integer CORPORATE_IDENTITY_EMPTY=9031;
+	
 	static {
+		zhMsgMap.put(CORPORATE_IDENTITY_EMPTY, "企业标识不存在");
+		zhMsgMap.put(RECHARGE_AMOUT_MAX, "充值金额过大");
+		zhMsgMap.put(ACCOUNT_TYPE_NON_EXISTENT, "个人帐户类型不存在");
+		zhMsgMap.put(RECHARGE_AMOUT_DECIMAL, "充值金额小数位大于2位");
+		zhMsgMap.put(BIZID_REPEAT, "充值单号重复");
 		zhMsgMap.put(CALLBACK_URL_ISNUM, "充值金额只能为纯数字");
 		zhMsgMap.put(CALLBACK_URL_ZERO, "充值金额不能为0");
 		zhMsgMap.put(CALLBACK_URL_NEGATIVE, "充值金额不能为负数");
-		zhMsgMap.put(SYSTEM_ERROR, "系统错误，请联系客服");
 		zhMsgMap.put(REQUEST_GATEWAY_EX, "网关HTTP请求程序异常");
 		zhMsgMap.put(VAL_TOKEN_ANNOTATION_EX, "判断API接口是否有token注解程序异常");
 		zhMsgMap.put(TOKEN_NOT_EXIST, "token不存在");
@@ -66,6 +74,5 @@ public class ApiStatusConst extends BaseApiCode {
 		zhMsgMap.put(RECHARGE_AMOUT_EMPTY, "充值金额不能为空");
 		zhMsgMap.put(RECHARGE_TYPE_EMPTY, "充值类型不能为空");
 		zhMsgMap.put(CALLBACK_URL_EMPTY, "回调地址不能为空");
-		zhMsgMap.put(LOGIN_EXPIRE, "登录已过期，请重新登陆");
 	}
 }

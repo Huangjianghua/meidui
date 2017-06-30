@@ -96,14 +96,14 @@ public class SmsApiCode extends BaseApiCode {
 		zhMsgMap.put(REPEATING, "请勿重复发送短信");
 
 		// 系统异常
-		zhMsgMap.put(NOT_FOUND_TEMPLATE_LIST, "系统异常：" + NOT_FOUND_TEMPLATE_LIST + "，请联系客服。");
-		zhMsgMap.put(NOT_FOUND_TEMPLATE, "系统异常：" + NOT_FOUND_TEMPLATE + "，请联系客服。");
-		zhMsgMap.put(EXCEPTION_ACCESS_CHANNEL, "系统异常：" + EXCEPTION_ACCESS_CHANNEL + "，请联系客服。");
-		zhMsgMap.put(EXCEPTION_ACCESS_TEMPLATE, "系统异常：" + EXCEPTION_ACCESS_TEMPLATE + "，请联系客服。");
-		zhMsgMap.put(REQUEST_PARAMS_ERROR, "系统异常：" + REQUEST_PARAMS_ERROR + "，请联系客服。");
-		zhMsgMap.put(PARAM_ERROR, "系统异常：" + PARAM_ERROR + "，请联系客服。");
-		zhMsgMap.put(DB_EXCEPTION, "系统异常：" + DB_EXCEPTION + "，请联系客服。");
-		zhMsgMap.put(UNKNOW_ERROR, "系统异常：" + UNKNOW_ERROR + "，请联系客服。");
+		zhMsgMap.put(NOT_FOUND_TEMPLATE_LIST, NOT_FOUND_TEMPLATE_LIST + SysConstant.SYSTEM_EXCEPTION_MSG);
+		zhMsgMap.put(NOT_FOUND_TEMPLATE, NOT_FOUND_TEMPLATE + SysConstant.SYSTEM_EXCEPTION_MSG);
+		zhMsgMap.put(EXCEPTION_ACCESS_CHANNEL, EXCEPTION_ACCESS_CHANNEL + SysConstant.SYSTEM_EXCEPTION_MSG);
+		zhMsgMap.put(EXCEPTION_ACCESS_TEMPLATE, EXCEPTION_ACCESS_TEMPLATE + SysConstant.SYSTEM_EXCEPTION_MSG);
+		zhMsgMap.put(REQUEST_PARAMS_ERROR, REQUEST_PARAMS_ERROR + SysConstant.SYSTEM_EXCEPTION_MSG);
+		zhMsgMap.put(PARAM_ERROR, PARAM_ERROR + SysConstant.SYSTEM_EXCEPTION_MSG);
+		zhMsgMap.put(DB_EXCEPTION, DB_EXCEPTION + SysConstant.SYSTEM_EXCEPTION_MSG);
+		zhMsgMap.put(UNKNOW_ERROR, UNKNOW_ERROR + SysConstant.SYSTEM_EXCEPTION_MSG);
 
 	}
 

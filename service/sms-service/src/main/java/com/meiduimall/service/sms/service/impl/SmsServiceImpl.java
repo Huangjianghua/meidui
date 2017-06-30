@@ -48,6 +48,12 @@ public class SmsServiceImpl implements SmsService {
 	private SmsSendHistoryMapper smsSendHistoryMapper;
 
 	@Override
+	public long getSmsMessageTTL(SendMessageRequest model) {
+		String redisKey = model.getPhones() + model.getTemplateId() + model.getParams();
+		return RedisUtils.ttl(redisKey);
+	}
+
+	@Override
 	public ResBodyData sendSmsMessage(SendMessageRequest model) {
 
 		// redis存取数据时，使用的key
@@ -173,6 +179,13 @@ public class SmsServiceImpl implements SmsService {
 			throw new ServiceException(SmsApiCode.SMS_SEND_FAILUER);
 		}
 		return res;
+	}
+
+	@Override
+	public long getSmsVerificationCodeTTL(SendCodeRequest model) {
+		String redisKey = model.getPhones() + SysConstant.MESSAGE_CODE_KEY + model.getTemplateId() + model.getType()
+				+ model.getSysKey();
+		return RedisUtils.ttl(redisKey);
 	}
 
 	@Override

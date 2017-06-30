@@ -40,9 +40,9 @@ spring:
 config :
   jedis :  
     jedisShardInfo :  
-      host : 192.168.4.236  
+      host : 10.170.135.70  
       port : 6379  
-      password: meiduiredis2016 
+      password: meiduiredis2017 
     maxTotal: 1024  
     maxIdle: 250  
     maxWaitMillis : 2000 

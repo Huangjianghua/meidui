@@ -27,10 +27,6 @@ public class SwaggerApplication {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("会员服务接口文档")
-                //.description("更多Spring Boot相关文章请关注：http://blog.didispace.com/")
-                //.termsOfServiceUrl("http://blog.didispace.com/")
-                //.contact("程序猿DD")
-               // .version("1.0")
                 .build();
     }
 }
