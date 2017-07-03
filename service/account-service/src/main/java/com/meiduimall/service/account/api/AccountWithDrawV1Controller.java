@@ -60,8 +60,6 @@ public class AccountWithDrawV1Controller {
 	@Autowired
 	private WithDrawService withDrawService;
 	
-	private static Lock lock=new ReentrantLock(); 
-
 	/**
 	 * 描述：提现记录查询接口实现
 	 * 
@@ -106,6 +104,7 @@ public class AccountWithDrawV1Controller {
 	public ResBodyData saveBankWithDraw(@RequestBody RequestMSBankWithDrawDepostie deposit) {
 		// step1 检查参数
 		this.checkSaveBankWithDrawParam(deposit);
+		Lock lock=new ReentrantLock(); 
 		lock.lock();
 		try {
 			//stpe2 执行提现申请
