@@ -21,12 +21,13 @@ import com.meiduimall.service.account.model.AccountRechargeApply;
 import com.meiduimall.service.account.model.BusinessManagementEntity;
 import com.meiduimall.service.account.model.MSRechargeApply;
 import com.meiduimall.service.account.model.RefundRequestEntity;
+import com.meiduimall.service.account.model.TripartiteLog;
 import com.meiduimall.service.account.service.IEnterpriseRechargeService;
 
 
  
 /**
- * 企业充值相关操作
+ * 企业充值相关 操作
  *
  */
 @RestController
@@ -37,6 +38,19 @@ public class EnterpriseRechargeController {
 	
 	@Autowired
 	private IEnterpriseRechargeService enterpriseRechargeService;
+	/**
+	 * 插入日志信息
+	 */
+	@PostMapping(value="/insertLog")
+	public ResBodyData insertLog(@RequestBody TripartiteLog tripartiteLog){
+		try {
+			enterpriseRechargeService.insertLog(tripartiteLog);
+		} catch (MdBizException e) {
+			logger.error("插入日志信息操作异常:{}", e.getMessage());
+			throw new ApiException(e.getCode(),e.getMessage());
+		}
+		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M);
+	}
 	/**
 	 * 外部充值申请
 	 */
@@ -135,6 +149,7 @@ public class EnterpriseRechargeController {
 	@PostMapping(value="/updateEnterpriseAccount")
 	public ResBodyData  updateEnterpriseAccount(@RequestBody BusinessManagementEntity businessManagementEntity){
 		try {
+			logger.info("调整授信,帐户充值>>>>>>");
 			enterpriseRechargeService.updateEnterpriseAccount(businessManagementEntity);
 		} catch (MdBizException e) {
 			logger.error("调整授信,帐户充值更新操作异常:{}", e.getMessage());

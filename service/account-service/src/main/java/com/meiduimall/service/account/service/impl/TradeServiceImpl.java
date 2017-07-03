@@ -61,6 +61,8 @@ import com.meiduimall.service.account.util.GenerateNumber;
 import com.meiduimall.service.account.util.SerialStringUtil;
 import com.meiduimall.service.account.util.StringUtil;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
+
 /**
  * 订单交易相关逻辑接口{@link=TradeService}实现类
  * 
@@ -241,7 +243,7 @@ public class TradeServiceImpl implements TradeService {
 					SerialStringUtil.getPointsRemark(ConstPointsChangeType.POINTS_OPERATOR_TYPE_XF.getCode(),model.getMemId()));
 			
 			//写入账户解冻信息到冻结解冻流水，并更新会员账户和会员账户报表
-			Map<String,Double> mapCondition=new HashMap<>();
+			Map<String,Object> mapCondition=new HashMap<>();
 			mapCondition.put("balance",0.00);
 			mapCondition.put("freezeBalance",0.00);
 			for (MSAccountFreezeDetail item : listBalanceFreeze) {
@@ -259,8 +261,9 @@ public class TradeServiceImpl implements TradeService {
 				msAccount.setFreezeBalanceEncrypt(DESC.encryption(String.valueOf(msAccount.getFreezeBalanceEncrypt()),model.getMemId()));
 				baseDao.update(msAccount,"MSAccountMapper.updateAccountByCondition");
 				
-				mapCondition.put("balance",mapCondition.get("balance")-item.getFreezeBalance());
-				mapCondition.put("freezeBalance",mapCondition.get("freezeBalance")-item.getFreezeBalance());
+				mapCondition.put("memId",model.getMemId());
+				mapCondition.put("balance",(double)mapCondition.get("balance")-item.getFreezeBalance());
+				mapCondition.put("freezeBalance",(double)mapCondition.get("freezeBalance")-item.getFreezeBalance());
 				mapCondition.put(msAccount.getAccountTypeNo(), -item.getFreezeBalance());
 				mapCondition.put("freezeBalance"+msAccount.getAccountTypeNo(),-item.getFreezeBalance());
 				
@@ -777,6 +780,11 @@ public class TradeServiceImpl implements TradeService {
 			
 			if (null == history) {
 				MSMemberConsumeRecords record = consumeRecordsService.getConsumeRecords(ms.getOrderId(), ms.getOrderSource(), 2);
+ 
+				if(record == null){
+					logger.info("没有查询到消费订单");
+					return new ResBodyData(2063, "没有查询到消费订单");
+				}
 				if(record.getConsumeAmount() < Double.valueOf(ms.getConsumeAmount())){
 					logger.info("第二次退单金额大于消费金额");
 					return new ResBodyData(2063, "第二次退单金额大于消费金额");
@@ -798,7 +806,6 @@ public class TradeServiceImpl implements TradeService {
 					return new ResBodyData(2066, "当前退单时间超过下单时的时间，无法退单");
 				}
 			}
-
 
 			json = new JSONObject();
 			json.put("mem_id", ms.getMemId());
@@ -823,55 +830,93 @@ public class TradeServiceImpl implements TradeService {
 			if (null != ms.getConsumeMoney() && Double.valueOf(ms.getConsumeMoney()) > 0) {
 				logger.info("余额退还...");
 				//根据订单号查询账户明细
-				List<MSAccountDetail> listAccountDetail = accountDetailService.listAccountDetail(new MSAccountDetailGet(ms.getOrderId()));
+ 
 				double inMoney = 0;
-				for (MSAccountDetail msAccountDetail : listAccountDetail) {
-					if(msAccountDetail.getInOrOut() == 1){
-						inMoney = inMoney + msAccountDetail.getTradeAmount();
-					}
+				String sumTradeAmount = baseDao.selectOne(new MSAccountDetailGet(1, ms.getOrderId()), "MSAccountDetailMapper.sumTradeAmount");
+				if(sumTradeAmount != null){
+					inMoney = Double.valueOf(sumTradeAmount);
 				}
+				PageHelper.startPage(0, 0, false, false, true);
+				List<MSAccountDetail> listAccountDetail = accountDetailService.listAccountDetail(new MSAccountDetailGet(-1,ms.getOrderId()));
+				logger.info("账户明细表size:{}",listAccountDetail.size());
 				List<MSAccount> msAccountlist = new ArrayList<MSAccount>();
 				List<MSAccountDetail> listAccountDetail2 = new ArrayList<>();
 				//根据memId查询会员余额
+				// 不分页
+				PageHelper.startPage(0, 0, false, false, true);
 				PageHelper.orderBy("m.spend_priority DESC");
 				List<MSAccount> balanceAccountList = accountServices.getBalanceAccountList(ms.getMemId());
+				logger.info("账户表size:{}",balanceAccountList.size());
 				BigDecimal bigDecimal = new BigDecimal(ms.getConsumeMoney());
 			    for (MSAccount msAccount : balanceAccountList) {
 			    	for (MSAccountDetail msAccountDetail : listAccountDetail) {
 			    		MSAccount account = new MSAccount();
-			    		if(msAccountDetail.getInOrOut() == -1){  //这里获取之前消费明细-1 支出 1是收入
-			    			logger.info("账户变更标识:{}",msAccountDetail.getInOrOut());
 			    		//判断账户与账户明细的账户是否相等
 			    		if(msAccount.getAccountNo().equals(msAccountDetail.getAccountNo())){
+ 
+			    			logger.info("AccountNo:{}",msAccountDetail.getAccountNo());
 			    			if(inMoney > 0 ){
 			    				logger.info("这个日志是记录第二次退款时看第一次退款了多少余额:{}",inMoney);
 			    				inMoney =  inMoney - msAccountDetail.getTradeAmount();
 			    				
 			    			    logger.info("当把之前退款全减完了,进来退款余下的账户,并保存到数据库TradeAmount:{}",msAccountDetail.getTradeAmount());
-			    			    if(inMoney == 0){
-			    			 		logger.info("计算结果等于0中止这次循环continue");
-			    					continue;
-			    			 	}
+ 
 			    			    if(inMoney < 0){
+			    			    	double money = 0;
 			    			 		logger.info("当前计算第一次退款:{}",inMoney);
-			    					msAccountDetail.setTradeAmount(-inMoney);
+			    			 		money = -inMoney;
 			    					inMoney = 0;
+			    					
+			    					double balance = 0;
+									double consumeMoney = bigDecimal.doubleValue();
+								  if(consumeMoney > 0){
+					    			if(consumeMoney <= money){
+					    			    balance = consumeMoney;
+					    			}else{
+					    				logger.info("查看退款金额:{}",money);
+					    				balance = money;
+					    			}
+					    		    //更新账户
+					    			logger.info("更新账户表:退款账户:{},退款优先级:{},退款余额:{}",msAccount.getAccountNo(),msAccount.getSpendPriority(),balance);
+					    			account.setAccountNo(msAccount.getAccountNo());
+					    			account.setBalance(balance + msAccount.getBalance());
+					    			account.setBalanceEncrypt(DESC.encryption(String.valueOf(balance + msAccount.getBalance()), msAccount.getMemId()));
+					    			msAccountlist.add(account);
+					    			
+					    			//插入退款明细
+					    			MSAccountDetail msAccountDetail2 = new MSAccountDetail();
+						    		msAccountDetail2.setId(UUID.randomUUID().toString());
+						    		msAccountDetail2.setAccountNo(msAccountDetail.getAccountNo());
+						    		msAccountDetail2.setTradeType(msAccountDetail.getTradeType());
+						    		msAccountDetail2.setTradeAmount(balance);
+						    		msAccountDetail2.setTradeDate(new Date());
+						    		msAccountDetail2.setInOrOut(1);
+						    		msAccountDetail2.setBalance(msAccount.getBalance() + balance);
+						    		msAccountDetail2.setBusinessNo(msAccountDetail.getBusinessNo());
+						    		msAccountDetail2.setCreateUser(msAccountDetail.getCreateUser());
+						    		msAccountDetail2.setCreateDate(new Date());
+						    		msAccountDetail2.setUpdateUser(msAccountDetail.getUpdateUser());
+						    		msAccountDetail2.setUpdateDate(new Date());
+						    		msAccountDetail2.setRemark("账户编号:" + msAccountDetail2.getAccountNo() + " 退款"+ balance +"元");
+						    		listAccountDetail2.add(msAccountDetail2);
+						    		logger.info("插入账户明细表:退款账户:{},退款之前的余额:{},退款余额:{},退款之后的余额:{}",msAccount.getAccountNo(),msAccount.getBalance(),
+						    				balance,msAccount.getBalance() + balance);
+								  }
+					    		  bigDecimal = bigDecimal.subtract(new BigDecimal(balance));
+					    		  logger.info("退款额-当前消费额={}",bigDecimal);
 			    				}
 			    			 	
-			    			}
-			    			
-			    			if(inMoney > 0){
-			    				logger.info("中止这次循环continue");
-		    					continue;
-			    			} 
+			    			}else{
+			    				
 			    			
 			    			
-			    			double balance = 0;
+							double balance = 0;
 							double consumeMoney = bigDecimal.doubleValue();
 						  if(consumeMoney > 0){
 			    			if(consumeMoney <= msAccountDetail.getTradeAmount()){
 			    			    balance = consumeMoney;
 			    			}else{
+			    				logger.info("查看退款金额:{}",msAccountDetail.getTradeAmount());
 			    				balance = msAccountDetail.getTradeAmount();
 			    			}
 			    		    //更新账户
@@ -901,10 +946,9 @@ public class TradeServiceImpl implements TradeService {
 				    				balance,msAccount.getBalance() + balance);
 						  }
 			    		  bigDecimal = bigDecimal.subtract(new BigDecimal(msAccountDetail.getTradeAmount()));
-			    		     
 			    		}
-			    	    }
-			    	}
+			    		}
+			    		}
 				}
 			    
 			    //更新MSAccountReport
@@ -1190,5 +1234,4 @@ public class TradeServiceImpl implements TradeService {
 		}
 		return false;
 	}
-
 }

@@ -2,6 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="MSRechargeApplyMapper">
+<!-- 插入日志信息 -->
+	<insert id="insertLog" parameterType="com.meiduimall.service.account.model.TripartiteLog">
+		insert into ms_tripartite_log
+			   (log_id,
+			    log_type,
+				log_date,
+				attribute1,
+				attribute2,
+				attribute3,
+				attribute4,
+				attribute5,
+				attribute6,
+				attribute7,
+				attribute8,
+				attribute9,
+				attribute10
+				)
+	 	 values(
+	 	        #{logId},
+	 	        #{logType},
+				#{logDate},
+				#{attribute1},
+				#{attribute2},
+				#{attribute3},
+				#{attribute4},
+				#{attribute5},
+				#{attribute6},
+				#{attribute7},
+				#{attribute8},
+				#{attribute9},
+				#{attribute10}
+			   )
+	</insert>
 	<!-- 充值申请插入数据 -->
 	<insert id="insertRechargeApply" parameterType="com.meiduimall.service.account.model.MSBankWithdrawDeposit">
 		insert into ms_tripartite_recharge
@@ -15,7 +48,8 @@
 				callback_url,
 				recharge_date,
 				mem_id,
-				phone
+				phone,
+				callback_qty
 				)
 	 	 values(
 	 	        #{recId},
@@ -28,13 +62,15 @@
 				#{callbackUrl},
 				#{rechargeDate},
 				#{memId},
-				#{phone}
+				#{phone},
+				0
 			   )
 	</insert>
 	<!-- 查询充值申请列表 -->
 	<select id="queryExternalList" parameterType="com.meiduimall.service.account.model.MSRechargeApply" resultType="com.meiduimall.service.account.model.AccountRechargeApply">
 		select 
 			mer.rec_id recId,
+			mte.enterprise_key enterpriseKey,
 			mted.det_id detId,
 			mer.order_id orderId,
 			mer.mem_id memId,
@@ -89,7 +125,8 @@
 		<set >
 	      <if test="status != null and status !=''" >
 	        status = #{status,jdbcType=CHAR},
-	        reality_recharge_date = #{realityRechargeDate}
+	        reality_recharge_date = #{realityRechargeDate},
+	        callback_qty = callback_qty+1
 	      </if>
 	    </set>
 	    <where>
@@ -158,6 +195,9 @@
 		ms_tripartite_enterprise MTE,ms_tripartite_enterprise_detail MTED
 		where MTE.ent_id = MTED.ent_id
 		and MTE.ent_id = #{entId}
+		<if test="personalAccountType !=null and personalAccountType !=''">
+			AND MTED.personal_account_type = #{personalAccountType}
+		 </if>
 	</select>
 		<!-- 企业管理详情查询列表 -->
 	<select id="findAccountNameList" parameterType="com.meiduimall.service.account.model.BusinessManagementEntity" resultType="com.meiduimall.service.account.model.AccountBusinessManagement">
@@ -187,6 +227,11 @@
 			mtn.enterprise_key enterpriseKey
 		from 
 			ms_tripartite_enterprise mtn
+		<where>
+	      <if test="enterpriseIdentity !=null and enterpriseIdentity !=''">
+			AND mtn.enterprise_identity=#{enterpriseIdentity}
+		  </if>
+	    </where>
 	</select>
 		<!-- 企业管理帐户更新 -->
 	<update id="updateEnterprise"  parameterType="com.meiduimall.service.account.model.BusinessManagementEntity" >

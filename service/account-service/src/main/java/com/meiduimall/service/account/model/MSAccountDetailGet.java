@@ -45,6 +45,14 @@ public class MSAccountDetailGet extends PageHelp implements Serializable {
 		super();
 		this.businessNo = businessNo;
 	}
+	
+	
+
+	public MSAccountDetailGet(Integer inOrOut, String businessNo) {
+		super();
+		this.inOrOut = inOrOut;
+		this.businessNo = businessNo;
+	}
 
 	public List<Object> getTradeTypeList() {
 		return tradeTypeList;

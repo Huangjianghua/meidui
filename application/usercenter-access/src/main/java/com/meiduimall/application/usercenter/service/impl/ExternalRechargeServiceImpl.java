@@ -25,7 +25,27 @@ public class ExternalRechargeServiceImpl implements ExternalRechargeService{
 	
 	@Autowired
 	private ProfileParamsConfig profile;
-
+	
+	@Override
+	public ResBodyData insertLog(JSONObject reqJson) {
+		ResBodyData resBodyData = new ResBodyData(null,null);
+		String urls = profile.getServiceAccountUrl()+"v1/insertLog";
+		resBodyData = MD5Utils.updateSign(reqJson,profile.getRouteClientID(),profile.getRouteKey());
+		if(resBodyData.getStatus()!=0){
+			return resBodyData;
+		}
+		try {
+			Map<String, String> headers=new HashMap<>();
+			headers.put(SysParamsConst.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE);
+			String result = HttpUtils.post(urls,reqJson.toString(),headers);
+			resBodyData = JSON.parseObject(result,ResBodyData.class);
+		} catch (Exception e) {
+			resBodyData.setStatus(ApiStatusConst.REQUEST_GATEWAY_EX);
+			resBodyData.setMsg(ApiStatusConst.getZhMsg(ApiStatusConst.REQUEST_GATEWAY_EX));
+		}
+		logger.info("----resBodyData");
+		return resBodyData;
+	}
 	@Override
 	public ResBodyData externalMemberRecharge(JSONObject reqJson) {
 		ResBodyData resBodyData = new ResBodyData(null,null);

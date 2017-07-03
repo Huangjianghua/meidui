@@ -34,6 +34,7 @@ import com.meiduimall.service.account.model.MSAccountList;
 import com.meiduimall.service.account.model.MSAccountReport;
 import com.meiduimall.service.account.model.request.RequestAccountReviseDetail;
 import com.meiduimall.service.account.model.request.RequestMSAccountList;
+import com.meiduimall.service.account.service.AccountDetailService;
 import com.meiduimall.service.account.service.AccountReportService;
 import com.meiduimall.service.account.service.AccountService;
 import com.meiduimall.service.account.service.MSAccountDetailService;
@@ -61,6 +62,9 @@ public class AccountQueryV1Controller {
 	
 	@Autowired
 	private AccountService accountService;
+	
+	@Autowired
+	private AccountDetailService accountDetailService;
 	
 	/**
 	 * 查询当前会员可用余额
@@ -251,7 +255,7 @@ public class AccountQueryV1Controller {
 	
 	/**
 	 * 查询当前会员可提现余额
-	 * @author chencong
+	 * @author chencong 
 	 */
 	@GetMapping(value = "/get_allow_withdraw_balance")
 	public ResBodyData getAllowWithdrawBalance(@RequestParam String memId) {
@@ -265,5 +269,22 @@ public class AccountQueryV1Controller {
 		} catch (DaoException e) {
 			throw new ApiException(ConstApiStatus.SYSTEM_ERROR);
 		}
+	}
+	
+	/**
+	 * 专为旧会员系统调用--获取个人推广接口的现金收益总额
+	 * @param memId 会员ID
+	 * @return 统一数据对象
+	 */
+	@RequestMapping(value = "/get_money_income")
+	public ResBodyData getMoneyIncome(String memId) {
+		String moneyIncome = accountDetailService.getMoneyIncome(memId);
+		ResBodyData result=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
+		if(!Strings.isNullOrEmpty(moneyIncome)){
+			result.setData(JsonUtils.getInstance().createObjectNode().put("money_income", moneyIncome));
+		} else{
+			result.setData(JsonUtils.getInstance().createObjectNode().put("money_income", "0"));
+		}
+		return result;
 	}
 }

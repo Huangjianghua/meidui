@@ -9,8 +9,13 @@ import com.meiduimall.service.account.model.AccountRechargeApply;
 import com.meiduimall.service.account.model.BusinessManagementEntity;
 import com.meiduimall.service.account.model.MSRechargeApply;
 import com.meiduimall.service.account.model.RefundRequestEntity;
+import com.meiduimall.service.account.model.TripartiteLog;
 
 public interface IEnterpriseRechargeService {
+	/**
+	 * 插入日志信息
+	 */
+	public void insertLog(TripartiteLog tripartiteLog)throws MdBizException;
 	/**
 	 * 外部充值申请
 	 */

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.google.common.base.Strings;
 import com.meiduimall.service.member.dao.BaseDao;
 import com.meiduimall.service.member.service.PointsService;
 import com.meiduimall.service.member.util.DoubleCalculate;

@@ -44,6 +44,16 @@ public class AccountRechargeApply implements Serializable{
 	private String phone;
 	/**memId**/
 	private String memId;
+	private String enterpriseKey;
+	
+	public String getEnterpriseKey() {
+		return enterpriseKey;
+	}
+
+	public void setEnterpriseKey(String enterpriseKey) {
+		this.enterpriseKey = enterpriseKey;
+	}
+
 	public String getRecId() {
 		return recId;
 	}

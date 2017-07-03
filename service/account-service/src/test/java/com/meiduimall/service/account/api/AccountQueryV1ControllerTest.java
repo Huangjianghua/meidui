@@ -399,4 +399,22 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
 			}
 		});
 	}
+   
+   @Test
+   public void testGetMoneyIncome_01() throws Exception{
+	   String memId = "10d56b78-0b4f-4e37-9228-caa765e6317f";
+	   ResultActions results = mockMvc.perform(
+				MockMvcRequestBuilders.post("/member/account_service/v1/get_money_income")
+				.param("memId", memId))
+				.andExpect(status().isOk());
+	   
+	   results.andExpect(jsonPath("$.status",is(0)));
+	   
+	   results.andDo(new ResultHandler() {
+			@Override
+			public void handle(MvcResult result) throws Exception {
+				System.out.println("testGetMoneyIncome_01*********" + result.getResponse().getContentAsString());
+			}
+		});
+   }
 }

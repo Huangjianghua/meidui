@@ -17,7 +17,7 @@
 	
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 	    <layout class="ch.qos.logback.classic.PatternLayout">
-	      <pattern>%d %-5level [%X{X-B3-TraceId:-} %X{X-B3-SpanId:-} %X{X-Span-Export:-}] %logger{36}:%line - %msg%n</pattern>
+	      <Pattern>%d  %-5level %logger{36}:%line  [%X{X-B3-TraceId:-} %X{X-B3-SpanId:-} %X{X-Span-Export:-}] - %msg%n</Pattern>
 	    </layout>
   	</appender>
 
