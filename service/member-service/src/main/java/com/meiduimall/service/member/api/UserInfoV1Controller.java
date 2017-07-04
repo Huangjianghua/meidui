@@ -18,11 +18,17 @@ import com.meiduimall.service.member.model.request.RequestGetMemberBasicInfo;
 import com.meiduimall.service.member.model.request.RequestUpdateMemberBasicInfo;
 import com.meiduimall.service.member.service.UserInfoService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 /**
  * 会员信息相关API
  * @author chencong
  *
  */
+@Api(value = "会员信息相关", description = "会员信息相关接口")  
 @RestController
 @RequestMapping("/member/member_service/v1")
 public class UserInfoV1Controller{
@@ -34,6 +40,10 @@ public class UserInfoV1Controller{
 	
 	/**根据memId获取会员基本信息
 	 * @throws MdSysException */
+	@ApiOperation(value="根据memId获取会员基本信息", notes="根据memId获取会员基本信息")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "requestGetMemberBasicInfo", value = "根据memId获取会员基本信息实体", required = true, dataType = "RequestGetMemberBasicInfo"),
+	})
 	@GetMapping(value = "/get_member_basic_info")
 	ResBodyData getmemberbasicinfo(@Valid RequestGetMemberBasicInfo requestGetMemberBasicInfo) throws MdSysException{
 		String memId=requestGetMemberBasicInfo.getMemId();
@@ -48,6 +58,10 @@ public class UserInfoV1Controller{
 	 * @param memId 会员ID
 	 * @return 数据对象
 	 */
+	@ApiOperation(value="根据会员memId获取会员简单的信息", notes="根据会员memId获取会员简单的信息")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "memId", value = "根据会员memId获取会员简单的信息实体", required = true, dataType = "String"),
+	})
 	@RequestMapping(value = "/get_member_simple_info")
 	public ResBodyData getMemberSimpleInfo(String memId){
 		return userInfoService.getSimpleInfoByMemId(memId);
@@ -94,6 +108,10 @@ public class UserInfoV1Controller{
 	
 	
 	/**注册时记录会员手机对应的区域*/
+	@ApiOperation(value="注册时记录会员手机对应的区域", notes="注册时记录会员手机对应的区域")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "mSMemberMobileArea", value = "注册时记录会员手机对应的区域实体", required = true, dataType = "MSMemberMobileArea"),
+	})
 	@PostMapping(value = "/record_area")
 	ResBodyData recordArea(@RequestBody MSMemberMobileArea mSMemberMobileArea) throws MdSysException{
 		logger.info("接收到数据：memId={}, phone={}", mSMemberMobileArea.getMemId(), mSMemberMobileArea.getPhone());
@@ -103,7 +121,8 @@ public class UserInfoV1Controller{
     }
 	
 	
-	/**注册时记录会员手机对应的区域*/
+	/**更新注册时记录会员手机对应的区域*/
+	@ApiOperation(value="更新注册时记录会员手机对应的区域", notes="更新注册时记录会员手机对应的区域")
 	@GetMapping(value = "/update_member_area")
 	ResBodyData updateMemberArea() throws MdSysException{
 		ResBodyData recordArea = userInfoService.updateMemberArea();
@@ -115,6 +134,10 @@ public class UserInfoV1Controller{
 	 * @param model 会员信息封装参数
 	 * @return 数据对象
 	 */
+	@ApiOperation(value="更新会员基本信息", notes="更新会员基本信息")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "model", value = "更新会员基本信息实体", required = true, dataType = "RequestUpdateMemberBasicInfo"),
+	})
 	@RequestMapping(value = "/update_member_basic_info")
 	public ResBodyData updateMemberBasicInfo(@Valid RequestUpdateMemberBasicInfo model){
 		return userInfoService.updateMemberBasicInfo(model);

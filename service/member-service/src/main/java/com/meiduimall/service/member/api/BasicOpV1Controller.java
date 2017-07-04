@@ -36,6 +36,7 @@ import com.meiduimall.service.member.service.BasicOpService;
 import com.meiduimall.service.member.service.UserInfoService;
 import com.meiduimall.service.member.util.HttpResolveUtils;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -45,6 +46,7 @@ import io.swagger.annotations.ApiOperation;
  * @author chencong
  *
  */
+@Api(value = "会员基础操作", description = "会员基础操作接口")  
 @RestController
 @RequestMapping("/member/member_service/v1")
 public class BasicOpV1Controller {
@@ -64,6 +66,7 @@ public class BasicOpV1Controller {
 	 * 因为APP可能没升级，还会请求旧会员系统的登录和注册，所以这两个接口的put token要走这个接口
 	 * 其他的接口get token也是走这个接口，两种操作用type区分，1是get，2是put
 	 * */
+	@ApiOperation(value="旧会员系统获取token或创建token(临时接口)", notes="旧会员系统获取token或创建token(临时接口)")
 	@GetMapping(value = "/getput")
 	String getput() { 
 		String result=null;
@@ -85,6 +88,7 @@ public class BasicOpV1Controller {
 	/**
 	 * 旧会员系统登出接口调用新会员系统的接口
 	 * */
+	@ApiOperation(value="旧会员系统登出接口调用新会员系统的接口", notes="旧会员系统登出接口调用新会员系统的接口")
 	@GetMapping(value = "/handlesignout")
 	String handlesignout() { 
 		String result=null;
@@ -125,6 +129,10 @@ public class BasicOpV1Controller {
 	}
 	
 	/**会员退出登录*/
+	@ApiOperation(value="会员退出登录", notes="会员退出登录")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "model", value = "退出登录实体", required = true, dataType = "RequestExit"),
+	})
 	@PostMapping(value = "/exit")
 	ResBodyData exit(@RequestBody @Valid RequestExit model ){
 		logger.info("收到会员退出登录API请求，令牌：{}",model.getToken());
@@ -147,6 +155,10 @@ public class BasicOpV1Controller {
 	
 	
 	/**普通会员注册*/
+	@ApiOperation(value="普通会员注册", notes="普通会员注册")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "model", value = "普通会员注册实体", required = true, dataType = "RequestRegister"),
+	})
 	@PostMapping(value = "/register")
 	ResBodyData register(@RequestBody @Valid RequestRegister model){
 		String tokenKey=request.getHeader(ConstSysParamsDefination.TERMINAL_ID);
@@ -166,6 +178,10 @@ public class BasicOpV1Controller {
 	}
 	
 	/**扫码注册（临时接口，不推荐使用）*/
+	@ApiOperation(value="扫码注册（临时接口，不推荐使用）", notes="扫码注册（临时接口，不推荐使用）")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "model", value = "扫码注册实体", required = true, dataType = "RequestRegister"),
+	})
 	@PostMapping(value = "/register_scan_code")
 	ResBodyData registerScanCode(@RequestBody @Valid RequestRegister model){
 		String tokenKey=request.getHeader(ConstSysParamsDefination.TERMINAL_ID);
@@ -185,6 +201,10 @@ public class BasicOpV1Controller {
 	}
 	
 	/**O2O系统（商家，代理，个代）注册*/
+	@ApiOperation(value="O2O系统（商家，代理，个代）注册", notes="O2O系统（商家，代理，个代）注册")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "model", value = "O2O系统（商家，代理，个代）注册实体", required = true, dataType = "RequestRegisterO2O"),
+	})
 	@PostMapping(value = "/register_o2o")
 	ResBodyData registerO2O(@RequestBody @Valid RequestRegisterO2O model){
 		String tokenKey=request.getHeader(ConstSysParamsDefination.TERMINAL_ID);
@@ -204,6 +224,10 @@ public class BasicOpV1Controller {
 	}
 	
 	/**我是谁（token转memId）*/
+	@ApiOperation(value="token转memId", notes="token转memId")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "token", value = "token转memId实体", required = true, dataType = "String"),
+	})
 	@GetMapping(value = "/get_memid_by_token")
 	ResBodyData getMemIdByToken(@RequestParam String token){
 		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,"");
@@ -222,6 +246,10 @@ public class BasicOpV1Controller {
 
 	
 	/**token校验*/
+	@ApiOperation(value="token校验", notes="token校验")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "model", value = "token校验实体", required = true, dataType = "RequestExit"),
+	})
 	@PostMapping(value = "/checktoken")
 	ResBodyData checktoken(@RequestBody @Valid RequestExit model) {	
 		logger.info("收到token校验API请求：{}",model.getToken());
@@ -247,6 +275,10 @@ public class BasicOpV1Controller {
 	}
 	
 	/**扫码注册（临时接口，不校验验证码，不推荐使用）*/
+	@ApiOperation(value="扫码注册（临时接口，不校验验证码，不推荐使用）", notes="扫码注册（临时接口，不校验验证码，不推荐使用）")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "model", value = "扫码注册（临时接口，不校验验证码，不推荐使用）实体", required = true, dataType = "RequestRegisterNoCode"),
+	})
 	@PostMapping(value = "/register_no_check_code")
 	ResBodyData registerNoCheckCode(@RequestBody @Valid RequestRegisterNoCode model){
 		String tokenKey=request.getHeader(ConstSysParamsDefination.TERMINAL_ID);
@@ -269,6 +301,10 @@ public class BasicOpV1Controller {
 	 * @return 统一数据返回格式
 	 * @throws MdSysException 系统异常
 	 */
+	@ApiOperation(value="验证帐号是否存在", notes="验证帐号是否存在")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "accountVerification", value = "验证帐号是否存在实体", required = true, dataType = "AccountVerification"),
+	})
 	@PostMapping(value = "/thereexist")
 	public ResBodyData accountsThereExist(@RequestBody @Valid AccountVerification accountVerification) throws MdSysException{
 		ResBodyData resBodyData=null;

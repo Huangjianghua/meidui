@@ -18,11 +18,17 @@ import com.meiduimall.service.member.constant.ConstSysParamsDefination;
 import com.meiduimall.service.member.service.FunsService;
 import com.meiduimall.service.member.service.ShareMenService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 /**
  * 推荐人和被推荐人相关API
  * @author chencong
  *
  */
+@Api(value = "推荐人和被推荐人", description = "推荐人和被推荐人相关接口")  
 @RestController
 @RequestMapping("/member/member_service/v1")
 public class ShareManAndFunsV1Controller {
@@ -43,6 +49,10 @@ public class ShareManAndFunsV1Controller {
 	 * @param memId
 	 * @throws Exception
 	 */
+	@ApiOperation(value="获取会员二级推荐人", notes="获取会员二级推荐人")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "memId", value = "获取会员二级推荐人实体", required = true, dataType = "String"),
+	})
 	@RequestMapping(value = "/get_twolevel_sharemen",method=RequestMethod.GET)
 	public void getsecondlevelsharemen(String memId) throws Exception {		
 		JSONObject json = new JSONObject();
@@ -73,6 +83,11 @@ public class ShareManAndFunsV1Controller {
 	 * @param pageNo
 	 * @throws Exception
 	 */
+	@ApiOperation(value="粉丝明细", notes="粉丝明细")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "memId", value = "粉丝明细实体", required = true, dataType = "String"),
+        @ApiImplicitParam(name = "levelNum", value = "粉丝明细实体", required = true, dataType = "String"),
+	})
 	@RequestMapping(value = "/funs_detail_list",method=RequestMethod.GET)
 	public void funsdetaillist(String memId, String levelNum, int limit, int pageNo) throws Exception {		
 		JSONObject json = new JSONObject();
@@ -98,6 +113,10 @@ public class ShareManAndFunsV1Controller {
 	 * 
 	 * @throws Exception
 	 */
+	@ApiOperation(value="粉丝数量", notes="粉丝数量")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "memId", value = "粉丝数量实体", required = true, dataType = "String"),
+	})
 	@RequestMapping(value = "/funs_count_group_level",method=RequestMethod.GET)
 	public void funscountbylevel(String memId) throws Exception {		
 		JSONObject json = new JSONObject();

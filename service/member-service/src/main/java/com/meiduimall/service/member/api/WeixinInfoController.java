@@ -12,12 +12,18 @@ import com.meiduimall.service.member.constant.ConstApiStatus;
 import com.meiduimall.service.member.model.request.RequestBindingWeixin;
 import com.meiduimall.service.member.service.WeixinInfoService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 /**
 
  * 微信资料相关API
  * @author yangchang
  *
  */
+@Api(value = "微信资料相关", description = "微信资料相关接口")
 @RestController
 @RequestMapping("/member/member_service/v1")
 public class WeixinInfoController {
@@ -30,6 +36,10 @@ public class WeixinInfoController {
 	 * @param model 会员手机号和openID
 	 * @return 数据对象
 	 */
+	@ApiOperation(value="将微信OpenId与会员进行绑定", notes="将微信OpenId与会员进行绑定")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "model", value = "将微信OpenId与会员进行绑定实体", required = true, dataType = "RequestBindingWeixin"),
+	})
 	@RequestMapping("/bindingWeixinOpenID")
 	public ResBodyData bindingWeixinOpenID(@Validated RequestBindingWeixin model) {
 		return weixinInfoService.bindingWeixinOpenID(model);
@@ -40,6 +50,10 @@ public class WeixinInfoController {
 	 * @param phone 会员手机号
 	 * @return 数据对象
 	 */
+	@ApiOperation(value="根据会员手机号，获取会员openId相关信息", notes="根据会员手机号，获取会员openId相关信息")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "phone", value = "根据会员手机号，获取会员openId相关信息实体", required = true, dataType = "String"),
+	})
 	@RequestMapping("/getOpenIDByPhone")
 	public ResBodyData getOpenIDByPhone(String phone) {
 		if (StringUtils.isBlank(phone)) {

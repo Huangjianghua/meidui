@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,11 +28,17 @@ import com.meiduimall.service.member.model.request.RequestSetPaypwdStatus;
 import com.meiduimall.service.member.model.response.ResponseMemberLock;
 import com.meiduimall.service.member.service.SecurityService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 /**
  * 账号安全和权限相关API
  * @author chencong
  *
  */
+@Api(value = "账号安全和权限", description = "账号安全和权限相关接口")  
 @RestController
 @RequestMapping("/member/member_service/v1")
 public class SecurityV1Controller {
@@ -44,6 +49,10 @@ public class SecurityV1Controller {
 	private  SecurityService  securityService;
 	
 	/**设置支付密码开关*/
+	@ApiOperation(value="设置支付密码开关", notes="设置支付密码开关")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "requestSetPaypwdStatus", value = "设置支付密码开关实体", required = true, dataType = "RequestSetPaypwdStatus"),
+	})
 	@PostMapping(value = "/set_paypwd_status")
 	ResBodyData setPaypwdStatus(@RequestBody @Valid RequestSetPaypwdStatus requestSetPaypwdStatus) {
 		logger.info("收到设置支付密码开关API请求：",requestSetPaypwdStatus.toString());
@@ -67,79 +76,79 @@ public class SecurityV1Controller {
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/getbackpwdbyphone/{phone}",method=RequestMethod.PUT)
-	String getbackpwdbyphone(@PathVariable(name="phone")String phone) throws Exception {
-	
-		/*
-		JSONObject  result  =  new  JSONObject();
-		
-		//String phone = jsonObject.getString("phone");//手机号码
-		
-		String one_pass_word = jsonObject.getString("one_pass_word");
-		String two_pass_word = jsonObject.getString("two_pass_word");
-		String  message="";
-	     JedisUtil  jedisUtil=JedisUtil.getJedisInstance();
-		try {
-			if (!two_pass_word.equals(one_pass_word)) {
-				result.put(SysParamsConst.STATUS, "1011");
-				result.put(SysParamsConst.MSG, "两次密码输入不一致");
-				message = result.toString();
-				logger.info("外部当前请求手机找回登录密码IP地址=" + ip + "结束,两次密码输入不一致");
-				return message;
-			}
-			if (one_pass_word.length() != 32 && two_pass_word.length() != 32) {
-				result.put(SysParamsConst.STATUS, "1009");
-				result.put(SysParamsConst.MSG, "密码输入错误");
-				message = result.toString();
-				logger.info("外部当前请求手机"+phone+"找回登录密码IP地址=" + ip + "结束,密码输入错误,非MD5的32位数加密");
-				return message;
-			}
-			if (!StringUtil.isPhoneToRegex(phone)) {
-				result.put(SysParamsConst.STATUS, "1013");
-				result.put(SysParamsConst.MSG, "手机号码错误");
-				logger.info("外部当前请求手机"+phone+"找回登录密码IP地址=" + ip + "结束,手机号码输入错误");
-				message = result.toString();
-				return message;
-			}
-			if((jedisUtil.execGetFromCache(phone + "app_code_zhaohui").isEmpty()))
-			{
-				result.put(SysParamsConst.STATUS, "2044");
-				result.put(SysParamsConst.MSG, "操作超时,请重新按照步骤操作");
-				logger.info("外部当前请求手机"+phone+"找回登录密码IP地址=" + ip + "结束,操作超时请重新按照步骤操作");
-				message = result.toString();
-				return message;
-			}
-            message = securityService.updateLoginPwdByPhone(jsonObject);
-		} catch (Exception e) {
-			
-		}
-
-		   return message;*/
-		return null;
-	    }
+//	@RequestMapping(value = "/getbackpwdbyphone/{phone}",method=RequestMethod.PUT)
+//	String getbackpwdbyphone(@PathVariable(name="phone")String phone) throws Exception {
+//	
+//		/*
+//		JSONObject  result  =  new  JSONObject();
+//		
+//		//String phone = jsonObject.getString("phone");//手机号码
+//		
+//		String one_pass_word = jsonObject.getString("one_pass_word");
+//		String two_pass_word = jsonObject.getString("two_pass_word");
+//		String  message="";
+//	     JedisUtil  jedisUtil=JedisUtil.getJedisInstance();
+//		try {
+//			if (!two_pass_word.equals(one_pass_word)) {
+//				result.put(SysParamsConst.STATUS, "1011");
+//				result.put(SysParamsConst.MSG, "两次密码输入不一致");
+//				message = result.toString();
+//				logger.info("外部当前请求手机找回登录密码IP地址=" + ip + "结束,两次密码输入不一致");
+//				return message;
+//			}
+//			if (one_pass_word.length() != 32 && two_pass_word.length() != 32) {
+//				result.put(SysParamsConst.STATUS, "1009");
+//				result.put(SysParamsConst.MSG, "密码输入错误");
+//				message = result.toString();
+//				logger.info("外部当前请求手机"+phone+"找回登录密码IP地址=" + ip + "结束,密码输入错误,非MD5的32位数加密");
+//				return message;
+//			}
+//			if (!StringUtil.isPhoneToRegex(phone)) {
+//				result.put(SysParamsConst.STATUS, "1013");
+//				result.put(SysParamsConst.MSG, "手机号码错误");
+//				logger.info("外部当前请求手机"+phone+"找回登录密码IP地址=" + ip + "结束,手机号码输入错误");
+//				message = result.toString();
+//				return message;
+//			}
+//			if((jedisUtil.execGetFromCache(phone + "app_code_zhaohui").isEmpty()))
+//			{
+//				result.put(SysParamsConst.STATUS, "2044");
+//				result.put(SysParamsConst.MSG, "操作超时,请重新按照步骤操作");
+//				logger.info("外部当前请求手机"+phone+"找回登录密码IP地址=" + ip + "结束,操作超时请重新按照步骤操作");
+//				message = result.toString();
+//				return message;
+//			}
+//            message = securityService.updateLoginPwdByPhone(jsonObject);
+//		} catch (Exception e) {
+//			
+//		}
+//
+//		   return message;*/
+//		return null;
+//	    }
 	
 	/**
 	 * 修改手机号码(会获取验证码)
 	 * @param token
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/updatememberphone/{token}",method=RequestMethod.PUT)
-    public void updatememberphone(@PathVariable String token) throws Exception {
-		/*JSONObject json = new JSONObject();
-		PrintWriter out = null;
-		try {
-			JSONObject j=HttpClientUtil.readStreamToJsonObject(request);
-			String newPhone=j.getString("newPhone");
-			String verify_code=j.getString("verify_code");
-			String password=j.getString("password");
-			json = securityService.updateMemberPhone(token, newPhone, verify_code, password);
-		} catch (Exception e) {
-			json.put(SysParamsConst.STATUS, "9999");
-			json.put(SysParamsConst.MSG, "服务器错误!");
-			logger.error("服务器错误:%s", e.getMessage());
-		}
-		out.print(json.toString());*/
-	}
+//	@RequestMapping(value = "/updatememberphone/{token}",method=RequestMethod.PUT)
+//    public void updatememberphone(@PathVariable String token) throws Exception {
+//		/*JSONObject json = new JSONObject();
+//		PrintWriter out = null;
+//		try {
+//			JSONObject j=HttpClientUtil.readStreamToJsonObject(request);
+//			String newPhone=j.getString("newPhone");
+//			String verify_code=j.getString("verify_code");
+//			String password=j.getString("password");
+//			json = securityService.updateMemberPhone(token, newPhone, verify_code, password);
+//		} catch (Exception e) {
+//			json.put(SysParamsConst.STATUS, "9999");
+//			json.put(SysParamsConst.MSG, "服务器错误!");
+//			logger.error("服务器错误:%s", e.getMessage());
+//		}
+//		out.print(json.toString());*/
+//	}
 	
 	/**
 	 * 账号禁用 
@@ -147,6 +156,10 @@ public class SecurityV1Controller {
 	 * @throws Exception
 	 * @author: jianhua.huang  2017年5月2日 下午3:20:34
 	 */
+	@ApiOperation(value="账号禁用", notes="账号禁用")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "param", value = "账号禁用实体", required = true, dataType = "Map<String, Object>"),
+	})
 	@RequestMapping(value = "/disableAccount",method=RequestMethod.POST)
     public ResBodyData disabledAccount(@RequestBody Map<String, Object> param) throws Exception {
 		try {
@@ -165,6 +178,10 @@ public class SecurityV1Controller {
 	 * @throws Exception
 	 * @author: jianhua.huang  2017年5月2日 下午3:20:34
 	 */
+	@ApiOperation(value="账号解禁", notes="账号解禁")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "param", value = "账号解禁实体", required = true, dataType = "Map<String, Object>"),
+	})
 	@RequestMapping(value = "/undisableAccount",method=RequestMethod.POST)
     public ResBodyData unDisabledAccount(@RequestBody Map<String, Object> param) throws Exception {
 		try {
@@ -184,6 +201,10 @@ public class SecurityV1Controller {
 	 * @throws Exception
 	 * @author: jianhua.huang  2017年5月2日 下午3:20:34
 	 */
+	@ApiOperation(value="账号重置密码", notes="账号重置密码")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "param", value = "账号重置密码实体", required = true, dataType = "Map<String, Object>"),
+	})
 	@RequestMapping(value = "/resetAccountPwd",method=RequestMethod.POST)
     public ResBodyData resetAccountPwd(@RequestBody Map<String, Object> param) throws Exception {
 		try {
@@ -203,6 +224,10 @@ public class SecurityV1Controller {
 	 * @throws Exception
 	 * @author: jianhua.huang  2017年5月3日 上午11:46:13
 	 */
+	@ApiOperation(value="登陆解锁列表", notes="登陆解锁列表")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "loginUnlock", value = "登陆解锁列表实体", required = true, dataType = "RequestLoginUnlock"),
+	})
 	@RequestMapping(value = "/loginUnlockList",method=RequestMethod.POST)
     public ResBodyData loginUnlockList(@RequestBody RequestLoginUnlock loginUnlock) throws Exception {
 		List<ResponseMemberLock> list=null;
@@ -232,6 +257,10 @@ public class SecurityV1Controller {
 	 * @throws Exception
 	 * @author: jianhua.huang  2017年5月3日 上午11:46:52
 	 */
+	@ApiOperation(value="解锁用户", notes="解锁用户")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "param", value = "解锁用户实体", required = true, dataType = "Map<String, Object>"),
+	})
 	@RequestMapping(value = "/unlock",method=RequestMethod.POST)
     public ResBodyData unlock(@RequestBody Map<String, Object> param) throws Exception {
 		try {

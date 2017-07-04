@@ -18,11 +18,17 @@ import com.meiduimall.service.member.model.request.RequestCheckValidateCode;
 import com.meiduimall.service.member.model.request.RequestGetValidateCode;
 import com.meiduimall.service.member.service.SmsService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 /**
  * 短信相关API
  * @author chencong
  *
  */
+@Api(value = "短信相关", description = "短信相关接口")  
 @RestController
 @RequestMapping("/member/member_service/v1")
 public class SmsV1Controller {
@@ -33,6 +39,10 @@ public class SmsV1Controller {
 	private  SmsService  smsService;
 	
 	/**获取短信验证码*/
+	@ApiOperation(value="获取短信验证码", notes="获取短信验证码")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "model", value = "获取短信验证码实体", required = true, dataType = "RequestGetValidateCode"),
+	})
 	@GetMapping(value = "/get_validate_code")
 	ResBodyData getValidateCode(@Valid RequestGetValidateCode model) throws ClientProtocolException, IOException {
 		logger.info("收到获取短信验证码API请求：",model.toString());
@@ -42,6 +52,10 @@ public class SmsV1Controller {
 	}
 	
 	/**校验短信验证码*/
+	@ApiOperation(value="校验短信验证码", notes="校验短信验证码")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "model", value = "校验短信验证码实体", required = true, dataType = "RequestCheckValidateCode"),
+	})
 	@GetMapping(value = "/check_validate_code")
 	ResBodyData checkValidateCode(@Valid RequestCheckValidateCode model) throws ClientProtocolException, IOException {
 		logger.info("收到校验短信验证码API请求：",model.toString());
