@@ -363,6 +363,9 @@ public class TradeServiceImpl implements TradeService {
 			mapCondition.put("freezeBalance",mapCondition.get("freezeBalance")-item.getFreezeBalance());
 			mapCondition.put(msAccount.getAccountTypeNo(),-item.getFreezeBalance());
 		}
+		if((double)mapCondition.get("freezeBalance")<0){
+			throw new ServiceException(ConstApiStatus.ACCOUNT_ADJUST_TYPE_UNNORMAL);
+		}
 		if(records!=null&&records.getConsumeMoney()>0){
 			//更新账户报表的冻结余额
 			baseDao.update(mapCondition,"MSAccountReportMapper.updateFreezeBalance");

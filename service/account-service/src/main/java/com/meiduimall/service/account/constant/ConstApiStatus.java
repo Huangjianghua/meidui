@@ -118,6 +118,8 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	public final static Integer ORDER_FREEZE_RECORD_NOT_EXIST=7122;
 	//解冻的积分或余额不等于冻结的积分或余额
 	public final static Integer FREEZE_POINTS_AND_MONEY_NOT_EQUALS_UNFREEZE=7123;
+	//账户异常，冻结金额为负数
+	public final static Integer FREEZE_MONEY_NOT_BIGGER_THAN_ZERO=7124;
 	
 	
 	/**账户相关*/
@@ -244,6 +246,7 @@ public abstract class ConstApiStatus extends BaseApiCode {
 		zhMsgMap.put(REPEAT_UNFREEZ_ORDER, "重复提交的解冻订单");
 		zhMsgMap.put(ORDER_FREEZE_RECORD_NOT_EXIST, "订单不存在积分或余额冻结记录");
 		zhMsgMap.put(FREEZE_POINTS_AND_MONEY_NOT_EQUALS_UNFREEZE, "解冻的积分或余额不等于冻结的积分或余额");
+		zhMsgMap.put(FREEZE_MONEY_NOT_BIGGER_THAN_ZERO, "账户异常，冻结金额为负数");
 		zhMsgMap.put(DJ_NOT_EQUALS_DJ, "订单解冻积分不等于冻结积分");
 		zhMsgMap.put(MONEY_DJ_NOT_EQUALS_DJ, "订单解冻余额不等于冻结余额");
 		zhMsgMap.put(NO_DJ_POINTS, "没有冻结的积分");
