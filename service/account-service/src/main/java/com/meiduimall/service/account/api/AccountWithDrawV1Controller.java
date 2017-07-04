@@ -104,8 +104,8 @@ public class AccountWithDrawV1Controller {
 	public ResBodyData saveBankWithDraw(@RequestBody RequestMSBankWithDrawDepostie deposit) {
 		// step1 检查参数
 		this.checkSaveBankWithDrawParam(deposit);
-		Lock lock=new ReentrantLock(); 
-		lock.lock();
+		//Lock lock=new ReentrantLock(); 
+		//lock.lock();
 		try {
 			//stpe2 执行提现申请
 			mSAccountDetailService.saveBankWithdrawDeposit(deposit);
@@ -113,7 +113,7 @@ public class AccountWithDrawV1Controller {
 			logger.error("余额提现申请操作Controller异常:{}", e.getMessage());
 			throw new ApiException(e.getCode(), e.getMessage());
 		}finally {
-			lock.unlock();
+			//lock.unlock();
 		}
 		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M);
 	}
