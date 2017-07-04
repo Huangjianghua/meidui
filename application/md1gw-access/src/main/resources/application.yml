@@ -38,7 +38,7 @@ myProps :
   finishUrl : http://shopdev.meiduimall.com/wap/finish.html #完成url
   signClientID : mall_java
   signKey: Test123
-  otoUrl : http://t3.o2o.meiduimall.com
+  otoUrl : http://o2odev.meiduimall.com
 
 ---
 spring :
