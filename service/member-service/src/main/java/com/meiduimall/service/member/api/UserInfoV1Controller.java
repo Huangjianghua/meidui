@@ -62,7 +62,7 @@ public class UserInfoV1Controller{
     @ApiImplicitParams({
         @ApiImplicitParam(name = "memId", value = "根据会员memId获取会员简单的信息实体", required = true, dataType = "String"),
 	})
-	@PostMapping(value = "/get_member_simple_info")
+	@RequestMapping(value = "/get_member_simple_info")
 	public ResBodyData getMemberSimpleInfo(String memId){
 		return userInfoService.getSimpleInfoByMemId(memId);
 	}
