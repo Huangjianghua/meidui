@@ -24,12 +24,18 @@ import com.meiduimall.service.account.model.RefundRequestEntity;
 import com.meiduimall.service.account.model.TripartiteLog;
 import com.meiduimall.service.account.service.IEnterpriseRechargeService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 
  
 /**
  * 企业充值相关 操作
  *
  */
+@Api(value = "第三方企业充值相关操作", description = "第三方企业充值相关操作接口")
 @RestController
 @RequestMapping("/member/account_service/v1")
 public class EnterpriseRechargeController {
@@ -41,6 +47,10 @@ public class EnterpriseRechargeController {
 	/**
 	 * 插入日志信息
 	 */
+	@ApiOperation(value="插入日志信息", notes="插入日志信息")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "tripartiteLog", value = "插入日志信息实体", required = true, dataType = "TripartiteLog"),
+	})
 	@PostMapping(value="/insertLog")
 	public ResBodyData insertLog(@RequestBody TripartiteLog tripartiteLog){
 		try {
@@ -54,6 +64,10 @@ public class EnterpriseRechargeController {
 	/**
 	 * 外部充值申请
 	 */
+	@ApiOperation(value="外部充值申请", notes="外部充值申请")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "deposit", value = "外部充值申请实体", required = true, dataType = "MSRechargeApply"),
+	})
 	@PostMapping(value="/rechargeApply")
 	public ResBodyData rechargeApply(@RequestBody MSRechargeApply deposit){
 		try {
@@ -67,7 +81,11 @@ public class EnterpriseRechargeController {
 	/**
 	 * 外部充值申请列表
 	 */
-	@RequestMapping(value="/findExternalRechargeList")
+	@ApiOperation(value="外部充值申请列表", notes="外部充值申请列表")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "mSRechargeApply", value = "外部充值申请列表实体", required = true, dataType = "MSRechargeApply"),
+	})
+	@PostMapping(value="/findExternalRechargeList")
 	public ResBodyData  findExternalRechargeList(@RequestBody MSRechargeApply mSRechargeApply){
 		List<AccountRechargeApply> accountRechargeApply = null;
 		try{
@@ -94,6 +112,10 @@ public class EnterpriseRechargeController {
 	/**
 	 * 更新充值状态
 	 */
+	@ApiOperation(value="更新充值状态", notes="更新充值状态")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "mSRechargeApply", value = "更新充值状态实体", required = true, dataType = "MSRechargeApply"),
+	})
 	@PostMapping(value="/updateRechargeStatus")
 	public ResBodyData updateRechargeStatus(@RequestBody MSRechargeApply mSRechargeApply){
 		try {
@@ -105,8 +127,12 @@ public class EnterpriseRechargeController {
 		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M);
 	}
 	/**
-	 * 企业管理插入数据
+	 * 第三方企业管理插入数据
 	 */
+	@ApiOperation(value="第三方企业管理插入数据", notes="第三方企业管理插入数据")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "businessManagementEntity", value = "第三方企业管理插入数据实体", required = true, dataType = "BusinessManagementEntity"),
+	})
 	@PostMapping(value="/insertBusinessManagement")
 	public ResBodyData  insertBusinessManagement(@RequestBody BusinessManagementEntity businessManagementEntity){
 		try {
@@ -118,8 +144,12 @@ public class EnterpriseRechargeController {
 		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M);
 	}
 	/**
-	 * 企业管理详情插入数据
+	 * 第三方企业管理详情插入数据
 	 */
+	@ApiOperation(value="第三方企业管理详情插入数据", notes="第三方企业管理详情插入数据")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "businessManagementEntity", value = "第三方企业管理详情插入数据实体", required = true, dataType = "BusinessManagementEntity"),
+	})
 	@PostMapping(value="/insertTripartiteEnterpriseDetail")
 	public ResBodyData  insertTripartiteEnterpriseDetail(@RequestBody BusinessManagementEntity businessManagementEntity){
 		try {
@@ -131,8 +161,12 @@ public class EnterpriseRechargeController {
 		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M);
 	}
 	/**
-	 * 企业管理帐户更新
+	 * 第三方企业管理帐户更新
 	 */
+	@ApiOperation(value="第三方企业管理帐户更新", notes="第三方企业管理帐户更新")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "businessManagementEntity", value = "第三方企业管理帐户更新实体", required = true, dataType = "BusinessManagementEntity"),
+	})
 	@PostMapping(value="/updateEnterprise")
 	public ResBodyData  updateEnterprise(@RequestBody BusinessManagementEntity businessManagementEntity){
 		try {
@@ -146,6 +180,10 @@ public class EnterpriseRechargeController {
 	/**
 	 * 调整授信,帐户充值
 	 */
+	@ApiOperation(value="调整授信,帐户充值", notes="调整授信,帐户充值")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "businessManagementEntity", value = "调整授信,帐户充值实体", required = true, dataType = "BusinessManagementEntity"),
+	})
 	@PostMapping(value="/updateEnterpriseAccount")
 	public ResBodyData  updateEnterpriseAccount(@RequestBody BusinessManagementEntity businessManagementEntity){
 		try {
@@ -160,6 +198,10 @@ public class EnterpriseRechargeController {
 	/**
 	 * 帐户最大的充值上限（现金余额+授信）
 	 */
+	@ApiOperation(value="帐户最大的充值上限（现金余额+授信）", notes="帐户最大的充值上限（现金余额+授信）")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "businessManagementEntity", value = "帐户最大的充值上限（现金余额+授信）实体", required = true, dataType = "BusinessManagementEntity"),
+	})
 	@PostMapping(value="/rechargeCeiling")
 	public ResBodyData rechargeCeiling(@RequestBody BusinessManagementEntity businessManagementEntity){
 		BusinessManagementEntity buMana = new BusinessManagementEntity();
@@ -174,7 +216,11 @@ public class EnterpriseRechargeController {
 	/**
 	 * 企业管理查询列表
 	 */
-	@RequestMapping(value="/findBusinessManagementList")
+	@ApiOperation(value="第三方企业管理查询列表", notes="第三方企业管理查询列表")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "businessManagementEntity", value = "第三方企业管理查询列表实体", required = true, dataType = "BusinessManagementEntity"),
+	})
+	@PostMapping(value="/findBusinessManagementList")
 	public ResBodyData  findBusinessManagementList(@RequestBody BusinessManagementEntity businessManagementEntity){
 		List<BusinessManagementEntity> buManagementEntity = null;
 		try{
@@ -199,9 +245,13 @@ public class EnterpriseRechargeController {
 		return res;
 	}
 	/**
-	 * 企业管理详情查询列表
+	 * 第三方企业管理详情查询列表
 	 */
-	@RequestMapping(value="/findTripartiteEnterpriseDetailList")
+	@ApiOperation(value="第三方企业管理详情查询列表", notes="第三方企业管理详情查询列表")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "businessManagementEntity", value = "第三方企业管理详情查询列表实体", required = true, dataType = "BusinessManagementEntity"),
+	})
+	@PostMapping(value="/findTripartiteEnterpriseDetailList")
 	public ResBodyData  findTripartiteEnterpriseDetailList(@RequestBody BusinessManagementEntity businessManagementEntity){
 		List<BusinessManagementEntity> buManagementEntity = null;
 		try{
@@ -228,7 +278,11 @@ public class EnterpriseRechargeController {
 	/**
 	 * 账户名称查询列表
 	 */
-	@RequestMapping(value="/findAccountNameList")
+	@ApiOperation(value="账户名称查询列表", notes="账户名称查询列表")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "businessManagementEntity", value = "账户名称查询列表实体", required = true, dataType = "BusinessManagementEntity"),
+	})
+	@PostMapping(value="/findAccountNameList")
 	public ResBodyData  findAccountNameList(@RequestBody BusinessManagementEntity businessManagementEntity){
 		List<BusinessManagementEntity> buManagementEntity = null;
 		try{
@@ -245,6 +299,10 @@ public class EnterpriseRechargeController {
 	/**
 	 * 帐户流水插入数据
 	 */
+	@ApiOperation(value="帐户流水插入数据", notes="帐户流水插入数据")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "accountFlowEntity", value = "帐户流水插入数据实体", required = true, dataType = "AccountFlowEntity"),
+	})
 	@PostMapping(value="/insertAccountFlow")
 	public ResBodyData  insertAccountFlow(@RequestBody AccountFlowEntity accountFlowEntity){
 		try {
@@ -258,7 +316,11 @@ public class EnterpriseRechargeController {
 	/**
 	 * 帐户流水查询列表
 	 */
-	@RequestMapping(value="/findAccountFlowList")
+	@ApiOperation(value="帐户流水查询列表", notes="帐户流水查询列表")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "accountFlowEntity", value = "帐户流水查询列表实体", required = true, dataType = "AccountFlowEntity"),
+	})
+	@PostMapping(value="/findAccountFlowList")
 	public ResBodyData  findAccountFlowList(@RequestBody AccountFlowEntity accountFlowEntity){
 		List<AccountFlowEntity> accoFlowEntity = null;
 		try{
@@ -285,6 +347,10 @@ public class EnterpriseRechargeController {
 	/**
 	 * 退款申请插入数据 
 	 */
+	@ApiOperation(value="退款申请插入数据 ", notes="退款申请插入数据 ")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "refundRequestEntity", value = "退款申请插入数据实体", required = true, dataType = "RefundRequestEntity"),
+	})
 	@PostMapping(value="/insertRefundRequest")
 	public ResBodyData  insertRefundRequest(@RequestBody RefundRequestEntity refundRequestEntity){
 		try {
@@ -298,7 +364,11 @@ public class EnterpriseRechargeController {
 	/**
 	 * 退款申请查询列表
 	 */
-	@RequestMapping(value="/findRefundRequestList")
+	@ApiOperation(value="退款申请查询列表", notes="退款申请查询列表")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "refundRequestEntity", value = "退款申请查询列表实体", required = true, dataType = "RefundRequestEntity"),
+	})
+	@PostMapping(value="/findRefundRequestList")
 	public ResBodyData  findRefundRequestList(@RequestBody RefundRequestEntity refundRequestEntity){
 		List<RefundRequestEntity> refRequestEntity = null;
 		try{

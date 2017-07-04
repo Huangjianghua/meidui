@@ -62,7 +62,7 @@ public class UserInfoV1Controller{
     @ApiImplicitParams({
         @ApiImplicitParam(name = "memId", value = "根据会员memId获取会员简单的信息实体", required = true, dataType = "String"),
 	})
-	@RequestMapping(value = "/get_member_simple_info")
+	@PostMapping(value = "/get_member_simple_info")
 	public ResBodyData getMemberSimpleInfo(String memId){
 		return userInfoService.getSimpleInfoByMemId(memId);
 	}
@@ -138,7 +138,7 @@ public class UserInfoV1Controller{
     @ApiImplicitParams({
         @ApiImplicitParam(name = "model", value = "更新会员基本信息实体", required = true, dataType = "RequestUpdateMemberBasicInfo"),
 	})
-	@RequestMapping(value = "/update_member_basic_info")
+	@PostMapping(value = "/update_member_basic_info")
 	public ResBodyData updateMemberBasicInfo(@Valid RequestUpdateMemberBasicInfo model){
 		return userInfoService.updateMemberBasicInfo(model);
 	}
