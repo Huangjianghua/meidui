@@ -26,7 +26,7 @@ public class SwaggerApplication {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("会员账号服务接口文档")
+                .title("会员账户服务接口文档")
                 .build();
     }
 }
