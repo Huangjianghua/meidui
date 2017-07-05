@@ -167,7 +167,7 @@
 				(SELECT ROUND(IFNULL(msar.balance,0.0)-IFNULL(msar.freeze_balance,0.0),2) FROM  ms_account_report msar where msar.mem_id=msm.mem_id) as mchBalanceCount, /**可用余额  */
 			    (SELECT IFNULL(msar.freeze_balance,0.0) as freeze_balance  FROM  ms_account_report msar where msar.mem_id=msm.mem_id) as mchFreezeBalanceCount,  /**冻结余额  */
 	  			IFNULL(msm.mem_basic_account_total_quantity,0.0) as mchPointsBalanceCount,/**可用积分=总积分-冻结积分  */
-	  			(select SUM(mcpf_consume_points) from ms_consume_points_freeze_info where mem_id=msm.mem_id) as mchFreezePointsCount /**冻结积分  */
+	  			IFNULL((select SUM(mcpf_consume_points) from ms_consume_points_freeze_info where mem_id=msm.mem_id),0.0) as mchFreezePointsCount /**冻结积分  */
 			FROM
 				ms_members msm
 		<where>

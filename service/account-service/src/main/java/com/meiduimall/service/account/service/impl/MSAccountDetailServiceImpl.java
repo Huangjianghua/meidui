@@ -183,8 +183,8 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 				 msAccount.setAccountStatus(0); //账户状态,0 正常 1禁用
 				 msAccount.setCreateDate(new Date());
 				 msAccount.setCreateUser("账户服务");
-				 msAccount.setUpdateDate(new Date());
-				 msAccount.setUpdateUser("账户服务");
+				 //msAccount.setUpdateDate(new Date());
+				 //msAccount.setUpdateUser("账户服务");
 				 msAccount.setRemark(accountType.getAccountTypeName());
 				 accountServices.insertAccountByType(msAccount);
 				 dto.setAccountNo(msAccount.getAccountNo());
@@ -565,8 +565,8 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			throw new MdBizException(ConstApiStatus.ACCOUNT_BANK_CARD_IS_NULL);
 		}
 		//step3 检查申请余额，并计算  
-		final Double old_useMoney =accountReportService.getAvailableBalance(memId); 
-		final Double old_applyCarryCash = Double.valueOf(applyCarryCash);
+		Double old_useMoney=accountServices.getAllowWithdrawBalance(memId);
+		Double old_applyCarryCash = Double.valueOf(applyCarryCash);
 		//申请提现余额超过最大可提现金额50000
 		if(old_applyCarryCash > ConstSysParamsDefination.FIFTY_THOUSAND){
 			logger.error("超过最大可提现限制50000,memID:{},提现金额applyCarryCash:{}",memId,old_applyCarryCash);
