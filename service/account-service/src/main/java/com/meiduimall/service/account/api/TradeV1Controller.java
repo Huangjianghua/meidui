@@ -27,11 +27,12 @@ import com.meiduimall.service.account.model.request.RequestCancelOrder;
 import com.meiduimall.service.account.service.TradeService;
 import com.meiduimall.service.account.util.SerialStringUtil;
 
-/**
- * 订单交易相关API
- * @author chencong
- *
- */
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+
+
+@Api(value="订单交易相关API接口")
 @RestController
 @RequestMapping("/member/account_service/v1")
 public class TradeV1Controller {
@@ -42,10 +43,8 @@ public class TradeV1Controller {
 	private TradeService tradeService;
 	
 	
-	/**
-	 * 会员保存订单（适配旧会员系统）
-	 * @author chencong
-	 */
+	@ApiOperation(value="会员保存订单（适配旧会员系统） ")
+	@ApiImplicitParam(name = "model", value = "会员保存订单API请求实体", required = true, dataType = "RequestSaveOrder")
 	@GetMapping(value="/save_order_old")
 	ResBodyData  saveOrderOld( @Valid RequestSaveOrder model){
 		logger.info("收到保存订单API请求   ：{}",model.toString());
@@ -57,10 +56,9 @@ public class TradeV1Controller {
 		}
 	}
 	
-	/**
-	 * 会员保存订单
-	 * @author chencong
-	 */
+
+	@ApiOperation(value="会员保存订单")
+	@ApiImplicitParam(name = "model", value = "会员保存订单API请求实体", required = true, dataType = "RequestSaveOrder")
 	@PostMapping(value="/save_order")
 	ResBodyData  saveOrder(@RequestBody @Valid RequestSaveOrder model){
 		logger.info("收到保存订单API请求   ：{}",model.toString());
@@ -72,21 +70,18 @@ public class TradeV1Controller {
 		}
 	}
 	
-	/**
-	 * 会员取消订单（适配旧会员系统）
-	 * @author chencong
-	 */
+
+	@ApiOperation(value="会员取消订单（适配旧会员系统）")
+	@ApiImplicitParam(name = "model", value = "会员取消订单API请求实体", required = true, dataType = "RequestCancelOrder")
 	@GetMapping(value="/cancel_order_old")
 	ResBodyData cancelOrderOld(@Valid RequestCancelOrder model) throws MdSysException {
 		logger.info("收到会员取消订单API请求 ：{}",model.toString());
 		return tradeService.cancelOrder(model);
 	}
 	
-	/**
-	 * 会员取消订单+
-	 * 
-	 * @author chencong
-	 */
+
+	@ApiOperation(value="会员取消订单")
+	@ApiImplicitParam(name = "model", value = "会员取消订单API请求实体", required = true, dataType = "RequestCancelOrder")
 	@PostMapping(value="/cancel_order")
 	ResBodyData cancelOrder(@RequestBody @Valid RequestCancelOrder model) throws MdSysException {
 		logger.info("收到会员取消订单API请求 ：{}",model.toString());
@@ -94,10 +89,8 @@ public class TradeV1Controller {
 	}
 
 	
-	/**
-	 * 会员退订单接口(适配旧会员系统)
-	 * @author wujun
-	 */
+	@ApiOperation(value="会员退订单接口(适配旧会员系统)")
+	@ApiImplicitParam(name = "ms", value = "会员退订单API请求实体", required = true, dataType = "MSMemberConsumeRecordsReq")
 	@GetMapping(value = "/recede_order_old")
 	ResBodyData recedeOrderOld(MSMemberConsumeRecordsReq ms)   {
 		
@@ -148,10 +141,8 @@ public class TradeV1Controller {
 	} 
 	
 	
-	/**
-	 * 会员退订单接口 
-	 * @author wujun
-	 */
+	@ApiOperation(value="会员退订单接口(适配旧会员系统)")
+	@ApiImplicitParam(name = "ms", value = "会员退订单API请求实体", required = true, dataType = "MSMemberConsumeRecordsReq")
 	@PostMapping(value = "/recede_order")
 	ResBodyData recedeOrder(@RequestBody MSMemberConsumeRecordsReq ms)   {
 		
@@ -202,11 +193,8 @@ public class TradeV1Controller {
 	} 
 	
 	
-	/**
-	 * 保存当前会员订单信息接口(免token校验) http://IP:PORT/Authorized/saveOrderNotoken
-	 * @return ResBodyData
-	 * @author wujun
-	 */
+	@ApiOperation(value="保存当前会员订单信息接口(免token校验)")
+	@ApiImplicitParam(name = "ms", value = "保存当前会员订单信息接口(免token校验)API请求实体", required = true, dataType = "MSMemberConsumeRecordsReq")
 	@PostMapping(value = "/save_order_notoken_old")
 	ResBodyData saveOrderNotokenOld( MSMemberConsumeRecordsReq ms) throws MdSysException{
 	 

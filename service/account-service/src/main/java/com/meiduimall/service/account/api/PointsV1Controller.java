@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
@@ -29,24 +28,23 @@ import com.meiduimall.service.account.model.MSConsumePointsDetail;
 import com.meiduimall.service.account.model.MSConsumePointsDetailGet;
 import com.meiduimall.service.account.model.MemberTransferHistory;
 import com.meiduimall.service.account.model.request.RequestPointTransfer;
-import com.meiduimall.service.account.service.MDMallServices;
 import com.meiduimall.service.account.service.ConsumePointsDetailService;
 import com.meiduimall.service.account.service.MembersPointsOpService;
 import com.meiduimall.service.account.service.PointsService;
 
-/**
- * 会员积分相关API
- * @author chencong
- *
- */
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
+
+@Api(value="会员积分相关API接口")
 @RestController
 @RequestMapping("/member/account_service/v1")
 public class PointsV1Controller {
 	
 	private final static Logger logger=LoggerFactory.getLogger(PointsV1Controller.class);
-	
-	@Autowired
-	private HttpServletRequest request;
+
 	
 	@Autowired
 	private HttpServletResponse response;
@@ -55,20 +53,14 @@ public class PointsV1Controller {
 	private MembersPointsOpService membersScoreOpService;
 	
 	@Autowired
-	private  MDMallServices mdmallServices;
-	
-	@Autowired
 	private ConsumePointsDetailService mSConsumePointsDetailService;
 	
 	@Autowired
 	private PointsService pointsService;
 	
-	/**
-	 * 积分 流水接口  分页  
-	 * @param mSConsumePointsDetail
-	 * @return
-	 * @throws Exception
-	 */
+
+	@ApiOperation(value="积分 流水接口  分页 ")
+	@ApiImplicitParam(name = "mSConsumePointsDetail", value = "积分 流水接口  分页API请求实体", required = true, dataType = "MSConsumePointsDetailGet")
 	@PostMapping(value="/list_consume_points_detail")
 	public ResBodyData listConsumePointsDetail(@RequestBody MSConsumePointsDetailGet mSConsumePointsDetail) throws Exception{
 		List<MSConsumePointsDetail> listMSConsumePointsDetail = null;
@@ -89,54 +81,11 @@ public class PointsV1Controller {
 	}
 	
 	
-	/**内部积分转账接口*/
-	@RequestMapping(value = "/internalscoretransfer",method=RequestMethod.POST)
-	String internalscoretransfer() throws Exception {
-		String message = null;
-		try {
-			JSONObject jsonObject =null;
-			logger.info("站内美兑积分转账，外部请求IP=" + jsonObject.getString("ip") + "开始");
-			message = mdmallServices.meiduiIntegralTransfer(jsonObject, request);
-			logger.info("站内美兑积分转账，返回参数：" + message.toString());
-			request.getQueryString();		
-		} catch (Exception e) {
-			throw e;
-		}
-		return  message;
-	    }
-	
-	/**推广收益明细*/
-	/*@RequestMapping(value = "/expandprofitdetail",method=RequestMethod.GET)
-	String expandprofitdetail() {
-		String message = null;
-		try {
-			JSONObject jsonObject = HttpClientUtil.readGetStringToJsonObject(request);
-			jsonObject.put("ip",HttpClientUtil.getIpAddr(request));
-			Logger.info("外部请求IP=" + jsonObject.getString("ip") + "开始，请求字符串："+request.getQueryString());
-			message=authorizationPointsService.getPointsDetailOfToken(jsonObject, request, response); 
-		} catch (Exception e) {
-			message=getServerError(e);
-			Logger.info("服务器错误:"+e.getMessage());
-		}
-		return message;
-	    }*/
-	
-	
-	
-	/**增加积分（商城API需求，可根据“附近消费积分增加接口”修改）*/
-	@RequestMapping(value = "/addscore",method=RequestMethod.PUT)
-	void addscore() throws Exception {
-		try {
-			PrintWriter pw=response.getWriter();
-			request.getQueryString();		
-			pw.print("hello,henry");
-		} catch (Exception e) {
-			throw e;
-		}
-	    }
-	
-	
-	/**积分汇总接口，汇总某种类型的积分总额*/
+	@ApiOperation(value="积分汇总接口，汇总某种类型的积分总额 ")
+	@ApiImplicitParams({
+         @ApiImplicitParam(name = "memId", value = "会员ID", required = true, dataType = "String"),
+         @ApiImplicitParam(name = "type", value = "类型", required = true, dataType = "String")
+ })
 	@RequestMapping(value = "/gathrescoresumbytype",method=RequestMethod.GET)
 	public void gathrescoresumbytype(String memId, String type) throws Exception {
 		JSONObject json = new JSONObject();
@@ -158,12 +107,9 @@ public class PointsV1Controller {
 		out.print(json.toString());
 	}
 	
-	/**
-	 * 查询积分转账列表
-	 * @param transfer
-	 * @throws Exception
-	 * @author: jianhua.huang  2017年5月18日 上午11:59:15
-	 */
+
+	@ApiOperation(value="查询积分转账列表")
+	@ApiImplicitParam(name = "transfer", value = "查询积分转账列表API请求实体", required = true, dataType = "RequestPointTransfer")
 	@RequestMapping(value = "/queryPointsTransferList")
 	public ResBodyData queryPointsTransferList(@RequestBody RequestPointTransfer transfer) throws Exception {
 		List<MemberTransferHistory> list=null;

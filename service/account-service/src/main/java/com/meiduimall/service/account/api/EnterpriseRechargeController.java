@@ -40,7 +40,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/member/account_service/v1")
 public class EnterpriseRechargeController {
 	
-	private final static Logger logger=LoggerFactory.getLogger(GciV1Controller.class);
+	private final static Logger logger=LoggerFactory.getLogger(EnterpriseRechargeController.class);
 	
 	@Autowired
 	private IEnterpriseRechargeService enterpriseRechargeService;

@@ -21,11 +21,12 @@ import com.meiduimall.service.account.model.request.RequestAccountAdjustAmount;
 import com.meiduimall.service.account.service.AccountAdjustService;
 import com.meiduimall.service.account.service.MSAccountDetailService;
 
-/**
- * 账户调整相关API
- * @author chencong
- *
- */
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+
+
+@Api(value="账户变动相关API接口")
 @RestController
 @RequestMapping("/member/account_service/v1")
 public class AccountAdjustV1Controller {
@@ -38,7 +39,8 @@ public class AccountAdjustV1Controller {
 	@Autowired
 	private AccountAdjustService accountAdjustService;
 	
-	/**账户余额调增调减*/
+	@ApiOperation(value="当前会员账户余额调增调减")
+	@ApiImplicitParam(name = "model", value = "账户余额调增调减API请求实体", required = true, dataType = "RequestAccountAdjustAmount")
 	@PostMapping(value = "/account_adjust_amount")
 	public ResBodyData accountAdjustAmount(@RequestBody @Valid RequestAccountAdjustAmount model) {
 		logger.info("收到账户余额调增调减API请求  ：{}",model.toString());
@@ -49,10 +51,9 @@ public class AccountAdjustV1Controller {
 		}
 	}
 	
-	/**
-	 * 添加会员余额调整明细  
-	 * @author: jianhua.huang  2017年5月5日 下午5:31:48
-	 */
+
+	@ApiOperation(value="添加会员余额调整明细")
+	@ApiImplicitParam(name = "detail", value = "添加会员余额调整明细API请求实体", required = true, dataType = "AddOrUpdateAccountReviseDetail")
 	@PostMapping(value="/add_account_revision_detail")
 	public ResBodyData  addMSAccountRevisionDetail(@RequestBody AddOrUpdateAccountReviseDetail detail){
 		try{
@@ -67,10 +68,9 @@ public class AccountAdjustV1Controller {
 		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M);
 	}
 	
-	/**
-	 * 修改会员余额调整明细
-	 * @author: jianhua.huang  2017年5月5日 下午5:31:57
-	 */
+
+	@ApiOperation(value="修改会员余额调整明细")
+	@ApiImplicitParam(name = "detail", value = "修改会员余额调整明细API请求实体", required = true, dataType = "AddOrUpdateAccountReviseDetail")
 	@PostMapping(value="/update_account_revision_detail")
 	public ResBodyData  updateMSAccountRevisionDetail(@RequestBody AddOrUpdateAccountReviseDetail detail){
 		logger.info("修改会员余额调整明细 API请求 :{}", detail);
@@ -85,10 +85,9 @@ public class AccountAdjustV1Controller {
 		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M);
 	}
 
-	/**
-	 * 会员余额审核
-	 * @author: jianhua.huang  2017年5月5日 下午5:32:37
-	 */
+
+	@ApiOperation(value="会员余额审核")
+	@ApiImplicitParam(name = "detail", value = "会员余额审核API请求实体", required = true, dataType = "AddOrUpdateAccountReviseDetail")
 	@PostMapping(value="/examine_account_revision_detail")
 	public ResBodyData  examineMSAccountRevisionDetail(@RequestBody AddOrUpdateAccountReviseDetail detail){
 		logger.info("会员余额审核 API请求 :{}", detail);

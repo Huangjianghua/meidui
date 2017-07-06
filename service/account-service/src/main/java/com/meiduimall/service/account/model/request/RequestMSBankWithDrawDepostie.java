@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.meiduimall.service.account.model.request;
 
 import java.io.Serializable;

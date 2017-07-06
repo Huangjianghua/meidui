@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meiduimall.core.ResBodyData;
@@ -17,11 +18,15 @@ import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.model.MSMembersPaypwd;
-import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.model.request.RequestRetrievePaypwd;
 import com.meiduimall.service.account.model.request.RequestUpdatePaypwd;
 import com.meiduimall.service.account.service.PaypwdService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+
+@Api(value="支付密码相关API接口")
 @RestController
 @RequestMapping("/member/account_service/v1")
 public class PayPwdV1Controller {
@@ -32,7 +37,8 @@ public class PayPwdV1Controller {
 	private PaypwdService paypwdService;
 	
 	
-	/**验证支付密码*/
+	@ApiOperation(value="验证支付密码")
+	@ApiImplicitParam(name = "msMembersPaypwd", value = "验证支付密码API请求实体", required = true, dataType = "MSMembersPaypwd")
 	@RequestMapping(value = "/valide_pay_pwd")
 	public ResBodyData validePaypwd(@Valid MSMembersPaypwd msMembersPaypwd) throws Exception {
 		logger.info("收到验证支付密码API请求  ：{}",msMembersPaypwd.toString());
@@ -46,7 +52,9 @@ public class PayPwdV1Controller {
 		}
 	}
 	
-	/**设置支付密码*/
+
+	@ApiOperation(value="设置支付密码")
+	@ApiImplicitParam(name = "msMembersPaypwd", value = "设置支付密码API请求实体", required = true, dataType = "MSMembersPaypwd")
 	@RequestMapping(value = "/set_pay_pwd")
 	public ResBodyData setPaypwd(@Valid MSMembersPaypwd msMembersPaypwd) {
 		logger.info("收到设置支付密码API请求  ：{}",msMembersPaypwd.toString());
@@ -61,9 +69,10 @@ public class PayPwdV1Controller {
 	}
 	
 	
-	/**根据memId查询是否存在支付密码*/
+	@ApiOperation(value="根据memId查询是否存在支付密码")
+	@ApiImplicitParam(name = "memId", value = "会员ID", required = true, dataType = "String")
 	@GetMapping(value = "/is_exist_paypwd")
-	ResBodyData  isExistPaypwd(String memId) {
+	ResBodyData  isExistPaypwd(@RequestParam String memId) {
 		logger.info("收到查询会员：{}是否存在支付密码API请求",memId);
 		try {
 			ResBodyData resBodyData = paypwdService.isExistPaypwd(memId);
@@ -75,7 +84,9 @@ public class PayPwdV1Controller {
 		}
 	}
 	
-	/**修改支付密码*/
+
+	@ApiOperation(value="修改支付密码")
+	@ApiImplicitParam(name = "requestUpdatePaypwd", value = "修改支付密码API请求实体", required = true, dataType = "RequestUpdatePaypwd")
 	@PostMapping(value = "/update_pay_pwd")
 	public ResBodyData updatePaypwd(@RequestBody @Valid RequestUpdatePaypwd requestUpdatePaypwd) {
 		logger.info("收到修改支付密码API请求  ：{}",requestUpdatePaypwd.toString());
@@ -90,7 +101,9 @@ public class PayPwdV1Controller {
 		}
 	}
 	
-	/**找回支付密码*/
+
+	@ApiOperation(value="找回支付密码")
+	@ApiImplicitParam(name = "requestRetrievePaypwd", value = "找回支付密码API请求实体", required = true, dataType = "RequestRetrievePaypwd")
 	@PostMapping(value = "/retrieve_pay_pwd")
 	public ResBodyData retrievePaypwd(@RequestBody @Valid RequestRetrievePaypwd requestRetrievePaypwd) {
 		logger.info("收到找回支付密码API请求  ：{}",requestRetrievePaypwd.toString());

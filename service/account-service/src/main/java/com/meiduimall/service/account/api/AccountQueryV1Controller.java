@@ -24,7 +24,6 @@ import com.meiduimall.core.util.JsonUtils;
 import com.meiduimall.exception.ApiException;
 import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.MdBizException;
-import com.meiduimall.exception.MdSysException;
 import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.model.AccountReviseDetail;
 import com.meiduimall.service.account.model.MSAccountDetail;
@@ -40,16 +39,17 @@ import com.meiduimall.service.account.service.AccountService;
 import com.meiduimall.service.account.service.MSAccountDetailService;
 import com.meiduimall.service.account.service.MSMembersService;
 
-/**
- * 账户信息查询相关API
- * @author chencong
- *
- */
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+
+
+@Api(value="账户信息查询相关APIAPI接口")
 @RestController
 @RequestMapping("/member/account_service/v1")
 public class AccountQueryV1Controller {
 
-	private final static Logger logger = LoggerFactory.getLogger(GciV1Controller.class);
+	private final static Logger logger = LoggerFactory.getLogger(AccountQueryV1Controller.class);
 
 	@Autowired
 	private MSAccountDetailService mSAccountDetailService;
@@ -66,10 +66,9 @@ public class AccountQueryV1Controller {
 	@Autowired
 	private AccountDetailService accountDetailService;
 	
-	/**
-	 * 查询当前会员可用余额
-	 * @author chencong
-	 */
+	
+	@ApiOperation(value="查询当前会员可用余额")
+	@ApiImplicitParam(name = "memId", value = "会员ID", required = true, dataType = "String")
 	@GetMapping(value = "/get_available_balance")
 	public ResBodyData getAvailableBalance(@RequestParam String memId ) {
 		ResBodyData resBodyData=new ResBodyData(Constants.CONSTANT_INT_ZERO,null);
@@ -81,10 +80,9 @@ public class AccountQueryV1Controller {
 		return resBodyData;
 	}
 
-	/**
-	 * 余额流水（分页）
-	 * @author wujun
-	 */
+
+	@ApiOperation(value="余额流水（分页）")
+	@ApiImplicitParam(name = "mSAccountDetail", value = "余额流水表实体类", required = true, dataType = "MSAccountDetailGet")
 	@PostMapping(value = "/list_account_detail")
 	public ResBodyData listMSAccountDetail(@RequestBody MSAccountDetailGet mSAccountDetail) throws Exception {
 		List<MSAccountDetail> listMSAccountDetail = null;
@@ -106,13 +104,8 @@ public class AccountQueryV1Controller {
 	}
  
 
-	/**
-	 * 描述：根据条件查询余额流水
-	 * 
-	 * @param mSAccountDetailCondition
-	 * @return
-	 * @author: jianhua.huang 2017年5月5日 下午5:30:32
-	 */
+	@ApiOperation(value="根据条件查询余额流水")
+	@ApiImplicitParam(name = "mSAccountDetailCondition", value = "根据条件查询余额流水API请求实体", required = true, dataType = "MSAccountDetailCondition")
 	@PostMapping(value = "/list_account_condition")
 	public ResBodyData listMSAccountCondition(@RequestBody MSAccountDetailCondition mSAccountDetailCondition) {
 		List<MSAccountDetail> listMSAccountDetail = null;
@@ -147,13 +140,8 @@ public class AccountQueryV1Controller {
 		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M, new PageInfo<>(listMSAccountDetail));
 	}
 
-	/**
-	 * 新需求 根据条件查询会员列表 （转移到账号服务）
-	 * 
-	 * @param msAccountListRequest
-	 * @return
-	 * @author: jianhua.huang 2017年5月5日 下午5:31:18
-	 */
+	@ApiOperation(value="根据条件查询会员列表 ")
+	@ApiImplicitParam(name = "msAccountListRequest", value = "根据条件查询会员列表API请求实体", required = true, dataType = "RequestMSAccountList")
 	@RequestMapping(value = "/list_account")
 	public ResBodyData listMSAccount(@RequestBody RequestMSAccountList msAccountListRequest) {
 		logger.info("收到根据条件查询会员列表API请求  ：{}",msAccountListRequest.toString());
@@ -169,13 +157,8 @@ public class AccountQueryV1Controller {
 		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M,new PageInfo<>(pageInfo));
 	}
 
-	/**
-	 * 查看会员余额调整明细
-	 * 
-	 * @param id
-	 * @return
-	 * @author: jianhua.huang 2017年5月5日 下午5:32:18
-	 */
+	@ApiOperation(value="查看会员余额调整明细 ")
+	@ApiImplicitParam(name = "id", value = "会员ID", required = true, dataType = "String")
 	@PostMapping(value = "/get_account_revision_detail")
 	public ResBodyData getMSAccountRevisionDetail(@RequestBody String id) {
 		AccountReviseDetail detail = null;
@@ -190,13 +173,8 @@ public class AccountQueryV1Controller {
 		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M, detail);
 	}
 
-	/**
-	 * 查看会员余额调整明细集合 flg区别 分页
-	 * 
-	 * @param detailRequest
-	 * @return
-	 * @author: jianhua.huang 2017年5月5日 下午5:32:28
-	 */
+	@ApiOperation(value="查看会员余额调整明细集合 flg区别 分页 ")
+	@ApiImplicitParam(name = "detailRequest", value = "会员余额调整明细API请求实体", required = true, dataType = "RequestAccountReviseDetail")
 	@PostMapping(value = "/query_account_revision_detail_list")
 	public ResBodyData queryMSAccountRevisionDetailList(@RequestBody RequestAccountReviseDetail detailRequest) {
 		List<AccountReviseDetail> list = null;
@@ -221,15 +199,8 @@ public class AccountQueryV1Controller {
 		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M, new PageInfo<>(list));
 	}
 
-	
-
-	/**
-	 * 根据会员memId，获取会员账户余额和积分余额(旧会员系统调用时，会对返回参数进行转换)
-	 * @param memId 会员Id
-	 * @return 结果数据
-	 * @author yangchangfu
-	 * @throws MdSysException 
-	 */
+	@ApiOperation(value="根据会员memId，获取会员账户余额和积分余额(旧会员系统调用时，会对返回参数进行转换) ")
+	@ApiImplicitParam(name = "memId", value = "会员ID", required = true, dataType = "String")
 	@RequestMapping(value = "/getAccountBalanceForApp")
 	public ResBodyData getAccountBalanceForApp(String memId) {
 		if (Strings.isNullOrEmpty(memId)) {
@@ -242,21 +213,17 @@ public class AccountQueryV1Controller {
 		return result;
 	}
 	
-	/**
-	 * 查询个人消费管理信息接口--该接口不需要做旧版兼容(旧的调用还是走旧会员系统业务逻辑)
-	 * @param memId 会员Id
-	 * @return 结果数据
-	 * @author yangchangfu
-	 */
+	
+	@ApiOperation(value="查询个人消费管理信息接口--该接口不需要做旧版兼容(旧的调用还是走旧会员系统业务逻辑)")
+	@ApiImplicitParam(name = "memId", value = "会员ID", required = true, dataType = "String")
 	@RequestMapping(value = "/personalConsumptionPoints")
 	public ResBodyData personalConsumptionPoints(String memId){
 		return mSMembersService.personalConsumptionPoints(memId);
 	}
 	
-	/**
-	 * 查询当前会员可提现余额
-	 * @author chencong 
-	 */
+
+	@ApiOperation(value="查询当前会员可提现余额")
+	@ApiImplicitParam(name = "memId", value = "会员ID", required = true, dataType = "String")
 	@GetMapping(value = "/get_allow_withdraw_balance")
 	public ResBodyData getAllowWithdrawBalance(@RequestParam String memId) {
 		ResBodyData resBodyData=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));
@@ -271,11 +238,9 @@ public class AccountQueryV1Controller {
 		}
 	}
 	
-	/**
-	 * 专为旧会员系统调用--获取个人推广接口的现金收益总额
-	 * @param memId 会员ID
-	 * @return 统一数据对象
-	 */
+
+	@ApiOperation(value="专为旧会员系统调用--获取个人推广接口的现金收益总额")
+	@ApiImplicitParam(name = "memId", value = "会员ID", required = true, dataType = "String")
 	@RequestMapping(value = "/get_money_income")
 	public ResBodyData getMoneyIncome(String memId) {
 		String moneyIncome = accountDetailService.getMoneyIncome(memId);

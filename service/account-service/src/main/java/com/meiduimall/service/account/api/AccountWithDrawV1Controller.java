@@ -3,9 +3,6 @@ package com.meiduimall.service.account.api;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
@@ -35,16 +32,13 @@ import com.meiduimall.service.account.service.BankWithdrawDepositService;
 import com.meiduimall.service.account.service.MSAccountDetailService;
 import com.meiduimall.service.account.service.WithDrawService;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
-/**
- * 提现相关接口
- * 
- * @author chencong
- *
- */
+
+@Api(value="提现相关API接口")
 @RestController
 @RequestMapping("/member/account_service/v1")
 public class AccountWithDrawV1Controller {
@@ -93,13 +87,9 @@ public class AccountWithDrawV1Controller {
 				new PageInfo<>(listMSBankWithdrawDeposit));
 	}
 
-	/**
-	 * 余额提现申请
-	 * 
-	 * @param deposit
-	 * @return
-	 * @author: jianhua.huang 2017年5月5日 下午5:33:20
-	 */
+
+	@ApiOperation(value="余额提现申请")
+	@ApiImplicitParam(name = "deposit", value = "余额提现申请API请求实体", required = true, dataType = "RequestMSBankWithDrawDepostie")
 	@PostMapping(value = "/save_withdraw")
 	public ResBodyData saveBankWithDraw(@RequestBody RequestMSBankWithDrawDepostie deposit) {
 		// step1 检查参数
@@ -137,13 +127,9 @@ public class AccountWithDrawV1Controller {
 		}
 	}
 
-	/**
-	 * 提现结算
-	 * 
-	 * @param deposit
-	 * @return
-	 * @author: jianhua.huang 2017年5月5日 下午5:33:13
-	 */
+
+	@ApiOperation(value="提现结算")
+	@ApiImplicitParam(name = "deposit", value = "提现结算API请求实体", required = true, dataType = "RequestMSBankWithDrawDepostie")
 	@PostMapping(value = "/settlement_withdraw")
 	public ResBodyData settlementWithDraw(@RequestBody RequestMSBankWithDrawDepostie deposit) {
 		try {
@@ -155,13 +141,9 @@ public class AccountWithDrawV1Controller {
 		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M);
 	}
 
-	/**
-	 * 修改提现记录(审核同意)
-	 * 
-	 * @param deposit
-	 * @return
-	 * @author: jianhua.huang 2017年5月5日 下午5:32:47
-	 */
+
+	@ApiOperation(value="修改提现记录(审核同意)")
+	@ApiImplicitParam(name = "deposit", value = "修改提现记录(审核同意)API请求实体", required = true, dataType = "RequestMSBankWithDrawDepostie")
 	@PostMapping(value = "/update_withdraw")
 	public ResBodyData updateWithDraw(@RequestBody RequestMSBankWithDrawDepostie deposit) {
 		try {
@@ -175,13 +157,9 @@ public class AccountWithDrawV1Controller {
 		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M);
 	}
 
-	/**
-	 * 修改提现记录(审核驳回)
-	 * 
-	 * @param deposit
-	 * @return
-	 * @author: jianhua.huang 2017年5月5日 下午5:32:55
-	 */
+
+	@ApiOperation(value="修改提现记录(审核驳回)")
+	@ApiImplicitParam(name = "deposit", value = "修改提现记录(审核驳回)API请求实体", required = true, dataType = "RequestMSBankWithDrawDepostie")
 	@PostMapping(value = "/reject_withdraw")
 	public ResBodyData rejectWithDraw(@RequestBody RequestMSBankWithDrawDepostie deposit) {
 		try {
@@ -195,13 +173,9 @@ public class AccountWithDrawV1Controller {
 		return new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M);
 	}
 
-	/**
-	 * 查看提现明细
-	 * 
-	 * @param mSAccountDetailCondition
-	 * @return
-	 * @author: jianhua.huang 2017年5月5日 下午5:33:05
-	 */
+
+	@ApiOperation(value="查看提现明细")
+	@ApiImplicitParam(name = "mSAccountDetailCondition", value = "查看提现明细API请求实体", required = true, dataType = "MSAccountDetailCondition")
 	@PostMapping(value = "/query_withdraw_detail")
 	public ResBodyData queryWithDrawDetail(@RequestBody MSAccountDetailCondition mSAccountDetailCondition) {
 		ResBodyData resultData = new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M);
@@ -218,18 +192,9 @@ public class AccountWithDrawV1Controller {
 		return resultData;
 	}
 
-	/**
-	 * 提现申请查询接口--该接口不需要做旧版兼容
-	 * 
-	 * @param memId
-	 *            会员ID
-	 * @param pageNo
-	 *            当前页数
-	 * @param pageSize
-	 *            每页数量
-	 * @author yangchangfu
-	 * @return 结果数据
-	 */
+
+	@ApiOperation(value="提现申请查询接口--该接口不需要做旧版兼容")
+	@ApiImplicitParam(name = "model", value = "提现申请查询接口API请求实体", required = true, dataType = "RequestBankWithdrawDepositsList")
 	@RequestMapping(value = "/getBankWithdrawDepositsForApp")
 	public ResBodyData getBankWithdrawDepositsForApp(@Validated RequestBankWithdrawDepositsList model) {
 		ResBodyData result = new ResBodyData();
@@ -239,13 +204,9 @@ public class AccountWithDrawV1Controller {
 		return result;
 	}
 
-	/**
-	 * 查询提现手续费
-	 * 
-	 * @param mSAccountDetailCondition
-	 * @return
-	 * @author: jianhua.huang 2017年5月5日 下午5:33:05
-	 */
+
+	@ApiOperation(value="查询提现手续费")
+	@ApiImplicitParam(name = "depostie", value = "查询提现手续费API请求实体", required = true, dataType = "RequestMSBankWithDrawDepostieFree")
 	@GetMapping(value = "/get_withdraw_poundage")
 	public ResBodyData getWithDrawFreeForApp(@Valid RequestMSBankWithDrawDepostieFree depostie) {
 		ResBodyData resultData = new ResBodyData(ConstApiStatus.SUCCESS, ConstApiStatus.SUCCESS_M);
@@ -263,21 +224,5 @@ public class AccountWithDrawV1Controller {
 		return resultData;
 	}
 	
-//	/**
-//	 * 账户余额提现申请接口--该接口给旧会员系统使用(但是旧会员系统的接口没人用？)
-//	 * 
-//	 * @param model 提现相关信息(这里只需要银行卡号、会员memId、提现金额)
-//	 * @return 结果数据
-//	 * @author yangchangfu
-//	 */
-//	@RequestMapping(value = "/saveBankWithdrawDeposit")
-//	public ResBodyData saveBankWithdrawDeposit(@Validated RequestSaveBankWithdrawDeposit model) {
-//		String businessNo = withDrawService.saveBankWithdrawDeposit(model);
-//		ResBodyData result = new ResBodyData();
-//		result.setStatus(ConstApiStatus.SUCCESS);
-//		result.setMsg(ConstApiStatus.SUCCESS_C);
-//		ObjectNode objectNode = JsonUtils.getInstance().createObjectNode().put("businessNo", businessNo);
-//		result.setData(objectNode);
-//		return result;
-//	}
+
 }
