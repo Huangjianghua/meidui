@@ -37,7 +37,21 @@
   
   <!-- 插入账户变动明细 -->
   <insert id="insertAccountDetail" parameterType="com.meiduimall.service.account.model.MSAccountDetail">
-		INSERT INTO ms_account_detail
+		INSERT INTO ms_account_detail(
+		id,
+		account_no,
+		trade_type,
+		trade_amount,
+		trade_date,
+		in_or_out,
+		balance,
+		business_no,
+		create_user,
+		create_date,
+		update_user,
+		update_date,
+		remark
+		)
 		VALUES(
 			#{id},
 			#{accountNo},
