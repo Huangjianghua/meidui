@@ -252,7 +252,8 @@
 	    bwd.status as status,
 	    bwd.audit_state as auditState,
 	    bwd.create_date as createDate,
-	    bwd.remark
+	    bwd.remark,
+	    bwd.withdraw_balance as withdrawBalance
     from ms_bank_withdraw_deposit bwd
    	LEFT JOIN  ms_members msm on (msm.mem_id=bwd.mem_id)
     where bwd.id = #{id}

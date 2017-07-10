@@ -246,6 +246,7 @@ public class TradeServiceImpl implements TradeService {
 			Map<String,Object> mapCondition=new HashMap<>();
 			mapCondition.put("balance",0.00);
 			mapCondition.put("freezeBalance",0.00);
+			MSAccountDetail msAccountDetailTotalRecord=new MSAccountDetail();
 			for (MSAccountFreezeDetail item : listBalanceFreeze) {
 				item.setId(UUID.randomUUID().toString());
 				item.setTradeDate(new Date());
@@ -280,8 +281,18 @@ public class TradeServiceImpl implements TradeService {
 				msAccountDetail.setCreateUser("账户服务");
 				msAccountDetail.setUpdateUser("账户服务");
 				msAccountDetail.setRemark("账户编号："+msAccountDetail.getAccountNo()+"余额消费扣款");
+				msAccountDetail.setMarkWater(ConstSysParamsDefination.IS_N);
 				accountDetailService.insertAccountDetail(msAccountDetail);
-			}			
+				msAccountDetailTotalRecord=msAccountDetail;
+			}
+			//多插入一条账户变动明细流水总记录
+			msAccountDetailTotalRecord.setId(UUID.randomUUID().toString());
+			msAccountDetailTotalRecord.setTradeAmount(model.getConsumeMoney()); //消费金额
+			msAccountDetailTotalRecord.setBalance(nowTotalMoney); //消费后金额
+			msAccountDetailTotalRecord.setMarkWater(ConstSysParamsDefination.IS_Y);
+			msAccountDetailTotalRecord.setRemark("余额消费扣款总流水");
+			accountDetailService.insertAccountDetail(msAccountDetailTotalRecord);
+			
 			baseDao.update(mapCondition,"MSAccountReportMapper.updateBalanceAndFreezeBalance");
 			//更新消费记录表订单状态
 			Map<String,Object> mapMcr=new HashMap<>();
@@ -831,6 +842,7 @@ public class TradeServiceImpl implements TradeService {
 				logger.info("余额退还...");
 				//根据订单号查询账户明细
 				double inMoney = 0;
+				MSAccountDetail msAccountDetailTotalRecord=new MSAccountDetail();
 				String sumTradeAmount = baseDao.selectOne(new MSAccountDetailGet(1, ms.getOrderId()), "MSAccountDetailMapper.sumTradeAmount");
 				if(sumTradeAmount != null){
 					inMoney = Double.valueOf(sumTradeAmount);
@@ -897,7 +909,9 @@ public class TradeServiceImpl implements TradeService {
 						    		msAccountDetail2.setUpdateUser(msAccountDetail.getUpdateUser());
 						    		msAccountDetail2.setUpdateDate(new Date());
 						    		msAccountDetail2.setRemark("账户编号:" + msAccountDetail2.getAccountNo() + " 退款"+ balance +"元");
+						    		msAccountDetail2.setMarkWater(ConstSysParamsDefination.IS_N);
 						    		listAccountDetail2.add(msAccountDetail2);
+						    		msAccountDetailTotalRecord=msAccountDetail2;
 						    		logger.info("插入账户明细表:退款账户:{},退款之前的余额:{},退款余额:{},退款之后的余额:{}",msAccount.getAccountNo(),msAccount.getBalance(),
 						    				balance,msAccount.getBalance() + balance);
 								  }
@@ -940,7 +954,9 @@ public class TradeServiceImpl implements TradeService {
 				    		msAccountDetail2.setUpdateUser(msAccountDetail.getUpdateUser());
 				    		msAccountDetail2.setUpdateDate(new Date());
 				    		msAccountDetail2.setRemark("账户编号:" + msAccountDetail2.getAccountNo() + " 退款"+ balance +"元");
+				    		msAccountDetail2.setMarkWater(ConstSysParamsDefination.IS_N);
 				    		listAccountDetail2.add(msAccountDetail2);
+				    		msAccountDetailTotalRecord=msAccountDetail2;
 				    		logger.info("插入账户明细表:退款账户:{},退款之前的余额:{},退款余额:{},退款之后的余额:{}",msAccount.getAccountNo(),msAccount.getBalance(),
 				    				balance,msAccount.getBalance() + balance);
 						  }
@@ -962,7 +978,13 @@ public class TradeServiceImpl implements TradeService {
 			    //更新MSAccountDetail
 			    accountDetailService.batchInsertAccoutDetail(listAccountDetail2);
 				
-
+			    //插入一条MSAccountDetail  总流水记录
+			    msAccountDetailTotalRecord.setId(UUID.randomUUID().toString());
+			    msAccountDetailTotalRecord.setTradeAmount(Double.valueOf(ms.getConsumeMoney())); //退款金额
+				msAccountDetailTotalRecord.setBalance(preConsumeMoney+msAccountDetailTotalRecord.getTradeAmount()); //退款后金额
+				msAccountDetailTotalRecord.setMarkWater(ConstSysParamsDefination.IS_Y);
+				msAccountDetailTotalRecord.setRemark("账号余额退款总流水");
+			    accountDetailService.insertAccountDetail(msAccountDetailTotalRecord);
 				// 退单后余额
 				double afterMoney = DoubleCalculate.add(preConsumeMoney, Double.valueOf(ms.getConsumeMoney()));
 				

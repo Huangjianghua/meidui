@@ -408,7 +408,7 @@ public class AccountAdjustServiceImpl implements AccountAdjustService {
 			//增加明细
 			accountDetailService.saveCutAccountDetail(memId, orderId,
 					account.getId(),"", tradeType, tradeAmount,
-					tradeDate, String.valueOf(balance), remark);
+					tradeDate, String.valueOf(balance), remark,ConstSysParamsDefination.SYSTEM_USER,ConstSysParamsDefination.IS_Y);
 			returnBool = true;
 		}else{
 			throw new MdBizException(ConstApiStatus.FROZEN_BALANCE_FAILED_ERROR);

@@ -48,7 +48,7 @@ public interface AccountDetailService {
 	 */
 	public void saveCutAccountDetail(String memId, String orderId,
 			String accountId, String accountType, String tradeType,
-			String tradeAmount, Date tradeDate, String balance, String remark);
+			String tradeAmount, Date tradeDate, String balance, String remark,String createUser,String mark);
 	
 	/**
 	 * 方法名: saveAddConsumePoints<br>

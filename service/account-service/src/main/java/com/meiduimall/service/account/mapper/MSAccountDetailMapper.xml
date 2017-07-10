@@ -17,6 +17,7 @@
     <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
     <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
+     <result column="mark_water" jdbcType="VARCHAR" property="markWater" />
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -33,6 +34,7 @@
     update_user,
     update_date,
     remark, 
+    mark_water
   </sql>
   
   <!-- 插入账户变动明细 -->
@@ -51,7 +53,8 @@
 			now(),
 			#{updateUser},
 			now(),
-			#{remark}
+			#{remark},
+			#{markWater}
 			)
 	</insert>
 	
@@ -65,7 +68,7 @@
   <insert id="batchInsertAccountDetail" parameterType="java.util.List">
   		insert into ms_account_detail (
   		id, account_no, trade_type, trade_amount, trade_date, in_or_out, balance, 
-    	business_no, create_user, create_date, update_user, update_date, remark) 
+    	business_no, create_user, create_date, update_user, update_date, remark,mark_water) 
     	values
           <foreach collection="list" item="item" index="index"  separator=",">  
              (
@@ -81,7 +84,8 @@
 			now(),
 			#{item.updateUser},
 			now(),
-			#{item.remark}
+			#{item.remark},
+			#{item.markWater}
 			)
          </foreach>  
   </insert>
@@ -123,7 +127,7 @@
     left join ms_account ma on ma.account_no = mad.account_no
     left join ms_members mm on mm.mem_id = ma.mem_id
     left join ms_dict md on  md.dict_id = mad.trade_type
-    where 1 = 1
+    where 1 = 1 AND mad.mark_water='Y'
     <if test="memLoginName !=null and memLoginName !=''">
          	and mm.mem_login_name = #{memLoginName}
      </if> 

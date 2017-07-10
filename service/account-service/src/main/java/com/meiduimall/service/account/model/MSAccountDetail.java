@@ -58,8 +58,8 @@ public class MSAccountDetail implements Serializable {
 	private String memPhone;
 	
 	private String bizType;
-	
-	
+	/**总流水标示			*/
+	private String markWater;
 
 	 
 
@@ -198,6 +198,13 @@ public class MSAccountDetail implements Serializable {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	
+
+	public String getMarkWater() {
+		return markWater;
+	}
+
+	public void setMarkWater(String markWater) {
+		this.markWater = markWater;
+	}
    
 }

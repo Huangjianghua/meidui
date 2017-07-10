@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.meiduimall.exception.MdSysException;
+import com.meiduimall.service.account.constant.ConstSysParamsDefination;
 import com.meiduimall.service.account.dao.BaseDao;
 import com.meiduimall.service.account.model.MSAccountDetail;
 import com.meiduimall.service.account.model.MSAccountDetailGet;
@@ -70,7 +71,7 @@ public class AccountDetailServiceImpl implements AccountDetailService{
 	@Override
 	public void saveCutAccountDetail(String memId, String orderId,
 			String accountId, String accountType, String tradeType,
-			String tradeAmount, Date tradeDate, String balance, String remark) {
+			String tradeAmount, Date tradeDate, String balance, String remark,String createUser,String mark) {
 		Map<String,Object> paramsMap = new HashMap<String,Object>();
 		paramsMap.put("id", UUID.randomUUID().toString());
 		paramsMap.put("memId", memId);
@@ -79,13 +80,14 @@ public class AccountDetailServiceImpl implements AccountDetailService{
 		paramsMap.put("tradeAmount", Double.valueOf(tradeAmount));
 		paramsMap.put("inOrOut", -1);
 		paramsMap.put("remark","账户编号："+accountId+" "+remark+"扣款");
-		paramsMap.put("createUser", "system");
+		paramsMap.put("createUser", createUser);
 		paramsMap.put("createDate", DateUtil.format(tradeDate,DateUtil.YYYY_MM_DD_HH_MM_SS));
-		paramsMap.put("updateUser", "system");
+		paramsMap.put("updateUser", createUser);
 		paramsMap.put("updateDate", DateUtil.format(tradeDate,DateUtil.YYYY_MM_DD_HH_MM_SS));
 		paramsMap.put("balance", Double.valueOf(balance));
 		paramsMap.put("businessNo", orderId);
 		paramsMap.put("tradeDate", tradeDate);
+		paramsMap.put("markWater", mark);
 		try {
 			baseDao.insert(paramsMap, "MSAccountDetailMapper.insertAccountDetail");
 		} catch (Exception e) {
