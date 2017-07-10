@@ -3,7 +3,6 @@ package com.meiduimall.service.member.api;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,7 +40,7 @@ public class WeixinInfoController {
     @ApiImplicitParams({
         @ApiImplicitParam(name = "model", value = "将微信OpenId与会员进行绑定实体", required = true, dataType = "RequestBindingWeixin"),
 	})
-	@PostMapping("/bindingWeixinOpenID")
+	@RequestMapping("/bindingWeixinOpenID")
 	public ResBodyData bindingWeixinOpenID(@Validated RequestBindingWeixin model) {
 		return weixinInfoService.bindingWeixinOpenID(model);
 	}
@@ -55,7 +54,7 @@ public class WeixinInfoController {
     @ApiImplicitParams({
         @ApiImplicitParam(name = "phone", value = "根据会员手机号，获取会员openId相关信息实体", required = true, dataType = "String"),
 	})
-	@PostMapping("/getOpenIDByPhone")
+	@RequestMapping("/getOpenIDByPhone")
 	public ResBodyData getOpenIDByPhone(String phone) {
 		if (StringUtils.isBlank(phone)) {
 			throw new ApiException(ConstApiStatus.REQUIRED_PARAM_EMPTY);
