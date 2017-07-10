@@ -73,13 +73,10 @@ public class MoneyServiceImpl implements MoneyService  {
 		try {
 			String url = profile.getServiceAccountUrl() + "v1/getAccountBalanceForApp";
 
-			Map<String, String> headers = new HashMap<String, String>();
-			headers.put(ConstSysParamsDefination.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE);
-
 			Map<String, String> params = new HashMap<>();
 			params.put("memId", reqJson.getString("memId"));
 
-			return HttpGatewayUtils.sendPost(url, profile.getRouteClientID(), profile.getRouteKey(), params, headers);
+			return HttpGatewayUtils.sendGet(url, profile.getRouteClientID(), profile.getRouteKey(), params);
 		} catch (Exception e) {
 			logger.error("调用账户服务>>提现申请API>>异常:{}", e.toString());
 			throw new ServiceException(ConstApiStatus.REQUEST_GATEWAY_EX);

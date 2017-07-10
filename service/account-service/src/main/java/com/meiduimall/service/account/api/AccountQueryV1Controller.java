@@ -201,7 +201,7 @@ public class AccountQueryV1Controller {
 
 	@ApiOperation(value="根据会员memId，获取会员账户余额和积分余额(旧会员系统调用时，会对返回参数进行转换) ")
 	@ApiImplicitParam(name = "memId", value = "会员ID", required = true, dataType = "String")
-	@RequestMapping(value = "/getAccountBalanceForApp")
+	@GetMapping(value = "/getAccountBalanceForApp")
 	public ResBodyData getAccountBalanceForApp(String memId) {
 		if (Strings.isNullOrEmpty(memId)) {
 			throw new ApiException(ConstApiStatus.REQUIRED_PARAM_EMPTY);
@@ -216,7 +216,7 @@ public class AccountQueryV1Controller {
 	
 	@ApiOperation(value="查询个人消费管理信息接口--该接口不需要做旧版兼容(旧的调用还是走旧会员系统业务逻辑)")
 	@ApiImplicitParam(name = "memId", value = "会员ID", required = true, dataType = "String")
-	@RequestMapping(value = "/personalConsumptionPoints")
+	@GetMapping(value = "/personalConsumptionPoints")
 	public ResBodyData personalConsumptionPoints(String memId){
 		return mSMembersService.personalConsumptionPoints(memId);
 	}
@@ -241,7 +241,7 @@ public class AccountQueryV1Controller {
 
 	@ApiOperation(value="专为旧会员系统调用--获取个人推广接口的现金收益总额")
 	@ApiImplicitParam(name = "memId", value = "会员ID", required = true, dataType = "String")
-	@RequestMapping(value = "/get_money_income")
+	@GetMapping(value = "/get_money_income")
 	public ResBodyData getMoneyIncome(String memId) {
 		String moneyIncome = accountDetailService.getMoneyIncome(memId);
 		ResBodyData result=new ResBodyData(ConstApiStatus.SUCCESS,ConstApiStatus.getZhMsg(ConstApiStatus.SUCCESS));

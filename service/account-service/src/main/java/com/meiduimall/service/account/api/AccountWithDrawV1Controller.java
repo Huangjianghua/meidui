@@ -195,7 +195,7 @@ public class AccountWithDrawV1Controller {
 
 	@ApiOperation(value="提现申请查询接口--该接口不需要做旧版兼容")
 	@ApiImplicitParam(name = "model", value = "提现申请查询接口API请求实体", required = true, dataType = "RequestBankWithdrawDepositsList")
-	@RequestMapping(value = "/getBankWithdrawDepositsForApp")
+	@GetMapping(value = "/getBankWithdrawDepositsForApp")
 	public ResBodyData getBankWithdrawDepositsForApp(@Validated RequestBankWithdrawDepositsList model) {
 		ResBodyData result = new ResBodyData();
 		result.setData(withDrawService.getBankWithdrawDepositsList(model));
