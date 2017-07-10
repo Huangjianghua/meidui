@@ -121,11 +121,11 @@ public class AccountQueryV1Controller {
 			if (mSAccountDetailCondition.getFlg().equals(Constants.CONSTANT_STR_ONE)) {
 				// 分页
 				PageHelper.startPage(mSAccountDetailCondition.getPageNum(), mSAccountDetailCondition.getPageSize());
-				PageHelper.orderBy("create_date DESC");
+				PageHelper.orderBy("mad.create_date DESC");
 			} else {
 				// 不分页
 				PageHelper.startPage(mSAccountDetailCondition.getPageNum(), 0, false, false, true);
-				PageHelper.orderBy("create_date DESC");
+				PageHelper.orderBy("mad.create_date DESC");
 			}
 			listMSAccountDetail = mSAccountDetailService.listMSAccountCondition(mSAccountDetailCondition);
 			for (int i = 0; i < listMSAccountDetail.size(); i++) {
