@@ -142,7 +142,7 @@ public class AccountQueryV1Controller {
 
 	@ApiOperation(value="根据条件查询会员列表 ")
 	@ApiImplicitParam(name = "msAccountListRequest", value = "根据条件查询会员列表API请求实体", required = true, dataType = "RequestMSAccountList")
-	@RequestMapping(value = "/list_account")
+	@PostMapping(value = "/list_account")
 	public ResBodyData listMSAccount(@RequestBody RequestMSAccountList msAccountListRequest) {
 		logger.info("收到根据条件查询会员列表API请求  ：{}",msAccountListRequest.toString());
 		Page<MSAccountList> pageInfo=null;

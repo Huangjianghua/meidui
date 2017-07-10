@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -86,7 +87,7 @@ public class PointsV1Controller {
          @ApiImplicitParam(name = "memId", value = "会员ID", required = true, dataType = "String"),
          @ApiImplicitParam(name = "type", value = "类型", required = true, dataType = "String")
  })
-	@RequestMapping(value = "/gathrescoresumbytype",method=RequestMethod.GET)
+	@GetMapping(value = "/gathrescoresumbytype")
 	public void gathrescoresumbytype(String memId, String type) throws Exception {
 		JSONObject json = new JSONObject();
 		response.setCharacterEncoding("utf-8");
@@ -110,7 +111,7 @@ public class PointsV1Controller {
 
 	@ApiOperation(value="查询积分转账列表")
 	@ApiImplicitParam(name = "transfer", value = "查询积分转账列表API请求实体", required = true, dataType = "RequestPointTransfer")
-	@RequestMapping(value = "/queryPointsTransferList")
+	@PostMapping(value = "/queryPointsTransferList")
 	public ResBodyData queryPointsTransferList(@RequestBody RequestPointTransfer transfer) throws Exception {
 		List<MemberTransferHistory> list=null;
 		try {
