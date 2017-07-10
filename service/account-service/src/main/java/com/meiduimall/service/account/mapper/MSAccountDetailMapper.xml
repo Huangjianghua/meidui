@@ -94,7 +94,7 @@
     select 
     m.id, m.account_no accountNo, m.trade_type tradeType, m.trade_amount tradeAmount,
     DATE_FORMAT(m.trade_date,'%Y-%m-%d %H:%i:%s') tradeDate, m.in_or_out inOrOut, m.balance, m.business_no businessNo, 
-    m.create_user create_user, DATE_FORMAT(m.create_date,'%Y-%m-%d %H:%i:%s') create_date, m.update_user updateUser, 
+    m.create_user createUser, DATE_FORMAT(m.create_date,'%Y-%m-%d %H:%i:%s') createDate, m.update_user updateUser, 
     DATE_FORMAT(m.update_date,'%Y-%m-%d %H:%i:%s') updateDate, m.remark, ma.mem_id memId
     from ms_account_detail m 
     left join ms_account ma on m.account_no = ma.account_no
@@ -120,7 +120,7 @@
     select 
     mad.id, mad.account_no accountNo, mad.trade_type tradeType, mad.trade_amount tradeAmount,
     DATE_FORMAT(mad.trade_date,'%Y-%m-%d %H:%i:%s') tradeDate, mad.in_or_out inOrOut, mad.balance, mad.business_no businessNo, 
-    mad.create_user create_user, DATE_FORMAT(mad.create_date,'%Y-%m-%d %H:%i:%s') create_date, mad.update_user updateUser, 
+    mad.create_user createUser, DATE_FORMAT(mad.create_date,'%Y-%m-%d %H:%i:%s') createDate, mad.update_user updateUser, 
     DATE_FORMAT(mad.update_date,'%Y-%m-%d %H:%i:%s') updateDate, mad.remark,
     mm.mem_login_name memLoginName, mm.mem_phone memPhone, md.dict_value bizType
     from ms_account_detail mad
