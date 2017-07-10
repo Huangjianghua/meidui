@@ -35,7 +35,7 @@ public class PayPwdServiceImpl implements PayPwdService  {
 		MD5Utils.updateSign(reqJson,profile.getRouteClientID(),profile.getRouteKey());
 		logger.info("调用账户服务>>验证支付密码API>>URL:{}  Data:{}",url,reqJson.toString());
 		try {
-			String result=HttpUtils.form(url,reqJson);
+			String result=HttpUtils.get(url,reqJson);
 			logger.info("调用账户服务>>验证支付密码API>>结果：{}",result);
 			resBodyData=JSON.parseObject(result,ResBodyData.class);
 		} catch (Exception e) {
@@ -52,7 +52,7 @@ public class PayPwdServiceImpl implements PayPwdService  {
 		MD5Utils.updateSign(reqJson,profile.getRouteClientID(),profile.getRouteKey());
 		logger.info("调用账户服务>>设置支付密码 API URL:{}  Data:{}",url,reqJson.toString());
 		try {
-			String result=HttpUtils.form(url,reqJson);
+			String result=HttpUtils.get(url,reqJson);
 			logger.info("调用账户服务>>设置支付密码API>>结果：{}",result);
 			resBodyData=JSON.parseObject(result,ResBodyData.class);
 		} catch (Exception e) {

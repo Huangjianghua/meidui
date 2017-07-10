@@ -39,7 +39,7 @@ public class PayPwdV1Controller {
 	
 	@ApiOperation(value="验证支付密码")
 	@ApiImplicitParam(name = "msMembersPaypwd", value = "验证支付密码API请求实体", required = true, dataType = "MSMembersPaypwd")
-	@RequestMapping(value = "/valide_pay_pwd")
+	@GetMapping(value = "/valide_pay_pwd")
 	public ResBodyData validePaypwd(@Valid MSMembersPaypwd msMembersPaypwd) throws Exception {
 		logger.info("收到验证支付密码API请求  ：{}",msMembersPaypwd.toString());
 		try {
@@ -55,7 +55,7 @@ public class PayPwdV1Controller {
 
 	@ApiOperation(value="设置支付密码")
 	@ApiImplicitParam(name = "msMembersPaypwd", value = "设置支付密码API请求实体", required = true, dataType = "MSMembersPaypwd")
-	@RequestMapping(value = "/set_pay_pwd")
+	@GetMapping(value = "/set_pay_pwd")
 	public ResBodyData setPaypwd(@Valid MSMembersPaypwd msMembersPaypwd) {
 		logger.info("收到设置支付密码API请求  ：{}",msMembersPaypwd.toString());
 		try {
