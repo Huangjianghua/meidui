@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,7 +42,7 @@ public class AccountTypeV1Controller {
 	private MSAccountDetailService mSAccountDetailService;
 	
 	@ApiOperation(value="查询财务调整相关的账户类型信息")
-	@RequestMapping("/list_account_type")
+	@GetMapping("/list_account_type")
 	public ResBodyData getCwtzAccountTypeList() {
 		List<MSAccountType> mSAccountType = null;
 		try {
