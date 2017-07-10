@@ -63,7 +63,7 @@ public class AccountWithDrawV1ControllerTest extends BaseControllerTest {
     	boolean isExist = mSMembersService.checkUserIsExistByMemId(memId);
     	
 		ResultActions results = mockMvc.perform(
-				MockMvcRequestBuilders.post("/member/account_service/v1/getBankWithdrawDepositsForApp")
+				MockMvcRequestBuilders.get("/member/account_service/v1/getBankWithdrawDepositsForApp")
 				.param("pageNo", "1")
 				.param("pageSize", "3")
 				.param("memId", memId))
@@ -91,7 +91,7 @@ public class AccountWithDrawV1ControllerTest extends BaseControllerTest {
     @Test
 	public void testGetBankWithdrawDepositsForApp_02() throws Exception {
 		ResultActions results = mockMvc.perform(
-				MockMvcRequestBuilders.post("/member/account_service/v1/getBankWithdrawDepositsForApp")
+				MockMvcRequestBuilders.get("/member/account_service/v1/getBankWithdrawDepositsForApp")
 				.param("memId", "0000-0000"))
 				.andExpect(status().isOk());
 		

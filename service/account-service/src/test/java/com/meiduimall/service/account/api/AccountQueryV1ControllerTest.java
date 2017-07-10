@@ -352,7 +352,7 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
     	boolean isExist = mSMembersService.checkUserIsExistByMemId(memId);
     	
 		ResultActions results = mockMvc.perform(
-				MockMvcRequestBuilders.post("/member/account_service/v1/personalConsumptionPoints")
+				MockMvcRequestBuilders.get("/member/account_service/v1/personalConsumptionPoints")
 				.param("memId", memId))
 				.andExpect(status().isOk());
 		
@@ -382,7 +382,7 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
     	boolean isExist = mSMembersService.checkUserIsExistByMemId(memId);
     	
 		ResultActions results = mockMvc.perform(
-				MockMvcRequestBuilders.post("/member/account_service/v1/getAccountBalanceForApp")
+				MockMvcRequestBuilders.get("/member/account_service/v1/getAccountBalanceForApp")
 				.param("memId", memId))
 				.andExpect(status().isOk());
 				
@@ -404,7 +404,7 @@ public class AccountQueryV1ControllerTest extends BaseControllerTest {
    public void testGetMoneyIncome_01() throws Exception{
 	   String memId = "10d56b78-0b4f-4e37-9228-caa765e6317f";
 	   ResultActions results = mockMvc.perform(
-				MockMvcRequestBuilders.post("/member/account_service/v1/get_money_income")
+				MockMvcRequestBuilders.get("/member/account_service/v1/get_money_income")
 				.param("memId", memId))
 				.andExpect(status().isOk());
 	   
