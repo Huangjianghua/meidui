@@ -153,6 +153,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		dto.setId(reviseId);
 		dto.setCreateDate(new Date());
 		dto.setUpdateDate(new Date());
+		dto.setUpdateUser(null);
 		try {
 			 MSAccount accountInfo = accountServices.getAccountInfoByMemIdAndAccountTypeNo(dto.getMemId(), dto.getAccountTypeNo());
 			 if(org.springframework.util.StringUtils.isEmpty(accountInfo)){
@@ -183,8 +184,8 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 				 msAccount.setAccountStatus(0); //账户状态,0 正常 1禁用
 				 msAccount.setCreateDate(new Date());
 				 msAccount.setCreateUser("账户服务");
-				 //msAccount.setUpdateDate(new Date());
-				 //msAccount.setUpdateUser("账户服务");
+				 msAccount.setUpdateDate(new Date());
+				 msAccount.setUpdateUser("账户服务");
 				 msAccount.setRemark(accountType.getAccountTypeName());
 				 accountServices.insertAccountByType(msAccount);
 				 dto.setAccountNo(msAccount.getAccountNo());
