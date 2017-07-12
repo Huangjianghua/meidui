@@ -118,7 +118,8 @@ public abstract class ConstApiStatus extends BaseApiCode {
 	public final static Integer ORDER_FREEZE_RECORD_NOT_EXIST=7122;
 	//解冻的积分或余额不等于冻结的积分或余额
 	public final static Integer FREEZE_POINTS_AND_MONEY_NOT_EQUALS_UNFREEZE=7123;
-	
+	//重复取消订单
+	public final static Integer CANCEL_ORDER_REPEAT=7124;
 	
 	/**账户相关*/
 	//账户不存在
@@ -297,5 +298,6 @@ public abstract class ConstApiStatus extends BaseApiCode {
 		zhMsgMap.put(QUERY_WITHDRAW_BY_ACCOUNT_TYPE_ERROR, "提现子表查询异常");
 		zhMsgMap.put(QUERY_ACCOUNT_REPORT_ERROR, "查询会员账号总表异常");
 		zhMsgMap.put(QUERY_WITHDRAW_APPLY_FREE_ERROR, "查询提现手续费异常");
+		zhMsgMap.put(CANCEL_ORDER_REPEAT, "不能重复取消订单");
 	}
 }

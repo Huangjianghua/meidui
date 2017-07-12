@@ -22,6 +22,7 @@ import com.meiduimall.core.ResBodyData;
 import com.meiduimall.exception.DaoException;
 import com.meiduimall.exception.MdSysException;
 import com.meiduimall.exception.ServiceException;
+import com.meiduimall.service.account.constant.ApiStatusConst;
 import com.meiduimall.service.account.constant.ConstApiStatus;
 import com.meiduimall.service.account.constant.ConstPointsChangeType;
 import com.meiduimall.service.account.constant.ConstSysParamsDefination;
@@ -330,6 +331,11 @@ public class TradeServiceImpl implements TradeService {
 		}
 		//修改法取消已支付积分的订单   加段逻辑控制
 		MSMemberConsumeRecords records=consumeRecordsService.getConsumeRecords(orderId, null, null);
+		//加段逻辑控制   取消订单重复提交的问题  by huangjianhua
+		if(records!=null&&records.getOrderStatus().equals(Constants.CONSTANT_INT_TWO)){
+			logger.warn("会员{}的订单{}不能重复取消",memId,orderId);
+			throw new ServiceException(ConstApiStatus.CANCEL_ORDER_REPEAT);
+		}
 		if(records!=null&&records.getConsumeMoney()>0){
 			//根据订单号查询余额冻结解冻的记录
 			listBalanceFreeze=accountFreezeDetailService.getRecordsByOrderId(orderId);
@@ -791,6 +797,10 @@ public class TradeServiceImpl implements TradeService {
 			MSMemberConsumeRecords history = consumeRecordsService.getConsumeRecords(ms.getOrderId(), ms.getOrderSource(), 1);
 			
 			if (null == history) {
+				//退单修复线上问题   临时加上这段控制
+				if("0".equals(ms.getConsumeMoney())&&"0".equals(ms.getConsumePoints())){
+					return new ResBodyData(ApiStatusConst.SUCCESS,ApiStatusConst.SUCCESS_M);
+				}
 				MSMemberConsumeRecords record = consumeRecordsService.getConsumeRecords(ms.getOrderId(), ms.getOrderSource(), 2);
 				if(record == null){
 					logger.info("没有查询到消费订单");

@@ -152,7 +152,6 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		String reviseId = UUID.randomUUID().toString();
 		dto.setId(reviseId);
 		dto.setCreateDate(new Date());
-		dto.setUpdateDate(new Date());
 		dto.setUpdateUser(null);
 		try {
 			 MSAccount accountInfo = accountServices.getAccountInfoByMemIdAndAccountTypeNo(dto.getMemId(), dto.getAccountTypeNo());
@@ -250,6 +249,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 			dto.setStatus(ConstAccountAdjustStatus.ALREADY_CHECK.getCode());
 			this.updateMSAccountReviseDetail(dto);
 			//step3  查询用户余额 修改余额
+			detail.setUpdateUser(dto.getUpdateUser());
 			resBodyData=dealWithAccountMoney(detail);
 		}else{
 			//驳回操作  修改状态为"已拒绝"
