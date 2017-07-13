@@ -260,5 +260,18 @@ public class AddOrUpdateAccountReviseDetail implements Serializable {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
+	/**
+	 * @return
+	 */
+	@Override
+	public String toString() {
+		return "AddOrUpdateAccountReviseDetail [id=" + id + ", memId=" + memId + ", memLoginName=" + memLoginName
+				+ ", memPhone=" + memPhone + ", accountTypeName=" + accountTypeName + ", accountTypeNo=" + accountTypeNo
+				+ ", accountNo=" + accountNo + ", reviseType=" + reviseType + ", beforeBalance=" + beforeBalance
+				+ ", reviseBalance=" + reviseBalance + ", reviseRemark=" + reviseRemark + ", reviewRemark="
+				+ reviewRemark + ", status=" + status + ", createUser=" + createUser + ", createDate=" + createDate
+				+ ", updateUser=" + updateUser + ", updateDate=" + updateDate + ", isDelete=" + isDelete + ", operate="
+				+ operate + ", remark=" + remark + "]";
+	}
 
 }

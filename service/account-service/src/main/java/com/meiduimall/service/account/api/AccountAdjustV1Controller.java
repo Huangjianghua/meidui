@@ -91,7 +91,7 @@ public class AccountAdjustV1Controller {
 	 */
 	@PostMapping(value="/examine_account_revision_detail")
 	public ResBodyData  examineMSAccountRevisionDetail(@RequestBody AddOrUpdateAccountReviseDetail detail){
-		logger.info("会员余额审核 API请求 :{}", detail);
+		logger.info("会员余额审核 API请求 :{}", detail.toString());
 		ResBodyData resBodyData=null;
 		try {
 			resBodyData=mSAccountDetailService.examineMSAccountReviseDetail(detail);
