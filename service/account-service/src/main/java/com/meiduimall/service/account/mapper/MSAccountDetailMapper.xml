@@ -91,7 +91,7 @@
          </foreach>  
   </insert>
   
-  <select id="listMSAccountDetail" resultMap="BaseResultMap" parameterType="com.meiduimall.service.account.model.MSAccountDetailGet" >
+  <select id="listMSAccountDetail" resultType="com.meiduimall.service.account.model.MSAccountDetail" parameterType="com.meiduimall.service.account.model.MSAccountDetailGet" >
     select 
     m.id, m.account_no accountNo, m.trade_type tradeType, m.trade_amount tradeAmount,
     DATE_FORMAT(m.trade_date,'%Y-%m-%d %H:%i:%s') tradeDate, m.in_or_out inOrOut, m.balance, m.business_no businessNo, 
