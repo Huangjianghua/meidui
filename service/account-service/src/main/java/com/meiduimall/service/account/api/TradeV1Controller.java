@@ -29,7 +29,7 @@ import com.meiduimall.service.account.util.SerialStringUtil;
 
 /**
  * 订单交易相关API
- * @author chencong
+ * @author chencong 
  *
  */
 @RestController
