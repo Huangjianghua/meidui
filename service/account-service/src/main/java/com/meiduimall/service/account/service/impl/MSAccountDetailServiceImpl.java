@@ -495,7 +495,7 @@ public class MSAccountDetailServiceImpl implements MSAccountDetailService {
 		//step5记录总流水
 		accountDetailService.saveCutAccountDetail(null,withdrawDeposit.getBusinessNo(),map.get("accountNo").toString(),"",
 				ConstTradeType.TRADE_TYPE_YETX.getCode(),String.valueOf(withdrawDeposit.getApplyWithdrawAmount()),
-				 new Date(),String.valueOf(withdrawDeposit.getWithdrawBalance()),  "余额提现总流水",updateUser,ConstSysParamsDefination.IS_Y);
+				 new Date(),String.valueOf(withdrawDeposit.getWithdrawBalance()-withdrawDeposit.getApplyWithdrawAmount()),  "余额提现总流水",updateUser,ConstSysParamsDefination.IS_Y);
 		//step6 修改总的金额    
 		Map<String, Object> mapParam=new HashMap<>();
 		mapParam.put("memId", withdrawDeposit.getMemId());

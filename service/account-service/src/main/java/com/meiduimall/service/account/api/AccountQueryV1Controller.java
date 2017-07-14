@@ -95,7 +95,7 @@ public class AccountQueryV1Controller {
 				return new ResBodyData(1, "memId为空");
 			} else {
 				PageHelper.startPage(mSAccountDetail.getPageNum(), mSAccountDetail.getPageSize());
-				PageHelper.orderBy("create_date DESC");
+				PageHelper.orderBy("m.create_date DESC");
 				listMSAccountDetail = mSAccountDetailService.listMSAccountDetail(mSAccountDetail);
 			}
 		} catch (Exception e) {
