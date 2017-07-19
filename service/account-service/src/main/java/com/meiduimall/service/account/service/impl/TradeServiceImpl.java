@@ -286,15 +286,15 @@ public class TradeServiceImpl implements TradeService {
 				accountDetailService.insertAccountDetail(msAccountDetail);
 				msAccountDetailTotalRecord=msAccountDetail;
 			}
-			//多插入一条账户变动明细流水总记录
-			msAccountDetailTotalRecord.setId(UUID.randomUUID().toString());
-			msAccountDetailTotalRecord.setTradeAmount(model.getConsumeMoney()); //消费金额
-			msAccountDetailTotalRecord.setBalance(nowTotalMoney); //消费后金额
-			msAccountDetailTotalRecord.setMarkWater(ConstSysParamsDefination.IS_Y);
-			msAccountDetailTotalRecord.setRemark("余额消费扣款总流水");
-			accountDetailService.insertAccountDetail(msAccountDetailTotalRecord);
-			//加入条件控制    不使用账号余额的下单
 			if(listBalanceFreeze!=null&&listBalanceFreeze.size()>0){
+				//多插入一条账户变动明细流水总记录
+				msAccountDetailTotalRecord.setId(UUID.randomUUID().toString());
+				msAccountDetailTotalRecord.setTradeAmount(model.getConsumeMoney()); //消费金额
+				msAccountDetailTotalRecord.setBalance(nowTotalMoney); //消费后金额
+				msAccountDetailTotalRecord.setMarkWater(ConstSysParamsDefination.IS_Y);
+				msAccountDetailTotalRecord.setRemark("余额消费扣款总流水");
+				accountDetailService.insertAccountDetail(msAccountDetailTotalRecord);
+				//加入条件控制    不使用账号余额的下单
 				baseDao.update(mapCondition,"MSAccountReportMapper.updateBalanceAndFreezeBalance");
 			}
 			//更新消费记录表订单状态
