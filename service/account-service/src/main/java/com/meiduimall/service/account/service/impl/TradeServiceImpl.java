@@ -293,8 +293,10 @@ public class TradeServiceImpl implements TradeService {
 			msAccountDetailTotalRecord.setMarkWater(ConstSysParamsDefination.IS_Y);
 			msAccountDetailTotalRecord.setRemark("余额消费扣款总流水");
 			accountDetailService.insertAccountDetail(msAccountDetailTotalRecord);
-			
-			baseDao.update(mapCondition,"MSAccountReportMapper.updateBalanceAndFreezeBalance");
+			//加入条件控制    不使用账号余额的下单
+			if(listBalanceFreeze!=null&&listBalanceFreeze.size()>0){
+				baseDao.update(mapCondition,"MSAccountReportMapper.updateBalanceAndFreezeBalance");
+			}
 			//更新消费记录表订单状态
 			Map<String,Object> mapMcr=new HashMap<>();
 			mapMcr.put("orderId",model.getOrderId());
